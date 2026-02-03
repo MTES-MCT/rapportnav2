@@ -47,7 +47,7 @@ class JPAMissionCrewRepository(
     override fun save(crew: MissionCrewEntity): MissionCrewModel {
         return try {
             val crewModel = crew.toMissionCrewModel()
-            val agent = dbAgentRepository.findById(crew.agent.id!!).orElseThrow()
+            val agent = dbAgentRepository.findById(crew.agent?.id!!).orElseThrow()
             crewModel.agent = agent
 
             if (crew.role !== null) {

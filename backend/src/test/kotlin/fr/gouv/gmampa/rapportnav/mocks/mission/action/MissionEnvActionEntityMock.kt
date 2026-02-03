@@ -3,7 +3,6 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTargetTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
@@ -11,7 +10,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 import java.util.UUID
@@ -23,7 +21,6 @@ object MissionEnvActionEntityMock {
         envActionType: ActionTypeEnum = ActionTypeEnum.CONTROL,
         completedBy: String? = null,
         completion: ActionCompletionEnum? = null,
-        controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
         geom: Geometry? = null,
         facade: String? = null,
         department: String? = null,
@@ -37,7 +34,6 @@ object MissionEnvActionEntityMock {
         vehicleType: VehicleTypeEnum? = null,
         envInfractions: List<InfractionEnvEntity>? = listOf(),
         coverMissionZone: Boolean? = null,
-        formattedControlPlans: List<FormattedEnvActionControlPlan>? = listOf(),
         controlsToComplete: List<ControlType>? = listOf(),
         availableControlTypesForInfraction: List<ControlType>? = listOf(),
         isAdministrativeControl: Boolean? = null,
@@ -54,7 +50,6 @@ object MissionEnvActionEntityMock {
             envActionType = envActionType,
             completedBy = completedBy,
             completion = completion,
-            controlPlans = controlPlans,
             geom = geom,
             facade = facade,
             department = department,
@@ -68,7 +63,6 @@ object MissionEnvActionEntityMock {
             vehicleType = vehicleType,
             envInfractions = envInfractions,
             coverMissionZone = coverMissionZone,
-            formattedControlPlans = formattedControlPlans,
             controlsToComplete = controlsToComplete,
             availableControlTypesForInfraction = availableControlTypesForInfraction,
             isAdministrativeControl = isAdministrativeControl,

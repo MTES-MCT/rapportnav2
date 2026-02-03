@@ -1,7 +1,10 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTargetTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.env.ThemeEntityMock
 import org.locationtech.jts.geom.Geometry
@@ -20,7 +23,6 @@ object EnvActionControlMock {
         isComplianceWithWaterRegulationsControl: Boolean? = null,
         isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
         isSeafarersControl: Boolean? = null,
-        controlPlans: List<EnvActionControlPlanEntity>? = null,
         observations: String? = null,
         actionNumberOfControls: Int? = null,
         actionTargetType: ActionTargetTypeEnum? = null,
@@ -40,7 +42,6 @@ object EnvActionControlMock {
             isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
             isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
             isSeafarersControl = isSeafarersControl,
-            controlPlans = controlPlans,
             observations = observations,
             actionNumberOfControls = actionNumberOfControls,
             actionTargetType = actionTargetType,

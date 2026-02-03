@@ -620,23 +620,6 @@
         "actionType": "SURVEILLANCE",
         "completedBy": null,
         "completion": "COMPLETED",
-        "controlPlans": [
-          {
-            "themeId": 112,
-            "subThemeIds": [
-              202
-            ],
-            "tagIds": []
-          },
-          {
-            "themeId": 18,
-            "subThemeIds": [
-              181,
-              180
-            ],
-            "tagIds": []
-          }
-        ],
         "department": "33",
         "facade": "SA",
         "geom": {

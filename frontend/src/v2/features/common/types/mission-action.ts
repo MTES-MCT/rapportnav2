@@ -108,7 +108,6 @@ export interface MissionEnvActionData extends MissionActionData {
   vehicleType: VehicleTypeEnum
   infractions: InfractionByTarget[]
   coverMissionZone: Boolean
-  formattedControlPlans: any
   controlsToComplete: ControlType[]
   availableControlTypesForInfraction: ControlType[]
   tags: EnvTag[]

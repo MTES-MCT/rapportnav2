@@ -47,7 +47,6 @@ class MissionEnvActionEntityTest {
         assertThat(entity.isComplianceWithWaterRegulationsControl).isEqualTo(envAction.isComplianceWithWaterRegulationsControl)
         assertThat(entity.isSafetyEquipmentAndStandardsComplianceControl).isEqualTo(envAction.isSafetyEquipmentAndStandardsComplianceControl)
         assertThat(entity.envInfractions).isEqualTo(envAction.infractions)
-        assertThat(entity.controlPlans).isEqualTo(envAction.controlPlans)
         assertThat(entity.controlsToComplete).isNotNull
         assertThat(entity.availableControlTypesForInfraction).isNotNull
     }
@@ -256,7 +255,6 @@ class MissionEnvActionEntityTest {
                     toProcess = false
                 )
             ),
-            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 104, subThemeIds = listOf(143))),
             actionStartDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             actionEndDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
         )

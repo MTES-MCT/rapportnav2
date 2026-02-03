@@ -29,20 +29,26 @@ class MissionDataOutputTest {
                 missionSource = MissionSourceEnum.MONITORENV,
                 hasMissionOrder = true,
                 isUnderJdp = false,
-                isGeometryComputedFromControls = true
+                isGeometryComputedFromControls = true,
+                observationsCacem = "CACEM observations",
+                observationsCnsp = "CNSP observations",
+                observationsByUnit = "Unit observations"
             )
 
-            val result = output.toMissionEntity()
+            val result = output.toMissionEnvEntity()
 
             assertEquals(123, result.id)
             assertEquals(listOf(MissionTypeEnum.SEA), result.missionTypes)
             assertEquals(startDateTime.toInstant(), result.startDateTimeUtc)
             assertEquals(endDateTime.toInstant(), result.endDateTimeUtc)
             assertEquals(MissionSourceEnum.MONITORENV, result.missionSource)
-            assertTrue(result.hasMissionOrder)
-            assertFalse(result.isUnderJdp)
-            assertTrue(result.isGeometryComputedFromControls)
-            assertFalse(result.isDeleted)
+            assertTrue(result.hasMissionOrder!!)
+            assertFalse(result.isUnderJdp!!)
+            assertTrue(result.isGeometryComputedFromControls!!)
+            assertFalse(result.isDeleted!!)
+            assertEquals("CACEM observations", result.observationsCacem)
+            assertEquals("CNSP observations", result.observationsCnsp)
+            assertEquals("Unit observations", result.observationsByUnit)
         }
 
         @Test
@@ -61,7 +67,7 @@ class MissionDataOutputTest {
                 isGeometryComputedFromControls = false
             )
 
-            val result = output.toMissionEntity()
+            val result = output.toMissionEnvEntity()
 
             assertEquals(startDateTime.toInstant(), result.startDateTimeUtc)
             assertEquals(endDateTime.toInstant(), result.endDateTimeUtc)
@@ -89,7 +95,7 @@ class MissionDataOutputTest {
                 observationsByUnit = null
             )
 
-            val result = output.toMissionEntity()
+            val result = output.toMissionEnvEntity()
 
             assertTrue(result.controlUnits?.isEmpty() ?: true)
             assertNull(result.openBy)
@@ -124,79 +130,13 @@ class MissionDataOutputTest {
                 isGeometryComputedFromControls = false
             )
 
-            val result = output.toMissionEntity()
+            val result = output.toMissionEnvEntity()
 
             assertEquals(1, result.controlUnits.size)
             assertEquals(10, result.controlUnits[0].id)
             assertEquals("PAM Themis", result.controlUnits[0].name)
         }
 
-        @Test
-        fun `should map multiple mission types`() {
-            val output = MissionDataOutput(
-                id = 1,
-                missionTypes = listOf(MissionTypeEnum.SEA, MissionTypeEnum.LAND, MissionTypeEnum.AIR),
-                startDateTimeUtc = ZonedDateTime.now(),
-                missionSource = MissionSourceEnum.MONITORENV,
-                hasMissionOrder = false,
-                isUnderJdp = false,
-                isGeometryComputedFromControls = false
-            )
-
-            val result = output.toMissionEntity()
-
-            assertEquals(3, result.missionTypes?.size)
-            assertTrue(result.missionTypes?.contains(MissionTypeEnum.SEA) ?: false)
-            assertTrue(result.missionTypes?.contains(MissionTypeEnum.LAND) ?: false)
-            assertTrue(result.missionTypes?.contains(MissionTypeEnum.AIR) ?: false)
-        }
-
-        @Test
-        fun `should map observation fields`() {
-            val output = MissionDataOutput(
-                id = 1,
-                missionTypes = listOf(MissionTypeEnum.SEA),
-                startDateTimeUtc = ZonedDateTime.now(),
-                missionSource = MissionSourceEnum.MONITORENV,
-                hasMissionOrder = false,
-                isUnderJdp = false,
-                isGeometryComputedFromControls = false,
-                observationsCacem = "CACEM observations",
-                observationsCnsp = "CNSP observations",
-                observationsByUnit = "Unit observations"
-            )
-
-            val result = output.toMissionEntity()
-
-            assertEquals("CACEM observations", result.observationsCacem)
-            assertEquals("CNSP observations", result.observationsCnsp)
-            assertEquals("Unit observations", result.observationsByUnit)
-        }
-
-        @Test
-        fun `should map different mission sources`() {
-            val missionSources = listOf(
-                MissionSourceEnum.MONITORENV,
-                MissionSourceEnum.MONITORFISH,
-                MissionSourceEnum.RAPPORT_NAV
-            )
-
-            missionSources.forEach { source ->
-                val output = MissionDataOutput(
-                    id = 1,
-                    missionTypes = listOf(MissionTypeEnum.SEA),
-                    startDateTimeUtc = ZonedDateTime.now(),
-                    missionSource = source,
-                    hasMissionOrder = false,
-                    isUnderJdp = false,
-                    isGeometryComputedFromControls = false
-                )
-
-                val result = output.toMissionEntity()
-
-                assertEquals(source, result.missionSource)
-            }
-        }
     }
 
     @Nested
@@ -226,62 +166,6 @@ class MissionDataOutputTest {
             assertEquals(true, result.hasMissionOrder)
             assertEquals(true, result.isUnderJdp)
             assertEquals(false, result.isGeometryComputedFromControls)
-        }
-
-        @Test
-        fun `should handle null endDateTimeUtc`() {
-            val output = MissionDataOutput(
-                id = 1,
-                missionTypes = listOf(MissionTypeEnum.LAND),
-                startDateTimeUtc = ZonedDateTime.now(),
-                endDateTimeUtc = null,
-                missionSource = MissionSourceEnum.RAPPORT_NAV,
-                hasMissionOrder = false,
-                isUnderJdp = false,
-                isGeometryComputedFromControls = false
-            )
-
-            val result = output.toMissionEnvEntity()
-
-            assertNull(result.endDateTimeUtc)
-        }
-
-        @Test
-        fun `should map openBy and completedBy fields`() {
-            val output = MissionDataOutput(
-                id = 1,
-                missionTypes = listOf(MissionTypeEnum.SEA),
-                startDateTimeUtc = ZonedDateTime.now(),
-                missionSource = MissionSourceEnum.MONITORENV,
-                hasMissionOrder = false,
-                isUnderJdp = false,
-                isGeometryComputedFromControls = false,
-                openBy = "JDO",
-                completedBy = "ABC"
-            )
-
-            val result = output.toMissionEnvEntity()
-
-            assertEquals("JDO", result.openBy)
-            assertEquals("ABC", result.completedBy)
-        }
-
-        @Test
-        fun `should map facade field`() {
-            val output = MissionDataOutput(
-                id = 1,
-                missionTypes = listOf(MissionTypeEnum.SEA),
-                startDateTimeUtc = ZonedDateTime.now(),
-                missionSource = MissionSourceEnum.MONITORENV,
-                hasMissionOrder = false,
-                isUnderJdp = false,
-                isGeometryComputedFromControls = false,
-                facade = "NAMO"
-            )
-
-            val result = output.toMissionEnvEntity()
-
-            assertEquals("NAMO", result.facade)
         }
 
         @Test

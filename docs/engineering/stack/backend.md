@@ -69,7 +69,6 @@ La technologie de cache est `caffeine`
 On distingue 2 types de caches:
 - longue durée, invalidé une fois par server restart car ces données sont très statiques:
   - NATINFs
-  - ControlPlans (thématiques de contrôles/surveillances)
 - très courtes durées, de l'ordre de quelques minutes, généralement pour économiser de la bandwidth pour:
   - Missions Env
   - Actions Env

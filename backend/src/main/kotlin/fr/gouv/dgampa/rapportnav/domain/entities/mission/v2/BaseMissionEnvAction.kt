@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.locationtech.jts.geom.Geometry
 import java.util.*
 
@@ -15,7 +14,6 @@ interface BaseMissionEnvAction {
     val envActionType: ActionTypeEnum
     val completedBy: String?
     val completion: ActionCompletionEnum?
-    val controlPlans: List<EnvActionControlPlanEntity>?
     val geom: Geometry?
     val facade: String?
     val department: String?
@@ -27,7 +25,6 @@ interface BaseMissionEnvAction {
     val vehicleType: VehicleTypeEnum?
     val envInfractions: List<InfractionEnvEntity>?
     val coverMissionZone: Boolean?
-    val formattedControlPlans: List<FormattedEnvActionControlPlan>?
     val availableControlTypesForInfraction: List<ControlType>?
     val tags: List<TagEntity>?
     var themes: List<ThemeEntity>?

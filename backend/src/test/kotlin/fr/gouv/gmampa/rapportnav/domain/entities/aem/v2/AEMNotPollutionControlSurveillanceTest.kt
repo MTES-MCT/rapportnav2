@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMNotPollutionControlSurveillance
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -33,7 +34,7 @@ class AEMNotPollutionControlSurveillanceTest {
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
-                controlPlans = listOf(EnvActionControlPlanEntity(themeId = 101)),
+                themes = listOf(ThemeEntity(id = 101, name = "Theme 101")),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:30:00.000+01:00"),
                 envInfractions = listOf(
@@ -65,7 +66,7 @@ class AEMNotPollutionControlSurveillanceTest {
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
-                controlPlans = listOf(EnvActionControlPlanEntity(themeId = 19)),
+                themes = listOf(ThemeEntity(id = 19, name = "Theme 19")),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 ),
@@ -73,7 +74,7 @@ class AEMNotPollutionControlSurveillanceTest {
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
-                controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
+                themes = listOf(ThemeEntity(id = 102, name = "Pollution")),
                 startDateTimeUtc = Instant.parse("2019-09-09T12:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T16:00:00.000+01:00"),
             )
