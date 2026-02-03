@@ -29,6 +29,13 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 403) {
       triggerGlobalLogout() // 🚀 clean + navigate
     }
+
+    // Extract meaningful message from RFC 7807 ProblemDetail response
+    const problemDetail = error.response?.data
+    if (problemDetail?.detail) {
+      error.message = problemDetail.detail
+    }
+
     return Promise.reject(error)
   }
 )

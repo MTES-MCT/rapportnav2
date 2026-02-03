@@ -192,7 +192,7 @@ class MissionExportControllerTest {
                 .content(json)
         )
             .andExpect(status().isInternalServerError)
-            .andExpect(jsonPath("$.message").value("Unexpected error"))
+            .andExpect(jsonPath("$.detail").value("Unexpected error"))
             .andExpect(jsonPath("$.exception").value("RuntimeException"))
     }
 
