@@ -1,11 +1,11 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics
 
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMEnvTraffic2
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMIllegalImmigration2
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMMigrationRescue2
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMOutOfMigrationRescue2
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMVesselRescue2
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMEnvTraffic
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMIllegalImmigration
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMMigrationRescue
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMOutOfMigrationRescue
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMVesselRescue
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
@@ -42,23 +42,23 @@ class ComputeAEMDataTest {
     @MockitoBean
     private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle
 
-    private var mockTableExport = AEMTableExport2(
-        outOfMigrationRescue = AEMOutOfMigrationRescue2(
+    private var mockTableExport = AEMTableExport(
+        outOfMigrationRescue = AEMOutOfMigrationRescue(
             nbrOfHourAtSea = 1.0,
             nbrOfRescuedOperation = 1.0,
             nbrPersonsRescued = 1.0,
         ),
-        migrationRescue = AEMMigrationRescue2(
+        migrationRescue = AEMMigrationRescue(
             nbrOfHourAtSea = 1.0,
         ),
-        vesselRescue = AEMVesselRescue2(
+        vesselRescue = AEMVesselRescue(
             nbrOfNoticedVessel = 18.0,
             nbrOfTowedVessel = 3.0
         ),
-        envTraffic = AEMEnvTraffic2(
+        envTraffic = AEMEnvTraffic(
             nbrOfHourAtSea = 1.0,
         ),
-        illegalImmigration = AEMIllegalImmigration2(
+        illegalImmigration = AEMIllegalImmigration(
             nbrOfHourAtSea = 1.0,
         ),
         notPollutionControlSurveillance = null,
@@ -111,7 +111,7 @@ class ComputeAEMDataTest {
         )
         `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
         `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(
-            AEMTableExport2(
+            AEMTableExport(
                 outOfMigrationRescue = null,
                 migrationRescue = null,
                 vesselRescue = null,
@@ -145,7 +145,7 @@ class ComputeAEMDataTest {
         )
         `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(generalInfo)
         `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(
-            AEMTableExport2(
+            AEMTableExport(
                 outOfMigrationRescue = null,
                 migrationRescue = null,
                 vesselRescue = null,

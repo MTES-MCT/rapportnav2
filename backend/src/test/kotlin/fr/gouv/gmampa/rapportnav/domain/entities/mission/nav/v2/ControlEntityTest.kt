@@ -4,8 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResu
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -17,7 +17,7 @@ class ControlEntityTest {
 
     @Test
     fun `execute should retrieve entity from Model`() {
-        val model = ControlModel2(
+        val model = ControlModel(
             controlType = ControlType.NAVIGATION,
             amountOfControls = 1,
             hasBeenDone = false,
@@ -28,7 +28,7 @@ class ControlEntityTest {
             upToDateNavigationPermit = ControlResult.NOT_CONTROLLED.toString(),
             compliantSecurityDocuments = ControlResult.NOT_CONCERNED.toString(),
             knowledgeOfFrenchLawAndLanguage = ControlResult.YES.toString(),
-            infractions = listOf(InfractionModel2(UUID.randomUUID()))
+            infractions = listOf(InfractionModel(UUID.randomUUID()))
         )
 
         val entity = ControlEntity.fromControlModel(model)

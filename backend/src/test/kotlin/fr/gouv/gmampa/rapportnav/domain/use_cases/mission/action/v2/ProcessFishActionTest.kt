@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -36,7 +36,7 @@ class ProcessFishActionTest {
             id = actionId.hashCode(),
         )
 
-        val mockTarget = TargetEntity2Mock.create()
+        val mockTarget = TargetEntityMock.create()
         `when`(getComputeTarget.execute(actionId.hashCode().toString(), true)).thenReturn(listOf(mockTarget))
         processFishAction = ProcessFishAction(
             getComputeTarget = getComputeTarget,

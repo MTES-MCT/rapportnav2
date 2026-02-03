@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import java.time.Instant
 import java.util.*
 
@@ -48,7 +48,7 @@ object MissionNavActionEntityMock {
         nbAssistedVesselsReturningToShore: Int? = null,
         status: ActionStatusType? = null,
         reason: ActionStatusReason? = null,
-        targets: List<TargetEntity2>? = null
+        targets: List<TargetEntity>? = null
     ): MissionNavActionEntity {
         return MissionNavActionEntity(
             missionId = missionId?: 761,

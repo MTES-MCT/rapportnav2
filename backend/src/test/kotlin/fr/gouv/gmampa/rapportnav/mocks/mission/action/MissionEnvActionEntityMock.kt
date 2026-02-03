@@ -4,13 +4,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnu
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTargetTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
@@ -35,7 +35,7 @@ object MissionEnvActionEntityMock {
         actionNumberOfControls: Int? = null,
         actionTargetType: ActionTargetTypeEnum? = null,
         vehicleType: VehicleTypeEnum? = null,
-        envInfractions: List<InfractionEntity>? = listOf(),
+        envInfractions: List<InfractionEnvEntity>? = listOf(),
         coverMissionZone: Boolean? = null,
         formattedControlPlans: List<FormattedEnvActionControlPlan>? = listOf(),
         controlsToComplete: List<ControlType>? = listOf(),
@@ -44,7 +44,7 @@ object MissionEnvActionEntityMock {
         isComplianceWithWaterRegulationsControl: Boolean? = null,
         isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
         isSeafarersControl: Boolean? = null,
-        targets: List<TargetEntity2>? = null,
+        targets: List<TargetEntity>? = null,
         tags: List<TagEntity>? = listOf(),
         themes: List<ThemeEntity>? = listOf(),
     ): MissionEnvActionEntity {

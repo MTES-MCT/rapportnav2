@@ -62,7 +62,7 @@ class MissionEnvActionTest {
             isComplianceWithWaterRegulationsControl = true,
             isSafetyEquipmentAndStandardsComplianceControl = true,
             infractions = listOf(
-                InfractionEntity(
+                InfractionEnvEntity(
                     id = "Infraction_Id",
                     infractionType = InfractionTypeEnum.WITH_REPORT,
                     formalNotice = FormalNoticeEnum.NO,

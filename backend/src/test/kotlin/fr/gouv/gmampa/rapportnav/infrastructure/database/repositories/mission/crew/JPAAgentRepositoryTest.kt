@@ -1,10 +1,10 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.crew
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgent2Repository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew.JPAAgent2Repository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew.JPAAgentRepository
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -21,22 +21,22 @@ import java.util.*
 
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [JPAAgent2Repository::class])
-class JPAAgent2RepositoryTest {
+@SpringBootTest(classes = [JPAAgentRepository::class])
+class JPAAgentRepositoryTest {
     @MockitoBean
-    private lateinit var dbServiceRepository: IDBAgent2Repository
+    private lateinit var dbServiceRepository: IDBAgentRepository
 
-    private lateinit var jpaAgentSRepo: JPAAgent2Repository
+    private lateinit var jpaAgentSRepo: JPAAgentRepository
 
-    private val agents: List<AgentModel2> = listOf(
-        AgentModel2(
+    private val agents: List<AgentModel> = listOf(
+        AgentModel(
             id = 1,
             lastName = "lastName1",
             firstName = "firstName1",
             role = AgentRoleModel(id = 1, title = ""),
             service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel()
         ),
-        AgentModel2(
+        AgentModel(
             id = 2,
             lastName = "lastName2",
             firstName = "firstName2",
@@ -44,7 +44,7 @@ class JPAAgent2RepositoryTest {
             role = AgentRoleModel(id = 1, title = ""),
             service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel()
         ),
-        AgentModel2(
+        AgentModel(
             id = 3,
             lastName = "lastName3",
             firstName = "firstName3",
@@ -56,7 +56,7 @@ class JPAAgent2RepositoryTest {
     @Test
     fun `execute should retrieve agents service by service id`() {
         Mockito.`when`(dbServiceRepository.findByServiceId(1)).thenReturn(agents)
-        jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
+        jpaAgentSRepo = JPAAgentRepository(dbServiceRepository)
         val responses = jpaAgentSRepo.findByServiceId(1)
         assertThat(responses).isNotNull()
         assertThat(responses.size).isEqualTo(2)
@@ -67,7 +67,7 @@ class JPAAgent2RepositoryTest {
     @Test
     fun `execute should get only active agents`() {
         Mockito.`when`(dbServiceRepository.findAll()).thenReturn(agents)
-        jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
+        jpaAgentSRepo = JPAAgentRepository(dbServiceRepository)
         val responses = jpaAgentSRepo.findAllActive()
         assertThat(responses).isNotNull()
         assertThat(responses.size).isEqualTo(2)
@@ -77,7 +77,7 @@ class JPAAgent2RepositoryTest {
     @Test
     fun `execute should get every agents event disabled`() {
         Mockito.`when`(dbServiceRepository.findAll()).thenReturn(agents)
-        jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
+        jpaAgentSRepo = JPAAgentRepository(dbServiceRepository)
         val responses = jpaAgentSRepo.findAll()
         assertThat(responses).isNotNull()
         assertThat(responses.size).isEqualTo(3)
@@ -87,7 +87,7 @@ class JPAAgent2RepositoryTest {
     @Test
     fun `execute should disabled agent`() {
         Mockito.`when`(dbServiceRepository.findById(1)).thenReturn(Optional.of(agents[0]))
-        jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
+        jpaAgentSRepo = JPAAgentRepository(dbServiceRepository)
         jpaAgentSRepo.disabledById(id = 1)
 
         // Verify with assertArg - cleaner and more readable
@@ -99,7 +99,7 @@ class JPAAgent2RepositoryTest {
     @Test
     fun `findAll should throw BackendInternalException on error`() {
         Mockito.`when`(dbServiceRepository.findAll()).thenThrow(RuntimeException("Database error"))
-        jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
+        jpaAgentSRepo = JPAAgentRepository(dbServiceRepository)
 
         val exception = assertThrows<BackendInternalException> {
             jpaAgentSRepo.findAll()
@@ -110,7 +110,7 @@ class JPAAgent2RepositoryTest {
     @Test
     fun `findByServiceId should throw BackendInternalException on error`() {
         Mockito.`when`(dbServiceRepository.findByServiceId(1)).thenThrow(RuntimeException("Database error"))
-        jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
+        jpaAgentSRepo = JPAAgentRepository(dbServiceRepository)
 
         val exception = assertThrows<BackendInternalException> {
             jpaAgentSRepo.findByServiceId(1)

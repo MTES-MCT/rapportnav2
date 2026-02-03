@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
@@ -12,7 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -53,7 +53,7 @@ class ExportMissionAEMSingleTest {
     @Test
     fun `createFile should throw BackendInternalException when underlying service throws`() {
         val missionId = 123
-        val mission = MissionEntityMock2.create(id = missionId)
+        val mission = MissionEntityMock.create(id = missionId)
         whenever(getEnvMissionById2.execute(any()))
             .thenThrow(RuntimeException("boom"))
         assertThrows(BackendInternalException::class.java) {
@@ -90,12 +90,12 @@ class ExportMissionAEMSingleTest {
         val result = useCase.getAemData(missionId)
 
         assertNotNull(result)
-        assertThat(result).isInstanceOf(AEMTableExport2::class.java)
+        assertThat(result).isInstanceOf(AEMTableExport::class.java)
     }
 
     @Test
     fun `createFile should return null when mission id is null`() {
-        val mission = MissionEntityMock2.create(id = null)
+        val mission = MissionEntityMock.create(id = null)
         val result = useCase.createFile(mission)
         assertThat(result).isNull()
     }

@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolic
 
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPolicyData
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeEnvControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeNavControlPolicy
@@ -39,7 +39,7 @@ class ComputeControlPoliciesTest {
 
     @Test
     fun `calls dependencies and aggregates results`() {
-        val mission = MissionEntity2(id = 123)
+        val mission = MissionEntity(id = 123)
 
         val dummyResult = ControlPolicyData()
         whenever(proFishing.computeFishingRelatedInfractions(mission)).thenReturn(dummyResult)

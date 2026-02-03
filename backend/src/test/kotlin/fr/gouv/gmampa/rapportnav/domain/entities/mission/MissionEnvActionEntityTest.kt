@@ -6,13 +6,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity2
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.SummaryTag
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -67,9 +67,9 @@ class MissionEnvActionEntityTest {
     @Test
     fun `execute should be complete controls to complete and available controlTypes for infractions `() {
         val envAction = getEnvAction()
-        val controls = ControlEntity2Mock.createList()
+        val controls = ControlEntityMock.createList()
             .filter { !listOf(ControlType.SECURITY, ControlType.ADMINISTRATIVE).contains(it.controlType) }
-        val targetMock = TargetEntity2Mock.create(controls = controls)
+        val targetMock = TargetEntityMock.create(controls = controls)
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
         entity.targets = listOf(targetMock)
         entity.computeCompleteness()
@@ -102,24 +102,24 @@ class MissionEnvActionEntityTest {
     fun `execute should compute control`() {
         val model = getEnvAction()
         val controls = listOf(
-            ControlEntity2(
+            ControlEntity(
                 id = UUID.randomUUID(),
                 controlType = ControlType.NAVIGATION,
                 amountOfControls = 0,
                 hasBeenDone = false,
             ),
-            ControlEntity2(
+            ControlEntity(
                 id = UUID.randomUUID(),
                 controlType = ControlType.SECURITY,
                 amountOfControls = 0,
                 hasBeenDone = true
             ),
-            ControlEntity2(
+            ControlEntity(
                 id = UUID.randomUUID(),
                 controlType = ControlType.GENS_DE_MER,
                 amountOfControls = 0
             ),
-            ControlEntity2(
+            ControlEntity(
                 id = UUID.randomUUID(),
                 controlType = ControlType.ADMINISTRATIVE,
                 amountOfControls = 5,
@@ -127,7 +127,7 @@ class MissionEnvActionEntityTest {
             )
         )
         val entity = MissionEnvActionEntity.fromEnvAction(761, model)
-        entity.targets = listOf(TargetEntity2Mock.create(controls = controls))
+        entity.targets = listOf(TargetEntityMock.create(controls = controls))
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(3)
     }
@@ -139,7 +139,7 @@ class MissionEnvActionEntityTest {
 
         )
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        entity.targets = listOf(TargetEntity2Mock.create())
+        entity.targets = listOf(TargetEntityMock.create())
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(2)
         assertThat(entity.controlsToComplete).contains(ControlType.GENS_DE_MER)
@@ -150,7 +150,7 @@ class MissionEnvActionEntityTest {
     @Test
     fun `getEnvSummaryTags should count infractions with report (nbrTarget) and natinf size`() {
         val infractions = listOf(
-            InfractionEntity(
+            InfractionEnvEntity(
                 id = "1",
                 nbTarget = 4,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
@@ -158,7 +158,7 @@ class MissionEnvActionEntityTest {
                 toProcess = false,
                 natinf = listOf("123", "234")
             ),
-            InfractionEntity(
+            InfractionEnvEntity(
                 id = "2",
                 infractionType = InfractionTypeEnum.WITHOUT_REPORT,
                 formalNotice = FormalNoticeEnum.NO,
@@ -190,18 +190,18 @@ class MissionEnvActionEntityTest {
             id = UUID.randomUUID(),
             missionId = 123,
             envActionType = ActionTypeEnum.CONTROL,
-            targets = listOf<TargetEntity2>(
-                TargetEntity2(
+            targets = listOf<TargetEntity>(
+                TargetEntity(
                     id = UUID.randomUUID(),
                     actionId = "123",
                     targetType = TargetType.INDIVIDUAL,
                     controls = listOf(
-                        ControlEntity2(
+                        ControlEntity(
                             id = UUID.randomUUID(),
                             controlType = ControlType.NAVIGATION,
                             amountOfControls = 0,
                             infractions = listOf(
-                                InfractionEntity2(
+                                InfractionEntity(
                                     id = UUID.randomUUID(),
                                     infractionType = InfractionTypeEnum.WITH_REPORT,
                                     natinfs = listOf("111", "222")
@@ -213,7 +213,7 @@ class MissionEnvActionEntityTest {
                 )
             ),
             envInfractions = listOf(
-                InfractionEntity(
+                InfractionEnvEntity(
                     id = "1",
                     infractionType = InfractionTypeEnum.WITH_REPORT,
                     formalNotice = FormalNoticeEnum.NO,
@@ -249,7 +249,7 @@ class MissionEnvActionEntityTest {
             isComplianceWithWaterRegulationsControl = true,
             isSafetyEquipmentAndStandardsComplianceControl = true,
             infractions = listOf(
-                InfractionEntity(
+                InfractionEnvEntity(
                     id = "Infraction_Id",
                     infractionType = InfractionTypeEnum.WITH_REPORT,
                     formalNotice = FormalNoticeEnum.NO,

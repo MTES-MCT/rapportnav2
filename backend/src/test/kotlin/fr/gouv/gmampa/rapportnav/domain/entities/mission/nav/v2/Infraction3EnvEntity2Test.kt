@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -14,7 +14,7 @@ class Infraction3EnvEntity2Test {
 
     @Test
     fun `execute should retrieve entity from Model`() {
-        val model = InfractionModel2(
+        val model = InfractionModel(
             id = UUID.randomUUID(),
             infractionType = InfractionTypeEnum.WITH_REPORT.toString(),
             natinfs = listOf("natInf2", "natInf3"),

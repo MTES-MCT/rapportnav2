@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.infraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import java.util.*
 
-object EnvInfractionEntityMock {
+object InfractionEnvEntityMock {
 
     fun create(
         id: String = UUID.randomUUID().toString(),

@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
@@ -49,13 +49,13 @@ class CrewRestControllerTest {
         val service1 = ServiceEntityMock.create(id = 1, name = "Service 1")
         val service2 = ServiceEntityMock.create(id = 2, name = "Service 2")
 
-        val agent1 = AgentEntity2(
+        val agent1 = AgentEntity(
             id = 1,
             firstName = "John",
             lastName = "Doe",
             service = service1
         )
-        val agent2 = AgentEntity2(
+        val agent2 = AgentEntity(
             id = 2,
             firstName = "Jane",
             lastName = "Smith",

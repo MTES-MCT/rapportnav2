@@ -1,9 +1,9 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.service
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -23,7 +23,7 @@ class GetCrewByServiceIdTest {
     private lateinit var getCrewByServiceId: GetCrewByServiceId
 
     @MockitoBean
-    private lateinit var agentRepository: IAgent2Repository
+    private lateinit var agentRepository: IAgentRepository
 
     private fun createAgentModel(
         id: Int,
@@ -31,12 +31,12 @@ class GetCrewByServiceIdTest {
         lastName: String,
         rolePriority: Int? = null,
         roleTitle: String? = null
-    ): AgentModel2 {
+    ): AgentModel {
         val role = if (rolePriority != null || roleTitle != null) {
             AgentRoleModel(id = id, title = roleTitle ?: "Role $id", priority = rolePriority)
         } else null
 
-        return AgentModel2(
+        return AgentModel(
             id = id,
             firstName = firstName,
             lastName = lastName,

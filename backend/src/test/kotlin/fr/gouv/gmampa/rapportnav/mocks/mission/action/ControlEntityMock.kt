@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity
 import java.util.*
 
-object ControlEntity2Mock {
+object ControlEntityMock {
 
     fun create(
         id: UUID? = null,

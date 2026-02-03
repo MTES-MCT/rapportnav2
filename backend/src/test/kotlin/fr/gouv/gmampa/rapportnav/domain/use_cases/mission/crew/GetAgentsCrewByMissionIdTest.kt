@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
 import org.junit.jupiter.api.Assertions
@@ -31,7 +31,7 @@ class GetAgentsCrewByMissionIdTest {
         val missionId = 1
         val missionIdUUID = UUID.randomUUID()
 
-        val johnDoe = AgentModel2(
+        val johnDoe = AgentModel(
             firstName = "John",
             lastName = "Doe",
             id = 1,
@@ -42,7 +42,7 @@ class GetAgentsCrewByMissionIdTest {
             )
         )
 
-        val janeDoe = AgentModel2(
+        val janeDoe = AgentModel(
             firstName = "Jane",
             lastName = "Doe",
             id = 2,
@@ -53,7 +53,7 @@ class GetAgentsCrewByMissionIdTest {
             )
         )
 
-        val alfredDeMusset = AgentModel2(
+        val alfredDeMusset = AgentModel(
             firstName = "Alfred",
             lastName = "de Musset",
             id = 3,
@@ -64,7 +64,7 @@ class GetAgentsCrewByMissionIdTest {
             )
         )
 
-        val guyDeMaupassant = AgentModel2(
+        val guyDeMaupassant = AgentModel(
             firstName = "Guy",
             lastName = "de Maupassant",
             id = 4,

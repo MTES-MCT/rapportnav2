@@ -1,9 +1,9 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew.v2
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -21,18 +21,18 @@ import java.time.Instant
 class GetCrewByServiceIdTest {
 
     @MockitoBean
-    lateinit var agentRepo: IAgent2Repository
+    lateinit var agentRepo: IAgentRepository
 
     @Test
     fun `should get crew in priority order`() {
-         val agents: List<AgentModel2> = listOf(
-            AgentModel2(
+         val agents: List<AgentModel> = listOf(
+            AgentModel(
                 id = 1,
                 lastName = "lastName1",
                 firstName = "firstName1",
                 role = AgentRoleModel(id = 1, title = "", priority = 3),
                 service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel()
-            ), AgentModel2(
+            ), AgentModel(
                 id = 2,
                 lastName = "lastName2",
                 firstName = "firstName2",
@@ -40,7 +40,7 @@ class GetCrewByServiceIdTest {
                 role = AgentRoleModel(id = 1, title = "", priority = 2),
                 service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel()
             ),
-            AgentModel2(
+            AgentModel(
                 id = 3,
                 lastName = "lastName3",
                 firstName = "firstName3",

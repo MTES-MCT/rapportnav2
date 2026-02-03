@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetExternalDataEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -22,7 +22,7 @@ class TargetEntityTest {
 
     @Test
     fun `execute should retrieve entity from Model`() {
-        val model = TargetModel2(
+        val model = TargetModel(
             startDateTimeUtc = Instant.parse("2020-01-01T00:00:00Z"),
             endDateTimeUtc = Instant.parse("2020-02-01T00:00:00Z"),
             id = UUID.randomUUID(),

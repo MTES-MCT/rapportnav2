@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
@@ -60,7 +60,7 @@ class ExportMissionPatrolSingleTest {
     @Test
     fun `createFile should throw BackendInternalException when underlying service throws`() {
         val missionId = 123
-        val mission = MissionEntityMock2.create(id = missionId)
+        val mission = MissionEntityMock.create(id = missionId)
         `when`(computePatrolData.execute(missionId)).thenThrow(RuntimeException("boom"))
 
         assertThrows(BackendInternalException::class.java) {
@@ -76,7 +76,7 @@ class ExportMissionPatrolSingleTest {
 
     @Test
     fun `createFile should throw BackendInternalException when mission id is null`() {
-        val mission = MissionEntityMock2.create(id = null)
+        val mission = MissionEntityMock.create(id = null)
 
         assertThrows(BackendInternalException::class.java) {
             exportMissionRapportPatrouille.createFile(mission)

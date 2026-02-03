@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAE
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -40,7 +40,7 @@ class ExportMissionAEMCombinedTest {
     @Test
     fun `should export a file`() {
         val missionIds = listOf(1)
-        val mission2 = MissionEntityMock2.create(
+        val mission2 = MissionEntityMock.create(
             generalInfos = MissionGeneralInfoEntity2(
                 data = MissionGeneralInfoEntity(
                     id = 1,

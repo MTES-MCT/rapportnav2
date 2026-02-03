@@ -1,10 +1,10 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetModel2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetModelMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
@@ -29,8 +29,8 @@ class ProcessMissionActionTargetTest {
     fun `no changes - nothing to save or delete`() {
         val actionId = "A123"
 
-        val model = TargetEntity2Mock.create().toTargetModel()
-        val entity = TargetEntity2.fromTargetModel(model)
+        val model = TargetEntityMock.create().toTargetModel()
+        val entity = TargetEntity.fromTargetModel(model)
 
         whenever(repository.findByActionId(actionId)).thenReturn(listOf(model))
         whenever(repository.save(any())).thenAnswer { model }
@@ -49,11 +49,11 @@ class ProcessMissionActionTargetTest {
         val repo = mock<ITargetRepository>()
         val useCase = ProcessMissionActionTarget(repo)
 
-        val dbTarget = TargetModel2Mock.create(actionId = "action1")
-        val incoming = TargetEntity2Mock.create()
+        val dbTarget = TargetModelMock.create(actionId = "action1")
+        val incoming = TargetEntityMock.create()
 
         whenever(repo.findByActionId("action1")).thenReturn(listOf(dbTarget))
-        whenever(repo.save(any())).thenReturn(TargetModel2Mock.create())
+        whenever(repo.save(any())).thenReturn(TargetModelMock.create())
 
         useCase.execute("action1", listOf(incoming))
 
@@ -65,8 +65,8 @@ class ProcessMissionActionTargetTest {
         val repo = mock<ITargetRepository>()
         val useCase = ProcessMissionActionTarget(repo)
 
-        val incoming = TargetEntity2Mock.create()
-        whenever(repo.save(any())).thenReturn(TargetModel2Mock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e")))
+        val incoming = TargetEntityMock.create()
+        whenever(repo.save(any())).thenReturn(TargetModelMock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e")))
 
         val result = useCase.save(listOf(incoming))
 
@@ -87,9 +87,9 @@ class ProcessMissionActionTargetTest {
     fun `targets removed from input are deleted`() {
         val actionId = "A123"
 
-        val dbModel1 = TargetModel2Mock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
-        val dbModel2 = TargetModel2Mock.create(id = UUID.fromString("64b02a4c-6f7f-449d-9db5-3fb662d4969e"))
-        val dbEntity1 = TargetEntity2.fromTargetModel(dbModel1)
+        val dbModel1 = TargetModelMock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
+        val dbModel2 = TargetModelMock.create(id = UUID.fromString("64b02a4c-6f7f-449d-9db5-3fb662d4969e"))
+        val dbEntity1 = TargetEntity.fromTargetModel(dbModel1)
 
         // Only T1 remains → T2 must be deleted
         whenever(repository.findByActionId(actionId)).thenReturn(listOf(dbModel1, dbModel2))
@@ -107,8 +107,8 @@ class ProcessMissionActionTargetTest {
 
     @Test
     fun `save() correctly maps and persists targets`() {
-        val model = TargetModel2Mock.create()
-        val entity = TargetEntity2.fromTargetModel(model)
+        val model = TargetModelMock.create()
+        val entity = TargetEntity.fromTargetModel(model)
 
         whenever(repository.save(any())).thenReturn(model)
 
@@ -122,8 +122,8 @@ class ProcessMissionActionTargetTest {
 
     @Test
     fun `delete() calls repository deleteById for each item`() {
-        val t1 = TargetEntity2Mock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
-        val t2 = TargetEntity2Mock.create(id = UUID.fromString("64b02a4c-6f7f-449d-9db5-3fb662d4969e"))
+        val t1 = TargetEntityMock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
+        val t2 = TargetEntityMock.create(id = UUID.fromString("64b02a4c-6f7f-449d-9db5-3fb662d4969e"))
 
         useCase.delete(listOf(t1, t2))
 

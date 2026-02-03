@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.service
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.DeleteAgent
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -22,7 +22,7 @@ class DeleteAgentTest {
     private lateinit var deleteAgent: DeleteAgent
 
     @MockitoBean
-    private lateinit var agentRepository: IAgent2Repository
+    private lateinit var agentRepository: IAgentRepository
 
     @Test
     fun `should call repository deleteById`() {
