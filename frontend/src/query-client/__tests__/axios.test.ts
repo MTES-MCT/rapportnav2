@@ -29,7 +29,19 @@ beforeAll(async () => {
 
 const server = setupServer(
   http.get('/api/v2/ok', () => HttpResponse.json({ message: 'ok' })),
-  http.get('/api/v2/forbidden', () => new HttpResponse(JSON.stringify({ error: 'Forbidden' }), { status: 403 }))
+  http.get('/api/v2/forbidden', () => new HttpResponse(JSON.stringify({ error: 'Forbidden' }), { status: 403 })),
+  http.get('/api/v2/not-found', () =>
+    new HttpResponse(
+      JSON.stringify({
+        type: 'urn:rapportnav:error:usage:COULD_NOT_FIND_EXCEPTION',
+        title: 'Resource Not Found',
+        status: 400,
+        detail: 'The requested mission could not be found',
+        code: 'COULD_NOT_FIND_EXCEPTION'
+      }),
+      { status: 400, headers: { 'Content-Type': 'application/problem+json' } }
+    )
+  )
 )
 
 beforeAll(() => server.listen())
@@ -53,5 +65,17 @@ describe('axiosInstance', () => {
 
     await expect(axiosInstance.get('/forbidden')).rejects.toThrow()
     expect(logoutSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('extracts detail from RFC 7807 ProblemDetail response', async () => {
+    getMock.mockReturnValue('fake-token')
+
+    try {
+      await axiosInstance.get('/not-found')
+      expect.fail('Should have thrown')
+    } catch (error: any) {
+      expect(error.message).toBe('The requested mission could not be found')
+      expect(error.response.data.code).toBe('COULD_NOT_FIND_EXCEPTION')
+    }
   })
 })
