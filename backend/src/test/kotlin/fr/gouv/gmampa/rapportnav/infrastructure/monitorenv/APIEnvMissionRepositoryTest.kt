@@ -115,7 +115,7 @@ class APIEnvMissionRepositoryTest {
             val json = mapper.writeValueAsString(action)
 
             Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
-                    // Mock the response
+            // Mock the response
             Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
             Mockito.`when`(httpResponse.body()).thenReturn(json)
 
