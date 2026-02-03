@@ -1,7 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
@@ -28,9 +27,6 @@ class ProcessEnvActionTest {
     private lateinit var getStatusForAction: GetStatusForAction
 
     @MockitoBean
-    private lateinit var mapControlPlans: MapEnvActionControlPlans
-
-    @MockitoBean
     private lateinit var getComputeEnvTarget: GetComputeEnvTarget
 
     @Test
@@ -44,7 +40,6 @@ class ProcessEnvActionTest {
         val mockTarget = TargetEntityMock.create()
         `when`(getComputeEnvTarget.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(listOf(mockTarget))
         processEnvAction = ProcessEnvAction(
-            mapControlPlans = mapControlPlans,
             getStatusForAction = getStatusForAction,
             getComputeEnvTarget = getComputeEnvTarget
         )

@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
@@ -21,8 +20,6 @@ interface IEnvMissionRepository {
         seaFronts: List<String>? = null,
         controlUnits: List<Int>? = null
     ): List<MissionEnvEntity>?
-
-    fun findAllControlPlans(): ControlPlansEntity?
 
     fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEnvEntity?
 

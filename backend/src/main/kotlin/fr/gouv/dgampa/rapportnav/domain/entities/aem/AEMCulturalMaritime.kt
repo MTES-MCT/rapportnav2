@@ -17,19 +17,18 @@ data class AEMCulturalMaritime(
     )
 
     companion object {
-        private val scientificCampaignControlPlanSubThemeIds = listOf(165);
-        private val culturalMaritimeWellBeingControlPlanThemeIds = listOf(104);
+        private val scientificCampaignThemeSubThemeIds = listOf(165);
+        private val culturalMaritimeWellBeingThemeThemeIds = listOf(104);
         private fun culturalMaritimeActionEntities(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
             return envActions.filter { action ->
-                action?.controlPlans?.map { c -> c.themeId }
-                    ?.intersect(culturalMaritimeWellBeingControlPlanThemeIds)?.isEmpty() == false
+                action?.themes?.map { t -> t.id }
+                    ?.intersect(culturalMaritimeWellBeingThemeThemeIds)?.isEmpty() == false
             }
         }
 
         private fun scientificCampaignActionEntities(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
             return envActions.filter { action ->
-                action?.controlPlans?.flatMap { it.subThemeIds!! }
-                    ?.intersect(scientificCampaignControlPlanSubThemeIds)?.isEmpty() == false
+                action?.themes?.flatMap { it.subThemes }.orEmpty().map { it.id }.intersect(scientificCampaignThemeSubThemeIds).isNotEmpty()
             }
         }
     }
