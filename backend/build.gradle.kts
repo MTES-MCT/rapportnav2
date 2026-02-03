@@ -166,6 +166,37 @@ tasks.jacocoTestReport {
     html.required.set(true)  // Enable HTML report
     html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
   }
+  classDirectories.setFrom(
+    files(classDirectories.files.map {
+      fileTree(it) {
+        exclude(
+          // Spring configuration - no business logic
+          "**/*Application*",
+
+          // JPA entities - data containers with standard equals/hashCode
+          "**/infrastructure/database/model/**",
+
+          // JPA repository interfaces - Spring generates implementation
+          "**/infrastructure/database/repositories/interfaces/**",
+
+          // API DTOs and adapters - pure data mapping
+          "**/infrastructure/api/**/model/**",
+          "**/infrastructure/api/**/adapters/inputs/**",
+          "**/infrastructure/api/**/adapters/outputs/**",
+
+          // External API DTOs
+          "**/infrastructure/monitorenv/input/**",
+          "**/infrastructure/monitorenv/output/**",
+          "**/infrastructure/monitorfish/input/**",
+          "**/infrastructure/monitorfish/output/**",
+
+          // Exception classes - no logic
+          "**/infrastructure/exceptions/**",
+          "**/domain/exceptions/**",
+        )
+      }
+    })
+  )
 }
 
 tasks.test {
