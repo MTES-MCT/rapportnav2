@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.60.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.60.0...frontend@v2.60.1) (2026-02-02)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.60.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.59.0...frontend@v2.60.0) (2026-02-02)
+
+
+### Features
+
+* **frontend:** use right coordiates ([1e9265f](https://github.com/MTES-MCT/rapportnav2/commit/1e9265fd8a4f20f175c62b871ea09caccd9d3c52))
+
 ## [2.59.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.58.0...frontend@v2.59.0) (2026-01-30)
 
 

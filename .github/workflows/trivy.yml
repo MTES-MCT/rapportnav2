@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Trivy on OS
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           scan-type: "fs"
           ignore-unfixed: true
@@ -47,7 +47,7 @@ jobs:
           category: "trivy-os"
 
       - name: Run Trivy on libraries
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           scan-type: "fs"
           ignore-unfixed: true
@@ -61,3 +61,31 @@ jobs:
         with:
           sarif_file: "trivy-results-libs.sarif"
           category: "trivy-libs"
+
+      - name: Run Trivy on IaC/Config (Dockerfiles, docker-compose)
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: "config"
+          format: "sarif"
+          output: "trivy-results-config.sarif"
+          severity: "MEDIUM,HIGH,CRITICAL"
+
+      - name: Upload Trivy Config scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: "trivy-results-config.sarif"
+          category: "trivy-config"
+
+      - name: Run Trivy on Postgres image
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: "postgres:15.15-alpine"
+          format: "sarif"
+          output: "trivy-results-postgres.sarif"
+          severity: "HIGH,CRITICAL"
+
+      - name: Upload Trivy Postgres scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: "trivy-results-postgres.sarif"
+          category: "trivy-postgres"

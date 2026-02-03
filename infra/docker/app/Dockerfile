@@ -34,6 +34,7 @@ RUN echo "ENV_PROFILE: $ENV_PROFILE" && echo "VERSION: $VERSION"
 
 # Install LibreOffice using apk with proxy settings
 RUN apk update && \
+    apk upgrade --no-cache && \
     apk add --no-cache libreoffice && \
     rm -rf /var/cache/apk/*
 
