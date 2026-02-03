@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
@@ -33,7 +33,7 @@ class APIEnvMissionRepository(
 
     private val client = clientFactory.create()
 
-    override fun findMissionById(missionId: Int): MissionEntity? {
+    override fun findMissionById(missionId: Int): MissionEnvEntity? {
         val url = URI.create("$host/api/v1/missions/$missionId")
 
         logger.info("Sending GET request for Env mission id=$missionId. URL: $url")
@@ -62,7 +62,7 @@ class APIEnvMissionRepository(
                     try {
                         val missionDataOutput: MissionDataOutput = mapper.readValue(response.body())
                         logger.info("Successfully deserialized Env mission data for id=$missionId")
-                        missionDataOutput.toMissionEntity()
+                        missionDataOutput.toMissionEnvEntity()
                     } catch (e: Exception) {
                         logger.error("Failed to deserialize Env mission data for id=$missionId", e)
                         null
@@ -96,7 +96,7 @@ class APIEnvMissionRepository(
         missionStatuses: List<String>?,
         seaFronts: List<String>?,
         controlUnits: List<Int>?
-    ): List<MissionEntity>? {
+    ): List<MissionEnvEntity>? {
 
         val uriBuilder = StringBuilder("$host/api/v1/missions")
 
@@ -170,10 +170,10 @@ class APIEnvMissionRepository(
             logger.info("data from monitorenv deserialized successfully")
 
             // Transform each MissionDataOutput to MissionEntity
-            val missionEntityList: List<MissionEntity> =
-                missionDataOutputList.map { it.toMissionEntity() }
+            val missionEnvEntityList: List<MissionEnvEntity> =
+                missionDataOutputList.map { it.toMissionEnvEntity() }
 
-            return missionEntityList
+            return missionEnvEntityList
 
         } catch (e: BackendInternalException) {
             throw e  // Re-throw domain exceptions
@@ -207,7 +207,7 @@ class APIEnvMissionRepository(
         }
     }
 
-    override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEntity? {
+    override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEnvEntity? {
         val url = "$host/api/v2/missions/$missionId"
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         return try {
@@ -226,7 +226,7 @@ class APIEnvMissionRepository(
             logger.debug(body)
 
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body)
-            missionDataOutput?.toMissionEntity()
+            missionDataOutput?.toMissionEnvEntity()
         } catch (e: Exception) {
             logger.error("Failed to PATCH request for Env mission id=$missionId. URL: $url", e)
             null

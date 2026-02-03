@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalS
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.OperationalSummaryEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import kotlin.collections.orEmpty
 
 @UseCase
@@ -12,7 +12,7 @@ class ComputeAllOperationalSummary(
     private val computeFishingOperationalSummary: ComputeFishingOperationalSummary,
 ) {
 
-    fun execute(mission: MissionEntity2?): OperationalSummaryEntity {
+    fun execute(mission: MissionEntity?): OperationalSummaryEntity {
 
         val proFishingSeaSummary: LinkedHashMap<String, Map<String, Int?>>
             = computeFishingOperationalSummary.getProFishingSeaSummary(mission?.actions.orEmpty())

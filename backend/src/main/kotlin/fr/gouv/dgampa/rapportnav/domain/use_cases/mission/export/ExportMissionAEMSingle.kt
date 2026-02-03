@@ -1,9 +1,9 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -49,7 +49,7 @@ class ExportMissionAEMSingle(
         return createFile(mission)!!
     }
 
-    fun createFile(mission: MissionEntity2?): MissionExportEntity? {
+    fun createFile(mission: MissionEntity?): MissionExportEntity? {
         return try {
             val tableExport = getAemData(mission?.id)
             if (tableExport == null) return null
@@ -90,14 +90,14 @@ class ExportMissionAEMSingle(
         }
     }
 
-    fun getAemData(missionId: Int?): AEMTableExport2?  {
+    fun getAemData(missionId: Int?): AEMTableExport?  {
         if(missionId == null) return null
         val envMission = getEnvMissionById2.execute(missionId)
         val envActions = getEnvActionByMissionId.execute(missionId)
         val navActions = getNavActionByMissionId.execute(missionId)
         val fishActions = getFIshListActionByMissionId.execute(missionId)
         val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
-        return AEMTableExport2.fromMissionAction(
+        return AEMTableExport.fromMissionAction(
             navActions = navActions,
             envActions = envActions,
             fishActions = fishActions,

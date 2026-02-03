@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
@@ -18,7 +18,7 @@ import java.util.*
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EntityListeners(AuditingEntityListener::class)
 @Table(name = "control_2")
-data class ControlModel2(
+data class ControlModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID = UUID.randomUUID(),
@@ -58,7 +58,7 @@ data class ControlModel2(
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "control_id")
     @JsonIgnore
-    var infractions: List<InfractionModel2>? = mutableListOf(),
+    var infractions: List<InfractionModel>? = mutableListOf(),
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
@@ -83,7 +83,7 @@ data class ControlModel2(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as ControlModel2
+        other as ControlModel
         return id == other.id
     }
 }

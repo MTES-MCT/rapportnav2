@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -34,7 +34,7 @@ class ExportMissionPatrolCombined(
         try {
 
             // retrieve missions
-            var missions = mutableListOf<MissionEntity2>()
+            var missions = mutableListOf<MissionEntity>()
 
             for (missionId in missionIds) {
                 val mission = getComputeEnvMission.execute(missionId = missionId)

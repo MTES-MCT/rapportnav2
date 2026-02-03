@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
@@ -37,7 +37,7 @@ data class MissionEnvInput(
 
     companion object {
 
-        fun fromMissionEntity(entity: MissionEntity, controlUnitId: Int? = null): MissionEnvInput {
+        fun fromMissionEntity(entity: MissionEnvEntity, controlUnitId: Int? = null): MissionEnvInput {
             return MissionEnvInput(
                 missionId = entity.id!!,
                 isUnderJdp = entity.isUnderJdp,

@@ -10,14 +10,14 @@ import java.time.Instant
 import java.time.format.DateTimeParseException
 import java.util.*
 
-data class MissionEntity2(
+data class MissionEntity(
     val id: Int? = null,
     val idUUID: UUID? = null,
     val data: MissionEnvEntity? = null,
     val actions: List<MissionActionEntity>? = listOf(),
     val generalInfos: MissionGeneralInfoEntity2? = null
 ) {
-    private val logger = LoggerFactory.getLogger(MissionEntity2::class.java)
+    private val logger = LoggerFactory.getLogger(MissionEntity::class.java)
 
     fun isCompleteForStats(): CompletenessForStatsEntity {
         val completenessForStats = this.actionsIsCompleteForStats()

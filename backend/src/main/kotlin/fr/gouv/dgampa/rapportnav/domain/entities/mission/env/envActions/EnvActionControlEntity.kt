@@ -35,7 +35,7 @@ data class EnvActionControlEntity(
     override val actionNumberOfControls: Int? = null,
     override val actionTargetType: ActionTargetTypeEnum? = null,
     override val vehicleType: VehicleTypeEnum? = null,
-    override val infractions: List<InfractionEntity>? = listOf(),
+    override val infractions: List<InfractionEnvEntity>? = listOf(),
     override val tags: List<TagEntity>? = listOf(),
     override var themes: List<ThemeEntity>? = listOf(),
 ) : EnvActionEntity(

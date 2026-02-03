@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 
-data class Mission2(
+data class Mission(
     val id: Int? = null,
     val idUUID: String? = null,
     val status: MissionStatusEnum,
@@ -17,13 +17,13 @@ data class Mission2(
 ) {
 
     companion object {
-        fun fromMissionEntity(mission: MissionEntity): Mission2 {
+        fun fromMissionEntity(mission: MissionEntity): Mission {
             val completenessForStats = mission.isCompleteForStats()
             val status = mission.calculateMissionStatus(
                 endDateTimeUtc = mission.data?.endDateTimeUtc,
                 startDateTimeUtc = mission.data?.startDateTimeUtc!!
             )
-            return Mission2(
+            return Mission(
                 id = mission.id,
                 status = status,
                 idUUID = mission.idUUID?.toString(),

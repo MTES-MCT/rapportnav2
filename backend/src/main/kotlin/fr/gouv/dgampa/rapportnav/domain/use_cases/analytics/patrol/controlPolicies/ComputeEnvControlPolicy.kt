@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPolicyData
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import org.slf4j.LoggerFactory
@@ -17,7 +17,7 @@ class ComputeEnvControlPolicy(
 
     private val logger = LoggerFactory.getLogger(ComputeEnvControlPolicy::class.java)
 
-    fun execute(mission: MissionEntity2?): ControlPolicyData? {
+    fun execute(mission: MissionEntity?): ControlPolicyData? {
         if (mission == null) {
             logger.warn("ComputeEnvControlPolicy.execute() called with null mission")
             return null

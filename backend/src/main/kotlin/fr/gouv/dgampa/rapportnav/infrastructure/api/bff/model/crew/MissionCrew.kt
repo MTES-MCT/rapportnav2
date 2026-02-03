@@ -5,7 +5,7 @@ import java.util.UUID
 
 data class MissionCrew(
     val id: Int? = null,
-    val agent: Agent2,
+    val agent: Agent,
     val missionId: Int? = null,
     val comment: String? = null,
     val role: AgentRole? = null,
@@ -17,7 +17,7 @@ data class MissionCrew(
             return MissionCrew(
                 id = crew.id,
                 missionId = crew.missionId,
-                agent = Agent2.fromAgentEntity(crew.agent)!!,
+                agent = Agent.fromAgentEntity(crew.agent)!!,
                 role = crew.role?.let { AgentRole.fromAgentRoleEntity(it) },
                 comment = crew.comment,
                 missionIdUUID = crew.missionIdUUID

@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPolicyData
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import org.slf4j.LoggerFactory
@@ -17,7 +17,7 @@ class ComputeProFishingControlPolicy(
 ) {
     private val logger = LoggerFactory.getLogger(ComputeProFishingControlPolicy::class.java)
 
-    private fun filterActions(mission: MissionEntity2?): List<MissionFishActionEntity> {
+    private fun filterActions(mission: MissionEntity?): List<MissionFishActionEntity> {
         if (mission == null) {
             logger.warn("filterActions called with null mission.")
             return emptyList()
@@ -35,7 +35,7 @@ class ComputeProFishingControlPolicy(
         return filtered
     }
 
-    fun computeFishingRelatedInfractions(mission: MissionEntity2?): ControlPolicyData? {
+    fun computeFishingRelatedInfractions(mission: MissionEntity?): ControlPolicyData? {
         if (mission == null) {
             logger.warn("computeFishingRelatedInfractions called with null mission.")
             return null
@@ -59,7 +59,7 @@ class ComputeProFishingControlPolicy(
         )
     }
 
-    fun computeOtherInfractions(mission: MissionEntity2?): ControlPolicyData? {
+    fun computeOtherInfractions(mission: MissionEntity?): ControlPolicyData? {
         if (mission == null) {
             logger.warn("computeOtherInfractions called with null mission.")
             return null

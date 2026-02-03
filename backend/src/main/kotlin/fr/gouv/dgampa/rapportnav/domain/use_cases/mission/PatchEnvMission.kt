@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
@@ -19,7 +19,7 @@ class PatchEnvMission(private val envRepository: IEnvMissionRepository) {
     )
     fun execute(
         input: MissionEnvInput,
-    ): MissionEntity? {
+    ): MissionEnvEntity? {
         //TODO: Compare before update
         return envRepository.patchMission(
             input.missionId,

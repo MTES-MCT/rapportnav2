@@ -2,15 +2,15 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetExternalDataEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel
 import java.time.Instant
 import java.util.*
 
@@ -18,14 +18,14 @@ import java.util.*
 class GetComputeEnvTarget(
     private val targetRepo: ITargetRepository
 ) {
-    fun execute(actionId: String, envInfractions: List<InfractionEntity>?, isControl: Boolean?): List<TargetEntity2>? {
+    fun execute(actionId: String, envInfractions: List<InfractionEnvEntity>?, isControl: Boolean?): List<TargetEntity>? {
         if (isControl != true) return null
         val navTargets = getNavTargets(actionId = actionId)
         val envTargets = getEnvTargets(actionId = actionId, envInfractions = envInfractions)
         return navTargets + envTargets
     }
 
-    fun getNavTargets(actionId: String): List<TargetEntity2> {
+    fun getNavTargets(actionId: String): List<TargetEntity> {
         var targets = targetRepo.findByActionId(actionId)
             .filter { it.externalId == null }
 
@@ -39,10 +39,10 @@ class GetComputeEnvTarget(
             )
             targets = listOf(target)
         }
-        return targets.map { TargetEntity2.fromTargetModel(it) }
+        return targets.map { TargetEntity.fromTargetModel(it) }
     }
 
-    fun getEnvTargets(actionId: String, envInfractions: List<InfractionEntity>?): List<TargetEntity2> {
+    fun getEnvTargets(actionId: String, envInfractions: List<InfractionEnvEntity>?): List<TargetEntity> {
         return envInfractions?.map {
             var target = targetRepo.findByExternalId(it.id)
             if (target == null) {
@@ -55,14 +55,14 @@ class GetComputeEnvTarget(
                     )
                 )
             }
-            val entity = TargetEntity2.fromTargetModel(target)
+            val entity = TargetEntity.fromTargetModel(target)
             entity.externalData = getExternalData(it)
             entity
         }?: listOf()
     }
 
 
-    fun save(target: TargetModel2):TargetModel2 {
+    fun save(target: TargetModel):TargetModel {
         return targetRepo.save(target)
     }
 
@@ -71,8 +71,8 @@ class GetComputeEnvTarget(
         source: MissionSourceEnum,
         targetType: TargetType,
         externalId: String? = null
-    ): TargetModel2 {
-        return TargetModel2(
+    ): TargetModel {
+        return TargetModel(
             actionId = actionId,
             id = UUID.randomUUID(),
             targetType = targetType,
@@ -85,7 +85,7 @@ class GetComputeEnvTarget(
         )
     }
 
-    private fun getNewControls(): List<ControlModel2> {
+    private fun getNewControls(): List<ControlModel> {
         val controlTypes = listOf(
             ControlType.SECURITY,
             ControlType.NAVIGATION,
@@ -93,7 +93,7 @@ class GetComputeEnvTarget(
             ControlType.ADMINISTRATIVE
         )
         return controlTypes.map {
-            ControlModel2(
+            ControlModel(
                 controlType = it,
                 amountOfControls = 0,
                 id = UUID.randomUUID()
@@ -101,7 +101,7 @@ class GetComputeEnvTarget(
         }
     }
 
-    private fun getExternalData(envInfraction: InfractionEntity): TargetExternalDataEntity {
+    private fun getExternalData(envInfraction: InfractionEnvEntity): TargetExternalDataEntity {
         return TargetExternalDataEntity(
             id = envInfraction.id,
             natinfs = envInfraction.natinf,
@@ -119,7 +119,7 @@ class GetComputeEnvTarget(
         )
     }
 
-    private fun getTargetType(envInfraction: InfractionEntity): TargetType {
+    private fun getTargetType(envInfraction: InfractionEnvEntity): TargetType {
         if(envInfraction.companyName != null) return TargetType.COMPANY
         if(envInfraction.registrationNumber != null) return TargetType.VEHICLE
         if(envInfraction.controlledPersonIdentity != null) return TargetType.INDIVIDUAL

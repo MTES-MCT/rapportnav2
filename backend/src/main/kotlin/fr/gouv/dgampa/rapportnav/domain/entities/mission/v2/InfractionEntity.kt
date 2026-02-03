@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel
 import java.util.*
 
 class InfractionEntity(
@@ -11,8 +11,8 @@ class InfractionEntity(
     val infractionType: InfractionTypeEnum? = null
 ) {
 
-    fun toInfractionModel(): InfractionModel2 {
-        return InfractionModel2(
+    fun toInfractionModel(): InfractionModel {
+        return InfractionModel(
             id = id,
             natinfs = natinfs,
             observations = observations,
@@ -39,7 +39,7 @@ class InfractionEntity(
     }
 
     companion object {
-        fun fromInfractionModel(model: InfractionModel2): fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity {
+        fun fromInfractionModel(model: InfractionModel): fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity {
             return InfractionEntity(
                 id = model.id,
                 natinfs = model.natinfs,

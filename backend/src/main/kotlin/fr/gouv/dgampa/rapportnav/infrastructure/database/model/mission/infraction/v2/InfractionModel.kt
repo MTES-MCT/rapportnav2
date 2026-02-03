@@ -12,7 +12,7 @@ import java.util.*
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @Table(name = "infraction_2")
-data class InfractionModel2(
+data class InfractionModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID,
@@ -54,7 +54,7 @@ data class InfractionModel2(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as InfractionModel2
+        other as InfractionModel
         return id == other.id
     }
 }

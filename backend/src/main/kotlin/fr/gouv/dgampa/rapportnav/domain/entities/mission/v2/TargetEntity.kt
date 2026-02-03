@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel
 import java.time.Instant
 import java.util.*
 
@@ -29,8 +29,8 @@ class TargetEntity(
     var externalData: TargetExternalDataEntity? = null
 ) {
 
-    fun toTargetModel(): TargetModel2 {
-        return TargetModel2(
+    fun toTargetModel(): TargetModel {
+        return TargetModel(
             id = id,
             agent = agent,
             actionId = actionId,
@@ -98,7 +98,7 @@ class TargetEntity(
     }
 
     companion object {
-        fun fromTargetModel(model: TargetModel2): TargetEntity {
+        fun fromTargetModel(model: TargetModel): TargetEntity {
             return TargetEntity(
                 id = model.id,
                 agent = model.agent,

@@ -55,7 +55,7 @@ class MissionFishActionData(
     override val isSeafarersControl: Boolean? = null,
     override var observationsByUnit: String? = null,
     override var speciesQuantitySeized: Int? = null,
-    override val targets: List<Target2>? = null,
+    override val targets: List<Target>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,

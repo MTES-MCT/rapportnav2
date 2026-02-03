@@ -100,7 +100,7 @@ class MissionNavAction(
                     securityVisitType = navAction.securityVisitType,
                     nbrSecurityVisit = navAction.nbrSecurityVisit,
                     establishment = navAction.establishment?.let { Establishment.fromEstablishmentEntity(it) },
-                    targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
+                    targets = navAction.targets?.map { Target.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
                 )
             )
         }

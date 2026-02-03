@@ -17,7 +17,7 @@ import java.util.*
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @Table(name = "target_2")
-data class TargetModel2(
+data class TargetModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID = UUID.randomUUID(),
@@ -91,7 +91,7 @@ data class TargetModel2(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as TargetModel2
+        other as TargetModel
         return id == other.id
     }
 }

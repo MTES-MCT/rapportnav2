@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResult
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel
 import java.util.*
 
 data class ControlEntity(
@@ -19,8 +19,8 @@ data class ControlEntity(
     val hasBeenDone: Boolean? = null,
     val knowledgeOfFrenchLawAndLanguage: ControlResult? = null
 ) {
-    fun toControlModel(): ControlModel2 {
-        return ControlModel2(
+    fun toControlModel(): ControlModel {
+        return ControlModel(
             id = id,
             controlType = controlType,
             hasBeenDone = hasBeenDone,
@@ -75,7 +75,7 @@ data class ControlEntity(
     }
 
     companion object {
-        fun fromControlModel(model: ControlModel2): ControlEntity {
+        fun fromControlModel(model: ControlModel): ControlEntity {
             return ControlEntity(
                 id = model.id,
                 controlType = model.controlType,
