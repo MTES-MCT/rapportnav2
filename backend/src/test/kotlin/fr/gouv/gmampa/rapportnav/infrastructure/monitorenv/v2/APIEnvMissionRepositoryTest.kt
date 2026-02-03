@@ -10,6 +10,10 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepositoryV2
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MultiPolygonMock
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
@@ -143,6 +147,188 @@ class APIEnvMissionRepositoryTest {
     private fun getMissionString(): String {
         val path = Paths.get("src/test/resources/missions/mission.json")
         return String(Files.readAllBytes(path))
+    }
+
+    @Nested
+    inner class PatchMission {
+
+        @Test
+        fun `should send PATCH request for mission update`() {
+            `when`(httpClientFactory.create()).thenReturn(httpClient)
+            `when`(httpResponse.statusCode()).thenReturn(200)
+            `when`(httpResponse.body()).thenReturn(getMissionString())
+            `when`(
+                httpClient.send(
+                    any(HttpRequest::class.java),
+                    any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
+
+            val patchInput = PatchMissionInput(
+                observationsByUnit = "Updated observations",
+                startDateTimeUtc = Instant.parse("2024-01-15T10:00:00Z"),
+                endDateTimeUtc = Instant.parse("2024-01-15T18:00:00Z")
+            )
+
+            envRepo.patchMission(missionId = 123, mission = patchInput)
+
+            val requestCaptor = ArgumentCaptor.forClass(HttpRequest::class.java)
+
+            verify(httpClient).send(
+                requestCaptor.capture(),
+                any<HttpResponse.BodyHandler<String>>()
+            )
+
+            val capturedRequest = requestCaptor.value
+
+            assert(capturedRequest.uri() == URI.create("$host/api/v2/missions/123"))
+            assert(capturedRequest.method() == "PATCH")
+            assert(capturedRequest.headers().firstValue("Content-Type").orElse("") == "application/json")
+        }
+
+        @Test
+        fun `should throw BackendInternalException when PATCH returns 400`() {
+            `when`(httpClientFactory.create()).thenReturn(httpClient)
+            `when`(httpResponse.statusCode()).thenReturn(400)
+            `when`(httpResponse.body()).thenReturn("Bad Request")
+            `when`(
+                httpClient.send(
+                    any(HttpRequest::class.java),
+                    any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
+
+            val exception = assertThrows(BackendInternalException::class.java) {
+                envRepo.patchMission(
+                    missionId = 123,
+                    mission = PatchMissionInput(observationsByUnit = "test")
+                )
+            }
+
+            assertTrue(exception.message.contains("400"))
+        }
+
+        @Test
+        fun `should throw BackendInternalException when PATCH returns 500`() {
+            `when`(httpClientFactory.create()).thenReturn(httpClient)
+            `when`(httpResponse.statusCode()).thenReturn(500)
+            `when`(httpResponse.body()).thenReturn("Internal Server Error")
+            `when`(
+                httpClient.send(
+                    any(HttpRequest::class.java),
+                    any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
+
+            val exception = assertThrows(BackendInternalException::class.java) {
+                envRepo.patchMission(
+                    missionId = 123,
+                    mission = PatchMissionInput(observationsByUnit = "test")
+                )
+            }
+
+            assertTrue(exception.message.contains("500"))
+        }
+    }
+
+    @Nested
+    inner class DeleteMission {
+
+        @Test
+        fun `should send DELETE request for mission deletion`() {
+            `when`(httpClientFactory.create()).thenReturn(httpClient)
+            `when`(httpResponse.statusCode()).thenReturn(200)
+            `when`(httpResponse.body()).thenReturn("")
+            `when`(
+                httpClient.send(
+                    any(HttpRequest::class.java),
+                    any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
+
+            envRepo.deleteMission(missionId = 123)
+
+            val requestCaptor = ArgumentCaptor.forClass(HttpRequest::class.java)
+
+            verify(httpClient).send(
+                requestCaptor.capture(),
+                any<HttpResponse.BodyHandler<String>>()
+            )
+
+            val capturedRequest = requestCaptor.value
+
+            assert(capturedRequest.uri() == URI.create("$host/api/v2/missions/123"))
+            assert(capturedRequest.method() == "DELETE")
+        }
+
+        @Test
+        fun `should throw BackendInternalException when DELETE returns 404`() {
+            `when`(httpClientFactory.create()).thenReturn(httpClient)
+            `when`(httpResponse.statusCode()).thenReturn(404)
+            `when`(httpResponse.body()).thenReturn("Not Found")
+            `when`(
+                httpClient.send(
+                    any(HttpRequest::class.java),
+                    any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
+
+            val exception = assertThrows(BackendInternalException::class.java) {
+                envRepo.deleteMission(missionId = 999)
+            }
+
+            assertTrue(exception.message.contains("404"))
+        }
+
+        @Test
+        fun `should throw BackendInternalException when DELETE returns 500`() {
+            `when`(httpClientFactory.create()).thenReturn(httpClient)
+            `when`(httpResponse.statusCode()).thenReturn(500)
+            `when`(httpResponse.body()).thenReturn("Internal Server Error")
+            `when`(
+                httpClient.send(
+                    any(HttpRequest::class.java),
+                    any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
+
+            val exception = assertThrows(BackendInternalException::class.java) {
+                envRepo.deleteMission(missionId = 123)
+            }
+
+            assertTrue(exception.message.contains("500"))
+        }
+
+        @Test
+        fun `should not throw exception when DELETE returns 204`() {
+            `when`(httpClientFactory.create()).thenReturn(httpClient)
+            `when`(httpResponse.statusCode()).thenReturn(204)
+            `when`(httpResponse.body()).thenReturn("")
+            `when`(
+                httpClient.send(
+                    any(HttpRequest::class.java),
+                    any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
+
+            assertDoesNotThrow {
+                envRepo.deleteMission(missionId = 123)
+            }
+        }
     }
 }
 
