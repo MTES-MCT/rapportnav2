@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.60.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.60.1...backend@v2.60.2) (2026-02-03)
+
+
+### Bug Fixes
+
+* update flyway dependencies ([161dc7e](https://github.com/MTES-MCT/rapportnav2/commit/161dc7ef1123577c4d4a9ca2d565c68595f2538a))
+
 ## [2.60.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.60.0...backend@v2.60.1) (2026-02-02)
 
 
