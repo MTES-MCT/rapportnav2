@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.60.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.60.2...backend@v2.60.3) (2026-02-04)
+
+
+### Bug Fixes
+
+* **Fish:** add more logging ([d31d502](https://github.com/MTES-MCT/rapportnav2/commit/d31d502ff586acba8779ec0942c1bf2bf014bba4))
+
 ## [2.60.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.60.1...backend@v2.60.2) (2026-02-03)
 
 

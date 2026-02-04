@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.60.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.60.2...frontend@v2.60.3) (2026-02-04)
+
+
+### Bug Fixes
+
+* **secu:** npm audit ([ff7358e](https://github.com/MTES-MCT/rapportnav2/commit/ff7358ecaa14c9242251f543081b38b580bedf3f))
+
 ## [2.60.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.60.1...frontend@v2.60.2) (2026-02-03)
 
 
