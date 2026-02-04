@@ -19,7 +19,7 @@ const ReactQueryDevtools = lazy(() =>
     default: module.ReactQueryDevtools
   }))
 )
-const ErrorPage = lazy(() => import('./pages/error-page.tsx'))
+const ErrorPage = lazy(() => import('./v2/pages/error-page.tsx'))
 
 // Loading component
 const AppLoading = () => <ActionLoader />
@@ -37,10 +37,10 @@ const App: FC = () => {
           client={queryClient}
           persistOptions={persistOptions}
           onSuccess={() => {
-            console.log('Persistence restored successfully')
+            console.info('Persistence restored successfully')
           }}
           onError={() => {
-            console.log('Persistence restored failed')
+            console.info('Persistence restored failed')
           }}
         >
           <Notifier />

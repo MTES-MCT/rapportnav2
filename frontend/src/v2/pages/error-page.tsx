@@ -1,7 +1,7 @@
 import { Button, Size } from '@mtes-mct/monitor-ui'
 import { useNavigate, useRouteError } from 'react-router-dom'
 import { Stack } from 'rsuite'
-import Text from '../features/common/components/ui/text.tsx'
+import Text from '@common/components/ui/text.tsx'
 
 export default function ErrorPage() {
   const navigate = useNavigate()

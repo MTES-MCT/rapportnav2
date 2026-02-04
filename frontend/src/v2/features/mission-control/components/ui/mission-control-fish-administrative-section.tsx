@@ -1,14 +1,32 @@
 import Text from '@common/components/ui/text.tsx'
-import { controlCheckMultiRadioOptions } from '@features/pam/mission/components/elements/actions/action-control-fish'
 import { Accent, Button, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionFishActionData } from '../../../common/types/mission-action'
-import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary'
+import { ControlCheck } from '@common/types/fish-mission-types.ts'
 
 interface MissionControlFishAdministrativeSectionProps {
   action: MissionFishActionData
 }
+
+export const controlCheckMultiRadioOptions = Object.keys(ControlCheck).map(key => {
+  let label
+  switch (key) {
+    case ControlCheck.YES:
+      label = 'Oui'
+      break
+    case ControlCheck.NO:
+      label = 'Non'
+      break
+    default:
+      label = 'Non contrôlé'
+  }
+
+  return {
+    label,
+    value: ControlCheck[key as keyof typeof ControlCheck]
+  }
+})
 
 const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdministrativeSectionProps> = ({
   action

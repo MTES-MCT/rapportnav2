@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router-dom'
-import PageWrapper from '../features/common/components/ui/page-wrapper.tsx'
-import AuthToken from '../features/auth/utils/token.ts'
+import PageWrapper from '@common/components/ui/page-wrapper.tsx'
+import AuthToken from '@features/auth/utils/token.ts'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Accent, Button, FormikMultiSelect, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
-import { csrfToken } from '../features/auth/utils/csrf.ts'
+import { csrfToken } from '@features/auth/utils/csrf.ts'
 import * as Sentry from '@sentry/react'
 import { FC } from 'react'
-import { RoleType } from '../v2/features/common/types/role-type.ts'
+import { RoleType } from '../features/common/types/role-type.ts'
 
 interface SignUpResponse {
   token: string
@@ -34,7 +34,7 @@ const initialValues: SignUpFormValues = {
 
 const authToken = new AuthToken()
 
-const SignUp: FC = () => {
+const SignupPage: FC = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async (
@@ -216,4 +216,4 @@ const SignUp: FC = () => {
   )
 }
 
-export default SignUp
+export default SignupPage
