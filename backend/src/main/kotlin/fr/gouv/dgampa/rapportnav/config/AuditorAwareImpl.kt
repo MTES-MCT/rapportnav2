@@ -9,15 +9,11 @@ import java.util.Optional
 @Component
 class AuditorAwareImpl : AuditorAware<Int> {
     override fun getCurrentAuditor(): Optional<Int> {
-        // From Spring Security
-        val user: User? = SecurityContextHolder.getContext().authentication?.principal as User?
+        val principal = SecurityContextHolder.getContext().authentication?.principal
 
-        return if (user != null) {
-            Optional.ofNullable(user.id)
-        } else {
-            // Or a default value for data migrations for ex
-            val systemValue = -1
-            Optional.of(systemValue)
+        return when (principal) {
+            is User -> Optional.ofNullable(principal.id)
+            else -> Optional.of(-1) // default for anonymous/system
         }
     }
 }
