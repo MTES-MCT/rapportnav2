@@ -1,6 +1,6 @@
-import { render, screen, waitFor } from '../test-utils.tsx'
+import { render, screen, waitFor } from '../../../test-utils.tsx'
 import userEvent from '@testing-library/user-event'
-import Login from './login.tsx'
+import LoginPage from '../login-page.tsx'
 import { loginFailedHandler, loginServer, loginSuccessHandler } from './test-server.ts'
 import { afterAll, afterEach, beforeAll, describe, it } from 'vitest'
 
@@ -18,7 +18,7 @@ describe('Login Component', () => {
   afterAll(() => server.close())
 
   it('should display validation error for invalid email address', async () => {
-    render(<Login />)
+    render(<LoginPage />)
 
     // Fill in the email and password fields
     await userEvent.type(screen.getByLabelText('Email'), 'invalid-email')
@@ -39,7 +39,7 @@ describe('Login Component', () => {
     window.history.pushState({}, '', '/login')
     expect(window.location.pathname).toEqual('/login')
 
-    render(<Login />)
+    render(<LoginPage />)
 
     const submitButton = screen.getByText('Se connecter')
 
@@ -61,7 +61,7 @@ describe('Login Component', () => {
     // Mock httpClient to return a rejected promise
     server.use(loginFailedHandler)
 
-    render(<Login />)
+    render(<LoginPage />)
 
     // Fill in the email and password fields
     await userEvent.type(screen.getByLabelText('Email'), 'test@example.com')

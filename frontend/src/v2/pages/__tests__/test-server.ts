@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
-import { LOGIN_ENDPOINT } from './login.tsx'
+import { LOGIN_ENDPOINT } from '../login-page.tsx'
 
 export const loginSuccessHandler = [
   http.post(LOGIN_ENDPOINT, () => {

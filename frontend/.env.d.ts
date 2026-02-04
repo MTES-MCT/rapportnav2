@@ -3,7 +3,6 @@
 
 interface ImportMetaEnv {
   readonly FRONTEND_SENTRY_DSN: string
-  readonly REACT_V2_ACTIVATED: string
 }
 
 interface ImportMeta {
