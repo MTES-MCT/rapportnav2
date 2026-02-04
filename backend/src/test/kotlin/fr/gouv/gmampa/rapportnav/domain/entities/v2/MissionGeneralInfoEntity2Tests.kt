@@ -152,7 +152,7 @@ class MissionGeneralInfoEntity2Tests {
         }
 
         @Test
-        fun `should return false when data is resources is empty and isResourceNotUsed is false `() {
+        fun `should return false when resources is empty and isResourceNotUsed is false `() {
             // Given
             val data = createCompleteDataUlam()
             val crew = listOf(MissionCrewEntityMock.create())
@@ -166,7 +166,7 @@ class MissionGeneralInfoEntity2Tests {
             )
 
             // When
-            val result = entity.isCompleteForStats()
+            val result = entity.isResourceComplete()
 
             // Then
             assertFalse(result)
