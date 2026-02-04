@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
@@ -12,6 +13,11 @@ data class MissionGeneralInfoEntity2(
     val passengers: List<MissionPassengerEntity>? = null,
     val services: List<ServiceEntity>? = null
 ) {
+
+    fun setResources(resources: List<LegacyControlUnitResourceEntity>?) {
+        return data?.resources = resources
+    }
+
     fun isCompleteForStats(): Boolean {
         val serviceType = data?.service?.serviceType?: services?.first()?.serviceType
         return when(serviceType) {
@@ -20,6 +26,10 @@ data class MissionGeneralInfoEntity2(
             else -> false
         }
 
+    }
+
+    fun isResourceComplete(): Boolean {
+        return this.data?.isResourcesNotUsed == true || this.data?.resources?.isNotEmpty() == true
     }
 
     fun isCompleteUlam(): Boolean {
@@ -38,7 +48,6 @@ data class MissionGeneralInfoEntity2(
     private fun isDataCompleteUlam(): Boolean {
         return this.data != null
             && this.isInterMinisterialOK()
-            && (this.data.isResourcesNotUsed == true || this.data.resources?.isNotEmpty() == true)
     }
 
     private fun isInterMinisterialOK(): Boolean {
