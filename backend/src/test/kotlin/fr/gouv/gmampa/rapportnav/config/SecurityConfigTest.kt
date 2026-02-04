@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.config
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.config.CustomAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.config.SecurityConfig
+import fr.gouv.dgampa.rapportnav.config.SentryUserContextFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthoritiesEnum
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -37,13 +38,15 @@ class SecurityConfigTest {
 
     private lateinit var customAuthFilter: CustomAuthenticationFilter
     private lateinit var apiKeyAuthFilter: ApiKeyAuthenticationFilter
+    private lateinit var sentryUserContextFilter: SentryUserContextFilter
     private lateinit var securityConfig: SecurityConfig
 
     @BeforeEach
     fun setUp() {
         customAuthFilter = mock()
         apiKeyAuthFilter = mock()
-        securityConfig = SecurityConfig(customAuthFilter, apiKeyAuthFilter)
+        sentryUserContextFilter = mock()
+        securityConfig = SecurityConfig(customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter)
     }
 
     @Test
@@ -77,7 +80,7 @@ class SecurityConfigTest {
 
     @Test
     fun `should be instantiable with required dependencies`() {
-        val config = SecurityConfig(customAuthFilter, apiKeyAuthFilter)
+        val config = SecurityConfig(customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter)
         assertNotNull(config)
     }
 
@@ -105,8 +108,9 @@ class SecurityConfigTest {
     fun `SecurityConfig should accept non-null filter dependencies`() {
         val customFilter: CustomAuthenticationFilter = mock()
         val apiKeyFilter: ApiKeyAuthenticationFilter = mock()
+        val sentryFilter: SentryUserContextFilter = mock()
 
-        val config = SecurityConfig(customFilter, apiKeyFilter)
+        val config = SecurityConfig(customFilter, apiKeyFilter, sentryFilter)
 
         assertNotNull(config)
     }
@@ -201,6 +205,9 @@ class SecurityConfigIntegrationTest {
 
         @Bean
         fun apiKeyAuthenticationFilter(): ApiKeyAuthenticationFilter = mock()
+
+        @Bean
+        fun sentryUserContextFilter(): SentryUserContextFilter = mock()
     }
 
     @Nested

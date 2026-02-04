@@ -20,7 +20,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 @EnableWebSecurity(debug = true)
 class SecurityConfig(
     private val customAuthenticationFilter: CustomAuthenticationFilter,
-    private val apiKeyAuthFilter: ApiKeyAuthenticationFilter
+    private val apiKeyAuthFilter: ApiKeyAuthenticationFilter,
+    private val sentryUserContextFilter: SentryUserContextFilter
 ) {
 
     @Bean
@@ -30,6 +31,7 @@ class SecurityConfig(
         http
             .securityMatcher("/api/analytics/**")
             .addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterAfter(sentryUserContextFilter, ApiKeyAuthenticationFilter::class.java)
             .authorizeHttpRequests { it.anyRequest().hasAuthority(AuthoritiesEnum.ROLE_API_USER.toString()) }
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
@@ -43,6 +45,8 @@ class SecurityConfig(
 
         // Add custom authentication filter
         http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+        // Add Sentry user context filter after authentication
+        http.addFilterAfter(sentryUserContextFilter, CustomAuthenticationFilter::class.java)
 
         // cors
         http.cors(Customizer.withDefaults())
