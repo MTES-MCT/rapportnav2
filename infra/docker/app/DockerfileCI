@@ -10,7 +10,7 @@ ARG VERSION
 ########################################
 # Build rapportnav backend with gradle #
 ########################################
-FROM gradle:8.14-jdk21 as build-backend
+FROM gradle:8.14-jdk25 as build-backend
 
 ARG GITHUB_SHA
 ARG VERSION
@@ -47,7 +47,7 @@ RUN npm run build --verbose --mode production
 ########################################
 # Run Application                      #
 ########################################
-FROM bellsoft/liberica-openjdk-alpine:21 as build-all
+FROM bellsoft/liberica-openjdk-alpine:25 as build-all
 
 WORKDIR /home/rapportnav
 

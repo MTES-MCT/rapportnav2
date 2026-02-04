@@ -8,8 +8,8 @@ runs:
 
     - uses: actions/setup-java@v5
       with:
-        distribution: temurin
-        java-version: 21
+        distribution: liberica
+        java-version: 25
 
     - name: Print JAVA_HOME
       shell: bash
@@ -21,7 +21,7 @@ runs:
       shell: bash
       run: cd backend
 
-    - uses: gradle/gradle-build-action@v2.9.0
+    - uses: gradle/actions/setup-gradle@v4
       id: setup-gradle
       with:
         gradle-version: wrapper

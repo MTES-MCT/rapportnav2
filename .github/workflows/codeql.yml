@@ -45,8 +45,8 @@ jobs:
         if: matrix.language == 'java-kotlin'
         uses: actions/setup-java@v5
         with:
-          distribution: "zulu"
-          java-version: "21"
+          distribution: "liberica"
+          java-version: "25"
 
       - name: Setup Node.js
         if: matrix.language == 'javascript-typescript'
