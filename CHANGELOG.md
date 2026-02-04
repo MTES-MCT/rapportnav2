@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.60.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.60.3...docker-container@v2.60.4) (2026-02-04)
+
+
+### Bug Fixes
+
+* **Fish:** remap Fish Infractions ([fc433b7](https://github.com/MTES-MCT/rapportnav2/commit/fc433b7fef8489d9dfec5901015939f7e332db1d))
+* try sentry debug ([48b3353](https://github.com/MTES-MCT/rapportnav2/commit/48b33531ad94ac73eb95cba69148f179f8310a94))
+
 ## [2.60.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.60.2...docker-container@v2.60.3) (2026-02-04)
 
 

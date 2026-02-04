@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.60.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.60.3...backend@v2.60.4) (2026-02-04)
+
+
+### Bug Fixes
+
+* **Fish:** remap Fish Infractions ([fc433b7](https://github.com/MTES-MCT/rapportnav2/commit/fc433b7fef8489d9dfec5901015939f7e332db1d))
+
 ## [2.60.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.60.2...backend@v2.60.3) (2026-02-04)
 
 
