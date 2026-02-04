@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-class Infraction3EnvEntity2Test {
+class InfractionEnvEntityTest {
 
     @Test
     fun `execute should retrieve entity from Model`() {

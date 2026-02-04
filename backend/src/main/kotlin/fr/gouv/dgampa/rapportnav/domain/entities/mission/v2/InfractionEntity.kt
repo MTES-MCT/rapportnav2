@@ -39,7 +39,7 @@ class InfractionEntity(
     }
 
     companion object {
-        fun fromInfractionModel(model: InfractionModel): fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity {
+        fun fromInfractionModel(model: InfractionModel): InfractionEntity {
             return InfractionEntity(
                 id = model.id,
                 natinfs = model.natinfs,

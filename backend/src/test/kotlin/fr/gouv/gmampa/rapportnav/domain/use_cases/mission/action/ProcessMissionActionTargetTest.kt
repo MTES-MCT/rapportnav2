@@ -50,8 +50,9 @@ class ProcessMissionActionTargetTest {
 
         // Assert
         assertThat(infractions).isNotNull()
-        assertThat(saveCaptor.value.size).isEqualTo(2)
+        assertThat(saveCaptor.value.size).isEqualTo(1)
         assertThat(deleteCaptor.value.size).isEqualTo(1)
+        assertThat(saveCaptor.value[0].id).isEqualTo(target3.id)
         assertThat(deleteCaptor.value[0].id).isEqualTo(target2.id)
     }
 }
