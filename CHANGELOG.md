@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.60.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.60.2...docker-container@v2.60.3) (2026-02-04)
+
+
+### Bug Fixes
+
+* **Fish:** add more logging ([d31d502](https://github.com/MTES-MCT/rapportnav2/commit/d31d502ff586acba8779ec0942c1bf2bf014bba4))
+* **secu:** npm audit ([ff7358e](https://github.com/MTES-MCT/rapportnav2/commit/ff7358ecaa14c9242251f543081b38b580bedf3f))
+
 ## [2.60.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.60.1...docker-container@v2.60.2) (2026-02-03)
 
 
