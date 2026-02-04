@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.61.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.60.4...backend@v2.61.0) (2026-02-04)
+
+
+### Features
+
+* **errors:** implement RFC 7807 Problem Detail in frontend ([271a394](https://github.com/MTES-MCT/rapportnav2/commit/271a39421df7223438b26f156fba70992be063dc))
+* **errors:** implement RFC 7807 Problem Detail responses ([3f74e4a](https://github.com/MTES-MCT/rapportnav2/commit/3f74e4af6310996babece7f7a002c9b9c3bff816))
+
+
+### Bug Fixes
+
+* **backend:** revert the resources in isCompleteForStats ([7a0d4d1](https://github.com/MTES-MCT/rapportnav2/commit/7a0d4d1142f3974a90bfcd193b55329a87629ca3))
+* **backend:** revert the resources in isCompleteForStats ([e29bf97](https://github.com/MTES-MCT/rapportnav2/commit/e29bf97be919c0c3e219136184f9efe3395dc0e6))
+* **flyway:** run repair before migrate ([c1e34c6](https://github.com/MTES-MCT/rapportnav2/commit/c1e34c6179f3a780f44956f2c05c7acacb470566))
+* update and test AuditorAwareImpl.kt ([91fc417](https://github.com/MTES-MCT/rapportnav2/commit/91fc417f09b7f98b15a192d45fbc4eae97e4da69))
+
 ## [2.60.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.60.3...backend@v2.60.4) (2026-02-04)
 
 

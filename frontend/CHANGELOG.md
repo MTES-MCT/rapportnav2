@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.61.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.60.4...frontend@v2.61.0) (2026-02-04)
+
+
+### Features
+
+* **errors:** implement RFC 7807 Problem Detail in frontend ([271a394](https://github.com/MTES-MCT/rapportnav2/commit/271a39421df7223438b26f156fba70992be063dc))
+
 ## [2.60.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.60.3...frontend@v2.60.4) (2026-02-04)
 
 
