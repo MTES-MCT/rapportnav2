@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish
 
 import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
+import io.sentry.Sentry
+import io.sentry.SentryLevel
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
@@ -46,10 +48,23 @@ class APIFishActionRepository(
             )
         }
 
+        val body = response.body()
+
+        if (body.isNullOrBlank()) {
+            logger.error("APIFishActionRepository.findFishActions returned null/blank body for missionId=$missionId")
+        }
+
         val output: List<MissionActionDataOutput> = mapper.readValue(
-            response.body(),
+            body,
             object : TypeReference<List<MissionActionDataOutput>>() {}
         )
+
+        if (output.isEmpty()) {
+            val message = "APIFishActionRepository.findFishActions returned 0 actions for missionId=$missionId"
+            logger.warn(message)
+            Sentry.captureMessage(message, SentryLevel.WARNING)
+        }
+
         return output.map { it.toMissionAction() }
     }
 
