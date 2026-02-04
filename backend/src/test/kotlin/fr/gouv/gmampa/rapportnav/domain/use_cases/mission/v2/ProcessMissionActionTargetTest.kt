@@ -37,9 +37,7 @@ class ProcessMissionActionTargetTest {
 
         val result = useCase.execute(actionId, listOf(entity))
 
-        assertEquals(1, result?.size ?: 0)
-        assertEquals(entity.id, result?.get(0)?.id)
-        assertEquals(entity.actionId, result?.get(0)?.actionId)
+        assertEquals(0, result?.size ?: 0)
         verify(repository).findByActionId(actionId)
         verify(repository, never()).deleteById(any())
     }
@@ -84,7 +82,7 @@ class ProcessMissionActionTargetTest {
     }
 
     @Test
-    fun `targets removed from input are deleted`() {
+    fun `targets removed from input are deleted and don't modify if input equals model`() {
         val actionId = "A123"
 
         val dbModel1 = TargetModelMock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
@@ -98,11 +96,8 @@ class ProcessMissionActionTargetTest {
 
         val result = useCase.execute(actionId, listOf(dbEntity1))
 
-        assertEquals(1, result?.size ?: 0)
-        assertEquals(dbEntity1.id, result?.get(0)?.id)
-        assertEquals(dbEntity1.actionId, result?.get(0)?.actionId)
+        assertEquals(0, result?.size ?: 0)
         verify(repository).deleteById(UUID.fromString("64b02a4c-6f7f-449d-9db5-3fb662d4969e"))
-        verify(repository).save(any())
     }
 
     @Test
