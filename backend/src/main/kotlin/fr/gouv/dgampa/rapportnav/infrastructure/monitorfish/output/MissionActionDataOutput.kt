@@ -38,7 +38,18 @@ data class MissionActionInfractionDataOutput(
                 comments = infraction.comments,
             )
     }
+
+    fun toFishInfraction() =
+        FishInfraction(
+            infractionType = infractionType,
+            natinf = natinf,
+            natinfDescription = natinfDescription,
+            threat = threat,
+            threatCharacterization = threatCharacterization,
+            comments = comments,
+        )
 }
+
 
 data class MissionActionDataOutput(
     val id: Int? = null,
@@ -99,6 +110,7 @@ data class MissionActionDataOutput(
         return MissionAction(
             id = this.id,
             missionId = this.missionId,
+            infractions = this.infractions.map { it.toFishInfraction() },
             vesselId = this.vesselId,
             vesselName = this.vesselName,
             internalReferenceNumber = this.internalReferenceNumber,
