@@ -1,21 +1,21 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.service
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
 import kotlin.jvm.optionals.getOrNull
 
 @UseCase
 class MigrateAgent(
-    private val agentRepo: IAgent2Repository,
+    private val agentRepo: IAgentRepository,
     private val serviceRepo: IServiceRepository,
     private val createOrUpdateAgent: CreateOrUpdateAgent
 ) {
-    fun execute(input: AgentInput2): AgentEntity2 {
+    fun execute(input: AgentInput2): AgentEntity {
         val agentId = input.id ?: throw BackendUsageException(
             code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
             message = "MigrateAgent: agent id is required"

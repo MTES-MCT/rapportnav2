@@ -1,16 +1,16 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2
 
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel
 import java.util.*
 
 interface ITargetRepository {
-    fun save(target: TargetModel2): TargetModel2
+    fun save(target: TargetModel): TargetModel
 
-    fun findById(id: UUID): Optional<TargetModel2>
+    fun findById(id: UUID): Optional<TargetModel>
 
-    fun findByActionId(actionId: String): List<TargetModel2>
+    fun findByActionId(actionId: String): List<TargetModel>
 
-    fun findByExternalId(externalId: String): TargetModel2?
+    fun findByExternalId(externalId: String): TargetModel?
 
     fun deleteById(id: UUID)
 

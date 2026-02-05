@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv

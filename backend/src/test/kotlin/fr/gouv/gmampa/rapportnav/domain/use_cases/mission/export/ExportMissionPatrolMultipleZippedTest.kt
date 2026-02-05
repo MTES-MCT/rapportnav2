@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPa
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ZipFiles
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -49,7 +49,7 @@ class ExportMissionPatrolMultipleZippedTest {
                 fileContent = "MockContent"
             )
         )
-        val mission2 = MissionEntityMock2.create(
+        val mission2 = MissionEntityMock.create(
             generalInfos = MissionGeneralInfoEntity2(
                 data = MissionGeneralInfoEntityMock.create(
                     id = 1,

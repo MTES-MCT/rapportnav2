@@ -111,7 +111,7 @@ class UpdateGeneralInfoTest {
         val crew = listOf<MissionCrew>(MissionCrew(
             id = 3,
             missionId = missionId,
-            agent = Agent2(id = 1, firstName = "", lastName = "", service = Service(
+            agent = Agent(id = 1, firstName = "", lastName = "", service = Service(
                 id = 1,
                 name = "Service1",
                 serviceType = ServiceTypeEnum.PAM

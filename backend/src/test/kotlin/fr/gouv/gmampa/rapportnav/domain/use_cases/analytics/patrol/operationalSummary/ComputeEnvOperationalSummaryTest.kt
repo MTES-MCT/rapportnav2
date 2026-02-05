@@ -6,12 +6,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeEnvOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
 import fr.gouv.gmampa.rapportnav.mocks.mission.env.ThemeEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.EnvInfractionEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEnvEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,16 +29,16 @@ class ComputeEnvOperationalSummaryTest {
             MissionEnvActionEntityMock.create(
                 actionNumberOfControls = 3,
                 themes = listOf(ThemeEntityMock.create(id = 112)),
-                envInfractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT)),
+                envInfractions = listOf(InfractionEnvEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT)),
                 targets = listOf(
-                    TargetEntity2Mock.create(
+                    TargetEntityMock.create(
                         controls = listOf(
-                            ControlEntity2Mock.create(
+                            ControlEntityMock.create(
                                 controlType = ControlType.SECURITY,
                                 infractions = listOf(
-                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
                                 )
                             )
                         )
@@ -57,7 +57,7 @@ class ComputeEnvOperationalSummaryTest {
             // action control other theme with 2 infractions
             MissionEnvActionEntityMock.create(
                 themes = listOf(ThemeEntityMock.create(id = 1)),
-                envInfractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT, natinf = listOf("123")))
+                envInfractions = listOf(InfractionEnvEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT, natinf = listOf("123")))
             ),
             // action surveillance peche loisir
             MissionEnvActionEntityMock.create(
@@ -74,7 +74,7 @@ class ComputeEnvOperationalSummaryTest {
         @Test
         fun `envActionSummary should return empty map`() {
             val mission =
-                MissionEntityMock2.create(actions = listOf())
+                MissionEntityMock.create(actions = listOf())
             val summary = computeEnvOperationalSummary.execute(
                 actions = mission.actions!!
             )
@@ -94,7 +94,7 @@ class ComputeEnvOperationalSummaryTest {
         fun `envActionSummary should return data`() {
 
             val mission =
-                MissionEntityMock2.create(actions = actions)
+                MissionEntityMock.create(actions = actions)
             val summary = computeEnvOperationalSummary.execute(
                 actions = mission.actions!!
             )

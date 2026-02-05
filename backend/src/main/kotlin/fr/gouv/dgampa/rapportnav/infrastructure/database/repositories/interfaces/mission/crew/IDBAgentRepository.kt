@@ -3,4 +3,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interface
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface IDBAgentRepository : JpaRepository<AgentModel, Int> {}
+interface IDBAgentRepository : JpaRepository<AgentModel, Int> {
+    fun findByServiceId(serviceId: Int): List<AgentModel>
+}

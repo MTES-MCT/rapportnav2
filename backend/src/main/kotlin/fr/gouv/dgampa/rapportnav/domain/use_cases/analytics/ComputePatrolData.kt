@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.analytics.PatrolDataEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.ComputeInternTrainingSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
@@ -26,7 +26,7 @@ class ComputePatrolData(
     private val computeInternTrainingSummary: ComputeInternTrainingSummary,
 ) {
     fun execute(missionId: Int): PatrolDataEntity? {
-        val mission: MissionEntity2? = getComputeEnvMission.execute(missionId = missionId)
+        val mission: MissionEntity? = getComputeEnvMission.execute(missionId = missionId)
 
         if (mission == null) {
             return null
@@ -67,7 +67,7 @@ class ComputePatrolData(
         )
     }
 
-    fun computeActivity(mission: MissionEntity2?): Map<String, Map<String, Double>> {
+    fun computeActivity(mission: MissionEntity?): Map<String, Map<String, Double>> {
         val statuses = mission?.actions
             ?.filterIsInstance<MissionNavActionEntity>()
             ?.filter {it.actionType === ActionType.STATUS }
@@ -85,7 +85,7 @@ class ComputePatrolData(
         return activity
     }
 
-    fun computeOtherActionsSummary(mission: MissionEntity2?): Map<String, NavActionInfoEntity?> {
+    fun computeOtherActionsSummary(mission: MissionEntity?): Map<String, NavActionInfoEntity?> {
 
         val rescueInfo = getInfoAboutNavAction2.execute(
             actions = mission?.actions,

@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.target2.v2.IDBTargetRepository
 import org.slf4j.LoggerFactory
 import org.springframework.dao.InvalidDataAccessApiUsageException
@@ -20,20 +20,20 @@ class JPATargetRepository(
     private val logger = LoggerFactory.getLogger(JPATargetRepository::class.java)
 
 
-    override fun findById(id: UUID): Optional<TargetModel2> {
+    override fun findById(id: UUID): Optional<TargetModel> {
         return dbTargetRepository.findById(id)
     }
 
-    override fun findByActionId(actionId: String): List<TargetModel2> {
+    override fun findByActionId(actionId: String): List<TargetModel> {
         return dbTargetRepository.findByActionId(actionId)
     }
 
-    override fun findByExternalId(externalId: String): TargetModel2? {
+    override fun findByExternalId(externalId: String): TargetModel? {
         return dbTargetRepository.findByExternalId(externalId)
     }
 
     @Transactional
-    override fun save(target: TargetModel2): TargetModel2 {
+    override fun save(target: TargetModel): TargetModel {
         return try {
             logger.info("JPATargetRepository - preparing to save Target: {}", target)
             val saved = dbTargetRepository.save(target)

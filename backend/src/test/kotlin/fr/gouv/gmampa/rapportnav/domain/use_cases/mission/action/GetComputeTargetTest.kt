@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -27,7 +27,7 @@ class GetComputeTargetTest {
     @Test
     fun `test execute process target not create new target when model exist`() {
         val actionId = UUID.randomUUID().toString()
-        val target1 = TargetEntity2Mock.create(actionId = actionId)
+        val target1 = TargetEntityMock.create(actionId = actionId)
 
         //Mock
         val response = listOf(target1.toTargetModel())
@@ -46,7 +46,7 @@ class GetComputeTargetTest {
     @Test
     fun `test execute process should create new target if there is not model`() {
         val actionId = UUID.randomUUID().toString()
-        val target1 = TargetEntity2Mock.create(actionId = actionId)
+        val target1 = TargetEntityMock.create(actionId = actionId)
 
         //Mock
         `when`(targetRepo.findByActionId(actionId)).thenReturn(listOf())

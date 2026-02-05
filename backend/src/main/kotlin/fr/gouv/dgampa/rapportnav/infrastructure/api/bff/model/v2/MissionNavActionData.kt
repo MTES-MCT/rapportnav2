@@ -43,7 +43,7 @@ class MissionNavActionData(
     override val endDateTimeUtc: Instant? = null,
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
-    override val targets: List<Target2>? = null,
+    override val targets: List<Target>? = null,
     override val nbrOfHours: Int? = null,
     override val trainingType: String? = null,
     override val unitManagementTrainingType: String? = null,

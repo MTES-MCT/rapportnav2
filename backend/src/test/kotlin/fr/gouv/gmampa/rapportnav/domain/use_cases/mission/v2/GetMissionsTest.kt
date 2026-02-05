@@ -1,9 +1,9 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
@@ -16,7 +16,6 @@ import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -55,7 +54,7 @@ class GetMissionsTest {
         val now = Instant.now()
         val controlUnits = listOf<Int>()
 
-        val entity = MissionEntity(
+        val entity = MissionEnvEntity(
             id = 1,
             startDateTimeUtc = now,
             endDateTimeUtc = now,
@@ -77,7 +76,7 @@ class GetMissionsTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        val response = MissionEntity2(
+        val response = MissionEntity(
             id = 1,
             data = entity
         )

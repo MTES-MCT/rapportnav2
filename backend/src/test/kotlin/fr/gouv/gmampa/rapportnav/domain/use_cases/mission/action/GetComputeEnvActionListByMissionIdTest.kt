@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
@@ -41,7 +41,7 @@ class GetComputeEnvActionListByMissionIdTest {
         val missionId = 761
         val actionId = UUID.randomUUID()
 
-        val missionEntity = MissionEntity(
+        val missionEnvEntity = MissionEnvEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             hasMissionOrder = false,
@@ -67,7 +67,7 @@ class GetComputeEnvActionListByMissionIdTest {
         )
 
         `when`(processEnvAction.execute(anyInt(), anyOrNull())).thenReturn(response)
-        `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
+        `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEnvEntity)
 
         getEnvActionListById = GetComputeEnvActionListByMissionId(
             getEnvMissionById2 = getEnvMissionById2,

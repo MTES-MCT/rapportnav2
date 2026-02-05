@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import org.springframework.cache.annotation.Cacheable
@@ -20,8 +20,8 @@ class GetEnvMissions(
         pageNumber: Int? = null,
         pageSize: Int? = null,
         controlUnits: List<Int>? = null
-    ): List<MissionEntity>? {
-        val envMissions: List<MissionEntity>? =
+    ): List<MissionEnvEntity>? {
+        val envMissions: List<MissionEnvEntity>? =
             monitorEnvApiRepo.findAllMissions(
                 startedAfterDateTime = startedAfterDateTime,
                 startedBeforeDateTime = startedBeforeDateTime,

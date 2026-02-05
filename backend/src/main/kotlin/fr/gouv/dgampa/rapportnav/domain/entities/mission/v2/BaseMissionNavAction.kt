@@ -1,14 +1,11 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
-import fr.gouv.dgampa.rapportnav.config.DependentFieldValue
-import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
-import jakarta.persistence.Column
 import java.time.Instant
 import java.util.*
 
@@ -69,6 +66,6 @@ interface BaseMissionNavAction {
     var isControlDuringSecurityDay: Boolean?
     var isSeizureSleepingFishingGear: Boolean?
     var sectorEstablishmentType: SectorEstablishmentType?
-    var nbrSecurityVisit:Int?
-    var securityVisitType:SecurityVisitType?
+    var nbrSecurityVisit: Int?
+    var securityVisitType: SecurityVisitType?
 }

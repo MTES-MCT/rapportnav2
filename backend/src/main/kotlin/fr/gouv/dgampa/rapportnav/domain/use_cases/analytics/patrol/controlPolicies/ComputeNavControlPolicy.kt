@@ -9,11 +9,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import org.slf4j.LoggerFactory
 
@@ -23,7 +23,7 @@ class ComputeNavControlPolicy {
     private val logger = LoggerFactory.getLogger(ComputeNavControlPolicy::class.java)
     private val countInfractions = CountInfractions()
 
-    fun execute(mission: MissionEntity2?, controlType: ControlType): ControlPolicyData? {
+    fun execute(mission: MissionEntity?, controlType: ControlType): ControlPolicyData? {
         if (mission == null) {
             logger.warn("ComputeNavControlPolicy: Mission is null — skipping computation.")
             return null
@@ -111,7 +111,7 @@ class ComputeNavControlPolicy {
     }
 
     private fun hasMatchingControl(
-        targets: List<TargetEntity2>?,
+        targets: List<TargetEntity>?,
         controlType: ControlType
     ): Boolean {
         return targets.orEmpty().any { target ->

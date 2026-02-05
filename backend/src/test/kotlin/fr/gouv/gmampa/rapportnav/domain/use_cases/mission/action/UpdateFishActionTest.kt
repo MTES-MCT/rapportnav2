@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateFishAc
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishActionData
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -45,7 +45,7 @@ class UpdateFishActionTest {
                 anyOrNull(),
                 anyOrNull()
             )
-        ).thenReturn(listOf(TargetEntity2Mock.create()))
+        ).thenReturn(listOf(TargetEntityMock.create()))
 
         val updateNavAction = UpdateFishAction(
             patchFishAction = patchFishAction,

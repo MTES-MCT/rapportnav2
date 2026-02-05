@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
@@ -21,9 +21,9 @@ class GetMissions(
 ) {
     private val logger = LoggerFactory.getLogger(GetMissions::class.java)
 
-    fun execute(startDateTimeUtc: Instant, endDateTimeUtc: Instant? = null): List<MissionEntity2?> {
+    fun execute(startDateTimeUtc: Instant, endDateTimeUtc: Instant? = null): List<MissionEntity?> {
         val user: User? = getUserFromToken.execute()
-        val envEntities: List<MissionEntity>?  = getEnvMissions.execute(
+        val envEntities: List<MissionEnvEntity>?  = getEnvMissions.execute(
             startedAfterDateTime = startDateTimeUtc,
             startedBeforeDateTime = endDateTimeUtc,
             pageNumber = null,

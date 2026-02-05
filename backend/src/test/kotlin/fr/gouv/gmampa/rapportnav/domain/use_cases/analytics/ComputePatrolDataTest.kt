@@ -17,7 +17,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNav
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -67,7 +67,7 @@ class ComputePatrolDataTest {
     @Test
     fun `Should return the correct fields from envMission`() {
         val missionId = 123
-        val missionMock = MissionEntityMock2.create(
+        val missionMock = MissionEntityMock.create(
             id = missionId,
             startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
             endDateTimeUtc = Instant.parse("2022-01-02T13:00:00Z"),
@@ -143,7 +143,7 @@ class ComputePatrolDataTest {
                 startDateTimeUtc = Instant.parse("2022-01-02T19:00:00Z"),
             ),
         )
-        val missionMock = MissionEntityMock2.create(
+        val missionMock = MissionEntityMock.create(
             id = missionId,
             startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
             endDateTimeUtc = Instant.parse("2022-01-03T13:00:00Z"),

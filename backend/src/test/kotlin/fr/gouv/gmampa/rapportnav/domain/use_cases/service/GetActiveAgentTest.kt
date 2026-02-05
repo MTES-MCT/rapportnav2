@@ -1,9 +1,9 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.service
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetActiveAgent
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -22,10 +22,10 @@ class GetActiveAgentTest {
     private lateinit var getActiveAgent: GetActiveAgent
 
     @MockitoBean
-    private lateinit var agentRepository: IAgent2Repository
+    private lateinit var agentRepository: IAgentRepository
 
-    private fun createAgentModel(id: Int, firstName: String, lastName: String): AgentModel2 {
-        return AgentModel2(
+    private fun createAgentModel(id: Int, firstName: String, lastName: String): AgentModel {
+        return AgentModel(
             id = id,
             firstName = firstName,
             lastName = lastName,

@@ -94,7 +94,7 @@ class MissionFishAction(
                     isSeafarersControl = fishAction.isSeafarersControl,
                     observationsByUnit = fishAction.observationsByUnit,
                     speciesQuantitySeized = fishAction.speciesQuantitySeized,
-                    targets = fishAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
+                    targets = fishAction.targets?.map { Target.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
                     fishInfractions = fishAction.fishInfractions
                 )
             )

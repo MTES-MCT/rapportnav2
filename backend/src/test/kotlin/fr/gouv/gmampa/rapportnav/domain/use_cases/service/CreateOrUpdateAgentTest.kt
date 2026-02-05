@@ -2,12 +2,12 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.service
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRoleRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.CreateOrUpdateAgent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.mockito.Mockito.verify
@@ -30,7 +30,7 @@ class CreateOrUpdateAgentTest {
     private lateinit var createOrUpdateAgent: CreateOrUpdateAgent
 
     @MockitoBean
-    private lateinit var agentRepository: IAgent2Repository
+    private lateinit var agentRepository: IAgentRepository
 
     @MockitoBean
     private lateinit var roleRepository: IAgentRoleRepository
@@ -38,8 +38,8 @@ class CreateOrUpdateAgentTest {
     @MockitoBean
     private lateinit var serviceRepository: IServiceRepository
 
-    private fun createAgentModel(id: Int?, firstName: String, lastName: String): AgentModel2 {
-        return AgentModel2(
+    private fun createAgentModel(id: Int?, firstName: String, lastName: String): AgentModel {
+        return AgentModel(
             id = id,
             firstName = firstName,
             lastName = lastName,

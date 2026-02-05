@@ -62,7 +62,7 @@ class MissionFishActionEntity(
     override val isSeafarersControl: Boolean? = null,
     override var observationsByUnit: String? = null,
     override var speciesQuantitySeized: Int? = null,
-    override var targets: List<TargetEntity2>? = null,
+    override var targets: List<TargetEntity>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
 ) : MissionActionEntity(
     missionId = missionId,
@@ -123,7 +123,7 @@ class MissionFishActionEntity(
     }
 
 
-    override fun isControlInValid(control: ControlEntity2?): Boolean {
+    override fun isControlInValid(control: ControlEntity?): Boolean {
         return control?.hasBeenDone == null
     }
 

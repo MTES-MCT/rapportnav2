@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.v2
 
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import org.assertj.core.api.Assertions.assertThat
@@ -24,7 +24,7 @@ class MissionEnvEntityTest {
             isDeleted = false,
             observationsByUnit = "myObservation",
         )
-        val response = MissionEntity.fromMissionNavEntity(missionNavEntity)
+        val response = MissionEnvEntity.fromMissionNavEntity(missionNavEntity)
 
         assertThat(response).isNotNull()
         assertThat(response.idUUID).isEqualTo(missionNavEntity.id)

@@ -1,11 +1,10 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.PatchMissionEnv
@@ -110,8 +109,8 @@ class PatchMissionEnvTest {
         missionId: Int,
         controlUnitId: Int,
         withoutResource: Boolean? = null
-    ): MissionEntity {
-        return MissionEntity(
+    ): MissionEnvEntity {
+        return MissionEnvEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             hasMissionOrder = false,

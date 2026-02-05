@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -31,7 +31,7 @@ class MapStatusDurationsTests {
 
      @Test
     fun `MapStatusDurations should return data`() {
-        val inputMission = MissionEntityMock2.create(
+        val inputMission = MissionEntityMock.create(
             startDateTimeUtc = Instant.parse("2022-01-02T12:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2022-01-02T22:00:00.000+01:00")
         )

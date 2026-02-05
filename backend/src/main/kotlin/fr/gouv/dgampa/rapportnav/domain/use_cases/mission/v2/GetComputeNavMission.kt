@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -15,7 +15,7 @@ class GetComputeNavMission(
     private val getNavMissionById2: GetNavMissionById2,
     private val getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId
 ) {
-    fun execute(missionId: UUID? = null, navMission: MissionNavEntity? = null): MissionEntity2 {
+    fun execute(missionId: UUID? = null, navMission: MissionNavEntity? = null): MissionEntity {
         if (missionId == null && navMission == null) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
@@ -32,11 +32,11 @@ class GetComputeNavMission(
         val generalInfos = getGeneralInfo2.execute(missionIdUUID = mission.id, serviceId = navMission?.serviceId)
         val actions = getComputeNavActionListByMissionId.execute(ownerId = mission.id)
 
-        return MissionEntity2(
+        return MissionEntity(
             idUUID = mission.id,
             actions = actions,
             generalInfos = generalInfos,
-            data = MissionEntity.fromMissionNavEntity(entity = mission)
+            data = MissionEnvEntity.fromMissionNavEntity(entity = mission)
         )
     }
 }

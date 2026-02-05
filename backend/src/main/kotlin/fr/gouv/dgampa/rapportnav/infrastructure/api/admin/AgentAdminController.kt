@@ -1,9 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
@@ -41,10 +40,10 @@ class AgentAdminController(
             ApiResponse(responseCode = "404", description = "Did not find any agents list", content = [Content()])
         ]
     )
-    fun agents(): List<Agent2?> {
+    fun agents(): List<Agent?> {
         return try {
             getAgent.execute()
-                .map { Agent2.fromAgentEntity(it) }
+                .map { Agent.fromAgentEntity(it) }
         } catch (e: Exception) {
             logger.error("[ERROR] API on endpoint agents:", e)
             listOf()
@@ -66,9 +65,9 @@ class AgentAdminController(
             ApiResponse(responseCode = "404", description = "Could not create no Agent", content = [Content()])
         ]
     )
-    fun create(@RequestBody body: AgentInput2): Agent2? {
+    fun create(@RequestBody body: AgentInput2): Agent? {
         return try {
-            createOrUpdateAgent.execute(body).let { Agent2.fromAgentEntity(it) }
+            createOrUpdateAgent.execute(body).let { Agent.fromAgentEntity(it) }
         } catch (e: Exception) {
             logger.error("Error while creating Agent : ", e)
             return null
@@ -92,9 +91,9 @@ class AgentAdminController(
     )
     fun update(
         @RequestBody body: AgentInput2
-    ): Agent2? {
+    ): Agent? {
         return try {
-            createOrUpdateAgent.execute(input = body).let { Agent2.fromAgentEntity(it) }
+            createOrUpdateAgent.execute(input = body).let { Agent.fromAgentEntity(it) }
         } catch (e: Exception) {
             logger.error("Error while updating Agent : ", e)
             return null
@@ -107,7 +106,7 @@ class AgentAdminController(
     fun migrate(
         @PathVariable(name = "agentId") agentId: Int,
         @RequestBody body: AgentInput2
-    ): AgentEntity2? {
+    ): AgentEntity? {
         if (agentId != body.id) throw IllegalArgumentException("Wrong agent Id: ${body.id}")
         return try {
             migrateAgent.execute(body)

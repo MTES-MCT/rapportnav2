@@ -22,7 +22,7 @@ object FishMissionMock {
         actions: List<MissionAction> = listOf(),
     ): MissionAndActions {
         return MissionAndActions(
-            mission = Mission(
+            mission = MissionFishEntity(
                 id = id,
                 missionTypes = missionTypes,
                 controlUnits = controlUnits,
