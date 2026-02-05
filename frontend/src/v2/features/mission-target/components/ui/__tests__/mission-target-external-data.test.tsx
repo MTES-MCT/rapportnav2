@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { VehicleTypeEnum } from '@common/types/env-mission-types'
+import { VesselTypeEnum } from '@common/types/mission-types'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
 import MissionTargetTitle from '../mission-target-title'
-import { VehicleTypeEnum } from '@common/types/env-mission-types'
 
 // ---- Mock hooks ----
 const mockGetVesselTypeName = vi.fn()
@@ -28,7 +29,7 @@ describe('MissionTargetTitle', () => {
     mockGetVehiculeType.mockReturnValue('Car')
     mockGetVesselTypeName.mockReturnValue('')
 
-    render(<MissionTargetTitle vehicleType={VehicleTypeEnum.LAND} />)
+    render(<MissionTargetTitle vehicleType={VehicleTypeEnum.VEHICLE_LAND} />)
 
     expect(screen.getByTestId('target-title').textContent).toBe('Car')
   })
@@ -40,7 +41,7 @@ describe('MissionTargetTitle', () => {
     render(
       <MissionTargetTitle
         target={{
-          externalData: { vesselType: 'FISHING' }
+          externalData: { vesselType: VesselTypeEnum.FISHING }
         }}
       />
     )
@@ -69,11 +70,11 @@ describe('MissionTargetTitle', () => {
 
     render(
       <MissionTargetTitle
-        vehicleType={VehicleTypeEnum.LAND}
+        vehicleType={VehicleTypeEnum.VEHICLE_LAND}
         target={{
           externalData: {
             registrationNumber: 'AB-123',
-            vesselType: 'FISHING'
+            vesselType: VesselTypeEnum.FISHING
           }
         }}
       />
@@ -105,5 +106,44 @@ describe('MissionTargetTitle', () => {
     render(<MissionTargetTitle />)
 
     expect(screen.getByTestId('target-title').textContent).toBe('')
+  })
+
+  it('renders tag for Vehicle', () => {
+    const nbTarget = 2
+    mockGetVehiculeType.mockReturnValue('')
+    mockGetVesselTypeName.mockReturnValue('')
+
+    render(
+      <MissionTargetTitle
+        target={{
+          externalData: {
+            id: '3',
+            nbTarget,
+            vesselType: VesselTypeEnum.SAILING_LEISURE
+          }
+        }}
+      />
+    )
+    expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
+    expect(screen.getByTestId('target-title').textContent).toBe('type de véhicule en infraction')
+  })
+
+  it('renders tag for Person', () => {
+    const nbTarget = 2
+    mockGetVehiculeType.mockReturnValue('')
+    mockGetVesselTypeName.mockReturnValue('')
+
+    render(
+      <MissionTargetTitle
+        target={{
+          externalData: {
+            id: '3',
+            nbTarget
+          }
+        }}
+      />
+    )
+    expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
+    expect(screen.getByTestId('target-title').textContent).toBe('personnes physiques/morales en infraction')
   })
 })
