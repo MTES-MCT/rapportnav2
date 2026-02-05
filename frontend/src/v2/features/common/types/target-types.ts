@@ -34,6 +34,7 @@ export interface Control {
 
 export interface TargetExternalData {
   id: string
+  nbTarget?: number
   natinfs?: string[]
   observations?: string
   registrationNumber?: string
