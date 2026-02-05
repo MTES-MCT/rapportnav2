@@ -25,7 +25,7 @@ object EnvActionControlMock {
         actionNumberOfControls: Int? = null,
         actionTargetType: ActionTargetTypeEnum? = null,
         vehicleType: VehicleTypeEnum? = null,
-        infractions: List<InfractionEntity>? = emptyList(),
+        infractions: List<InfractionEnvEntity>? = emptyList(),
         completion: ActionCompletionEnum = ActionCompletionEnum.COMPLETED,
         themes: List<ThemeEntity> = listOf(ThemeEntityMock.create()),
     ): EnvActionControlEntity {

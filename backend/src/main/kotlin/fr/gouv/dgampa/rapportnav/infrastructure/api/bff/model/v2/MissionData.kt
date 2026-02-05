@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import com.fasterxml.jackson.annotation.JsonProperty
 import fr.gouv.dgampa.rapportnav.config.JtsGeometrySerializer
 import fr.gouv.dgampa.rapportnav.config.JtsMultiPolygonDeserializer
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
@@ -27,15 +27,15 @@ data class MissionData(
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val missionSource: MissionSourceEnum,
-    val hasMissionOrder: Boolean,
-    val isUnderJdp: Boolean = false,
+    val hasMissionOrder: Boolean? = false,
+    val isUnderJdp: Boolean? = false,
     val isDeleted: Boolean = false,
-    val isGeometryComputedFromControls: Boolean = false,
+    val isGeometryComputedFromControls: Boolean? = false,
     val observationsByUnit: String? = null
     ) {
 
     companion object {
-        fun fromMissionEntity(mission: MissionEntity): MissionData {
+        fun fromMissionEntity(mission: MissionEnvEntity): MissionData {
             return MissionData(
                 missionTypes = mission.missionTypes ?: listOf(),
                 controlUnits = mission.controlUnits,

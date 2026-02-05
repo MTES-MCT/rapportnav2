@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.ControllersExceptionHandler
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Test
@@ -85,7 +85,7 @@ class MissionRestControllerTest {
     @Test
     fun `should return a list of missions`() {
         // Arrange
-        val mockMissionEntity = MissionEntityMock2.create(id = 1)
+        val mockMissionEntity = MissionEntityMock.create(id = 1)
         `when`(getMissions.execute(Instant.parse("2025-04-16T09:02:58.082289Z"))).thenReturn(listOf(mockMissionEntity))
 
         // Act & Assert
@@ -101,7 +101,7 @@ class MissionRestControllerTest {
     fun `should return a mission by id`() {
         // Arrange
         val missionId = 1
-        val mockMissionEntity = MissionEntityMock2.create(id = 1)
+        val mockMissionEntity = MissionEntityMock.create(id = 1)
         `when`(getComputeEnvMission.execute(missionId = 1)).thenReturn(mockMissionEntity)
 
         // Act & Assert
@@ -116,7 +116,7 @@ class MissionRestControllerTest {
         // Arrange
         val service = ServiceEntityMock.create(2, name = "test", controlUnits = controlUnitsIds)
         val requestBody = MissionGeneralInfo2Mock.create()
-        val mockMission = MissionEntityMock2.create(
+        val mockMission = MissionEntityMock.create(
             id = 123,
             controlUnits = listOf(LegacyControlUnitEntityMock.create(id = controlUnitsIds.first()))
         )

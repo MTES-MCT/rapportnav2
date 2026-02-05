@@ -1,7 +1,15 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.*
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMEnvTraffic
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMIllegalFish
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMMigrationRescue
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMNotPollutionControlSurveillance
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMOutOfMigrationRescue
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMPollutionControlSurveillance
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMSovereignProtect
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMVesselRescue
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -24,31 +32,31 @@ class FillAEMExcelRowTest {
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
 
     @MockitoBean
-    private lateinit var tableExport: AEMTableExport2
+    private lateinit var tableExport: AEMTableExport
 
     @MockitoBean
-    private lateinit var migrationRescue: AEMMigrationRescue2
+    private lateinit var migrationRescue: AEMMigrationRescue
 
     @MockitoBean
-    private lateinit var outOfMigrationRescue: AEMOutOfMigrationRescue2
+    private lateinit var outOfMigrationRescue: AEMOutOfMigrationRescue
 
     @MockitoBean
-    private lateinit var vesselRescue: AEMVesselRescue2
+    private lateinit var vesselRescue: AEMVesselRescue
 
     @MockitoBean
-    private lateinit var envTraffic: AEMEnvTraffic2
+    private lateinit var envTraffic: AEMEnvTraffic
 
     @MockitoBean
-    private lateinit var notPollControlSurveillance: AEMNotPollutionControlSurveillance2
+    private lateinit var notPollControlSurveillance: AEMNotPollutionControlSurveillance
 
     @MockitoBean
-    private lateinit var pollutionControlSurveillance: AEMPollutionControlSurveillance2
+    private lateinit var pollutionControlSurveillance: AEMPollutionControlSurveillance
 
     @MockitoBean
-    private lateinit var illegalFish: AEMIllegalFish2
+    private lateinit var illegalFish: AEMIllegalFish
 
     @MockitoBean
-    private lateinit var sovereignProtect: AEMSovereignProtect2
+    private lateinit var sovereignProtect: AEMSovereignProtect
 
     @Test
     fun `test fill method writes outOfMigrationRescue properties to correct cells`() {

@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -28,16 +28,16 @@ class AgentRestController(
                 responseCode = "200", description = "Found list of agents", content = [
                     (Content(
                         mediaType = "application/json",
-                        array = (ArraySchema(schema = Schema(implementation = Agent2::class)))
+                        array = (ArraySchema(schema = Schema(implementation = Agent::class)))
                     ))
                 ]
             ),
             ApiResponse(responseCode = "404", description = "Did not find any agents list", content = [Content()])
         ]
     )
-    fun agents(): List<Agent2> {
+    fun agents(): List<Agent> {
         val user = getUserFromToken.execute() ?: return emptyList()
         val serviceId = user.serviceId ?: return emptyList()
-        return getCrewByServiceId.execute(serviceId).mapNotNull { Agent2.fromAgentEntity(it) }
+        return getCrewByServiceId.execute(serviceId).mapNotNull { Agent.fromAgentEntity(it) }
     }
 }

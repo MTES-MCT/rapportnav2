@@ -25,7 +25,7 @@ interface BaseMissionEnvAction {
     val actionNumberOfControls: Int?
     val actionTargetType: ActionTargetTypeEnum?
     val vehicleType: VehicleTypeEnum?
-    val envInfractions: List<InfractionEntity>?
+    val envInfractions: List<InfractionEnvEntity>?
     val coverMissionZone: Boolean?
     val formattedControlPlans: List<FormattedEnvActionControlPlan>?
     val availableControlTypesForInfraction: List<ControlType>?

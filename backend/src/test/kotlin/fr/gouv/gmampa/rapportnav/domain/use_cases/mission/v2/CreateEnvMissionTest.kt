@@ -1,10 +1,10 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -116,7 +116,10 @@ class CreateEnvMissionTest {
             startDateTimeUtc = generalInfo.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo.endDateTimeUtc,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
-            isDeleted = false
+            isDeleted = false,
+            hasMissionOrder = false,
+            isUnderJdp = false,
+            isGeometryComputedFromControls = false
         )
 
         Mockito.`when`(monitorEnvControlUnitRepo.findAll()).thenReturn(listOf(controlUnit))

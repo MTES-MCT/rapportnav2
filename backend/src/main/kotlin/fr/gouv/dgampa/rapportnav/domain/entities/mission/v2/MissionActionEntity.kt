@@ -33,7 +33,7 @@ abstract class MissionActionEntity(
             DependentFieldValue(field = "actionType", value = ["CONTROL"])
         ]
     )
-    override var targets: List<TargetEntity2>? = null
+    override var targets: List<TargetEntity>? = null
 
 ) : BaseMissionActionEntity {
 
@@ -76,7 +76,7 @@ abstract class MissionActionEntity(
         } ?: SummaryTag(0, 0)
     }
 
-    private fun getSummaryTags(target: TargetEntity2): SummaryTag {
+    private fun getSummaryTags(target: TargetEntity): SummaryTag {
         val infractions = target.controls?.flatMap { it.infractions ?: emptyList() } ?: emptyList()
         val natInfSize = infractions.flatMap { it.natinfs }.size
         val withReport = infractions.count { it.infractionType == InfractionTypeEnum.WITH_REPORT }
@@ -100,18 +100,18 @@ abstract class MissionActionEntity(
         this.controlsToComplete = this.targets?.flatMap { computeControlsToComplete2(it) }
     }
 
-    fun getInfractionByControlType(controlType: ControlType): List<InfractionEntity2> {
+    fun getInfractionByControlType(controlType: ControlType): List<InfractionEntity> {
         return this.targets?.flatMap { it.controls?: listOf() }
             ?.filter { it.controlType == controlType }
             ?.flatMap { it.infractions?: listOf() }?: listOf()
     }
 
-    fun getAllInfractions(): List<InfractionEntity2> {
+    fun getAllInfractions(): List<InfractionEntity> {
         return this.targets?.flatMap { it.controls?: listOf() }
             ?.flatMap { it.infractions?: listOf() }?: listOf()
     }
 
-    private fun computeControlsToComplete2(target: TargetEntity2): List<ControlType> {
+    private fun computeControlsToComplete2(target: TargetEntity): List<ControlType> {
         return listOf(
             ControlType.ADMINISTRATIVE.takeIf {
                 val control = target.getControlByType(ControlType.ADMINISTRATIVE)
@@ -134,7 +134,7 @@ abstract class MissionActionEntity(
 
     abstract fun getActionId(): String
     abstract fun computeCompleteness()
-    abstract fun isControlInValid(control: ControlEntity2?): Boolean
+    abstract fun isControlInValid(control: ControlEntity?): Boolean
 }
 
 class SummaryTag(var withReport: Int, var natInfSize: Int) {

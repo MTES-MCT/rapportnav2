@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
@@ -28,8 +28,8 @@ object EnvMissionMock {
         isUnderJdp: Boolean = false,
         envActions: List<EnvActionEntity>? = null,
         observationsByUnit: String? = null
-    ): MissionEntity {
-        return MissionEntity(
+    ): MissionEnvEntity {
+        return MissionEnvEntity(
             id = id,
             missionTypes = missionTypes,
             controlUnits = controlUnits,

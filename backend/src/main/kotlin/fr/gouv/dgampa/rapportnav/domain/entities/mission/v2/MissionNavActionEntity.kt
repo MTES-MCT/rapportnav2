@@ -12,7 +12,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.EstablishmentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import java.time.Instant
 import java.util.*
@@ -149,7 +148,7 @@ class MissionNavActionEntity(
     )
 
     override var reason: ActionStatusReason? = null,
-    override var targets: List<TargetEntity2>? = null,
+    override var targets: List<TargetEntity>? = null,
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["INQUIRY"])
@@ -340,7 +339,7 @@ class MissionNavActionEntity(
     )
 
 
-    override fun isControlInValid(control: ControlEntity2?): Boolean {
+    override fun isControlInValid(control: ControlEntity?): Boolean {
         TODO("Not yet implemented")
     }
 

@@ -31,7 +31,7 @@ data class MissionEnvActionEntity(
     override val actionNumberOfControls: Int? = null,
     override val actionTargetType: ActionTargetTypeEnum? = null,
     override val vehicleType: VehicleTypeEnum? = null,
-    override val envInfractions: List<InfractionEntity>? = listOf(),
+    override val envInfractions: List<InfractionEnvEntity>? = listOf(),
     override val coverMissionZone: Boolean? = null,
     override var formattedControlPlans: List<FormattedEnvActionControlPlan>? = listOf(),
     override var controlsToComplete: List<ControlType>? = listOf(),
@@ -40,7 +40,7 @@ data class MissionEnvActionEntity(
     override val isComplianceWithWaterRegulationsControl: Boolean? = null,
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
-    override var targets: List<TargetEntity2>? = null,
+    override var targets: List<TargetEntity>? = null,
     override val tags: List<TagEntity>? = listOf(),
     override var themes: List<ThemeEntity>? = listOf(),
     ) : MissionActionEntity(
@@ -105,7 +105,7 @@ data class MissionEnvActionEntity(
     }
 
 
-    override fun isControlInValid(control: ControlEntity2?): Boolean {
+    override fun isControlInValid(control: ControlEntity?): Boolean {
         return control == null || control.amountOfControls == 0
     }
 
@@ -114,7 +114,7 @@ data class MissionEnvActionEntity(
             this.targets?.flatMap { computeAvailableControlTypesForInfraction(it) }
     }
 
-    private fun computeAvailableControlTypesForInfraction(target: TargetEntity2): List<ControlType> {
+    private fun computeAvailableControlTypesForInfraction(target: TargetEntity): List<ControlType> {
         return listOf(
             ControlType.ADMINISTRATIVE.takeIf { isAdministrativeControlOK(target) },
             ControlType.NAVIGATION.takeIf { isNavigationControlOK(target) },
@@ -123,19 +123,19 @@ data class MissionEnvActionEntity(
         ).mapNotNull { it }
     }
 
-    private fun isAdministrativeControlOK(target: TargetEntity2): Boolean {
+    private fun isAdministrativeControlOK(target: TargetEntity): Boolean {
         return this.isAdministrativeControl == true || target.getControlByType(ControlType.ADMINISTRATIVE) != null
     }
 
-    private fun isNavigationControlOK(target: TargetEntity2): Boolean {
+    private fun isNavigationControlOK(target: TargetEntity): Boolean {
         return this.isComplianceWithWaterRegulationsControl == true || target.getControlByType(ControlType.NAVIGATION) != null
     }
 
-    private fun isSecurityControlOK(target: TargetEntity2): Boolean {
+    private fun isSecurityControlOK(target: TargetEntity): Boolean {
         return this.isSafetyEquipmentAndStandardsComplianceControl == true || target.getControlByType(ControlType.SECURITY) != null
     }
 
-    private fun isGensDeMerControlOK(target: TargetEntity2): Boolean {
+    private fun isGensDeMerControlOK(target: TargetEntity): Boolean {
         return this.isSeafarersControl == true || target.getControlByType(ControlType.GENS_DE_MER) != null
     }
 

@@ -2,10 +2,10 @@ package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.c
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgent2Repository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRoleRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew.JPAMissionCrewRepository
@@ -30,7 +30,7 @@ class JPAMissionCrewRepositoryTest {
     private lateinit var dbMissionCrewRepository: IDBMissionCrewRepository
 
     @MockitoBean
-    private lateinit var dbAgentRepository: IDBAgent2Repository
+    private lateinit var dbAgentRepository: IDBAgentRepository
 
     @MockitoBean
     private lateinit var dbAgentRoleRepository: IDBAgentRoleRepository
@@ -39,7 +39,7 @@ class JPAMissionCrewRepositoryTest {
 
     private val service = ServiceEntityMock.create(id = 1, name = "Service 1")
 
-    private val agent = AgentModel2(
+    private val agent = AgentModel(
         id = 1,
         lastName = "Doe",
         firstName = "John",

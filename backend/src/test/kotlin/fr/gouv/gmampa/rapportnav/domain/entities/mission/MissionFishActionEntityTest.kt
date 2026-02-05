@@ -8,8 +8,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Infrac
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -126,7 +126,7 @@ class MissionFishActionEntityTest {
     @Test
     fun `execute should compute summary tags`() {
         val model = getFishAction()
-        val targetsMock = TargetEntity2Mock.create()
+        val targetsMock = TargetEntityMock.create()
         val entity = MissionFishActionEntity.fromFishAction(model)
         entity.targets = listOf(targetsMock)
         entity.computeSummaryTags()
@@ -193,13 +193,13 @@ class MissionFishActionEntityTest {
             isSafetyEquipmentAndStandardsComplianceControl = true
         )
         val controls = listOf(
-            ControlEntity2Mock.create(controlType = ControlType.SECURITY, amountOfControls = 2),
-            ControlEntity2Mock.create(controlType = ControlType.GENS_DE_MER, amountOfControls = 2),
-            ControlEntity2Mock.create(controlType = ControlType.NAVIGATION, amountOfControls = 2),
-            ControlEntity2Mock.create(controlType = ControlType.ADMINISTRATIVE, amountOfControls = 2)
+            ControlEntityMock.create(controlType = ControlType.SECURITY, amountOfControls = 2),
+            ControlEntityMock.create(controlType = ControlType.GENS_DE_MER, amountOfControls = 2),
+            ControlEntityMock.create(controlType = ControlType.NAVIGATION, amountOfControls = 2),
+            ControlEntityMock.create(controlType = ControlType.ADMINISTRATIVE, amountOfControls = 2)
         )
         val entity = MissionFishActionEntity.fromFishAction(model)
-        entity.targets = listOf(TargetEntity2Mock.create(controls = controls))
+        entity.targets = listOf(TargetEntityMock.create(controls = controls))
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(4)
     }
@@ -212,7 +212,7 @@ class MissionFishActionEntityTest {
             actionEndDatetimeUtc = Instant.parse("2021-01-02T13:00:01Z"),
         )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
-        entity.targets = listOf(TargetEntity2Mock.create())
+        entity.targets = listOf(TargetEntityMock.create())
         entity.computeSummaryTags()
         assertThat(entity.summaryTags?.size).isEqualTo(2)
         assertThat(entity.summaryTags).contains("3 PV")

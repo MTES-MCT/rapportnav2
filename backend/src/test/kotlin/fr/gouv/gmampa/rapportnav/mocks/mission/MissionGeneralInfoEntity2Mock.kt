@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
@@ -23,7 +23,7 @@ object MissionGeneralInfoEntity2Mock {
         )),
         crew = crew ?: listOf(
             MissionCrewEntity(
-                agent = AgentEntity2(
+                agent = AgentEntity(
                     firstName = "firstName", lastName = "lastName", service = ServiceEntity(
                         id = 1,
                         name = "name",

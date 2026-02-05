@@ -10,10 +10,10 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSu
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeEnvOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeFishingOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeSailingOperationalSummary
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
-import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -60,38 +60,38 @@ class ComputeAllOperationalSummaryTests {
             ),
             seizureAndDiversion = true,
             targets = listOf(
-                TargetEntity2Mock.create(
+                TargetEntityMock.create(
                     controls = listOf(
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             controlType = ControlType.ADMINISTRATIVE,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
                             )
                         ),
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             controlType = ControlType.GENS_DE_MER,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
                             )
                         ),
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             controlType = ControlType.NAVIGATION,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
                             )
                         ),
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             controlType = ControlType.SECURITY,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
                             )
                         )
 
@@ -109,14 +109,14 @@ class ComputeAllOperationalSummaryTests {
                 FishInfraction(infractionType = InfractionType.PENDING),
             ),
             targets = listOf(
-                TargetEntity2Mock.create(
+                TargetEntityMock.create(
                     controls = listOf(
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             controlType = ControlType.NAVIGATION,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
                             )
                         ),
 
@@ -135,14 +135,14 @@ class ComputeAllOperationalSummaryTests {
             ),
             seizureAndDiversion = true,
             targets = listOf(
-                TargetEntity2Mock.create(
+                TargetEntityMock.create(
                     controls = listOf(
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             controlType = ControlType.NAVIGATION,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
                             )
                         ),
 
@@ -160,14 +160,14 @@ class ComputeAllOperationalSummaryTests {
                 FishInfraction(infractionType = InfractionType.PENDING),
             ),
             targets = listOf(
-                TargetEntity2Mock.create(
+                TargetEntityMock.create(
                     controls = listOf(
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             controlType = ControlType.NAVIGATION,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
                             )
                         ),
 
@@ -202,7 +202,7 @@ class ComputeAllOperationalSummaryTests {
 
     @Test
     fun `should return empty map because mission has no actions`() {
-        val mission = MissionEntityMock2.create(actions = listOf())
+        val mission = MissionEntityMock.create(actions = listOf())
         val summary = computeAllOperationalSummary.execute(mission = mission)
         assertEquals(summary, expectedEmpty)
     }
@@ -210,7 +210,7 @@ class ComputeAllOperationalSummaryTests {
 
     @Test
     fun `should return empty map`() {
-        val mission = MissionEntityMock2.create(actions = getActions(MissionActionType.SEA_CONTROL))
+        val mission = MissionEntityMock.create(actions = getActions(MissionActionType.SEA_CONTROL))
         val summary = computeAllOperationalSummary.execute(mission = mission)
         assertEquals(summary, expectedEmpty)
     }

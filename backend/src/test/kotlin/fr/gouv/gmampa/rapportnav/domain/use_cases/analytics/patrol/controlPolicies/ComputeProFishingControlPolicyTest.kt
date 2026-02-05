@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolic
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeProFishingControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionFishActionEntityMock
@@ -45,7 +45,7 @@ class ComputeProFishingControlPolicyTest {
 
     @Test
     fun `returns empty ControlPolicyData when no fish control actions`() {
-        val mission = MissionEntity2(id = 123, actions = emptyList())
+        val mission = MissionEntity(id = 123, actions = emptyList())
 
         val result = useCase.computeFishingRelatedInfractions(mission)
 
@@ -60,7 +60,7 @@ class ComputeProFishingControlPolicyTest {
 
     @Test
     fun `returns empty ControlPolicyData when no fish control actions for other infractions`() {
-        val mission = MissionEntity2(id = 123, actions = emptyList())
+        val mission = MissionEntity(id = 123, actions = emptyList())
 
         val result = useCase.computeOtherInfractions(mission)
 
@@ -96,7 +96,7 @@ class ComputeProFishingControlPolicyTest {
                 FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)
             ),
         )
-        val mission = MissionEntity2(id = 123, actions = listOf(seaAction, landAction, airAction))
+        val mission = MissionEntity(id = 123, actions = listOf(seaAction, landAction, airAction))
 
 
         val result = useCase.computeFishingRelatedInfractions(mission)

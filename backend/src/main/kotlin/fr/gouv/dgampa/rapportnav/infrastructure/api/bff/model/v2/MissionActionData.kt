@@ -6,5 +6,5 @@ open class MissionActionData(
     open val startDateTimeUtc: Instant? = null,
     open val endDateTimeUtc: Instant? = null,
     open val observations: String? = null,
-    open val targets: List<Target2>? = null
+    open val targets: List<Target>? = null
 )

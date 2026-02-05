@@ -1,16 +1,15 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
 
 data class MissionEnv(
     val id: Int? = null,
-    val missionTypes: List<MissionTypeEnum>,
+    val missionTypes: List<MissionTypeEnum>? = listOf(),
     var controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,
     val completedBy: String? = null,
@@ -21,9 +20,9 @@ data class MissionEnv(
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val missionSource: MissionSourceEnum,
-    val hasMissionOrder: Boolean,
-    val isUnderJdp: Boolean = false,
-    val isGeometryComputedFromControls: Boolean = false,
+    val hasMissionOrder: Boolean? = false,
+    val isUnderJdp: Boolean? = false,
+    val isGeometryComputedFromControls: Boolean? = false,
     val observationsByUnit: String? = null
 ) {
 
@@ -42,7 +41,7 @@ data class MissionEnv(
             )
         }
 
-        fun fromMissionEntity(mission: MissionEntity): MissionEnv {
+        fun fromMissionEntity(mission: MissionEnvEntity): MissionEnv {
             return MissionEnv(
                 id = mission.id,
                 missionTypes = mission.missionTypes ?: listOf(),

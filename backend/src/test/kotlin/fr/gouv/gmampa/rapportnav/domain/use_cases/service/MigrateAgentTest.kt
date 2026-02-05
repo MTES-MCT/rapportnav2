@@ -1,14 +1,14 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.service
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.CreateOrUpdateAgent
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.MigrateAgent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -31,7 +31,7 @@ class MigrateAgentTest {
     private lateinit var migrateAgent: MigrateAgent
 
     @MockitoBean
-    private lateinit var agentRepository: IAgent2Repository
+    private lateinit var agentRepository: IAgentRepository
 
     @MockitoBean
     private lateinit var serviceRepository: IServiceRepository
@@ -39,8 +39,8 @@ class MigrateAgentTest {
     @MockitoBean
     private lateinit var createOrUpdateAgent: CreateOrUpdateAgent
 
-    private fun createAgentModel(id: Int, firstName: String, lastName: String): AgentModel2 {
-        return AgentModel2(
+    private fun createAgentModel(id: Int, firstName: String, lastName: String): AgentModel {
+        return AgentModel(
             id = id,
             firstName = firstName,
             lastName = lastName,
@@ -121,13 +121,13 @@ class MigrateAgentTest {
 
         val existingAgent = createAgentModel(1, "John", "Doe")
         val newService = ServiceEntityMock.create(id = 2).toServiceModel()
-        val migratedAgentModel = AgentModel2(
+        val migratedAgentModel = AgentModel(
             id = 2,
             firstName = "John",
             lastName = "Doe",
             service = newService
         )
-        val migratedEntity = AgentEntity2.fromAgentModel(migratedAgentModel)
+        val migratedEntity = AgentEntity.fromAgentModel(migratedAgentModel)
 
         `when`(agentRepository.findById(1)).thenReturn(existingAgent)
         `when`(serviceRepository.findById(2)).thenReturn(Optional.of(newService))

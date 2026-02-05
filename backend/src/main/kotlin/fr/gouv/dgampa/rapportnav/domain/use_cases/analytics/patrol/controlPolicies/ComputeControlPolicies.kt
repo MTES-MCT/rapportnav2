@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolic
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPoliciesEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 
 @UseCase
 class ComputeControlPolicies(
@@ -12,7 +12,7 @@ class ComputeControlPolicies(
     private val computeEnvControlPolicy: ComputeEnvControlPolicy,
 ) {
 
-    fun execute(mission: MissionEntity2?): ControlPoliciesEntity? {
+    fun execute(mission: MissionEntity?): ControlPoliciesEntity? {
         if (mission == null) return null
 
         return ControlPoliciesEntity(

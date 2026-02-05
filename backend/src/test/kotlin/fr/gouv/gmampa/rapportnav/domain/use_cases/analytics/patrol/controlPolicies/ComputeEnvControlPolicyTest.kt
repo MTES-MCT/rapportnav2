@@ -4,13 +4,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeEnvControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -41,7 +41,7 @@ class ComputeEnvControlPolicyTest {
 
     @Test
     fun `returns empty summary when no actions`() {
-        val mission = MissionEntity2(id = 123, actions = emptyList())
+        val mission = MissionEntity(id = 123, actions = emptyList())
 
         val result = useCase.execute(mission)
 
@@ -57,31 +57,31 @@ class ComputeEnvControlPolicyTest {
         val controlAction = MissionEnvActionEntityMock.create(
             envActionType = ActionTypeEnum.CONTROL,
             targets = listOf(
-                TargetEntity2Mock.create(
+                TargetEntityMock.create(
                     source = MissionSourceEnum.MONITORENV,
                     controls = listOf(
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             amountOfControls = 3,
                             hasBeenDone = true,
                             controlType = ControlType.SECURITY,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(
+                                InfractionEntityMock.create(
                                     infractionType = InfractionTypeEnum.WITH_REPORT,
                                     natinfs = listOf()
                                 )
                             )
                         ),
-                        ControlEntity2Mock.create( // not counted
+                        ControlEntityMock.create( // not counted
                             amountOfControls = 3,
                             hasBeenDone = false,
                             controlType = ControlType.SECURITY,
                         ),
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             amountOfControls = 6,
                             hasBeenDone = true,
                             controlType = ControlType.NAVIGATION,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(
+                                InfractionEntityMock.create(
                                     infractionType = InfractionTypeEnum.WITHOUT_REPORT,
                                     natinfs = listOf()
                                 )
@@ -89,14 +89,14 @@ class ComputeEnvControlPolicyTest {
                         )
                     )
                 ),
-                TargetEntity2Mock.create( // not counted
+                TargetEntityMock.create( // not counted
                     source = MissionSourceEnum.RAPPORTNAV,
                     controls = listOf(
-                        ControlEntity2Mock.create(
+                        ControlEntityMock.create(
                             amountOfControls = 3,
                             controlType = ControlType.SECURITY,
                             infractions = listOf(
-                                InfractionEntity2Mock.create(
+                                InfractionEntityMock.create(
                                     infractionType = InfractionTypeEnum.WITH_REPORT,
                                     natinfs = listOf()
                                 )
@@ -108,7 +108,7 @@ class ComputeEnvControlPolicyTest {
         )
         val otherAction = MissionEnvActionEntityMock.create(envActionType = ActionTypeEnum.SURVEILLANCE)
 
-        val mission = MissionEntity2(id = 123, actions = listOf(controlAction, otherAction))
+        val mission = MissionEntity(id = 123, actions = listOf(controlAction, otherAction))
 
         val result = useCase.execute(mission)
 

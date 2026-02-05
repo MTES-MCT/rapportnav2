@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
@@ -49,8 +49,8 @@ class AgentRestControllerTest {
         val user = UserMock.create(id = 1, serviceId = 10)
         val service = ServiceEntityMock.create(id = 10, name = "Test Service")
         val agents = listOf(
-            AgentEntity2(id = 1, firstName = "John", lastName = "Doe", service = service),
-            AgentEntity2(id = 2, firstName = "Jane", lastName = "Smith", service = service)
+            AgentEntity(id = 1, firstName = "John", lastName = "Doe", service = service),
+            AgentEntity(id = 2, firstName = "Jane", lastName = "Smith", service = service)
         )
 
         `when`(getUserFromToken.execute()).thenReturn(user)

@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -95,7 +95,7 @@ class GetComputeNavMissionTest {
         val missionNav = MissionNavEntityMock.create(id = missionId)
         val generalInfo = mock<MissionGeneralInfoEntity2>()
         val actions = listOf(mock<MissionNavActionEntity>())
-        val converted = MissionEntity.fromMissionNavEntity(missionNav)
+        val converted = MissionEnvEntity.fromMissionNavEntity(missionNav)
 
         whenever(getNavMissionById2.execute(missionId)).thenReturn(missionNav)
         whenever(getGeneralInfo2.execute(missionIdUUID = missionId)).thenReturn(generalInfo)
@@ -103,7 +103,7 @@ class GetComputeNavMissionTest {
 
         val result = useCase.execute(missionId)
 
-        assertEquals(MissionEntity2(
+        assertEquals(MissionEntity(
             idUUID = missionId,
             generalInfos = generalInfo,
             actions = actions,

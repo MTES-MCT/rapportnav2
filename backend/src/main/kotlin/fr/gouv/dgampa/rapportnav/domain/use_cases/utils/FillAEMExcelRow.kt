@@ -1,14 +1,14 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.utils
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
+import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
 
 @UseCase
 class FillAEMExcelRow {
 
     //TODO: Remove as soon as there is just One AEMTableExport
-    fun fill(tableExport: AEMTableExport2, excelFile: ExportExcelFile, sheetName: String, row: Int) {
+    fun fill(tableExport: AEMTableExport, excelFile: ExportExcelFile, sheetName: String, row: Int) {
 
         //1.1  Sauvegarde de la vie humaine hors cadre d'un phénomène migratoire
         tableExport.outOfMigrationRescue?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "H$row", it) }

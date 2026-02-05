@@ -1,7 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.crew
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
@@ -11,7 +10,7 @@ import java.util.*
 object MissionCrewEntityMock {
     fun create(
         id: Int? = 1,
-        agent: AgentEntity2? = AgentEntity2(
+        agent: AgentEntity? = AgentEntity(
             id = 1,
             firstName = "",
             lastName = "",

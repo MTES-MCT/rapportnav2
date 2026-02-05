@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
@@ -46,7 +46,7 @@ class MissionRestController(
                 responseCode = "200", description = "Found missions", content = [
                     (Content(
                         mediaType = "application/json",
-                        array = (ArraySchema(schema = Schema(implementation = Mission2::class)))
+                        array = (ArraySchema(schema = Schema(implementation = Mission::class)))
                     ))
                 ]
             ),
@@ -56,13 +56,13 @@ class MissionRestController(
     fun getMissions(
         @RequestParam("startDateTimeUtc") startDateTimeUtc: Instant,
         @RequestParam(name = "endDateTimeUtc", required = false) endDateTimeUtc: Instant? = null
-    ) : List<Mission2> {
+    ) : List<Mission> {
         val missions = getMissions.execute(
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
         )
 
-        return (missions.filterNotNull()).map { Mission2.fromMissionEntity((it)) }
+        return (missions.filterNotNull()).map { Mission.fromMissionEntity((it)) }
 
     }
 
@@ -83,7 +83,7 @@ class MissionRestController(
                 responseCode = "200", description = "Found mission by id", content = [
                     (Content(
                         mediaType = "application/json",
-                        schema = Schema(implementation = Mission2::class)
+                        schema = Schema(implementation = Mission::class)
                     ))
                 ]
             ),
@@ -92,13 +92,13 @@ class MissionRestController(
     )
     fun getMissionById(
         @PathVariable(name = "missionId") missionId: String
-    ): Mission2 {
+    ): Mission {
         val mission = if (isValidUUID(missionId)) {
             getComputeNavMission.execute(missionId = UUID.fromString(missionId))
         } else {
             getComputeEnvMission.execute(missionId = Integer.valueOf(missionId))
         }
-        return Mission2.fromMissionEntity(mission)
+        return Mission.fromMissionEntity(mission)
     }
 
 
@@ -120,7 +120,7 @@ class MissionRestController(
                 responseCode = "200", description = "Create mission", content = [
                     (Content(
                         mediaType = "application/json",
-                        schema = Schema(implementation = Mission2::class)
+                        schema = Schema(implementation = Mission::class)
                     ))
                 ]
             ),
@@ -129,12 +129,12 @@ class MissionRestController(
     )
     fun create(
         @RequestBody body: MissionGeneralInfo2
-    ): Mission2 {
+    ): Mission {
         val mission = createMission.execute(
             generalInfo2 = body,
             service = getServiceForUser.execute()
         )
-        return Mission2.fromMissionEntity(mission)
+        return Mission.fromMissionEntity(mission)
     }
 
 

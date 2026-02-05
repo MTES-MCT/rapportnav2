@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEnti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionFishActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
@@ -51,7 +51,7 @@ class GetMissionActionControlsTest {
             MissionFishActionEntityMock.create(fishActionType = MissionActionType.AIR_CONTROL),
             MissionFishActionEntityMock.create(fishActionType = MissionActionType.AIR_SURVEILLANCE),
         )
-        val mockMission = MissionEntityMock2.create(actions = navActions + envActions + fishActions)
+        val mockMission = MissionEntityMock.create(actions = navActions + envActions + fishActions)
 
         val actual = getMissionActionControls.execute(mockMission)
         val expected = listOf<MissionActionEntity>(
