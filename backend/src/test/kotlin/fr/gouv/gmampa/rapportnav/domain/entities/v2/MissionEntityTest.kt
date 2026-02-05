@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.Instant
 
-class MissionEnvEntity2Tests {
+class MissionEntityTest {
 
     @Test
     fun `calculateMissionStatus should return UNAVAILABLE if endDateTime is null`() {

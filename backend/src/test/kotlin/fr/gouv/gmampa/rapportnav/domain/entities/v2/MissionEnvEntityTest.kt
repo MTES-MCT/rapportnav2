@@ -12,7 +12,7 @@ import java.time.Instant
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-class MissionEnvEntity3Test {
+class MissionEnvEntityTest {
 
     @Test
     fun `execute should get env entity from nav entity`() {
