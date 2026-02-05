@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -13,9 +14,14 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAc
 class GetComputeEnvMission(
     private val getGeneralInfos2: GetGeneralInfo2,
     private val getMissionAction: GetMissionAction,
-    private val getEnvMissionById2: GetEnvMissionById2,
+    private val getEnvMissionById2: GetEnvMissionById2
 ) {
-    fun execute(missionId: Int? = null, envMission: MissionEnvEntity? = null): MissionEntity {
+    fun execute(
+        missionId: Int? = null,
+        envMission: MissionEnvEntity? = null,
+        controlUnitId: Int? = null
+    ): MissionEntity {
+
         if (missionId == null && envMission == null) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
@@ -34,6 +40,9 @@ class GetComputeEnvMission(
 
         val actions = getMissionAction.execute(missionId = id)
         val generalInfos = getGeneralInfos2.execute(missionId = id, controlUnits = mission.controlUnits)
+        generalInfos.setResources(mission.controlUnits.filter { it.id == controlUnitId }
+            .flatMap { it.resources ?: listOf() })
+
 
         return MissionEntity(
             id = id,
