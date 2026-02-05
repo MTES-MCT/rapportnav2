@@ -14,10 +14,6 @@ data class MissionGeneralInfoEntity2(
     val services: List<ServiceEntity>? = null
 ) {
 
-    fun setResources(resources: List<LegacyControlUnitResourceEntity>?) {
-        return data?.resources = resources
-    }
-
     fun isCompleteForStats(): Boolean {
         val serviceType = data?.service?.serviceType?: services?.first()?.serviceType
         return when(serviceType) {
@@ -28,16 +24,20 @@ data class MissionGeneralInfoEntity2(
 
     }
 
-    fun isResourceComplete(): Boolean {
-        return this.data?.isResourcesNotUsed == true || this.data?.resources?.isNotEmpty() == true
-    }
-
     fun isCompleteUlam(): Boolean {
         return this.isCrewComplete() && this.isDataCompleteUlam()
     }
 
     fun isCompletePam(): Boolean {
         return this.isCrewComplete() && this.isDataCompletePam()
+    }
+
+    fun setResources(resources: List<LegacyControlUnitResourceEntity>?) {
+        return data?.resources = resources
+    }
+
+    fun isResourcesComplete(): Boolean {
+        return this.data?.isResourcesNotUsed == true || this.data?.resources?.isNotEmpty() == true
     }
 
     private fun isCrewComplete(): Boolean {
@@ -48,6 +48,7 @@ data class MissionGeneralInfoEntity2(
     private fun isDataCompleteUlam(): Boolean {
         return this.data != null
             && this.isInterMinisterialOK()
+            && this.isResourcesComplete()
     }
 
     private fun isInterMinisterialOK(): Boolean {
