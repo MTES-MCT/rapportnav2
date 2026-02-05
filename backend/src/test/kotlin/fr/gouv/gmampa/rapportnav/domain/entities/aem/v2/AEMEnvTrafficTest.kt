@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMEnvTraffic
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -31,7 +31,7 @@ class AEMEnvTrafficTest {
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
-                controlPlans = listOf(EnvActionControlPlanEntity(themeId = 101)),
+                themes = listOf(ThemeEntity(id = 101, name = "Theme 101")),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             ),
@@ -39,7 +39,7 @@ class AEMEnvTrafficTest {
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
-                controlPlans = listOf(EnvActionControlPlanEntity(themeId = 103)),
+                themes = listOf(ThemeEntity(id = 103, name = "Theme 103")),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             )

@@ -41,7 +41,7 @@ data class AEMNotPollutionControlSurveillance(
         private fun getNotPollutionActions(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
             val illicitRejects = listOf(19, 102);
             return envActions.filter {
-                it?.controlPlans?.map { c -> c.themeId }?.intersect(illicitRejects)?.isEmpty() == true
+                it?.themes?.map { t -> t.id }?.intersect(illicitRejects)?.isEmpty() == true
             }
         }
 

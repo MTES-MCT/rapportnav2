@@ -23,18 +23,6 @@ const envAction: MissionAction = {
     department: '29',
     openBy: 'PPP',
     observations: 'obs',
-    formattedControlPlans: [
-      {
-        theme: 'Espèce protégée et leur habitat (faune et flore)',
-        subThemes: ['Dérangement / perturbation intentionnelle des espèces animales protégées'],
-        tags: []
-      },
-      {
-        theme: 'Pêche de loisir (autre que PAP)',
-        subThemes: ['Pêche sous-marine', 'Pêche embarquée'],
-        tags: []
-      }
-    ],
     availableControlTypesForInfraction: []
   }
 }
@@ -88,7 +76,6 @@ describe('useTimeline', () => {
   it('should return missionActionTimeline for env action', () => {
     const { result } = renderHook(() => useTimeline())
     const response = result.current.getTimeLineFromEnvAction(envAction)
-    expect(response.formattedControlPlans).toHaveLength(2)
     expect(response.id).toBe('env-id')
     expect(response.startDateTimeUtc).toBe('2025-01-22T13:00:00Z')
   })

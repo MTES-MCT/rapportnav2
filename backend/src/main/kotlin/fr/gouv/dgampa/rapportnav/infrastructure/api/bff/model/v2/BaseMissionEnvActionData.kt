@@ -23,7 +23,6 @@ interface BaseMissionEnvActionData {
     val actionTargetType: ActionTargetTypeEnum?
     val vehicleType: VehicleTypeEnum?
     val coverMissionZone: Boolean?
-    val formattedControlPlans: Any?
     val availableControlTypesForInfraction: List<ControlType>?
     val tags: List<TagEntity>?
     var themes: List<ThemeEntity>?

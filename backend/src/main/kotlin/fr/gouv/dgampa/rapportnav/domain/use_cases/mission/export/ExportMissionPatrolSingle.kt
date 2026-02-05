@@ -88,7 +88,7 @@ class ExportMissionPatrolSingle(
             ) + missionCrew.orEmpty().map {
                 listOf(
                     it.role?.title,
-                    "${it.agent.firstName} ${it.agent.lastName}",
+                    "${it.agent?.firstName} ${it.agent?.lastName}",
                     it.comment.takeIf { comment -> !comment.isNullOrEmpty() } ?: "Présent"
                 )
             }
