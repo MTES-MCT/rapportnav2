@@ -2,6 +2,7 @@ import { VehicleTypeEnum } from '@common/types/env-mission-types'
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
+import { TargetType } from '../../../../common/types/target-types'
 import MissionTargetTitle from '../mission-target-title'
 
 // ---- Mock hooks ----
@@ -110,6 +111,27 @@ describe('MissionTargetTitle', () => {
 
   it('renders tag for Vehicle', () => {
     const nbTarget = 2
+    mockGetVesselTypeName.mockReturnValue('')
+    mockGetVehiculeType.mockReturnValue('Véhicule aérien')
+
+    render(
+      <MissionTargetTitle
+        target={{
+          externalData: {
+            id: '3',
+            nbTarget
+          },
+          targetType: TargetType.VEHICLE
+        }}
+        vehicleType={VehicleTypeEnum.VEHICLE_AIR}
+      />
+    )
+    expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
+    expect(screen.getByTestId('target-title').textContent).toBe('Véhicule aérien en infraction')
+  })
+
+  it('renders tag for Person morale', () => {
+    const nbTarget = 2
     mockGetVehiculeType.mockReturnValue('')
     mockGetVesselTypeName.mockReturnValue('')
 
@@ -118,14 +140,14 @@ describe('MissionTargetTitle', () => {
         target={{
           externalData: {
             id: '3',
-            nbTarget,
-            vesselType: VesselTypeEnum.SAILING_LEISURE
-          }
+            nbTarget
+          },
+          targetType: TargetType.COMPANY
         }}
       />
     )
     expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
-    expect(screen.getByTestId('target-title').textContent).toBe('type de véhicule en infraction')
+    expect(screen.getByTestId('target-title').textContent).toBe('personnes morales en infraction')
   })
 
   it('renders tag for Person', () => {
@@ -139,11 +161,12 @@ describe('MissionTargetTitle', () => {
           externalData: {
             id: '3',
             nbTarget
-          }
+          },
+          targetType: TargetType.INDIVIDUAL
         }}
       />
     )
     expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
-    expect(screen.getByTestId('target-title').textContent).toBe('personnes physiques/morales en infraction')
+    expect(screen.getByTestId('target-title').textContent).toBe('personnes physiques en infraction')
   })
 })
