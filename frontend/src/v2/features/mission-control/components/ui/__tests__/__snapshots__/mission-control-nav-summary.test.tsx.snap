@@ -14,7 +14,7 @@ exports[`MissionControlNavSummary > should match the snapshot 1`] = `
           style="width: 100%;"
         >
           <p
-            class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
+            class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
             font-size="13"
           >
             Type de contrôle: 
@@ -28,7 +28,7 @@ exports[`MissionControlNavSummary > should match the snapshot 1`] = `
           style="width: 100%;"
         >
           <p
-            class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
+            class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
             font-size="13"
           >
             Type de cible: 
@@ -72,7 +72,7 @@ exports[`MissionControlNavSummary > should match the snapshot 1`] = `
         style="width: 100%;"
       >
         <p
-          class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
+          class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
           font-size="13"
         >
           Type de contrôle: 
@@ -86,7 +86,7 @@ exports[`MissionControlNavSummary > should match the snapshot 1`] = `
         style="width: 100%;"
       >
         <p
-          class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
+          class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
           font-size="13"
         >
           Type de cible: 

@@ -14,7 +14,7 @@ exports[`ActionHeaderCompletenessForStats > should match the snapshot 1`] = `
           style="align-self: center; color: rgb(41, 179, 97);"
         >
           <span
-            class="sc-gKXOVg dmaLuH Element-IconBox"
+            class="sc-gLDzao hZRUsu Element-IconBox"
           >
             <svg
               height="20"
@@ -47,7 +47,7 @@ exports[`ActionHeaderCompletenessForStats > should match the snapshot 1`] = `
           style="align-self: baseline;"
         >
           <p
-            class="sc-kjEcyY sc-grVGCV hRhXFx mNQFS"
+            class="sc-kkjMEg sc-grpWxN esMjFb qoiMj"
             color="#29B361"
             font-size="13"
           >
@@ -89,7 +89,7 @@ exports[`ActionHeaderCompletenessForStats > should match the snapshot 1`] = `
         style="align-self: center; color: rgb(41, 179, 97);"
       >
         <span
-          class="sc-gKXOVg dmaLuH Element-IconBox"
+          class="sc-gLDzao hZRUsu Element-IconBox"
         >
           <svg
             height="20"
@@ -122,7 +122,7 @@ exports[`ActionHeaderCompletenessForStats > should match the snapshot 1`] = `
         style="align-self: baseline;"
       >
         <p
-          class="sc-kjEcyY sc-grVGCV hRhXFx mNQFS"
+          class="sc-kkjMEg sc-grpWxN esMjFb qoiMj"
           color="#29B361"
           font-size="13"
         >

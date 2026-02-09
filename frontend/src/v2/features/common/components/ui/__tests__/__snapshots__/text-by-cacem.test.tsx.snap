@@ -6,7 +6,7 @@ exports[`TextByCacem > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <p
-        class="sc-kjEcyY sc-afnQM dHKJUY cewgFY"
+        class="sc-kkjMEg sc-ZzDLE esNwEC bXAjbM"
         color="#29B361"
         font-size="11"
         font-style="italic"
@@ -39,7 +39,7 @@ exports[`TextByCacem > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <p
-      class="sc-kjEcyY sc-afnQM dHKJUY cewgFY"
+      class="sc-kkjMEg sc-ZzDLE esNwEC bXAjbM"
       color="#29B361"
       font-size="11"
       font-style="italic"

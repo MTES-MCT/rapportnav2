@@ -17,16 +17,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-jdAMXo hUnHme Element-Field Field-TextInput sc-kjEcyY"
+              class="sc-jegxcw bPObzv Element-Field Field-TextInput sc-kkjMEg"
             >
               <label
-                class="sc-bBXxYP iUpebw Element-Label"
+                class="sc-bCDidX kDwmKp Element-Label"
                 for="vesselId"
               >
                 Nom du navire contrôlée
               </label>
               <div
-                class="sc-bPyhqn sc-fmRtwP jDinhs iRLJkb"
+                class="sc-bOSxlf sc-fnxdBX coYZtg hmHOcP"
               >
                 <input
                   class="rs-input"
@@ -38,7 +38,7 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
                   vessels="[object Object]"
                 />
                 <span
-                  class="sc-gKXOVg kRGguD Element-IconBox"
+                  class="sc-gLDzao jzRCTS Element-IconBox"
                 >
                   <svg
                     height="20"
@@ -117,16 +117,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
           style="width: 100%;"
         >
           <div
-            class="sc-jdAMXo hUnHme Element-Field Field-TextInput sc-kjEcyY"
+            class="sc-jegxcw bPObzv Element-Field Field-TextInput sc-kkjMEg"
           >
             <label
-              class="sc-bBXxYP iUpebw Element-Label"
+              class="sc-bCDidX kDwmKp Element-Label"
               for="vesselId"
             >
               Nom du navire contrôlée
             </label>
             <div
-              class="sc-bPyhqn sc-fmRtwP jDinhs iRLJkb"
+              class="sc-bOSxlf sc-fnxdBX coYZtg hmHOcP"
             >
               <input
                 class="rs-input"
@@ -138,7 +138,7 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
                 vessels="[object Object]"
               />
               <span
-                class="sc-gKXOVg kRGguD Element-IconBox"
+                class="sc-gLDzao jzRCTS Element-IconBox"
               >
                 <svg
                   height="20"

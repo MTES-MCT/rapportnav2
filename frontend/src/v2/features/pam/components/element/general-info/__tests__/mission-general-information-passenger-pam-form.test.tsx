@@ -62,20 +62,16 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
   })
 
   it('validates form submission with required fields', async () => {
-    renderComponent()
+    renderComponent({ passenger: undefined })
 
     // Try to submit without filling required fields
     const submitButton = screen.getByTestId('submit-passenger-form-button')
     fireEvent.click(submitButton)
 
-    waitFor(async () => {
-      // Check validation errors
-      expect(await screen.findByText('Nom requis.')).toBeInTheDocument()
-      expect(await screen.findByText('Organisation requise.')).toBeInTheDocument()
-      expect(
-        await screen.findByText('Les dates et heures de début et de fin doivent être renseignées')
-      ).toBeInTheDocument()
-    })
+    // Check validation errors
+    expect(await screen.findByText('Nom requis.')).toBeInTheDocument()
+    expect(await screen.findByText('Organisation requise.')).toBeInTheDocument()
+    expect(screen.queryAllByText('Date requise')).toHaveLength(2)
   })
 
   it('submits the form successfully', async () => {
@@ -122,7 +118,7 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
 
     expect(await screen.findByText('Nom requis.')).toBeInTheDocument()
     expect(await screen.findByText('Organisation requise.')).toBeInTheDocument()
-    expect(await screen.queryAllByText('Date requise')).toHaveLength(2)
+    expect(screen.queryAllByText('Date requise')).toHaveLength(2)
   })
 
   it('shows validation error messages when end date before start date', async () => {
