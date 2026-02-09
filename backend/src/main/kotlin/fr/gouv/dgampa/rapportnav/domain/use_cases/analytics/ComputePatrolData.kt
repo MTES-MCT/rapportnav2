@@ -14,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNav
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
+import java.time.Instant
 
 @UseCase
 class ComputePatrolData(
@@ -26,11 +27,7 @@ class ComputePatrolData(
     private val computeInternTrainingSummary: ComputeInternTrainingSummary,
 ) {
     fun execute(missionId: Int): PatrolDataEntity? {
-        val mission: MissionEntity? = getComputeEnvMission.execute(missionId = missionId)
-
-        if (mission == null) {
-            return null
-        }
+        val mission: MissionEntity = getComputeEnvMission.execute(missionId = missionId)
 
         // section "Activité du navire"
         val activity = computeActivity(mission = mission)
@@ -63,7 +60,9 @@ class ComputePatrolData(
             operationalSummary = operationalSummary,
             controlPolicies = controlPolicies,
             otherActionsSummary = otherActionsSummary,
-            internTrainingSummary = internTrainingSummary
+            internTrainingSummary = internTrainingSummary,
+            completenessForStats = mission.isCompleteForStats(),
+            isMissionFinished = mission.data?.endDateTimeUtc?.isBefore(Instant.now()) ?: false,
         )
     }
 
