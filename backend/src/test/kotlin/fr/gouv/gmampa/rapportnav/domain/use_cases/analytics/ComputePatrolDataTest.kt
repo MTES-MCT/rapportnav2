@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
@@ -58,10 +59,13 @@ class ComputePatrolDataTest {
     private lateinit var mapStatusDurations: MapStatusDurations
 
     @Test
-    fun `Should return null when no mission data found`() {
-        `when`(getComputeEnvMission.execute(999)).thenReturn(null)
-        val result = computePatrolData.execute(999)
-        assertThat(result).isNull()
+    fun `Should return correct mission id`() {
+        val missionId = 999
+        val missionMock = MissionEntityMock.create(id = missionId)
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
+
+        val result = computePatrolData.execute(missionId)
+        assertThat(result?.id).isEqualTo(missionId)
     }
 
     @Test
@@ -83,6 +87,8 @@ class ComputePatrolDataTest {
         assertThat(actual?.controlUnits).isEqualTo(listOf<LegacyControlUnitEntity>())
         assertThat(actual?.isDeleted).isEqualTo(false)
         assertThat(actual?.missionSource).isEqualTo(MissionSourceEnum.MONITORENV)
+        assertThat(actual?.completenessForStats).isNotNull()
+        assertThat(actual?.isMissionFinished).isTrue() // endDateTimeUtc is in the past
     }
 
 
@@ -186,5 +192,50 @@ class ComputePatrolDataTest {
         assertThat(actual?.activity).isEqualTo(expected)
     }
 
+    @Test
+    fun `Should return isMissionFinished false when endDateTimeUtc is in the future`() {
+        val missionId = 123
+        val futureDate = Instant.now().plusSeconds(86400) // tomorrow
+        val missionMock = MissionEntityMock.create(
+            id = missionId,
+            startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
+            endDateTimeUtc = futureDate,
+        )
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
 
+        val actual = computePatrolData.execute(missionId = missionId)
+
+        assertThat(actual?.isMissionFinished).isFalse()
+    }
+
+    @Test
+    fun `Should return isMissionFinished true when endDateTimeUtc is in the past`() {
+        val missionId = 123
+        val pastDate = Instant.parse("2022-01-02T13:00:00Z")
+        val missionMock = MissionEntityMock.create(
+            id = missionId,
+            startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
+            endDateTimeUtc = pastDate,
+        )
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
+
+        val actual = computePatrolData.execute(missionId = missionId)
+
+        assertThat(actual?.isMissionFinished).isTrue()
+    }
+
+    @Test
+    fun `Should return completenessForStats from mission`() {
+        val missionId = 123
+        val missionMock = MissionEntityMock.create(id = missionId)
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
+
+        val actual = computePatrolData.execute(missionId = missionId)
+
+        assertThat(actual?.completenessForStats).isNotNull()
+        assertThat(actual?.completenessForStats?.status).isIn(
+            CompletenessForStatsStatusEnum.COMPLETE,
+            CompletenessForStatsStatusEnum.INCOMPLETE
+        )
+    }
 }
