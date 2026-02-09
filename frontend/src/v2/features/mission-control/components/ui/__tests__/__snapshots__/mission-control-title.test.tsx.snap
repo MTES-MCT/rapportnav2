@@ -9,7 +9,7 @@ exports[`MissionControlTitle > should match the snapshot 1`] = `
         style="width: 100%; display: flex; flex-direction: row;"
       >
         <p
-          class="sc-kjEcyY sc-grVGCV dnCopz mNQFS"
+          class="sc-kkjMEg sc-grpWxN boQwkd qoiMj"
           color="#282F3E"
           font-size="13"
           weight="bold"
@@ -17,7 +17,7 @@ exports[`MissionControlTitle > should match the snapshot 1`] = `
           Contrôle administratif
         </p>
         <span
-          class="sc-gKXOVg kHuHBz Element-IconBox"
+          class="sc-gLDzao AgKuO Element-IconBox"
         >
           <svg
             data-testid="control-incomplete-title"
@@ -83,7 +83,7 @@ exports[`MissionControlTitle > should match the snapshot 1`] = `
       style="width: 100%; display: flex; flex-direction: row;"
     >
       <p
-        class="sc-kjEcyY sc-grVGCV dnCopz mNQFS"
+        class="sc-kkjMEg sc-grpWxN boQwkd qoiMj"
         color="#282F3E"
         font-size="13"
         weight="bold"
@@ -91,7 +91,7 @@ exports[`MissionControlTitle > should match the snapshot 1`] = `
         Contrôle administratif
       </p>
       <span
-        class="sc-gKXOVg kHuHBz Element-IconBox"
+        class="sc-gLDzao AgKuO Element-IconBox"
       >
         <svg
           data-testid="control-incomplete-title"
