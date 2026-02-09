@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.*
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.ActionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
@@ -28,7 +28,7 @@ class MissionNavActionEntityTest {
     @Test
     fun `execute should retrieve entity  from model`() {
         val model = getActionModel()
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        val entity = NavActionEntity.fromActionModel(model)
 
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(model.id)
@@ -95,7 +95,7 @@ class MissionNavActionEntityTest {
 
     @Test
     fun `execute should retrieve action model from entity`() {
-        val entity = MissionNavActionEntity(
+        val entity = NavActionEntity(
             missionId = 761,
             id = UUID.fromString("0000-00-00-00-000000"),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
@@ -146,7 +146,7 @@ class MissionNavActionEntityTest {
             securityVisitType = SecurityVisitType.SCHOOL_BOAT,
             establishment = EstablishmentEntity(id = 3, name  = "myEstablishment")
         )
-        val model = entity.toMissionActionModel()
+        val model = entity.toActionModel()
 
         assertThat(model).isNotNull()
         assertThat(model.id).isEqualTo(entity.id)
@@ -217,7 +217,7 @@ class MissionNavActionEntityTest {
     @Test
     fun `execute should be complete for stats `() {
         val model = getActionModel()
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        val entity = NavActionEntity.fromActionModel(model)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(emptyList<MissionSourceEnum>())
@@ -228,7 +228,7 @@ class MissionNavActionEntityTest {
     @Test
     fun `execute should return infraction type tag`() {
         val model = getActionModel()
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        val entity = NavActionEntity.fromActionModel(model)
         assertThat(entity.getInfractionTag(6)).isEqualTo("6 PV")
         assertThat(entity.getInfractionTag(0)).isEqualTo("Sans PV")
     }
@@ -236,7 +236,7 @@ class MissionNavActionEntityTest {
     @Test
     fun `execute should return natinf tag`() {
         val model = getActionModel()
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        val entity = NavActionEntity.fromActionModel(model)
         assertThat(entity.getNatinfTag(7)).isEqualTo("7 NATINF")
         assertThat(entity.getNatinfTag(0)).isEqualTo("Sans infraction")
     }
@@ -245,7 +245,7 @@ class MissionNavActionEntityTest {
     fun `execute should compute summary tags`() {
         val model = getActionModel()
         val controls  = listOf(ControlEntityMock.create(controlType = ControlType.SECURITY))
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        val entity = NavActionEntity.fromActionModel(model)
         entity.targets = listOf(TargetEntityMock.create(controls = controls))
         entity.computeSummaryTags()
         assertThat(entity.summaryTags).isNotNull()
@@ -262,12 +262,12 @@ class MissionNavActionEntityTest {
     @Test
     fun `execute should have isWithinDepartment from entity null to true`() {
         val model = getActionModel()
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        val entity = NavActionEntity.fromActionModel(model)
         entity.isWithinDepartment = null
-        assertThat(entity.toMissionActionModel().isWithinDepartment).isEqualTo(true)
+        assertThat(entity.toActionModel().isWithinDepartment).isEqualTo(true)
     }
 
-    private fun getActionModel(): MissionActionModel{
+    private fun getActionModel(): ActionModel{
         return MissionActionModelMock.create()
     }
 }

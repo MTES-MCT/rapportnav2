@@ -1,18 +1,18 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.generalInfo
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.GeneralInfoModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.generalInfo.IDBMissionGeneralInfoRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.generalInfo.JPAMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.generalInfo.JPAGeneralInfoRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.InvalidDataAccessApiUsageException
@@ -21,16 +21,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [JPAMissionGeneralInfoRepository::class])
+@SpringBootTest(classes = [JPAGeneralInfoRepository::class])
 class JPAMissionGeneralInfoRepositoryTest {
 
     @MockitoBean
     private lateinit var dbRepo: IDBMissionGeneralInfoRepository
 
-    private lateinit var jpaRepository: JPAMissionGeneralInfoRepository
+    private lateinit var jpaRepository: JPAGeneralInfoRepository
 
     private val missionIdUUID = UUID.randomUUID()
-    private val generalInfoModel = MissionGeneralInfoModel(
+    private val generalInfoModel = GeneralInfoModel(
         id = 1,
         missionId = 100,
         missionIdUUID = missionIdUUID,
@@ -40,7 +40,7 @@ class JPAMissionGeneralInfoRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        jpaRepository = JPAMissionGeneralInfoRepository(dbRepo)
+        jpaRepository = JPAGeneralInfoRepository(dbRepo)
     }
 
     @Test
@@ -256,47 +256,47 @@ class JPAMissionGeneralInfoRepositoryTest {
 
     @Test
     fun `save should return saved model`() {
-        val entity = MissionGeneralInfoEntity(
+        val entity = GeneralInfoEntity(
             id = 1,
             missionId = 100,
             distanceInNauticalMiles = 50.5f
         )
 
-        `when`(dbRepo.save(any<MissionGeneralInfoModel>())).thenReturn(generalInfoModel)
+        `when`(dbRepo.save(any<GeneralInfoModel>())).thenReturn(generalInfoModel)
 
-        val result = jpaRepository.save(entity)
+        val result = jpaRepository.save(entity.toGeneralInfoModel())
 
         assertThat(result).isNotNull
         assertThat(result.missionId).isEqualTo(100)
-        verify(dbRepo).save(any<MissionGeneralInfoModel>())
+        verify(dbRepo).save(any<GeneralInfoModel>())
     }
 
     @Test
     fun `save should throw BackendUsageException on invalid data`() {
-        val entity = MissionGeneralInfoEntity(
+        val entity = GeneralInfoEntity(
             id = 1,
             missionId = 100
         )
 
-        `when`(dbRepo.save(any<MissionGeneralInfoModel>())).thenThrow(InvalidDataAccessApiUsageException("Invalid data"))
+        `when`(dbRepo.save(any<GeneralInfoModel>())).thenThrow(InvalidDataAccessApiUsageException("Invalid data"))
 
         val exception = assertThrows<BackendUsageException> {
-            jpaRepository.save(entity)
+            jpaRepository.save(entity.toGeneralInfoModel())
         }
         assertThat(exception.message).contains("Unable to save MissionGeneralInfo")
     }
 
     @Test
     fun `save should throw BackendInternalException on database error`() {
-        val entity = MissionGeneralInfoEntity(
+        val entity = GeneralInfoEntity(
             id = 1,
             missionId = 100
         )
 
-        `when`(dbRepo.save(any<MissionGeneralInfoModel>())).thenThrow(RuntimeException("Database error"))
+        `when`(dbRepo.save(any<GeneralInfoModel>())).thenThrow(RuntimeException("Database error"))
 
         val exception = assertThrows<BackendInternalException> {
-            jpaRepository.save(entity)
+            jpaRepository.save(entity.toGeneralInfoModel())
         }
         assertThat(exception.message).contains("Unable to prepare data before saving MissionGeneralInfo")
     }

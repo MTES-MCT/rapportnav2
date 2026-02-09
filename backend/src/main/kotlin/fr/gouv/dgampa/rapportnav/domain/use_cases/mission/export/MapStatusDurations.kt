@@ -3,8 +3,8 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import java.time.Instant
@@ -22,8 +22,8 @@ class MapStatusDurations(
     }
 
     fun execute(
-        statuses: List<MissionNavActionEntity>,
-        controls: List<MissionActionEntity>? = listOf(),
+        statuses: List<NavActionEntity>,
+        controls: List<ActionEntity>? = listOf(),
         startDateTimeUtc: Instant? = null,
         endDateTimeUtc: Instant? = null,
     ): Map<String, Map<String, Double>> {

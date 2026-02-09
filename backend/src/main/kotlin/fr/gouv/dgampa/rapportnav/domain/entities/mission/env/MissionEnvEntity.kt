@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.env
 
 import fr.gouv.dgampa.rapportnav.domain.entities.Patchable
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
@@ -27,7 +27,7 @@ data class MissionEnvEntity(
     var endDateTimeUtc: Instant? = null,
     val createdAtUtc: Instant? = null,
     val updatedAtUtc: Instant? = null,
-    val envActions: List<EnvActionEntity>? = listOf(),
+    val envActions: List<ActionEnvEntity>? = listOf(),
     val isGeometryComputedFromControls: Boolean? = false,
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean? = false,

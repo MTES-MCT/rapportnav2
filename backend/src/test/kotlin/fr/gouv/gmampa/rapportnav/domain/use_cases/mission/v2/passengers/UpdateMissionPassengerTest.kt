@@ -24,7 +24,7 @@ class UpdateMissionPassengerTest {
     @Test
     fun `should create a new passenger`() {
         val passenger = MissionPassengerEntityMock.create()
-        Mockito.`when`(repo.save(any())).thenReturn(passenger.toMissionPassengerModel())
+        Mockito.`when`(repo.save(any())).thenReturn(passenger.toPassengerModel())
 
         useCase = UpdateMissionPassenger(
             repo = repo,

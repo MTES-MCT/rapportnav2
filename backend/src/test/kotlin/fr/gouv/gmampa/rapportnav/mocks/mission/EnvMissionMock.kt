@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
 
@@ -26,7 +26,7 @@ object EnvMissionMock {
         missionSource: MissionSourceEnum = MissionSourceEnum.MONITORENV,
         hasMissionOrder: Boolean = false,
         isUnderJdp: Boolean = false,
-        envActions: List<EnvActionEntity>? = null,
+        envActions: List<ActionEnvEntity>? = null,
         observationsByUnit: String? = null
     ): MissionEnvEntity {
         return MissionEnvEntity(

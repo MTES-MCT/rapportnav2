@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.wiremock.utils.LoadJsonData
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -120,4 +121,14 @@ class MissionNavEntityTest {
         assertThat(response.startDateTimeUtc).isEqualTo(input.startDateTimeUtc)
         assertThat(response.observationsByUnit).isEqualTo(input.observationsByUnit)
     }
+
+/*
+    @Test
+    fun `execute test of completions`() {
+        val mission = LoadJsonData.loadToMission("nav/mission.json")
+        val entity = mission?.toMissionEntity()
+        assertThat(entity).isNotNull
+        val isCompleteForStats = entity?.isCompleteForStats()
+        assertThat(isCompleteForStats).isEqualTo(true)
+    }*/
 }

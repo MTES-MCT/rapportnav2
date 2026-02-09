@@ -1,11 +1,11 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.PassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionPassengerRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger.MissionPassengerModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger.PassengerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBMissionPassengerRepository
 import jakarta.transaction.Transactional
 import org.springframework.dao.InvalidDataAccessApiUsageException
@@ -16,18 +16,18 @@ import java.util.*
 class JPAMissionPassengerRepository(
     private val repo: IDBMissionPassengerRepository,
 ) : IMissionPassengerRepository {
-    override fun findByMissionId(missionId: Int): List<MissionPassengerModel> {
+    override fun findByMissionId(missionId: Int): List<PassengerModel> {
         return repo.findByMissionId(missionId)
     }
 
-    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionPassengerModel> {
+    override fun findByMissionIdUUID(missionIdUUID: UUID): List<PassengerModel> {
         return repo.findByMissionIdUUID(missionIdUUID)
     }
 
     @Transactional
-    override fun save(passenger: MissionPassengerEntity): MissionPassengerModel {
+    override fun save(passenger: PassengerEntity): PassengerModel {
         return try {
-            val model = passenger.toMissionPassengerModel()
+            val model = passenger.toPassengerModel()
             repo.save(model)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
@@ -45,7 +45,7 @@ class JPAMissionPassengerRepository(
 
     @Transactional
     override fun deleteById(id: Int): Boolean {
-        val crew: Optional<MissionPassengerModel> = repo.findById(id)
+        val crew: Optional<PassengerModel> = repo.findById(id)
         if (crew.isPresent) {
             repo.deleteById(id)
             return true;

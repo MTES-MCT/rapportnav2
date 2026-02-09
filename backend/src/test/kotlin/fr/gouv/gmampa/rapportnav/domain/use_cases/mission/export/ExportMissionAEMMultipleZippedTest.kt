@@ -1,13 +1,13 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMMultipleZipped
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ZipFiles
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.GeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
@@ -49,8 +49,8 @@ class ExportMissionAEMMultipleZippedTest {
             )
         )
         val mission2 = MissionEntityMock.create(
-            generalInfos = MissionGeneralInfoEntity2(
-                data = MissionGeneralInfoEntityMock.create(
+            generalInfos = MissionGeneralInfoEntity(
+                data = GeneralInfoEntityMock.create(
                     id = 1,
                     missionId = missionIds.first(),
                     service = ServiceEntityMock.create(),

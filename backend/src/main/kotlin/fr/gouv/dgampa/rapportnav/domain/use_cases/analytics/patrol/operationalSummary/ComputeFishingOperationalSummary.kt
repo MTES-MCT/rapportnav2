@@ -8,9 +8,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Infrac
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import fr.gouv.dgampa.rapportnav.domain.utils.FlagsUtils
 import kotlin.collections.get
@@ -28,7 +28,7 @@ class ComputeFishingOperationalSummary(
         CountryCode.GB  // Great Britain
     )
 
-    fun getProFishingSeaSummary(actions: List<MissionActionEntity>): LinkedHashMap<String, Map<String, Int?>> {
+    fun getProFishingSeaSummary(actions: List<ActionEntity>): LinkedHashMap<String, Map<String, Int?>> {
         val summary = getFishActionSummary(actions = actions, controlMethod = MissionActionType.SEA_CONTROL)
         val keysToKeep = setOf(
             "nbActions",
@@ -55,7 +55,7 @@ class ComputeFishingOperationalSummary(
     }
 
 
-    fun getProFishingLandSummary(actions: List<MissionActionEntity>): LinkedHashMap<String, Map<String, Int?>> {
+    fun getProFishingLandSummary(actions: List<ActionEntity>): LinkedHashMap<String, Map<String, Int?>> {
         val summary = getFishActionSummary(actions = actions, controlMethod = MissionActionType.LAND_CONTROL)
         val keysToKeep = setOf(
             "nbActions",
@@ -83,11 +83,11 @@ class ComputeFishingOperationalSummary(
 
 
 
-    fun getLeisureFishingSummary(actions: List<MissionActionEntity>): Map<String, Int> {
+    fun getLeisureFishingSummary(actions: List<ActionEntity>): Map<String, Int> {
         // specifically filter for theme Peche de loisir (autre que PAP), it has id 112
         val themeId = 112
-        val filteredActions: List<MissionEnvActionEntity> = actions
-            .filterIsInstance<MissionEnvActionEntity>()
+        val filteredActions: List<EnvActionEntity> = actions
+            .filterIsInstance<EnvActionEntity>()
             .filter { it.envActionType == ActionTypeEnum.CONTROL }
             .filter { it.themes?.any { theme -> theme.id == themeId } == true }
         val nbPv = filteredActions.sumOf {
@@ -102,19 +102,19 @@ class ComputeFishingOperationalSummary(
     }
 
     private fun getFishActionSummary(
-        actions: List<MissionActionEntity>,
+        actions: List<ActionEntity>,
         controlMethod: MissionActionType
     ): Map<CountryCode, Map<String, Int>> {
-        val filteredActions = actions.filterIsInstance<MissionFishActionEntity>()
+        val filteredActions = actions.filterIsInstance<FishActionEntity>()
             .filter { it.actionType == ActionType.CONTROL }
             .filter { it.fishActionType === controlMethod }
 
         return getFishSummary(filteredActions)
     }
 
-    private fun getFishSummary(actions: List<MissionFishActionEntity>): Map<CountryCode, Map<String, Int>> {
+    private fun getFishSummary(actions: List<FishActionEntity>): Map<CountryCode, Map<String, Int>> {
         // Group actions by country code (flagState)
-        val actionsByCountry: Map<CountryCode, List<MissionFishActionEntity>> = actions
+        val actionsByCountry: Map<CountryCode, List<FishActionEntity>> = actions
             .filter { it.flagState != null } // Filter out null flagState actions
             .groupBy { it.flagState as CountryCode }
 

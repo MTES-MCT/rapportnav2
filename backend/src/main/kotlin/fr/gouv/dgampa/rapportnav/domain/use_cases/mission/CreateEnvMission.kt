@@ -10,7 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnit.IEnvControlUnitRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo
 
 @UseCase
 class CreateEnvMission(
@@ -18,7 +18,7 @@ class CreateEnvMission(
     private val monitorEnvControlUnitRepo: IEnvControlUnitRepository
 ) {
 
-    fun execute(missionGeneralInfo: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEnvEntity {
+    fun execute(missionGeneralInfo: MissionGeneralInfo, controlUnitIds: List<Int>?): MissionEnvEntity {
         val controlUnits = getControlUnits(controlUnitIds = controlUnitIds ?: emptyList())
 
         val missionEnv = MissionEnv(

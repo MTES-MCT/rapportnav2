@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleT
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import org.locationtech.jts.geom.Geometry
 import tools.jackson.databind.annotation.JsonDeserialize
 import tools.jackson.databind.annotation.JsonSerialize
@@ -50,9 +50,9 @@ class MissionEnvActionData(
 ),
     BaseMissionEnvActionData {
     companion object {
-        fun toMissionEnvActionEntity(input: MissionAction): MissionEnvActionEntity {
+        fun toMissionEnvActionEntity(input: MissionAction): EnvActionEntity {
             val data = input.data as MissionEnvActionData
-            val action = MissionEnvActionEntity(
+            val action = EnvActionEntity(
                 id = UUID.fromString(input.id),
                 missionId = input.missionId,
                 endDateTimeUtc = data.endDateTimeUtc,

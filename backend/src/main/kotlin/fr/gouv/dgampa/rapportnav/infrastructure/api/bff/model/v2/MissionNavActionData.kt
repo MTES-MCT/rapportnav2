@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import java.time.Instant
 import java.util.*
 
@@ -73,9 +73,9 @@ class MissionNavActionData(
 ), BaseMissionNavActionData {
 
     companion object {
-        fun toMissionNavActionEntity(input: MissionAction): MissionNavActionEntity {
+        fun toMissionNavActionEntity(input: MissionAction): NavActionEntity {
             val data = input.data as MissionNavActionData
-            val action  = MissionNavActionEntity(
+            val action  = NavActionEntity(
                 id = if(input.id == null) UUID.randomUUID() else UUID.fromString(input.id),
                 ownerId = input.ownerId?.let { UUID.fromString(it) },
                 missionId = input.missionId,

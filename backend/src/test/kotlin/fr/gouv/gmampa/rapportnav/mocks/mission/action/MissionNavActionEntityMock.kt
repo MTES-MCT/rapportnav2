@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import java.time.Instant
 import java.util.*
@@ -49,8 +49,8 @@ object MissionNavActionEntityMock {
         status: ActionStatusType? = null,
         reason: ActionStatusReason? = null,
         targets: List<TargetEntity>? = null
-    ): MissionNavActionEntity {
-        return MissionNavActionEntity(
+    ): NavActionEntity {
+        return NavActionEntity(
             missionId = missionId?: 761,
             id = id?: UUID.randomUUID(),
             startDateTimeUtc = startDateTimeUtc?: Instant.parse("2019-09-08T22:00:00.000+01:00"),

@@ -1,11 +1,11 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.CrewModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRoleRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBMissionCrewRepository
@@ -21,7 +21,7 @@ class JPAMissionCrewRepository(
     private val dbAgentRoleRepository: IDBAgentRoleRepository,
 ) : IMissionCrewRepository {
 
-    override fun findByMissionId(missionId: Int): List<MissionCrewModel> {
+    override fun findByMissionId(missionId: Int): List<CrewModel> {
         return try {
             dbMissionCrewRepository.findByMissionId(missionId)
         } catch (e: Exception) {
@@ -32,7 +32,7 @@ class JPAMissionCrewRepository(
         }
     }
 
-    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewModel> {
+    override fun findByMissionIdUUID(missionIdUUID: UUID): List<CrewModel> {
         return try {
             dbMissionCrewRepository.findByMissionIdUUID(missionIdUUID)
         } catch (e: Exception) {
@@ -44,9 +44,9 @@ class JPAMissionCrewRepository(
     }
 
     @Transactional
-    override fun save(crew: MissionCrewEntity): MissionCrewModel {
+    override fun save(crew: CrewEntity): CrewModel {
         return try {
-            val crewModel = crew.toMissionCrewModel()
+            val crewModel = crew.toCrewModel()
             val agent = dbAgentRepository.findById(crew.agent.id!!).orElseThrow()
             crewModel.agent = agent
 

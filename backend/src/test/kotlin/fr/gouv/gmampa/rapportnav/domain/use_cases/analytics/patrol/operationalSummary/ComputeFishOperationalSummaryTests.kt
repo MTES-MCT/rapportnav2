@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeFishingOperationalSummary
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
@@ -24,7 +24,7 @@ class ComputeFishOperationalSummaryTests {
     @Nested
     inner class FishActionsSummary {
 
-        private fun getActions(actionType: MissionActionType): List<MissionFishActionEntity> {
+        private fun getActions(actionType: MissionActionType): List<FishActionEntity> {
 
             val action1 = MissionFishActionEntityMock.create(
                 flagState = CountryCode.BE,
@@ -269,8 +269,8 @@ class ComputeFishOperationalSummaryTests {
         @Test
         fun `should return values equal to 0 because no control action`() {
             val fishActions = listOf(
-                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
-                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
+                FishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
+                FishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
             )
             val mission = MissionEntityMock.create(actions = fishActions)
             val summary = computeFishingOperationalSummary.getProFishingSeaSummary(
@@ -283,8 +283,8 @@ class ComputeFishOperationalSummaryTests {
         @Test
         fun `getProFishingSeaSummary - should return 2 actions but other values to 0`() {
             val fishActions = listOf(
-                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create()),
-                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(flagState = CountryCode.GR)),
+                FishActionEntity.fromFishAction(action = FishActionControlMock.create()),
+                FishActionEntity.fromFishAction(action = FishActionControlMock.create(flagState = CountryCode.GR)),
             )
 
             val mission = MissionEntityMock.create(actions = fishActions)

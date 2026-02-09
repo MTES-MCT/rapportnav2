@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.ActionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action.JPAMissionActionRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -23,20 +23,20 @@ class JPAMissionActionRepositoryTest {
 
     final val id1 = UUID.randomUUID()
     final val id2 = UUID.randomUUID()
-    private val missionActions: List<MissionActionModel> = listOf(
-        MissionActionModel(
+    private val missionActions: List<ActionModel> = listOf(
+        ActionModel(
             id = id1,
             missionId = 761,
             actionType = ActionType.CONTROL,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
-        MissionActionModel(
+        ActionModel(
             id = UUID.randomUUID(),
             missionId = 761,
             actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
-        MissionActionModel(
+        ActionModel(
             id = id2,
             missionId = 761,
             actionType = ActionType.SURVEILLANCE,

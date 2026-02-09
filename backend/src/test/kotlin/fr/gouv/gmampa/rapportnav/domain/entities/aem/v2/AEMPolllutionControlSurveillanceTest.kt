@@ -3,8 +3,8 @@ package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMPollutionControlSurveillance
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -41,9 +41,9 @@ class AEMPolllutionControlSurveillanceTest {
         );
     }
 
-    private fun extendedEnvActionEntities(): List<MissionEnvActionEntity> {
+    private fun extendedEnvActionEntities(): List<EnvActionEntity> {
         val actions = listOf(
-            MissionEnvActionEntity(
+            EnvActionEntity(
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
@@ -67,7 +67,7 @@ class AEMPolllutionControlSurveillanceTest {
                     )
                 ),
             ),
-            MissionEnvActionEntity(
+            EnvActionEntity(
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
@@ -75,7 +75,7 @@ class AEMPolllutionControlSurveillanceTest {
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             ),
-            MissionEnvActionEntity(
+            EnvActionEntity(
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
@@ -87,16 +87,16 @@ class AEMPolllutionControlSurveillanceTest {
         return actions
     }
 
-    private fun navActionEntities(): List<MissionNavActionEntity> {
+    private fun navActionEntities(): List<NavActionEntity> {
         val actions = listOf(
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
             ),
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ANTI_POLLUTION,
@@ -107,7 +107,7 @@ class AEMPolllutionControlSurveillanceTest {
                 isSimpleBrewingOperationDone = true,
                 diversionCarriedOut = true
             ),
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ANTI_POLLUTION,

@@ -8,11 +8,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import org.slf4j.LoggerFactory
@@ -46,8 +46,8 @@ class ComputeNavControlPolicy {
 
             val (seaActions, landActions) = filteredActions.partition { action ->
                 when (action) {
-                    is MissionNavActionEntity -> action.controlMethod == ControlMethod.SEA
-                    is MissionFishActionEntity -> action.fishActionType == MissionActionType.SEA_CONTROL
+                    is NavActionEntity -> action.controlMethod == ControlMethod.SEA
+                    is FishActionEntity -> action.fishActionType == MissionActionType.SEA_CONTROL
                     else -> false
                 }
             }
@@ -78,26 +78,26 @@ class ComputeNavControlPolicy {
     }
 
     private fun filterControls(
-        actions: List<MissionActionEntity>,
+        actions: List<ActionEntity>,
         controlType: ControlType,
         navControlMethods: List<ControlMethod>,
         fishActionTypes: List<MissionActionType>
-    ): List<MissionActionEntity> {
+    ): List<ActionEntity> {
         if (actions.isEmpty()) return emptyList()
 
         return actions.filter { action ->
             try {
                 when (action) {
-                    is MissionNavActionEntity ->
+                    is NavActionEntity ->
                         action.actionType == ActionType.CONTROL &&
                             action.controlMethod in navControlMethods &&
                             hasMatchingControl(action.targets, controlType)
 
-                    is MissionFishActionEntity ->
+                    is FishActionEntity ->
                         action.fishActionType in fishActionTypes &&
                             hasMatchingControl(action.targets, controlType)
 
-                    is MissionEnvActionEntity ->
+                    is EnvActionEntity ->
                         action.envActionType == ActionTypeEnum.CONTROL &&
                             hasMatchingControl(action.targets, controlType)
 

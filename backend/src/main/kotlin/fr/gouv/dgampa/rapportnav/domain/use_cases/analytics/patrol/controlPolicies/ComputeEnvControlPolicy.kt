@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPolicyData
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import org.slf4j.LoggerFactory
 
@@ -25,7 +25,7 @@ class ComputeEnvControlPolicy(
 
         val envActions = mission.actions
             .orEmpty()
-            .filterIsInstance<MissionEnvActionEntity>()
+            .filterIsInstance<EnvActionEntity>()
 
         if (envActions.isEmpty()) {
             logger.info("No environmental actions found for mission ${mission.id}")

@@ -1,12 +1,12 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfoAdmin
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.input.AdminGeneralInfosUpdateInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.input.AdminGeneralInfosUpdateServiceInput
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.GeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -25,7 +25,7 @@ class UpdateGeneralInfoAdminTest {
     private lateinit var updateGeneralInfoAdmin: UpdateGeneralInfoAdmin
 
     @MockitoBean
-    private lateinit var repository: IMissionGeneralInfoRepository
+    private lateinit var repository: IGeneralInfoRepository
 
     @MockitoBean
     private lateinit var getServiceById: GetServiceById
@@ -34,11 +34,11 @@ class UpdateGeneralInfoAdminTest {
     fun `should update general info by missionId`() {
         val missionId = 123
         val serviceId = 10
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
-        val model = entity.toMissionGeneralInfoModel()
+        val entity = GeneralInfoEntityMock.create(id = 1, missionId = missionId)
+        val model = entity.toGeneralInfoModel()
         val service = ServiceEntityMock.create(id = serviceId, name = "Updated Service")
         val updatedEntity = entity.copy(service = service)
-        val updatedModel = updatedEntity.toMissionGeneralInfoModel()
+        val updatedModel = updatedEntity.toGeneralInfoModel()
 
         val input = AdminGeneralInfosUpdateInput(
             missionId = missionId,
@@ -60,11 +60,11 @@ class UpdateGeneralInfoAdminTest {
     fun `should update general info by missionIdUUID`() {
         val missionIdUUID = UUID.randomUUID()
         val serviceId = 10
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionIdUUID = missionIdUUID)
-        val model = entity.toMissionGeneralInfoModel()
+        val entity = GeneralInfoEntityMock.create(id = 1, missionIdUUID = missionIdUUID)
+        val model = entity.toGeneralInfoModel()
         val service = ServiceEntityMock.create(id = serviceId, name = "Updated Service")
         val updatedEntity = entity.copy(service = service)
-        val updatedModel = updatedEntity.toMissionGeneralInfoModel()
+        val updatedModel = updatedEntity.toGeneralInfoModel()
 
         val input = AdminGeneralInfosUpdateInput(
             missionIdUUID = missionIdUUID,
@@ -97,8 +97,8 @@ class UpdateGeneralInfoAdminTest {
     @Test
     fun `should update without service when service input is null`() {
         val missionId = 123
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
-        val model = entity.toMissionGeneralInfoModel()
+        val entity = GeneralInfoEntityMock.create(id = 1, missionId = missionId)
+        val model = entity.toGeneralInfoModel()
 
         val input = AdminGeneralInfosUpdateInput(
             missionId = missionId,
@@ -138,8 +138,8 @@ class UpdateGeneralInfoAdminTest {
     @Test
     fun `should propagate BackendInternalException from repository save`() {
         val missionId = 123
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
-        val model = entity.toMissionGeneralInfoModel()
+        val entity = GeneralInfoEntityMock.create(id = 1, missionId = missionId)
+        val model = entity.toGeneralInfoModel()
         val internalException = BackendInternalException(
             message = "Save error",
             originalException = RuntimeException("Database error")

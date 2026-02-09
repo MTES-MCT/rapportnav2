@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.PassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionPassengerRepository
 import org.slf4j.LoggerFactory
 
@@ -12,9 +12,9 @@ class UpdateMissionPassenger(
     private val logger = LoggerFactory.getLogger(UpdateMissionPassenger::class.java)
 
     fun execute(
-        passenger: MissionPassengerEntity
-    ): MissionPassengerEntity {
+        passenger: PassengerEntity
+    ): PassengerEntity {
         val saved = repo.save(passenger)
-        return MissionPassengerEntity.fromMissionPassengerModel(saved)
+        return PassengerEntity.fromPassengerModel(saved)
     }
 }

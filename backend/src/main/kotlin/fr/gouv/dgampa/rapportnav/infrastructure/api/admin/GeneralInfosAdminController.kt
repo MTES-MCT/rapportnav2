@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetAllGeneralInfos
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfoAdmin
 import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.input.AdminGeneralInfosUpdateInput
@@ -25,15 +25,15 @@ class GeneralInfosAdminController(
                 responseCode = "200", description = "get general information's", content = [
                     (Content(
                         mediaType = "application/json",
-                        schema = Schema(implementation = MissionGeneralInfoEntity::class)
+                        schema = Schema(implementation = GeneralInfoEntity::class)
                     ))
                 ]
             ),
             ApiResponse(responseCode = "404", description = "Could not get general information's", content = [Content()])
         ]
     )
-    fun getAll(): List<MissionGeneralInfoEntity> {
-        return getAllGeneralInfos.execute().map{ MissionGeneralInfoEntity.fromMissionGeneralInfoModel(it) }
+    fun getAll(): List<GeneralInfoEntity> {
+        return getAllGeneralInfos.execute().map { GeneralInfoEntity.fromGeneralInfoModel(it) }
     }
 
     @PutMapping()
@@ -44,7 +44,7 @@ class GeneralInfosAdminController(
                 responseCode = "200", description = "update general information's", content = [
                     (Content(
                         mediaType = "application/json",
-                        schema = Schema(implementation = MissionGeneralInfoEntity::class)
+                        schema = Schema(implementation = GeneralInfoEntity::class)
                     ))
                 ]
             ),
@@ -53,7 +53,7 @@ class GeneralInfosAdminController(
     )
     fun update(
         @RequestBody generalInfo: AdminGeneralInfosUpdateInput
-    ): MissionGeneralInfoEntity? {
+    ): GeneralInfoEntity? {
         return updateGeneralInfo.execute(generalInfo = generalInfo)
     }
 }

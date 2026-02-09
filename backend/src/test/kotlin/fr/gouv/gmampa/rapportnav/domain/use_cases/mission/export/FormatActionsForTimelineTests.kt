@@ -5,10 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Infrac
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
@@ -39,21 +39,21 @@ class FormatActionsForTimelineTests {
     @MockitoBean
     private lateinit var mapEnvActionControlPlans: MapEnvActionControlPlans
 
-    private val envControl = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionControlMock.create())
-    private val envSurveillance = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionSurveillanceMock.create())
+    private val envControl = EnvActionEntity.fromEnvActionOutput(missionId=1, action=EnvActionControlMock.create())
+    private val envSurveillance = EnvActionEntity.fromEnvActionOutput(missionId=1, action=EnvActionSurveillanceMock.create())
 
-    private val fishControl = MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create())
+    private val fishControl = FishActionEntity.fromFishAction(action = FishActionControlMock.create())
 
-    private val navControl = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.CONTROL))
-    private val navStatus = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS))
-    private val navFreeNote = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.NOTE,
+    private val navControl = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.CONTROL))
+    private val navStatus = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS))
+    private val navFreeNote = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.NOTE,
         startDateTimeUtc = Instant.parse("2022-01-02T12:06:00Z"), observations = "Largué, appareillé"))
 
 
     @BeforeEach
     fun setUp() {
         // Set up mock behavior for GroupActionByDate
-        val groupActionByDateData: Map<LocalDate, List<MissionActionEntity>>? = mapOf(
+        val groupActionByDateData: Map<LocalDate, List<ActionEntity>>? = mapOf(
             LocalDate.of(2022, 1, 1) to listOf(envControl, fishControl, envSurveillance),
             LocalDate.of(2022, 1, 2) to listOf(navControl, navStatus, navFreeNote)
         )
@@ -108,13 +108,13 @@ class FormatActionsForTimelineTests {
 
     @Test
     fun `formatEnvSurveillance should return basic formatted string`() {
-        val action  = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionSurveillanceMock.create(themes = listOf(ThemeEntityMock.create())))
+        val action  = EnvActionEntity.fromEnvActionOutput(missionId=1, action=EnvActionSurveillanceMock.create(themes = listOf(ThemeEntityMock.create())))
         assertThat(formatActionsForTimeline.formatEnvSurveillance(action)).isEqualTo("13:00 / 15:00 - Surveillance Environnement - Pêche loisir (autre que PAP)")
     }
 
     @Test
     fun `formatEnvControl should return formatted string with facade`() {
-        val action = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionControlMock.create(facade = "Golfe de Gascogne"))
+        val action = EnvActionEntity.fromEnvActionOutput(missionId=1, action=EnvActionControlMock.create(facade = "Golfe de Gascogne"))
         assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("13:00 / 15:00 - Contrôle Environnement - Golfe de Gascogne - Pêche loisir (autre que PAP)")
     }
 
@@ -125,13 +125,13 @@ class FormatActionsForTimelineTests {
 
     @Test
     fun `formatEnvControl should return formatted string with amount of controls`() {
-        val action = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionControlMock.create(actionNumberOfControls = 2))
+        val action = EnvActionEntity.fromEnvActionOutput(missionId=1, action=EnvActionControlMock.create(actionNumberOfControls = 2))
         assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("13:00 / 15:00 - Contrôle Environnement - Pêche loisir (autre que PAP) - 2 contrôle(s)")
     }
 
     @Test
     fun `formatEnvControl should return the complete formatted string`() {
-        val action = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionControlMock.create(actionNumberOfControls = 2, facade = "Golfe de Gascogne",))
+        val action = EnvActionEntity.fromEnvActionOutput(missionId=1, action=EnvActionControlMock.create(actionNumberOfControls = 2, facade = "Golfe de Gascogne",))
         assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("13:00 / 15:00 - Contrôle Environnement - Golfe de Gascogne - Pêche loisir (autre que PAP) - 2 contrôle(s)")
     }
 
@@ -148,13 +148,13 @@ class FormatActionsForTimelineTests {
 
     @Test
     fun `formatFishControl should return the formatted string for land controls`() {
-        val action = MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL), )
+        val action = FishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL), )
         assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("13:00 - Contrôle Pêche - à terre - La Rochelle (LR) - Le Pi (AC 1435) - Infractions: sans PV - RAS")
     }
 
     @Test
     fun `formatFishControl should return the formatted string with natinfs`() {
-        val action = MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(infractions = listOf(
+        val action = FishActionEntity.fromFishAction(action = FishActionControlMock.create(infractions = listOf(
             FishInfraction(
                 infractionType = InfractionType.WITH_RECORD,
                 natinf = 123
@@ -175,20 +175,20 @@ class FormatActionsForTimelineTests {
 
     @Test
     fun `formatNavStatus should return formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, observations = null))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, observations = null))
 
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("23:00 - Mouillage")
     }
 
     @Test
     fun `formatNavStatus should return formatted reason`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, reason = ActionStatusReason.MAINTENANCE.toString(), observations = null))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, reason = ActionStatusReason.MAINTENANCE.toString(), observations = null))
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("23:00 - Mouillage - Maintenance")
     }
 
     @Test
     fun `formatNavStatus should return formatted observations`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, observations = "3 adultes & 2 enfants <> RAS"))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, observations = "3 adultes & 2 enfants <> RAS"))
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("23:00 - Mouillage - 3 adultes & 2 enfants <> RAS")
     }
 
@@ -200,7 +200,7 @@ class FormatActionsForTimelineTests {
 
     @Test
     fun `formatNavControl should return formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.CONTROL))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.CONTROL))
         assertThat(formatActionsForTimeline.formatNavControl(action)).isEqualTo("23:00 / 02:00 - Contrôle administratif - FR-23566")
     }
 
@@ -217,51 +217,51 @@ class FormatActionsForTimelineTests {
 
     @Test
     fun `formatNavActionCommon for IllegalImmigration should return a correctly formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.ILLEGAL_IMMIGRATION, observations = null))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.ILLEGAL_IMMIGRATION, observations = null))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Lutte contre l'immigration illégale")
     }
 
     @Test
     fun `formatNavActionCommon for Representation should return a correctly formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.REPRESENTATION, observations = null))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.REPRESENTATION, observations = null))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Représentation")
     }
 
     @Test
     fun `formatNavActionCommon for Vigimer should return a correctly formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.VIGIMER, observations = null))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.VIGIMER, observations = null))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Permanence Vigimer")
     }
 
     @Test
     fun `formatNavActionCommon for BAAEM should return a correctly formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.BAAEM_PERMANENCE, observations = null))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.BAAEM_PERMANENCE, observations = null))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Permanence BAAEM")
     }
 
 
     @Test
     fun `formatNavActionCommon for PublicOrder should return a correctly formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.PUBLIC_ORDER, observations = null))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.PUBLIC_ORDER, observations = null))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Maintien de l'ordre public")
     }
 
     @Test
     fun `formatNavActionCommon for NauticalEvent should return a correctly formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.NAUTICAL_EVENT, observations = "RAS"))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.NAUTICAL_EVENT, observations = "RAS"))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Sécu de manifestation nautique - RAS")
     }
 
     @Test
     fun `formatNavActionCommon for Rescue should return a correctly formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.RESCUE, observations = "RAS"))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.RESCUE, observations = "RAS"))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Assistance et sauvetage - RAS")
     }
 
 
     @Test
     fun `formatNavActionCommon for format special chars in observations`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.RESCUE, observations = "3 adultes & 2 enfants <> RAS"))
+        val action = NavActionEntity.fromActionModel(MissionActionModelMock.create(actionType = ActionType.RESCUE, observations = "3 adultes & 2 enfants <> RAS"))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Assistance et sauvetage - 3 adultes & 2 enfants <> RAS")
     }
 

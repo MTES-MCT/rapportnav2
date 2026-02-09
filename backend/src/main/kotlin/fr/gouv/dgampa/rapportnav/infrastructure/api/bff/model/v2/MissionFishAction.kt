@@ -5,8 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 
 
 class MissionFishAction(
@@ -32,8 +32,8 @@ class MissionFishAction(
     data = data
 ) {
     companion object {
-        fun fromMissionActionEntity(action: MissionActionEntity): MissionFishAction {
-            val fishAction = action as MissionFishActionEntity
+        fun fromMissionActionEntity(action: ActionEntity): MissionFishAction {
+            val fishAction = action as FishActionEntity
             return MissionFishAction(
                 id = fishAction.id.toString(),
                 source = fishAction.source,

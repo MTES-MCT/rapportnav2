@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import java.util.*
 
@@ -13,7 +13,7 @@ class GetMissionAction(
     private val getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId,
     private val getStatusForAction: GetStatusForAction
 ) {
-    fun execute(missionId: Int): List<MissionActionEntity> {
+    fun execute(missionId: Int): List<ActionEntity> {
         val envActions = getEnvActionByMissionId.execute(missionId = missionId)
         val navActions = getNavActionByMissionId.execute(missionId = missionId)
         val fishActions = getFIshListActionByMissionId.execute(missionId = missionId)
@@ -25,7 +25,7 @@ class GetMissionAction(
             }
     }
 
-    fun execute(missionIdUUID: UUID): List<MissionActionEntity> {
+    fun execute(missionIdUUID: UUID): List<ActionEntity> {
         return getComputeNavActionListByMissionId.execute(ownerId = missionIdUUID)
             .sortedByDescending { action -> action.startDateTimeUtc }
     }

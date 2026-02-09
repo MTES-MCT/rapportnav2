@@ -10,7 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Flight
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.GearControl
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesControl
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import java.time.Instant
 
@@ -71,8 +71,8 @@ object MissionFishActionEntityMock {
         speciesQuantitySeized: Int? = null,
         targets: List<TargetEntity>? = null,
         fishInfractions: List<FishInfraction> = listOf(),
-    ): MissionFishActionEntity {
-        return MissionFishActionEntity(
+    ): FishActionEntity {
+        return FishActionEntity(
             id = id,
             missionId = missionId,
             vesselId = vesselId,

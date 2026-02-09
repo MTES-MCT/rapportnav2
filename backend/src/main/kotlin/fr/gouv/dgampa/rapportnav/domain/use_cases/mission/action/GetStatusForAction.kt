@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import java.time.Instant
 
@@ -16,7 +16,7 @@ class GetStatusForAction(
 
         val actions = missionActionsRepository
             .findAllByMissionId(missionId)
-            .map { MissionNavActionEntity.fromMissionActionModel(it) }
+            .map { NavActionEntity.fromActionModel(it) }
 
         if (actions.isEmpty()) {
             return ActionStatusType.UNKNOWN

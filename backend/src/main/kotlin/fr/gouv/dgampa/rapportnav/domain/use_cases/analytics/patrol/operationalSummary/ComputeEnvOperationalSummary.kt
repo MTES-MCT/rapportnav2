@@ -5,8 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ThemeStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 import kotlin.collections.flatMap
@@ -18,15 +18,15 @@ class ComputeEnvOperationalSummary(
 
 ) {
 
-    fun execute(actions: List<MissionActionEntity>): Map<String, Any> {
+    fun execute(actions: List<ActionEntity>): Map<String, Any> {
         val filteredActions = actions
-            .filterIsInstance<MissionEnvActionEntity>()
+            .filterIsInstance<EnvActionEntity>()
 
         val controls = filteredActions.filter { it.envActionType == ActionTypeEnum.CONTROL }
         val surveillances = filteredActions.filter { it.envActionType == ActionTypeEnum.SURVEILLANCE }
 
         val nbSurveillances = surveillances.size
-        val totalSurveillanceDurationInHours = surveillances.sumOf<MissionEnvActionEntity> { surveillance ->
+        val totalSurveillanceDurationInHours = surveillances.sumOf<EnvActionEntity> { surveillance ->
             ComputeDurationUtils.durationInHours(
                 startDateTimeUtc = surveillance.startDateTimeUtc,
                 endDateTimeUtc = surveillance.endDateTimeUtc
@@ -68,7 +68,7 @@ class ComputeEnvOperationalSummary(
             listOf(theme) + flattenThemes(theme.subThemes)
         }
 
-    fun computeThemeStats(actions: List<MissionEnvActionEntity>): List<ThemeStats> {
+    fun computeThemeStats(actions: List<EnvActionEntity>): List<ThemeStats> {
         val stats = mutableMapOf<Pair<Int, String>, ThemeStats>()
 
         for (action in actions) {

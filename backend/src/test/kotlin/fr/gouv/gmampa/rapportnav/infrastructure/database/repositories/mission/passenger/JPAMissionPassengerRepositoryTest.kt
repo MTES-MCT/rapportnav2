@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.p
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger.MissionPassengerModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger.PassengerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBMissionPassengerRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew.JPAMissionPassengerRepository
 import fr.gouv.gmampa.rapportnav.mocks.mission.passenger.MissionPassengerEntityMock
@@ -27,7 +27,7 @@ class JPAMissionPassengerRepositoryTest {
         missionId = 1,
         missionIdUUID = UUID.randomUUID(),
     )
-    private val sampleModel = sampleEntity.toMissionPassengerModel()
+    private val sampleModel = sampleEntity.toPassengerModel()
 
     @BeforeEach
     fun setUp() {
@@ -38,7 +38,7 @@ class JPAMissionPassengerRepositoryTest {
     @Test
     fun `findByMissionId should delegate to repository`() {
         whenever(dbRepo.findByMissionId(sampleEntity.missionId!!))
-            .thenReturn(listOf<MissionPassengerModel>(sampleModel))
+            .thenReturn(listOf<PassengerModel>(sampleModel))
 
         val result = jpaRepo.findByMissionId(sampleEntity.missionId)
         assertEquals(listOf(sampleModel), result)
@@ -47,7 +47,7 @@ class JPAMissionPassengerRepositoryTest {
     @Test
     fun `findByMissionIdUUID should delegate to repository`() {
         whenever(dbRepo.findByMissionIdUUID(sampleEntity.missionIdUUID!!))
-            .thenReturn(listOf<MissionPassengerModel>(sampleModel))
+            .thenReturn(listOf<PassengerModel>(sampleModel))
 
         val result = jpaRepo.findByMissionIdUUID(sampleEntity.missionIdUUID)
         assertEquals(listOf(sampleModel), result)

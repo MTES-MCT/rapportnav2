@@ -3,8 +3,8 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -110,8 +110,8 @@ class CreateMissionTest {
        val  generalInfo2 = MissionGeneralInfo2Mock.create(
            missionReportType = MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT
        )
-        val generalInfoEntity = MissionGeneralInfoEntity2(
-            data = MissionGeneralInfoEntity(
+        val generalInfoEntity = MissionGeneralInfoEntity(
+            data = GeneralInfoEntity(
                 id = generalInfo2.id,
                 missionId = generalInfo2.missionId
             )
@@ -150,8 +150,8 @@ class CreateMissionTest {
         val  generalInfo2 = MissionGeneralInfo2Mock.create(
             missionReportType = MissionReportTypeEnum.OFFICE_REPORT
         )
-        val generalInfoEntity = MissionGeneralInfoEntity2(
-            data = MissionGeneralInfoEntity(
+        val generalInfoEntity = MissionGeneralInfoEntity(
+            data = GeneralInfoEntity(
                 id = generalInfo2.id,
                 missionId = generalInfo2.missionId
             )
@@ -200,8 +200,8 @@ class CreateMissionTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        val generalInfoEntity = MissionGeneralInfoEntity2(
-            data = MissionGeneralInfoEntity(
+        val generalInfoEntity = MissionGeneralInfoEntity(
+            data = GeneralInfoEntity(
                 id = generalInfo2.id,
                 missionId = generalInfo2.missionId
             )
@@ -239,8 +239,8 @@ class CreateMissionTest {
             endDateTimeUtc = endDate
         )
 
-        val generalInfoEntity = MissionGeneralInfoEntity2(
-            data = MissionGeneralInfoEntity(
+        val generalInfoEntity = MissionGeneralInfoEntity(
+            data = GeneralInfoEntity(
                 id = 1,
                 missionIdUUID = missionIdUUID
             )
@@ -303,8 +303,8 @@ class CreateMissionTest {
             hasMissionOrder = true
         )
 
-        val generalInfoEntity = MissionGeneralInfoEntity2(
-            data = MissionGeneralInfoEntity(
+        val generalInfoEntity = MissionGeneralInfoEntity(
+            data = GeneralInfoEntity(
                 id = 1,
                 missionId = missionId
             )

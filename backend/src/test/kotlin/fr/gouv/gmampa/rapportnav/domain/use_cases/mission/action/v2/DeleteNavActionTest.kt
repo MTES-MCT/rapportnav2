@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.ActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.eq
@@ -27,7 +27,7 @@ class DeleteNavActionTest {
     @Test
     fun `test execute get nav action by id`() {
         val actionId = UUID.randomUUID()
-        val action = MissionActionModel(
+        val action = ActionModel(
             id = actionId,
             missionId = 761,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),

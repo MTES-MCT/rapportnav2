@@ -4,10 +4,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
 
@@ -29,8 +29,8 @@ object MissionEntityMock {
         missionSource: MissionSourceEnum = MissionSourceEnum.MONITORENV,
         hasMissionOrder: Boolean = false,
         isUnderJdp: Boolean = false,
-        actions: List<MissionActionEntity> = listOf(),
-        generalInfos: MissionGeneralInfoEntity2? = MissionGeneralInfoEntity2(data = MissionGeneralInfoEntity(missionId = 1, id = 1)),
+        actions: List<ActionEntity> = listOf(),
+        generalInfos: MissionGeneralInfoEntity? = MissionGeneralInfoEntity(data = GeneralInfoEntity(missionId = 1, id = 1)),
     ): MissionEntity {
         return MissionEntity(
             id = id,

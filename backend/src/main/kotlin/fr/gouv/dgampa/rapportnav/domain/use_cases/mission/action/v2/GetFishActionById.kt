@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
@@ -12,7 +12,7 @@ class GetFishActionById(
     private val processFishAction: ProcessFishAction,
     private val getFishActionListByMissionId: GetFishActionListByMissionId
 ) {
-    fun execute(missionId: Int?, actionId: String?): MissionFishActionEntity? {
+    fun execute(missionId: Int?, actionId: String?): FishActionEntity? {
         if (!isInteger(actionId) || isValidUUID(actionId)) return null
         if (missionId == null || actionId == null) {
             throw BackendUsageException(

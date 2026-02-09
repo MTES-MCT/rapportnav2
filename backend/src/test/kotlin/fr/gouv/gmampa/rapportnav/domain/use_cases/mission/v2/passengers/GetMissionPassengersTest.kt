@@ -41,7 +41,7 @@ class GetMissionPassengersTest {
         val missionId = 42
 
         whenever(repo.findByMissionId(missionId))
-            .thenReturn(listOf(passenger1.toMissionPassengerModel(), passenger2.toMissionPassengerModel()))
+            .thenReturn(listOf(passenger1.toPassengerModel(), passenger2.toPassengerModel()))
 
         val result = useCase.execute(missionId = missionId)
 
@@ -66,7 +66,7 @@ class GetMissionPassengersTest {
         val uuid = UUID.randomUUID()
 
         whenever(repo.findByMissionIdUUID(uuid))
-            .thenReturn(listOf(passenger1.toMissionPassengerModel()))
+            .thenReturn(listOf(passenger1.toPassengerModel()))
 
         val result = useCase.execute(missionIdUUID = uuid)
 

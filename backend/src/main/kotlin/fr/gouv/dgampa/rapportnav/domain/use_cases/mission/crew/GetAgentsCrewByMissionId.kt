@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import java.util.*
 
@@ -24,17 +24,17 @@ class GetAgentsCrewByMissionId(private val agentCrewRepository: IMissionCrewRepo
         "Cuisinier",
     )
 
-    fun execute(missionId: Int, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
+    fun execute(missionId: Int, commentDefaultsToString: Boolean? = false): List<CrewEntity> {
         return agentCrewRepository.findByMissionId(missionId = missionId)
             .filter { it.agent != null}
-            .map { MissionCrewEntity.fromMissionCrewModel(it) }
+            .map { CrewEntity.fromCrewModel(it) }
             .sortedBy { rolePriority.indexOf(it.role?.title) } //TODO replace by it.role.prority
     }
 
-    fun execute(missionIdUUID: UUID, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
+    fun execute(missionIdUUID: UUID, commentDefaultsToString: Boolean? = false): List<CrewEntity> {
         return agentCrewRepository.findByMissionIdUUID(missionIdUUID = missionIdUUID)
             .filter { it.agent != null}
-            .map { MissionCrewEntity.fromMissionCrewModel(it) }
+            .map { CrewEntity.fromCrewModel(it) }
             .sortedBy { rolePriority.indexOf(it.role?.title) } //TODO replace by it.role.prority
     }
 }

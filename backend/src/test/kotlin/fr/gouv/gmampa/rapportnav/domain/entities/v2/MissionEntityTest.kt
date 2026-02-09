@@ -5,12 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.GeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -65,7 +65,7 @@ class MissionEntityTest {
         action.isCompleteForStats = true
 
         val generalInfo = MissionGeneralInfoEntity2Mock.create(
-            data = MissionGeneralInfoEntityMock.create(
+            data = GeneralInfoEntityMock.create(
                 distanceInNauticalMiles = 1F,
                 consumedGOInLiters = 1F,
                 consumedFuelInLiters = 1F,
@@ -92,7 +92,7 @@ class MissionEntityTest {
         action.isCompleteForStats = true
 
         val generalInfo = MissionGeneralInfoEntity2Mock.create(
-            data = MissionGeneralInfoEntity(
+            data = GeneralInfoEntity(
                 distanceInNauticalMiles = null, // it shouldn't be null
                 consumedGOInLiters = 1F,
                 consumedFuelInLiters = 1F,
@@ -133,7 +133,7 @@ class MissionEntityTest {
         action.isCompleteForStats = true
 
         val generalInfo = MissionGeneralInfoEntity2Mock.create(
-            data = MissionGeneralInfoEntity(
+            data = GeneralInfoEntity(
                 distanceInNauticalMiles = null, // it is null but not a problem for secondary missions
                 consumedGOInLiters = 1F,
                 consumedFuelInLiters = 1F,

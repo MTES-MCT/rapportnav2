@@ -10,7 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeNavControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
@@ -225,7 +225,7 @@ class ComputeNavControlPolicyTest {
             controls = listOf(brokenControl)
         )
 
-        val envAction = MissionEnvActionEntity(
+        val envAction = EnvActionEntity(
             id = UUID.randomUUID(),
             missionId = 123,
             envActionType = ActionTypeEnum.CONTROL,

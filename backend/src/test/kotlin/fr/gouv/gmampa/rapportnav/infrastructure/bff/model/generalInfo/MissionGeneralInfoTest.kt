@@ -1,8 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.generalInfo
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.MissionGeneralInfo
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.GeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -14,7 +13,7 @@ class MissionGeneralInfoTest {
     @Test
     fun `execute should retrieve mission general info entity`() {
         val generalInfoEntity =
-            MissionGeneralInfoEntityMock.create(
+            GeneralInfoEntityMock.create(
                 id = 1,
                 missionId = 1,
                 service = ServiceEntityMock.create(id = 3),
@@ -36,7 +35,7 @@ class MissionGeneralInfoTest {
 
     @Test
     fun `execute should retrieve mission general from entity`() {
-        val generalInfoEntity = MissionGeneralInfoEntityMock.create(
+        val generalInfoEntity = GeneralInfoEntityMock.create(
             id = 1,
             missionId = 1,
             service = ServiceEntityMock.create(id = 3),

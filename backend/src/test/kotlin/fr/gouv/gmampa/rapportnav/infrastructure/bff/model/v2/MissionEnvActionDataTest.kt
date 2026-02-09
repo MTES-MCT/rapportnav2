@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvActionData
 import org.assertj.core.api.Assertions.assertThat
@@ -17,7 +17,7 @@ class MissionEnvActionDataTest {
     @Test
     fun `execute should retrieve output from mission action env Entity`() {
        val envAction = getEnvAction();
-        val entity =  MissionEnvActionEntity.fromEnvAction(761, envAction)
+        val entity =  EnvActionEntity.fromEnvActionOutput(761, envAction)
         val output = MissionEnvAction.fromMissionActionEntity(entity)
         val entity2 = MissionEnvActionData.toMissionEnvActionEntity(output)
         assertThat(output).isNotNull()
@@ -29,8 +29,8 @@ class MissionEnvActionDataTest {
     }
 
 
-    private fun getEnvAction(): EnvActionEntity {
-        return EnvActionControlEntity(
+    private fun getEnvAction(): fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionEnvEntity {
+        return ActionControlEnvEntity(
             UUID.randomUUID(),
             observations = "observations",
             observationsByUnit = "observationsByUnit",

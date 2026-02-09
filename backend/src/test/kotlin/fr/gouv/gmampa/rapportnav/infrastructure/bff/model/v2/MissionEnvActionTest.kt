@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -17,7 +17,7 @@ class MissionEnvActionTest {
     @Test
     fun `execute should retrieve output from mission action env Entity`() {
        val envAction = getEnvAction();
-        val entity =  MissionEnvActionEntity.fromEnvAction(761, envAction)
+        val entity =  EnvActionEntity.fromEnvActionOutput(761, envAction)
         val output = MissionEnvAction.fromMissionActionEntity(entity)
         assertThat(output).isNotNull()
         assertThat(output.id).isEqualTo(entity.id.toString())
@@ -44,8 +44,8 @@ class MissionEnvActionTest {
     }
 
 
-    private fun getEnvAction(): EnvActionEntity {
-        return EnvActionControlEntity(
+    private fun getEnvAction(): fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionEnvEntity {
+        return ActionControlEnvEntity(
             UUID.randomUUID(),
             completedBy = "completedBy",
             facade = "facade",

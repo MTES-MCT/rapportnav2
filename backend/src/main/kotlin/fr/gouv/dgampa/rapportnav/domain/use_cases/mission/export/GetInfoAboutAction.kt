@@ -6,10 +6,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import kotlin.time.DurationUnit
 
@@ -19,7 +19,7 @@ class GetInfoAboutNavAction2(
 ) {
 
     fun execute(
-        actions: List<MissionActionEntity>?,
+        actions: List<ActionEntity>?,
         actionTypes: List<ActionType>,
         actionSource: MissionSourceEnum
     ): NavActionInfoEntity? {
@@ -43,10 +43,10 @@ class GetInfoAboutNavAction2(
 
 
     private fun filterActionPerType(
-        actions: List<MissionActionEntity>?,
+        actions: List<ActionEntity>?,
         actionTypes: List<ActionType>,
         actionSource: MissionSourceEnum
-    ): List<MissionActionEntity>? {
+    ): List<ActionEntity>? {
 
         val filteredActions = when (actionSource) {
             MissionSourceEnum.MONITORFISH -> {
@@ -56,7 +56,7 @@ class GetInfoAboutNavAction2(
                     MissionActionType.AIR_CONTROL to ActionType.CONTROL,
                     MissionActionType.AIR_SURVEILLANCE to ActionType.SURVEILLANCE,
                 )
-                actions?.filterIsInstance<MissionFishActionEntity>()?.filter {
+                actions?.filterIsInstance<FishActionEntity>()?.filter {
                     val actionType = mappedActionTypes[it.fishActionType]
                     actionType in actionTypes
                 }
@@ -67,14 +67,14 @@ class GetInfoAboutNavAction2(
                     ActionTypeEnum.CONTROL to ActionType.CONTROL,
                     ActionTypeEnum.SURVEILLANCE to ActionType.SURVEILLANCE,
                 )
-                actions?.filterIsInstance<MissionEnvActionEntity>()?.filter {
+                actions?.filterIsInstance<EnvActionEntity>()?.filter {
                     val actionType = mappedActionTypes[it.envActionType]
                     actionType in actionTypes
                 }
             }
 
             MissionSourceEnum.RAPPORTNAV -> {
-                actions?.filterIsInstance<MissionNavActionEntity>()
+                actions?.filterIsInstance<NavActionEntity>()
                     ?.filter { it.actionType in actionTypes }
             }
 
@@ -85,7 +85,7 @@ class GetInfoAboutNavAction2(
     }
 
     private fun getAccumulatedDurationInHours(
-        actions: List<MissionActionEntity>?,
+        actions: List<ActionEntity>?,
         actionSource: MissionSourceEnum
     ): Double? {
         return when (actionSource) {
@@ -95,8 +95,8 @@ class GetInfoAboutNavAction2(
         }
     }
 
-    private fun getAccumulatedDurationInHoursForEnvAction(actions: List<MissionActionEntity>?): Double {
-        val durationInSeconds = actions?.filterIsInstance<MissionEnvActionEntity>()?.map {
+    private fun getAccumulatedDurationInHoursForEnvAction(actions: List<ActionEntity>?): Double {
+        val durationInSeconds = actions?.filterIsInstance<EnvActionEntity>()?.map {
             computeDurations.durationInSeconds(
                 it.startDateTimeUtc,
                 it.endDateTimeUtc
@@ -106,15 +106,15 @@ class GetInfoAboutNavAction2(
         return computeDurations.convertFromSeconds(durationInSeconds, DurationUnit.HOURS)
     }
 
-    private fun getAccumulatedDurationInHoursForNavAction(actions: List<MissionActionEntity>?): Double {
-        val durationInSeconds = actions?.filterIsInstance<MissionNavActionEntity>()?.map {
+    private fun getAccumulatedDurationInHoursForNavAction(actions: List<ActionEntity>?): Double {
+        val durationInSeconds = actions?.filterIsInstance<NavActionEntity>()?.map {
             computeDurations.durationInSeconds(it.startDateTimeUtc, it.endDateTimeUtc) ?: 0
         }?.reduceOrNull { acc, duration -> acc + duration } ?: 0
 
         return computeDurations.convertFromSeconds(durationInSeconds, DurationUnit.HOURS)
     }
 
-    private fun getCount(actions: List<MissionActionEntity>?): Int {
+    private fun getCount(actions: List<ActionEntity>?): Int {
         return actions?.count() ?: 0
     }
 

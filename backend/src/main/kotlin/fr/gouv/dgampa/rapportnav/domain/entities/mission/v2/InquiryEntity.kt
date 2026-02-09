@@ -16,7 +16,7 @@ class InquiryEntity(
     val origin: InquiryOriginType? = null,
     val status: InquiryStatusType? = null,
     val conclusion: InquiryConclusionType? = null,
-    var actions: List<MissionActionEntity>? = null,
+    var actions: List<ActionEntity>? = null,
     var isSignedByInspector: Boolean? = null,
     var vessel: VesselEntity? = null,
     var establishment: EstablishmentEntity? = null,
@@ -67,7 +67,7 @@ class InquiryEntity(
         return this
     }
 
-    fun withActions(actions: List<MissionActionEntity>?): InquiryEntity {
+    fun withActions(actions: List<ActionEntity>?): InquiryEntity {
         this.actions = actions
         return this
     }

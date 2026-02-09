@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMIllegalImmigration(
@@ -11,7 +11,7 @@ data class AEMIllegalImmigration(
     val nbrOfSuspectedSmuggler: Double? = 0.0 // 3.4.4
 ) {
     constructor(
-        navActions: List<MissionNavActionEntity>
+        navActions: List<NavActionEntity>
     ) : this(
         nbrOfHourAtSea = AEMUtils.getDurationInHours2(getIllegalActions(navActions)),
         nbrOfInterceptedVessel = getNbrOfInterceptedVessel(getIllegalActions(navActions)),
@@ -20,7 +20,7 @@ data class AEMIllegalImmigration(
     ) {}
 
     companion object {
-        fun getNbrOfInterceptedVessel(illegalActions: List<MissionNavActionEntity?>): Double {
+        fun getNbrOfInterceptedVessel(illegalActions: List<NavActionEntity?>): Double {
             return illegalActions.fold(0.0) { acc, illegalAction ->
                 acc.plus(
                     illegalAction?.nbOfInterceptedVessels ?: 0
@@ -28,7 +28,7 @@ data class AEMIllegalImmigration(
             }
         }
 
-        fun getNbrOfInterceptedMigrant(illegalActions: List<MissionNavActionEntity?>): Double {
+        fun getNbrOfInterceptedMigrant(illegalActions: List<NavActionEntity?>): Double {
             return illegalActions.fold(0.0) { acc, illegalAction ->
                 acc.plus(
                     illegalAction?.nbOfInterceptedMigrants ?: 0
@@ -36,7 +36,7 @@ data class AEMIllegalImmigration(
             }
         }
 
-        fun getNbrOfSuspectedSmuggler(illegalActions: List<MissionNavActionEntity?>): Double {
+        fun getNbrOfSuspectedSmuggler(illegalActions: List<NavActionEntity?>): Double {
             return illegalActions.fold(0.0) { acc, illegalAction ->
                 acc.plus(
                     illegalAction?.nbOfSuspectedSmugglers ?: 0
@@ -44,7 +44,7 @@ data class AEMIllegalImmigration(
             }
         }
 
-        private fun getIllegalActions(navActions: List<MissionNavActionEntity>): List<MissionNavActionEntity?> {
+        private fun getIllegalActions(navActions: List<NavActionEntity>): List<NavActionEntity?> {
             return navActions.filter { it.actionType == ActionType.ILLEGAL_IMMIGRATION }
         }
     }

@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import java.time.Duration
 import java.time.Instant
@@ -34,7 +34,7 @@ class GetNbOfDaysAtSeaFromNavigationStatus(
     fun execute(
         missionStartDateTime: Instant? = null,
         missionEndDateTime: Instant? = null,
-        actions: List<MissionNavActionEntity>? = listOf(),
+        actions: List<NavActionEntity>? = listOf(),
         durationUnit: DurationUnit = DurationUnit.HOURS,
         zoneId: ZoneId = ZoneId.systemDefault()
     ): Int {

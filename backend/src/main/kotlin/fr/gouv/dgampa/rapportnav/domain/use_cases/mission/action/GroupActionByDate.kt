@@ -1,13 +1,13 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
 import java.time.LocalDate
 import java.time.ZoneId
 
 @UseCase
 class GroupActionByDate {
-    fun execute(actions: List<MissionActionEntity>?): Map<LocalDate, List<MissionActionEntity>>? {
+    fun execute(actions: List<ActionEntity>?): Map<LocalDate, List<ActionEntity>>? {
         val zoneId = ZoneId.of("Europe/Paris") // Or use a specific ZoneId like ZoneId.of("Europe/Paris")
 
         return actions?.groupBy { action ->

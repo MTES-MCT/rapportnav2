@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.AddOrUpdateMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.DeleteMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
@@ -84,7 +84,7 @@ class ProcessMissionCrewTest {
         assertThat(crews.size).isEqualTo(3)
     }
 
-    private fun getMissionCrews(missionId: Int? = null, missionIdUUID: UUID? = null): Pair<List<MissionCrew>, List<MissionCrewEntity>> {
+    private fun getMissionCrews(missionId: Int? = null, missionIdUUID: UUID? = null): Pair<List<MissionCrew>, List<CrewEntity>> {
         val crew1 = MissionCrewEntityMock.create(id = 1, missionId = 761, missionIdUUID = missionIdUUID)
         val crew2 = MissionCrewEntityMock.create(id = 2, missionId = 761, missionIdUUID = missionIdUUID)
         val crew3 = MissionCrewEntityMock.create(id = 3, missionId = 761, missionIdUUID = missionIdUUID)

@@ -6,10 +6,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Infrac
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
@@ -28,7 +28,7 @@ class FormatActionsForTimeline(
      */
 
 
-    fun formatTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
+    fun formatTimeline(actions: List<ActionEntity>?): Map<LocalDate, List<String>>? {
 
         if (actions.isNullOrEmpty()) {
             return null
@@ -48,16 +48,16 @@ class FormatActionsForTimeline(
     }
 
 
-    private fun formatAction(action: MissionActionEntity): String? {
+    private fun formatAction(action: ActionEntity): String? {
         return when (action) {
-            is MissionEnvActionEntity -> formatEnvAction(action)
-            is MissionFishActionEntity -> formatFishAction(action)
-            is MissionNavActionEntity -> formatNavAction(action)
+            is EnvActionEntity -> formatEnvAction(action)
+            is FishActionEntity -> formatFishAction(action)
+            is NavActionEntity -> formatNavAction(action)
             else -> null
         }
     }
 
-    private fun formatEnvAction(action: MissionEnvActionEntity): String? {
+    private fun formatEnvAction(action: EnvActionEntity): String? {
         return when (action.envActionType) {
             ActionTypeEnum.CONTROL -> formatEnvControl(action)
             ActionTypeEnum.SURVEILLANCE -> formatEnvSurveillance(action)
@@ -65,11 +65,11 @@ class FormatActionsForTimeline(
         }
     }
 
-    private fun formatFishAction(action: MissionFishActionEntity): String? {
+    private fun formatFishAction(action: FishActionEntity): String? {
         return formatFishControl(action)
     }
 
-    fun formatNavAction(action: MissionNavActionEntity): String? {
+    fun formatNavAction(action: NavActionEntity): String? {
         return when (action.actionType) {
             ActionType.STATUS -> formatNavStatus(action)
             ActionType.CONTROL -> formatNavControl(action)
@@ -114,7 +114,7 @@ class FormatActionsForTimeline(
         }
     }
 
-    fun formatEnvControl(action: MissionEnvActionEntity?): String? {
+    fun formatEnvControl(action: EnvActionEntity?): String? {
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.endDateTimeUtc)
@@ -125,7 +125,7 @@ class FormatActionsForTimeline(
         }
     }
 
-    fun formatEnvSurveillance(action: MissionEnvActionEntity?): String? {
+    fun formatEnvSurveillance(action: EnvActionEntity?): String? {
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.endDateTimeUtc)
@@ -134,7 +134,7 @@ class FormatActionsForTimeline(
         }
     }
 
-    fun formatFishControl(action: MissionFishActionEntity?): String? {
+    fun formatFishControl(action: FishActionEntity?): String? {
         return action?.let {
             val startTime = formatDateTime.formatTime(action.actionDatetimeUtc)
             val coords = if (action.fishActionType == MissionActionType.LAND_CONTROL) {
@@ -165,7 +165,7 @@ class FormatActionsForTimeline(
         }
     }
 
-    fun formatNavStatus(action: MissionNavActionEntity?): String? {
+    fun formatNavStatus(action: NavActionEntity?): String? {
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val status = mapActionStatusTypeToHumanString(action.status)
@@ -175,7 +175,7 @@ class FormatActionsForTimeline(
         }
     }
 
-    fun formatNavControl(action: MissionNavActionEntity?): String? {
+    fun formatNavControl(action: NavActionEntity?): String? {
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.endDateTimeUtc)
@@ -185,7 +185,7 @@ class FormatActionsForTimeline(
     }
 
     private fun formatNavActionCommon(
-        action: MissionNavActionEntity,
+        action: NavActionEntity,
         title: String?
     ): String? {
         return action.let {
@@ -198,7 +198,7 @@ class FormatActionsForTimeline(
         }
     }
 
-    private fun formatNavActionNote(action: MissionNavActionEntity): String? {
+    private fun formatNavActionNote(action: NavActionEntity): String? {
         return action.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val observation =

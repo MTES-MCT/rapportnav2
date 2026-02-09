@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeSailingOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
@@ -23,7 +23,7 @@ class ComputeSailingOperationalSummaryTest {
     @Autowired
     private lateinit var computeSailingOperationalSummary: ComputeSailingOperationalSummary
 
-    fun getAction(controlMethod: ControlMethod, vesselType: VesselTypeEnum): List<MissionNavActionEntity> {
+    fun getAction(controlMethod: ControlMethod, vesselType: VesselTypeEnum): List<NavActionEntity> {
         val actions = listOf(
             MissionNavActionEntityMock.create(actionType = ActionType.STATUS),
             MissionNavActionEntityMock.create(

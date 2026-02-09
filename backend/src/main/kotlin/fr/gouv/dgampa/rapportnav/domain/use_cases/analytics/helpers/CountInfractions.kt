@@ -4,13 +4,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 
 class CountInfractions {
 
-    fun countFishInfractions(actions: List<MissionFishActionEntity>, infractionType: InfractionType): Map<String, Int> {
+    fun countFishInfractions(actions: List<FishActionEntity>, infractionType: InfractionType): Map<String, Int> {
         return mapOf(
             "infractions" to actions.sumOf { action ->
                 action.fishInfractions?.count { it.infractionType == infractionType }?.or(0) ?: 0
@@ -19,7 +19,7 @@ class CountInfractions {
     }
 
     fun countOtherFishInfractions(
-        actions: List<MissionFishActionEntity>,
+        actions: List<FishActionEntity>,
         infractionType: InfractionType
     ): Int =
         actions.sumOf { action ->
@@ -29,7 +29,7 @@ class CountInfractions {
         }
 
     fun countNavInfractions(
-        actions: List<MissionActionEntity>,
+        actions: List<ActionEntity>,
         controlType: ControlType,
         infractionType: InfractionTypeEnum?
     ): Int =
@@ -44,7 +44,7 @@ class CountInfractions {
             .sumOf { it.amountOfControls }
 
     fun countEnvInfractions(
-        actions: List<MissionEnvActionEntity>,
+        actions: List<EnvActionEntity>,
         infractionType: InfractionTypeEnum?
     ): Int =
         actions.asSequence()

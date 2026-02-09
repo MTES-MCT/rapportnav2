@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action.ActionEnvInput
@@ -13,7 +13,7 @@ class UpdateEnvAction(
     private val patchEnvAction: PatchEnvAction,
     private val processMissionActionTarget: ProcessMissionActionTarget
 ) {
-    fun execute(id: String, input: MissionEnvAction): MissionEnvActionEntity {
+    fun execute(id: String, input: MissionEnvAction): EnvActionEntity {
         val action = MissionEnvActionData.toMissionEnvActionEntity(input)
         patchEnvAction.execute(
             ActionEnvInput(

@@ -1,14 +1,14 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.GeneralInfoModel
 
 @UseCase
 class GetAllGeneralInfos(
-    private val repository: IMissionGeneralInfoRepository,
+    private val repository: IGeneralInfoRepository,
 ) {
-    fun execute(): List<MissionGeneralInfoModel> {
+    fun execute(): List<GeneralInfoModel> {
         return repository.findAll()
     }
 }

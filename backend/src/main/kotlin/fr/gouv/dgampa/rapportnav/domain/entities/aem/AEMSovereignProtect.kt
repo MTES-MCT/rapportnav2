@@ -4,9 +4,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleT
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 import java.time.Instant
 
@@ -16,9 +16,9 @@ data class AEMSovereignProtect(
     val nbrOfControlledVessel: Double? = 0.0, // 7.4
 ) {
     constructor(
-        navActions: List<MissionNavActionEntity>,
-        envActions: List<MissionEnvActionEntity?>,
-        fishActions: List<MissionFishActionEntity?>,
+        navActions: List<NavActionEntity>,
+        envActions: List<EnvActionEntity?>,
+        fishActions: List<FishActionEntity?>,
         missionEndDateTime: Instant?
     ) : this(
         nbrOfHourAtSea = getNbrHourAtSea(navActions, missionEndDateTime),
@@ -28,7 +28,7 @@ data class AEMSovereignProtect(
 
     companion object {
         fun getNbrHourAtSea(
-            navActions: List<MissionNavActionEntity>,
+            navActions: List<NavActionEntity>,
             missionEndDateTime: Instant?
         ): Double {
             val sortedStatusActions =
@@ -43,14 +43,14 @@ data class AEMSovereignProtect(
             return AEMUtils.getDurationInHours2(statusActions)
         }
 
-        fun getNbOfRecognizedVessel(navActions: List<MissionNavActionEntity>): Double {
+        fun getNbOfRecognizedVessel(navActions: List<NavActionEntity>): Double {
             return 0.0
         }
 
         fun getNbrOfControlledVessel(
-            navActions: List<MissionNavActionEntity>,
-            envActions: List<MissionEnvActionEntity?>,
-            fishActions: List<MissionFishActionEntity?>
+            navActions: List<NavActionEntity>,
+            envActions: List<EnvActionEntity?>,
+            fishActions: List<FishActionEntity?>
         ): Double {
             val fishControls = fishActions.filter { it?.fishActionType == MissionActionType.SEA_CONTROL }.size
             val navControls = navActions.filter { it.actionType == ActionType.CONTROL }.size
@@ -58,11 +58,11 @@ data class AEMSovereignProtect(
             return 0.0.plus(fishControls).plus(navControls).plus(envControls)
         }
 
-        private fun getNavigationActions(navActions: List<MissionNavActionEntity?>): List<MissionNavActionEntity?> {
+        private fun getNavigationActions(navActions: List<NavActionEntity?>): List<NavActionEntity?> {
             return navActions.filter { it?.status == ActionStatusType.NAVIGATING }
         }
 
-        private fun getAnchoredActions(navActions: List<MissionNavActionEntity?>): List<MissionNavActionEntity?> {
+        private fun getAnchoredActions(navActions: List<NavActionEntity?>): List<NavActionEntity?> {
             return navActions.filter { it?.status == ActionStatusType.ANCHORED }
         }
     }

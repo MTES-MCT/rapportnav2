@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo
 
 @UseCase
 class CreateMission(
@@ -17,7 +17,7 @@ class CreateMission(
     private val createGeneralInfos: CreateGeneralInfos
 
 ) {
-    fun execute(generalInfo2: MissionGeneralInfo2, service: ServiceEntity? = null): MissionEntity {
+    fun execute(generalInfo2: MissionGeneralInfo, service: ServiceEntity? = null): MissionEntity {
         if (service?.id == null || service.controlUnits.isNullOrEmpty()) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
@@ -38,7 +38,7 @@ class CreateMission(
         )
     }
 
-    private fun executeNavMission(generalInfo2: MissionGeneralInfo2, service: ServiceEntity): MissionEntity {
+    private fun executeNavMission(generalInfo2: MissionGeneralInfo, service: ServiceEntity): MissionEntity {
         val missionNav = createNavMission.execute(
             generalInfo2 = generalInfo2,
             serviceId = service.id!!
@@ -62,7 +62,7 @@ class CreateMission(
         )
     }
 
-    private fun executeEnvMission(generalInfo2: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEntity {
+    private fun executeEnvMission(generalInfo2: MissionGeneralInfo, controlUnitIds: List<Int>?): MissionEntity {
         val missionEnv = createEnvMission.execute(generalInfo2, controlUnitIds)
         val generalInfosEntity = createGeneralInfos.execute(missionId = missionEnv.id, generalInfo2 = generalInfo2)
 

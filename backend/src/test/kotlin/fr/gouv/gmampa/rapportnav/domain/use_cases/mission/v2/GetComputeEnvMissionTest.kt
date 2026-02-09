@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
@@ -25,7 +25,7 @@ class GetComputeEnvMissionTest {
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @MockitoBean
-    private lateinit var getGeneralInfos2: GetGeneralInfo2
+    private lateinit var getGeneralInfos2: GetGeneralInfo
 
     @MockitoBean
     private lateinit var getEnvMissionById2: GetEnvMissionById2
@@ -56,7 +56,7 @@ class GetComputeEnvMissionTest {
         val envMission = EnvMissionMock.create(id = 1)
 
         val actions = listOf(MissionNavActionEntityMock.create())
-        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 1)
+        val generalInfos = MissionGeneralInfo2Mock.create().toGeneralInfoEntity(missionId = 1)
         val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
 
         `when`(getMissionAction.execute(missionId = 1)).thenReturn(actions)
@@ -76,7 +76,7 @@ class GetComputeEnvMissionTest {
         val mission = EnvMissionMock.create(id = 2)
 
         val actions = listOf(MissionNavActionEntityMock.create())
-        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 2)
+        val generalInfos = MissionGeneralInfo2Mock.create().toGeneralInfoEntity(missionId = 2)
         val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
 
         `when`(getEnvMissionById2.execute(2)).thenReturn(mission)

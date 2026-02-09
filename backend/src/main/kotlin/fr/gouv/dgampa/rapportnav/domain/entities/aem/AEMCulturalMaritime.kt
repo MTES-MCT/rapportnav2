@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMCulturalMaritime(
@@ -9,7 +9,7 @@ data class AEMCulturalMaritime(
     val nbrOfBCMPoliceOperation: Double? = 0.0, // 4.4.3
 ) {
     constructor(
-        envActions: List<MissionEnvActionEntity?>
+        envActions: List<EnvActionEntity?>
     ) : this(
         nbrOfScientificOperation = scientificCampaignActionEntities(envActions).size.toDouble(),
         nbrOfBCMPoliceOperation = culturalMaritimeActionEntities(envActions).size.toDouble(),
@@ -19,14 +19,14 @@ data class AEMCulturalMaritime(
     companion object {
         private val scientificCampaignControlPlanSubThemeIds = listOf(165);
         private val culturalMaritimeWellBeingControlPlanThemeIds = listOf(104);
-        private fun culturalMaritimeActionEntities(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
+        private fun culturalMaritimeActionEntities(envActions: List<EnvActionEntity?>): List<EnvActionEntity?> {
             return envActions.filter { action ->
                 action?.controlPlans?.map { c -> c.themeId }
                     ?.intersect(culturalMaritimeWellBeingControlPlanThemeIds)?.isEmpty() == false
             }
         }
 
-        private fun scientificCampaignActionEntities(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
+        private fun scientificCampaignActionEntities(envActions: List<EnvActionEntity?>): List<EnvActionEntity?> {
             return envActions.filter { action ->
                 action?.controlPlans?.flatMap { it.subThemeIds!! }
                     ?.intersect(scientificCampaignControlPlanSubThemeIds)?.isEmpty() == false

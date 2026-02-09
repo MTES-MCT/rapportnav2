@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.ComputeInternTrainingSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeAllOperationalSummary
@@ -69,7 +69,7 @@ class ComputePatrolData(
 
     fun computeActivity(mission: MissionEntity?): Map<String, Map<String, Double>> {
         val statuses = mission?.actions
-            ?.filterIsInstance<MissionNavActionEntity>()
+            ?.filterIsInstance<NavActionEntity>()
             ?.filter {it.actionType === ActionType.STATUS }
             ?.sortedBy { it.startDateTimeUtc }
             .orEmpty()

@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMi
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.CrewModel
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -96,10 +96,10 @@ class GetAgentsCrewByMissionIdTest {
         )
 
         val crewMembers = listOf(
-            MissionCrewModel(role = chefMecano, agent = janeDoe, missionId = missionId, id = 1, missionIdUUID = missionIdUUID),
-            MissionCrewModel(role = secondCapitaine, agent = johnDoe, missionId = missionId, id = 2, missionIdUUID = missionIdUUID),
-            MissionCrewModel(role = cuisinier, agent = alfredDeMusset, missionId = missionId, id = 3, missionIdUUID = missionIdUUID),
-            MissionCrewModel(role = commandant, agent = guyDeMaupassant, missionId = missionId, id = 4, missionIdUUID = missionIdUUID),
+            CrewModel(role = chefMecano, agent = janeDoe, missionId = missionId, id = 1, missionIdUUID = missionIdUUID),
+            CrewModel(role = secondCapitaine, agent = johnDoe, missionId = missionId, id = 2, missionIdUUID = missionIdUUID),
+            CrewModel(role = cuisinier, agent = alfredDeMusset, missionId = missionId, id = 3, missionIdUUID = missionIdUUID),
+            CrewModel(role = commandant, agent = guyDeMaupassant, missionId = missionId, id = 4, missionIdUUID = missionIdUUID),
         )
 
         `when`(agentCrewRepository.findByMissionId(missionId)).thenReturn(crewMembers)

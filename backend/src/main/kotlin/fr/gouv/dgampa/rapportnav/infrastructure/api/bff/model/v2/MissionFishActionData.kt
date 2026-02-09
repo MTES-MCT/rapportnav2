@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import java.time.Instant
 
 class MissionFishActionData(
@@ -63,9 +63,9 @@ class MissionFishActionData(
     targets = targets
 ), BaseMissionFishActionData {
     companion object {
-        fun toMissionFishActionEntity(input: MissionAction): MissionFishActionEntity {
+        fun toMissionFishActionEntity(input: MissionAction): FishActionEntity {
             val data = input.data as MissionFishActionData
-            val action = MissionFishActionEntity(
+            val action = FishActionEntity(
                 id = Integer.parseInt(input.id),
                 missionId = input.missionId,
                 fishActionType = MissionActionType.AIR_CONTROL,

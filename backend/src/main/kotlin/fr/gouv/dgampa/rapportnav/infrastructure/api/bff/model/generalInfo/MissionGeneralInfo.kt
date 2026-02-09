@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Service
 
 data class MissionGeneralInfo(
@@ -16,8 +16,8 @@ data class MissionGeneralInfo(
     var interMinisterialServices: List<InterMinisterialService>? = listOf(),
     var resources: List<LegacyControlUnitResourceEntity>? = listOf(),
 ) {
-    fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
-        return MissionGeneralInfoEntity(
+    fun toMissionGeneralInfoEntity(): GeneralInfoEntity {
+        return GeneralInfoEntity(
             id = id,
             missionId = missionId,
             distanceInNauticalMiles = distanceInNauticalMiles,
@@ -32,7 +32,7 @@ data class MissionGeneralInfo(
     }
 
     companion object {
-        fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity?) = info?.let { missionGeneralInfoEntity ->
+        fun fromMissionGeneralInfoEntity(info: GeneralInfoEntity?) = info?.let { missionGeneralInfoEntity ->
             MissionGeneralInfo(
                 id = missionGeneralInfoEntity.id,
                 missionId = missionGeneralInfoEntity.missionId ?: 0, // TODO TO CHECK AS SOON AS POSSIBLE (STEP3 REFACTO)

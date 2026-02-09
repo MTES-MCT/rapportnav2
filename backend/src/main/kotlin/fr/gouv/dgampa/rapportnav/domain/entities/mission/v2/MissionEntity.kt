@@ -14,8 +14,8 @@ data class MissionEntity(
     val id: Int? = null,
     val idUUID: UUID? = null,
     val data: MissionEnvEntity? = null,
-    val actions: List<MissionActionEntity>? = listOf(),
-    val generalInfos: MissionGeneralInfoEntity2? = null
+    val actions: List<ActionEntity>? = listOf(),
+    val generalInfos: MissionGeneralInfoEntity? = null
 ) {
     private val logger = LoggerFactory.getLogger(MissionEntity::class.java)
 

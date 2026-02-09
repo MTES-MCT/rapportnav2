@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.CrewModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRoleRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBMissionCrewRepository
@@ -47,7 +47,7 @@ class JPAMissionCrewRepositoryTest {
         service = service.toServiceModel()
     )
 
-    private val missionCrewModel = MissionCrewModel(
+    private val crewModel = CrewModel(
         id = 1,
         agent = agent,
         missionId = 100,
@@ -65,7 +65,7 @@ class JPAMissionCrewRepositoryTest {
 
     @Test
     fun `findByMissionId should return crew list`() {
-        `when`(dbMissionCrewRepository.findByMissionId(100)).thenReturn(listOf(missionCrewModel))
+        `when`(dbMissionCrewRepository.findByMissionId(100)).thenReturn(listOf(crewModel))
 
         val result = jpaMissionCrewRepository.findByMissionId(100)
 
@@ -87,7 +87,7 @@ class JPAMissionCrewRepositoryTest {
     @Test
     fun `findByMissionIdUUID should return crew list`() {
         val uuid = UUID.randomUUID()
-        `when`(dbMissionCrewRepository.findByMissionIdUUID(uuid)).thenReturn(listOf(missionCrewModel))
+        `when`(dbMissionCrewRepository.findByMissionIdUUID(uuid)).thenReturn(listOf(crewModel))
 
         val result = jpaMissionCrewRepository.findByMissionIdUUID(uuid)
 
@@ -108,7 +108,7 @@ class JPAMissionCrewRepositoryTest {
 
     @Test
     fun `deleteById should return true when crew exists`() {
-        `when`(dbMissionCrewRepository.findById(1)).thenReturn(Optional.of(missionCrewModel))
+        `when`(dbMissionCrewRepository.findById(1)).thenReturn(Optional.of(crewModel))
 
         val result = jpaMissionCrewRepository.deleteById(1)
 

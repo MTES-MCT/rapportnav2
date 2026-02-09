@@ -6,7 +6,7 @@ data class InterMinisterialServiceEntity(
     var id: Int? = null,
     var administrationId: Int,
     var controlUnitId: Int,
-    var missionGeneralInfo: MissionGeneralInfoEntity? = null
+    var missionGeneralInfo: GeneralInfoEntity? = null
 ) {
 
     companion object {

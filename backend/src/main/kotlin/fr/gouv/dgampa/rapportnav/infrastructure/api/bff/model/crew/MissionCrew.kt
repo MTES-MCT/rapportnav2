@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
 import java.util.UUID
 
 data class MissionCrew(
@@ -13,7 +13,7 @@ data class MissionCrew(
 ) {
 
     companion object {
-        fun fromMissionCrewEntity(crew: MissionCrewEntity): MissionCrew {
+        fun fromMissionCrewEntity(crew: CrewEntity): MissionCrew {
             return MissionCrew(
                 id = crew.id,
                 missionId = crew.missionId,
@@ -25,8 +25,8 @@ data class MissionCrew(
         }
     }
 
-    fun toMissionCrewEntity(missionIdUUID: UUID?= null, missionId: Int? = null): MissionCrewEntity {
-        return MissionCrewEntity(
+    fun toMissionCrewEntity(missionIdUUID: UUID?= null, missionId: Int? = null): CrewEntity {
+        return CrewEntity(
             id = if (id == 0 || id == null) null else id,
             comment = comment,
             missionId = missionId,

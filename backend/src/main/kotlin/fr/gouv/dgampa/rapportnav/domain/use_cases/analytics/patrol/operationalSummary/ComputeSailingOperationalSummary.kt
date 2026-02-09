@@ -6,14 +6,14 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 
 @UseCase
 class ComputeSailingOperationalSummary(
 ) {
 
-    fun getProSailingSeaSummary(actions: List<MissionActionEntity>): Map<String, Int> {
+    fun getProSailingSeaSummary(actions: List<ActionEntity>): Map<String, Int> {
         val summary = getNavActionSummary(
             actions = actions,
             controlMethod = ControlMethod.SEA,
@@ -23,7 +23,7 @@ class ComputeSailingOperationalSummary(
         return summary.filterKeys { it in keysToKeep }
     }
 
-    fun getProSailingLandSummary(actions: List<MissionActionEntity>): Map<String, Int> {
+    fun getProSailingLandSummary(actions: List<ActionEntity>): Map<String, Int> {
         val summary = getNavActionSummary(
             actions = actions,
             controlMethod = ControlMethod.LAND,
@@ -34,7 +34,7 @@ class ComputeSailingOperationalSummary(
         return filteredMap
     }
 
-    fun getLeisureSailingSeaSummary(actions: List<MissionActionEntity>): Map<String, Int> {
+    fun getLeisureSailingSeaSummary(actions: List<ActionEntity>): Map<String, Int> {
         val summary = getNavActionSummary(
             actions = actions,
             controlMethod = ControlMethod.SEA,
@@ -44,7 +44,7 @@ class ComputeSailingOperationalSummary(
         return summary.filterKeys { it in keysToKeep }
     }
 
-    fun getLeisureSailingLandSummary(actions: List<MissionActionEntity>): Map<String, Int> {
+    fun getLeisureSailingLandSummary(actions: List<ActionEntity>): Map<String, Int> {
         val summary = getNavActionSummary(
             actions = actions,
             controlMethod = ControlMethod.LAND,
@@ -55,19 +55,19 @@ class ComputeSailingOperationalSummary(
     }
 
     private fun getNavActionSummary(
-        actions: List<MissionActionEntity>,
+        actions: List<ActionEntity>,
         vesselType: VesselTypeEnum,
         controlMethod: ControlMethod
     ): Map<String, Int> {
         val filteredActions = actions
-            .filterIsInstance<MissionNavActionEntity>()
+            .filterIsInstance<NavActionEntity>()
             .filter { it.actionType == ActionType.CONTROL }
             .filter { it.vesselType == vesselType && it.controlMethod == controlMethod }
 
         return getNavSummary(filteredActions)
     }
 
-    private fun getNavSummary(actions: List<MissionNavActionEntity>): Map<String, Int> {
+    private fun getNavSummary(actions: List<NavActionEntity>): Map<String, Int> {
         return mapOf(
             // Nbre Navires contrôlés
             "nbActions" to actions.size,

@@ -7,10 +7,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -38,12 +38,12 @@ abstract class MissionAction(
     open val data: MissionActionData? = null,
 ){
     companion object {
-        fun fromMissionActionEntity(action: MissionActionEntity?): MissionAction? {
+        fun fromMissionActionEntity(action: ActionEntity?): MissionAction? {
             if(action == null) return null
             return when (action) {
-                is MissionNavActionEntity -> MissionNavAction.fromMissionActionEntity(action)
-                is MissionEnvActionEntity -> MissionEnvAction.fromMissionActionEntity(action)
-                is MissionFishActionEntity -> MissionFishAction.fromMissionActionEntity(action)
+                is NavActionEntity -> MissionNavAction.fromMissionActionEntity(action)
+                is EnvActionEntity -> MissionEnvAction.fromMissionActionEntity(action)
+                is FishActionEntity -> MissionFishAction.fromMissionActionEntity(action)
                 else -> null
             }
         }

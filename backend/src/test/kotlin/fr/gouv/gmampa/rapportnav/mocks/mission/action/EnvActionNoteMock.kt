@@ -9,8 +9,8 @@ object EnvActionNoteMock {
         id: UUID = UUID.randomUUID(),
         actionStartDateTimeUtc: Instant? = Instant.parse("2022-01-02T12:00:01Z"),
         actionEndDateTimeUtc: Instant? = Instant.parse("2022-01-02T14:00:01Z"),
-    ): EnvActionNoteEntity {
-        return EnvActionNoteEntity(
+    ): ActionNoteEnvEntity {
+        return ActionNoteEnvEntity(
             id = id,
             actionStartDateTimeUtc = actionStartDateTimeUtc,
             actionEndDateTimeUtc = actionEndDateTimeUtc,

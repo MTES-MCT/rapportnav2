@@ -28,8 +28,8 @@ object EnvActionControlMock {
         infractions: List<InfractionEnvEntity>? = emptyList(),
         completion: ActionCompletionEnum = ActionCompletionEnum.COMPLETED,
         themes: List<ThemeEntity> = listOf(ThemeEntityMock.create()),
-    ): EnvActionControlEntity {
-        return EnvActionControlEntity(
+    ): ActionControlEnvEntity {
+        return ActionControlEnvEntity(
             id = id,
             actionStartDateTimeUtc = actionStartDateTimeUtc,
             actionEndDateTimeUtc = actionEndDateTimeUtc,

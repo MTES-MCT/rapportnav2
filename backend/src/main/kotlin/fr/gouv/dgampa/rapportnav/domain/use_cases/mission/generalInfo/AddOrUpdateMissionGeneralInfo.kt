@@ -1,17 +1,17 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IGeneralInfoRepository
 import org.springframework.dao.IncorrectResultSizeDataAccessException
 import org.springframework.transaction.annotation.Transactional
 
 @UseCase
 class AddOrUpdateMissionGeneralInfo(
-    private val infoRepo: IMissionGeneralInfoRepository
+    private val infoRepo: IGeneralInfoRepository
 ) {
     @Transactional
-    fun execute(info: MissionGeneralInfoEntity): MissionGeneralInfoEntity {
+    fun execute(info: GeneralInfoEntity): GeneralInfoEntity {
         val missionId = info.missionId
             ?: throw IllegalArgumentException("Mission ID cannot be null")
 
@@ -33,8 +33,8 @@ class AddOrUpdateMissionGeneralInfo(
             info
         }
 
-        val savedModel = infoRepo.save(dataToSave)
-        return MissionGeneralInfoEntity.fromMissionGeneralInfoModel(savedModel)
+        val savedModel = infoRepo.save(dataToSave.toGeneralInfoModel())
+        return GeneralInfoEntity.fromGeneralInfoModel(savedModel)
     }
 
     private fun cleanupDuplicates(missionId: Int) {

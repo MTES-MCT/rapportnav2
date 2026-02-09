@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMSeaSafety(
@@ -10,7 +10,7 @@ data class AEMSeaSafety(
     val nbrOfPublicOrderOperation: Double? = 0.0, // 5.4
 ) {
     constructor(
-        navActions: List<MissionNavActionEntity>
+        navActions: List<NavActionEntity>
     ) : this(
         nbrOfHourAtSea = getNbrOfHourAtSea(navActions),
         nbrOfPublicOrderOperation = getPublicOrderActions(navActions).size.toDouble(),
@@ -20,7 +20,7 @@ data class AEMSeaSafety(
 
     companion object {
         fun getNbrOfHourAtSea(
-            navActions: List<MissionNavActionEntity>
+            navActions: List<NavActionEntity>
         ): Double {
             val otherActions = getOtherTargetActions(navActions)
             val publicOrderActions = getPublicOrderActions(navActions)
@@ -28,11 +28,11 @@ data class AEMSeaSafety(
                 .plus(AEMUtils.getDurationInHours2(publicOrderActions))
         }
 
-        private fun getPublicOrderActions(navActions: List<MissionNavActionEntity>): List<MissionNavActionEntity?> {
+        private fun getPublicOrderActions(navActions: List<NavActionEntity>): List<NavActionEntity?> {
             return navActions.filter { listOf(ActionType.PUBLIC_ORDER).contains(it.actionType) }
         }
 
-        private fun getOtherTargetActions(navActions: List<MissionNavActionEntity>): List<MissionNavActionEntity?> {
+        private fun getOtherTargetActions(navActions: List<NavActionEntity>): List<NavActionEntity?> {
             return navActions.filter { listOf(ActionType.VIGIMER,ActionType.BAAEM_PERMANENCE, ActionType.NAUTICAL_EVENT).contains(it.actionType) }
         }
     }

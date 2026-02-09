@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
 import tools.jackson.databind.annotation.JsonDeserialize
 import tools.jackson.databind.annotation.JsonSerialize
@@ -31,7 +31,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
     val geom: MultiPolygon? = null,
     @field:JsonProperty("startDateTimeUtc") val startDateTimeUtc: ZonedDateTime,
     @field:JsonProperty("endDateTimeUtc") val endDateTimeUtc: ZonedDateTime? = null,
-    @field:JsonProperty("envActions") val envActions: List<EnvActionEntity>? = null,
+    @field:JsonProperty("envActions") val envActions: List<ActionEnvEntity>? = null,
     @field:JsonProperty("missionSource") val missionSource: MissionSourceEnum,
     @field:JsonProperty("hasMissionOrder") val hasMissionOrder: Boolean,
     @field:JsonProperty("isUnderJdp") val isUnderJdp: Boolean,

@@ -1,8 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
@@ -12,7 +11,7 @@ class GetEnvActionById(
     private val getEnvMissionById2: GetEnvMissionById2,
     private val processEnvAction: ProcessEnvAction
 ) {
-    fun execute(missionId: Int?, actionId: String): MissionEnvActionEntity? {
+    fun execute(missionId: Int?, actionId: String): fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity? {
         if (!isValidUUID(actionId)) return null
         if (missionId == null) {
             throw BackendUsageException(

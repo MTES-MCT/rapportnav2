@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMMigrationRescue(
@@ -13,7 +13,7 @@ data class AEMMigrationRescue(
     val nbrPersonsRescued: Double? = 0.0,// 1.2.7
 ) {
     constructor(
-        navActions: List<MissionNavActionEntity>
+        navActions: List<NavActionEntity>
     ) : this(
         nbrOfRescuedOperation = getMigrationRescueActions(navActions).size.toDouble(),
         nbrOfHourAtSea = AEMUtils.getDurationInHours2(getMigrationRescueActions(navActions)),
@@ -29,11 +29,11 @@ data class AEMMigrationRescue(
     )
 
     companion object {
-        fun getNbrPersonsRescued(actionRescues: List<MissionNavActionEntity?>): Double {
+        fun getNbrPersonsRescued(actionRescues: List<NavActionEntity?>): Double {
             return actionRescues.fold(0.0) { acc, actionRescue -> acc.plus(actionRescue?.numberPersonsRescued ?: 0) }
         }
 
-        fun getNbrOfVesselsTrackedWithoutIntervention(actionRescues: List<MissionNavActionEntity?>): Double {
+        fun getNbrOfVesselsTrackedWithoutIntervention(actionRescues: List<NavActionEntity?>): Double {
             return actionRescues.fold(0.0) { acc, actionRescue ->
                 acc.plus(
                     actionRescue?.nbOfVesselsTrackedWithoutIntervention ?: 0
@@ -41,7 +41,7 @@ data class AEMMigrationRescue(
             }
         }
 
-        fun getAssistedVesselsReturningToShore(actionRescues: List<MissionNavActionEntity?>): Double {
+        fun getAssistedVesselsReturningToShore(actionRescues: List<NavActionEntity?>): Double {
             return actionRescues.fold(0.0) { acc, actionRescue ->
                 acc.plus(
                     actionRescue?.nbAssistedVesselsReturningToShore ?: 0
@@ -49,7 +49,7 @@ data class AEMMigrationRescue(
             }
         }
 
-        private fun getMigrationRescueActions(navActions: List<MissionNavActionEntity>): List<MissionNavActionEntity?> {
+        private fun getMigrationRescueActions(navActions: List<NavActionEntity>): List<NavActionEntity?> {
             return navActions.filter { it.actionType == ActionType.RESCUE }
                 .filter { it.isMigrationRescue == true }
         }

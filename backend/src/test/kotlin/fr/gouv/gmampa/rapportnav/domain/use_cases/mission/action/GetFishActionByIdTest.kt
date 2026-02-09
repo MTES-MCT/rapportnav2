@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
@@ -40,7 +40,7 @@ class GetFishActionByIdTest {
             id = actionId,
         )
 
-        val response = MissionFishActionEntity(
+        val response = FishActionEntity(
             id = actionId,
             missionId = 761,
             fishActionType = MissionActionType.SEA_CONTROL,

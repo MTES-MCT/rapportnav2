@@ -1,10 +1,10 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.GeneralInfoModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.GeneralInfoEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +19,7 @@ class GetMissionGeneralInfoByMissionIdTest {
     private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
 
     @MockitoBean
-    private lateinit var infoRepo: IMissionGeneralInfoRepository
+    private lateinit var infoRepo: IGeneralInfoRepository
 
     @Test
     fun `execute should generalInfo by missionId`() {
@@ -47,8 +47,8 @@ class GetMissionGeneralInfoByMissionIdTest {
         verify(infoRepo, times(1)).findByMissionIdUUID(missionIdUUID)
     }
 
-    private fun getMissionGeneralInfoModel(missionId: Int? = null, missionIdUUID: UUID? = null): MissionGeneralInfoModel {
-        val model = MissionGeneralInfoEntityMock.create(
+    private fun getMissionGeneralInfoModel(missionId: Int? = null, missionIdUUID: UUID? = null): GeneralInfoModel {
+        val model = GeneralInfoEntityMock.create(
             id = 1,
             missionId = missionId,
             consumedGOInLiters = 2.5f,
@@ -57,7 +57,7 @@ class GetMissionGeneralInfoByMissionIdTest {
             nbrOfRecognizedVessel = 9,
             jdpType = JdpTypeEnum.DOCKED,
             missionIdUUID = missionIdUUID
-        ).toMissionGeneralInfoModel()
+        ).toGeneralInfoModel()
         return model
     }
 }

@@ -2,8 +2,8 @@ package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 import java.time.Instant
 
@@ -17,8 +17,8 @@ data class AEMIllegalFish(
     val quantityOfFish: Double? = 0.0 //4.3.9
 ) {
     constructor(
-        fishActions: List<MissionFishActionEntity?>,
-        navActions: List<MissionNavActionEntity>,
+        fishActions: List<FishActionEntity?>,
+        navActions: List<NavActionEntity>,
         missionEndDateTime: Instant?
     ) : this(
         nbrOfHourAtSea = getNbrOfHourAtSea(fishActions, navActions, missionEndDateTime),
@@ -32,8 +32,8 @@ data class AEMIllegalFish(
     }
 
     companion object {
-        fun getNbrOfHourAtSea(fishActions: List<MissionFishActionEntity?>,
-                              navActions: List<MissionNavActionEntity>,
+        fun getNbrOfHourAtSea(fishActions: List<FishActionEntity?>,
+                              navActions: List<NavActionEntity>,
                               missionEndDateTime: Instant?): Double {
             // changes on Oct 2025 : add nav and anchored durations on top of the amount of time in fish controls
             // equals to 3.4.1 + 7.4
@@ -48,14 +48,14 @@ data class AEMIllegalFish(
             }) ?: 0.0;
         }
 
-        fun getNbrOfInfraction(fishActions: List<MissionFishActionEntity?>): Double {
+        fun getNbrOfInfraction(fishActions: List<FishActionEntity?>): Double {
             return fishActions.filterNotNull().fold(0.0) { acc, c ->
                 acc.plus(c.fishInfractions?.count { it.natinf != null } ?: 0)
 
             };
         }
 
-        fun getNbrOfInfractionWithPV(fishActions: List<MissionFishActionEntity?>): Double {
+        fun getNbrOfInfractionWithPV(fishActions: List<FishActionEntity?>): Double {
             return fishActions.filterNotNull()
                 .fold(0.0) { acc, c ->
                 acc.plus(c.fishInfractions?.filter { g -> g.infractionType == InfractionType.WITH_RECORD }?.size ?: 0)
@@ -63,11 +63,11 @@ data class AEMIllegalFish(
             };
         }
 
-        fun getNbrOfSeizureAndDiversionVessel(fishActions: List<MissionFishActionEntity?>): Double {
+        fun getNbrOfSeizureAndDiversionVessel(fishActions: List<FishActionEntity?>): Double {
             return fishActions.filter { it?.seizureAndDiversion == true }.size.toDouble();
         }
 
-        fun getQuantityOfFish(fishActions: List<MissionFishActionEntity?>): Double {
+        fun getQuantityOfFish(fishActions: List<FishActionEntity?>): Double {
             return fishActions
                 .filterNotNull()
                 .sumOf { it.speciesQuantitySeized?.toDouble() ?: 0.0 } }

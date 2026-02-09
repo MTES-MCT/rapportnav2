@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishIn
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
@@ -22,7 +22,7 @@ class MissionFishActionEntityTest {
     @Test
     fun `execute should retrieve entity from fish action`() {
         val fishAction = getFishAction()
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(fishAction.id)
         assertThat(entity.startDateTimeUtc).isEqualTo(fishAction.actionDatetimeUtc)
@@ -87,7 +87,7 @@ class MissionFishActionEntityTest {
         val fishAction = FishActionControlMock.create(
             completion = Completion.COMPLETED,
         )
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(emptyList<MissionSourceEnum>())
@@ -101,7 +101,7 @@ class MissionFishActionEntityTest {
             actionEndDatetimeUtc = null,
             completion = Completion.COMPLETED,
         )
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV))
@@ -115,7 +115,7 @@ class MissionFishActionEntityTest {
             actionEndDatetimeUtc = null,
             completion = Completion.TO_COMPLETE,
         )
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.MONITORFISH))
@@ -127,7 +127,7 @@ class MissionFishActionEntityTest {
     fun `execute should compute summary tags`() {
         val model = getFishAction()
         val targetsMock = TargetEntityMock.create()
-        val entity = MissionFishActionEntity.fromFishAction(model)
+        val entity = FishActionEntity.fromFishAction(model)
         entity.targets = listOf(targetsMock)
         entity.computeSummaryTags()
         assertThat(entity.summaryTags).isNotNull()
@@ -140,7 +140,7 @@ class MissionFishActionEntityTest {
         val fishAction = FishActionControlMock.create(
             completion = Completion.COMPLETED
         )
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
 
@@ -158,7 +158,7 @@ class MissionFishActionEntityTest {
         val fishAction = FishActionControlMock.create(
             completion = Completion.COMPLETED
         )
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
 
@@ -174,7 +174,7 @@ class MissionFishActionEntityTest {
             actionDatetimeUtc = Instant.parse("2022-01-02T12:00:01Z"),
             actionEndDatetimeUtc = Instant.parse("2021-01-02T13:00:01Z"),
         )
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
 
@@ -198,7 +198,7 @@ class MissionFishActionEntityTest {
             ControlEntityMock.create(controlType = ControlType.NAVIGATION, amountOfControls = 2),
             ControlEntityMock.create(controlType = ControlType.ADMINISTRATIVE, amountOfControls = 2)
         )
-        val entity = MissionFishActionEntity.fromFishAction(model)
+        val entity = FishActionEntity.fromFishAction(model)
         entity.targets = listOf(TargetEntityMock.create(controls = controls))
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(4)
@@ -211,7 +211,7 @@ class MissionFishActionEntityTest {
             actionDatetimeUtc = Instant.parse("2022-01-02T12:00:01Z"),
             actionEndDatetimeUtc = Instant.parse("2021-01-02T13:00:01Z"),
         )
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         entity.targets = listOf(TargetEntityMock.create())
         entity.computeSummaryTags()
         assertThat(entity.summaryTags?.size).isEqualTo(2)

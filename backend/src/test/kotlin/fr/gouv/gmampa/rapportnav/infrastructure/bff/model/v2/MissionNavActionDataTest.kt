@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
@@ -20,7 +20,7 @@ class MissionNavActionDataTest {
     @Test
     fun `execute should retrieve output from mission action nav Entity`() {
         val model = MissionActionModelMock.create()
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        val entity = NavActionEntity.fromActionModel(model)
         val output = MissionNavAction.fromMissionActionEntity(entity)
 
         assertThat(entity).isNotNull()
@@ -95,7 +95,7 @@ class MissionNavActionDataTest {
         fun `execute should use input status when is Status Action`() {
             val model =
                 MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
-            val input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
+            val input = MissionAction.fromMissionActionEntity(NavActionEntity.fromActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
             assertThat(output.status).isEqualTo(input.status)
@@ -105,7 +105,7 @@ class MissionNavActionDataTest {
         fun `execute should use action data status when is Status Action and input status is null`() {
             val model =
                 MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
-            var input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
+            var input = MissionAction.fromMissionActionEntity(NavActionEntity.fromActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
             assertThat(output.status.toString()).isEqualTo(model.status)
@@ -115,7 +115,7 @@ class MissionNavActionDataTest {
         fun `execute should use action data status otherwise`() {
             val model =
                 MissionActionModelMock.create(actionType = ActionType.CONTROL, status = ActionStatusType.NAVIGATING)
-            val input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
+            val input = MissionAction.fromMissionActionEntity(NavActionEntity.fromActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
             assertNull(output.status)

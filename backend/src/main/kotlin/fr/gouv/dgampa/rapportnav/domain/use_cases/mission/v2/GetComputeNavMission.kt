@@ -11,7 +11,7 @@ import java.util.*
 
 @UseCase
 class GetComputeNavMission(
-    private val getGeneralInfo2: GetGeneralInfo2,
+    private val getGeneralInfo: GetGeneralInfo,
     private val getNavMissionById2: GetNavMissionById2,
     private val getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId
 ) {
@@ -29,7 +29,7 @@ class GetComputeNavMission(
                 message = "Nav mission not found: $missionId"
             )
 
-        val generalInfos = getGeneralInfo2.execute(missionIdUUID = mission.id, serviceId = navMission?.serviceId)
+        val generalInfos = getGeneralInfo.execute(missionIdUUID = mission.id, serviceId = navMission?.serviceId)
         val actions = getComputeNavActionListByMissionId.execute(ownerId = mission.id)
 
         return MissionEntity(

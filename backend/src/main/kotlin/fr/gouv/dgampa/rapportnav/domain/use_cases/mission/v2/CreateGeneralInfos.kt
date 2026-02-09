@@ -1,32 +1,32 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo
 import java.util.*
 
 @UseCase
 class CreateGeneralInfos(
-    private val generalInfosRepository: IMissionGeneralInfoRepository
+    private val generalInfosRepository: IGeneralInfoRepository
 ) {
     fun execute(
         missionId: Int? = null,
         missionIdUUID: UUID? = null,
-        generalInfo2: MissionGeneralInfo2,
+        generalInfo2: MissionGeneralInfo,
         service: ServiceEntity? = null
-    ): MissionGeneralInfoEntity2 {
+    ): MissionGeneralInfoEntity {
         val generalInfoModel = generalInfosRepository.save(
-            generalInfo2.toMissionGeneralInfoEntity(
+            generalInfo2.toGeneralInfoEntity(
                 missionId = missionId,
                 missionIdUUID = missionIdUUID,
                 inputService = service
-            )
+            ).toGeneralInfoModel()
         )
-        return MissionGeneralInfoEntity2(
-            data = MissionGeneralInfoEntity(
+        return MissionGeneralInfoEntity(
+            data = GeneralInfoEntity(
                 id = generalInfoModel.id,
                 missionId = generalInfoModel.missionId,
                 missionIdUUID = generalInfoModel.missionIdUUID,

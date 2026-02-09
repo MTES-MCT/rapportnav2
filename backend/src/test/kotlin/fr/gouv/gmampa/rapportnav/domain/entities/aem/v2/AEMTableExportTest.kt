@@ -5,9 +5,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -22,7 +22,7 @@ class AEMTableExportTest {
     fun `Should init Table export with different values from mission entity with nbrOfVesselRecognized`() {
         val nbrOfRecognizedVessel = 9;
         val envActions = listOf(
-            MissionEnvActionEntity(
+            EnvActionEntity(
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
@@ -32,7 +32,7 @@ class AEMTableExportTest {
             )
         )
         val navActions = listOf(
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
@@ -40,7 +40,7 @@ class AEMTableExportTest {
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             )
         )
-        val fishActions = listOf(MissionFishActionEntity(
+        val fishActions = listOf(FishActionEntity(
             missionId = 761,
             id = 234,
             fishActionType = MissionActionType.SEA_CONTROL,

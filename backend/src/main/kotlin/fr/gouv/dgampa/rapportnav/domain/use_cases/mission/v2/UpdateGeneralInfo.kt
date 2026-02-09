@@ -1,33 +1,33 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.PassengerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.GeneralInfoModel
 import java.util.*
 
 @UseCase
 class UpdateGeneralInfo(
-    private val repository: IMissionGeneralInfoRepository,
+    private val repository: IGeneralInfoRepository,
     private val patchMissionEnv: PatchMissionEnv,
     private val processMissionCrew: ProcessMissionCrew,
     private val processMissionPassengers: ProcessMissionPassengers,
     private val patchNavMission: PatchNavMission,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
-    private val getMissionCrew: GetMissionCrew,
+    private val getCrew: GetCrew,
 ) {
 
-    fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
+    fun execute(missionId: Int, generalInfo: MissionGeneralInfo): MissionGeneralInfoEntity {
         val fromDb = getMissionGeneralInfoByMissionId.execute(missionId = missionId)
         if (fromDb == null || generalInfo.missionId != missionId) {
             throw BackendUsageException(
@@ -36,10 +36,10 @@ class UpdateGeneralInfo(
             )
         }
 
-        val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionId = missionId))
+        val model = repository.save(generalInfo.toGeneralInfoEntity(missionId = missionId).toGeneralInfoModel())
         val crew = processMissionCrew.execute(
             missionId = missionId,
-            items = getMissionCrew.execute(
+            items = getCrew.execute(
                 missionId = missionId,
                 generalInfo = generalInfo,
                 newServiceId = generalInfo.service?.id,
@@ -71,7 +71,7 @@ class UpdateGeneralInfo(
         )
     }
 
-    fun execute(missionIdUUID: UUID, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
+    fun execute(missionIdUUID: UUID, generalInfo: MissionGeneralInfo): MissionGeneralInfoEntity {
         val fromDb = getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
         if (fromDb == null || fromDb.missionIdUUID != missionIdUUID) {
             throw BackendUsageException(
@@ -80,10 +80,10 @@ class UpdateGeneralInfo(
             )
         }
 
-        val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID))
+        val model = repository.save(generalInfo.toGeneralInfoEntity(missionIdUUID = missionIdUUID).toGeneralInfoModel())
         val crew = processMissionCrew.execute(
             missionId = missionIdUUID,
-            items = getMissionCrew.execute(
+            items = getCrew.execute(
                 generalInfo = generalInfo,
                 missionIdUUID = missionIdUUID,
                 newServiceId = generalInfo.service?.id,
@@ -115,14 +115,14 @@ class UpdateGeneralInfo(
     }
 
     private fun getGeneralInfoEntity(
-        crew: List<MissionCrewEntity>,
-        passengers: List<MissionPassengerEntity>,
-        generalInfoModel: MissionGeneralInfoModel
-    ): MissionGeneralInfoEntity2 {
-        return MissionGeneralInfoEntity2(
+        crew: List<CrewEntity>,
+        passengers: List<PassengerEntity>,
+        generalInfoModel: GeneralInfoModel
+    ): MissionGeneralInfoEntity {
+        return MissionGeneralInfoEntity(
             crew = crew,
             passengers = passengers,
-            data = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(generalInfoModel)
+            data = GeneralInfoEntity.fromGeneralInfoModel(generalInfoModel)
         )
     }
 }

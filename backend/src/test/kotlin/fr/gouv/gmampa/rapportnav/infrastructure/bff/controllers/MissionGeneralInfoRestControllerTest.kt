@@ -2,11 +2,11 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionGeneralInfoRestController
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.GeneralInfoEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
@@ -46,8 +46,8 @@ class MissionGeneralInfoRestControllerTest {
     @Test
     fun `update should return updated general info for integer missionId`() {
         val missionId = 123
-        val entity = MissionGeneralInfoEntityMock.create(missionId = missionId)
-        val result = MissionGeneralInfoEntity2(
+        val entity = GeneralInfoEntityMock.create(missionId = missionId)
+        val result = MissionGeneralInfoEntity(
             data = entity,
             crew = emptyList(),
             passengers = emptyList()
@@ -67,8 +67,8 @@ class MissionGeneralInfoRestControllerTest {
     @Test
     fun `update should return updated general info for UUID missionId`() {
         val missionIdUUID = UUID.randomUUID()
-        val entity = MissionGeneralInfoEntityMock.create(missionIdUUID = missionIdUUID)
-        val result = MissionGeneralInfoEntity2(
+        val entity = GeneralInfoEntityMock.create(missionIdUUID = missionIdUUID)
+        val result = MissionGeneralInfoEntity(
             data = entity,
             crew = emptyList(),
             passengers = emptyList()

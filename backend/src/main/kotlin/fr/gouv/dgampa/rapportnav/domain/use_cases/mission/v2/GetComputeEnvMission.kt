@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -12,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAc
 
 @UseCase
 class GetComputeEnvMission(
-    private val getGeneralInfos2: GetGeneralInfo2,
+    private val getGeneralInfos2: GetGeneralInfo,
     private val getMissionAction: GetMissionAction,
     private val getEnvMissionById2: GetEnvMissionById2
 ) {

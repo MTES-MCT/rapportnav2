@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerOrganization
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.PassengerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.PassengerOrganization
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.ComputeInternTrainingSummary
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -18,11 +18,11 @@ class ComputeInternTrainingSummaryTest {
 
     private fun passenger(
         isIntern: Boolean?,
-        organization: MissionPassengerOrganization?,
+        organization: PassengerOrganization?,
         start: LocalDate,
         end: LocalDate
-    ): MissionPassengerEntity {
-        return MissionPassengerEntity(
+    ): PassengerEntity {
+        return PassengerEntity(
             id = null,
             missionId = null,
             missionIdUUID = UUID.randomUUID(),
@@ -57,7 +57,7 @@ class ComputeInternTrainingSummaryTest {
     // -------------------------------------------------------------------------
     @Test
     fun `execute counts interns and total passengers`() {
-        val p1 = passenger(true, MissionPassengerOrganization.AFF_MAR, LocalDate.now(), LocalDate.now())
+        val p1 = passenger(true, PassengerOrganization.AFF_MAR, LocalDate.now(), LocalDate.now())
         val p2 = passenger(false, null, LocalDate.now(), LocalDate.now())
 
         val result = useCase.execute(listOf(p1, p2))!!
@@ -76,10 +76,10 @@ class ComputeInternTrainingSummaryTest {
         val end = LocalDate.parse("2024-01-01")
 
         val interns = listOf(
-            passenger(true, MissionPassengerOrganization.AFF_MAR, start, end),
-            passenger(true, MissionPassengerOrganization.ESPMER, start, end),
-            passenger(true, MissionPassengerOrganization.LYCEE, start, end),
-            passenger(true, MissionPassengerOrganization.OTHER, start, end)
+            passenger(true, PassengerOrganization.AFF_MAR, start, end),
+            passenger(true, PassengerOrganization.ESPMER, start, end),
+            passenger(true, PassengerOrganization.LYCEE, start, end),
+            passenger(true, PassengerOrganization.OTHER, start, end)
         )
 
         val result = useCase.execute(interns)!!
@@ -97,14 +97,14 @@ class ComputeInternTrainingSummaryTest {
     fun `execute calculates total intern duration`() {
         val p1 = passenger(
             true,
-            MissionPassengerOrganization.AFF_MAR,
+            PassengerOrganization.AFF_MAR,
             LocalDate.parse("2024-01-01"),
             LocalDate.parse("2024-01-01")
         )
 
         val p2 = passenger(
             true,
-            MissionPassengerOrganization.AFF_MAR,
+            PassengerOrganization.AFF_MAR,
             LocalDate.parse("2024-01-01"),
             LocalDate.parse("2024-01-01")
         )
@@ -112,7 +112,7 @@ class ComputeInternTrainingSummaryTest {
 
         val p3 = passenger(
             true,
-            MissionPassengerOrganization.AFF_MAR,
+            PassengerOrganization.AFF_MAR,
             LocalDate.parse("2024-01-01"),
             LocalDate.parse("2024-01-02")
         )

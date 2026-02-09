@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import org.slf4j.LoggerFactory
 import java.time.Instant
 
@@ -22,18 +22,18 @@ data class AEMTableExport(
     private val logger = LoggerFactory.getLogger(AEMTableExport::class.java)
 
     companion object {
-        fun fromMissionAction(navActions: List<MissionNavActionEntity>,
-                              envActions: List<MissionEnvActionEntity>,
-                              fishActions: List<MissionFishActionEntity>,
+        fun fromMissionAction(navActions: List<NavActionEntity>,
+                              envActions: List<EnvActionEntity>,
+                              fishActions: List<FishActionEntity>,
                               missionEndDateTimeUtc: Instant?,
                               nbrOfRecognizedVessel: Double?): AEMTableExport {
             return getAemTableExport2(navActions, envActions, fishActions, missionEndDateTimeUtc, nbrOfRecognizedVessel)
         }
 
         private fun getAemTableExport2(
-            navActions: List<MissionNavActionEntity>,
-            envActions: List<MissionEnvActionEntity>,
-            fishActions: List<MissionFishActionEntity>,
+            navActions: List<NavActionEntity>,
+            envActions: List<EnvActionEntity>,
+            fishActions: List<FishActionEntity>,
             missionEndDateTimeUtc: Instant?,
             nbrOfRecognizedVessel: Double?
         ): AEMTableExport {

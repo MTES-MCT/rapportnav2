@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
@@ -14,7 +14,7 @@ class UpdateNavAction(
     private val missionActionRepository: INavMissionActionRepository,
     private val processMissionActionTarget: ProcessMissionActionTarget
 ) {
-    fun execute(id: String, input: MissionNavAction): MissionNavActionEntity {
+    fun execute(id: String, input: MissionNavAction): NavActionEntity {
         val action = MissionNavActionData.toMissionNavActionEntity(input)
         if (id != input.id) {
             throw BackendUsageException(
@@ -23,7 +23,7 @@ class UpdateNavAction(
             )
         }
 
-        missionActionRepository.save(action.toMissionActionModel())
+        missionActionRepository.save(action.toActionModel())
         action.targets = processMissionActionTarget.execute(
             actionId = action.getActionId(),
             targets = input.data.targets?.map { it.toTargetEntity() } ?: listOf()

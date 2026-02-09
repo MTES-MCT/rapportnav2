@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMissionNav
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -32,7 +32,7 @@ class CreateMissionNavTest {
 
     @Test
     fun `should throw exception when startDateTimeUtc is null`() {
-        val generalInfo2 = MissionGeneralInfo2(
+        val generalInfo2 = MissionGeneralInfo(
             missionTypes = listOf(MissionTypeEnum.AIR),
             missionReportType = MissionReportTypeEnum.OFFICE_REPORT,
             startDateTimeUtc = null,
@@ -50,7 +50,7 @@ class CreateMissionNavTest {
     @Test
     fun `should execute and return an MissionNavEntity`() {
         val serviceId = 2
-        val generalInfo2 = MissionGeneralInfo2(
+        val generalInfo2 = MissionGeneralInfo(
             missionTypes = listOf(MissionTypeEnum.AIR),
             missionReportType = MissionReportTypeEnum.OFFICE_REPORT,
             isMissionArmed = false,
@@ -79,7 +79,7 @@ class CreateMissionNavTest {
         val serviceId = 5
         val startDate = Instant.parse("2025-06-15T08:00:00Z")
         val endDate = Instant.parse("2025-06-15T18:00:00Z")
-        val generalInfo2 = MissionGeneralInfo2(
+        val generalInfo2 = MissionGeneralInfo(
             missionTypes = listOf(MissionTypeEnum.SEA),
             missionReportType = MissionReportTypeEnum.OFFICE_REPORT,
             startDateTimeUtc = startDate,
@@ -109,7 +109,7 @@ class CreateMissionNavTest {
     fun `should create mission with null endDateTimeUtc`() {
         val serviceId = 3
         val startDate = Instant.parse("2025-07-01T10:00:00Z")
-        val generalInfo2 = MissionGeneralInfo2(
+        val generalInfo2 = MissionGeneralInfo(
             missionTypes = listOf(MissionTypeEnum.LAND),
             missionReportType = MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT,
             startDateTimeUtc = startDate,

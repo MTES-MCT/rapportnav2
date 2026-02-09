@@ -1,7 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2.passengers
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionCrew
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.PassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.DeleteMissionPassenger
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.GetMissionPassengers
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
@@ -13,7 +12,6 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
 
@@ -83,7 +81,7 @@ class ProcessMissionPassengersTest {
         assertThat(crews.size).isEqualTo(3)
     }
 
-    private fun getMissionPassengers(missionId: Int? = null, missionIdUUID: UUID? = null): Pair<List<MissionPassengerEntity>, List<MissionPassengerEntity>> {
+    private fun getMissionPassengers(missionId: Int? = null, missionIdUUID: UUID? = null): Pair<List<PassengerEntity>, List<PassengerEntity>> {
         val passenger1 = MissionPassengerEntityMock.create(id = 1, missionId = missionId, missionIdUUID = missionIdUUID)
         val passenger2 = MissionPassengerEntityMock.create(id = 2, missionId = missionId, missionIdUUID = missionIdUUID)
         val passenger3 = MissionPassengerEntityMock.create(id = 3, missionId = missionId, missionIdUUID = missionIdUUID)

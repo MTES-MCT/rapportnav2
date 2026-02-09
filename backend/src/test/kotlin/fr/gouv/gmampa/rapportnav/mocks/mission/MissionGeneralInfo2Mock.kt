@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Service
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo
 import java.time.Instant
 import java.util.UUID
 
@@ -19,8 +19,8 @@ object MissionGeneralInfo2Mock {
         reinforcementType: MissionReinforcementTypeEnum? = null,
         nbHourAtSea: Int? = null,
         service: Service? = null,
-    ): MissionGeneralInfo2 {
-        return MissionGeneralInfo2(
+    ): MissionGeneralInfo {
+        return MissionGeneralInfo(
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             missionReportType = missionReportType,

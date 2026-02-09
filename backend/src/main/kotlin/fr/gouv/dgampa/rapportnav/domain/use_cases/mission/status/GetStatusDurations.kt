@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import java.time.Instant
 import kotlin.time.DurationUnit
@@ -24,7 +24,7 @@ class GetStatusDurations(
 
     fun computeDurationsByAction(
         missionEndDateTime: Instant? = null,
-        actions: List<MissionNavActionEntity>? = listOf(),
+        actions: List<NavActionEntity>? = listOf(),
         durationUnit: DurationUnit = DurationUnit.SECONDS
     ): MutableList<ActionStatusWithDuration> {
         // filter actions to keep Status actions only
@@ -109,7 +109,7 @@ class GetStatusDurations(
      */
     fun computeActionDurationsForAllMission(
         missionEndDateTime: Instant? = null,
-        actions: List<MissionNavActionEntity>? = listOf(),
+        actions: List<NavActionEntity>? = listOf(),
         durationUnit: DurationUnit = DurationUnit.SECONDS
     ): List<ActionStatusWithDuration> {
         val durationsPerStatusAction = this.computeDurationsByAction(

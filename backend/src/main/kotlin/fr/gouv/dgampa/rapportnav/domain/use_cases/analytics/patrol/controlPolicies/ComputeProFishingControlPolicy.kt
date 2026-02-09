@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPolicyData
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import org.slf4j.LoggerFactory
 import kotlin.collections.filterIsInstance
@@ -17,7 +17,7 @@ class ComputeProFishingControlPolicy(
 ) {
     private val logger = LoggerFactory.getLogger(ComputeProFishingControlPolicy::class.java)
 
-    private fun filterActions(mission: MissionEntity?): List<MissionFishActionEntity> {
+    private fun filterActions(mission: MissionEntity?): List<FishActionEntity> {
         if (mission == null) {
             logger.warn("filterActions called with null mission.")
             return emptyList()
@@ -25,7 +25,7 @@ class ComputeProFishingControlPolicy(
 
         val filtered = mission.actions
             .orEmpty()
-            .filterIsInstance<MissionFishActionEntity>()
+            .filterIsInstance<FishActionEntity>()
             .filter {
                 it.fishActionType == MissionActionType.SEA_CONTROL ||
                         it.fishActionType == MissionActionType.LAND_CONTROL

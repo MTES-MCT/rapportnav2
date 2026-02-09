@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
@@ -22,7 +22,7 @@ class GetInfoAboutActionTests {
     @Autowired
     private lateinit var getInfoAboutNavAction: GetInfoAboutNavAction2
 
-    private val actions = listOf<MissionActionEntity>(
+    private val actions = listOf<ActionEntity>(
         MissionNavActionEntityMock.create(
             actionType = ActionType.VIGIMER,
             startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),

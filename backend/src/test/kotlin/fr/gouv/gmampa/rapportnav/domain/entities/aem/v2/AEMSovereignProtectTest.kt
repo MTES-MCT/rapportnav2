@@ -8,9 +8,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -40,9 +40,9 @@ class AEMSovereignProtectTest {
         assertThat(sovereign.nbrOfControlledVessel).isEqualTo(nbrOfControlledVessel);
     }
 
-    private fun getNavActions(): List<MissionNavActionEntity> {
+    private fun getNavActions(): List<NavActionEntity> {
         val actions = listOf(
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.CONTROL,
@@ -50,7 +50,7 @@ class AEMSovereignProtectTest {
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 controlMethod = ControlMethod.SEA
             ),
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.STATUS,
@@ -58,7 +58,7 @@ class AEMSovereignProtectTest {
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 status = ActionStatusType.ANCHORED
             ),
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.STATUS,
@@ -70,9 +70,9 @@ class AEMSovereignProtectTest {
         return actions
     }
 
-    private fun getEnvActions(): List<MissionEnvActionEntity> {
+    private fun getEnvActions(): List<EnvActionEntity> {
         val actions = listOf(
-            MissionEnvActionEntity(
+            EnvActionEntity(
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
@@ -82,7 +82,7 @@ class AEMSovereignProtectTest {
                 vehicleType = VehicleTypeEnum.VEHICLE_LAND,
                 actionNumberOfControls = 1
             ),
-            MissionEnvActionEntity(
+            EnvActionEntity(
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
@@ -96,16 +96,16 @@ class AEMSovereignProtectTest {
         return actions
     }
 
-    private fun getFishActions(): List<MissionFishActionEntity> {
+    private fun getFishActions(): List<FishActionEntity> {
         val actions = listOf(
-            MissionFishActionEntity(
+            FishActionEntity(
                 missionId = 761,
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             ),
-            MissionFishActionEntity(
+            FishActionEntity(
                 missionId = 761,
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,

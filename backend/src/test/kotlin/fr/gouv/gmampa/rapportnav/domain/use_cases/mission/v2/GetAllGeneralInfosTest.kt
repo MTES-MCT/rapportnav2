@@ -1,9 +1,9 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetAllGeneralInfos
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.GeneralInfoEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -19,15 +19,15 @@ class GetAllGeneralInfosTest {
     private lateinit var getAllGeneralInfos: GetAllGeneralInfos
 
     @MockitoBean
-    private lateinit var repository: IMissionGeneralInfoRepository
+    private lateinit var repository: IGeneralInfoRepository
 
     @Test
     fun `should return all general infos`() {
-        val entity1 = MissionGeneralInfoEntityMock.create(id = 1, missionId = 100)
-        val entity2 = MissionGeneralInfoEntityMock.create(id = 2, missionId = 200)
+        val entity1 = GeneralInfoEntityMock.create(id = 1, missionId = 100)
+        val entity2 = GeneralInfoEntityMock.create(id = 2, missionId = 200)
         val models = listOf(
-            entity1.toMissionGeneralInfoModel(),
-            entity2.toMissionGeneralInfoModel()
+            entity1.toGeneralInfoModel(),
+            entity2.toGeneralInfoModel()
         )
 
         whenever(repository.findAll()).thenReturn(models)

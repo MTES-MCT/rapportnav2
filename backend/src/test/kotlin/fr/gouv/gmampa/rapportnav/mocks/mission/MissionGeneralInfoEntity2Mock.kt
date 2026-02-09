@@ -1,19 +1,19 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity
 
 object MissionGeneralInfoEntity2Mock {
     fun create(
-        data: MissionGeneralInfoEntity? = null,
-        crew: List<MissionCrewEntity>? = null,
+        data: GeneralInfoEntity? = null,
+        crew: List<CrewEntity>? = null,
         services: List<ServiceEntity>? = null
-    ) = MissionGeneralInfoEntity2(
-        data = (data ?: MissionGeneralInfoEntity(
+    ) = MissionGeneralInfoEntity(
+        data = (data ?: GeneralInfoEntity(
             service = ServiceEntity(
                 id = 1,
                 name = "name",
@@ -22,7 +22,7 @@ object MissionGeneralInfoEntity2Mock {
             isResourcesNotUsed = true
         )),
         crew = crew ?: listOf(
-            MissionCrewEntity(
+            CrewEntity(
                 agent = AgentEntity(
                     firstName = "firstName", lastName = "lastName", service = ServiceEntity(
                         id = 1,

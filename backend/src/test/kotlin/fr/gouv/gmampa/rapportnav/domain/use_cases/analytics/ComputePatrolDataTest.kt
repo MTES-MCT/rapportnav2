@@ -7,8 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.ComputeInternTrainingSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
@@ -89,7 +89,7 @@ class ComputePatrolDataTest {
     @Test
     fun `Should return the activity fields `() {
         val missionId = 123
-        val actions = listOf<MissionActionEntity>(
+        val actions = listOf<ActionEntity>(
             MissionNavActionEntityMock.create(
                 actionType = ActionType.STATUS,
                 status = ActionStatusType.DOCKED,
@@ -179,7 +179,7 @@ class ComputePatrolDataTest {
 
         `when`(getComputeEnvMission.execute(missionId))
             .thenReturn(missionMock)
-        `when`(mapStatusDurations.execute(anyList<MissionNavActionEntity>(), anyList<MissionActionEntity>(), any(), any()))
+        `when`(mapStatusDurations.execute(anyList<NavActionEntity>(), anyList<ActionEntity>(), any(), any()))
             .thenReturn(expected)
 
         val actual = computePatrolData.execute(missionId = 123)

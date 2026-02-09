@@ -1,10 +1,10 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateGeneralInfos
+import fr.gouv.gmampa.rapportnav.mocks.mission.GeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -23,14 +23,14 @@ class CreateGeneralInfosTest {
     private lateinit var createGeneralInfos: CreateGeneralInfos
 
     @MockitoBean
-    private lateinit var generalInfosRepository: IMissionGeneralInfoRepository
+    private lateinit var generalInfosRepository: IGeneralInfoRepository
 
     @Test
     fun `should create general info with missionId`() {
         val missionId = 123
         val generalInfo2 = MissionGeneralInfo2Mock.create(missionId = missionId)
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
-        val model = entity.toMissionGeneralInfoModel()
+        val entity = GeneralInfoEntityMock.create(id = 1, missionId = missionId)
+        val model = entity.toGeneralInfoModel()
 
         whenever(generalInfosRepository.save(any())).thenReturn(model)
 
@@ -47,8 +47,8 @@ class CreateGeneralInfosTest {
     fun `should create general info with missionIdUUID`() {
         val missionIdUUID = UUID.randomUUID()
         val generalInfo2 = MissionGeneralInfo2Mock.create(missionIdUUID = missionIdUUID)
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionIdUUID = missionIdUUID)
-        val model = entity.toMissionGeneralInfoModel()
+        val entity = GeneralInfoEntityMock.create(id = 1, missionIdUUID = missionIdUUID)
+        val model = entity.toGeneralInfoModel()
 
         whenever(generalInfosRepository.save(any())).thenReturn(model)
 
@@ -66,8 +66,8 @@ class CreateGeneralInfosTest {
         val missionId = 123
         val service = ServiceEntityMock.create(id = 10, name = "Test Service")
         val generalInfo2 = MissionGeneralInfo2Mock.create(missionId = missionId)
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId, service = service)
-        val model = entity.toMissionGeneralInfoModel()
+        val entity = GeneralInfoEntityMock.create(id = 1, missionId = missionId, service = service)
+        val model = entity.toGeneralInfoModel()
 
         whenever(generalInfosRepository.save(any())).thenReturn(model)
 

@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMIllegalFish
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -29,9 +29,9 @@ class AEMIllegalFishTest {
         assertThat(illegalImmigration.nbrOfInfractionWithPV).isEqualTo(3.0);
     }
 
-    private fun extendedFishActionEntities(): List<MissionFishActionEntity> {
+    private fun extendedFishActionEntities(): List<FishActionEntity> {
         val actions = listOf(
-            MissionFishActionEntity(
+            FishActionEntity(
                 missionId = 761,
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,
@@ -44,7 +44,7 @@ class AEMIllegalFishTest {
                     FishInfraction(natinf = 1, infractionType = InfractionType.WITH_RECORD),
                 ),
             ),
-            MissionFishActionEntity(
+            FishActionEntity(
                 missionId = 761,
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,

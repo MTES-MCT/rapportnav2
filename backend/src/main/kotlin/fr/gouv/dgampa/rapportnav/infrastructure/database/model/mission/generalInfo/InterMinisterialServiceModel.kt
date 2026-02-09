@@ -27,7 +27,7 @@ class InterMinisterialServiceModel(
     @ManyToOne
     @JoinColumn(name = "mission_general_info_id", insertable = false, updatable = false)
     @JsonIgnore
-    var missionGeneralInfo: MissionGeneralInfoModel? = null,
+    var missionGeneralInfo: GeneralInfoModel? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)

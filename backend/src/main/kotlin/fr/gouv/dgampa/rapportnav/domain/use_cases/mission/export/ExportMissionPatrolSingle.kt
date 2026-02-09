@@ -1,11 +1,11 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -66,9 +66,9 @@ class ExportMissionPatrolSingle(
             val patrolData = computePatrolData.execute(missionId = mission.id!!)
             val allActions = mission.actions
 
-            val generalInfo: MissionGeneralInfoEntity2? = patrolData?.generalInfos
+            val generalInfo: MissionGeneralInfoEntity? = patrolData?.generalInfos
             val service = generalInfo?.data?.service
-            val missionCrew: List<MissionCrewEntity>? = patrolData?.generalInfos?.crew
+            val missionCrew: List<CrewEntity>? = patrolData?.generalInfos?.crew
 
             val activity = patrolData?.activity
 

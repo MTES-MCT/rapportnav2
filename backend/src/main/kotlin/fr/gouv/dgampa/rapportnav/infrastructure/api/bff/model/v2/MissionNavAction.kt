@@ -5,8 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 
 class MissionNavAction(
     override val id: String? = null,
@@ -33,8 +33,8 @@ class MissionNavAction(
     data = data,
 ) {
     companion object {
-        fun fromMissionActionEntity(action: MissionActionEntity): MissionNavAction {
-            val navAction = action as MissionNavActionEntity
+        fun fromMissionActionEntity(action: ActionEntity): MissionNavAction {
+            val navAction = action as NavActionEntity
             return MissionNavAction(
                 id = navAction.id.toString(),
                 missionId = navAction.missionId,

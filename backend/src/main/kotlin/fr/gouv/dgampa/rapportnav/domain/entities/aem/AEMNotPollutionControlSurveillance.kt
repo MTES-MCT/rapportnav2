@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMNotPollutionControlSurveillance(
@@ -11,7 +11,7 @@ data class AEMNotPollutionControlSurveillance(
     val nbrOfInfractionWithNotice: Double? = 0.0 // 4.1.5
 ) {
     constructor(
-        envActions: List<MissionEnvActionEntity?>
+        envActions: List<EnvActionEntity?>
     ) : this(
         nbrOfHourAtSea = AEMUtils.getDurationInHours2(getNotPollutionActions(envActions)),
         nbrOfAction = getNotPollutionActions(envActions).size.toDouble(),
@@ -23,14 +23,14 @@ data class AEMNotPollutionControlSurveillance(
 
     companion object {
 
-        fun getNbrOfInfraction(notPollutionActions: List<MissionEnvActionEntity?>): Double {
+        fun getNbrOfInfraction(notPollutionActions: List<EnvActionEntity?>): Double {
             return notPollutionActions
                 .fold(0.0) { acc, c ->
                     acc.plus(c?.envInfractions?.flatMap { it.natinf ?: listOf() }?.size ?: 0)
                 }
         }
 
-        fun getNbrOfInfractionWithNotice(notPollutionActions: List<MissionEnvActionEntity?>): Double {
+        fun getNbrOfInfractionWithNotice(notPollutionActions: List<EnvActionEntity?>): Double {
             return notPollutionActions.fold(0.0) { acc, c ->
                 acc.plus(
                     c?.envInfractions?.filter { it.infractionType == InfractionTypeEnum.WITH_REPORT }?.size ?: 0
@@ -38,7 +38,7 @@ data class AEMNotPollutionControlSurveillance(
             }
         }
 
-        private fun getNotPollutionActions(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
+        private fun getNotPollutionActions(envActions: List<EnvActionEntity?>): List<EnvActionEntity?> {
             val illicitRejects = listOf(19, 102);
             return envActions.filter {
                 it?.controlPlans?.map { c -> c.themeId }?.intersect(illicitRejects)?.isEmpty() == true

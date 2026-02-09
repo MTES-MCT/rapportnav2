@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
@@ -53,7 +53,7 @@ class GetEnvActionByIdTest {
             isGeometryComputedFromControls = false,
             missionSource = MissionSourceEnum.MONITORENV
         )
-        val response = MissionEnvActionEntity(
+        val response = EnvActionEntity(
             id = actionId,
             missionId = missionId,
             envActionType = ActionTypeEnum.CONTROL,

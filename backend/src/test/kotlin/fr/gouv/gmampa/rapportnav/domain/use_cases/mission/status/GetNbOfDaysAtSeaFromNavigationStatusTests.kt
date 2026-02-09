@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.status
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
@@ -38,7 +38,7 @@ class GetNbOfDaysAtSeaFromNavigationStatusTests {
 
     @Test
     fun `execute should handle empty list of statuses`() {
-        val statuses = emptyList<MissionNavActionEntity>()
+        val statuses = emptyList<NavActionEntity>()
 
         val value = getNbOfDaysAtSeaFromNavigationStatus.execute(
             missionStartDateTime,

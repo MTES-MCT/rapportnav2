@@ -3,8 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
@@ -17,8 +16,8 @@ class ProcessEnvAction(
     private val getComputeEnvTarget: GetComputeEnvTarget
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(missionId: Int, envAction: EnvActionEntity): MissionEnvActionEntity {
-        val action = MissionEnvActionEntity.fromEnvAction(missionId = missionId, action = envAction)
+    fun execute(missionId: Int, envAction: EnvActionEntity): fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity {
+        val action = EnvActionEntity.fromEnvActionOutput(missionId = missionId, action = envAction)
         val targets = getComputeEnvTarget.execute(
             actionId = action.getActionId(),
             isControl = action.isControl(),

@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleT
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.locationtech.jts.geom.Geometry
@@ -47,8 +47,8 @@ object MissionEnvActionEntityMock {
         targets: List<TargetEntity>? = null,
         tags: List<TagEntity>? = listOf(),
         themes: List<ThemeEntity>? = listOf(),
-    ): MissionEnvActionEntity {
-        return MissionEnvActionEntity(
+    ): EnvActionEntity {
+        return EnvActionEntity(
             id = id,
             missionId = missionId,
             envActionType = envActionType,

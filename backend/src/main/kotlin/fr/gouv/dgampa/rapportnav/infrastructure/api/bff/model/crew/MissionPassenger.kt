@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerOrganization
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.PassengerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.PassengerOrganization
 import java.time.LocalDate
 import java.util.UUID
 
@@ -10,14 +10,14 @@ data class MissionPassenger(
     val missionId: Int? = null,
     val missionIdUUID: UUID? = null,
     val fullName: String,
-    val organization: MissionPassengerOrganization? = null,
+    val organization: PassengerOrganization? = null,
     val isIntern: Boolean? = null,
     val startDate: LocalDate,
     val endDate: LocalDate,
 ) {
 
     companion object {
-        fun fromMissionPassengerEntity(passenger: MissionPassengerEntity): MissionPassenger {
+        fun fromMissionPassengerEntity(passenger: PassengerEntity): MissionPassenger {
             return MissionPassenger(
                 id = passenger.id,
                 missionId = passenger.missionId,
@@ -31,8 +31,8 @@ data class MissionPassenger(
         }
     }
 
-    fun toMissionPassengerEntity(missionIdUUID: UUID?= null, missionId: Int? = null): MissionPassengerEntity {
-        return MissionPassengerEntity(
+    fun toMissionPassengerEntity(missionIdUUID: UUID?= null, missionId: Int? = null): PassengerEntity {
+        return PassengerEntity(
             id = if (id == 0 || id == null) null else id,
             missionId = missionId,
             missionIdUUID = missionIdUUID,

@@ -5,14 +5,14 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo
 import java.util.*
 
 @UseCase
 class CreateMissionNav(
     private val repository: IMissionNavRepository
 ) {
-    fun execute(generalInfo2: MissionGeneralInfo2, serviceId: Int): MissionNavEntity {
+    fun execute(generalInfo2: MissionGeneralInfo, serviceId: Int): MissionNavEntity {
         if (generalInfo2.startDateTimeUtc == null) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,

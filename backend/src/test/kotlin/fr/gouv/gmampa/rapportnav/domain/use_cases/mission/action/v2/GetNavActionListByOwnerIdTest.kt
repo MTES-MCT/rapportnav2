@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByOwnerId
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.ActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
@@ -35,7 +35,7 @@ class GetNavActionListByOwnerIdTest {
         val missionId = 761
         val ownerId = UUID.randomUUID()
 
-        val action = MissionActionModel(
+        val action = ActionModel(
             id = UUID.randomUUID(),
             ownerId = ownerId,
             missionId = missionId,

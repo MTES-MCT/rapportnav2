@@ -4,10 +4,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.EstablishmentModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.ActionModel
 import java.time.Instant
 import java.util.*
 
@@ -20,8 +19,8 @@ object MissionActionModelMock {
         vesselType: String? = VesselTypeEnum.FISHING.toString(),
         controlMethod: String? = ControlMethod.SEA.toString(),
         reason: String? = null,
-    ): MissionActionModel {
-        return MissionActionModel(
+    ): ActionModel {
+        return ActionModel(
             missionId = 761,
             id = UUID.fromString("0000-00-00-00-000000"),
             startDateTimeUtc = startDateTimeUtc,

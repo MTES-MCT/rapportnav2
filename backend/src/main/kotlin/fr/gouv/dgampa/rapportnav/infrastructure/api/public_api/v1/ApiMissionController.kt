@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outputs.ApiMissionDataOutput
 import io.swagger.v3.oas.annotations.Operation
@@ -24,7 +24,7 @@ class ApiMissionController(
         @PathVariable(name = "missionId")
         missionId: Int,
     ): ApiMissionDataOutput? {
-        val navActions: List<MissionNavActionEntity> = getComputeNavMission.execute(missionId = missionId)
+        val navActions: List<NavActionEntity> = getComputeNavMission.execute(missionId = missionId)
 
         return ApiMissionDataOutput(
             id = missionId,

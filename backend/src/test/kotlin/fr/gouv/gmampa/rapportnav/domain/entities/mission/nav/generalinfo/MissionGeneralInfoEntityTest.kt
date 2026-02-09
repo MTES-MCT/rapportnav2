@@ -1,8 +1,8 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.generalinfo
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.GeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.GeneralInfoModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -12,14 +12,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [MissionGeneralInfoModel::class])
+@SpringBootTest(classes = [GeneralInfoModel::class])
 class MissionGeneralInfoEntityTest {
 
     @Test
     fun `execute should retrieve mission general info entity`() {
         val missionIdUUID = UUID.randomUUID()
-        val generalInfoEntity = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(
-            MissionGeneralInfoModel(
+        val generalInfoEntity = GeneralInfoEntity.fromGeneralInfoModel(
+            GeneralInfoModel(
                 id = 1,
                 missionId = 1,
                 service = ServiceEntityMock.create(id = 3).toServiceModel(),
@@ -47,7 +47,7 @@ class MissionGeneralInfoEntityTest {
     @Test
     fun `execute should retrieve mission general modal from entity`() {
         val missionIdUUID = UUID.randomUUID()
-        val generalInfoEntity = MissionGeneralInfoEntity(
+        val generalInfoEntity = GeneralInfoEntity(
             id = 1,
             missionId = 1,
             service = ServiceEntityMock.create(id = 3),
@@ -58,7 +58,7 @@ class MissionGeneralInfoEntityTest {
             jdpType = JdpTypeEnum.DOCKED,
             missionIdUUID = missionIdUUID
         );
-        val generalInfoModel = generalInfoEntity.toMissionGeneralInfoModel()
+        val generalInfoModel = generalInfoEntity.toGeneralInfoModel()
         assertThat(generalInfoModel).isNotNull();
         assertThat(generalInfoModel.id).isEqualTo(generalInfoEntity.id);
         assertThat(generalInfoModel.missionId).isEqualTo(generalInfoEntity.missionId);

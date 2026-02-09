@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionSurveillanceEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.env.ThemeEntityMock
 import org.locationtech.jts.geom.Geometry
@@ -24,8 +24,8 @@ object EnvActionSurveillanceMock {
         openBy: String? = null,
         coverMissionZone: Boolean? = null,
         themes: List<ThemeEntity> = listOf(ThemeEntityMock.create()),
-    ): EnvActionSurveillanceEntity {
-        return EnvActionSurveillanceEntity(
+    ): ActionSurveillanceEnvEntity {
+        return ActionSurveillanceEnvEntity(
             id = id,
             actionStartDateTimeUtc = actionStartDateTimeUtc,
             actionEndDateTimeUtc = actionEndDateTimeUtc,

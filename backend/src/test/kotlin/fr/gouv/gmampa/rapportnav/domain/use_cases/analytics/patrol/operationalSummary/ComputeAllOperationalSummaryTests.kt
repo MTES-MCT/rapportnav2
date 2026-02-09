@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.analytics.OperationalSummaryEnt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeAllOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeEnvOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeFishingOperationalSummary
@@ -39,7 +39,7 @@ class ComputeAllOperationalSummaryTests {
     private lateinit var computeEnvOperationalSummary: ComputeEnvOperationalSummary
 
 
-    private fun getActions(actionType: MissionActionType): List<MissionFishActionEntity> {
+    private fun getActions(actionType: MissionActionType): List<FishActionEntity> {
 
         val action1 = MissionFishActionEntityMock.create(
             flagState = CountryCode.BE,

@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAction
@@ -34,7 +34,7 @@ class GetComputeNavActionListByMissionIdTest {
     fun `test execute get nav action list by mission id`() {
         val missionId = 761
         val actionId = UUID.randomUUID()
-        val action = MissionNavActionEntity(
+        val action = NavActionEntity(
             missionId = missionId,
             id = actionId,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
@@ -46,7 +46,7 @@ class GetComputeNavActionListByMissionIdTest {
             actionType = ActionType.CONTROL
         )
 
-        val response = MissionNavActionEntity(
+        val response = NavActionEntity(
             id = actionId,
             missionId = 761,
             actionType = ActionType.ILLEGAL_IMMIGRATION,
@@ -70,7 +70,7 @@ class GetComputeNavActionListByMissionIdTest {
     fun `test execute get nav action list by mission id UUID`() {
         val actionId = UUID.randomUUID()
         val missionIdUUID = UUID.randomUUID()
-        val action = MissionNavActionEntity(
+        val action = NavActionEntity(
             id = actionId,
             missionId = 0,
             ownerId = missionIdUUID,
@@ -83,7 +83,7 @@ class GetComputeNavActionListByMissionIdTest {
             actionType = ActionType.CONTROL
         )
 
-        val response = MissionNavActionEntity(
+        val response = NavActionEntity(
             id = actionId,
             missionId = 761,
             actionType = ActionType.ILLEGAL_IMMIGRATION,

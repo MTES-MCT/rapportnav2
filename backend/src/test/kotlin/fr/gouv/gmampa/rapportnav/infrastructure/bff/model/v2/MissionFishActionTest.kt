@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.FishActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
@@ -14,7 +14,7 @@ class MissionFishActionTest {
     @Test
     fun `execute should retrieve output from mission action fish Entity`() {
         val fishAction = FishActionControlMock.create()
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = FishActionEntity.fromFishAction(action = fishAction)
         val output = MissionFishAction.fromMissionActionEntity(entity)
 
         assertThat(output).isNotNull()

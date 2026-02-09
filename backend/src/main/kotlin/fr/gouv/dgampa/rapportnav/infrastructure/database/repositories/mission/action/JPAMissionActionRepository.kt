@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.ActionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
@@ -15,7 +15,7 @@ import java.util.*
 class JPAMissionActionRepository(
     private val dbMissionActionRepository: IDBMissionActionRepository,
 ) : INavMissionActionRepository {
-    override fun findByMissionId(missionId: Int): List<MissionActionModel> {
+    override fun findByMissionId(missionId: Int): List<ActionModel> {
         return try {
             dbMissionActionRepository.findAllByMissionId(missionId)
         } catch (e: Exception) {
@@ -26,7 +26,7 @@ class JPAMissionActionRepository(
         }
     }
 
-    override fun findByOwnerId(ownerId: UUID): List<MissionActionModel> {
+    override fun findByOwnerId(ownerId: UUID): List<ActionModel> {
         return try {
             dbMissionActionRepository.findAllByOwnerId(ownerId)
         } catch (e: Exception) {
@@ -37,7 +37,7 @@ class JPAMissionActionRepository(
         }
     }
 
-    override fun findById(id: UUID): Optional<MissionActionModel> {
+    override fun findById(id: UUID): Optional<ActionModel> {
         return try {
             dbMissionActionRepository.findById(id)
         } catch (e: Exception) {
@@ -49,7 +49,7 @@ class JPAMissionActionRepository(
     }
 
     @Transactional
-    override fun save(action: MissionActionModel): MissionActionModel {
+    override fun save(action: ActionModel): ActionModel {
         return try {
             dbMissionActionRepository.save(action)
         } catch (e: InvalidDataAccessApiUsageException) {

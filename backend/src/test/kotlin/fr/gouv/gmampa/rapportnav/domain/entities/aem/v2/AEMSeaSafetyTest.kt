@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMSeaSafety
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.NavActionEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -28,30 +28,30 @@ class AEMSeaSafetyTest {
         assertThat(seaSafety.nbrOfPublicOrderOperation).isEqualTo(nbrOfPublicOrderOperation);
     }
 
-    private fun navActionEntities(): List<MissionNavActionEntity> {
+    private fun navActionEntities(): List<NavActionEntity> {
         val actions = listOf(
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.BAAEM_PERMANENCE,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
             ),
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.VIGIMER,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 ),
-                MissionNavActionEntity(
+                NavActionEntity(
                     id = UUID.randomUUID(),
                     missionId = 761,
                     actionType = ActionType.NAUTICAL_EVENT,
                     startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                     endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 ),
-                MissionNavActionEntity(
+                NavActionEntity(
                     id = UUID.randomUUID(),
                     missionId = 761,
                     actionType = ActionType.PUBLIC_ORDER,
@@ -59,7 +59,7 @@ class AEMSeaSafetyTest {
                     endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                     observations = "",
                 ),
-            MissionNavActionEntity(
+            NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.PUBLIC_ORDER,
