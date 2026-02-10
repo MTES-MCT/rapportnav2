@@ -13,9 +13,16 @@ const CONTROL_TYPES = [
   ControlType.SECURITY
 ]
 
+const MISSION_SOURCE_TYPES_EXTERNAL = [
+  MissionSourceEnum.MONITORENV,
+  MissionSourceEnum.MONITORFISH,
+  MissionSourceEnum.POSEIDON_CACEM,
+  MissionSourceEnum.POSEIDON_CNSP
+]
+
 export function useTarget() {
   const isDefaultTarget = (target?: Target) =>
-    target?.targetType === TargetType.DEFAULT && target?.source === MissionSourceEnum.RAPPORTNAV
+    target?.targetType === TargetType.DEFAULT && !MISSION_SOURCE_TYPES_EXTERNAL.includes(target?.source)
 
   const getTargetType = (actionTargetType?: ActionTargetTypeEnum) =>
     actionTargetType ? TargetType[actionTargetType as keyof typeof TargetType] : TargetType.INDIVIDUAL
