@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.62.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.61.0...docker-container@v2.62.0) (2026-02-10)
+
+
+### Features
+
+* **backend:** delete and move rename files ([bd16630](https://github.com/MTES-MCT/rapportnav2/commit/bd16630a16c1d54d45dc43e097c87a644d05fd7e))
+* **backend:** impact of the renaming ([2b87a61](https://github.com/MTES-MCT/rapportnav2/commit/2b87a61eb36ebf63be142ba9495303649f59dd5f))
+* **backend:** update test after naming changes ([99b0744](https://github.com/MTES-MCT/rapportnav2/commit/99b0744737da8375a2771940aca776465592093e))
+* **Sentry:** link user to sentry requests ([254bb1b](https://github.com/MTES-MCT/rapportnav2/commit/254bb1b5a8b4b9378305ad50e20ff282afe08f0a))
+* **Sentry:** link user to sentry requests in frontend ([938bf5b](https://github.com/MTES-MCT/rapportnav2/commit/938bf5b6d309859996dbd4281ab79dacc639ac6a))
+
+
+### Bug Fixes
+
+* **backend:** naming ([cc36e84](https://github.com/MTES-MCT/rapportnav2/commit/cc36e8480526054d46f72b256c6da6e65a687a27))
+* **backend:** test infractions ([dc13b86](https://github.com/MTES-MCT/rapportnav2/commit/dc13b86fd5407b840976265a4f83c1d080004e9d))
+* **backend:** tests ([8203d73](https://github.com/MTES-MCT/rapportnav2/commit/8203d73ea91e1db5f36de5d300423291c663ac1f))
+* npm audit ([cd3d193](https://github.com/MTES-MCT/rapportnav2/commit/cd3d1934b567393723d1fd461f87b75502f7995b))
+* **sentry:** Add SentryConfig.kt and init sessions ([1be4b94](https://github.com/MTES-MCT/rapportnav2/commit/1be4b94f1dbff77d285e997750506dba425cdaec))
+
 ## [2.61.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.60.4...docker-container@v2.61.0) (2026-02-04)
 
 

@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.62.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.61.0...frontend@v2.62.0) (2026-02-10)
+
+
+### Features
+
+* **Sentry:** link user to sentry requests in frontend ([938bf5b](https://github.com/MTES-MCT/rapportnav2/commit/938bf5b6d309859996dbd4281ab79dacc639ac6a))
+
+
+### Bug Fixes
+
+* npm audit ([cd3d193](https://github.com/MTES-MCT/rapportnav2/commit/cd3d1934b567393723d1fd461f87b75502f7995b))
+
 ## [2.61.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.60.4...frontend@v2.61.0) (2026-02-04)
 
 
