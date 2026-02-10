@@ -11,7 +11,7 @@ describe('ActionHeaderCompletenessForStats', () => {
         networkSyncStatus={NetworkSyncStatus.SYNC}
         completenessForStats={{
           status: CompletenessForStatsStatusEnum.COMPLETE,
-          sources: [MissionSourceEnum.RAPPORTNAV]
+          sources: [MissionSourceEnum.RAPPORT_NAV]
         }}
       />
     )

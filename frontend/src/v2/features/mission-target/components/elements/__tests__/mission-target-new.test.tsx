@@ -68,7 +68,7 @@ describe('MissionTargetNew', () => {
       expect.objectContaining({
         ...mockFromInputToFieldValue(mockValue),
         actionId: 'action-1',
-        source: MissionSourceEnum.RAPPORTNAV,
+        source: MissionSourceEnum.RAPPORT_NAV,
         targetType: 'VEHICLE'
       })
     )

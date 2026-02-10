@@ -15,7 +15,7 @@ const CONTROL_TYPES = [
 
 export function useTarget() {
   const isDefaultTarget = (target?: Target) =>
-    target?.targetType === TargetType.DEFAULT && target?.source === MissionSourceEnum.RAPPORTNAV
+    target?.targetType === TargetType.DEFAULT && target?.source === MissionSourceEnum.RAPPORT_NAV
 
   const getTargetType = (actionTargetType?: ActionTargetTypeEnum) =>
     actionTargetType ? TargetType[actionTargetType as keyof typeof TargetType] : TargetType.INDIVIDUAL

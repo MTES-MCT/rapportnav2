@@ -73,7 +73,7 @@ class GetInfoAboutNavAction2(
                 }
             }
 
-            MissionSourceEnum.RAPPORTNAV -> {
+            MissionSourceEnum.RAPPORT_NAV -> {
                 actions?.filterIsInstance<MissionNavActionEntity>()
                     ?.filter { it.actionType in actionTypes }
             }
@@ -89,7 +89,7 @@ class GetInfoAboutNavAction2(
         actionSource: MissionSourceEnum
     ): Double? {
         return when (actionSource) {
-            MissionSourceEnum.RAPPORTNAV -> getAccumulatedDurationInHoursForNavAction(actions = actions)
+            MissionSourceEnum.RAPPORT_NAV -> getAccumulatedDurationInHoursForNavAction(actions = actions)
             MissionSourceEnum.MONITORENV -> getAccumulatedDurationInHoursForEnvAction(actions = actions)
             else -> null
         }

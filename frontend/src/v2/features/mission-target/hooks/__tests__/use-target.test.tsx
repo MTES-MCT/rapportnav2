@@ -8,7 +8,7 @@ import { describe } from 'vitest'
 
 describe('useTarget', () => {
   it('should validate that is default', () => {
-    const target = { targetType: TargetType.DEFAULT, source: MissionSourceEnum.RAPPORTNAV } as Target
+    const target = { targetType: TargetType.DEFAULT, source: MissionSourceEnum.RAPPORT_NAV } as Target
     const { result } = renderHook(() => useTarget())
     expect(result.current.isDefaultTarget(target)).toBeTruthy()
 

@@ -66,7 +66,7 @@ class DeleteNavMissionTest {
             id = ownerId,
             serviceId = serviceId,
             startDateTimeUtc = Instant.now(),
-            missionSource = MissionSourceEnum.RAPPORTNAV
+            missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
         `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
@@ -112,7 +112,7 @@ class DeleteNavMissionTest {
             id = ownerId,
             serviceId = serviceId,
             startDateTimeUtc = Instant.now(),
-            missionSource = MissionSourceEnum.RAPPORTNAV
+            missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
         `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))

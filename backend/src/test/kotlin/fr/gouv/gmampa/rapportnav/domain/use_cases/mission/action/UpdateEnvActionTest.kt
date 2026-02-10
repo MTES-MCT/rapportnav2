@@ -36,7 +36,7 @@ class UpdateEnvActionTest {
             id = actionId,
             missionId = 761,
             actionType = ActionType.CONTROL,
-            source = MissionSourceEnum.RAPPORTNAV,
+            source = MissionSourceEnum.RAPPORT_NAV,
             data = getEnvActionData(),
         )
 
