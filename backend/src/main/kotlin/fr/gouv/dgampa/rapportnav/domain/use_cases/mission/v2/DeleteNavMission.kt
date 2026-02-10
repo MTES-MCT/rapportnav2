@@ -36,7 +36,7 @@ class DeleteNavMission(
             )
         }
 
-        if (!listOf(MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.RAPPORTNAV).contains(mission.missionSource)) {
+        if (!listOf(MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.RAPPORT_NAV).contains(mission.missionSource)) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
                 message = "DeleteNavMission: mission source must be RAPPORT_NAV"

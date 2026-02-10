@@ -43,7 +43,7 @@ class UpdateNavActionTest {
             id = actionId,
             missionId = 761,
             actionType = ActionType.CONTROL,
-            source = MissionSourceEnum.RAPPORTNAV,
+            source = MissionSourceEnum.RAPPORT_NAV,
             data = getNavActionDataInput(),
         )
         val model = MissionActionModelMock.create()
@@ -73,7 +73,7 @@ class UpdateNavActionTest {
             id = UUID.randomUUID().toString(),
             missionId = 761,
             actionType = ActionType.CONTROL,
-            source = MissionSourceEnum.RAPPORTNAV,
+            source = MissionSourceEnum.RAPPORT_NAV,
             data = getNavActionDataInput(),
         )
 
