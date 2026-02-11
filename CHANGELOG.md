@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.63.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.62.0...docker-container@v2.63.0) (2026-02-11)
+
+
+### Features
+
+* **AnalyticsAPI:** add mission completion and finished ([8ed4885](https://github.com/MTES-MCT/rapportnav2/commit/8ed4885c8c2060e261332edc3a5ba91ae9c7e4ea))
+
 ## [2.62.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.61.0...docker-container@v2.62.0) (2026-02-10)
 
 
