@@ -4,7 +4,7 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.63.4"
+version = "2.64.0"
 // x-release-please-end
 description = "RapportNav"
 
