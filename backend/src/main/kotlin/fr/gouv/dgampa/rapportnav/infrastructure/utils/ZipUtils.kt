@@ -35,8 +35,18 @@ object ZipUtils {
             val byteArrayOutputStream = ByteArrayOutputStream()
             ZipOutputStream(byteArrayOutputStream).use { zipOut ->
                 files.forEach { fileEntity ->
+                    // Validate filename to prevent path traversal attacks
+                    val fileName = fileEntity.fileName
+                    if (fileName.contains("..") || fileName.contains("/") || fileName.contains("\\")) {
+                        logger.error("Invalid filename detected - potential path traversal: {}", fileName)
+                        throw BackendUsageException(
+                            code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                            message = "Invalid filename: contains path traversal characters"
+                        )
+                    }
+
                     val decodedBytes = Base64.getDecoder().decode(fileEntity.fileContent)
-                    zipOut.putNextEntry(ZipEntry(fileEntity.fileName))
+                    zipOut.putNextEntry(ZipEntry(fileName))
                     ByteArrayInputStream(decodedBytes).use { it.copyTo(zipOut) }
                     zipOut.closeEntry()
                 }
