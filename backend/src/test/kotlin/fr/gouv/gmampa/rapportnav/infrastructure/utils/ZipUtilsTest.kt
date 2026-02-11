@@ -31,4 +31,34 @@ class ZipUtilsTest {
         assertEquals("File list cannot be empty", exception.message)
         assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
     }
+
+    @Test
+    fun `should throw exception for filename with path traversal using double dots`() {
+        val maliciousFile = MissionExportEntity(fileName = "../etc/passwd", fileContent = "dGVzdA==")
+        val exception = assertThrows<BackendUsageException> {
+            ZipUtils.zipToBase64(listOf(maliciousFile))
+        }
+        assertEquals("Invalid filename: contains path traversal characters", exception.message)
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
+    }
+
+    @Test
+    fun `should throw exception for filename with forward slash`() {
+        val maliciousFile = MissionExportEntity(fileName = "path/to/file.txt", fileContent = "dGVzdA==")
+        val exception = assertThrows<BackendUsageException> {
+            ZipUtils.zipToBase64(listOf(maliciousFile))
+        }
+        assertEquals("Invalid filename: contains path traversal characters", exception.message)
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
+    }
+
+    @Test
+    fun `should throw exception for filename with backslash`() {
+        val maliciousFile = MissionExportEntity(fileName = "path\\to\\file.txt", fileContent = "dGVzdA==")
+        val exception = assertThrows<BackendUsageException> {
+            ZipUtils.zipToBase64(listOf(maliciousFile))
+        }
+        assertEquals("Invalid filename: contains path traversal characters", exception.message)
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
+    }
 }
