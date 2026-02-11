@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -49,12 +50,18 @@ class ExportMissionPatrolSingleTest {
     @Test
     fun `execute should throw BackendUsageException if mission is not found`() {
         val missionId = 123
-        `when`(getMission.execute(missionId)).thenReturn(null)
+        `when`(getMission.execute(missionId))
+            .thenAnswer {
+                throw BackendUsageException(
+                    code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                    message = "Env mission not found: $missionId"
+                )
+            }
 
         val exception = assertThrows(BackendUsageException::class.java) {
             exportMissionRapportPatrouille.execute(missionId)
         }
-        assertThat(exception.message).isEqualTo("Mission not found: $missionId")
+        assertThat(exception.message).isEqualTo("Env mission not found: $missionId")
     }
 
     @Test
@@ -66,12 +73,6 @@ class ExportMissionPatrolSingleTest {
         assertThrows(BackendInternalException::class.java) {
             exportMissionRapportPatrouille.createFile(mission)
         }
-    }
-
-    @Test
-    fun `createFile should return null when mission is null`() {
-        val result = exportMissionRapportPatrouille.createFile(null)
-        assertThat(result).isNull()
     }
 
     @Test

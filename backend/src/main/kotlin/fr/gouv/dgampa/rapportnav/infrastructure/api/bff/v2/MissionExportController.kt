@@ -32,9 +32,9 @@ data class ExportBodyRequest(
     @field:NotEmpty(message = "missionIds cannot be empty")
     val missionIds: List<Int>,
     @field:NotNull(message = "exportMode cannot be null")
-    val exportMode: ExportModeEnum,
+    var exportMode: ExportModeEnum,
     @field:NotNull(message = "reportType cannot be null")
-    val reportType: ExportReportTypeEnum
+    var reportType: ExportReportTypeEnum
 )
 
 data class ErrorResponse(
