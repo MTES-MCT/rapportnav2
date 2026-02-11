@@ -92,7 +92,7 @@ data class MissionEnvActionEntity(
 
         val monitorEnvComplete = this.completion === ActionCompletionEnum.COMPLETED
         if (!rapportNavComplete) {
-            sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORTNAV)
+            sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORT_NAV)
         }
         if (!monitorEnvComplete) {
             sourcesOfMissingDataForStats.add(MissionSourceEnum.MONITORENV)

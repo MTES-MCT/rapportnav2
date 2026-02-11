@@ -40,7 +40,7 @@ const envAction: MissionAction = {
 }
 
 const navAction: MissionAction = {
-  source: MissionSourceEnum.RAPPORTNAV,
+  source: MissionSourceEnum.RAPPORT_NAV,
   id: 'nav-id',
   missionId: '2',
   actionType: ActionType.ANTI_POLLUTION,

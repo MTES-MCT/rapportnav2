@@ -38,7 +38,7 @@ const MissionTargetNew: React.FC<MissionTargetNewProps> = ({
       ...fromInputToFieldValue(value),
       actionId,
       startDateTimeUtc: new UTCDate(),
-      source: MissionSourceEnum.RAPPORTNAV,
+      source: MissionSourceEnum.RAPPORT_NAV,
       targetType: getTargetType(actionTargetType)
     }
     fieldArray.push(valueToSubmit)

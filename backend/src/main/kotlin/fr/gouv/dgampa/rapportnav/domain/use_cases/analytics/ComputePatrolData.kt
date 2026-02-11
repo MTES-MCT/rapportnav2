@@ -89,27 +89,27 @@ class ComputePatrolData(
         val rescueInfo = getInfoAboutNavAction2.execute(
             actions = mission?.actions,
             actionTypes = listOf(ActionType.RESCUE),
-            actionSource = MissionSourceEnum.RAPPORTNAV,
+            actionSource = MissionSourceEnum.RAPPORT_NAV,
         )
         val nauticalEventsInfo = getInfoAboutNavAction2.execute(
             actions = mission?.actions,
             actionTypes = listOf(ActionType.NAUTICAL_EVENT),
-            actionSource = MissionSourceEnum.RAPPORTNAV
+            actionSource = MissionSourceEnum.RAPPORT_NAV
         )
         val antiPollutionInfo = getInfoAboutNavAction2.execute(
             actions = mission?.actions,
             actionTypes = listOf(ActionType.ANTI_POLLUTION),
-            actionSource = MissionSourceEnum.RAPPORTNAV
+            actionSource = MissionSourceEnum.RAPPORT_NAV
         )
         val baaemAndVigimerInfo = getInfoAboutNavAction2.execute(
             actions = mission?.actions,
             actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE),
-            actionSource = MissionSourceEnum.RAPPORTNAV
+            actionSource = MissionSourceEnum.RAPPORT_NAV
         )
         val illegalImmigrationInfo = getInfoAboutNavAction2.execute(
             actions = mission?.actions,
             actionTypes = listOf(ActionType.ILLEGAL_IMMIGRATION),
-            actionSource = MissionSourceEnum.RAPPORTNAV
+            actionSource = MissionSourceEnum.RAPPORT_NAV
         )
         val envSurveillanceInfo = getInfoAboutNavAction2.execute(
             actions = mission?.actions,
