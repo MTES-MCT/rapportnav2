@@ -7,7 +7,7 @@ import java.util.*
 
 data class MissionCrewEntity(
     val id: Int? = null,
-    val agent: AgentEntity,
+    val agent: AgentEntity? = null,
     val comment: String? = null,
     val role: AgentRoleEntity? = null,
     val missionId: Int? = null,
@@ -20,7 +20,7 @@ data class MissionCrewEntity(
         return MissionCrewModel(
             id = id,
             missionId = missionId,
-            agent = agent.toAgentModel(),
+            agent = agent?.toAgentModel(),
             role = role?.toAgentRoleModel(),
             comment = if (comment == null && commentDefaultsToString == true) "" else comment,
             missionIdUUID = missionIdUUID,
@@ -34,7 +34,7 @@ data class MissionCrewEntity(
                 missionId = crew.missionId,
                 comment = crew.comment,
                 missionIdUUID = crew.missionIdUUID,
-                agent = crew.agent.let { AgentEntity.fromAgentModel(it) },
+                agent = crew.agent?.let { AgentEntity.fromAgentModel(it) },
                 role = crew.role?.let { AgentRoleEntity.fromAgentRoleModel(it) },
                 createdAt = crew.createdAt,
                 updatedAt = crew.updatedAt

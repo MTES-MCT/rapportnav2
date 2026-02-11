@@ -19,8 +19,8 @@ class MissionCrewModel(
     var id: Int?,
 
     @ManyToOne
-    @JoinColumn(name = "agent_id")
-    var agent: AgentModel,
+    @JoinColumn(name = "agent_id", nullable = true)
+    var agent: AgentModel? = null,
 
     @Column(name = "mission_id", nullable = true)
     var missionId: Int? = null,

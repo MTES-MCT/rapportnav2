@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.63.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.3...docker-container@v2.63.4) (2026-02-11)
+
+
+### Bug Fixes
+
+* 500 on mission_crew as agent is null ([ab64360](https://github.com/MTES-MCT/rapportnav2/commit/ab643609e8909aa5c9443b59be7ddd8aa1aa9765))
+
 ## [2.63.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.2...docker-container@v2.63.3) (2026-02-11)
 
 
