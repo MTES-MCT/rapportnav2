@@ -17,7 +17,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository
  * This class sets all security related configuration.
  */
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 class SecurityConfig(
     private val customAuthenticationFilter: CustomAuthenticationFilter,
     private val apiKeyAuthFilter: ApiKeyAuthenticationFilter,
