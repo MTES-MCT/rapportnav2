@@ -30,7 +30,7 @@ class CreateUser(
         if (!PasswordValidator.isStrong(input.password)) {
             throw BackendUsageException(
                 code = PASSWORD_TOO_WEAK_EXCEPTION,
-                message = "CreateUser: password must be at least 10 characters long and include upper, lower, number, and special character"
+                message = "CreateUser: password must be at least 16 characters long and include upper, lower, number, and special character"
             )
         }
 
