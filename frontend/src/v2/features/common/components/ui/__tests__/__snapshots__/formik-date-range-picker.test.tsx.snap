@@ -20,7 +20,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <label
-                class="sc-bBXxYP jnWJrN Element-Label"
+                class="sc-bCDidX idOBkM Element-Label"
               >
                 Date et heure de début et de fin (utc)
               </label>
@@ -29,7 +29,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <h3
-                class="sc-bBXxYP jnWJrN Element-Label"
+                class="sc-bCDidX idOBkM Element-Label"
                 style="margin-left: 2px; color: rgb(225, 0, 15); font-weight: initial;"
               >
                 *
@@ -48,24 +48,24 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <fieldset
-                class="sc-iTONeK jeQdtV Element-Fieldset sc-csvncv donVmz Field-DatePicker sc-kngDgi"
+                class="sc-iVFRtC eFOShn Element-Fieldset sc-crPCXn cEPyvy Field-DatePicker sc-knMnlq"
               >
                 <div
-                  class="sc-iAvgwp liJZFp Element-Fieldset__InnerBox"
+                  class="sc-iCmkLh cOYrrT Element-Fieldset__InnerBox"
                 >
                   <div
-                    class="sc-dFdIVI bqoAHr"
+                    class="sc-dExYQA eKTETf"
                   >
                     <span
-                      class="sc-brCFrR dtmgCx"
+                      class="sc-bqWVmJ jmaYlV"
                     >
                       <div
-                        class="sc-fctJkZ foQrvV"
+                        class="sc-faCEWh jKVjtV"
                       >
                         <div>
                           <input
                             aria-label="Jour"
-                            class="sc-fvNpTu iarzIY"
+                            class="sc-ftWlEC gPojLY"
                             id="startDateTimeUtcDay"
                             maxlength="2"
                             pattern="\\d*"
@@ -75,7 +75,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                           /
                           <input
                             aria-label="Mois"
-                            class="sc-fvNpTu iarzIY"
+                            class="sc-ftWlEC gPojLY"
                             id="startDateTimeUtcMonth"
                             maxlength="2"
                             pattern="\\d*"
@@ -85,7 +85,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                           /
                           <input
                             aria-label="Année"
-                            class="sc-fvNpTu gvlTvy"
+                            class="sc-ftWlEC dNzVrC"
                             id="startDateTimeUtcYear"
                             maxlength="4"
                             pattern="\\d*"
@@ -96,18 +96,18 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                       </div>
                     </span>
                     <span
-                      class="sc-brCFrR XTyDh"
+                      class="sc-bqWVmJ kfcHNl"
                     >
                       <div
-                        class="sc-bWXABi cwctNL"
+                        class="sc-bYOEQa gEVzCl"
                       >
                         <div
-                          class="sc-eFWqGm gkGKMc"
+                          class="sc-eFqGBe gPbLel"
                         >
                           <div>
                             <input
                               aria-label="Heure"
-                              class="sc-fvNpTu iarzIY"
+                              class="sc-ftWlEC gPojLY"
                               id="startDateTimeUtcHour"
                               maxlength="2"
                               pattern="\\d*"
@@ -117,7 +117,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                             :
                             <input
                               aria-label="Minute"
-                              class="sc-fvNpTu iarzIY"
+                              class="sc-ftWlEC gPojLY"
                               id="startDateTimeUtcMinute"
                               maxlength="2"
                               pattern="\\d*"
@@ -130,7 +130,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    class="sc-jQHtVT ixVswy Field-DatePicker__CalendarPicker"
+                    class="sc-jOQpHb eNRuQp Field-DatePicker__CalendarPicker"
                   >
                     <div
                       class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -185,7 +185,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               style="align-self: center;"
             >
               <p
-                class="sc-kjEcyY sc-afnQM fzruwA cewgFY"
+                class="sc-kkjMEg sc-ZzDLE dBLXFG bXAjbM"
                 font-size="11"
               >
                 au
@@ -195,24 +195,24 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <fieldset
-                class="sc-iTONeK jeQdtV Element-Fieldset sc-csvncv donVmz Field-DatePicker sc-kngDgi"
+                class="sc-iVFRtC eFOShn Element-Fieldset sc-crPCXn cEPyvy Field-DatePicker sc-knMnlq"
               >
                 <div
-                  class="sc-iAvgwp liJZFp Element-Fieldset__InnerBox"
+                  class="sc-iCmkLh cOYrrT Element-Fieldset__InnerBox"
                 >
                   <div
-                    class="sc-dFdIVI bqoAHr"
+                    class="sc-dExYQA eKTETf"
                   >
                     <span
-                      class="sc-brCFrR dtmgCx"
+                      class="sc-bqWVmJ jmaYlV"
                     >
                       <div
-                        class="sc-fctJkZ foQrvV"
+                        class="sc-faCEWh jKVjtV"
                       >
                         <div>
                           <input
                             aria-label="Jour"
-                            class="sc-fvNpTu iarzIY"
+                            class="sc-ftWlEC gPojLY"
                             id="endDateTimeUtcDay"
                             maxlength="2"
                             pattern="\\d*"
@@ -222,7 +222,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                           /
                           <input
                             aria-label="Mois"
-                            class="sc-fvNpTu iarzIY"
+                            class="sc-ftWlEC gPojLY"
                             id="endDateTimeUtcMonth"
                             maxlength="2"
                             pattern="\\d*"
@@ -232,7 +232,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                           /
                           <input
                             aria-label="Année"
-                            class="sc-fvNpTu gvlTvy"
+                            class="sc-ftWlEC dNzVrC"
                             id="endDateTimeUtcYear"
                             maxlength="4"
                             pattern="\\d*"
@@ -243,18 +243,18 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                       </div>
                     </span>
                     <span
-                      class="sc-brCFrR XTyDh"
+                      class="sc-bqWVmJ kfcHNl"
                     >
                       <div
-                        class="sc-bWXABi cwctNL"
+                        class="sc-bYOEQa gEVzCl"
                       >
                         <div
-                          class="sc-eFWqGm gkGKMc"
+                          class="sc-eFqGBe gPbLel"
                         >
                           <div>
                             <input
                               aria-label="Heure"
-                              class="sc-fvNpTu iarzIY"
+                              class="sc-ftWlEC gPojLY"
                               id="endDateTimeUtcHour"
                               maxlength="2"
                               pattern="\\d*"
@@ -264,7 +264,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                             :
                             <input
                               aria-label="Minute"
-                              class="sc-fvNpTu iarzIY"
+                              class="sc-ftWlEC gPojLY"
                               id="endDateTimeUtcMinute"
                               maxlength="2"
                               pattern="\\d*"
@@ -277,7 +277,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    class="sc-jQHtVT ixVswy Field-DatePicker__CalendarPicker"
+                    class="sc-jOQpHb eNRuQp Field-DatePicker__CalendarPicker"
                   >
                     <div
                       class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -334,7 +334,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
           style="margin-top: 0.2rem;"
         >
           <p
-            class="sc-kjEcyY sc-grVGCV eTwHxq mNQFS"
+            class="sc-kkjMEg sc-grpWxN dzQzNM qoiMj"
             color="#E1000F"
             font-size="13"
           />
@@ -380,7 +380,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <label
-              class="sc-bBXxYP jnWJrN Element-Label"
+              class="sc-bCDidX idOBkM Element-Label"
             >
               Date et heure de début et de fin (utc)
             </label>
@@ -389,7 +389,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <h3
-              class="sc-bBXxYP jnWJrN Element-Label"
+              class="sc-bCDidX idOBkM Element-Label"
               style="margin-left: 2px; color: rgb(225, 0, 15); font-weight: initial;"
             >
               *
@@ -408,24 +408,24 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <fieldset
-              class="sc-iTONeK jeQdtV Element-Fieldset sc-csvncv donVmz Field-DatePicker sc-kngDgi"
+              class="sc-iVFRtC eFOShn Element-Fieldset sc-crPCXn cEPyvy Field-DatePicker sc-knMnlq"
             >
               <div
-                class="sc-iAvgwp liJZFp Element-Fieldset__InnerBox"
+                class="sc-iCmkLh cOYrrT Element-Fieldset__InnerBox"
               >
                 <div
-                  class="sc-dFdIVI bqoAHr"
+                  class="sc-dExYQA eKTETf"
                 >
                   <span
-                    class="sc-brCFrR dtmgCx"
+                    class="sc-bqWVmJ jmaYlV"
                   >
                     <div
-                      class="sc-fctJkZ foQrvV"
+                      class="sc-faCEWh jKVjtV"
                     >
                       <div>
                         <input
                           aria-label="Jour"
-                          class="sc-fvNpTu iarzIY"
+                          class="sc-ftWlEC gPojLY"
                           id="startDateTimeUtcDay"
                           maxlength="2"
                           pattern="\\d*"
@@ -435,7 +435,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                         /
                         <input
                           aria-label="Mois"
-                          class="sc-fvNpTu iarzIY"
+                          class="sc-ftWlEC gPojLY"
                           id="startDateTimeUtcMonth"
                           maxlength="2"
                           pattern="\\d*"
@@ -445,7 +445,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                         /
                         <input
                           aria-label="Année"
-                          class="sc-fvNpTu gvlTvy"
+                          class="sc-ftWlEC dNzVrC"
                           id="startDateTimeUtcYear"
                           maxlength="4"
                           pattern="\\d*"
@@ -456,18 +456,18 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                     </div>
                   </span>
                   <span
-                    class="sc-brCFrR XTyDh"
+                    class="sc-bqWVmJ kfcHNl"
                   >
                     <div
-                      class="sc-bWXABi cwctNL"
+                      class="sc-bYOEQa gEVzCl"
                     >
                       <div
-                        class="sc-eFWqGm gkGKMc"
+                        class="sc-eFqGBe gPbLel"
                       >
                         <div>
                           <input
                             aria-label="Heure"
-                            class="sc-fvNpTu iarzIY"
+                            class="sc-ftWlEC gPojLY"
                             id="startDateTimeUtcHour"
                             maxlength="2"
                             pattern="\\d*"
@@ -477,7 +477,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                           :
                           <input
                             aria-label="Minute"
-                            class="sc-fvNpTu iarzIY"
+                            class="sc-ftWlEC gPojLY"
                             id="startDateTimeUtcMinute"
                             maxlength="2"
                             pattern="\\d*"
@@ -490,7 +490,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                   </span>
                 </div>
                 <div
-                  class="sc-jQHtVT ixVswy Field-DatePicker__CalendarPicker"
+                  class="sc-jOQpHb eNRuQp Field-DatePicker__CalendarPicker"
                 >
                   <div
                     class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -545,7 +545,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             style="align-self: center;"
           >
             <p
-              class="sc-kjEcyY sc-afnQM fzruwA cewgFY"
+              class="sc-kkjMEg sc-ZzDLE dBLXFG bXAjbM"
               font-size="11"
             >
               au
@@ -555,24 +555,24 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <fieldset
-              class="sc-iTONeK jeQdtV Element-Fieldset sc-csvncv donVmz Field-DatePicker sc-kngDgi"
+              class="sc-iVFRtC eFOShn Element-Fieldset sc-crPCXn cEPyvy Field-DatePicker sc-knMnlq"
             >
               <div
-                class="sc-iAvgwp liJZFp Element-Fieldset__InnerBox"
+                class="sc-iCmkLh cOYrrT Element-Fieldset__InnerBox"
               >
                 <div
-                  class="sc-dFdIVI bqoAHr"
+                  class="sc-dExYQA eKTETf"
                 >
                   <span
-                    class="sc-brCFrR dtmgCx"
+                    class="sc-bqWVmJ jmaYlV"
                   >
                     <div
-                      class="sc-fctJkZ foQrvV"
+                      class="sc-faCEWh jKVjtV"
                     >
                       <div>
                         <input
                           aria-label="Jour"
-                          class="sc-fvNpTu iarzIY"
+                          class="sc-ftWlEC gPojLY"
                           id="endDateTimeUtcDay"
                           maxlength="2"
                           pattern="\\d*"
@@ -582,7 +582,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                         /
                         <input
                           aria-label="Mois"
-                          class="sc-fvNpTu iarzIY"
+                          class="sc-ftWlEC gPojLY"
                           id="endDateTimeUtcMonth"
                           maxlength="2"
                           pattern="\\d*"
@@ -592,7 +592,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                         /
                         <input
                           aria-label="Année"
-                          class="sc-fvNpTu gvlTvy"
+                          class="sc-ftWlEC dNzVrC"
                           id="endDateTimeUtcYear"
                           maxlength="4"
                           pattern="\\d*"
@@ -603,18 +603,18 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                     </div>
                   </span>
                   <span
-                    class="sc-brCFrR XTyDh"
+                    class="sc-bqWVmJ kfcHNl"
                   >
                     <div
-                      class="sc-bWXABi cwctNL"
+                      class="sc-bYOEQa gEVzCl"
                     >
                       <div
-                        class="sc-eFWqGm gkGKMc"
+                        class="sc-eFqGBe gPbLel"
                       >
                         <div>
                           <input
                             aria-label="Heure"
-                            class="sc-fvNpTu iarzIY"
+                            class="sc-ftWlEC gPojLY"
                             id="endDateTimeUtcHour"
                             maxlength="2"
                             pattern="\\d*"
@@ -624,7 +624,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                           :
                           <input
                             aria-label="Minute"
-                            class="sc-fvNpTu iarzIY"
+                            class="sc-ftWlEC gPojLY"
                             id="endDateTimeUtcMinute"
                             maxlength="2"
                             pattern="\\d*"
@@ -637,7 +637,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                   </span>
                 </div>
                 <div
-                  class="sc-jQHtVT ixVswy Field-DatePicker__CalendarPicker"
+                  class="sc-jOQpHb eNRuQp Field-DatePicker__CalendarPicker"
                 >
                   <div
                     class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -694,7 +694,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
         style="margin-top: 0.2rem;"
       >
         <p
-          class="sc-kjEcyY sc-grVGCV eTwHxq mNQFS"
+          class="sc-kkjMEg sc-grpWxN dzQzNM qoiMj"
           color="#E1000F"
           font-size="13"
         />

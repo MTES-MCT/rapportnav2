@@ -6,7 +6,7 @@ exports[`MissionTimelineItemNoteCardTitle > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <p
-        class="sc-kjEcyY sc-grVGCV jKddKu mNQFS"
+        class="sc-kkjMEg sc-grpWxN jubjDg qoiMj"
         color="#282F3E"
         font-size="13"
         style="padding-right: 1rem;"
@@ -40,7 +40,7 @@ exports[`MissionTimelineItemNoteCardTitle > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <p
-      class="sc-kjEcyY sc-grVGCV jKddKu mNQFS"
+      class="sc-kkjMEg sc-grpWxN jubjDg qoiMj"
       color="#282F3E"
       font-size="13"
       style="padding-right: 1rem;"

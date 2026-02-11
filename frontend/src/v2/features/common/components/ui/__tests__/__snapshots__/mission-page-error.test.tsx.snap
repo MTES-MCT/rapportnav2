@@ -17,13 +17,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             style="max-width: 33%;"
           >
             <p
-              class="sc-kjEcyY sc-iJkHya fzruwA dWjLLJ"
+              class="sc-kkjMEg sc-iJQrDi dBLXFG dYkApI"
               font-size="16"
             >
               Une erreur est survenue
             </p>
             <p
-              class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
+              class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
               font-size="13"
             >
               this is and error
@@ -33,11 +33,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <button
-              class="sc-kLLXSa sc-jIZahI jiNdNR dNvWIc Element-Button"
+              class="sc-kMrHXi sc-jItqcA fQGaHt dyHcdF Element-Button"
               type="button"
             >
               <span
-                class="sc-ikZpkj deOXJE"
+                class="sc-ilEZpr iqSbgV"
               >
                 Retourner à l'accueil
               </span>
@@ -82,13 +82,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           style="max-width: 33%;"
         >
           <p
-            class="sc-kjEcyY sc-iJkHya fzruwA dWjLLJ"
+            class="sc-kkjMEg sc-iJQrDi dBLXFG dYkApI"
             font-size="16"
           >
             Une erreur est survenue
           </p>
           <p
-            class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
+            class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
             font-size="13"
           >
             this is and error
@@ -98,11 +98,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-kLLXSa sc-jIZahI jiNdNR dNvWIc Element-Button"
+            class="sc-kMrHXi sc-jItqcA fQGaHt dyHcdF Element-Button"
             type="button"
           >
             <span
-              class="sc-ikZpkj deOXJE"
+              class="sc-ilEZpr iqSbgV"
             >
               Retourner à l'accueil
             </span>

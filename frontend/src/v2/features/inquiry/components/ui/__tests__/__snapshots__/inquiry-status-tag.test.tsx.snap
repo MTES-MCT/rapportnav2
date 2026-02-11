@@ -6,10 +6,10 @@ exports[`InquiryStatusTag > renders should mathc snapshot 1`] = `
   "baseElement": <body>
     <div>
       <span
-        class="sc-iNWwEr fdVUhK Element-Tag"
+        class="sc-iMfspz ibLwlB Element-Tag"
       >
         <span
-          class="sc-gKXOVg cuSdIK Element-IconBox"
+          class="sc-gLDzao bhXlxf Element-IconBox"
         >
           <svg
             height="20"
@@ -59,7 +59,7 @@ exports[`InquiryStatusTag > renders should mathc snapshot 1`] = `
           </svg>
         </span>
         <p
-          class="sc-kjEcyY sc-grVGCV lboafp mNQFS"
+          class="sc-kkjMEg sc-grpWxN bQpTaT qoiMj"
           color="#3B4559"
           font-size="13"
           weight="medium"
@@ -93,10 +93,10 @@ exports[`InquiryStatusTag > renders should mathc snapshot 1`] = `
   </body>,
   "container": <div>
     <span
-      class="sc-iNWwEr fdVUhK Element-Tag"
+      class="sc-iMfspz ibLwlB Element-Tag"
     >
       <span
-        class="sc-gKXOVg cuSdIK Element-IconBox"
+        class="sc-gLDzao bhXlxf Element-IconBox"
       >
         <svg
           height="20"
@@ -146,7 +146,7 @@ exports[`InquiryStatusTag > renders should mathc snapshot 1`] = `
         </svg>
       </span>
       <p
-        class="sc-kjEcyY sc-grVGCV lboafp mNQFS"
+        class="sc-kkjMEg sc-grpWxN bQpTaT qoiMj"
         color="#3B4559"
         font-size="13"
         weight="medium"
