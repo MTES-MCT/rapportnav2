@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.63.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.1...docker-container@v2.63.2) (2026-02-11)
+
+
+### Bug Fixes
+
+* MissionSourceEnum ([4e33b83](https://github.com/MTES-MCT/rapportnav2/commit/4e33b8327711a56c699290ef1fb93f217f94f091))
+
 ## [2.63.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.0...docker-container@v2.63.1) (2026-02-11)
 
 
