@@ -145,7 +145,7 @@ class ActionRestController(
         @RequestBody body: MissionAction
     ): MissionAction? {
         val response = when (body.source) {
-            MissionSourceEnum.RAPPORTNAV -> updateNavAction.execute(actionId, body as MissionNavAction)
+            MissionSourceEnum.RAPPORT_NAV -> updateNavAction.execute(actionId, body as MissionNavAction)
             else -> throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
                 message = "Unknown mission action source: ${body.source}"

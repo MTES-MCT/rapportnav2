@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
@@ -45,12 +46,6 @@ class ExportMissionAEMSingleTest {
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @Test
-    fun `execute AEM export return null when mission not exist`() {
-        val result = useCase.createFile(mission=null)
-        assertThat(result).isNull()
-    }
-
-    @Test
     fun `createFile should throw BackendInternalException when underlying service throws`() {
         val missionId = 123
         val mission = MissionEntityMock.create(id = missionId)
@@ -64,12 +59,18 @@ class ExportMissionAEMSingleTest {
     @Test
     fun `execute should throw BackendUsageException when mission not found`() {
         val missionId = 123
-        whenever(getComputeEnvMission.execute(missionId = missionId)).thenReturn(null)
+        whenever(getComputeEnvMission.execute(missionId = missionId))
+            .thenAnswer {
+                throw BackendUsageException(
+                    code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                    message = "Env mission not found: $missionId"
+                )
+            }
 
         val exception = assertThrows(BackendUsageException::class.java) {
             useCase.execute(missionId)
         }
-        assertThat(exception.message).isEqualTo("Mission not found: $missionId")
+        assertThat(exception.message).isEqualTo("Env mission not found: $missionId")
     }
 
     @Test
@@ -94,10 +95,12 @@ class ExportMissionAEMSingleTest {
     }
 
     @Test
-    fun `createFile should return null when mission id is null`() {
+    fun `createFile should throw BackendInternalException when mission id is null`() {
         val mission = MissionEntityMock.create(id = null)
-        val result = useCase.createFile(mission)
-        assertThat(result).isNull()
+
+        assertThrows(BackendInternalException::class.java) {
+            useCase.createFile(mission)
+        }
     }
 
 }

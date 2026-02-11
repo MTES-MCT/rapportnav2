@@ -7,8 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExpo
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
-import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
@@ -51,16 +49,15 @@ class ExportMissionPatrolSingle(
      */
     fun execute(missionId: Int): MissionExportEntity {
         val mission = getComputeEnvMission.execute(missionId = missionId)
-            ?: throw BackendUsageException(
-                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
-                message = "Mission not found: $missionId"
-            )
 
-        return createFile(mission)!!
+        return createFile(mission)
+            ?: throw BackendInternalException(
+                message = "Failed to create patrol report for mission $missionId",
+                originalException = null
+            )
     }
 
-    fun createFile(mission: MissionEntity?): MissionExportEntity? {
-        if (mission == null) return null
+    fun createFile(mission: MissionEntity): MissionExportEntity? {
         try {
 
             val patrolData = computePatrolData.execute(missionId = mission.id!!)
@@ -173,7 +170,10 @@ class ExportMissionPatrolSingle(
 
 
             val inputStream = javaClass.getResourceAsStream(docTemplatePath)
-                ?: throw IllegalArgumentException("Template file not found: $docTemplatePath")
+                ?: throw BackendInternalException(
+                    message = "Template file not found: $docTemplatePath",
+                    originalException = null
+                )
             val document = XWPFDocument(inputStream)
 
 
@@ -390,8 +390,6 @@ class ExportMissionPatrolSingle(
                 fileContent = base64Content
             )
 
-        } catch (e: BackendInternalException) {
-            throw e  // Re-throw domain exceptions as-is
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to create patrol report for mission ${mission.id}",

@@ -104,8 +104,8 @@ class MissionFishActionEntityTest {
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
-        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV))
-        assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV))
+        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORT_NAV))
+        assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORT_NAV))
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
     }
 
@@ -118,8 +118,8 @@ class MissionFishActionEntityTest {
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
-        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.MONITORFISH))
-        assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.MONITORFISH))
+        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.MONITORFISH))
+        assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
     }
 

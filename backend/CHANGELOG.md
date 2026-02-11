@@ -1,5 +1,33 @@
 # Changelog
 
+## [2.63.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.63.2...backend@v2.63.3) (2026-02-11)
+
+
+### Bug Fixes
+
+* MissionSourceEnum in Target2 ([705fe52](https://github.com/MTES-MCT/rapportnav2/commit/705fe520d53ae93ce7809c07515ac32d91ce3f2a))
+
+## [2.63.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.63.1...backend@v2.63.2) (2026-02-11)
+
+
+### Bug Fixes
+
+* MissionSourceEnum ([4e33b83](https://github.com/MTES-MCT/rapportnav2/commit/4e33b8327711a56c699290ef1fb93f217f94f091))
+
+## [2.63.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.63.0...backend@v2.63.1) (2026-02-11)
+
+
+### Bug Fixes
+
+* error handling rework on Export ([1cb3629](https://github.com/MTES-MCT/rapportnav2/commit/1cb3629c49bf90ea4aeb0da66e622c1a74094db1))
+
+## [2.63.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.62.0...backend@v2.63.0) (2026-02-11)
+
+
+### Features
+
+* **AnalyticsAPI:** add mission completion and finished ([8ed4885](https://github.com/MTES-MCT/rapportnav2/commit/8ed4885c8c2060e261332edc3a5ba91ae9c7e4ea))
+
 ## [2.62.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.61.0...backend@v2.62.0) (2026-02-10)
 
 

@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adapters.output
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
@@ -23,6 +24,8 @@ data class ApiAnalyticsAEMDataOutput(
     var endDateTimeUtc: Instant? = null,
     var isDeleted: Boolean? = null,
     val missionSource: MissionSourceEnum? = null,
+    val completenessForStats: CompletenessForStatsEntity? = null,
+    val isMissionFinished: Boolean? = null,
     val data: List<AEMMetricOutput> = listOf(),
 
 )

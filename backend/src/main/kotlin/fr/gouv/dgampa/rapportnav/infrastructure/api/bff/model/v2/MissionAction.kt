@@ -21,7 +21,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 @JsonSubTypes(
     JsonSubTypes.Type(MissionEnvAction::class, name = "MONITORENV"),
     JsonSubTypes.Type(MissionFishAction::class, name = "MONITORFISH"),
-    JsonSubTypes.Type(MissionNavAction::class, name = "RAPPORTNAV"),
+    JsonSubTypes.Type(MissionNavAction::class, name = "RAPPORT_NAV"),
 )
 abstract class MissionAction(
     open val id: String? = null,

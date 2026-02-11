@@ -43,7 +43,7 @@ export function useTimelineAction<T>(id: string): TimelineActionHook<T> {
   const getActionInput = (actionType: ActionType, moreData?: unknown): MissionNavAction => {
     const input = {
       actionType,
-      source: MissionSourceEnum.RAPPORTNAV,
+      source: MissionSourceEnum.RAPPORT_NAV,
       data: {
         ...(moreData ?? {}),
         ...(ACTION_REGISTRY_INPUT[actionType] ?? {}),
