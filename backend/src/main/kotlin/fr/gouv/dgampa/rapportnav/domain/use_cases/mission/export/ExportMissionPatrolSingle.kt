@@ -379,7 +379,7 @@ class ExportMissionPatrolSingle(
             document.close()
             inputStream.close()
 
-            println("Template filled successfully and saved as $docTmpDOCXPath")
+            logger.debug("Template filled successfully and saved as {}", docTmpDOCXPath)
 
             val odtFile = OfficeConverter().convert(Path(docTmpDOCXPath).toString(), Path(docTmpODTPath).toString())
             val base64Content = Base64Converter().convertToBase64(odtFile)

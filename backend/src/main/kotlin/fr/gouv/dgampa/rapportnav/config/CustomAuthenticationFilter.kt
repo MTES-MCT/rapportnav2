@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
@@ -14,6 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter
 class CustomAuthenticationFilter(
     private val tokenService: TokenService
 ) : OncePerRequestFilter() {
+
+    private val logger = LoggerFactory.getLogger(CustomAuthenticationFilter::class.java)
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -28,8 +31,8 @@ class CustomAuthenticationFilter(
                 val user = tokenService.parseToken(token)
 
                 if (user != null) {
-                    println("Custom Filter - User: $user")
-                    println("Custom Filter - Roles: ${user.roles}")
+                    logger.debug("Custom Filter - User authenticated: {}", user.id)
+                    logger.debug("Custom Filter - Roles: {}", user.roles)
 
                     val grantedAuthorities = user.roles.map { role ->
                         SimpleGrantedAuthority("ROLE_$role")
@@ -43,11 +46,11 @@ class CustomAuthenticationFilter(
 
                     SecurityContextHolder.getContext().authentication = authentication
 
-                    println("Custom Filter - Authentication set in SecurityContext")
-                    println("Custom Filter - Granted Authorities: $grantedAuthorities")
+                    logger.debug("Custom Filter - Authentication set in SecurityContext")
+                    logger.debug("Custom Filter - Granted Authorities: {}", grantedAuthorities)
                 }
             } catch (e: Exception) {
-                println("Custom Filter - Error parsing token: ${e.message}")
+                logger.debug("Custom Filter - Error parsing token: {}", e.message)
                 // Clear any existing authentication
                 SecurityContextHolder.clearContext()
             }
