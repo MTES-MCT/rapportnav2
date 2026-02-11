@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.63.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.63.0...backend@v2.63.1) (2026-02-11)
+
+
+### Bug Fixes
+
+* error handling rework on Export ([1cb3629](https://github.com/MTES-MCT/rapportnav2/commit/1cb3629c49bf90ea4aeb0da66e622c1a74094db1))
+
 ## [2.63.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.62.0...backend@v2.63.0) (2026-02-11)
 
 
