@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
@@ -147,8 +148,8 @@ class APIEnvMissionRepositoryV2(
         }
     }
 
-    override fun deleteMission(missionId: Int) {
-        val url = "$host/api/v2/missions/$missionId"
+    override fun deleteMission(missionId: Int, source: MissionSourceEnum) {
+        val url = "$host/api/v2/missions/$missionId?source=$source"
         logger.info("Sending DELETE request for Env mission id=$missionId. URL: $url")
         try {
             val request = HttpRequest
