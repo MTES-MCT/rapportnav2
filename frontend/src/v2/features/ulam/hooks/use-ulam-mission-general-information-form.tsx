@@ -31,7 +31,7 @@ export const useUlamMissionGeneralInfoForm = (
       isMissionArmed: data.isMissionArmed,
       crew: data.crew,
       observations: data.observations,
-      resources: data.resources,
+      resources: data.resources ?? [],
       interMinisterialServices: data.interMinisterialServices,
       isUnderJdp: data.isUnderJdp,
       jdpType: data.jdpType,
