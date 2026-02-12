@@ -9,7 +9,7 @@ import InquiryActionHeader from '../inquiry-action-header'
 import { CompletenessForStatsStatusEnum } from '../../../../common/types/mission-types.ts'
 
 const action: MissionAction = {
-  source: MissionSourceEnum.RAPPORTNAV,
+  source: MissionSourceEnum.RAPPORT_NAV,
   id: 'nav-id',
   missionId: '2',
   actionType: ActionType.INQUIRY,

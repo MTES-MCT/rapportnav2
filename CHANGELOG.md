@@ -1,5 +1,67 @@
 # Changelog
 
+## [2.64.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.4...docker-container@v2.64.0) (2026-02-11)
+
+
+### Features
+
+* **admin:** sort generalinfos by missionId desc ([98fa160](https://github.com/MTES-MCT/rapportnav2/commit/98fa1605ec45006884db9c41efd5d2c44c5db077))
+
+## [2.63.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.3...docker-container@v2.63.4) (2026-02-11)
+
+
+### Bug Fixes
+
+* 500 on mission_crew as agent is null ([ab64360](https://github.com/MTES-MCT/rapportnav2/commit/ab643609e8909aa5c9443b59be7ddd8aa1aa9765))
+
+## [2.63.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.2...docker-container@v2.63.3) (2026-02-11)
+
+
+### Bug Fixes
+
+* MissionSourceEnum in Target2 ([705fe52](https://github.com/MTES-MCT/rapportnav2/commit/705fe520d53ae93ce7809c07515ac32d91ce3f2a))
+
+## [2.63.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.1...docker-container@v2.63.2) (2026-02-11)
+
+
+### Bug Fixes
+
+* MissionSourceEnum ([4e33b83](https://github.com/MTES-MCT/rapportnav2/commit/4e33b8327711a56c699290ef1fb93f217f94f091))
+
+## [2.63.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.0...docker-container@v2.63.1) (2026-02-11)
+
+
+### Bug Fixes
+
+* error handling rework on Export ([1cb3629](https://github.com/MTES-MCT/rapportnav2/commit/1cb3629c49bf90ea4aeb0da66e622c1a74094db1))
+
+## [2.63.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.62.0...docker-container@v2.63.0) (2026-02-11)
+
+
+### Features
+
+* **AnalyticsAPI:** add mission completion and finished ([8ed4885](https://github.com/MTES-MCT/rapportnav2/commit/8ed4885c8c2060e261332edc3a5ba91ae9c7e4ea))
+
+## [2.62.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.61.0...docker-container@v2.62.0) (2026-02-10)
+
+
+### Features
+
+* **backend:** delete and move rename files ([bd16630](https://github.com/MTES-MCT/rapportnav2/commit/bd16630a16c1d54d45dc43e097c87a644d05fd7e))
+* **backend:** impact of the renaming ([2b87a61](https://github.com/MTES-MCT/rapportnav2/commit/2b87a61eb36ebf63be142ba9495303649f59dd5f))
+* **backend:** update test after naming changes ([99b0744](https://github.com/MTES-MCT/rapportnav2/commit/99b0744737da8375a2771940aca776465592093e))
+* **Sentry:** link user to sentry requests ([254bb1b](https://github.com/MTES-MCT/rapportnav2/commit/254bb1b5a8b4b9378305ad50e20ff282afe08f0a))
+* **Sentry:** link user to sentry requests in frontend ([938bf5b](https://github.com/MTES-MCT/rapportnav2/commit/938bf5b6d309859996dbd4281ab79dacc639ac6a))
+
+
+### Bug Fixes
+
+* **backend:** naming ([cc36e84](https://github.com/MTES-MCT/rapportnav2/commit/cc36e8480526054d46f72b256c6da6e65a687a27))
+* **backend:** test infractions ([dc13b86](https://github.com/MTES-MCT/rapportnav2/commit/dc13b86fd5407b840976265a4f83c1d080004e9d))
+* **backend:** tests ([8203d73](https://github.com/MTES-MCT/rapportnav2/commit/8203d73ea91e1db5f36de5d300423291c663ac1f))
+* npm audit ([cd3d193](https://github.com/MTES-MCT/rapportnav2/commit/cd3d1934b567393723d1fd461f87b75502f7995b))
+* **sentry:** Add SentryConfig.kt and init sessions ([1be4b94](https://github.com/MTES-MCT/rapportnav2/commit/1be4b94f1dbff77d285e997750506dba425cdaec))
+
 ## [2.61.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.60.4...docker-container@v2.61.0) (2026-02-04)
 
 
