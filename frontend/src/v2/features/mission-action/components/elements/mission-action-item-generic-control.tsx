@@ -44,7 +44,14 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
     onChange,
     schema,
     isMissionFinished,
-    withGeoCoords
+    withGeoCoords,
+    [
+      'incidentDuringOperation',
+      'isControlDuringSecurityDay',
+      'isWithinDepartment',
+      'hasDivingDuringOperation',
+      'isSeizureSleepingFishingGear'
+    ]
   )
 
   return (
@@ -88,11 +95,16 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   {withGeoCoords && (
-                    <MissionActionFormikCoordinateInputDMD
-                      isLight={true}
-                      name={'geoCoords'}
-                      isRequired={isGeoCoordRequired}
-                    />
+                    <Field name="geoCoords">
+                      {(field: FieldProps<number[]>) => (
+                        <MissionActionFormikCoordinateInputDMD
+                          isLight={true}
+                          name="geoCoords"
+                          fieldFormik={field}
+                          isRequired={isGeoCoordRequired}
+                        />
+                      )}
+                    </Field>
                   )}
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>{component && createElement(component, { formik })}</Stack.Item>

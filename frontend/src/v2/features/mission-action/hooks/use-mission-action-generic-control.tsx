@@ -15,7 +15,8 @@ export function useMissionActionGenericControl(
   onChange: (newAction: MissionAction) => Promise<unknown>,
   schema?: ObjectShape,
   isMissionFinished?: boolean,
-  withGeoCoords?: boolean
+  withGeoCoords?: boolean,
+  booleans?: string[]
 ): AbstractFormikSubFormHook<ActionControlInput> {
   const value = action?.data as MissionNavActionData
   const { getCoords } = useCoordinate()
@@ -44,7 +45,8 @@ export function useMissionActionGenericControl(
   const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionControlInput>(
     value,
     fromFieldValueToInput,
-    fromInputToFieldValue
+    fromInputToFieldValue,
+    booleans
   )
 
   const onSubmit = async (valueToSubmit?: MissionNavActionData) => {
