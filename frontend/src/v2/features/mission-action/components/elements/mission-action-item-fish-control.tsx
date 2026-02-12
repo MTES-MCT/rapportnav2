@@ -1,7 +1,7 @@
 import { MissionActionType } from '@common/types/fish-mission-types.ts'
 import { FormikEffect, FormikTextarea, Label, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
@@ -13,11 +13,11 @@ import FishControlFleetSegmentSection from '../../../mission-control/components/
 import FishControlOtherObservationsSection from '../../../mission-control/components/ui/mission-control-fish-other-observation-section'
 import FishControlSeizureSection from '../../../mission-control/components/ui/mission-control-fish-seizure-section'
 import FishControlSpeciesSection from '../../../mission-control/components/ui/mission-control-fish-species-section'
+import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary.tsx'
 import MissionTargetControlNav from '../../../mission-target/components/elements/mission-target-control-nav.tsx'
 import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish-control'
 import { ActionFishControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary.tsx'
 
 const MissionActionItemFishControl: FC<{
   action: MissionAction
@@ -64,12 +64,17 @@ const MissionActionItemFishControl: FC<{
                       name="portName"
                     />
                   ) : (
-                    <MissionActionFormikCoordinateInputDMD
-                      name={'geoCoords'}
-                      readOnly={true}
-                      isLight={true}
-                      data-testid="mission-coordinate-dmd-input"
-                    />
+                    <Field name="geoCoords">
+                      {(field: FieldProps<number[]>) => (
+                        <MissionActionFormikCoordinateInputDMD
+                          isLight={true}
+                          readOnly={true}
+                          name="geoCoords"
+                          fieldFormik={field}
+                          data-testid="mission-coordinate-dmd-input"
+                        />
+                      )}
+                    </Field>
                   )}
                 </Stack.Item>
 
