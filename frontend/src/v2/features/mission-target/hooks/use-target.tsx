@@ -22,7 +22,7 @@ const MISSION_SOURCE_TYPES_EXTERNAL = [
 
 export function useTarget() {
   const isDefaultTarget = (target?: Target) =>
-  target?.targetType === TargetType.DEFAULT && !MISSION_SOURCE_TYPES_EXTERNAL.includes(target?.source)
+    target?.targetType === TargetType.DEFAULT && !MISSION_SOURCE_TYPES_EXTERNAL.includes(target?.source)
 
   const getTargetType = (actionTargetType?: ActionTargetTypeEnum) =>
     actionTargetType ? TargetType[actionTargetType as keyof typeof TargetType] : TargetType.INDIVIDUAL

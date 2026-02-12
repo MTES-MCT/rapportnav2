@@ -1,4 +1,3 @@
-//import { diff } from 'deep-object-diff'
 import { FormikErrors } from 'formik'
 import { isEmpty, isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
 import { useEffect, useState } from 'react'
@@ -43,7 +42,6 @@ export function useAbstractFormik<T, M>(
     }
 
     if (isEqual(value, initValue)) return
-    //if (initValue) console.log('useAbstractFormik', diff(value, initValue))
 
     return fromInputToFieldValue(value)
   }
