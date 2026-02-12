@@ -21,8 +21,8 @@ export function useCoordinate(): CoordinateHook {
       const latitude = parseFloat(match[2])
       const longitude = parseFloat(match[1])
       if (!isNaN(latitude) && !isNaN(longitude)) {
-        lat = Number(latitude.toFixed(2))
-        lng = Number(longitude.toFixed(2))
+        lat = Number(latitude)
+        lng = Number(longitude)
       }
     }
     return [lat, lng]
@@ -33,14 +33,14 @@ export function useCoordinate(): CoordinateHook {
       const lng = multiPointString?.coordinates[0][0]
       const lat = multiPointString?.coordinates[0][1]
 
-      return [Number(lat.toFixed(2)), Number(lng.toFixed(2))]
+      return [Number(lat), Number(lng)]
     } catch (e) {
       return [0, 0]
     }
   }
 
   const getCoords = (lat?: number, lng?: number): [number?, number?] => {
-    return [lat ? Number(lat.toFixed(2)) : undefined, lng ? Number(lng.toFixed(2)) : undefined]
+    return [lat ? Number(lat) : undefined, lng ? Number(lng) : undefined]
   }
 
   return {

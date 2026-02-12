@@ -51,7 +51,11 @@ const MissionActionItemIllegalImmigration: FC<{
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionActionFormikCoordinateInputDMD name={'geoCoords'} />
+                  <Field name="geoCoords">
+                    {(field: FieldProps<number[]>) => (
+                      <MissionActionFormikCoordinateInputDMD name="geoCoords" fieldFormik={field} />
+                    )}
+                  </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
