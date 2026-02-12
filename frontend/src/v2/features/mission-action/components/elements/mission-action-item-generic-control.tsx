@@ -44,7 +44,14 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
     onChange,
     schema,
     isMissionFinished,
-    withGeoCoords
+    withGeoCoords,
+    [
+      'incidentDuringOperation',
+      'isControlDuringSecurityDay',
+      'isWithinDepartment',
+      'hasDivingDuringOperation',
+      'isSeizureSleepingFishingGear'
+    ]
   )
 
   return (
