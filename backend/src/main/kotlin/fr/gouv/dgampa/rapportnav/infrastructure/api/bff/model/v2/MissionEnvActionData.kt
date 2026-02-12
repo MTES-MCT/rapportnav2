@@ -38,7 +38,6 @@ class MissionEnvActionData(
     override val actionTargetType: ActionTargetTypeEnum? = null,
     override val vehicleType: VehicleTypeEnum? = null,
     override val coverMissionZone: Boolean? = null,
-    override val formattedControlPlans: Any? = null,
     override val availableControlTypesForInfraction: List<ControlType>? = null,
     override val targets: List<Target>? = null,
     override val tags: List<TagEntity>? = listOf(),

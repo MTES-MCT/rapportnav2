@@ -18,7 +18,6 @@ class WireMockConfig {
         ControlUnitResourcesStubs.configureStubs(wireMockServer)
         FishActionsStubs.configureStubs(wireMockServer)
         MissionByIdStubs.configureStubs(wireMockServer)
-        ControlPlansStubs.configureStubs(wireMockServer)
         FishVesselsStubs.configureStubs(wireMockServer)
 
         return wireMockServer

@@ -34,7 +34,6 @@ abstract class EnvActionEntity(
     open val facade: String? = null,
     open val completedBy: String? = null,
     open val completion: ActionCompletionEnum? = null,
-    open val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
     @param:JsonProperty("geom")
     @param:JsonDeserialize(using = JtsGeometryDeserializer::class)
     @get:JsonSerialize(using = JtsGeometrySerializer::class)

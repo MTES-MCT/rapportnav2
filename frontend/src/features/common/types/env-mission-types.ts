@@ -152,12 +152,6 @@ export enum SeaFrontEnum {
   SOUTH_INDIAN_OCEAN = 'SOUTH_INDIAN_OCEAN'
 }
 
-export type FormattedControlPlan = {
-  theme?: string
-  subThemes?: string[]
-  tags?: string[]
-}
-
 export type NewInfraction = {
   companyName?: string | null
   controlledPersonIdentity?: string | null
