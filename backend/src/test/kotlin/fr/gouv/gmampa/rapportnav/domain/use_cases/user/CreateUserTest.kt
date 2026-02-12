@@ -90,7 +90,7 @@ class CreateUserTest {
             createUser.execute(input)
         }
         assertThat(exception.code).isEqualTo(BackendUsageErrorCode.PASSWORD_TOO_WEAK_EXCEPTION)
-        assertThat(exception.message).contains("password must be at least 10 characters")
+        assertThat(exception.message).contains("password must be at least 16 characters")
     }
 
     @Test

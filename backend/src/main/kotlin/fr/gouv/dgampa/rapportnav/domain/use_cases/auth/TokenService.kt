@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.auth
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.entities.user.toAuthority
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
+import org.slf4j.LoggerFactory
 import org.springframework.security.oauth2.jwt.*
 import org.springframework.stereotype.Service
 import java.time.Instant
@@ -18,6 +19,7 @@ class TokenService(
     private val jwtEncoder: JwtEncoder,
     private val userRepository: IUserRepository,
 ) {
+    private val logger = LoggerFactory.getLogger(TokenService::class.java)
     fun createToken(user: User): String {
         val jwsHeader = JwsHeader.with { "HS256" }.build()
         val claims = this.getClaims(user);
@@ -50,7 +52,7 @@ class TokenService(
 
             user
         } catch (e: Exception) {
-            println("Token parsing failed: ${e.message}")
+            logger.debug("Token parsing failed: {}", e.message)
             null
         }
     }
