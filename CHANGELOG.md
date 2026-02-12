@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.64.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.4...docker-container@v2.64.0) (2026-02-11)
+
+
+### Features
+
+* **admin:** sort generalinfos by missionId desc ([98fa160](https://github.com/MTES-MCT/rapportnav2/commit/98fa1605ec45006884db9c41efd5d2c44c5db077))
+
 ## [2.63.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.63.3...docker-container@v2.63.4) (2026-02-11)
 
 
