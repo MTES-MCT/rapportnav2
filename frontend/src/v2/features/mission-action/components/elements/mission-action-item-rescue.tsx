@@ -72,7 +72,11 @@ const MissionActionItemRescue: FC<{
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionActionFormikCoordinateInputDMD name={'geoCoords'} />
+                  <Field name="geoCoords">
+                    {(field: FieldProps<number[]>) => (
+                      <MissionActionFormikCoordinateInputDMD name="geoCoords" fieldFormik={field} />
+                    )}
+                  </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextInput

@@ -7,12 +7,12 @@ describe('useCoordinate', () => {
     expect(result.current.getCoords(0, 0)).toEqual([undefined, undefined])
   })
 
-  it('should return coords with 2 digits only', () => {
+  it('should return coords without rounding it to 2 digits', () => {
     const { result } = renderHook(() => useCoordinate())
-    expect(result.current.getCoords(15.44577889, 9.3266789)).toEqual([15.45, 9.33])
+    expect(result.current.getCoords(15.44577889, 9.3266789)).toEqual([15.44577889, 9.3266789])
   })
 
-  it('should return coords with 2 digits only', () => {
+  it('should return coords without rounding it to 2 digits', () => {
     const { result } = renderHook(() => useCoordinate())
     expect(
       result.current.extractLatLngFromMultiPoint({
@@ -25,6 +25,6 @@ describe('useCoordinate', () => {
           }
         }
       })
-    ).toEqual([48.58, -1.98])
+    ).toEqual([48.57504343, -1.98340431])
   })
 })

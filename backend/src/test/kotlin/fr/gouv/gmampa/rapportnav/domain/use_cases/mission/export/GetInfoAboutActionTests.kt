@@ -56,7 +56,7 @@ class GetInfoAboutActionTests {
             getInfoAboutNavAction.execute(
                 null,
                 listOf(ActionType.VIGIMER),
-                MissionSourceEnum.RAPPORTNAV
+                MissionSourceEnum.RAPPORT_NAV
             )
         ).isNull()
     }
@@ -67,14 +67,14 @@ class GetInfoAboutActionTests {
             getInfoAboutNavAction.execute(
                 emptyList(),
                 listOf(ActionType.VIGIMER),
-                MissionSourceEnum.RAPPORTNAV
+                MissionSourceEnum.RAPPORT_NAV
             )
         ).isNull()
     }
 
     @Test
     fun `should return null when arg actionTypes is empty`() {
-        Assertions.assertThat(getInfoAboutNavAction.execute(actions, listOf(), MissionSourceEnum.RAPPORTNAV)).isNull()
+        Assertions.assertThat(getInfoAboutNavAction.execute(actions, listOf(), MissionSourceEnum.RAPPORT_NAV)).isNull()
     }
 
     @Test
@@ -83,7 +83,7 @@ class GetInfoAboutActionTests {
             getInfoAboutNavAction.execute(
                 actions,
                 listOf(ActionType.RESCUE),
-                MissionSourceEnum.RAPPORTNAV
+                MissionSourceEnum.RAPPORT_NAV
             )
         ).isEqualTo(
             NavActionInfoEntity(count = 1, durationInHours = 1.0, amountOfInterrogatedShips = null)
@@ -96,7 +96,7 @@ class GetInfoAboutActionTests {
             getInfoAboutNavAction.execute(
                 actions,
                 listOf(ActionType.BAAEM_PERMANENCE, ActionType.VIGIMER),
-                MissionSourceEnum.RAPPORTNAV
+                MissionSourceEnum.RAPPORT_NAV
             )
         ).isEqualTo(
             NavActionInfoEntity(count = 2, durationInHours = 2.0, amountOfInterrogatedShips = null)

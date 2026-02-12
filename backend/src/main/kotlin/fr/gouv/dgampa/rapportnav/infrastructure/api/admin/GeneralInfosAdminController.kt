@@ -33,7 +33,9 @@ class GeneralInfosAdminController(
         ]
     )
     fun getAll(): List<MissionGeneralInfoEntity> {
-        return getAllGeneralInfos.execute().map{ MissionGeneralInfoEntity.fromMissionGeneralInfoModel(it) }
+        return getAllGeneralInfos.execute()
+            .map{ MissionGeneralInfoEntity.fromMissionGeneralInfoModel(it) }
+            .sortedByDescending { it.missionId }
     }
 
     @PutMapping()

@@ -5,8 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
-import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
-import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
@@ -41,21 +39,32 @@ class ExportMissionAEMSingle(
 
     fun execute(missionId: Int): MissionExportEntity {
         val mission = getComputeEnvMission.execute(missionId = missionId)
-            ?: throw BackendUsageException(
-                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
-                message = "Mission not found: $missionId"
-            )
 
-        return createFile(mission)!!
+        return createFile(mission)
+            ?: throw BackendInternalException(
+                message = "Failed to create AEM file for mission $missionId",
+                originalException = null
+            )
     }
 
-    fun createFile(mission: MissionEntity?): MissionExportEntity? {
-        return try {
-            val tableExport = getAemData(mission?.id)
-            if (tableExport == null) return null
+    fun createFile(mission: MissionEntity): MissionExportEntity? {
+        try {
+            val missionId = mission.id
+                ?: throw BackendInternalException(
+                    message = "Mission id is null",
+                    originalException = null
+                )
+            val tableExport = getAemData(missionId)
+                ?: throw BackendInternalException(
+                    message = "Failed to compute AEM data for mission $missionId",
+                    originalException = null
+                )
 
             val inputStream = javaClass.getResourceAsStream(aemTemplatePath)
-                ?: throw IllegalArgumentException("Template file not found: $aemTemplatePath")
+                ?: throw BackendInternalException(
+                    message = "Template file not found: $aemTemplatePath",
+                    originalException = null
+                )
 
             val tmpPath = Path.of(aemTmpXLSXPath)
             Files.copy(inputStream, tmpPath, StandardCopyOption.REPLACE_EXISTING)
@@ -64,7 +73,7 @@ class ExportMissionAEMSingle(
             logger.info("Template file copied to temporary path: $tmpPath")
 
             val excelFile = ExportExcelFile(tmpPath.toString())
-            var rowStart = 3
+            val rowStart = 3
 
             fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", rowStart)
 
@@ -80,11 +89,9 @@ class ExportMissionAEMSingle(
                 fileContent = base64Content
             )
 
-        } catch (e: BackendInternalException) {
-            throw e  // Re-throw domain exceptions as-is
         } catch (e: Exception) {
             throw BackendInternalException(
-                message = "Failed to create AEM report for mission ${mission?.id}",
+                message = "Failed to create AEM report for mission ${mission.id}",
                 originalException = e
             )
         }

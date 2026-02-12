@@ -38,7 +38,7 @@ class GetComputeTarget(
             targetType = TargetType.DEFAULT,
             startDateTimeUtc = Instant.now(),
             status = TargetStatusType.IN_PROCESS.toString(),
-            source = MissionSourceEnum.RAPPORTNAV.toString()
+            source = MissionSourceEnum.RAPPORT_NAV.toString()
         )
     }
 

@@ -94,7 +94,7 @@ export function useMissionCompletenessForStats(
     return `Des champs indispensables sont à remplir par ${getSourceName(completenessForStats?.sources)}.`
   }
 
-  const fromNav = (sources?: MissionSourceEnum[]) => sources?.includes(MissionSourceEnum.RAPPORTNAV)
+  const fromNav = (sources?: MissionSourceEnum[]) => sources?.includes(MissionSourceEnum.RAPPORT_NAV)
   const fromCnsp = (sources?: MissionSourceEnum[]) => sources?.includes(MissionSourceEnum.MONITORFISH)
   const fromCacem = (sources?: MissionSourceEnum[]) => sources?.includes(MissionSourceEnum.MONITORENV)
   const fromCnspAndCacem = (sources?: MissionSourceEnum[]) => fromCnsp(sources) && fromCacem(sources)

@@ -23,7 +23,7 @@ export const ActionHeaderAction: React.FC<ActionHeaderActionProps> = ({ source, 
     navigate(`${getUrl(ownerType)}/${ownerId}`)
   }
 
-  const isDeleteDisabled = () => source !== MissionSourceEnum.RAPPORTNAV
+  const isDeleteDisabled = () => source !== MissionSourceEnum.RAPPORT_NAV
 
   return (
     <Stack direction="row" spacing="0.5rem">

@@ -26,7 +26,7 @@ export function useMissionTag(missionSource?: MissionSourceEnum): MissionTagHook
   const getTagTextColor = (): string => THEME.color.white
 
   const getTagBorderColor = (): string => {
-    return missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.white : 'transparent'
+    return missionSource === MissionSourceEnum.RAPPORT_NAV ? THEME.color.white : 'transparent'
   }
 
   const getOpenByText = (source?: MissionSourceEnum): string => {

@@ -13,7 +13,7 @@ export const FormikTextareaInputDelay = styled(
   ({ delay, fieldFormik, name, ...props }: TextareaProps & FormikTextareaInputDelayProps) => {
     const { value, onChange } = useDelayFormik(
       fieldFormik.field.value,
-      (v: string | number) => fieldFormik.form.setFieldValue(name, v as string),
+      (v?: string | number) => fieldFormik.form.setFieldValue(name, v as string),
       delay
     )
     return <Textarea {...props} name={name} value={value as string} onChange={(v?: string) => onChange(v)} />

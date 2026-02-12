@@ -110,7 +110,7 @@ class MissionFishActionEntity(
         val monitorFishComplete = this.completion == Completion.COMPLETED
 
         if (!rapportNavComplete) {
-            sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORTNAV)
+            sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORT_NAV)
         }
         if (!monitorFishComplete) {
             sourcesOfMissingDataForStats.add(MissionSourceEnum.MONITORFISH)

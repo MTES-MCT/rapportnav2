@@ -109,7 +109,7 @@ class MissionEntityTest {
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
         assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
-        assertTrue(result.sources!!.contains(MissionSourceEnum.RAPPORTNAV))
+        assertTrue(result.sources!!.contains(MissionSourceEnum.RAPPORT_NAV))
     }
 
     @Test
@@ -124,7 +124,7 @@ class MissionEntityTest {
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
         assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
-        assertTrue(!result.sources!!.contains(MissionSourceEnum.RAPPORTNAV))
+        assertTrue(!result.sources!!.contains(MissionSourceEnum.RAPPORT_NAV))
     }
 
     @Test

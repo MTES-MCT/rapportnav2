@@ -94,6 +94,23 @@ object ProblemDetailFactory {
         cause = cause
     )
 
+    /**
+     * Creates a Problem Detail for validation errors (HTTP 400).
+     *
+     * Validation errors occur when request body validation fails (@Valid),
+     * constraint violations occur, or the request body cannot be parsed.
+     */
+    fun forValidationError(
+        message: String,
+        errors: List<Map<String, Any?>>?
+    ): ProblemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST).apply {
+        this.type = URI.create("$URN_PREFIX:validation:VALIDATION_ERROR")
+        this.title = "Validation Error"
+        this.detail = message
+        setProperty("code", "VALIDATION_ERROR")
+        errors?.let { setProperty("errors", it) }
+    }
+
     private fun buildWithCode(
         status: HttpStatus,
         category: String,

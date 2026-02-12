@@ -9,11 +9,15 @@ import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMVesselRescue
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputeAEMData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -41,6 +45,9 @@ class ComputeAEMDataTest {
 
     @MockitoBean
     private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle
+
+    @MockitoBean
+    private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     private var mockTableExport = AEMTableExport(
         outOfMigrationRescue = AEMOutOfMigrationRescue(
@@ -71,9 +78,17 @@ class ComputeAEMDataTest {
 
     @Test
     fun `Should return the correct result`() {
+        val missionId = 123
         `when`(getEnvMissionById2.execute(anyInt())).thenReturn(
             EnvMissionMock.create(
-                id = 123,
+                id = missionId,
+                startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
+                endDateTimeUtc = Instant.parse("2022-01-02T13:00:00Z"),
+            )
+        )
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+            MissionEntityMock.create(
+                id = missionId,
                 startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
                 endDateTimeUtc = Instant.parse("2022-01-02T13:00:00Z"),
             )
@@ -81,8 +96,8 @@ class ComputeAEMDataTest {
         `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
         `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
 
-        val actual = computeAEMData.execute(missionId = 123)
-        assertThat(actual?.id).isEqualTo(123)
+        val actual = computeAEMData.execute(missionId = missionId)
+        assertThat(actual?.id).isEqualTo(missionId)
         assertThat(actual?.startDateTimeUtc).isEqualTo(Instant.parse("2022-01-02T12:00:00Z"))
         assertThat(actual?.endDateTimeUtc).isEqualTo(Instant.parse("2022-01-02T13:00:00Z"))
         assertThat(actual?.facade).isEqualTo(null)
@@ -90,6 +105,8 @@ class ComputeAEMDataTest {
         assertThat(actual?.controlUnits).isEqualTo(listOf<LegacyControlUnitEntity>())
         assertThat(actual?.isDeleted).isEqualTo(false)
         assertThat(actual?.missionSource).isEqualTo(MissionSourceEnum.MONITORENV)
+        assertThat(actual?.completenessForStats).isNotNull()
+        assertThat(actual?.isMissionFinished).isTrue() // endDateTimeUtc is in the past
         assertThat(actual?.data?.size).isGreaterThan(30)
         assertThat(actual?.data?.any { it?.value == 1.0 }).isTrue()
     }
@@ -106,8 +123,12 @@ class ComputeAEMDataTest {
 
     @Test
     fun `Should handle null metrics and fill zeros`() {
+        val missionId = 1
         `when`(getEnvMissionById2.execute(anyInt())).thenReturn(
-            EnvMissionMock.create(id = 1)
+            EnvMissionMock.create(id = missionId)
+        )
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+            MissionEntityMock.create(id = missionId)
         )
         `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
         `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(
@@ -126,7 +147,7 @@ class ComputeAEMDataTest {
             )
         )
 
-        val result = computeAEMData.execute(1)
+        val result = computeAEMData.execute(missionId)
         assertThat(result).isNotNull
         assertThat(result!!.data.all { it?.value == 0.0 }).isTrue()
     }
@@ -140,10 +161,12 @@ class ComputeAEMDataTest {
             service = ServiceEntityMock.create(id = 42)
         )
 
-        `when`(getEnvMissionById2.execute(anyInt())).thenReturn(
-            EnvMissionMock.create(id = missionId)
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+            MissionEntityMock.create(
+                id = missionId,
+                generalInfos = MissionGeneralInfoEntity2(data = generalInfo)
+            )
         )
-        `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(generalInfo)
         `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(
             AEMTableExport(
                 outOfMigrationRescue = null,
@@ -164,5 +187,79 @@ class ComputeAEMDataTest {
 
         assertThat(result?.idUUID).isEqualTo(UUID.fromString("135689d8-3163-426c-aa26-e20eb9eb5f2e"))
         assertThat(result?.serviceId).isEqualTo(42)
+    }
+
+    @Test
+    fun `Should return isMissionFinished false when endDateTimeUtc is in the future`() {
+        val missionId = 123
+        val futureDate = Instant.now().plusSeconds(86400) // tomorrow
+
+        `when`(getEnvMissionById2.execute(anyInt())).thenReturn(
+            EnvMissionMock.create(
+                id = missionId,
+                startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
+                endDateTimeUtc = futureDate,
+            )
+        )
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+            MissionEntityMock.create(
+                id = missionId,
+                endDateTimeUtc = futureDate,
+            )
+        )
+        `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
+        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
+
+        val result = computeAEMData.execute(missionId)
+
+        assertThat(result?.isMissionFinished).isFalse()
+    }
+
+    @Test
+    fun `Should return isMissionFinished true when endDateTimeUtc is in the past`() {
+        val missionId = 123
+        val pastDate = Instant.parse("2022-01-02T13:00:00Z")
+
+        `when`(getEnvMissionById2.execute(anyInt())).thenReturn(
+            EnvMissionMock.create(
+                id = missionId,
+                startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
+                endDateTimeUtc = pastDate,
+            )
+        )
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+            MissionEntityMock.create(
+                id = missionId,
+                endDateTimeUtc = pastDate,
+            )
+        )
+        `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
+        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
+
+        val result = computeAEMData.execute(missionId)
+
+        assertThat(result?.isMissionFinished).isTrue()
+    }
+
+    @Test
+    fun `Should return completenessForStats from mission`() {
+        val missionId = 123
+
+        `when`(getEnvMissionById2.execute(anyInt())).thenReturn(
+            EnvMissionMock.create(id = missionId)
+        )
+        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+            MissionEntityMock.create(id = missionId)
+        )
+        `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
+        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
+
+        val result = computeAEMData.execute(missionId)
+
+        assertThat(result?.completenessForStats).isNotNull()
+        assertThat(result?.completenessForStats?.status).isIn(
+            CompletenessForStatsStatusEnum.COMPLETE,
+            CompletenessForStatsStatusEnum.INCOMPLETE
+        )
     }
 }

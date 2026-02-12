@@ -32,7 +32,7 @@ data class MissionEntity(
 
         return CompletenessForStatsEntity(
             status = if (isGeneralInfoComplete == true) completenessForStats.status  else CompletenessForStatsStatusEnum.INCOMPLETE,
-            sources = if (isGeneralInfoComplete == true) completenessForStats.sources  else completenessForStats.sources?.plus(MissionSourceEnum.RAPPORTNAV)
+            sources = if (isGeneralInfoComplete == true) completenessForStats.sources  else completenessForStats.sources?.plus(MissionSourceEnum.RAPPORT_NAV)
                 ?.distinct(),
         )
     }

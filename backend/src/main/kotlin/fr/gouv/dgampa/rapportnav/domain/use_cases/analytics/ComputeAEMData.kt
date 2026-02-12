@@ -2,25 +2,21 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adapters.output.AEMMetricOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adapters.output.ApiAnalyticsAEMDataOutput
+import java.time.Instant
 
 @UseCase
 class ComputeAEMData(
-    private val getEnvMissionById2: GetEnvMissionById2,
-    private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
+    private val getComputeEnvMission: GetComputeEnvMission,
     private val exportMissionAEMSingle: ExportMissionAEMSingle,
 ) {
 
     fun execute(missionId: Int): ApiAnalyticsAEMDataOutput? {
-        val envMission = getEnvMissionById2.execute(missionId)
-        val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
-        val data = exportMissionAEMSingle.getAemData(missionId)
-
-        if (data == null) return null
+        val mission = getComputeEnvMission.execute(missionId)
+        val data = exportMissionAEMSingle.getAemData(missionId) ?: return null
 
         val formattedOutput = METRIC_DEFINITIONS.map { def ->
             AEMMetricOutput(
@@ -32,15 +28,17 @@ class ComputeAEMData(
 
         return ApiAnalyticsAEMDataOutput(
             id = missionId,
-            idUUID = generalInfo?.missionIdUUID,
-            serviceId = generalInfo?.service?.id,
-            startDateTimeUtc = envMission?.startDateTimeUtc,
-            endDateTimeUtc = envMission?.endDateTimeUtc,
-            missionTypes = envMission?.missionTypes,
-            controlUnits = envMission?.controlUnits,
-            facade = envMission?.facade,
-            isDeleted = envMission?.isDeleted,
-            missionSource = envMission?.missionSource,
+            idUUID = mission.generalInfos?.data?.missionIdUUID,
+            serviceId = mission.generalInfos?.data?.service?.id,
+            startDateTimeUtc = mission.data?.startDateTimeUtc,
+            endDateTimeUtc = mission.data?.endDateTimeUtc,
+            missionTypes = mission.data?.missionTypes,
+            controlUnits = mission.data?.controlUnits,
+            facade = mission.data?.facade,
+            isDeleted = mission.data?.isDeleted,
+            missionSource = mission.data?.missionSource,
+            completenessForStats = mission.isCompleteForStats(),
+            isMissionFinished = mission.data?.endDateTimeUtc?.isBefore(Instant.now()) ?: false,
             data = formattedOutput
         )
     }

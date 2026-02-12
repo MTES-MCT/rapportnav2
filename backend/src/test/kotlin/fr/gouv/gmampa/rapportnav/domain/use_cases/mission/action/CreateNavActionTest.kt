@@ -36,7 +36,7 @@ class CreateNavActionTest {
             id = actionId,
             missionId = 761,
             actionType = ActionType.CONTROL,
-            source = MissionSourceEnum.RAPPORTNAV,
+            source = MissionSourceEnum.RAPPORT_NAV,
             data = getNavActionDataInput(),
         )
         val model = MissionActionModelMock.create()

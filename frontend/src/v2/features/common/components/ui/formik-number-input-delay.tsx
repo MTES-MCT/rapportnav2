@@ -13,7 +13,7 @@ export const FormikNumberInputDelay = styled(
   ({ delay, fieldFormik, name, ...props }: NumberInputProps & FormikNumberInputDelayProps) => {
     const { value, onChange } = useDelayFormik(
       fieldFormik.field.value,
-      (v: string | number) => fieldFormik.form.setFieldValue(name, v as number),
+      (v?: string | number) => fieldFormik.form.setFieldValue(name, v as number),
       delay
     )
     return <NumberInput {...props} name={name} value={value as number} onChange={(v?: number) => onChange(v)} />

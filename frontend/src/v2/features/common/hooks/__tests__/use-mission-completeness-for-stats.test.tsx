@@ -71,7 +71,7 @@ describe('useMissionCompletenessForStats', () => {
   it('should banner message regarding sources unité', () => {
     const isMissionFinished = false
     const completeForStats = {
-      sources: [MissionSourceEnum.RAPPORTNAV],
+      sources: [MissionSourceEnum.RAPPORT_NAV],
       status: CompletenessForStatsStatusEnum.INCOMPLETE
     }
     const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))

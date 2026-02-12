@@ -55,7 +55,16 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                   </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionActionFormikCoordinateInputDMD name={'geoCoords'} readOnly={true} isLight={true} />
+                  <Field name="geoCoords">
+                    {(field: FieldProps<number[]>) => (
+                      <MissionActionFormikCoordinateInputDMD
+                        readOnly={true}
+                        isLight={true}
+                        name="geoCoords"
+                        fieldFormik={field}
+                      />
+                    )}
+                  </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Divider style={{ backgroundColor: THEME.color.charcoal }} />

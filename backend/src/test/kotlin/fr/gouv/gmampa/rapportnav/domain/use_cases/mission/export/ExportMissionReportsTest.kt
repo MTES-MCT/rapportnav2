@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPa
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionReports
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.*
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -116,7 +117,7 @@ class ExportMissionReportsTest {
         )
 
         assertNotNull(result)
-        assertEquals("exportMissionPatrolSingle.odt", result?.fileName)
+        assertEquals("exportMissionPatrolSingle.odt", result.fileName)
     }
 
     @Test
@@ -129,7 +130,7 @@ class ExportMissionReportsTest {
         )
 
         assertNotNull(result)
-        assertEquals("exportMissionAEMSingle.ods", result?.fileName)
+        assertEquals("exportMissionAEMSingle.ods", result.fileName)
     }
 
     @Test
@@ -142,7 +143,7 @@ class ExportMissionReportsTest {
         )
 
         assertNotNull(result)
-        assertEquals("exportMissionPatrolCombined.odt", result?.fileName)
+        assertEquals("exportMissionPatrolCombined.odt", result.fileName)
     }
 
     @Test
@@ -155,7 +156,7 @@ class ExportMissionReportsTest {
         )
 
         assertNotNull(result)
-        assertEquals("exportMissionAEMCombined.ods", result?.fileName)
+        assertEquals("exportMissionAEMCombined.ods", result.fileName)
     }
 
     @Test
@@ -168,7 +169,7 @@ class ExportMissionReportsTest {
         )
 
         assertNotNull(result)
-        assertEquals("exportMissionPatrolMultipleZipped.zip", result?.fileName)
+        assertEquals("exportMissionPatrolMultipleZipped.zip", result.fileName)
     }
 
     @Test
@@ -181,6 +182,21 @@ class ExportMissionReportsTest {
         )
 
         assertNotNull(result)
-        assertEquals("exportMissionAEMMultipleZipped.zip", result?.fileName)
+        assertEquals("exportMissionAEMMultipleZipped.zip", result.fileName)
+    }
+
+    // -------------------------------------------------------------------------
+    // Error handling tests
+
+    @Test
+    fun `should throw BackendInternalException for ALL report type`() {
+        val exception = assertThrows(BackendInternalException::class.java) {
+            exportMissionReports.execute(
+                listOf(1),
+                ExportModeEnum.INDIVIDUAL_MISSION,
+                ExportReportTypeEnum.ALL
+            )
+        }
+        assertEquals("Export type 'ALL' is not yet implemented", exception.message)
     }
 }

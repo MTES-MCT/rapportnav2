@@ -259,7 +259,7 @@ class MissionNavActionEntity(
     isCompleteForStats = false,
     endDateTimeUtc = endDateTimeUtc,
     startDateTimeUtc = startDateTimeUtc,
-    source = MissionSourceEnum.RAPPORTNAV,
+    source = MissionSourceEnum.RAPPORT_NAV,
     targets = targets
 ), BaseMissionNavAction {
 
@@ -271,7 +271,7 @@ class MissionNavActionEntity(
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
         this.sourcesOfMissingDataForStats =
             if (this.isCompleteForStats == true) emptyList()
-            else listOf(MissionSourceEnum.RAPPORTNAV)
+            else listOf(MissionSourceEnum.RAPPORT_NAV)
 
         this.computeSummaryTags()
         this.computeCompletenessForStats()

@@ -13,7 +13,7 @@ describe('useMission', () => {
   it('mission is deletable when source is RAPPORT_NAV', () => {
     const mission = {
       ...mockMission,
-      actions: [{ id: 'action-2', source: MissionSourceEnum.RAPPORTNAV } as MissionAction]
+      actions: [{ id: 'action-2', source: MissionSourceEnum.RAPPORT_NAV } as MissionAction]
     }
     const { result } = renderHook(() => useMission())
     expect(result.current.isMissionNotDeletable(mission)).toBeFalsy()

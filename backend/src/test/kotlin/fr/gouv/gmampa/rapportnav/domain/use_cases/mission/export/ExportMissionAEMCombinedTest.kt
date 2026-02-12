@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -31,8 +32,8 @@ class ExportMissionAEMCombinedTest {
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @Test
-    fun `should throw BackendInternalException for empty mission list`() {
-        assertThrows(BackendInternalException::class.java) {
+    fun `should throw BackendUsageException for empty mission list`() {
+        assertThrows(BackendUsageException::class.java) {
             useCase.execute(emptyList())
         }
     }
@@ -65,12 +66,12 @@ class ExportMissionAEMCombinedTest {
     }
 
     @Test
-    fun `should throw BackendInternalException when underlying service throws`() {
+    fun `should propagate exception when underlying service throws`() {
         val missionIds = listOf(1)
         Mockito.`when`(getComputeEnvMission.execute(missionId = 1))
             .thenThrow(RuntimeException("Mock exception"))
 
-        assertThrows(BackendInternalException::class.java) {
+        assertThrows(RuntimeException::class.java) {
             useCase.execute(missionIds)
         }
     }

@@ -106,7 +106,7 @@ class CountInfractionsTest {
             )
         )
         val target2 = TargetEntityMock.create(
-            source = MissionSourceEnum.RAPPORTNAV,
+            source = MissionSourceEnum.RAPPORT_NAV,
             controls = listOf(
                 ControlEntityMock.create(
                     hasBeenDone = true,

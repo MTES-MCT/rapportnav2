@@ -2,8 +2,6 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
@@ -31,42 +29,19 @@ class ExportMissionPatrolCombined(
             )
         }
 
-        try {
+        val missions = missionIds.map { getComputeEnvMission.execute(missionId = it) }
 
-            // retrieve missions
-            var missions = mutableListOf<MissionEntity>()
+        val firstMission = missions.first()
+        val combinedActions = missions.flatMap { it.actions!! }
+        val mission = firstMission.copy(
+            actions = combinedActions.sortedByDescending { it.startDateTimeUtc }
+        )
 
-            for (missionId in missionIds) {
-                val mission = getComputeEnvMission.execute(missionId = missionId)
-                if (mission != null) {
-                    missions.add(mission)
-                }
-            }
+        val output = exportMissionPatrolSingle.createFile(mission)
 
-            // bundle actions and other stuff
-            val firstMission = missions.first() // Take all other fields from the first mission
-            val combinedActions = missions.flatMap { it.actions!! } // Aggregate all actions from all missions
-            val mission =
-                firstMission.copy(actions = combinedActions.sortedByDescending { action -> action.startDateTimeUtc }) // Create a new instance with aggregated actions
-
-            // create file
-            val output = exportMissionPatrolSingle.createFile(mission = mission)
-
-            return MissionExportEntity(
-                fileName = "rapports-patrouille-combinés_${formatDateTime.formatDate(mission.data?.startDateTimeUtc)}.odt",
-                fileContent = output?.fileContent.orEmpty()
-            )
-
-        } catch (e: BackendUsageException) {
-            throw e
-        } catch (e: BackendInternalException) {
-            throw e
-        } catch (e: Exception) {
-            throw BackendInternalException(
-                message = "Failed to create combined patrol report",
-                originalException = e
-            )
-        }
+        return MissionExportEntity(
+            fileName = "rapports-patrouille-combinés_${formatDateTime.formatDate(mission.data?.startDateTimeUtc)}.odt",
+            fileContent = output?.fileContent.orEmpty()
+        )
     }
-
 }

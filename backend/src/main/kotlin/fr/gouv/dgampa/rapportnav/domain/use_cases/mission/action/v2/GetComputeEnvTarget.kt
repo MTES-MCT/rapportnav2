@@ -34,7 +34,7 @@ class GetComputeEnvTarget(
                 getNewTarget(
                     actionId = actionId,
                     targetType = TargetType.DEFAULT,
-                    source = MissionSourceEnum.RAPPORTNAV
+                    source = MissionSourceEnum.RAPPORT_NAV
                 )
             )
             targets = listOf(target)

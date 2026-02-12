@@ -35,7 +35,7 @@ class TargetEntityTest {
             vesselName = "My vesselName",
             identityControlledPerson = "My identityContolledPerson",
             targetType = TargetType.COMPANY,
-            source = "RAPPORTNAV",
+            source = "RAPPORT_NAV",
             controls = listOf(),
             externalId = "MyExternalId"
         )
@@ -75,7 +75,7 @@ class TargetEntityTest {
             targetType = TargetType.COMPANY,
             controls = listOf(),
             externalData = TargetExternalDataEntity(id = "MyExternalId"),
-            source = MissionSourceEnum.RAPPORTNAV
+            source = MissionSourceEnum.RAPPORT_NAV
         )
 
         val model = entity.toTargetModel()
