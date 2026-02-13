@@ -82,7 +82,7 @@
     "@mtes-mct/monitor-ui": "^24.38.4"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.9.6"
+    "@rollup/rollup-linux-x64-gnu": "^4.56.0"
   },
   "eslintConfig": {
     "extends": [
