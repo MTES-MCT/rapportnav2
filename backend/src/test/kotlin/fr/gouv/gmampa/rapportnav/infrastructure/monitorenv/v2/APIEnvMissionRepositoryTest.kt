@@ -254,7 +254,7 @@ class APIEnvMissionRepositoryTest {
 
             val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
 
-            envRepo.deleteMission(missionId = 123)
+            envRepo.deleteMission(missionId = 123, source = MissionSourceEnum.MONITORENV)
 
             val requestCaptor = ArgumentCaptor.forClass(HttpRequest::class.java)
 
@@ -265,7 +265,7 @@ class APIEnvMissionRepositoryTest {
 
             val capturedRequest = requestCaptor.value
 
-            assert(capturedRequest.uri() == URI.create("$host/api/v2/missions/123"))
+            assert(capturedRequest.uri() == URI.create("$host/api/v2/missions/123?source=MONITORENV"))
             assert(capturedRequest.method() == "DELETE")
         }
 
@@ -284,7 +284,7 @@ class APIEnvMissionRepositoryTest {
             val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
 
             val exception = assertThrows(BackendInternalException::class.java) {
-                envRepo.deleteMission(missionId = 999)
+                envRepo.deleteMission(missionId = 999, source = MissionSourceEnum.MONITORENV)
             }
 
             assertTrue(exception.message.contains("404"))
@@ -305,7 +305,7 @@ class APIEnvMissionRepositoryTest {
             val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
 
             val exception = assertThrows(BackendInternalException::class.java) {
-                envRepo.deleteMission(missionId = 123)
+                envRepo.deleteMission(missionId = 123, source = MissionSourceEnum.MONITORENV)
             }
 
             assertTrue(exception.message.contains("500"))
@@ -326,7 +326,7 @@ class APIEnvMissionRepositoryTest {
             val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
 
             assertDoesNotThrow {
-                envRepo.deleteMission(missionId = 123)
+                envRepo.deleteMission(missionId = 123, source = MissionSourceEnum.MONITORENV)
             }
         }
     }
