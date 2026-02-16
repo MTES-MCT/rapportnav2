@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.65.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.64.0...frontend@v2.65.0) (2026-02-16)
+
+
+### Features
+
+* **backend:** merge ([26c68d1](https://github.com/MTES-MCT/rapportnav2/commit/26c68d1830723635a1248110b96f5ffbe03ed297))
+* **frontend:** show nb target on title ([242e230](https://github.com/MTES-MCT/rapportnav2/commit/242e23001d7287374a05b10f3c402ae8e2f26820))
+
+
+### Bug Fixes
+
+* **frontend:** default resource value ([b4e52a5](https://github.com/MTES-MCT/rapportnav2/commit/b4e52a51d99a2f3e6ee96997b3991efbe4e7e9f9))
+* **frontend:** default resource value ([84bbad8](https://github.com/MTES-MCT/rapportnav2/commit/84bbad864d666689a396c3b2cbe08f43526a3ca1))
+* **frontend:** remove rounding on coord mission action ([9a86a0d](https://github.com/MTES-MCT/rapportnav2/commit/9a86a0d3b0a9c6caf8e561dfc766a79956dd02bb))
+
 ## [2.64.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.63.4...frontend@v2.64.0) (2026-02-11)
 
 
