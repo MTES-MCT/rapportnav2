@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.65.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.64.0...backend@v2.65.0) (2026-02-16)
+
+
+### Bug Fixes
+
+* **backend:** add mission source to delete method ([8a269d3](https://github.com/MTES-MCT/rapportnav2/commit/8a269d3d8d4b0dd00221c059e7e05151a59b9280))
+* **backend:** add mission source to delete method ([ef8d53b](https://github.com/MTES-MCT/rapportnav2/commit/ef8d53b0adf6192f151779108e4e6f9e9e10e6a8))
+
 ## [2.64.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.63.4...backend@v2.64.0) (2026-02-11)
 
 
