@@ -83,29 +83,6 @@ class LogAuthenticationAudit(
         return saved
     }
 
-    /**
-     * Logs a token refresh event.
-     */
-    fun logTokenRefresh(
-        userId: Int,
-        email: String,
-        ipAddress: String?,
-        userAgent: String?
-    ): AuthenticationAuditModel {
-        val model = buildAuditModel(
-            userId = userId,
-            email = email,
-            eventType = AuthEventTypeEnum.TOKEN_REFRESH,
-            ipAddress = ipAddress,
-            userAgent = userAgent,
-            success = true
-        )
-        val saved = auditRepository.save(model)
-
-        logger.info("Token refresh: userId={}, email={}, ip={}", userId, email, ipAddress)
-        return saved
-    }
-
     private fun buildAuditModel(
         userId: Int?,
         email: String,

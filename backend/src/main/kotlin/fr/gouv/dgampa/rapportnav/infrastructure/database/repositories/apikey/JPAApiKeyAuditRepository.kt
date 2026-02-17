@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.apikey
 import fr.gouv.dgampa.rapportnav.domain.repositories.apikey.IApiKeyAuditRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.apikey.ApiKeyAuditModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.apikey.IDBApiKeyAuditRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 import java.time.Instant
 import java.util.UUID
@@ -11,6 +13,10 @@ import java.util.UUID
 class JPAApiKeyAuditRepository(
     private val repository: IDBApiKeyAuditRepository,
 ): IApiKeyAuditRepository {
+
+    override fun findAllPaginated(page: Int, size: Int): Page<ApiKeyAuditModel> {
+        return repository.findAllByOrderByTimestampDesc(PageRequest.of(page, size))
+    }
 
     override fun save(audit: ApiKeyAuditModel): ApiKeyAuditModel {
         return repository.save(audit)
