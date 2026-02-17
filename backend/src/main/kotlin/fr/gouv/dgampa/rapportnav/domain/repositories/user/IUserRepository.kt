@@ -12,4 +12,8 @@ interface IUserRepository {
     fun save(user: User): User?
 
     fun findAll(): List<UserModel>
+
+    fun disable(id: Int): User?
+
+    fun enable(id: Int): User?
 }

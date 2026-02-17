@@ -201,4 +201,96 @@ class JPAUserRepositoryTest {
         }
         assertThat(exception.message).contains("save failed")
     }
+
+    @Test
+    fun `disable should set disabledAt and return user`() {
+        val userModelCopy = UserModel(
+            id = 1,
+            firstName = "John",
+            lastName = "Doe",
+            email = "john.doe@example.com",
+            password = "hashedPassword",
+            serviceId = 1,
+            roles = listOf(RoleTypeEnum.USER_PAM),
+            disabledAt = null
+        )
+
+        `when`(dbUserRepository.findById(1)).thenReturn(Optional.of(userModelCopy))
+        `when`(dbUserRepository.save(any<UserModel>())).thenAnswer { invocation ->
+            invocation.getArgument<UserModel>(0)
+        }
+
+        val result = jpaUserRepository.disable(1)
+
+        assertThat(result).isNotNull
+        assertThat(result?.disabledAt).isNotNull
+        verify(dbUserRepository).findById(1)
+        verify(dbUserRepository).save(any<UserModel>())
+    }
+
+    @Test
+    fun `disable should return null when user not found`() {
+        `when`(dbUserRepository.findById(999)).thenReturn(Optional.empty())
+
+        val result = jpaUserRepository.disable(999)
+
+        assertThat(result).isNull()
+        verify(dbUserRepository).findById(999)
+    }
+
+    @Test
+    fun `disable should throw BackendInternalException on error`() {
+        `when`(dbUserRepository.findById(1)).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaUserRepository.disable(1)
+        }
+        assertThat(exception.message).contains("disable failed")
+    }
+
+    @Test
+    fun `enable should set disabledAt to null and return user`() {
+        val disabledUserModel = UserModel(
+            id = 1,
+            firstName = "John",
+            lastName = "Doe",
+            email = "john.doe@example.com",
+            password = "hashedPassword",
+            serviceId = 1,
+            roles = listOf(RoleTypeEnum.USER_PAM),
+            disabledAt = java.time.Instant.now()
+        )
+
+        `when`(dbUserRepository.findById(1)).thenReturn(Optional.of(disabledUserModel))
+        `when`(dbUserRepository.save(any<UserModel>())).thenAnswer { invocation ->
+            invocation.getArgument<UserModel>(0)
+        }
+
+        val result = jpaUserRepository.enable(1)
+
+        assertThat(result).isNotNull
+        assertThat(result?.disabledAt).isNull()
+        verify(dbUserRepository).findById(1)
+        verify(dbUserRepository).save(any<UserModel>())
+    }
+
+    @Test
+    fun `enable should return null when user not found`() {
+        `when`(dbUserRepository.findById(999)).thenReturn(Optional.empty())
+
+        val result = jpaUserRepository.enable(999)
+
+        assertThat(result).isNull()
+        verify(dbUserRepository).findById(999)
+    }
+
+    @Test
+    fun `enable should throw BackendInternalException on error`() {
+        `when`(dbUserRepository.findById(1)).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaUserRepository.enable(1)
+        }
+        assertThat(exception.message).contains("enable failed")
+    }
 }

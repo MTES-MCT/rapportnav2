@@ -13,6 +13,7 @@ data class AdminUser(
     var roles: List<RoleTypeEnum>,
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
+    val disabledAt: Instant? = null,
 ) {
     companion object {
         fun fromUserEntity(user: User) = AdminUser(
@@ -21,7 +22,10 @@ data class AdminUser(
             firstName = user.firstName,
             lastName = user.lastName,
             email = user.email,
-            roles = user.roles
+            roles = user.roles,
+            createdAt = user.createdAt,
+            updatedAt = user.updatedAt,
+            disabledAt = user.disabledAt,
         )
     }
 }

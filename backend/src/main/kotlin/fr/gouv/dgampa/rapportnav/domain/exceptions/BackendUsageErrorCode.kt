@@ -25,6 +25,12 @@ enum class BackendUsageErrorCode {
     INCORRECT_USER_IDENTIFIER_EXCEPTION,
 
     //------------------------
+    // Auth/Token errors
+    INVALID_TOKEN_EXCEPTION,
+    USER_NOT_FOUND_EXCEPTION,
+    USER_ACCOUNT_DISABLED_EXCEPTION,
+
+    //------------------------
     INVALID_PARAMETERS_EXCEPTION,
     COULD_NOT_SAVE_EXCEPTION,
     COULD_NOT_FIND_EXCEPTION,

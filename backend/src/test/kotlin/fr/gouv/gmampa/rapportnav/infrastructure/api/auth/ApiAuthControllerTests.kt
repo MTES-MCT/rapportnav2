@@ -25,6 +25,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
+import java.time.Instant
 import kotlin.jvm.java
 
 class ApiAuthControllerTests {
@@ -157,6 +158,32 @@ class ApiAuthControllerTests {
         }
 
         assertEquals(BackendUsageErrorCode.INCORRECT_USER_IDENTIFIER_EXCEPTION, ex.code)
+    }
+
+    @Test
+    fun `login throws when user is disabled`() {
+        val input = AuthLoginDataInput("user@example.com", "StrongPassword1!!!")
+        val response: HttpServletResponse = mock(HttpServletResponse::class.java)
+
+        val user = User(
+            id = 1,
+            firstName = "john",
+            lastName = "doe",
+            email = "user@example.com",
+            password = "hashed",
+            serviceId = null,
+            roles = listOf(RoleTypeEnum.USER_PAM),
+            disabledAt = Instant.now()
+        )
+
+        `when`(findByEmail.execute("user@example.com")).thenReturn(user)
+        `when`(hashService.checkBcrypt("StrongPassword1!!!", "hashed")).thenReturn(true)
+
+        val ex = assertThrows(BackendUsageException::class.java) {
+            controller.login(input, response)
+        }
+
+        assertEquals(BackendUsageErrorCode.USER_ACCOUNT_DISABLED_EXCEPTION, ex.code)
     }
 
     @Test
