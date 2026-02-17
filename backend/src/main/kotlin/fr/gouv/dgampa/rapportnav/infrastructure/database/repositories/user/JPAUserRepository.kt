@@ -69,4 +69,32 @@ class JPAUserRepository(
             )
         }
     }
+
+    @Transactional
+    override fun disable(id: Int): User? {
+        return try {
+            val userModel = dbUserRepository.findById(id).getOrNull() ?: return null
+            userModel.disabledAt = java.time.Instant.now()
+            dbUserRepository.save(userModel).toUser(mapper)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPAUserRepository.disable failed for id=$id",
+                originalException = e
+            )
+        }
+    }
+
+    @Transactional
+    override fun enable(id: Int): User? {
+        return try {
+            val userModel = dbUserRepository.findById(id).getOrNull() ?: return null
+            userModel.disabledAt = null
+            dbUserRepository.save(userModel).toUser(mapper)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPAUserRepository.enable failed for id=$id",
+                originalException = e
+            )
+        }
+    }
 }

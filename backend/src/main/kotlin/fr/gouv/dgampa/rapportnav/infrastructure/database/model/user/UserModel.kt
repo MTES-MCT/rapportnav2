@@ -60,7 +60,10 @@ class UserModel(
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    var updatedBy: Int? = null
+    var updatedBy: Int? = null,
+
+    @Column(name = "disabled_at")
+    var disabledAt: Instant? = null,
 ) {
 
 
@@ -74,6 +77,7 @@ class UserModel(
         roles = roles,
         createdAt = createdAt,
         updatedAt = updatedAt,
+        disabledAt = disabledAt
     )
 
     companion object {
@@ -84,7 +88,8 @@ class UserModel(
             lastName = user.lastName,
             email = user.email,
             password = user.password,
-            roles = user.roles
+            roles = user.roles,
+            disabledAt = user.disabledAt
         )
     }
 }

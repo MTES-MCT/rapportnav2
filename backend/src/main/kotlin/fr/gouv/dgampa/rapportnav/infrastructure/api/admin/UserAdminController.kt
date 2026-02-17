@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v2/admin/users")
 class UserAdminController(
     private val updateUser: UpdateUser,
-    private val deleteUser: DeleteUser,
+    private val disableUser: DisableUser,
+    private val enableUser: EnableUser,
     private val getUserList: GetUserList,
     private val createUser: CreateUser,
     private val updatePassword: UpdateUserPassword
@@ -131,17 +132,55 @@ class UserAdminController(
         }
     }
 
-
-    @DeleteMapping("{userId}")
-    @Operation(summary = "Delete a User create by the unity")
-    @ApiResponse(responseCode = "404", description = "Could not delete User", content = [Content()])
-    fun delete(
-        @PathVariable(name = "userId") UserId: Int
-    ) {
+    @PostMapping("{userId}/disable")
+    @Operation(summary = "Disable a User")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "User disabled", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = User::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Could not disable User", content = [Content()])
+        ]
+    )
+    fun disable(
+        @PathVariable userId: Int
+    ): AdminUser? {
         return try {
-            deleteUser.execute(id = UserId)
+            disableUser.execute(id = userId)?.let { AdminUser.fromUserEntity(it) }
         } catch (e: Exception) {
-            logger.error("Error while deleting User : ", e)
+            logger.error("Error while disabling User : ", e)
+            null
+        }
+    }
+
+    @PostMapping("{userId}/enable")
+    @Operation(summary = "Enable a User")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "User enabled", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = User::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Could not enable User", content = [Content()])
+        ]
+    )
+    fun enable(
+        @PathVariable userId: Int
+    ): AdminUser? {
+        return try {
+            enableUser.execute(id = userId)?.let { AdminUser.fromUserEntity(it) }
+        } catch (e: Exception) {
+            logger.error("Error while enabling User : ", e)
+            null
         }
     }
 }

@@ -86,6 +86,13 @@ class ApiAuthController(
             )
         }
 
+            if (user.disabledAt != null) {
+            throw BackendUsageException(
+                code = USER_ACCOUNT_DISABLED_EXCEPTION,
+                message = "Login failed "
+            )
+        }
+
         return AuthLoginDataOutput(
             token = tokenService.createToken(user),
         )

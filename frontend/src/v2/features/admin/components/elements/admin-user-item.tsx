@@ -5,6 +5,7 @@ import React, { useMemo, useState } from 'react'
 import { Stack } from 'rsuite'
 import { User } from '../../../common/types/user'
 import useAdminCreateOrUpdateUserMutation from '../../services/use-admin-create-update-user-service'
+import useAdminDisableUserMutation from '../../services/use-admin-disable-user'
 import useAdminUserPasswordMutation from '../../services/use-admin-update-user-password-service'
 import useUserListQuery from '../../services/use-admin-user-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
@@ -16,12 +17,13 @@ import AdminBasicItemGeneric from './admin-basic-item-generic'
 const CELLS = [
   { key: 'id', label: 'Id', width: 60 },
   { key: 'email', label: 'nom', width: 250 },
-  { key: 'firstName', label: 'prénom', width: 150 },
-  { key: 'lastName', label: 'nom', width: 150 },
-  { key: 'roles', label: 'Rôles', width: 350 },
+  { key: 'firstName', label: 'prénom', width: 120 },
+  { key: 'lastName', label: 'nom', width: 120 },
+  { key: 'roles', label: 'Rôles', width: 200 },
   { key: 'serviceId', label: 'Service', width: 60 },
   { key: 'createdAt', label: 'Date de Creation', width: 200 },
-  { key: 'updatedAt', label: 'Dernière mise à jour', width: 240 }
+  { key: 'updatedAt', label: 'Dernière mise à jour', width: 200 },
+  { key: 'disabledAt', label: 'Dernière de désactivation', width: 200 }
 ]
 
 const ACTIONS: AdminAction[] = [
@@ -44,11 +46,10 @@ const ACTIONS: AdminAction[] = [
     icon: Icon.Hide
   },
   {
-    disabled: () => true,
-    label: `Supprimer un utilisateur`,
+    label: `Désactiver un utilisateur`,
     color: THEME.color.maximumRed,
-    key: AdminActionType.DELETE,
-    form: () => <>{`Voulez-vous vraiment supprimer cet utilisateur?`}</>,
+    key: AdminActionType.DISABLE_USER,
+    form: () => <>{`Voulez-vous vraiment désactiver cet utilisateur?`}</>,
     icon: Icon.Delete
   }
 ]
@@ -61,12 +62,18 @@ const AdminUserItem: React.FC<AdminUserProps> = () => {
 
   const updatePasswordMutation = useAdminUserPasswordMutation()
   const createOrUpdateMutation = useAdminCreateOrUpdateUserMutation()
+  const disableUserMutation = useAdminDisableUserMutation()
+
   const handleSubmit = async (action: AdminActionType, value: AdminUser) => {
     if (action === AdminActionType.UPDATE_PASSWORD && value.password) {
-      updatePasswordMutation.mutateAsync({ userId: value.id, password: value.password })
+      await updatePasswordMutation.mutateAsync({ userId: value.id, password: value.password })
       return
     }
-    if (action !== AdminActionType.DELETE) await createOrUpdateMutation.mutateAsync(value)
+    if (action === AdminActionType.DISABLE_USER) {
+      await disableUserMutation.mutateAsync(value.id)
+      return
+    }
+    await createOrUpdateMutation.mutateAsync(value)
   }
 
   const filterUsers = (searchValue: string, values?: User[]) =>
