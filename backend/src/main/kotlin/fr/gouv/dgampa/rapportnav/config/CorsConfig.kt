@@ -1,27 +1,53 @@
 package fr.gouv.dgampa.rapportnav.config
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import org.springframework.web.filter.CorsFilter
 
 @Configuration
-class CorsConfig {
+class CorsConfig(
+    // SpEL expression to properly split comma-separated origins into a List
+    @Value("#{\"\${cors.allowed-origins}\".split(',')}")
+    private val allowedOrigins: List<String>
+) {
+    /**
+     * Provides CORS configuration for Spring Security.
+     * Using CorsConfigurationSource (instead of CorsFilter) integrates properly
+     * with Spring Security's http.cors() configuration.
+     */
     @Bean
-    fun corsFilter(): CorsFilter {
-        val source = UrlBasedCorsConfigurationSource()
+    fun corsConfigurationSource(): CorsConfigurationSource {
         val config = CorsConfiguration()
 
-        // Allow specific origins, methods, and headers
-        config.addAllowedOrigin("*") // Replace with specific origins as needed
-        config.addAllowedMethod("*") // Allow all HTTP methods
-        config.addAllowedHeader("*") // Allow all headers
-//        config.allowCredentials = true // Allow credentials, if needed
+        // Allow only configured origins (environment-specific)
+        allowedOrigins.forEach { config.addAllowedOrigin(it.trim()) }
 
-        // Register CORS configuration for specific paths
-        source.registerCorsConfiguration("/**", config)
+        // Restrict to necessary HTTP methods
+        config.addAllowedMethod("GET")
+        config.addAllowedMethod("POST")
+        config.addAllowedMethod("PUT")
+        config.addAllowedMethod("PATCH")
+        config.addAllowedMethod("DELETE")
+        config.addAllowedMethod("OPTIONS")
 
-        return CorsFilter(source)
+        // Restrict to necessary headers
+        config.addAllowedHeader("Authorization")
+        config.addAllowedHeader("Content-Type")
+        config.addAllowedHeader("X-Requested-With")
+        config.addAllowedHeader("Accept")
+
+        config.allowCredentials = false
+
+        // Cache preflight response for 1 hour
+        config.maxAge = 3600L
+
+        // Register CORS configuration for API paths only
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/api/**", config)
+
+        return source
     }
 }

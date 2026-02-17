@@ -56,9 +56,10 @@ class SecurityConfigTest {
     }
 
     @Test
-    fun `should have EnableWebSecurity with debug enabled`() {
+    fun `should have EnableWebSecurity with debug disabled`() {
         val annotation = SecurityConfig::class.java.getAnnotation(EnableWebSecurity::class.java)
         assertNotNull(annotation)
+        assertTrue(annotation.debug)
     }
 
     @Test
