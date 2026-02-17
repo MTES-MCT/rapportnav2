@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.api.admin
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.GetAuthenticationAuditList
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.UserAdminController
@@ -59,6 +60,9 @@ class UserAdminControllerTest {
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
+
+    @MockitoBean
+    private lateinit var getAuthenticationAuditList: GetAuthenticationAuditList
 
     private val jsonMapper = JsonMapper.builder().build()
 

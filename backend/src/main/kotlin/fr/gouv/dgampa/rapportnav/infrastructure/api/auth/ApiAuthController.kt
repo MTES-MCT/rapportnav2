@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode.*
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.HashService
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.LogAuthenticationAudit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.FindByEmail
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.Save
@@ -14,6 +15,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthReg
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.outputs.AuthLoginDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCode
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -29,7 +31,24 @@ class ApiAuthController(
     private val findByEmail: FindByEmail,
     private val hashService: HashService,
     private val tokenService: TokenService,
+    private val logAuthenticationAudit: LogAuthenticationAudit,
 ) {
+
+    private fun extractClientIp(request: HttpServletRequest): String? {
+        val xForwardedFor = request.getHeader("X-Forwarded-For")
+        if (!xForwardedFor.isNullOrBlank()) {
+            return xForwardedFor.split(",").firstOrNull()?.trim()
+        }
+        val xRealIp = request.getHeader("X-Real-IP")
+        if (!xRealIp.isNullOrBlank()) {
+            return xRealIp
+        }
+        return request.remoteAddr
+    }
+
+    private fun extractUserAgent(request: HttpServletRequest): String? {
+        return request.getHeader("User-Agent")
+    }
     @PostMapping("register")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     fun register(@RequestBody body: AuthRegisterDataInput): ResponseEntity<Any> {
@@ -67,19 +86,49 @@ class ApiAuthController(
     }
 
     @PostMapping("login")
-    fun login(@RequestBody body: AuthLoginDataInput, response: HttpServletResponse): AuthLoginDataOutput {
-        if (body.email.isEmpty() || body.password.isEmpty()) throw BackendRequestException(
-            code = BackendRequestErrorCode.BODY_MISSING_DATA,
-            message = "Login body does not contain all the required data"
-        )
+    fun login(
+        @RequestBody body: AuthLoginDataInput,
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ): AuthLoginDataOutput {
+        val ipAddress = extractClientIp(request)
+        val userAgent = extractUserAgent(request)
+        val email = body.email.trim()
 
-        val user =
-            findByEmail.execute(body.email.trim()) ?: throw BackendUsageException(
+        if (body.email.isEmpty() || body.password.isEmpty()) {
+            logAuthenticationAudit.logLoginFailure(
+                email = email.ifEmpty { "unknown" },
+                ipAddress = ipAddress,
+                userAgent = userAgent,
+                reason = "Missing email or password"
+            )
+            throw BackendRequestException(
+                code = BackendRequestErrorCode.BODY_MISSING_DATA,
+                message = "Login body does not contain all the required data"
+            )
+        }
+
+        val user = findByEmail.execute(email)
+        if (user == null) {
+            logAuthenticationAudit.logLoginFailure(
+                email = email,
+                ipAddress = ipAddress,
+                userAgent = userAgent,
+                reason = "User not found"
+            )
+            throw BackendUsageException(
                 code = INCORRECT_USER_IDENTIFIER_EXCEPTION,
                 message = "Login failed "
             )
+        }
 
         if (!hashService.checkBcrypt(body.password, user.password)) {
+            logAuthenticationAudit.logLoginFailure(
+                email = email,
+                ipAddress = ipAddress,
+                userAgent = userAgent,
+                reason = "Invalid password"
+            )
             throw BackendUsageException(
                 code = INCORRECT_USER_IDENTIFIER_EXCEPTION,
                 message = "Login failed "
@@ -92,6 +141,13 @@ class ApiAuthController(
                 message = "Login failed "
             )
         }
+
+        logAuthenticationAudit.logLoginSuccess(
+            userId = user.id!!,
+            email = email,
+            ipAddress = ipAddress,
+            userAgent = userAgent
+        )
 
         return AuthLoginDataOutput(
             token = tokenService.createToken(user),

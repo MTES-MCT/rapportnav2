@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.HashService
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.LogAuthenticationAudit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.FindByEmail
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.Save
@@ -14,6 +15,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthReg
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.outputs.AuthLoginDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCode
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -41,12 +43,22 @@ class ApiAuthControllerTests {
     @Mock
     private lateinit var tokenService: TokenService
 
+    @Mock
+    private lateinit var logAuthenticationAudit: LogAuthenticationAudit
+
     @InjectMocks
     private lateinit var controller: ApiAuthController
+
+    private lateinit var mockRequest: HttpServletRequest
 
     @BeforeEach
     fun setup() {
         MockitoAnnotations.openMocks(this)
+        mockRequest = mock(HttpServletRequest::class.java)
+        `when`(mockRequest.getHeader("X-Forwarded-For")).thenReturn(null)
+        `when`(mockRequest.getHeader("X-Real-IP")).thenReturn(null)
+        `when`(mockRequest.remoteAddr).thenReturn("127.0.0.1")
+        `when`(mockRequest.getHeader("User-Agent")).thenReturn("Test-Agent")
     }
 
     // ---------- REGISTER TESTS ----------
@@ -114,7 +126,7 @@ class ApiAuthControllerTests {
         val response: HttpServletResponse = mock(HttpServletResponse::class.java)
 
         val ex = assertThrows(BackendRequestException::class.java) {
-            controller.login(input, response)
+            controller.login(input, mockRequest, response)
         }
 
         assertEquals(BackendRequestErrorCode.BODY_MISSING_DATA, ex.code)
@@ -129,7 +141,7 @@ class ApiAuthControllerTests {
         `when`(findByEmail.execute("user@example.com")).thenReturn(null)
 
         val ex = assertThrows(BackendUsageException::class.java) {
-            controller.login(input, response)
+            controller.login(input, mockRequest, response)
         }
 
         assertEquals(BackendUsageErrorCode.INCORRECT_USER_IDENTIFIER_EXCEPTION, ex.code)
@@ -141,7 +153,7 @@ class ApiAuthControllerTests {
         val response: HttpServletResponse = mock(HttpServletResponse::class.java)
 
         val user = User(
-            id = null,
+            id = 1,
             firstName = "john",
             lastName = "doe",
             email = "user@example.com",
@@ -154,7 +166,7 @@ class ApiAuthControllerTests {
         `when`(hashService.checkBcrypt("wrongpassword", "hashed")).thenReturn(false)
 
         val ex = assertThrows(BackendUsageException::class.java) {
-            controller.login(input, response)
+            controller.login(input, mockRequest, response)
         }
 
         assertEquals(BackendUsageErrorCode.INCORRECT_USER_IDENTIFIER_EXCEPTION, ex.code)
@@ -180,7 +192,7 @@ class ApiAuthControllerTests {
         `when`(hashService.checkBcrypt("StrongPassword1!!!", "hashed")).thenReturn(true)
 
         val ex = assertThrows(BackendUsageException::class.java) {
-            controller.login(input, response)
+            controller.login(input, mockRequest, response)
         }
 
         assertEquals(BackendUsageErrorCode.USER_ACCOUNT_DISABLED_EXCEPTION, ex.code)
@@ -192,7 +204,7 @@ class ApiAuthControllerTests {
         val response: HttpServletResponse = mock(HttpServletResponse::class.java)
 
         val user = User(
-            id = null,
+            id = 1,
             firstName = "john",
             lastName = "doe",
             email = "user@example.com",
@@ -205,7 +217,7 @@ class ApiAuthControllerTests {
         `when`(hashService.checkBcrypt("StrongPassword1!!!", "hashed")).thenReturn(true)
         `when`(tokenService.createToken(user)).thenReturn("jwt_token")
 
-        val result = controller.login(input, response)
+        val result = controller.login(input, mockRequest, response)
 
         assertEquals(AuthLoginDataOutput(token = "jwt_token"), result)
     }
