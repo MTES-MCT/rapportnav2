@@ -24,7 +24,6 @@ data class EnvActionSurveillanceEntity(
     override val department: String? = null,
     override val completedBy: String? = null,
     override val completion: ActionCompletionEnum? = null,
-    override val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
     override val openBy: String? = null,
     override val observations: String? = null,
     override val observationsByUnit: String? = null,

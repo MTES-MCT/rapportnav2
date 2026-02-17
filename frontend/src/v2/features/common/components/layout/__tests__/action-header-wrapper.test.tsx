@@ -34,18 +34,6 @@ describe('ActionHeaderWrapper', () => {
         department: '29',
         openBy: 'PPP',
         observations: 'Surveillance rade de Brest - Mission embarquée (zodiac). \n\nRAS',
-        formattedControlPlans: [
-          {
-            theme: 'Espèce protégée et leur habitat (faune et flore)',
-            subThemes: ['Dérangement / perturbation intentionnelle des espèces animales protégées'],
-            tags: []
-          },
-          {
-            theme: 'Pêche de loisir (autre que PAP)',
-            subThemes: ['Pêche sous-marine', 'Pêche embarquée'],
-            tags: []
-          }
-        ],
         availableControlTypesForInfraction: []
       }
     },

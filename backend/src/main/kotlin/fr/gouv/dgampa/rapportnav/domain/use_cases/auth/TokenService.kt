@@ -1,9 +1,16 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.auth
 
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
-import fr.gouv.dgampa.rapportnav.domain.entities.user.toAuthority
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
-import org.springframework.security.oauth2.jwt.*
+import org.springframework.security.oauth2.jwt.Jwt
+import org.springframework.security.oauth2.jwt.JwtClaimsSet
+import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.security.oauth2.jwt.JwtEncoder
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters
+import org.springframework.security.oauth2.jwt.JwtException
+import org.springframework.security.oauth2.jwt.JwsHeader
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -27,31 +34,59 @@ class TokenService(
     fun getClaims(user: User): JwtClaimsSet {
         return JwtClaimsSet.builder()
             .issuedAt(Instant.now())
-            .expiresAt(Instant.now().plus(30L, ChronoUnit.DAYS))
+            .expiresAt(Instant.now().plus(15L, ChronoUnit.DAYS))
             .subject(user.email)
             .claim("userId", user.id)
-            .claim("authorities", user.roles.map { it.toAuthority() })
+            // SECURITY NOTE: roles are included for FRONTEND UI/ROUTING convenience only.
+            // The backend NEVER uses these claims for authorization decisions.
+            // On each request, parseToken() loads the user fresh from database,
+            // ensuring current roles are used for actual permission checks.
             .claim("roles", user.roles)
             .build()
     }
 
-    fun parseToken(token: String): User? {
-        return try {
-            // Decode the JWT token
-            val jwt = jwtDecoder.decode(token)
+    fun parseToken(token: String): User {
+        val jwt = decodeToken(token)
+        val userId = extractUserId(jwt)
+        val user = findUser(userId)
+        validateUserStatus(user)
+        return user
+    }
 
-            // Extract userId from the claims
-            val userId = (jwt.claims["userId"] as? Number)?.toLong()
-                ?: throw IllegalArgumentException("Invalid userId in token")
+    private fun decodeToken(token: String): Jwt {
+        try {
+            return jwtDecoder.decode(token)
+        } catch (e: JwtException) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_TOKEN_EXCEPTION,
+                message = "Invalid or expired token"
+            )
+        }
+    }
 
-            // Retrieve the user from the repository
-            val user = userRepository.findById(userId.toInt())
-                ?: throw IllegalArgumentException("User not found with ID: $userId")
+    private fun extractUserId(jwt: Jwt): Int {
+        val userId = (jwt.claims["userId"] as? Number)?.toInt()
+            ?: throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_TOKEN_EXCEPTION,
+                message = "Invalid userId in token"
+            )
+        return userId
+    }
 
-            user
-        } catch (e: Exception) {
-            println("Token parsing failed: ${e.message}")
-            null
+    private fun findUser(userId: Int): User {
+        return userRepository.findById(userId)
+            ?: throw BackendUsageException(
+                code = BackendUsageErrorCode.USER_NOT_FOUND_EXCEPTION,
+                message = "User not found"
+            )
+    }
+
+    private fun validateUserStatus(user: User) {
+        if (user.disabledAt != null) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.USER_ACCOUNT_DISABLED_EXCEPTION,
+                message = "User account is disabled or deleted"
+            )
         }
     }
 

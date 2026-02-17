@@ -1,12 +1,6 @@
 import { ActionStatusReason, ActionStatusType } from '@common/types/action-types'
 import { ControlMethod, ControlType } from '@common/types/control-types'
-import {
-  ActionTargetTypeEnum,
-  FormattedControlPlan,
-  VehicleTypeEnum,
-  VesselSizeEnum,
-  VesselTypeEnum
-} from '@common/types/env-mission-types'
+import { ActionTargetTypeEnum, VehicleTypeEnum, VesselSizeEnum, VesselTypeEnum } from '@common/types/env-mission-types'
 import { MissionActionType } from '@common/types/fish-mission-types'
 import { CompletenessForStats } from '@common/types/mission-types'
 import { ActionType } from '../../common/types/action-type'
@@ -35,7 +29,6 @@ export type MissionTimelineAction = {
   actionTargetType?: ActionTargetTypeEnum
   vehicleType?: VehicleTypeEnum
   controlsToComplete?: ControlType[]
-  formattedControlPlans?: FormattedControlPlan[]
   observations?: string
   isPersonRescue?: Boolean
   isVesselRescue?: Boolean

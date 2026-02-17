@@ -8,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 import java.util.*
@@ -19,7 +18,6 @@ data class MissionEnvActionEntity(
     override val envActionType: ActionTypeEnum,
     override val completedBy: String? = null,
     override val completion: ActionCompletionEnum? = null,
-    override val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
     override val geom: Geometry? = null,
     override val facade: String? = null,
     override val department: String? = null,
@@ -33,7 +31,6 @@ data class MissionEnvActionEntity(
     override val vehicleType: VehicleTypeEnum? = null,
     override val envInfractions: List<InfractionEnvEntity>? = listOf(),
     override val coverMissionZone: Boolean? = null,
-    override var formattedControlPlans: List<FormattedEnvActionControlPlan>? = listOf(),
     override var controlsToComplete: List<ControlType>? = listOf(),
     override var availableControlTypesForInfraction: List<ControlType>? = listOf(),
     override val isAdministrativeControl: Boolean? = null,
@@ -92,7 +89,7 @@ data class MissionEnvActionEntity(
 
         val monitorEnvComplete = this.completion === ActionCompletionEnum.COMPLETED
         if (!rapportNavComplete) {
-            sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORTNAV)
+            sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORT_NAV)
         }
         if (!monitorEnvComplete) {
             sourcesOfMissingDataForStats.add(MissionSourceEnum.MONITORENV)
@@ -148,7 +145,6 @@ data class MissionEnvActionEntity(
             endDateTimeUtc = action.actionEndDateTimeUtc,
             completedBy = action.completedBy,
             completion = action.completion,
-            controlPlans = action.controlPlans,
             geom = action.geom,
             facade = action.facade,
             department = action.department,

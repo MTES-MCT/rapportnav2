@@ -1,10 +1,10 @@
 import Text from '@common/components/ui/text.tsx'
 import { VehicleTypeEnum } from '@common/types/env-mission-types'
-import { THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Tag, THEME } from '@mtes-mct/monitor-ui'
 import React, { useEffect, useState } from 'react'
 import { useVehicule } from '../../../common/hooks/use-vehicule'
 import { useVessel } from '../../../common/hooks/use-vessel'
-import { Target } from '../../../common/types/target-types'
+import { Target, TargetType } from '../../../common/types/target-types'
 
 interface MissionTargetTitleProps {
   target?: Target
@@ -14,19 +14,44 @@ interface MissionTargetTitleProps {
 const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, vehicleType }) => {
   const { getVesselTypeName } = useVessel()
   const { getVehiculeType } = useVehicule()
-  const [id, setId] = useState<string>()
-  const [vehicle, setVehicle] = useState<string>()
-  const [vesselType, setVesselType] = useState<string>()
+  const [title, setTitle] = useState<string>()
+  const [nbTarget, setNbTarget] = useState<number>(1)
+
+  const getTitleGroup = (target?: Target, vehicle?: string) => {
+    const isVehicle = target?.targetType === TargetType.VEHICLE
+    const identifier = target?.targetType === TargetType.COMPANY ? 'morales' : 'physiques'
+    return `${isVehicle ? vehicle : ''}${!isVehicle ? `personnes ${identifier}` : ''} en infraction`
+  }
+
+  const getTitleSingle = (target?: Target, vehicle?: string) => {
+    const id = target?.externalData?.registrationNumber ?? target?.identityControlledPerson
+    const vesselType = getVesselTypeName(target?.externalData?.vesselType ?? target?.vesselType)
+    return `${vehicle ?? ''}${vesselType && vehicle ? ` - ` : ''}${vesselType ?? ''}${vesselType && id ? ` - ` : ''}${id ?? ''}`
+  }
+
+  const getTitle = (target?: Target, vehicleType?: VehicleTypeEnum): string => {
+    const vehicle = getVehiculeType(vehicleType)
+    return (target?.externalData?.nbTarget ?? 0) > 1 ? getTitleGroup(target, vehicle) : getTitleSingle(target, vehicle)
+  }
 
   useEffect(() => {
-    setVehicle(getVehiculeType(vehicleType))
-    setId(target?.externalData?.registrationNumber ?? target?.identityControlledPerson)
-    setVesselType(getVesselTypeName(target?.externalData?.vesselType ?? target?.vesselType))
+    setTitle(getTitle(target, vehicleType))
+    setNbTarget(target?.externalData?.nbTarget ?? 1)
   }, [target, vehicleType])
+
   return (
-    <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'target-title'}>
-      {`${vehicle ?? ''}${vesselType && vehicle ? ` - ` : ''}${vesselType ?? ''}${vesselType && id ? ` - ` : ''}${id ?? ''}`}
-    </Text>
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+      {nbTarget > 1 && (
+        <Tag accent={Accent.PRIMARY} data-testid={'target-tag'} style={{ marginRight: 6, paddingTop: 2 }}>
+          <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
+            {nbTarget}
+          </Text>
+        </Tag>
+      )}
+      <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'target-title'}>
+        {title}
+      </Text>
+    </div>
   )
 }
 

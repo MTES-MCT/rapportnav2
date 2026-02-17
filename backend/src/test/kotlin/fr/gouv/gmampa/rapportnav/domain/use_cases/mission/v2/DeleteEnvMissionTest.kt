@@ -75,7 +75,7 @@ class DeleteEnvMissionTest {
         }
         assertEquals(BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION, exception.code)
         assertEquals("DeleteEnvMission: mission does not belong to this service", exception.message)
-        verify(missionRepo, times(0)).deleteMission(id)
+        verify(missionRepo, times(0)).deleteMission(id, source = mission.missionSource)
     }
 
     @Test
@@ -100,7 +100,7 @@ class DeleteEnvMissionTest {
         }
         assertEquals(BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION, exception.code)
         assertEquals("DeleteEnvMission: cannot delete mission with existing actions", exception.message)
-        verify(missionRepo, times(0)).deleteMission(id)
+        verify(missionRepo, times(0)).deleteMission(id, source = mission.missionSource)
     }
 
     @Test
@@ -118,6 +118,6 @@ class DeleteEnvMissionTest {
 
         deleteEnvMission.execute(id = id, serviceId = service.id)
         verify(getEnvMissionById2, times(1)).execute(id)
-        verify(missionRepo, times(1)).deleteMission(id)
+        verify(missionRepo, times(1)).deleteMission(id, source = mission.missionSource)
     }
 }

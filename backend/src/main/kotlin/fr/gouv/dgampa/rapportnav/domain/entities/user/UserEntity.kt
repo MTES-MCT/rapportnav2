@@ -14,6 +14,7 @@ data class User(
     var roles: List<RoleTypeEnum>,
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
+    val disabledAt: Instant? = null,
 ) {
     constructor(user: User) : this(
         id = user.id,
@@ -23,7 +24,8 @@ data class User(
         email = user.email,
         password = user.password,
         token = user.token,
-        roles = user.roles
+        roles = user.roles,
+        disabledAt = user.disabledAt,
     )
     companion object {
         fun fromUserModel(user: UserModel) = User(
@@ -36,6 +38,7 @@ data class User(
             roles = user.roles,
             createdAt = user.createdAt,
             updatedAt = user.updatedAt,
+            disabledAt = user.disabledAt,
         )
     }
 }

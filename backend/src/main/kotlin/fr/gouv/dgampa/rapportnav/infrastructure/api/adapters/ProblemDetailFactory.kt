@@ -94,6 +94,23 @@ object ProblemDetailFactory {
         cause = cause
     )
 
+    /**
+     * Creates a Problem Detail for validation errors (HTTP 400).
+     *
+     * Validation errors occur when request body validation fails (@Valid),
+     * constraint violations occur, or the request body cannot be parsed.
+     */
+    fun forValidationError(
+        message: String,
+        errors: List<Map<String, Any?>>?
+    ): ProblemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST).apply {
+        this.type = URI.create("$URN_PREFIX:validation:VALIDATION_ERROR")
+        this.title = "Validation Error"
+        this.detail = message
+        setProperty("code", "VALIDATION_ERROR")
+        errors?.let { setProperty("errors", it) }
+    }
+
     private fun buildWithCode(
         status: HttpStatus,
         category: String,
@@ -130,6 +147,9 @@ object ProblemDetailFactory {
 fun BackendUsageErrorCode.toTitle(): String = when (this) {
     BackendUsageErrorCode.PASSWORD_TOO_WEAK_EXCEPTION -> "Password Too Weak"
     BackendUsageErrorCode.INCORRECT_USER_IDENTIFIER_EXCEPTION -> "Incorrect User Identifier"
+    BackendUsageErrorCode.INVALID_TOKEN_EXCEPTION -> "Invalid Token"
+    BackendUsageErrorCode.USER_NOT_FOUND_EXCEPTION -> "User Not Found"
+    BackendUsageErrorCode.USER_ACCOUNT_DISABLED_EXCEPTION -> "User Account Disabled"
     BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION -> "Invalid Parameters"
     BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION -> "Could Not Save"
     BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION -> "Resource Not Found"
@@ -145,6 +165,9 @@ fun BackendUsageErrorCode.toTitle(): String = when (this) {
 fun BackendUsageErrorCode.defaultMessage(): String = when (this) {
     BackendUsageErrorCode.PASSWORD_TOO_WEAK_EXCEPTION -> "The provided password does not meet security requirements"
     BackendUsageErrorCode.INCORRECT_USER_IDENTIFIER_EXCEPTION -> "The user identifier is incorrect"
+    BackendUsageErrorCode.INVALID_TOKEN_EXCEPTION -> "The provided token is invalid or expired"
+    BackendUsageErrorCode.USER_NOT_FOUND_EXCEPTION -> "The user could not be found"
+    BackendUsageErrorCode.USER_ACCOUNT_DISABLED_EXCEPTION -> "The user account is disabled or deleted"
     BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION -> "The provided parameters are invalid"
     BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION -> "The resource could not be saved"
     BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION -> "The requested resource could not be found"

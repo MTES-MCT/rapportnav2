@@ -1,7 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.env.ThemeEntityMock
@@ -17,7 +16,6 @@ object EnvActionSurveillanceMock {
         geom: Geometry? = null,
         facade: String? = null,
         department: String? = null,
-        controlPlans: List<EnvActionControlPlanEntity>? = null,
         observations: String? = null,
         completion: ActionCompletionEnum = ActionCompletionEnum.COMPLETED,
         completedBy: String? = null,
@@ -32,7 +30,6 @@ object EnvActionSurveillanceMock {
             geom = geom,
             facade = facade,
             department = department,
-            controlPlans = controlPlans,
             observations = observations,
             completion = completion,
             openBy = openBy,

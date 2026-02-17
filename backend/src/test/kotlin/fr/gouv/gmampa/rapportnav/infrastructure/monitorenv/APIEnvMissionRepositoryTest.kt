@@ -9,9 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.APIEnvMissionReposito
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -306,6 +304,179 @@ class APIEnvMissionRepositoryTest {
             assertEquals(1, result[0].id)
         }
 
+    }
+
+    @Nested
+    inner class FindMissionById {
+
+        private fun createRealMapper(): JsonMapper = JsonMapper.builder()
+            .addModule(KotlinModule.Builder().build())
+            .build()
+
+        @Test
+        fun `should fetch mission by id and return entity`() {
+            val realMapper = createRealMapper()
+            val missionJson = """
+                {
+                    "id": 123,
+                    "missionTypes": ["SEA"],
+                    "controlUnits": [],
+                    "startDateTimeUtc": "2024-01-15T10:00:00Z",
+                    "endDateTimeUtc": "2024-01-15T18:00:00Z",
+                    "missionSource": "MONITORENV",
+                    "hasMissionOrder": true,
+                    "isUnderJdp": false,
+                    "isGeometryComputedFromControls": false
+                }
+            """.trimIndent()
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn(missionJson)
+            Mockito.`when`(httpResponse.headers()).thenReturn(
+                java.net.http.HttpHeaders.of(
+                    mapOf("Content-Type" to listOf("application/json")),
+                    { _, _ -> true }
+                )
+            )
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            val result = envRepo.findMissionById(missionId = 123)
+
+            assertNotNull(result)
+            assertEquals(123, result?.id)
+        }
+
+        @Test
+        fun `should call correct URL with mission ID`() {
+            val realMapper = createRealMapper()
+            val missionJson = """
+                {
+                    "id": 456,
+                    "missionTypes": ["SEA"],
+                    "startDateTimeUtc": "2024-01-15T10:00:00Z",
+                    "missionSource": "MONITORENV",
+                    "hasMissionOrder": false,
+                    "isUnderJdp": false,
+                    "isGeometryComputedFromControls": false
+                }
+            """.trimIndent()
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn(missionJson)
+            Mockito.`when`(httpResponse.headers()).thenReturn(
+                java.net.http.HttpHeaders.of(
+                    mapOf("Content-Type" to listOf("application/json")),
+                    { _, _ -> true }
+                )
+            )
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            envRepo.findMissionById(missionId = 456)
+
+            verify(httpClient).send(
+                argThat { request ->
+                    request.uri() == URI.create("$host/api/v1/missions/456")
+                },
+                Mockito.any<HttpResponse.BodyHandler<String>>()
+            )
+        }
+
+        @Test
+        fun `should return null when API returns 404`() {
+            val realMapper = createRealMapper()
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(404)
+            Mockito.`when`(httpResponse.body()).thenReturn("Not Found")
+            Mockito.`when`(httpResponse.headers()).thenReturn(
+                java.net.http.HttpHeaders.of(
+                    mapOf("Content-Type" to listOf("application/json")),
+                    { _, _ -> true }
+                )
+            )
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            val result = envRepo.findMissionById(missionId = 999)
+
+            assertNull(result)
+        }
+
+        @Test
+        fun `should throw exception when API returns 500`() {
+            val realMapper = createRealMapper()
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(500)
+            Mockito.`when`(httpResponse.body()).thenReturn("Internal Server Error")
+            Mockito.`when`(httpResponse.headers()).thenReturn(
+                java.net.http.HttpHeaders.of(
+                    mapOf("Content-Type" to listOf("application/json")),
+                    { _, _ -> true }
+                )
+            )
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            assertThrows(Exception::class.java) {
+                envRepo.findMissionById(missionId = 123)
+            }
+        }
+
+        @Test
+        fun `should throw exception when content type is not JSON`() {
+            val realMapper = createRealMapper()
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn("<html>Error</html>")
+            Mockito.`when`(httpResponse.headers()).thenReturn(
+                java.net.http.HttpHeaders.of(
+                    mapOf("Content-Type" to listOf("text/html")),
+                    { _, _ -> true }
+                )
+            )
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            assertThrows(Exception::class.java) {
+                envRepo.findMissionById(missionId = 123)
+            }
+        }
     }
 }
 

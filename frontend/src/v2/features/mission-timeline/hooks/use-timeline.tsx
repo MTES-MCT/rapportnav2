@@ -52,7 +52,7 @@ export function useTimeline(): TimelineHook {
     return orderBy(
       actions?.map(action => {
         switch (action.source) {
-          case MissionSourceEnum.RAPPORTNAV:
+          case MissionSourceEnum.RAPPORT_NAV:
             return getTimeLineFromNavAction(action)
           case MissionSourceEnum.MONITORENV:
             return getTimeLineFromEnvAction(action)
@@ -84,7 +84,6 @@ export function useTimeline(): TimelineHook {
       actionNumberOfControls: action.data?.actionNumberOfControls,
       actionTargetType: action.data?.actionTargetType,
       vehicleType: action.data?.vehicleType,
-      formattedControlPlans: action.data?.formattedControlPlans,
       networkSyncStatus: action.networkSyncStatus,
       themes: action.data.themes
     }

@@ -24,31 +24,27 @@ class CustomAuthenticationFilter(
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             try {
+                // extract token
                 val token = authHeader.substring(7)
+
+                // through token, revalidate user with db data
+                // do not use token data directly
                 val user = tokenService.parseToken(token)
 
-                if (user != null) {
-                    println("Custom Filter - User: $user")
-                    println("Custom Filter - Roles: ${user.roles}")
-
-                    val grantedAuthorities = user.roles.map { role ->
-                        SimpleGrantedAuthority("ROLE_$role")
-                    }
-
-                    val authentication = UsernamePasswordAuthenticationToken(
-                        user,
-                        "",
-                        grantedAuthorities
-                    )
-
-                    SecurityContextHolder.getContext().authentication = authentication
-
-                    println("Custom Filter - Authentication set in SecurityContext")
-                    println("Custom Filter - Granted Authorities: $grantedAuthorities")
+                // set authorities from roles
+                val grantedAuthorities = user.roles.map { role ->
+                    SimpleGrantedAuthority("ROLE_$role")
                 }
+
+                // set user and authorities to secu context
+                val authentication = UsernamePasswordAuthenticationToken(
+                    user,
+                    "",
+                    grantedAuthorities
+                )
+                SecurityContextHolder.getContext().authentication = authentication
             } catch (e: Exception) {
-                println("Custom Filter - Error parsing token: ${e.message}")
-                // Clear any existing authentication
+                logger.error("Error while authenticating user", e)
                 SecurityContextHolder.clearContext()
             }
         }

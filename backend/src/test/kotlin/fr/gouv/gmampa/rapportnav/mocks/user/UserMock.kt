@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.mocks.user
 
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
+import java.time.Instant
 
 object UserMock {
     fun create(
@@ -12,7 +13,8 @@ object UserMock {
         email: String = "email@email.com",
         password: String = "password",
         token: String? = null,
-        roles: List<RoleTypeEnum> = listOf(RoleTypeEnum.USER_ULAM)
+        roles: List<RoleTypeEnum> = listOf(RoleTypeEnum.USER_ULAM),
+        disabledAt: Instant? = null
     ): User {
         return User(
             id = id,
@@ -22,7 +24,8 @@ object UserMock {
             email = email,
             password = password,
             token = token,
-            roles = roles
+            roles = roles,
+            disabledAt = disabledAt
         )
     }
 }

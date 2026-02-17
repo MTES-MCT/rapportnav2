@@ -101,7 +101,7 @@ data class AEMPollutionControlSurveillance(
         private fun getIllicitRejectActions(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
             val illicitRejects = listOf(19, 102);
             return envActions.filter {
-                it?.controlPlans?.map { c -> c.themeId }?.intersect(illicitRejects)
+                it?.themes?.map { t -> t.id }?.intersect(illicitRejects)
                     ?.isEmpty() == false
             };
         }

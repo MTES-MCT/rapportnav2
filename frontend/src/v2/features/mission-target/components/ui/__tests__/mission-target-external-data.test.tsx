@@ -1,7 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '../../../../../../test-utils'
-import MissionTargetTitle from '../mission-target-title'
 import { VehicleTypeEnum } from '@common/types/env-mission-types'
+import { VesselTypeEnum } from '@common/types/mission-types'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { render, screen } from '../../../../../../test-utils'
+import { TargetType } from '../../../../common/types/target-types'
+import MissionTargetTitle from '../mission-target-title'
 
 // ---- Mock hooks ----
 const mockGetVesselTypeName = vi.fn()
@@ -28,7 +30,7 @@ describe('MissionTargetTitle', () => {
     mockGetVehiculeType.mockReturnValue('Car')
     mockGetVesselTypeName.mockReturnValue('')
 
-    render(<MissionTargetTitle vehicleType={VehicleTypeEnum.LAND} />)
+    render(<MissionTargetTitle vehicleType={VehicleTypeEnum.VEHICLE_LAND} />)
 
     expect(screen.getByTestId('target-title').textContent).toBe('Car')
   })
@@ -40,7 +42,7 @@ describe('MissionTargetTitle', () => {
     render(
       <MissionTargetTitle
         target={{
-          externalData: { vesselType: 'FISHING' }
+          externalData: { vesselType: VesselTypeEnum.FISHING }
         }}
       />
     )
@@ -69,11 +71,11 @@ describe('MissionTargetTitle', () => {
 
     render(
       <MissionTargetTitle
-        vehicleType={VehicleTypeEnum.LAND}
+        vehicleType={VehicleTypeEnum.VEHICLE_LAND}
         target={{
           externalData: {
             registrationNumber: 'AB-123',
-            vesselType: 'FISHING'
+            vesselType: VesselTypeEnum.FISHING
           }
         }}
       />
@@ -105,5 +107,66 @@ describe('MissionTargetTitle', () => {
     render(<MissionTargetTitle />)
 
     expect(screen.getByTestId('target-title').textContent).toBe('')
+  })
+
+  it('renders tag for Vehicle', () => {
+    const nbTarget = 2
+    mockGetVesselTypeName.mockReturnValue('')
+    mockGetVehiculeType.mockReturnValue('Véhicule aérien')
+
+    render(
+      <MissionTargetTitle
+        target={{
+          externalData: {
+            id: '3',
+            nbTarget
+          },
+          targetType: TargetType.VEHICLE
+        }}
+        vehicleType={VehicleTypeEnum.VEHICLE_AIR}
+      />
+    )
+    expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
+    expect(screen.getByTestId('target-title').textContent).toBe('Véhicule aérien en infraction')
+  })
+
+  it('renders tag for Person morale', () => {
+    const nbTarget = 2
+    mockGetVehiculeType.mockReturnValue('')
+    mockGetVesselTypeName.mockReturnValue('')
+
+    render(
+      <MissionTargetTitle
+        target={{
+          externalData: {
+            id: '3',
+            nbTarget
+          },
+          targetType: TargetType.COMPANY
+        }}
+      />
+    )
+    expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
+    expect(screen.getByTestId('target-title').textContent).toBe('personnes morales en infraction')
+  })
+
+  it('renders tag for Person', () => {
+    const nbTarget = 2
+    mockGetVehiculeType.mockReturnValue('')
+    mockGetVesselTypeName.mockReturnValue('')
+
+    render(
+      <MissionTargetTitle
+        target={{
+          externalData: {
+            id: '3',
+            nbTarget
+          },
+          targetType: TargetType.INDIVIDUAL
+        }}
+      />
+    )
+    expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
+    expect(screen.getByTestId('target-title').textContent).toBe('personnes physiques en infraction')
   })
 })

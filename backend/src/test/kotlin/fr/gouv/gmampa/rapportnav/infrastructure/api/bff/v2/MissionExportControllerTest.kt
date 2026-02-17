@@ -197,7 +197,7 @@ class MissionExportControllerTest {
     }
 
     @Test
-    fun `should return 500 when missionIds is empty`() {
+    fun `should return 400 when missionIds is empty`() {
         val json = """
             {
                 "missionIds": [],
@@ -211,11 +211,12 @@ class MissionExportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
         )
-            .andExpect(status().isInternalServerError)
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
     }
 
     @Test
-    fun `should return 500 when exportMode is wrong`() {
+    fun `should return 400 when exportMode is wrong`() {
         val json = """
             {
                 "missionIds": [1],
@@ -229,11 +230,12 @@ class MissionExportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
         )
-            .andExpect(status().isInternalServerError)
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
     }
 
     @Test
-    fun `should return 500 when reportType is wrong`() {
+    fun `should return 400 when reportType is wrong`() {
         val json = """
             {
                 "missionIds": [1],
@@ -247,11 +249,12 @@ class MissionExportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
         )
-            .andExpect(status().isInternalServerError)
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
     }
 
     @Test
-    fun `should return 500 when request body is invalid JSON`() {
+    fun `should return 400 when request body is invalid JSON`() {
         val json = "{ invalid json }"
 
         mockMvc.perform(
@@ -259,6 +262,7 @@ class MissionExportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
         )
-            .andExpect(status().isInternalServerError)
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
     }
 }

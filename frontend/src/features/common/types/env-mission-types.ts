@@ -137,7 +137,6 @@ export enum MissionSourceEnum {
   MONITORFISH = 'MONITORFISH',
   POSEIDON_CACEM = 'POSEIDON_CACEM',
   POSEIDON_CNSP = 'POSEIDON_CNSP',
-  RAPPORTNAV = 'RAPPORTNAV',
   RAPPORT_NAV = 'RAPPORT_NAV'
 }
 
@@ -151,12 +150,6 @@ export enum SeaFrontEnum {
   NAMO = 'NAMO',
   SA = 'SA',
   SOUTH_INDIAN_OCEAN = 'SOUTH_INDIAN_OCEAN'
-}
-
-export type FormattedControlPlan = {
-  theme?: string
-  subThemes?: string[]
-  tags?: string[]
 }
 
 export type NewInfraction = {

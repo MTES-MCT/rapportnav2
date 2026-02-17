@@ -61,7 +61,11 @@ const MissionActionItemNavControl: FC<{
                   </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionActionFormikCoordinateInputDMD name={'geoCoords'} />
+                  <Field name="geoCoords">
+                    {(field: FieldProps<number[]>) => (
+                      <MissionActionFormikCoordinateInputDMD name="geoCoords" fieldFormik={field} />
+                    )}
+                  </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack spacing="0.5rem" style={{ width: '100%' }}>

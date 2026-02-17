@@ -1,19 +1,25 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum, InfractionTypeEnum } from '@common/types/env-mission-types'
 import { renderHook } from '@testing-library/react'
+import { describe } from 'vitest'
 import { MissionSourceEnum } from '../../../common/types/mission-types'
 import { Control, Target, TargetInfraction, TargetType } from '../../../common/types/target-types'
 import { useTarget } from '../use-target'
-import { describe } from 'vitest'
 
 describe('useTarget', () => {
   it('should validate that is default', () => {
-    const target = { targetType: TargetType.DEFAULT, source: MissionSourceEnum.RAPPORTNAV } as Target
+    const target = { targetType: TargetType.DEFAULT, source: MissionSourceEnum.RAPPORT_NAV } as Target
     const { result } = renderHook(() => useTarget())
     expect(result.current.isDefaultTarget(target)).toBeTruthy()
 
     target.targetType = TargetType.VEHICLE
     expect(result.current.isDefaultTarget(target)).toBeFalsy()
+  })
+
+  it('should validate that is default event when source is null', () => {
+    const target = { targetType: TargetType.DEFAULT, source: null } as Target
+    const { result } = renderHook(() => useTarget())
+    expect(result.current.isDefaultTarget(target)).toBeTruthy()
   })
 
   it('should push infraction into the target at the right control without erasing previous infraction', () => {

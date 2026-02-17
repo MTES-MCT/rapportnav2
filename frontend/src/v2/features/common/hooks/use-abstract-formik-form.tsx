@@ -27,18 +27,20 @@ export function useAbstractFormik<T, M>(
   useEffect(() => {
     const valueToInit = beforeInitValue(value)
     setInitValue(valueToInit)
+
+    return () => {
+      setErrors(undefined)
+      setInitValue(undefined)
+    }
   }, [value])
 
   const beforeSubmit = (value?: M, errors?: FormikErrors<M>): T | undefined => {
     if (!value) return
-
-    // Don't submit if there are validation errors
     if (!isEmpty(errors)) {
       console.log('Submission blocked due to validation errors:', errors)
       return
     }
 
-    // Don't submit if values haven't changed
     if (isEqual(value, initValue)) return
 
     return fromInputToFieldValue(value)
@@ -54,12 +56,11 @@ export function useAbstractFormik<T, M>(
     if (onSubmit && valueToSubmit) {
       try {
         await onSubmit(valueToSubmit)
-        // Update initValue only after successful submission
         setInitValue(value)
         setErrors(undefined)
       } catch (error) {
         setErrors(errors)
-        throw error // Re-throw to let Formik handle it
+        throw error
       }
     }
   }

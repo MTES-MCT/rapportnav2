@@ -90,7 +90,7 @@ class ComputeEnvControlPolicyTest {
                     )
                 ),
                 TargetEntityMock.create( // not counted
-                    source = MissionSourceEnum.RAPPORTNAV,
+                    source = MissionSourceEnum.RAPPORT_NAV,
                     controls = listOf(
                         ControlEntityMock.create(
                             amountOfControls = 3,

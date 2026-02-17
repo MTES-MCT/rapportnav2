@@ -29,15 +29,6 @@
       "actionType": "SURVEILLANCE",
       "completedBy": null,
       "completion": "COMPLETED",
-      "controlPlans": [
-        {
-          "themeId": 107,
-          "subThemeIds": [
-            216
-          ],
-          "tagIds": []
-        }
-      ],
       "department": "35",
       "facade": "NAMO",
       "geom": {

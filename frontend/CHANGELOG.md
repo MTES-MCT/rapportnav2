@@ -1,5 +1,81 @@
 # Changelog
 
+## [2.66.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.65.0...frontend@v2.66.0) (2026-02-17)
+
+
+### Features
+
+* **security:** revalidate token auth with actual user data ([f34ac29](https://github.com/MTES-MCT/rapportnav2/commit/f34ac294223a0699f935b38f652300bf8b0797c1))
+
+## [2.65.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.64.0...frontend@v2.65.0) (2026-02-16)
+
+
+### Features
+
+* **backend:** merge ([26c68d1](https://github.com/MTES-MCT/rapportnav2/commit/26c68d1830723635a1248110b96f5ffbe03ed297))
+* **frontend:** show nb target on title ([242e230](https://github.com/MTES-MCT/rapportnav2/commit/242e23001d7287374a05b10f3c402ae8e2f26820))
+
+
+### Bug Fixes
+
+* **frontend:** default resource value ([b4e52a5](https://github.com/MTES-MCT/rapportnav2/commit/b4e52a51d99a2f3e6ee96997b3991efbe4e7e9f9))
+* **frontend:** default resource value ([84bbad8](https://github.com/MTES-MCT/rapportnav2/commit/84bbad864d666689a396c3b2cbe08f43526a3ca1))
+* **frontend:** remove rounding on coord mission action ([9a86a0d](https://github.com/MTES-MCT/rapportnav2/commit/9a86a0d3b0a9c6caf8e561dfc766a79956dd02bb))
+
+## [2.64.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.63.4...frontend@v2.64.0) (2026-02-11)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.63.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.63.3...frontend@v2.63.4) (2026-02-11)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.63.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.63.2...frontend@v2.63.3) (2026-02-11)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.63.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.63.1...frontend@v2.63.2) (2026-02-11)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.63.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.63.0...frontend@v2.63.1) (2026-02-11)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.63.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.62.0...frontend@v2.63.0) (2026-02-11)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.62.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.61.0...frontend@v2.62.0) (2026-02-10)
+
+
+### Features
+
+* **Sentry:** link user to sentry requests in frontend ([938bf5b](https://github.com/MTES-MCT/rapportnav2/commit/938bf5b6d309859996dbd4281ab79dacc639ac6a))
+
+
+### Bug Fixes
+
+* npm audit ([cd3d193](https://github.com/MTES-MCT/rapportnav2/commit/cd3d1934b567393723d1fd461f87b75502f7995b))
+
 ## [2.61.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.60.4...frontend@v2.61.0) (2026-02-04)
 
 
