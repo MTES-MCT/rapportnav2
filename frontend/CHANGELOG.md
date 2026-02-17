@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.66.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.65.0...frontend@v2.66.0) (2026-02-17)
+
+
+### Features
+
+* **security:** revalidate token auth with actual user data ([f34ac29](https://github.com/MTES-MCT/rapportnav2/commit/f34ac294223a0699f935b38f652300bf8b0797c1))
+
 ## [2.65.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.64.0...frontend@v2.65.0) (2026-02-16)
 
 
