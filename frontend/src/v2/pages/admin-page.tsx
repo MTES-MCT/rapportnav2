@@ -15,6 +15,7 @@ import MissionListPageTitle from '../features/common/components/ui/mission-list-
 import { store } from '../store'
 import AdminGeneralInfosItem from '../features/admin/components/elements/admin-general-infos-item.tsx'
 import AdminUserAuthLoggingItem from '../features/admin/components/elements/admin-user-auth-logging-item.tsx'
+import AdminApiKeyLoggingItem from '../features/admin/components/elements/admin-user-apikey-logging-item.tsx'
 
 const AdminPage: React.FC = () => {
   const { getSidebarItems } = useGlobalRoutes()
@@ -89,8 +90,11 @@ const AdminPage: React.FC = () => {
                       <AdminApikeyItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="7" title="User auth logs">
+                    <Tabs.Tab eventKey="7" title="User Auth logs">
                       <AdminUserAuthLoggingItem />
+                    </Tabs.Tab>
+                    <Tabs.Tab eventKey="8" title="API Keys logs">
+                      <AdminApiKeyLoggingItem />
                     </Tabs.Tab>
                   </Tabs>
                 </Stack.Item>

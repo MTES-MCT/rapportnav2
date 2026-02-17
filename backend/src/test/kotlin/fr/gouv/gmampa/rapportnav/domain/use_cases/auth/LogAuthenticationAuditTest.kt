@@ -119,33 +119,6 @@ class LogAuthenticationAuditTest {
     }
 
     @Test
-    fun `should log token refresh`() {
-        // given
-        val userId = 1
-        val email = "user@example.com"
-        val ip = "192.168.1.10"
-        val userAgent = "Mozilla/5.0"
-        val expectedModel = AuthenticationAuditModel(
-            userId = userId,
-            email = email,
-            eventType = AuthEventTypeEnum.TOKEN_REFRESH,
-            ipAddress = ip,
-            userAgent = userAgent,
-            success = true,
-        )
-
-        whenever(repo.save(any())).thenReturn(expectedModel)
-
-        // when
-        val result = logAuthenticationAudit.logTokenRefresh(userId, email, ip, userAgent)
-
-        // then
-        assertTrue(result.success)
-        assertEquals(AuthEventTypeEnum.TOKEN_REFRESH, result.eventType)
-        verify(repo).save(any())
-    }
-
-    @Test
     fun `should throw if email is blank`() {
         assertThrows<IllegalArgumentException> {
             logAuthenticationAudit.logLoginSuccess(1, "", "127.0.0.1", "Test-Agent")

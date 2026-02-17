@@ -1,5 +1,5 @@
 export type UserAuthLogging = {
-  id: string
+  id: number
   userId?: number
   email: string
   eventType: AuthEventTypeEnum
