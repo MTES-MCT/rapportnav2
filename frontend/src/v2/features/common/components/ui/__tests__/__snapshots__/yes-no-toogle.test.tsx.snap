@@ -13,13 +13,13 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-kMrHXi sc-jItqcA bTpYxn dyHcdF Element-Button"
+            class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
             data-testid="yes-no-toogle-yes-button"
             style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
             type="button"
           >
             <span
-              class="sc-gLDzao hZRUsu Element-IconBox"
+              class="sc-gxYJeM hmbhhF Element-IconBox"
             >
               <svg
                 height="20"
@@ -47,7 +47,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               </svg>
             </span>
             <span
-              class="sc-ilEZpr iqSbgV"
+              class="sc-kJpdyf dtdSQv"
             >
               Oui
             </span>
@@ -57,13 +57,13 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-kMrHXi sc-jItqcA bTpYxn dyHcdF Element-Button"
+            class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
             data-testid="yes-no-toogle-no-button"
             style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
             type="button"
           >
             <span
-              class="sc-gLDzao hZRUsu Element-IconBox"
+              class="sc-gxYJeM hmbhhF Element-IconBox"
             >
               <svg
                 height="20"
@@ -91,7 +91,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               </svg>
             </span>
             <span
-              class="sc-ilEZpr iqSbgV"
+              class="sc-kJpdyf dtdSQv"
             >
               Non
             </span>
@@ -131,13 +131,13 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
         class="rs-stack-item"
       >
         <button
-          class="sc-kMrHXi sc-jItqcA bTpYxn dyHcdF Element-Button"
+          class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
           data-testid="yes-no-toogle-yes-button"
           style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
           type="button"
         >
           <span
-            class="sc-gLDzao hZRUsu Element-IconBox"
+            class="sc-gxYJeM hmbhhF Element-IconBox"
           >
             <svg
               height="20"
@@ -165,7 +165,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             </svg>
           </span>
           <span
-            class="sc-ilEZpr iqSbgV"
+            class="sc-kJpdyf dtdSQv"
           >
             Oui
           </span>
@@ -175,13 +175,13 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
         class="rs-stack-item"
       >
         <button
-          class="sc-kMrHXi sc-jItqcA bTpYxn dyHcdF Element-Button"
+          class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
           data-testid="yes-no-toogle-no-button"
           style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
           type="button"
         >
           <span
-            class="sc-gLDzao hZRUsu Element-IconBox"
+            class="sc-gxYJeM hmbhhF Element-IconBox"
           >
             <svg
               height="20"
@@ -209,7 +209,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             </svg>
           </span>
           <span
-            class="sc-ilEZpr iqSbgV"
+            class="sc-kJpdyf dtdSQv"
           >
             Non
           </span>
