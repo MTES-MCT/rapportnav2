@@ -21,7 +21,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-kkjMEg sc-grpWxN fNiKIW qoiMj"
+                class="sc-klnyBj sc-kCvKRo bYBvuD dqhaeL"
                 color="#5697D2"
                 font-size="13"
                 weight="bold"
@@ -33,7 +33,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
+                class="sc-klnyBj sc-kCvKRo irSiSP dqhaeL"
                 color="#3B4559"
                 font-size="13"
                 weight="normal"
@@ -62,13 +62,13 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                   class="rs-stack-item"
                 >
                   <button
-                    class="sc-kMrHXi sc-jItqcA bTpYxn dyHcdF Element-Button"
+                    class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
                     data-testid="yes-no-toogle-yes-button"
                     style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                     type="button"
                   >
                     <span
-                      class="sc-gLDzao hZRUsu Element-IconBox"
+                      class="sc-gxYJeM hmbhhF Element-IconBox"
                     >
                       <svg
                         height="20"
@@ -96,7 +96,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                       </svg>
                     </span>
                     <span
-                      class="sc-ilEZpr iqSbgV"
+                      class="sc-kJpdyf dtdSQv"
                     >
                       Oui
                     </span>
@@ -106,13 +106,13 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                   class="rs-stack-item"
                 >
                   <button
-                    class="sc-kMrHXi sc-jItqcA bTpYxn dyHcdF Element-Button"
+                    class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
                     data-testid="yes-no-toogle-no-button"
                     style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                     type="button"
                   >
                     <span
-                      class="sc-gLDzao hZRUsu Element-IconBox"
+                      class="sc-gxYJeM hmbhhF Element-IconBox"
                     >
                       <svg
                         height="20"
@@ -140,7 +140,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                       </svg>
                     </span>
                     <span
-                      class="sc-ilEZpr iqSbgV"
+                      class="sc-kJpdyf dtdSQv"
                     >
                       Non
                     </span>
@@ -192,7 +192,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <p
-              class="sc-kkjMEg sc-grpWxN fNiKIW qoiMj"
+              class="sc-klnyBj sc-kCvKRo bYBvuD dqhaeL"
               color="#5697D2"
               font-size="13"
               weight="bold"
@@ -204,7 +204,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <p
-              class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
+              class="sc-klnyBj sc-kCvKRo irSiSP dqhaeL"
               color="#3B4559"
               font-size="13"
               weight="normal"
@@ -233,13 +233,13 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <button
-                  class="sc-kMrHXi sc-jItqcA bTpYxn dyHcdF Element-Button"
+                  class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
                   data-testid="yes-no-toogle-yes-button"
                   style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                   type="button"
                 >
                   <span
-                    class="sc-gLDzao hZRUsu Element-IconBox"
+                    class="sc-gxYJeM hmbhhF Element-IconBox"
                   >
                     <svg
                       height="20"
@@ -267,7 +267,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="sc-ilEZpr iqSbgV"
+                    class="sc-kJpdyf dtdSQv"
                   >
                     Oui
                   </span>
@@ -277,13 +277,13 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <button
-                  class="sc-kMrHXi sc-jItqcA bTpYxn dyHcdF Element-Button"
+                  class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
                   data-testid="yes-no-toogle-no-button"
                   style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                   type="button"
                 >
                   <span
-                    class="sc-gLDzao hZRUsu Element-IconBox"
+                    class="sc-gxYJeM hmbhhF Element-IconBox"
                   >
                     <svg
                       height="20"
@@ -311,7 +311,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="sc-ilEZpr iqSbgV"
+                    class="sc-kJpdyf dtdSQv"
                   >
                     Non
                   </span>

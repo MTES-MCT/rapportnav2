@@ -78,7 +78,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={'0.5rem'}>
           <Stack.Item>
-            <MissionTargetTitle target={target} vehicleType={vehicleType} />
+            <MissionTargetTitle target={target} vehicleType={vehicleType} targetType={targetType} />
           </Stack.Item>
           <Stack.Item>
             <MissionTargetAction

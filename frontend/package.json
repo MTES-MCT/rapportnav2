@@ -71,15 +71,14 @@
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
     "vite-plugin-eslint2": "^5.0.4",
-    "vite-plugin-pwa": "^1.0.3",
+    "vite-plugin-pwa": "1.0.3",
     "vite-plugin-svgr": "4.5.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
   },
   "overrides": {
     "glob": "^11.0.3",
-    "qs": "6.14.1",
-    "@mtes-mct/monitor-ui": "^24.38.4"
+    "minimatch": "^10.2.1"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.9.6"
