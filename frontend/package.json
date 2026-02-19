@@ -77,7 +77,8 @@
     "vitest": "^3.2.4"
   },
   "overrides": {
-    "glob": "^11.0.3"
+    "glob": "^11.0.3",
+    "minimatch": "^10.2.1"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.9.6"
