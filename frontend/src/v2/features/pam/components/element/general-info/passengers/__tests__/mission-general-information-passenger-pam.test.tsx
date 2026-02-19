@@ -1,7 +1,7 @@
 import { vi } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
+import { render, screen, fireEvent, waitFor } from '../../../../../../../../test-utils.tsx'
 import MissionGeneralInformationCrewPam from '../mission-general-information-passenger-pam.tsx'
-import { MissionPassenger } from '../../../../../common/types/passenger-type.ts'
+import { MissionPassenger } from '../../../../../../common/types/passenger-type.ts'
 
 describe('MissionGeneralInformationCrewPam', () => {
   // Helper function to create mock field array

@@ -19,7 +19,7 @@ import { FC } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
-import { MissionPassenger, PASSENGER_OPTIONS } from '../../../../common/types/passenger-type.ts'
+import { MissionPassenger, PASSENGER_OPTIONS } from '../../../../../common/types/passenger-type.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,

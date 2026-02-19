@@ -8,9 +8,11 @@ import {
   MissionPAMGeneralInfoInitialInput,
   usePamMissionGeneralInfoForm
 } from '../../../hooks/use-pam-mission-general-information-form.tsx'
-import MissionGeneralInformationCrewPam from './mission-general-information-crew-pam.tsx'
+import MissionGeneralInformationCrewPam from './crew/mission-general-information-crew-pam.tsx'
 import MissionService from './mission-service.tsx'
-import MissionGeneralInformationPassengerPam from './mission-general-information-passenger-pam.tsx'
+import MissionGeneralInformationPassengerPam from './passengers/mission-general-information-passenger-pam.tsx'
+import { FormikNumberInputDelay } from '../../../../common/components/ui/formik-number-input-delay.tsx'
+import { FormikTextareaInputDelay } from '../../../../common/components/ui/formik-text-area-delay.tsx'
 
 const MissionGeneralInformationFormPam: FC<{
   generalInfo2: MissionGeneralInfo2
@@ -102,37 +104,52 @@ const MissionGeneralInformationFormPam: FC<{
                     style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
                   >
                     <Stack.Item style={{ flex: 1 }}>
-                      <FormikNumberInput
-                        label="Distance parcourue en milles"
-                        name="distanceInNauticalMiles"
-                        role="distanceInNauticalMiles"
-                        isRequired={true}
-                        placeholder="0"
-                        isLight={true}
-                        isErrorMessageHidden={true}
-                      />
+                      <Field name="distanceInNauticalMiles">
+                        {(field: FieldProps<number>) => (
+                          <FormikNumberInputDelay
+                            fieldFormik={field}
+                            label="Distance parcourue en milles"
+                            name="distanceInNauticalMiles"
+                            role="distanceInNauticalMiles"
+                            isRequired={true}
+                            placeholder="0"
+                            isLight={true}
+                            isErrorMessageHidden={true}
+                          />
+                        )}
+                      </Field>
                     </Stack.Item>
                     <Stack.Item style={{ flex: 1 }}>
-                      <FormikNumberInput
-                        label="GO marine consommé en litres"
-                        name="consumedGOInLiters"
-                        role="consumedGOInLiters"
-                        isRequired={true}
-                        placeholder="0"
-                        isLight={true}
-                        isErrorMessageHidden={true}
-                      />
+                      <Field name="consumedGOInLiters">
+                        {(field: FieldProps<number>) => (
+                          <FormikNumberInputDelay
+                            fieldFormik={field}
+                            label="GO marine consommé en litres"
+                            name="consumedGOInLiters"
+                            role="consumedGOInLiters"
+                            isRequired={true}
+                            placeholder="0"
+                            isLight={true}
+                            isErrorMessageHidden={true}
+                          />
+                        )}
+                      </Field>
                     </Stack.Item>
                     <Stack.Item style={{ flex: 1 }}>
-                      <FormikNumberInput
-                        label="Essence consommée en litres"
-                        name="consumedFuelInLiters"
-                        role="consumedFuelInLiters"
-                        isRequired={true}
-                        placeholder="0"
-                        isLight={true}
-                        isErrorMessageHidden={true}
-                      />
+                      <Field name="consumedFuelInLiters">
+                        {(field: FieldProps<number>) => (
+                          <FormikNumberInputDelay
+                            fieldFormik={field}
+                            label="Essence consommée en litres"
+                            name="consumedFuelInLiters"
+                            role="consumedFuelInLiters"
+                            isRequired={true}
+                            placeholder="0"
+                            isLight={true}
+                            isErrorMessageHidden={true}
+                          />
+                        )}
+                      </Field>
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
@@ -146,47 +163,67 @@ const MissionGeneralInformationFormPam: FC<{
                     style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
                   >
                     <Stack.Item style={{ flex: 1 }}>
-                      <FormikNumberInput
-                        label="Fonctionnement courant (€)"
-                        name="operatingCostsInEuro"
-                        role="operatingCostsInEuro"
-                        placeholder="0"
-                        isLight={true}
-                        isErrorMessageHidden={true}
-                      />
+                      <Field name="operatingCostsInEuro">
+                        {(field: FieldProps<number>) => (
+                          <FormikNumberInputDelay
+                            fieldFormik={field}
+                            label="Fonctionnement courant (€)"
+                            name="operatingCostsInEuro"
+                            role="operatingCostsInEuro"
+                            placeholder="0"
+                            isLight={true}
+                            isErrorMessageHidden={true}
+                          />
+                        )}
+                      </Field>
                     </Stack.Item>
                     <Stack.Item style={{ flex: 1 }}>
-                      <FormikNumberInput
-                        label="Carburant GO/essence (€)"
-                        name="fuelCostsInEuro"
-                        role="fuelCostsInEuro"
-                        placeholder="0"
-                        isLight={true}
-                        isErrorMessageHidden={true}
-                      />
+                      <Field name="fuelCostsInEuro">
+                        {(field: FieldProps<number>) => (
+                          <FormikNumberInputDelay
+                            fieldFormik={field}
+                            label="Carburant GO/essence (€)"
+                            name="fuelCostsInEuro"
+                            role="fuelCostsInEuro"
+                            placeholder="0"
+                            isLight={true}
+                            isErrorMessageHidden={true}
+                          />
+                        )}
+                      </Field>
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikNumberInput
-                    isLight={false}
-                    isRequired={true}
-                    name="nbrOfRecognizedVessel"
-                    data-testid="mission-information-general-recognized-vessel"
-                    label="Nombre total de navires reconnus dans les approches maritimes ZEE"
-                    isErrorMessageHidden={true}
-                  />
+                  <Field name="nbrOfRecognizedVessel">
+                    {(field: FieldProps<number>) => (
+                      <FormikNumberInputDelay
+                        fieldFormik={field}
+                        isLight={false}
+                        isRequired={true}
+                        name="nbrOfRecognizedVessel"
+                        data-testid="mission-information-general-recognized-vessel"
+                        label="Nombre total de navires reconnus dans les approches maritimes ZEE"
+                        isErrorMessageHidden={true}
+                      />
+                    )}
+                  </Field>
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea
-                    isLight={false}
-                    name="observations"
-                    data-testid="mission-general-observation"
-                    label="Observation générale à l'échelle de la mission (remarques, résumé)"
-                    isErrorMessageHidden={true}
-                  />
+                  <Field name="observations">
+                    {(field: FieldProps<string>) => (
+                      <FormikTextareaInputDelay
+                        fieldFormik={field}
+                        isLight={false}
+                        name="observations"
+                        data-testid="mission-general-observation"
+                        label="Observation générale à l'échelle de la mission (remarques, résumé)"
+                        isErrorMessageHidden={true}
+                      />
+                    )}
+                  </Field>
                 </Stack.Item>
               </Stack>
             </>

@@ -8,11 +8,11 @@ import {
   MissionCrewStack,
   MissionCrewTitleLabel,
   MissionCrewUnderlineStack
-} from '../../../../mission-general-infos/ui/mission-crew-list.tsx'
-import { MissionPassenger } from '../../../../common/types/passenger-type.ts'
+} from '../../../../../mission-general-infos/ui/mission-crew-list.tsx'
+import { MissionPassenger } from '../../../../../common/types/passenger-type.ts'
 import MissionGeneralInformationPassengerPamForm from './mission-general-information-passenger-pam-form.tsx'
 import { THEME } from '@mtes-mct/monitor-ui'
-import MissionPassengerListItemPam from '../../ui/mission-passenger-list-item-pam.tsx'
+import MissionPassengerListItemPam from '../../../ui/mission-passenger-list-item-pam.tsx'
 
 interface MissionGeneralInformationCrewPamProps {
   name: string

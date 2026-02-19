@@ -2,7 +2,7 @@ import MissionService, { MissionServiceProps } from '../mission-service.tsx'
 import { render, screen } from '../../../../../../../test-utils.tsx'
 import { Formik } from 'formik'
 import { vi } from 'vitest'
-import { Service } from '@common/types/service-types.ts'
+import { Service } from '../../../../../common/types/service-types.ts'
 
 const component = (props: MissionServiceProps) => (
   <Formik

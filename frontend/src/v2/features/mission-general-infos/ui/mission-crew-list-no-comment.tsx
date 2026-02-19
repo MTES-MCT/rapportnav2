@@ -1,11 +1,11 @@
 import { FlexboxGrid, Stack } from 'rsuite'
-import { MissionCrewMember } from '../../common/types/crew-type.ts'
+import { MissionCrew } from '../../common/types/crew-type.ts'
 import { MissionCrewDeleteIconButton, MissionCrewEditIconButton, MissionCrewMemberText } from './mission-crew-list.tsx'
 
 interface MissionCrewListNoCommentProps {
   index: number
   name: string
-  crewMember: MissionCrewMember
+  crewMember: MissionCrew
   handleEdit: (index: number) => void
   handleDelete: (index: number) => void
 }

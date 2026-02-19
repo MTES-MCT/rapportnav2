@@ -28,10 +28,6 @@ export const agentRolesKeys = {
   all: () => ['agentRoles'] as const
 }
 
-export const agentServicesKeys = {
-  all: () => ['agentServices'] as const
-}
-
 export const agentsKeys = {
   all: () => ['agents'] as const
 }
