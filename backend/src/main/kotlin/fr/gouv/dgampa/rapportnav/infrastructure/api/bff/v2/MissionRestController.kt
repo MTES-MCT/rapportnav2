@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission
@@ -93,10 +94,11 @@ class MissionRestController(
     fun getMissionById(
         @PathVariable(name = "missionId") missionId: String
     ): Mission {
+        val controlUnitId = getServiceForUser.execute()?.controlUnits?.get(0)
         val mission = if (isValidUUID(missionId)) {
             getComputeNavMission.execute(missionId = UUID.fromString(missionId))
         } else {
-            getComputeEnvMission.execute(missionId = Integer.valueOf(missionId))
+            getComputeEnvMission.execute(missionId = Integer.valueOf(missionId), controlUnitId = controlUnitId)
         }
         return Mission.fromMissionEntity(mission)
     }
@@ -142,7 +144,7 @@ class MissionRestController(
     @Operation(summary = "Delete a mission created by the unit")
     @ApiResponse(responseCode = "404", description = "Could not delete mission", content = [Content()])
     fun delete(
-        @PathVariable(name = "missionId") missionId: String
+        @PathVariable missionId: String
     ) {
         val serviceId = getServiceForUser.execute()?.id
         if (isValidUUID(missionId)) {
