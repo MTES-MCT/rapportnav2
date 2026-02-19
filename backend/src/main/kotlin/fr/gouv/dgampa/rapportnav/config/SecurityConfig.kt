@@ -94,21 +94,20 @@ class SecurityConfig(
         http.headers { headers ->
             headers
                 .contentSecurityPolicy { csp ->
-                    // Updated CSP to allow base64 fonts
                     csp.policyDirectives(
                         "default-src 'self'; " +
-                            "script-src 'self' 'unsafe-inline' https://github.com; " +
+                            "script-src 'self'; " +
                             "style-src 'self' 'unsafe-inline'; " +
                             "style-src-elem 'self' 'unsafe-inline'; " +
                             "img-src 'self'; " +
-                            "font-src 'self' data:; " + // Allow base64-encoded fonts
+                            "font-src 'self' data:; " +
                             "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr; " +
-                            "frame-src 'self'; " +
+                            "frame-src 'none'; " +
                             "base-uri 'self'; " +
                             "frame-ancestors 'none'; " +
                             "form-action 'self'; " +
                             "object-src 'none'; " +
-                            "require-trusted-types-for 'script';"
+                            "upgrade-insecure-requests;"
                     )
                 }
                 .frameOptions { frame ->
