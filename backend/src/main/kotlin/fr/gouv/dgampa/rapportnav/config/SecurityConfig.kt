@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter
 
 /**
  * This class sets all security related configuration.
@@ -82,29 +83,39 @@ class SecurityConfig(
                 .anyRequest().authenticated()
         }
 
-        // Add security headers (CSP and frame options)
+        // Add security headers
+        // Note: FrontendRoutesController also sets CSP with nonce for HTML responses
         http.headers { headers ->
             headers
+                .frameOptions { frame ->
+                    frame.deny() // prevent clickjacking
+                }
+                .contentTypeOptions { } // X-Content-Type-Options: nosniff - prevents MIME-sniffing attacks
+                .httpStrictTransportSecurity { hsts ->
+                    hsts
+                        .includeSubDomains(true)
+                        .maxAgeInSeconds(63072000) // 2 years (OWASP recommendation)
+                }
+                .referrerPolicy { referrer ->
+                    // set strict origin policy
+                    referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+                }
+                .permissionsPolicyHeader { permissions ->
+                    // security in depth - reduce attack surface
+                    // prevent xss via these APIs
+                    permissions.policy("geolocation=(), camera=(), microphone=()")
+                }
                 .contentSecurityPolicy { csp ->
-                    // Updated CSP to allow base64 fonts
+                    // CSP for API responses (defense in depth)
+                    // Note: HTML responses get a more specific CSP with nonce from FrontendRoutesController
+                    val upgradeInsecure = if (System.getenv("ENV_PROFILE") == "prod") "; upgrade-insecure-requests" else ""
                     csp.policyDirectives(
                         "default-src 'self'; " +
-                            "script-src 'self' 'unsafe-inline' https://github.com; " +
-                            "style-src 'self' 'unsafe-inline'; " +
-                            "style-src-elem 'self' 'unsafe-inline'; " +
-                            "img-src 'self'; " +
-                            "font-src 'self' data:; " + // Allow base64-encoded fonts
-                            "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr; " +
-                            "frame-src 'self'; " +
-                            "base-uri 'self'; " +
-                            "frame-ancestors 'none'; " +
-                            "form-action 'self'; " +
-                            "object-src 'none'; " +
-                            "require-trusted-types-for 'script';"
+                        "script-src 'self'; " +
+                        "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr; " +
+                        "frame-ancestors 'none'" +
+                        upgradeInsecure
                     )
-                }
-                .frameOptions { frame ->
-                    frame.deny() // Prevent clickjacking
                 }
         }
 
