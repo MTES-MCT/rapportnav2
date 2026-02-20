@@ -11,22 +11,27 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 
 /**
  * This class sets all security related configuration.
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = false)
 class SecurityConfig(
     private val customAuthenticationFilter: CustomAuthenticationFilter,
     private val apiKeyAuthFilter: ApiKeyAuthenticationFilter,
     private val sentryUserContextFilter: SentryUserContextFilter
 ) {
 
+    /**
+     * Security filter for API key authenticated endpoints (backend-to-backend calls).
+     * CSRF is disabled because:
+     * 1. API keys are sent via headers, not cookies
+     * 2. This is server-to-server communication, not browser-based
+     * 3. Session is stateless (no cookies to exploit)
+     */
     @Bean
     @Order(1)
-    // api-key filter
     fun apiKeySecurityFilter(http: HttpSecurity): SecurityFilterChain {
         http
             .securityMatcher("/api/analytics/**")
@@ -56,27 +61,14 @@ class SecurityConfig(
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         }
 
-//        val requestHandler = CsrfTokenRequestAttributeHandler()
-//        requestHandler.setCsrfRequestAttributeName(null)
-        val csrfTokenRequestHandler = SpaCsrfTokenRequestHandler()
-
-        // Configure the CSRF token repository with cookie customization
-        val csrfTokenRepository = CookieCsrfTokenRepository
-            .withHttpOnlyFalse() // keep token accessible from js
-
-        // Apply CSRF configuration
+        // CSRF protection is intentionally disabled for the following reasons:
+        // 1. This API uses stateless JWT Bearer token authentication
+        // 2. Tokens are sent via Authorization header, not cookies
+        // 3. Browsers don't automatically include Authorization headers in cross-origin requests
+        // 4. Session management is STATELESS (no JSESSIONID cookies)
+        // See: https://security.stackexchange.com/questions/170388/
         http.csrf { csrf ->
             csrf.disable()
-//            csrf.csrfTokenRepository(csrfTokenRepository)
-//                .csrfTokenRequestHandler(csrfTokenRequestHandler)
-            //            .apply {
-//                setCookieCustomizer { cookie ->
-//                    cookie.path("/")  // Makes the cookie available for all paths
-//                    cookie.secure(true) // Use secure cookies for all
-//                    cookie.maxAge(-1) // Default: Session cookie
-//                    cookie.sameSite(SameSite.LAX.name) // SameSite policy: Lax
-//                }
-//            }
         }
 
         // route authorizations - Updated for Spring Boot 3.5.0
