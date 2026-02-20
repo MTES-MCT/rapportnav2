@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.67.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.66.1...frontend@v2.67.0) (2026-02-20)
+
+
+### Features
+
+* **frontend:** nb target fix action targe type ([5f4da49](https://github.com/MTES-MCT/rapportnav2/commit/5f4da4901650fb358ab9c849741c1c155296f2f5))
+
+
+### Bug Fixes
+
+* **frontend:** build ([92003f1](https://github.com/MTES-MCT/rapportnav2/commit/92003f18da28ba1f5522456e4a7bbdfc2a33fce2))
+* **frontend:** packages building ([ff70915](https://github.com/MTES-MCT/rapportnav2/commit/ff70915d810e350a6bc90d92bbccf15c7f073a9e))
+* **frontend:** packages fix ([18fb2f4](https://github.com/MTES-MCT/rapportnav2/commit/18fb2f4b66cae737108dd7796851cacf15507bc9))
+* **frontend:** update  snapshot  due to monitor-ui ([2102018](https://github.com/MTES-MCT/rapportnav2/commit/2102018b49eeb8dc315362ead5fc5a3fb76873c7))
+
 ## [2.66.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.66.0...frontend@v2.66.1) (2026-02-18)
 
 
