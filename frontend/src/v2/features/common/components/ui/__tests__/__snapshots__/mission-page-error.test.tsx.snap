@@ -17,13 +17,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             style="max-width: 33%;"
           >
             <p
-              class="sc-kkjMEg sc-iJQrDi dBLXFG dYkApI"
+              class="sc-klnyBj sc-gqGJVp irSiSP QLxWw"
               font-size="16"
             >
               Une erreur est survenue
             </p>
             <p
-              class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
+              class="sc-klnyBj sc-kCvKRo irSiSP dqhaeL"
               font-size="13"
             >
               this is and error
@@ -33,11 +33,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <button
-              class="sc-kMrHXi sc-jItqcA fQGaHt dyHcdF Element-Button"
+              class="sc-dyTUbG sc-dzbdsI dxHepF jCpAtP Element-Button"
               type="button"
             >
               <span
-                class="sc-ilEZpr iqSbgV"
+                class="sc-kJpdyf dtdSQv"
               >
                 Retourner à l'accueil
               </span>
@@ -82,13 +82,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           style="max-width: 33%;"
         >
           <p
-            class="sc-kkjMEg sc-iJQrDi dBLXFG dYkApI"
+            class="sc-klnyBj sc-gqGJVp irSiSP QLxWw"
             font-size="16"
           >
             Une erreur est survenue
           </p>
           <p
-            class="sc-kkjMEg sc-grpWxN dBLXFG qoiMj"
+            class="sc-klnyBj sc-kCvKRo irSiSP dqhaeL"
             font-size="13"
           >
             this is and error
@@ -98,11 +98,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-kMrHXi sc-jItqcA fQGaHt dyHcdF Element-Button"
+            class="sc-dyTUbG sc-dzbdsI dxHepF jCpAtP Element-Button"
             type="button"
           >
             <span
-              class="sc-ilEZpr iqSbgV"
+              class="sc-kJpdyf dtdSQv"
             >
               Retourner à l'accueil
             </span>

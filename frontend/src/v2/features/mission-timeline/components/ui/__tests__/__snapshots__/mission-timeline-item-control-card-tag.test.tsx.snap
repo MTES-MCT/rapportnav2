@@ -7,7 +7,7 @@ exports[`MissionTimelineItemControlCardTag > matches snapshot 1`] = `
     <div>
       <div>
         <span
-          class="sc-iMfspz sc-jfSnVt iTBfrD bzXITp Element-Tag"
+          class="sc-gAigJH sc-gCkVGh bKSPNm kvmABs Element-Tag"
           style="margin-right: 0.5rem;"
         >
           Hello
@@ -40,7 +40,7 @@ exports[`MissionTimelineItemControlCardTag > matches snapshot 1`] = `
   "container": <div>
     <div>
       <span
-        class="sc-iMfspz sc-jfSnVt iTBfrD bzXITp Element-Tag"
+        class="sc-gAigJH sc-gCkVGh bKSPNm kvmABs Element-Tag"
         style="margin-right: 0.5rem;"
       >
         Hello

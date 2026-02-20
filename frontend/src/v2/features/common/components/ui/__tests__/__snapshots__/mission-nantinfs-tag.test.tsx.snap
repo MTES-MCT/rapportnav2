@@ -6,10 +6,10 @@ exports[`MissionNatinfTag > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <span
-        class="sc-iMfspz sc-jfSnVt iTBfrD bzXITp Element-Tag"
+        class="sc-gAigJH sc-gCkVGh bKSPNm kvmABs Element-Tag"
       >
         <p
-          class="sc-kkjMEg sc-grpWxN bQpTaT qoiMj"
+          class="sc-klnyBj sc-kCvKRo jDGdca dqhaeL"
           font-size="13"
           weight="medium"
         >
@@ -42,10 +42,10 @@ exports[`MissionNatinfTag > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <span
-      class="sc-iMfspz sc-jfSnVt iTBfrD bzXITp Element-Tag"
+      class="sc-gAigJH sc-gCkVGh bKSPNm kvmABs Element-Tag"
     >
       <p
-        class="sc-kkjMEg sc-grpWxN bQpTaT qoiMj"
+        class="sc-klnyBj sc-kCvKRo jDGdca dqhaeL"
         font-size="13"
         weight="medium"
       >

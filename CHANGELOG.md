@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.66.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.66.0...docker-container@v2.66.1) (2026-02-18)
+
+
+### Bug Fixes
+
+* **Sentry:** reset proxy manually ([2cd9fd7](https://github.com/MTES-MCT/rapportnav2/commit/2cd9fd7a8512fc1bf9edd20265039b172d391bbb))
+
 ## [2.66.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.65.0...docker-container@v2.66.0) (2026-02-17)
 
 
