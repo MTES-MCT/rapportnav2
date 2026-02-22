@@ -2,10 +2,12 @@ package fr.gouv.dgampa.rapportnav
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import fr.gouv.dgampa.rapportnav.config.WireMockConfig
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cache.annotation.EnableCaching
 
+private val logger = LoggerFactory.getLogger(RapportNavApplication::class.java)
 
 @SpringBootApplication
 @EnableCaching
@@ -24,7 +26,7 @@ fun main(args: Array<String>) {
 
         Runtime.getRuntime().addShutdownHook(Thread {
             wireMockServer.stop()
-            println("WireMock server stopped")
+            logger.info("WireMock server stopped")
         })
     }
 }
