@@ -331,12 +331,12 @@ class SecurityConfigIntegrationTest {
 
         @Test
         @WithMockUser
-        fun `CSP should include trusted-types directive`() {
+        fun `CSP should include upgrade-insecure-requests directive`() {
             mockMvc.perform(get("/api/v2/missions"))
                 .andExpect { result ->
                     val cspHeader = result.response.getHeader("Content-Security-Policy")
                     assertNotNull(cspHeader)
-                    assertTrue(cspHeader!!.contains("require-trusted-types-for"), "CSP should contain trusted-types directive")
+                    assertTrue(cspHeader!!.contains("upgrade-insecure-requests"), "CSP should contain upgrade-insecure-requests directive")
                 }
         }
 
