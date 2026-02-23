@@ -42,7 +42,6 @@ RUN apk update && \
 COPY backend/build/libs/rapportnav-${VERSION}.jar /home/rapportnav
 COPY infra/configurations/backend /home/rapportnav/configurations/
 
-
 RUN mkdir /home/rapportnav/public
 COPY frontend/dist /home/rapportnav/public/
 
@@ -54,5 +53,4 @@ RUN mkdir /home/rapportnav/logs
 ENV STATIC_FILES_PATH=/home/rapportnav/public
 
 # Print env vars and then start the application using exec form
-# CMD ["/bin/sh", "-c", "echo ENV_PROFILE: $ENV_PROFILE && echo VERSION: $VERSION && exec java -Dspring.config.additional-location=/home/rapportnav/configurations/ -Dspring.profiles.active=$ENV_PROFILE -jar /home/rapportnav/rapportnav-${VERSION}.jar"]
-CMD ["/bin/sh", "-c", "echo ENV_PROFILE: $ENV_PROFILE && echo VERSION: $VERSION && exec java -Dspring.profiles.active=$ENV_PROFILE -jar /home/rapportnav/rapportnav-${VERSION}.jar"]
+CMD ["/bin/sh", "-c", "echo ENV_PROFILE: $ENV_PROFILE && echo VERSION: $VERSION && exec java -Dspring.config.additional-location=/home/rapportnav/configurations/ -Dspring.profiles.active=$ENV_PROFILE -jar /home/rapportnav/rapportnav-${VERSION}.jar"]

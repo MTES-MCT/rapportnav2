@@ -62,7 +62,6 @@ class APIFishActionRepository(
         if (output.isEmpty()) {
             val message = "APIFishActionRepository.findFishActions returned 0 actions for missionId=$missionId"
             logger.warn(message)
-            Sentry.captureMessage(message, SentryLevel.WARNING)
         }
 
         return output.map { it.toMissionAction() }
