@@ -43,6 +43,10 @@ class SentryConfig {
                 options.environment = sentryEnvironment
                 options.isDebug = sentryDebug
                 options.tracesSampleRate = tracesSampleRate
+                options.proxy = SentryOptions.Proxy(
+                    System.getenv("PROXY_HOST"),
+                    System.getenv("PROXY_PORT"),
+                )
             }
             logger.info(">>> SENTRY CONFIG: Sentry initialized manually, isEnabled = ${Sentry.isEnabled()}")
         } else {

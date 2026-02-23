@@ -4,6 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
+import org.slf4j.LoggerFactory
+import org.springframework.security.oauth2.jwt.*
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.JwtClaimsSet
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -25,6 +27,7 @@ class TokenService(
     private val jwtEncoder: JwtEncoder,
     private val userRepository: IUserRepository,
 ) {
+    private val logger = LoggerFactory.getLogger(TokenService::class.java)
     fun createToken(user: User): String {
         val jwsHeader = JwsHeader.with { "HS256" }.build()
         val claims = this.getClaims(user);

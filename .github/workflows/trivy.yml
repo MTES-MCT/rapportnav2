@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Trivy on OS
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.34.0
         with:
           scan-type: "fs"
           ignore-unfixed: true
@@ -47,7 +47,7 @@ jobs:
           category: "trivy-os"
 
       - name: Run Trivy on libraries
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.34.0
         with:
           scan-type: "fs"
           ignore-unfixed: true
@@ -63,7 +63,7 @@ jobs:
           category: "trivy-libs"
 
       - name: Run Trivy on IaC/Config (Dockerfiles, docker-compose)
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.34.0
         with:
           scan-type: "config"
           format: "sarif"
@@ -77,7 +77,7 @@ jobs:
           category: "trivy-config"
 
       - name: Run Trivy on Postgres image
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.34.0
         with:
           image-ref: "postgres:15.15-alpine"
           format: "sarif"

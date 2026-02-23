@@ -81,6 +81,10 @@ export default defineConfig({
   ],
   server: {
     host: true,
+    sourcemapIgnoreList(sourcePath) {
+      // Ignore source map warnings for node_modules packages
+      return sourcePath.includes('node_modules')
+    },
     proxy: {
       '/api': 'http://localhost:80',
       '/graphql': 'http://localhost:80'

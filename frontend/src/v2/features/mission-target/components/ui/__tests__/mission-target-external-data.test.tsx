@@ -120,9 +120,9 @@ describe('MissionTargetTitle', () => {
           externalData: {
             id: '3',
             nbTarget
-          },
-          targetType: TargetType.VEHICLE
+          }
         }}
+        targetType={TargetType.VEHICLE}
         vehicleType={VehicleTypeEnum.VEHICLE_AIR}
       />
     )
@@ -141,9 +141,9 @@ describe('MissionTargetTitle', () => {
           externalData: {
             id: '3',
             nbTarget
-          },
-          targetType: TargetType.COMPANY
+          }
         }}
+        targetType={TargetType.COMPANY}
       />
     )
     expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())
@@ -161,9 +161,9 @@ describe('MissionTargetTitle', () => {
           externalData: {
             id: '3',
             nbTarget
-          },
-          targetType: TargetType.INDIVIDUAL
+          }
         }}
+        targetType={TargetType.INDIVIDUAL}
       />
     )
     expect(screen.getByTestId('target-tag').textContent).toBe(nbTarget.toString())

@@ -1,88 +1,79 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
-import fr.gouv.dgampa.rapportnav.RapportNavApplication
-import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionGeneralInfoRestController
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration
-import org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
-import org.springframework.http.MediaType
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.mockito.kotlin.never
+import org.mockito.kotlin.verify
 import java.util.*
 
-@AutoConfigureMockMvc(addFilters = false)
-@ContextConfiguration(classes = [RapportNavApplication::class])
-@WebMvcTest(MissionGeneralInfoRestController::class)
-@ImportAutoConfiguration(CacheAutoConfiguration::class)
 class MissionGeneralInfoRestControllerTest {
 
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-
-    @MockitoBean
-    private lateinit var updateGeneralInfo: UpdateGeneralInfo
-
-    @MockitoBean
-    private lateinit var tokenService: TokenService
-
-    @MockitoBean
-    private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
+    private val updateGeneralInfo: UpdateGeneralInfo = mock()
+    private val controller = MissionGeneralInfoRestController(updateGeneralInfo)
 
     @Test
     fun `update should return updated general info for integer missionId`() {
         val missionId = 123
+        val generalInfo = MissionGeneralInfo2(missionId = missionId)
         val entity = MissionGeneralInfoEntityMock.create(missionId = missionId)
-        val result = MissionGeneralInfoEntity2(
+        val expectedResult = MissionGeneralInfoEntity2(
             data = entity,
             crew = emptyList(),
             passengers = emptyList()
         )
 
-        `when`(updateGeneralInfo.execute(missionId = eq(missionId), generalInfo = anyOrNull())).thenReturn(result)
+        `when`(updateGeneralInfo.execute(missionId = eq(missionId), generalInfo = any())).thenReturn(expectedResult)
 
-        mockMvc.perform(
-            put("/api/v2/missions/$missionId/general_infos")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""{"missionId": $missionId}""")
-        )
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.data.missionId").value(missionId))
+        val result = controller.update(missionId.toString(), generalInfo)
+
+        assertEquals(expectedResult, result)
+        verify(updateGeneralInfo).execute(missionId = eq(missionId), generalInfo = any())
     }
 
     @Test
     fun `update should return updated general info for UUID missionId`() {
         val missionIdUUID = UUID.randomUUID()
+        val generalInfo = MissionGeneralInfo2(missionIdUUID = missionIdUUID)
         val entity = MissionGeneralInfoEntityMock.create(missionIdUUID = missionIdUUID)
-        val result = MissionGeneralInfoEntity2(
+        val expectedResult = MissionGeneralInfoEntity2(
             data = entity,
             crew = emptyList(),
             passengers = emptyList()
         )
 
-        `when`(updateGeneralInfo.execute(missionIdUUID = eq(missionIdUUID), generalInfo = anyOrNull())).thenReturn(result)
+        `when`(updateGeneralInfo.execute(missionIdUUID = eq(missionIdUUID), generalInfo = any())).thenReturn(expectedResult)
 
-        mockMvc.perform(
-            put("/api/v2/missions/$missionIdUUID/general_infos")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""{"missionIdUUID": "$missionIdUUID"}""")
-        )
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.data.missionIdUUID").value(missionIdUUID.toString()))
+        val result = controller.update(missionIdUUID.toString(), generalInfo)
+
+        assertEquals(expectedResult, result)
+        verify(updateGeneralInfo).execute(missionIdUUID = eq(missionIdUUID), generalInfo = any())
     }
 
+    @Test
+    fun `update should throw BackendUsageException for invalid missionId format`() {
+        val invalidMissionId = "not-a-uuid-or-integer"
+        val generalInfo = MissionGeneralInfo2()
+
+        val exception = assertThrows<BackendUsageException> {
+            controller.update(invalidMissionId, generalInfo)
+        }
+
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
+        assertEquals("Invalid missionId format: must be a valid UUID or integer", exception.message)
+
+        verify(updateGeneralInfo, never()).execute(missionId = any<Int>(), generalInfo = any())
+        verify(updateGeneralInfo, never()).execute(missionIdUUID = any<UUID>(), generalInfo = any())
+    }
 }

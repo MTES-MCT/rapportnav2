@@ -8,19 +8,20 @@ import { Target, TargetType } from '../../../common/types/target-types'
 
 interface MissionTargetTitleProps {
   target?: Target
+  targetType?: TargetType
   vehicleType?: VehicleTypeEnum
 }
 
-const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, vehicleType }) => {
+const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, targetType, vehicleType }) => {
   const { getVesselTypeName } = useVessel()
   const { getVehiculeType } = useVehicule()
   const [title, setTitle] = useState<string>()
   const [nbTarget, setNbTarget] = useState<number>(1)
 
-  const getTitleGroup = (target?: Target, vehicle?: string) => {
-    const isVehicle = target?.targetType === TargetType.VEHICLE
-    const identifier = target?.targetType === TargetType.COMPANY ? 'morales' : 'physiques'
-    return `${isVehicle ? vehicle : ''}${!isVehicle ? `personnes ${identifier}` : ''} en infraction`
+  const getTitleGroup = (vehicle?: string) => {
+    const isVehicle = targetType === TargetType.VEHICLE
+    const identifier = targetType === TargetType.COMPANY ? 'morales' : 'physiques'
+    return `${isVehicle ? `${vehicle}` : ''}${!isVehicle ? `personnes ${identifier}` : ''} en infraction`
   }
 
   const getTitleSingle = (target?: Target, vehicle?: string) => {
@@ -31,7 +32,7 @@ const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, vehicle
 
   const getTitle = (target?: Target, vehicleType?: VehicleTypeEnum): string => {
     const vehicle = getVehiculeType(vehicleType)
-    return (target?.externalData?.nbTarget ?? 0) > 1 ? getTitleGroup(target, vehicle) : getTitleSingle(target, vehicle)
+    return (target?.externalData?.nbTarget ?? 0) > 1 ? getTitleGroup(vehicle) : getTitleSingle(target, vehicle)
   }
 
   useEffect(() => {
