@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.67.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.67.0...docker-container@v2.67.1) (2026-02-23)
+
+
+### Bug Fixes
+
+* **docker:** really set spring.config.additional-location at jar exec ([be19766](https://github.com/MTES-MCT/rapportnav2/commit/be197662799147bc94758d6685752dda13253f31))
+
 ## [2.67.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.66.1...docker-container@v2.67.0) (2026-02-23)
 
 
