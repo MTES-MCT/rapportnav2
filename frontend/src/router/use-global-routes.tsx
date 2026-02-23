@@ -7,6 +7,7 @@ import { OwnerType } from '../v2/features/common/types/owner-type'
 import { RoleType } from '../v2/features/common/types/role-type'
 import { State, store } from '../v2/store'
 import { setModuleType } from '../v2/store/slices/module-reducer'
+import { loadImpersonationFromStorage } from '../v2/store/slices/impersonation-reducer'
 import { LOGIN_PATH } from './routes'
 
 type SidebarItem = {
@@ -74,18 +75,29 @@ export function useGlobalRoutes(): RouteHook {
     return url
   }
 
-  const getModuleType = (roles?: RoleType[]) => {
+  const getModuleTypeFromRoles = (roles?: RoleType[]) => {
     if (roles?.includes(RoleType.USER_PAM)) return ModuleType.PAM
     if (roles?.includes(RoleType.USER_ULAM)) return ModuleType.ULAM
     if (roles?.includes(RoleType.ADMIN)) return ModuleType.ADMIN
     return ModuleType.PAM
   }
 
+  const getModuleTypeFromImpersonation = (): ModuleType | null => {
+    const impersonation = loadImpersonationFromStorage()
+    if (impersonation.isImpersonating && impersonation.targetServiceType) {
+      return impersonation.targetServiceType === 'PAM' ? ModuleType.PAM : ModuleType.ULAM
+    }
+    return null
+  }
+
   useEffect(() => {
     const getUrl = () => {
       if (!isAuthenticated) return LOGIN_PATH
       const user = isLoggedIn()
-      const moduleType = getModuleType(user?.roles)
+
+      // Check if impersonating - use impersonated service type
+      const impersonatedModuleType = getModuleTypeFromImpersonation()
+      const moduleType = impersonatedModuleType ?? getModuleTypeFromRoles(user?.roles)
       const page = moduleType === ModuleType.ADMIN ? '' : '/missions'
       const homeUrl = `/${moduleType}${page}`
 
@@ -98,16 +110,30 @@ export function useGlobalRoutes(): RouteHook {
     setHomeUrl(getUrl())
   }, [isAuthenticated, isLoggedIn])
 
-  const getSideBar = (sideBar: SidebarItem, roles?: RoleType[]) => {
-    const module = roles?.includes(RoleType.USER_ULAM) ? ModuleType.ULAM : ModuleType.PAM
-    return { ...sideBar, url: `/${module}${sideBar.url}` }
+  const getSideBar = (sideBar: SidebarItem, moduleType: ModuleType) => {
+    return { ...sideBar, url: `/${moduleType}${sideBar.url}` }
   }
 
   const getSidebarItems = () => {
     const roles = isLoggedIn()?.roles
-    const SIDEBAR_ITEMS = [getSideBar(MISSION_SIDEBAR, roles)]
-    if (roles?.includes(RoleType.USER_ULAM)) SIDEBAR_ITEMS.push(getSideBar(INQUIRY_SIDEBAR, roles))
-    if (roles?.includes(RoleType.ADMIN)) SIDEBAR_ITEMS.push(ADMIN_SIDEBAR)
+
+    // Check if impersonating - use impersonated service type for sidebar
+    const impersonatedModuleType = getModuleTypeFromImpersonation()
+    const isImpersonating = impersonatedModuleType !== null
+    const effectiveModuleType = impersonatedModuleType ?? (roles?.includes(RoleType.USER_ULAM) ? ModuleType.ULAM : ModuleType.PAM)
+
+    const SIDEBAR_ITEMS = [getSideBar(MISSION_SIDEBAR, effectiveModuleType)]
+
+    // Show inquiries for ULAM (either by role or impersonation)
+    if (effectiveModuleType === ModuleType.ULAM) {
+      SIDEBAR_ITEMS.push(getSideBar(INQUIRY_SIDEBAR, effectiveModuleType))
+    }
+
+    // Always show admin link for admins (even when impersonating)
+    if (roles?.includes(RoleType.ADMIN)) {
+      SIDEBAR_ITEMS.push(ADMIN_SIDEBAR)
+    }
+
     return SIDEBAR_ITEMS
   }
 

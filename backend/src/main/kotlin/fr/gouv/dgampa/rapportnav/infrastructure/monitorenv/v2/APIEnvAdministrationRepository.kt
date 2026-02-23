@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.IEnvAdministrationRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.FullAdministrationDataOutput

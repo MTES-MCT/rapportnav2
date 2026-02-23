@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.ProcessImpersonationRequest
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.FindById
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.UserRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -43,6 +44,9 @@ class UserRestControllerTest {
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
+
+    @MockitoBean
+    private lateinit var processImpersonationRequest: ProcessImpersonationRequest
 
     @Test
     fun `getUserById should return user info when user exists`() {

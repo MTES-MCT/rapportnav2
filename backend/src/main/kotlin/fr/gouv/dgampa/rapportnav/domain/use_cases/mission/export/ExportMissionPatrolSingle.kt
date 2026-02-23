@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExpor
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission

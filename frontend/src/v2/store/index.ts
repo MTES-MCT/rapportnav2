@@ -2,6 +2,7 @@ import { Store } from '@tanstack/store'
 import { CompletenessForStats, MissionStatusEnum } from '../features/common/types/mission-types'
 import { ModuleType } from '../features/common/types/module-type'
 import { User } from '../features/common/types/user'
+import { ImpersonationState } from '../features/impersonation/types/impersonation-types'
 
 export interface State {
   delayQuery: {
@@ -28,6 +29,7 @@ export interface State {
     homeUrl?: string
     type?: ModuleType
   }
+  impersonation: ImpersonationState
 }
 
 export const store = new Store<State>({
@@ -39,5 +41,8 @@ export const store = new Store<State>({
   connectivity: {},
   module: {
     type: ModuleType.PAM
+  },
+  impersonation: {
+    isImpersonating: false
   }
 })

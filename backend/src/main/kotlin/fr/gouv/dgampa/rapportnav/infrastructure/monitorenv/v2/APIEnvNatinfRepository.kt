@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.INatinfRepository
 import org.slf4j.LoggerFactory

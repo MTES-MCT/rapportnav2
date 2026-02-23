@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendForbiddenException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.ProblemDetailFactory
@@ -50,6 +51,16 @@ class ControllersExceptionHandler : ResponseEntityExceptionHandler() {
     fun handleBackendUsageException(e: BackendUsageException): ResponseEntity<ProblemDetail> {
         log.warn("Usage error: code=${e.code}, message=${e.message}")
         return respond(HttpStatus.BAD_REQUEST, ProblemDetailFactory.forUsageError(
+            code = e.code,
+            message = e.message,
+            data = e.data
+        ))
+    }
+
+    @ExceptionHandler(BackendForbiddenException::class)
+    fun handleBackendForbiddenException(e: BackendForbiddenException): ResponseEntity<ProblemDetail> {
+        logger.warn("Forbidden: code=${e.code}, message=${e.message}")
+        return respond(HttpStatus.FORBIDDEN, ProblemDetailFactory.forForbiddenError(
             code = e.code,
             message = e.message,
             data = e.data

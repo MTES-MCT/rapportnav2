@@ -3,6 +3,7 @@ import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import republique from '../../../../../assets/images/republique.svg'
 import useAuth from '../../../../features/auth/hooks/use-auth'
+import ImpersonationDropdown from '../../../impersonation/components/impersonation-dropdown'
 
 const StyledHeader = styled.div`
   height: 104px;
@@ -37,8 +38,9 @@ export const MissionListPageHeaderWrapper: React.FC<MissionListHeaderWrapperProp
         </FlexboxGrid.Item>
         <FlexboxGrid.Item>
           {isAuthenticated && (
-            <Stack direction="row" style={{ height: '100%' }}>
+            <Stack direction="row" alignItems="center" style={{ height: '100%' }}>
               {actions}
+              <ImpersonationDropdown />
               <Button
                 accent={Accent.SECONDARY}
                 onClick={handleLogout}

@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.ProcessImpersonationRequest
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.AgentRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -43,6 +44,9 @@ class AgentRestControllerTest {
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
+
+    @MockitoBean
+    private lateinit var processImpersonationRequest: ProcessImpersonationRequest
 
     @Test
     fun `agents should return list of agents for user's service`() {

@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.controlUnitResource.GetControlUnitResources
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.ProcessImpersonationRequest
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.ControlUnitResourceRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.env.ControlUnitResourceEnvMock
 import org.junit.jupiter.api.Test
@@ -38,6 +39,9 @@ class ControlUnitResourceRestControllerTest {
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
+
+    @MockitoBean
+    private lateinit var processImpersonationRequest: ProcessImpersonationRequest
 
     @Test
     fun `getAll should return list of control unit resources`() {

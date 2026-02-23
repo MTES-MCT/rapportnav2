@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput

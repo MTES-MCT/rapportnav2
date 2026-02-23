@@ -39,9 +39,16 @@ class ServiceAdminController(
             ApiResponse(responseCode = "404", description = "Did not find any services", content = [Content()])
         ]
     )
-    fun getServices(): List<Service?>? {
+    fun getServices(
+        @RequestParam(required = false) active: Boolean?
+    ): List<Service?>? {
         return try {
-            getServices.execute().map { Service.fromServiceEntity((it)) }
+            getServices.execute()
+                .let { services ->
+                    if (active == true) services.filter { it.deletedAt == null }
+                    else services
+                }
+                .map { Service.fromServiceEntity((it)) }
         } catch (e: Exception) {
             logger.error("ServiceRestController - failed to load services from MonitorEnv", e)
             throw Exception(e)

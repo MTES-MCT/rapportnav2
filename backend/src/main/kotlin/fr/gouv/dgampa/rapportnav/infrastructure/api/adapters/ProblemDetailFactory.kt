@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.adapters
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendForbiddenErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCode
 import org.springframework.http.HttpStatus
@@ -34,6 +35,25 @@ object ProblemDetailFactory {
     ): ProblemDetail = buildWithCode(
         status = HttpStatus.BAD_REQUEST,
         category = "usage",
+        code = code.name,
+        title = code.toTitle(),
+        detail = message ?: code.defaultMessage(),
+        data = data
+    )
+
+    /**
+     * Creates a Problem Detail for forbidden errors (HTTP 403).
+     *
+     * Forbidden errors occur when a user is authenticated but not authorized
+     * to perform the requested action.
+     */
+    fun forForbiddenError(
+        code: BackendForbiddenErrorCode,
+        message: String? = null,
+        data: Any? = null
+    ): ProblemDetail = buildWithCode(
+        status = HttpStatus.FORBIDDEN,
+        category = "forbidden",
         code = code.name,
         title = code.toTitle(),
         detail = message ?: code.defaultMessage(),
@@ -189,4 +209,18 @@ fun BackendRequestErrorCode.toTitle(): String = when (this) {
  */
 fun BackendRequestErrorCode.defaultMessage(): String = when (this) {
     BackendRequestErrorCode.BODY_MISSING_DATA -> "The request body is missing required data"
+}
+
+/**
+ * Returns a human-readable title for the error code.
+ */
+fun BackendForbiddenErrorCode.toTitle(): String = when (this) {
+    BackendForbiddenErrorCode.UNAUTHORIZED_IMPERSONATION -> "Unauthorized Impersonation"
+}
+
+/**
+ * Returns a default message for the error code when no custom message is provided.
+ */
+fun BackendForbiddenErrorCode.defaultMessage(): String = when (this) {
+    BackendForbiddenErrorCode.UNAUTHORIZED_IMPERSONATION -> "You are not authorized to impersonate this service"
 }

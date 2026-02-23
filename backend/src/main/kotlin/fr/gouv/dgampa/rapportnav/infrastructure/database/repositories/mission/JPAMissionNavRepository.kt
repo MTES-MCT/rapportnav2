@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
