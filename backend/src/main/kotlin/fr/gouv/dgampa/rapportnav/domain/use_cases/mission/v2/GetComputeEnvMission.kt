@@ -13,9 +13,13 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAc
 class GetComputeEnvMission(
     private val getGeneralInfos2: GetGeneralInfo2,
     private val getMissionAction: GetMissionAction,
-    private val getEnvMissionById2: GetEnvMissionById2,
+    private val getEnvMissionById2: GetEnvMissionById2
 ) {
-    fun execute(missionId: Int? = null, envMission: MissionEnvEntity? = null): MissionEntity {
+    fun execute(
+        missionId: Int? = null,
+        envMission: MissionEnvEntity? = null
+    ): MissionEntity {
+
         if (missionId == null && envMission == null) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,

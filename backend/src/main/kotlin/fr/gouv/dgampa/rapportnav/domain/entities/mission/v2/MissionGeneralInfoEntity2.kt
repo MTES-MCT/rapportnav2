@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
@@ -14,22 +13,12 @@ data class MissionGeneralInfoEntity2(
     val services: List<ServiceEntity>? = null
 ) {
 
-    fun setResources(resources: List<LegacyControlUnitResourceEntity>?) {
-        return data?.resources = resources
-    }
-
     fun isCompleteForStats(): Boolean {
-        val serviceType = data?.service?.serviceType?: services?.first()?.serviceType
-        return when(serviceType) {
+        return when (this.serviceType) {
             ServiceTypeEnum.PAM -> this.isCompletePam()
             ServiceTypeEnum.ULAM -> this.isCompleteUlam()
             else -> false
         }
-
-    }
-
-    fun isResourceComplete(): Boolean {
-        return this.data?.isResourcesNotUsed == true || this.data?.resources?.isNotEmpty() == true
     }
 
     fun isCompleteUlam(): Boolean {
@@ -39,6 +28,11 @@ data class MissionGeneralInfoEntity2(
     fun isCompletePam(): Boolean {
         return this.isCrewComplete() && this.isDataCompletePam()
     }
+
+    val serviceType: ServiceTypeEnum?
+        get() {
+            return data?.service?.serviceType ?: services?.first()?.serviceType
+        }
 
     private fun isCrewComplete(): Boolean {
         return !this.crew.isNullOrEmpty()

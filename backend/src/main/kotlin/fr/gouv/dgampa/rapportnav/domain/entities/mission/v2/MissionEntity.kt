@@ -20,19 +20,16 @@ data class MissionEntity(
     private val logger = LoggerFactory.getLogger(MissionEntity::class.java)
 
     fun isCompleteForStats(): CompletenessForStatsEntity {
-        val completenessForStats = this.actionsIsCompleteForStats()
-
-        // for secondary missions (missions conjointes ou inter-services)
-        // do not validate generalInfos, only actions matter
-        val isGeneralInfoComplete = if (this.isInterServices()) {
-            true
-        } else {
-            this.generalInfos?.isCompleteForStats()
-        }
+        val actionsCompleteForStats = this.isActionsCompleteForStats()
+        val envDataCompleteForStats = this.isEnvDataCompleteForStats()
+        val generalInfoCompleteForStat = this.isGeneralInfoCompleteForStats()
+        val isCompleteForStats = envDataCompleteForStats == true && generalInfoCompleteForStat == true
 
         return CompletenessForStatsEntity(
-            status = if (isGeneralInfoComplete == true) completenessForStats.status  else CompletenessForStatsStatusEnum.INCOMPLETE,
-            sources = if (isGeneralInfoComplete == true) completenessForStats.sources  else completenessForStats.sources?.plus(MissionSourceEnum.RAPPORT_NAV)
+            status = if (isCompleteForStats) actionsCompleteForStats.status else CompletenessForStatsStatusEnum.INCOMPLETE,
+            sources = if (isCompleteForStats) actionsCompleteForStats.sources else actionsCompleteForStats.sources?.plus(
+                MissionSourceEnum.RAPPORT_NAV
+            )
                 ?.distinct(),
         )
     }
@@ -56,7 +53,7 @@ data class MissionEntity(
         return MissionStatusEnum.UNAVAILABLE
     }
 
-    private fun actionsIsCompleteForStats(): CompletenessForStatsEntity {
+    private fun isActionsCompleteForStats(): CompletenessForStatsEntity {
 
         val sources: List<MissionSourceEnum> = this.actions
             ?.filter { it.isCompleteForStats != true }
@@ -72,6 +69,23 @@ data class MissionEntity(
         )
     }
 
+    private fun isEnvDataCompleteForStats(): Boolean? {
+        return data?.isCompleteForStats(
+            serviceTypeEnum = generalInfos?.serviceType,
+            isResourcesNotUsed = generalInfos?.data?.isResourcesNotUsed
+        )
+    }
+
+    private fun isGeneralInfoCompleteForStats(): Boolean? {
+        // for secondary missions (missions conjointes ou inter-services)
+        // do not validate generalInfos, only actions matter
+        return if (this.isInterServices()) {
+            true
+        } else {
+            this.generalInfos?.isCompleteForStats()
+        }
+    }
+
     // interservices means with other controlUnits
     private fun isInterServices(): Boolean =
         data?.controlUnits
@@ -79,7 +93,5 @@ data class MissionEntity(
             .distinct()
             .take(2)     // stops early if more than 1 distinct value
             .count() == 2
-
-
 }
 

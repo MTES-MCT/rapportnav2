@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.env
 import fr.gouv.dgampa.rapportnav.domain.entities.Patchable
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
@@ -12,7 +13,7 @@ data class MissionEnvEntity(
     val id: Int? = null,
     val idUUID: UUID? = null,
     val missionTypes: List<MissionTypeEnum>? = listOf(),
-    val controlUnits: List<LegacyControlUnitEntity> = listOf(),
+    var controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,
     val completedBy: String? = null,
     @Patchable
@@ -34,6 +35,13 @@ data class MissionEnvEntity(
     val isUnderJdp: Boolean? = false,
     val isDeleted: Boolean? = false
 ) {
+
+
+    fun isCompleteForStats(serviceTypeEnum: ServiceTypeEnum? = null, isResourcesNotUsed: Boolean? = null): Boolean {
+        if (serviceTypeEnum != ServiceTypeEnum.ULAM) return true
+        return isResourcesNotUsed == true || controlUnits.first().resources?.isNotEmpty() == true
+    }
+
     companion object {
         fun fromMissionNavEntity(entity: MissionNavEntity): MissionEnvEntity {
             return MissionEnvEntity(
