@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.67.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.67.1...docker-container@v2.67.2) (2026-02-24)
+
+
+### Bug Fixes
+
+* **frontend:** formik coordonates input ([9d76808](https://github.com/MTES-MCT/rapportnav2/commit/9d768087435d3528b8badc578ed34b9a68d34b67))
+
 ## [2.67.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.67.0...docker-container@v2.67.1) (2026-02-23)
 
 
