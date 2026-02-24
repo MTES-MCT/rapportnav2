@@ -23,8 +23,14 @@ export const MissionActionFormikCoordinateInputDMD = styled(
       setInitValue({ coords: fieldFormik.field.value })
     }, [fieldFormik])
 
+    const isCoordsEqual = (value: Coords) => {
+      const isLatEqual = isEqual(value.coords[0]?.toFixed(3), initValue?.coords[0]?.toFixed(3))
+      const isLngEqual = isEqual(value.coords[1]?.toFixed(3), initValue?.coords[1]?.toFixed(3))
+      return isLatEqual && isLngEqual
+    }
+
     const handleSubmit = async (value: Coords) => {
-      if (isEqual(value.coords, initValue?.coords)) return
+      if (isCoordsEqual(value)) return
       await fieldFormik.form.setFieldValue(name, value.coords)
     }
 
