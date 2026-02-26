@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.68.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.67.2...backend@v2.68.0) (2026-02-26)
+
+
+### Features
+
+* **admin:** Add pagination and search on GeneralInfos ([99e14bc](https://github.com/MTES-MCT/rapportnav2/commit/99e14bc4883d6a42dfff7a0e68b448696fec91b2))
+
 ## [2.67.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.67.1...backend@v2.67.2) (2026-02-24)
 
 
