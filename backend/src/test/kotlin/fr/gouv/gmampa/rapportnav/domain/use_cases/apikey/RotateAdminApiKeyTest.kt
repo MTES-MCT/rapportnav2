@@ -21,7 +21,7 @@ import java.util.*
 
 @SpringBootTest(classes = [RotateApiKey::class])
 @ContextConfiguration(classes = [RotateApiKey::class])
-class RotateApiKeyTest {
+class RotateAdminApiKeyTest {
 
     @Autowired
     private lateinit var rotateApiKey: RotateApiKey

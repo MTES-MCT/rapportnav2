@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interface
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
@@ -21,6 +23,12 @@ interface IDBMissionGeneralInfoRepository : JpaRepository<MissionGeneralInfoMode
     fun findAllByMissionIdUUID(missionIdUUID: UUID): List<MissionGeneralInfoModel>
 
     override fun findAll(): List<MissionGeneralInfoModel>
+
+    fun findAllByOrderByMissionIdDesc(pageable: Pageable): Page<MissionGeneralInfoModel>
+
+    fun findByMissionIdOrderByMissionIdDesc(missionId: Int, pageable: Pageable): Page<MissionGeneralInfoModel>
+
+    fun findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID: UUID, pageable: Pageable): Page<MissionGeneralInfoModel>
 
     fun deleteById(id: Int)
 }

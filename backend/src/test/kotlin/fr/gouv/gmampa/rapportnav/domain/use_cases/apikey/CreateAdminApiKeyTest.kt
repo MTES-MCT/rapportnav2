@@ -20,7 +20,7 @@ import java.util.*
 
 @SpringBootTest(classes = [CreateApiKey::class])
 @ContextConfiguration(classes = [CreateApiKey::class])
-class CreateApiKeyTest {
+class CreateAdminApiKeyTest {
 
     @Autowired
     private lateinit var createApiKey: CreateApiKey

@@ -16,6 +16,8 @@ import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
@@ -72,6 +74,92 @@ class JPAMissionGeneralInfoRepositoryTest {
             jpaRepository.findAll()
         }
         assertThat(exception.message).contains("Failed to find all MissionGeneralInfo")
+    }
+
+    @Test
+    fun `findAllPaginated should return page of general info`() {
+        val pageable = PageRequest.of(0, 10)
+        val page = PageImpl(listOf(generalInfoModel), pageable, 1)
+        `when`(dbRepo.findAllByOrderByMissionIdDesc(pageable)).thenReturn(page)
+
+        val result = jpaRepository.findAllPaginated(0, 10)
+
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].missionId).isEqualTo(100)
+        assertThat(result.totalElements).isEqualTo(1)
+        verify(dbRepo).findAllByOrderByMissionIdDesc(pageable)
+    }
+
+    @Test
+    fun `findAllPaginated should return empty page when none found`() {
+        val pageable = PageRequest.of(0, 10)
+        val page = PageImpl<MissionGeneralInfoModel>(emptyList(), pageable, 0)
+        `when`(dbRepo.findAllByOrderByMissionIdDesc(pageable)).thenReturn(page)
+
+        val result = jpaRepository.findAllPaginated(0, 10)
+
+        assertThat(result.content).isEmpty()
+        assertThat(result.totalElements).isEqualTo(0)
+        verify(dbRepo).findAllByOrderByMissionIdDesc(pageable)
+    }
+
+    @Test
+    fun `findAllPaginated should throw BackendInternalException on error`() {
+        val pageable = PageRequest.of(0, 10)
+        `when`(dbRepo.findAllByOrderByMissionIdDesc(pageable)).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaRepository.findAllPaginated(0, 10)
+        }
+        assertThat(exception.message).contains("Failed to find paginated MissionGeneralInfo")
+    }
+
+    @Test
+    fun `findByMissionIdPaginated should return page of general info`() {
+        val pageable = PageRequest.of(0, 10)
+        val page = PageImpl(listOf(generalInfoModel), pageable, 1)
+        `when`(dbRepo.findByMissionIdOrderByMissionIdDesc(100, pageable)).thenReturn(page)
+
+        val result = jpaRepository.findByMissionIdPaginated(100, 0, 10)
+
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].missionId).isEqualTo(100)
+        verify(dbRepo).findByMissionIdOrderByMissionIdDesc(100, pageable)
+    }
+
+    @Test
+    fun `findByMissionIdPaginated should throw BackendInternalException on error`() {
+        val pageable = PageRequest.of(0, 10)
+        `when`(dbRepo.findByMissionIdOrderByMissionIdDesc(100, pageable)).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaRepository.findByMissionIdPaginated(100, 0, 10)
+        }
+        assertThat(exception.message).contains("Failed to find paginated MissionGeneralInfo by missionId")
+    }
+
+    @Test
+    fun `findByMissionIdUUIDPaginated should return page of general info`() {
+        val pageable = PageRequest.of(0, 10)
+        val page = PageImpl(listOf(generalInfoModel), pageable, 1)
+        `when`(dbRepo.findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID, pageable)).thenReturn(page)
+
+        val result = jpaRepository.findByMissionIdUUIDPaginated(missionIdUUID, 0, 10)
+
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].missionIdUUID).isEqualTo(missionIdUUID)
+        verify(dbRepo).findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID, pageable)
+    }
+
+    @Test
+    fun `findByMissionIdUUIDPaginated should throw BackendInternalException on error`() {
+        val pageable = PageRequest.of(0, 10)
+        `when`(dbRepo.findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID, pageable)).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaRepository.findByMissionIdUUIDPaginated(missionIdUUID, 0, 10)
+        }
+        assertThat(exception.message).contains("Failed to find paginated MissionGeneralInfo by missionIdUUID")
     }
 
     @Test

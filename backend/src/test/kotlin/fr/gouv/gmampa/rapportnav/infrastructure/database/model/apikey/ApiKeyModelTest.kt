@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import java.time.Instant
 import java.util.*
 
-class ApiKeyAuditModelTest {
+class AdminApiKeyAuditModelTest {
 
     private val apiKeyId = UUID.randomUUID()
     private val now = Instant.now()

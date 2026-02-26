@@ -14,7 +14,7 @@ import org.mockito.kotlin.whenever
 import java.time.Instant
 import java.util.*
 
-class JPAApiKeyAuditRepositoryTest {
+class JPAAdminApiKeyAuditRepositoryTest {
     private lateinit var dbRepo: IDBApiKeyAuditRepository
     private lateinit var jpaRepo: JPAApiKeyAuditRepository
 

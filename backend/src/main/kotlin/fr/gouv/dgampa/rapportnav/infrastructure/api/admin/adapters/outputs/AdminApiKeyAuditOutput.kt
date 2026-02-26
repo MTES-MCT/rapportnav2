@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.apikey.ApiKeyAudi
 import java.time.Instant
 import java.util.UUID
 
-data class ApiKeyAuditOutput(
+data class AdminApiKeyAuditOutput(
     val id: Int?,
     val apiKeyId: UUID?,
     val ipAddress: String?,
@@ -14,8 +14,8 @@ data class ApiKeyAuditOutput(
     val timestamp: Instant
 ) {
     companion object {
-        fun fromModel(model: ApiKeyAuditModel): ApiKeyAuditOutput {
-            return ApiKeyAuditOutput(
+        fun fromModel(model: ApiKeyAuditModel): AdminApiKeyAuditOutput {
+            return AdminApiKeyAuditOutput(
                 id = model.id,
                 apiKeyId = model.apiKeyId,
                 ipAddress = model.ipAddress,

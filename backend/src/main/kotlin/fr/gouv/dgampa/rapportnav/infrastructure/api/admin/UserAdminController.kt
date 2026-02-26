@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.GetAuthenticationAuditList
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.*
-import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.adapters.outputs.PaginatedAuthenticationAuditOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.adapters.outputs.AdminPaginatedAuthenticationAuditOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthRegisterDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.UpdateUserInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.UpdateUserPasswordInput
@@ -196,7 +196,7 @@ class UserAdminController(
                 responseCode = "200", description = "Get authentication audit logs", content = [
                     (Content(
                         mediaType = "application/json",
-                        schema = Schema(implementation = PaginatedAuthenticationAuditOutput::class)
+                        schema = Schema(implementation = AdminPaginatedAuthenticationAuditOutput::class)
                     ))
                 ]
             ),
@@ -206,10 +206,10 @@ class UserAdminController(
     fun getAuthLogs(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "100") size: Int
-    ): PaginatedAuthenticationAuditOutput {
+    ): AdminPaginatedAuthenticationAuditOutput {
         return try {
             val result = getAuthenticationAuditList.execute(page, size)
-            PaginatedAuthenticationAuditOutput.fromPage(result)
+            AdminPaginatedAuthenticationAuditOutput.fromPage(result)
         } catch (e: Exception) {
             logger.error("Failed to load authentication audit logs", e)
             throw Exception(e)

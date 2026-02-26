@@ -5,7 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.DisableApiKey
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.GetAllApiKeys
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.GetApiKeyAuditList
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RotateApiKey
-import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.adapters.outputs.PaginatedApiKeyAuditOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.adapters.outputs.AdminPaginatedApiKeyAuditOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.models.AdminApiKey
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -37,9 +38,9 @@ class ApiKeysAdminController(
     )
 
     @GetMapping
-    fun getAllApiKeysEndpoint(): ResponseEntity<List<ApiKey>> {
+    fun getAllApiKeysEndpoint(): ResponseEntity<List<AdminApiKey>> {
         val keys = getAllApiKeys.execute()
-        return ResponseEntity.ok(keys.map { ApiKey.fromApiKeyEntity(it) })
+        return ResponseEntity.ok(keys.map { AdminApiKey.fromApiKeyEntity(it) })
     }
 
     @PostMapping
@@ -81,8 +82,8 @@ class ApiKeysAdminController(
     fun getAuditLogs(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "100") size: Int
-    ): ResponseEntity<PaginatedApiKeyAuditOutput> {
+    ): ResponseEntity<AdminPaginatedApiKeyAuditOutput> {
         val result = getApiKeyAuditList.execute(page, size)
-        return ResponseEntity.ok(PaginatedApiKeyAuditOutput.fromPage(result))
+        return ResponseEntity.ok(AdminPaginatedApiKeyAuditOutput.fromPage(result))
     }
 }

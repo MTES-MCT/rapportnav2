@@ -20,7 +20,7 @@ import java.util.*
 
 @SpringBootTest(classes = [DisableApiKey::class])
 @ContextConfiguration(classes = [DisableApiKey::class])
-class DisableApiKeyTest {
+class DisableAdminApiKeyTest {
 
     @Autowired
     private lateinit var disableApiKey: DisableApiKey
