@@ -21,6 +21,7 @@ class MissionEnvInputTest {
         val input = MissionEnvInput(
             missionId = 761,
             isUnderJdp = false,
+            controlUnitId = 741,
             endDateTimeUtc = endDateTimeUtc,
             startDateTimeUtc = startDateTimeUtc,
             missionTypes = listOf(MissionTypeEnum.AIR),

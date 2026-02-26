@@ -27,7 +27,11 @@ class UpdateGeneralInfo(
     private val getMissionCrew: GetMissionCrew,
 ) {
 
-    fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
+    fun execute(
+        missionId: Int,
+        generalInfo: MissionGeneralInfo2,
+        controlUnitId: Int? = null
+    ): MissionGeneralInfoEntity2 {
         val fromDb = getMissionGeneralInfoByMissionId.execute(missionId = missionId)
         if (fromDb == null || generalInfo.missionId != missionId) {
             throw BackendUsageException(
@@ -56,6 +60,7 @@ class UpdateGeneralInfo(
         patchMissionEnv.execute(
             input = MissionEnvInput(
                 missionId = missionId,
+                controlUnitId = controlUnitId,
                 isUnderJdp = generalInfo.isUnderJdp,
                 startDateTimeUtc = generalInfo.startDateTimeUtc,
                 endDateTimeUtc = generalInfo.endDateTimeUtc,

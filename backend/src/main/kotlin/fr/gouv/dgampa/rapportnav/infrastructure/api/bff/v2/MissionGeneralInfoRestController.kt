@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfo
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
@@ -17,7 +18,8 @@ import java.util.*
 @RestController
 @RequestMapping("/api/v2/missions/{missionId}/general_infos")
 class MissionGeneralInfoRestController(
-    private val updateGeneralInfo: UpdateGeneralInfo
+    private val updateGeneralInfo: UpdateGeneralInfo,
+    private val getControlUnitsForUser: GetControlUnitsForUser
 ) {
     @PutMapping
     @Operation(summary = "Update general information, by mission id")
@@ -38,14 +40,16 @@ class MissionGeneralInfoRestController(
         @PathVariable missionId: String,
         @RequestBody generalInfo: MissionGeneralInfo2
     ): MissionGeneralInfoEntity2 {
+        val controlUnits = getControlUnitsForUser.execute()
         return when {
             isValidUUID(missionId) -> updateGeneralInfo.execute(
                 missionIdUUID = UUID.fromString(missionId),
                 generalInfo = generalInfo
             )
             missionId.toIntOrNull() != null -> updateGeneralInfo.execute(
+                generalInfo = generalInfo,
                 missionId = missionId.toInt(),
-                generalInfo = generalInfo
+                controlUnitId = controlUnits?.first()
             )
             else -> throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,

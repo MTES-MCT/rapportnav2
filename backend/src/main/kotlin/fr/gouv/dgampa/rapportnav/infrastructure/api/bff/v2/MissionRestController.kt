@@ -142,7 +142,7 @@ class MissionRestController(
     @Operation(summary = "Delete a mission created by the unit")
     @ApiResponse(responseCode = "404", description = "Could not delete mission", content = [Content()])
     fun delete(
-        @PathVariable(name = "missionId") missionId: String
+        @PathVariable missionId: String
     ) {
         val serviceId = getServiceForUser.execute()?.id
         if (isValidUUID(missionId)) {

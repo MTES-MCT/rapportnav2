@@ -23,13 +23,12 @@ class PatchMissionEnv(
         ]
     )
     fun execute(input: MissionEnvInput): MissionEnvEntity? {
-        val controlUnitId = input.resources?.firstOrNull()?.controlUnitId
         val fromEnvMission = getEnvMissionById2.execute(missionId = input.missionId) ?: return null
 
         if (input.equals(
                 MissionEnvInput.fromMissionEntity(
                     entity = fromEnvMission,
-                    controlUnitId = controlUnitId
+                    controlUnitId = input.controlUnitId
                 )
             )
         ) return null
