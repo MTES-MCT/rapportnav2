@@ -5,12 +5,13 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionGeneralInfoRestController
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionGeneralInfoRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
@@ -28,6 +29,7 @@ class MissionGeneralInfoRestControllerTest {
     @Test
     fun `update should return updated general info for integer missionId`() {
         val missionId = 123
+        val controlUnitId = 9
         val generalInfo = MissionGeneralInfo2(missionId = missionId)
         val entity = MissionGeneralInfoEntityMock.create(missionId = missionId)
         val expectedResult = MissionGeneralInfoEntity2(
@@ -36,12 +38,19 @@ class MissionGeneralInfoRestControllerTest {
             passengers = emptyList()
         )
 
-        `when`(updateGeneralInfo.execute(missionId = eq(missionId), generalInfo = any())).thenReturn(expectedResult)
+        `when`(getControlUnitsForUser.execute()).thenReturn(listOf(controlUnitId))
+        `when`(
+            updateGeneralInfo.execute(
+                missionId = eq(missionId),
+                generalInfo = any(),
+                controlUnitId = anyInt()
+            )
+        ).thenReturn(expectedResult)
 
         val result = controller.update(missionId.toString(), generalInfo)
 
         assertEquals(expectedResult, result)
-        verify(updateGeneralInfo).execute(missionId = eq(missionId), generalInfo = any())
+        verify(updateGeneralInfo).execute(missionId = eq(missionId), generalInfo = any(), controlUnitId = anyInt())
     }
 
     @Test
@@ -75,7 +84,7 @@ class MissionGeneralInfoRestControllerTest {
         assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
         assertEquals("Invalid missionId format: must be a valid UUID or integer", exception.message)
 
-        verify(updateGeneralInfo, never()).execute(missionId = any<Int>(), generalInfo = any())
         verify(updateGeneralInfo, never()).execute(missionIdUUID = any<UUID>(), generalInfo = any())
+        verify(updateGeneralInfo, never()).execute(missionId = any<Int>(), generalInfo = any(), controlUnitId = anyInt())
     }
 }
