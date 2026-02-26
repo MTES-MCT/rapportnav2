@@ -66,7 +66,7 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
                         <FormikCheckbox
                           isLight
                           name="isResourcesNotUsed"
-                          label="Aucunes ressources utilisées pour cette mission"
+                          label="Aucun moyen de l'unité n'est utilisé pour cette mission"
                         />
                       </Stack.Item>
                     </Stack>

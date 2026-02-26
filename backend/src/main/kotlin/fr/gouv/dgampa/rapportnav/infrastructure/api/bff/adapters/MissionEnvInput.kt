@@ -9,6 +9,7 @@ import java.time.Instant
 
 data class MissionEnvInput(
     val missionId: Int,
+    val controlUnitId: Int? = null,
     val observationsByUnit: String? = null,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
@@ -18,7 +19,6 @@ data class MissionEnvInput(
 ) {
 
     fun toPatchMissionInput(controlUnits: List<LegacyControlUnitEntity>): PatchMissionInput {
-        val controlUnitId = resources?.firstOrNull()?.controlUnitId
         val input  = PatchMissionInput(
             isUnderJdp = isUnderJdp,
             missionTypes = missionTypes,
@@ -40,6 +40,7 @@ data class MissionEnvInput(
         fun fromMissionEntity(entity: MissionEnvEntity, controlUnitId: Int? = null): MissionEnvInput {
             return MissionEnvInput(
                 missionId = entity.id!!,
+                controlUnitId = controlUnitId,
                 isUnderJdp = entity.isUnderJdp,
                 missionTypes = entity.missionTypes,
                 endDateTimeUtc = entity.endDateTimeUtc,
