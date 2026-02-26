@@ -1,10 +1,10 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
+package fr.gouv.dgampa.rapportnav.infrastructure.api.admin.models
 
 import fr.gouv.dgampa.rapportnav.domain.entities.apikey.ApiKeyEntity
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
-data class ApiKey(
+data class AdminApiKey(
     val id: UUID = UUID.randomUUID(),
     val publicId: String,
     val owner: String? = null,
@@ -14,8 +14,8 @@ data class ApiKey(
     val disabledAt: Instant? = null,
 ) {
     companion object {
-        fun fromApiKeyEntity(apiKeyEntity: ApiKeyEntity): ApiKey {
-            return ApiKey(
+        fun fromApiKeyEntity(apiKeyEntity: ApiKeyEntity): AdminApiKey {
+            return AdminApiKey(
                 id = apiKeyEntity.id,
                 publicId = apiKeyEntity.publicId,
                 owner = apiKeyEntity.owner,

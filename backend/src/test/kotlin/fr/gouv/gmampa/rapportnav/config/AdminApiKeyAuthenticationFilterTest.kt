@@ -19,7 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
-class ApiKeyAuthenticationFilterTest {
+class AdminApiKeyAuthenticationFilterTest {
     private lateinit var validateApiKey: ValidateApiKey
     private lateinit var objectMapper: JsonMapper
     private lateinit var filter: ApiKeyAuthenticationFilter

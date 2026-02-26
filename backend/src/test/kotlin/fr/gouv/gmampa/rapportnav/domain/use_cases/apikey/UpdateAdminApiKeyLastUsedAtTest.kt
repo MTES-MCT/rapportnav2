@@ -21,7 +21,7 @@ import java.util.*
 
 @SpringBootTest(classes = [UpdateApiKeyLastUsedAt::class])
 @ContextConfiguration(classes = [UpdateApiKeyLastUsedAt::class])
-class UpdateApiKeyLastUsedAtTest {
+class UpdateAdminApiKeyLastUsedAtTest {
 
     @Autowired
     private lateinit var updateApiKeyLastUsedAt: UpdateApiKeyLastUsedAt

@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthEventTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.user.AuthenticationAuditModel
 import java.time.Instant
 
-data class AuthenticationAuditOutput(
+data class AdminAuthenticationAuditOutput(
     val id: Int?,
     val userId: Int?,
     val email: String,
@@ -16,8 +16,8 @@ data class AuthenticationAuditOutput(
     val timestamp: Instant
 ) {
     companion object {
-        fun fromModel(model: AuthenticationAuditModel): AuthenticationAuditOutput {
-            return AuthenticationAuditOutput(
+        fun fromModel(model: AuthenticationAuditModel): AdminAuthenticationAuditOutput {
+            return AdminAuthenticationAuditOutput(
                 id = model.id,
                 userId = model.userId,
                 email = model.email,
