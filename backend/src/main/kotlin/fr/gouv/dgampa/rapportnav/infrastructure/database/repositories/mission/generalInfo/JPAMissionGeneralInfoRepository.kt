@@ -8,6 +8,8 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissio
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.generalInfo.IDBMissionGeneralInfoRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -23,6 +25,42 @@ class JPAMissionGeneralInfoRepository(
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to find all MissionGeneralInfo",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findAllPaginated(page: Int, size: Int): Page<MissionGeneralInfoModel> {
+        return try {
+            val pageable = PageRequest.of(page, size)
+            dbRepo.findAllByOrderByMissionIdDesc(pageable)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionGeneralInfo",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findByMissionIdPaginated(missionId: Int, page: Int, size: Int): Page<MissionGeneralInfoModel> {
+        return try {
+            val pageable = PageRequest.of(page, size)
+            dbRepo.findByMissionIdOrderByMissionIdDesc(missionId, pageable)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionGeneralInfo by missionId='$missionId'",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findByMissionIdUUIDPaginated(missionIdUUID: UUID, page: Int, size: Int): Page<MissionGeneralInfoModel> {
+        return try {
+            val pageable = PageRequest.of(page, size)
+            dbRepo.findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID, pageable)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionGeneralInfo by missionIdUUID='$missionIdUUID'",
                 originalException = e
             )
         }

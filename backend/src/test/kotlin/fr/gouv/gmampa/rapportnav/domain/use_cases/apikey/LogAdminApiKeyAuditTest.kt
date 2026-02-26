@@ -20,7 +20,7 @@ import java.util.*
 
 @SpringBootTest(classes = [LogApiKeyAudit::class])
 @ContextConfiguration(classes = [LogApiKeyAudit::class])
-class LogApiKeyAuditTest {
+class LogAdminApiKeyAuditTest {
 
     @Autowired
     private lateinit var logApiKeyAudit: LogApiKeyAudit

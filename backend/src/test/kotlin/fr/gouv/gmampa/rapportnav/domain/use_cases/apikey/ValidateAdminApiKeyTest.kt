@@ -23,7 +23,7 @@ import java.util.*
 
 @SpringBootTest(classes = [ValidateApiKey::class])
 @ContextConfiguration(classes = [ValidateApiKey::class])
-class ValidateApiKeyTest {
+class ValidateAdminApiKeyTest {
 
     @Autowired
     private lateinit var validateApiKey: ValidateApiKey

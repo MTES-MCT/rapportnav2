@@ -4,8 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfoAdmin
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
-import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.input.AdminGeneralInfosUpdateInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.input.AdminGeneralInfosUpdateServiceInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.adapters.input.AdminGeneralInfosUpdateInput
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -42,7 +41,7 @@ class UpdateGeneralInfoAdminTest {
 
         val input = AdminGeneralInfosUpdateInput(
             missionId = missionId,
-            service = AdminGeneralInfosUpdateServiceInput(id = serviceId)
+            serviceId = serviceId
         )
 
         whenever(repository.findByMissionId(missionId)).thenReturn(Optional.of(model))
@@ -68,7 +67,7 @@ class UpdateGeneralInfoAdminTest {
 
         val input = AdminGeneralInfosUpdateInput(
             missionIdUUID = missionIdUUID,
-            service = AdminGeneralInfosUpdateServiceInput(id = serviceId)
+            serviceId = serviceId
         )
 
         whenever(repository.findByMissionIdUUID(missionIdUUID)).thenReturn(Optional.of(model))
@@ -95,14 +94,14 @@ class UpdateGeneralInfoAdminTest {
     }
 
     @Test
-    fun `should update without service when service input is null`() {
+    fun `should update without service when serviceId is null`() {
         val missionId = 123
         val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
         val model = entity.toMissionGeneralInfoModel()
 
         val input = AdminGeneralInfosUpdateInput(
             missionId = missionId,
-            service = null
+            serviceId = null
         )
 
         whenever(repository.findByMissionId(missionId)).thenReturn(Optional.of(model))

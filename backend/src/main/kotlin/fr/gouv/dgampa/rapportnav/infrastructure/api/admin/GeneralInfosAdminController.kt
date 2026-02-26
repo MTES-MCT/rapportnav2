@@ -3,7 +3,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetAllGeneralInfos
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfoAdmin
-import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.input.AdminGeneralInfosUpdateInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.adapters.outputs.AdminPaginatedGeneralInfosOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.adapters.input.AdminGeneralInfosUpdateInput
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -18,24 +19,27 @@ class GeneralInfosAdminController(
     private val getAllGeneralInfos: GetAllGeneralInfos,
 ) {
     @GetMapping("")
-    @Operation(summary = "Get all general information")
+    @Operation(summary = "Get all general information with pagination")
     @ApiResponses(
         value = [
             ApiResponse(
                 responseCode = "200", description = "get general information's", content = [
                     (Content(
                         mediaType = "application/json",
-                        schema = Schema(implementation = MissionGeneralInfoEntity::class)
+                        schema = Schema(implementation = AdminPaginatedGeneralInfosOutput::class)
                     ))
                 ]
             ),
             ApiResponse(responseCode = "404", description = "Could not get general information's", content = [Content()])
         ]
     )
-    fun getAll(): List<MissionGeneralInfoEntity> {
-        return getAllGeneralInfos.execute()
-            .map{ MissionGeneralInfoEntity.fromMissionGeneralInfoModel(it) }
-            .sortedByDescending { it.missionId }
+    fun getAll(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") size: Int,
+        @RequestParam(required = false) search: String?
+    ): AdminPaginatedGeneralInfosOutput {
+        val result = getAllGeneralInfos.execute(page, size, search)
+        return AdminPaginatedGeneralInfosOutput.fromPage(result)
     }
 
     @PutMapping()

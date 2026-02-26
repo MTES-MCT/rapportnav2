@@ -18,7 +18,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(classes = [GetAllApiKeys::class])
 @ContextConfiguration(classes = [GetAllApiKeys::class])
-class GetAllApiKeysTest {
+class GetAllAdminApiKeysTest {
 
     @Autowired
     private lateinit var getAllApiKeys: GetAllApiKeys

@@ -1,12 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from '../../../../query-client/axios.ts'
-import { User } from '../../common/types/user.ts'
+import { AdminGeneralInfos } from '../types/admin-general-infos-types.ts'
+import { PaginatedResponse } from '../types/pagination-types.ts'
 
-const useGeneralInfosListQuery = () => {
-  const fetchGeneralInfos = (): Promise<User[]> => axios.get(`admin/general-infos`).then(response => response.data)
+const useGeneralInfosListQuery = (page: number = 0, pageSize: number = 10, search?: string) => {
+  const fetchGeneralInfos = (): Promise<PaginatedResponse<AdminGeneralInfos>> =>
+    axios
+      .get(`admin/general-infos`, { params: { page, size: pageSize, search: search || undefined } })
+      .then(response => response.data)
 
-  const query = useQuery<User[]>({
-    queryKey: ['admin-general-infos'],
+  const query = useQuery<PaginatedResponse<AdminGeneralInfos>>({
+    queryKey: ['admin-general-infos', page, pageSize, search],
     queryFn: fetchGeneralInfos,
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: false,

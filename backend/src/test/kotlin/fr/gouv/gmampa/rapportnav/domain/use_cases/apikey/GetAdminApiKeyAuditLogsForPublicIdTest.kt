@@ -22,7 +22,7 @@ import java.util.*
 
 @SpringBootTest(classes = [GetApiKeyAuditLogsForPublicId::class])
 @ContextConfiguration(classes = [GetApiKeyAuditLogsForPublicId::class])
-class GetApiKeyAuditLogsForPublicIdTest {
+class GetAdminApiKeyAuditLogsForPublicIdTest {
 
     @Autowired
     private lateinit var getApiKeyAuditLogs: GetApiKeyAuditLogsForPublicId

@@ -296,7 +296,7 @@ class SentryUserContextFilterTest {
     }
 
     @Nested
-    inner class ApiKeyContext {
+    inner class AdminApiKeyContext {
 
         @Test
         fun `should set API key context for string principal`() {

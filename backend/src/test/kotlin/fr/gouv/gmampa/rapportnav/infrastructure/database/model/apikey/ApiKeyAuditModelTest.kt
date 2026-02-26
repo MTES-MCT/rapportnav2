@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import java.time.Instant
 import java.util.*
 
-class ApiKeyModelTest {
+class AdminApiKeyModelTest {
 
     private val now = Instant.now()
 
