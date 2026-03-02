@@ -39,7 +39,7 @@ data class MissionEnvEntity(
 
     fun isCompleteForStats(serviceTypeEnum: ServiceTypeEnum? = null, isResourcesNotUsed: Boolean? = null): Boolean {
         if (serviceTypeEnum != ServiceTypeEnum.ULAM) return true
-        return isResourcesNotUsed == true || controlUnits.first().resources?.isNotEmpty() == true
+        return isResourcesNotUsed == true || controlUnits.firstOrNull()?.resources?.isNotEmpty() == true
     }
 
     companion object {

@@ -1,0 +1,5 @@
+DO $$
+  BEGIN
+    ALTER TABLE "mission_crew"
+    ADD COLUMN IF NOT EXISTS full_name VARCHAR (255) DEFAULT NULL;
+END $$;

@@ -52,7 +52,7 @@ export function useMissionActionGenericDateObservation(
 
   const createValidationSchema = (isMissionFinished: boolean) => {
     return object().shape({
-      ...(getDateRangeSchema(isMissionFinished) as Record<string, any>),
+      ...(getDateRangeSchema({ required: isMissionFinished }) as Record<string, any>),
       ...(schema ?? {})
     })
   }

@@ -42,7 +42,7 @@ const MissionCrewListItemPam: React.FC<CrewListProps> = ({ index, name, passenge
         </FlexboxGrid>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={3}>
-        <Stack direction="row">
+        <Stack direction="row" justifyContent={'flex-end'}>
           <Stack.Item>
             <MissionCrewEditIconButton onClick={() => handleEdit(index)} />
           </Stack.Item>
