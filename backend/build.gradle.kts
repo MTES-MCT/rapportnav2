@@ -20,7 +20,7 @@ plugins {
   kotlin("jvm") version "2.3.0"
   kotlin("plugin.spring") version "2.3.0"
   kotlin("plugin.jpa") version "2.3.0"
-  id("org.springframework.boot") version "4.0.1"
+  id("org.springframework.boot") version "4.0.3"
   id("io.spring.dependency-management") version "1.1.7"
   id("org.owasp.dependencycheck") version "12.1.0"
   id("org.flywaydb.flyway") version "11.20.0"
@@ -55,6 +55,10 @@ dependencyManagement {
   dependencies {
     // force any dependency like following :
      dependency("org.apache.commons:commons-lang3:3.19.0")
+    // remove following two after spring boot 4.0.3+
+     dependency("com.fasterxml.jackson.core:jackson-core:2.21.1")
+     dependency("tools.jackson.core:jackson-core:3.1.0")
+
   }
 }
 
