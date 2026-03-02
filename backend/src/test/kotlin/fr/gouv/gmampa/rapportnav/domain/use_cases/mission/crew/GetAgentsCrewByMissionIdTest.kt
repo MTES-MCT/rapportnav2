@@ -1,12 +1,18 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentRoleEntityMock
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -31,75 +37,75 @@ class GetAgentsCrewByMissionIdTest {
         val missionId = 1
         val missionIdUUID = UUID.randomUUID()
 
-        val johnDoe = AgentModel(
+        val johnDoe = AgentEntity(
             firstName = "John",
             lastName = "Doe",
             id = 1,
-            service = ServiceModel(
+            service = ServiceEntity(
                 id = 1,
                 name = "Service1",
                 serviceType = ServiceTypeEnum.PAM
             )
         )
 
-        val janeDoe = AgentModel(
+        val janeDoe = AgentEntity(
             firstName = "Jane",
             lastName = "Doe",
             id = 2,
-            service = ServiceModel(
+            service = ServiceEntity(
                 id = 1,
                 name = "Service1",
                 serviceType = ServiceTypeEnum.PAM
             )
         )
 
-        val alfredDeMusset = AgentModel(
+        val alfredDeMusset = AgentEntity(
             firstName = "Alfred",
             lastName = "de Musset",
             id = 3,
-            service = ServiceModel(
+            service = ServiceEntity(
                 id = 1,
                 name = "Service1",
                 serviceType = ServiceTypeEnum.PAM
             )
         )
 
-        val guyDeMaupassant = AgentModel(
+        val guyDeMaupassant = AgentEntity(
             firstName = "Guy",
             lastName = "de Maupassant",
             id = 4,
-            service = ServiceModel(
+            service = ServiceEntity(
                 id = 1,
                 name = "Service1",
                 serviceType = ServiceTypeEnum.PAM
             )
         )
 
-        val chefMecano = AgentRoleModel(
+        val chefMecano = AgentRoleEntityMock.create(
             title = "Chef mécanicien",
             id = 1
         )
 
-        val secondCapitaine = AgentRoleModel(
+        val secondCapitaine = AgentRoleEntityMock.create(
             title = "Second capitaine",
             id = 2
         )
 
-        val cuisinier = AgentRoleModel(
+        val cuisinier = AgentRoleEntityMock.create(
             title = "Cuisinier",
             id = 3
         )
 
-        val commandant = AgentRoleModel(
+        val commandant = AgentRoleEntityMock.create(
             title = "Commandant",
             id = 4
         )
 
         val crewMembers = listOf(
-            MissionCrewModel(role = chefMecano, agent = janeDoe, missionId = missionId, id = 1, missionIdUUID = missionIdUUID),
-            MissionCrewModel(role = secondCapitaine, agent = johnDoe, missionId = missionId, id = 2, missionIdUUID = missionIdUUID),
-            MissionCrewModel(role = cuisinier, agent = alfredDeMusset, missionId = missionId, id = 3, missionIdUUID = missionIdUUID),
-            MissionCrewModel(role = commandant, agent = guyDeMaupassant, missionId = missionId, id = 4, missionIdUUID = missionIdUUID),
+            MissionCrewEntity(role = chefMecano, agent = janeDoe, missionId = missionId, id = 1, missionIdUUID = missionIdUUID),
+            MissionCrewEntity(role = secondCapitaine, agent = johnDoe, missionId = missionId, id = 2, missionIdUUID = missionIdUUID),
+            MissionCrewEntity(role = cuisinier, agent = alfredDeMusset, missionId = missionId, id = 3, missionIdUUID = missionIdUUID),
+            MissionCrewEntity(role = commandant, agent = guyDeMaupassant, missionId = missionId, id = 4, missionIdUUID = missionIdUUID),
         )
 
         `when`(agentCrewRepository.findByMissionId(missionId)).thenReturn(crewMembers)
