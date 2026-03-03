@@ -14,9 +14,9 @@ vi.mock('../../v2/features/auth/hooks/use-auth.tsx', async () => {
 
 vi.mock('@features/auth/utils/token', () => {
   return {
-    default: vi.fn().mockImplementation(() => ({
-      get: getMock
-    }))
+    default: class {
+      get = getMock
+    }
   }
 })
 

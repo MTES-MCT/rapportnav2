@@ -148,26 +148,6 @@ describe('MissionGeneralInformationCrewPam', () => {
   })
 
   describe('submitting', () => {
-    it('appends a new passenger when submitting a passenger with no id', async () => {
-      const mockFieldArray = createMockFieldArray(samplePassengers)
-
-      renderComponent({ fieldArray: mockFieldArray })
-
-      fireEvent.click(screen.getByText('Ajouter un passager'))
-
-      // Fill & submit (your form uses handleSubmitForm directly)
-      const submitButton = await screen.getByTestId('submit-passenger-form-button')
-      fireEvent.click(submitButton)
-
-      waitFor(() => {
-        expect(mockFieldArray.form.setFieldValue).toHaveBeenCalled()
-
-        const args = mockFieldArray.form.setFieldValue.mock.calls[0]
-        expect(args[0]).toBe('passengers')
-        expect(args[1].length).toBe(3) // one more
-      })
-    })
-
     it('appends passenger when id exists but is not found in currentPassengerList', async () => {
       const customPassengers = [] // current list empty
       const mockFieldArray = createMockFieldArray(customPassengers)

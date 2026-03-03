@@ -6,7 +6,7 @@ exports[`MissionPageError > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        style="margin: 10rem 0px 0px 0px; display: flex; flex-direction: column; min-height: 100vh; max-height: 100vh;"
+        style="margin: 10rem 0px 0px; display: flex; flex-direction: column; min-height: 100vh; max-height: 100vh;"
       >
         <div
           class="rs-stack"
@@ -71,7 +71,7 @@ exports[`MissionPageError > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      style="margin: 10rem 0px 0px 0px; display: flex; flex-direction: column; min-height: 100vh; max-height: 100vh;"
+      style="margin: 10rem 0px 0px; display: flex; flex-direction: column; min-height: 100vh; max-height: 100vh;"
     >
       <div
         class="rs-stack"

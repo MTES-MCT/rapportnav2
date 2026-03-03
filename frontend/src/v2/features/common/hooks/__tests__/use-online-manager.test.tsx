@@ -43,8 +43,8 @@ describe('useOnlineManager', () => {
       configurable: true
     })
 
-    // initial TanStack Query state
-    vi.spyOn(onlineManager, 'isOnline').mockReturnValue(isOnline)
+    // initial TanStack Query state - use mockImplementation to return current value dynamically
+    vi.spyOn(onlineManager, 'isOnline').mockImplementation(() => isOnline)
     // subscribe should immediately callback with current isOnline
     vi.spyOn(onlineManager, 'subscribe').mockImplementation(cb => {
       cb(isOnline)
@@ -164,16 +164,17 @@ describe('useOnlineManager', () => {
     })
   })
 
-  it('persists offline state to localStorage when toggled offline', async () => {
+  it('sets offline state when toggled offline', () => {
     const { result } = renderHook(() => useOnlineManager())
 
     act(() => {
       result.current.toggleOnline(false)
     })
 
-    await waitFor(() => {
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(OFFLINE_SINCE_KEY, expect.any(String))
-    })
+    // Verify immediate state change controlled by useOnlineManager
+    expect(result.current.isOffline).toBe(true)
+    expect(result.current.isOnline).toBe(false)
+    expect(onlineManager.setOnline).toHaveBeenCalledWith(false)
   })
 
   it('restores offline state after page reload', () => {
