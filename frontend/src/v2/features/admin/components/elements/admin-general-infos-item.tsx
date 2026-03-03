@@ -1,20 +1,21 @@
-import { Icon, TextInput } from '@mtes-mct/monitor-ui'
-import React, { useState, useEffect } from 'react'
+import Text from '@common/components/ui/text'
+import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import React, { useEffect, useState } from 'react'
 import { Pagination, Stack } from 'rsuite'
-import { AdminAction, AdminActionType } from '../../types/admin-action'
-import AdminBasicItemGeneric from './admin-basic-item-generic'
+import useAdminDeleteGeneralInfosMutation from '../../services/use-admin-delete-general-infos.tsx'
 import useGeneralInfosListQuery from '../../services/use-admin-general-infos.tsx'
 import useAdminUpdateGeneralInfosMutation from '../../services/use-admin-update-general-infos.tsx'
+import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminGeneralInfos } from '../../types/admin-general-infos-types.ts'
 import AdminGeneralInfosForm from '../ui/admin-general-infos-form.tsx'
-import Text from '@common/components/ui/text'
+import AdminBasicItemGeneric from './admin-basic-item-generic'
 
 const CELLS = [
-  { key: 'id', label: 'Id', width: 50 },
-  { key: 'missionId', label: 'missionId', width: 100 },
-  { key: 'missionIdUUID', label: 'missionIdUUID', width: 300 },
-  { key: 'serviceId', label: 'Service', width: 70 },
-  { key: 'missionReportType', label: 'Type rapport', width: 120 },
+  { key: 'id', label: 'Id', width: 60 },
+  { key: 'missionId', label: 'missionId', width: 60 },
+  { key: 'missionIdUUID', label: 'missionIdUUID', width: 340 },
+  { key: 'serviceId', label: 'Service', width: 50 },
+  { key: 'missionReportType', label: 'Type rapport', width: 140 },
   { key: 'reinforcementType', label: 'Renfort', width: 100 },
   { key: 'jdpType', label: 'JDP', width: 80 },
   { key: 'distanceInNauticalMiles', label: 'Distance (nm)', width: 100 },
@@ -34,6 +35,13 @@ const ACTIONS: AdminAction[] = [
     key: AdminActionType.UPDATE,
     form: AdminGeneralInfosForm,
     icon: Icon.EditUnbordered
+  },
+  {
+    label: `Supprimer général infos`,
+    color: THEME.color.maximumRed,
+    key: AdminActionType.DELETE,
+    form: () => <>Voulez-vous vraiment supprimer cette infos général?</>,
+    icon: Icon.Delete
   }
 ]
 
@@ -57,9 +65,11 @@ const AdminGeneralInfosItem: React.FC<AdminGeneralInfosProps> = () => {
 
   const { data } = useGeneralInfosListQuery(page, pageSize, debouncedSearch || undefined)
   const mutation = useAdminUpdateGeneralInfosMutation()
+  const deleteMutation = useAdminDeleteGeneralInfosMutation()
 
   const handleSubmit = async (action: AdminActionType, value: AdminGeneralInfos) => {
-    if (action !== AdminActionType.DELETE) await mutation.mutateAsync(value)
+    if (action !== AdminActionType.DELETE) return await mutation.mutateAsync(value)
+    if (action === AdminActionType.DELETE) return await deleteMutation.mutateAsync(value.id)
   }
 
   const handlePageChange = (newPage: number) => {
