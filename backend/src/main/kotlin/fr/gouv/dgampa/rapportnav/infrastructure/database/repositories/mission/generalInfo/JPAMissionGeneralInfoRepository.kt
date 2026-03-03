@@ -132,6 +132,7 @@ class JPAMissionGeneralInfoRepository(
         }
     }
 
+    @Transactional
     override fun deleteById(id: Int) {
         try {
             dbRepo.deleteById(id)

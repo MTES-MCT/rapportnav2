@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionGeneralInfoRestController
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.GeneralInfoRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -20,11 +20,11 @@ import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import java.util.*
 
-class MissionGeneralInfoRestControllerTest {
+class GeneralInfoRestControllerTest {
 
     private val updateGeneralInfo: UpdateGeneralInfo = mock()
     private val getControlUnitsForUser: GetControlUnitsForUser = mock()
-    private val controller = MissionGeneralInfoRestController(updateGeneralInfo, getControlUnitsForUser)
+    private val controller = GeneralInfoRestController(updateGeneralInfo, getControlUnitsForUser)
 
     @Test
     fun `update should return updated general info for integer missionId`() {

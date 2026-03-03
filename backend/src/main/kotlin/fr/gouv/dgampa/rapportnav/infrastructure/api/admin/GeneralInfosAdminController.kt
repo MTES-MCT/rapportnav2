@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteGeneralInfos
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetAllGeneralInfos
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfoAdmin
 import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.adapters.outputs.AdminPaginatedGeneralInfosOutput
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*
 class GeneralInfosAdminController(
     private val updateGeneralInfo: UpdateGeneralInfoAdmin,
     private val getAllGeneralInfos: GetAllGeneralInfos,
+    private val deleteGeneralInfos: DeleteGeneralInfos,
 ) {
     @GetMapping("")
     @Operation(summary = "Get all general information with pagination")
@@ -61,5 +63,12 @@ class GeneralInfosAdminController(
         @RequestBody generalInfo: AdminGeneralInfosUpdateInput
     ): MissionGeneralInfoEntity? {
         return updateGeneralInfo.execute(generalInfo = generalInfo)
+    }
+
+    @DeleteMapping("{id}")
+    @Operation(summary = "Delete an general infos")
+    @ApiResponse(responseCode = "404", description = "Could not delete  general infos", content = [Content()])
+    fun delete(@PathVariable id: Int) {
+        return deleteGeneralInfos.execute(id = id)
     }
 }

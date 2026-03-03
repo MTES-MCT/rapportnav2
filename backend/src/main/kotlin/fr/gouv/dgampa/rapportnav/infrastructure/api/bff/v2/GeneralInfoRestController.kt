@@ -17,7 +17,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/api/v2/missions/{missionId}/general_infos")
-class MissionGeneralInfoRestController(
+class GeneralInfoRestController(
     private val updateGeneralInfo: UpdateGeneralInfo,
     private val getControlUnitsForUser: GetControlUnitsForUser
 ) {
