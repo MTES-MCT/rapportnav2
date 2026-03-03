@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.69.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.68.0...frontend@v2.69.0) (2026-03-03)
+
+
+### Features
+
+* **frontend:** admin component general infos delete ([3015cea](https://github.com/MTES-MCT/rapportnav2/commit/3015ceac4dd95828af858d934f264e7e451d3deb))
+
+
+### Bug Fixes
+
+* **backend:** resources set before isCompleteForStats ([a7fc687](https://github.com/MTES-MCT/rapportnav2/commit/a7fc687e3b966e02de6198647c2f8c01a4a50c68))
+
 ## [2.68.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.67.2...frontend@v2.68.0) (2026-02-26)
 
 
