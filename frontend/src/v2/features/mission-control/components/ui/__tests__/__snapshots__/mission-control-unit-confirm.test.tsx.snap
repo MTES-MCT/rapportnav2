@@ -108,7 +108,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                   <button
                     class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
                     data-testid="yes-no-toogle-no-button"
-                    style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
+                    style="border-left-width: medium; border-left-style: none; color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                     type="button"
                   >
                     <span
@@ -279,7 +279,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                 <button
                   class="sc-dyTUbG sc-dzbdsI brpChj jCpAtP Element-Button"
                   data-testid="yes-no-toogle-no-button"
-                  style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
+                  style="border-left-width: medium; border-left-style: none; color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                   type="button"
                 >
                   <span
