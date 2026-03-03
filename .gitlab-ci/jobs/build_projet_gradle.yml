@@ -1,7 +1,7 @@
 # TODO à adapter selon le projet
 build_projet_gradle:
   stage: build
-  image: gradle:8.5-jdk21
+  image: gradle:9.3.1-jdk21
   variables:
     HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
     HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
