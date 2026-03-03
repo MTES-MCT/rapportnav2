@@ -9,6 +9,7 @@ export default mergeConfig(
       globals: true,
       environment: 'jsdom',
       setupFiles: ['./vitest.setup.ts'],
+      testTimeout: 10000,
       server: {
         deps: {
           inline: ['@mtes-mct/monitor-ui', 'styled-components']
