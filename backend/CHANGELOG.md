@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.69.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.68.0...backend@v2.69.0) (2026-03-03)
+
+
+### Features
+
+* **backend:** add delete general infos (admin) ([e836303](https://github.com/MTES-MCT/rapportnav2/commit/e836303126cb675f16cf11169f5b71fb89812894))
+
+
+### Bug Fixes
+
+* **backend:** resources set before isCompleteForStats ([a7fc687](https://github.com/MTES-MCT/rapportnav2/commit/a7fc687e3b966e02de6198647c2f8c01a4a50c68))
+* **backend:** update test ([950609a](https://github.com/MTES-MCT/rapportnav2/commit/950609a5fdff396b31963680cb9eb9dea8d6a52c))
+* **deps:** bump spring boot ([c58af02](https://github.com/MTES-MCT/rapportnav2/commit/c58af0212f02a96208830b623e2e993b9210aa15))
+
 ## [2.68.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.67.2...backend@v2.68.0) (2026-02-26)
 
 
