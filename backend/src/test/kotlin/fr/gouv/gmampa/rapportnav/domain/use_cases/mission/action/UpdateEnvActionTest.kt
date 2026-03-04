@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateEnvAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvActionData
@@ -28,6 +29,8 @@ class UpdateEnvActionTest {
     @MockitoBean
     private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
 
+    @MockitoBean
+    private lateinit var getMissionDates: GetMissionDates
 
     @Test
     fun `test execute update env action`() {
@@ -50,7 +53,8 @@ class UpdateEnvActionTest {
 
         val updateEnvAction = UpdateEnvAction(
             patchEnvAction = patchEnvAction,
-            processMissionActionTarget = processMissionActionTarget
+            processMissionActionTarget = processMissionActionTarget,
+            getMissionDates = getMissionDates
         )
 
         val response = updateEnvAction.execute(actionId, input)

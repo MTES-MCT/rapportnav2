@@ -12,10 +12,13 @@ import java.time.Instant
 import java.util.*
 
 object MissionNavActionEntityMock {
+    // Sentinel value to indicate "use default" vs explicit null
+    private val DEFAULT_START_DATE = Instant.parse("2019-09-08T22:00:00.000+01:00")
+
     fun create(
         missionId: Int? = null,
         id: UUID? = null,
-        startDateTimeUtc: Instant? = null,
+        startDateTimeUtc: Instant? = DEFAULT_START_DATE,
         endDateTimeUtc: Instant? = null,
         observations: String? = null,
         actionType: ActionType? = null,
@@ -53,7 +56,7 @@ object MissionNavActionEntityMock {
         return MissionNavActionEntity(
             missionId = missionId?: 761,
             id = id?: UUID.randomUUID(),
-            startDateTimeUtc = startDateTimeUtc?: Instant.parse("2019-09-08T22:00:00.000+01:00"),
+            startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             observations = observations,
             isAntiPolDeviceDeployed = isAntiPolDeviceDeployed,
