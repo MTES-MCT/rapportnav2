@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetExternalDataEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel
 import java.time.Instant
@@ -16,7 +17,7 @@ import java.util.*
 
 @UseCase
 class GetComputeEnvTarget(
-    private val targetRepo: ITargetRepository
+    private val targetRepo: ITargetRepository,
 ) {
     fun execute(actionId: String, envInfractions: List<InfractionEnvEntity>?, isControl: Boolean?): List<TargetEntity>? {
         if (isControl != true) return null
@@ -79,7 +80,6 @@ class GetComputeEnvTarget(
             externalId = externalId,
             source = source.toString(),
             controls = getNewControls(),
-            startDateTimeUtc = Instant.now(),
             status = TargetStatusType.IN_PROCESS.toString()
 
         )

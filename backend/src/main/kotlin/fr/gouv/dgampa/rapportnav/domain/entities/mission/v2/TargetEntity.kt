@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
+import fr.gouv.dgampa.rapportnav.domain.utils.MissionDateUtils
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel
 import java.time.Instant
 import java.util.*
@@ -51,6 +52,18 @@ class TargetEntity(
 
     fun getControlByType(controlType: ControlType): ControlEntity? {
         return this.controls?.find { it.controlType == controlType }
+    }
+
+    /**
+     * Validates that target dates fall within the mission date range.
+     */
+    fun isWithinMissionDates(missionStart: Instant?, missionEnd: Instant?): Boolean {
+        return MissionDateUtils.isWithinMissionDates(
+            startDate = this.startDateTimeUtc,
+            endDate = this.endDateTimeUtc,
+            missionStart = missionStart,
+            missionEnd = missionEnd
+        )
     }
 
     override fun equals(other: Any?): Boolean {

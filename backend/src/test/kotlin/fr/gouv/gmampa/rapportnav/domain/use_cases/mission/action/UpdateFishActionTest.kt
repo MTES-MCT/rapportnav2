@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateFishAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
@@ -32,6 +33,9 @@ class UpdateFishActionTest {
     @MockitoBean
     private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
 
+    @MockitoBean
+    private lateinit var getMissionDates: GetMissionDates
+
     @Test
     fun `test execute update fish action`() {
         val actionId = 54566.toString()
@@ -54,7 +58,8 @@ class UpdateFishActionTest {
         val updateNavAction = UpdateFishAction(
             processSati = processSati,
             patchFishAction = patchFishAction,
-            processMissionActionTarget = processMissionActionTarget
+            processMissionActionTarget = processMissionActionTarget,
+            getMissionDates = getMissionDates
         )
 
         val response = updateNavAction.execute(actionId, input)

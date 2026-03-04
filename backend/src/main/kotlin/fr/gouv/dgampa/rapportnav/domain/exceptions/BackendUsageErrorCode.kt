@@ -39,5 +39,9 @@ enum class BackendUsageErrorCode {
     TOO_MANY_ROWS_EXCEPTION,
 
     //------------------------
-    COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION
+    COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION,
+
+    //------------------------
+    // Date validation errors
+    DATES_OUTSIDE_MISSION_RANGE_EXCEPTION
 }
