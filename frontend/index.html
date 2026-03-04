@@ -8,11 +8,6 @@
     <meta name="description" content="Application de rapport de navigation" />
     <meta name="robots" content="noindex, nofollow" />
 
-    <!-- Security headers -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="X-Frame-Options" content="DENY" />
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
-
     <!-- Viewport and mobile optimization -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
@@ -41,15 +36,13 @@
     </noscript>
 
     <!-- Runtime environment variables injection -->
-    <!-- This script will be used by the `import-meta-env` library to inject -->
+    <!-- This script is used by the `import-meta-env` library to inject -->
     <!-- runtime environment variables when running in production -->
     <!-- see: https://import-meta-env.org/guide/getting-started/introduction.html -->
-    <script>
-      // Ensure globalThis exists (for older browsers)
-      if (typeof globalThis === 'undefined') {
-        var globalThis = window;
-      }
-      globalThis.import_meta_env = JSON.parse('"import_meta_env_placeholder"')
+    <!-- The nonce placeholder __CSP_NONCE__ is replaced by the backend at runtime -->
+    <script nonce="__CSP_NONCE__">
+      if (typeof globalThis === 'undefined') { var globalThis = window; }
+      globalThis.import_meta_env = JSON.parse('"import_meta_env_placeholder"');
     </script>
 
     <!-- Main application script -->
