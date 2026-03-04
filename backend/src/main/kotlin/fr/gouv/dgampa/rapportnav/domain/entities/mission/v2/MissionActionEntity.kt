@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.utils.MissionDateUtils
 import java.time.Instant
 
 
@@ -94,6 +95,15 @@ abstract class MissionActionEntity(
         }catch(e:Exception){
             return false
         }
+    }
+
+    fun isWithinMissionDates(missionStart: Instant?, missionEnd: Instant?): Boolean {
+        return MissionDateUtils.isWithinMissionDates(
+            startDate = this.startDateTimeUtc,
+            endDate = this.endDateTimeUtc,
+            missionStart = missionStart,
+            missionEnd = missionEnd
+        )
     }
 
     fun computeControlsToComplete() {

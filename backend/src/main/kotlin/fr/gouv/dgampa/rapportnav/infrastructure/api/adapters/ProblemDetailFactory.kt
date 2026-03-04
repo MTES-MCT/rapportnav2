@@ -157,6 +157,7 @@ fun BackendUsageErrorCode.toTitle(): String = when (this) {
     BackendUsageErrorCode.ALREADY_EXISTS_EXCEPTION -> "Resource Already Exists"
     BackendUsageErrorCode.TOO_MANY_ROWS_EXCEPTION -> "Too Many Rows"
     BackendUsageErrorCode.COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION -> "Control Not Found For Infraction"
+    BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION -> "Action Dates Outside Mission Range"
 }
 
 /**
@@ -175,6 +176,7 @@ fun BackendUsageErrorCode.defaultMessage(): String = when (this) {
     BackendUsageErrorCode.ALREADY_EXISTS_EXCEPTION -> "A resource with this identifier already exists"
     BackendUsageErrorCode.TOO_MANY_ROWS_EXCEPTION -> "The query returned too many rows"
     BackendUsageErrorCode.COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION -> "No control found for the specified infraction"
+    BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION -> "The action dates must be within the mission date range"
 }
 
 /**

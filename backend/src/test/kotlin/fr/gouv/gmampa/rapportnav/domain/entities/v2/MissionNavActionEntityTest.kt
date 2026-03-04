@@ -291,4 +291,96 @@ class MissionNavActionEntityTest {
         Assertions.assertThat(infractionIds).isEqualTo(mockInfractionIds)
     }
 
+    @Test
+    fun `isWithinMissionDates returns true when mission has no start date`() {
+        val entity = MissionNavActionEntityMock.create(
+            startDateTimeUtc = Instant.parse("2024-01-15T10:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-01-15T12:00:00Z")
+        )
+        Assertions.assertThat(entity.isWithinMissionDates(null, null)).isTrue()
+    }
+
+    @Test
+    fun `isWithinMissionDates returns true when action has no start date`() {
+        val entity = MissionNavActionEntityMock.create(startDateTimeUtc = null)
+        val missionStart = Instant.parse("2024-01-01T00:00:00Z")
+        val missionEnd = Instant.parse("2024-01-31T23:59:59Z")
+        Assertions.assertThat(entity.isWithinMissionDates(missionStart, missionEnd)).isTrue()
+    }
+
+    @Test
+    fun `isWithinMissionDates returns true when action dates are within mission dates`() {
+        val entity = MissionNavActionEntityMock.create(
+            startDateTimeUtc = Instant.parse("2024-01-15T10:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-01-15T12:00:00Z")
+        )
+        val missionStart = Instant.parse("2024-01-01T00:00:00Z")
+        val missionEnd = Instant.parse("2024-01-31T23:59:59Z")
+        Assertions.assertThat(entity.isWithinMissionDates(missionStart, missionEnd)).isTrue()
+    }
+
+    @Test
+    fun `isWithinMissionDates returns false when action start is before mission start`() {
+        val entity = MissionNavActionEntityMock.create(
+            startDateTimeUtc = Instant.parse("2023-12-31T10:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-01-15T12:00:00Z")
+        )
+        val missionStart = Instant.parse("2024-01-01T00:00:00Z")
+        val missionEnd = Instant.parse("2024-01-31T23:59:59Z")
+        Assertions.assertThat(entity.isWithinMissionDates(missionStart, missionEnd)).isFalse()
+    }
+
+    @Test
+    fun `isWithinMissionDates returns false when action start is after mission end`() {
+        val entity = MissionNavActionEntityMock.create(
+            startDateTimeUtc = Instant.parse("2024-02-15T10:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-02-15T12:00:00Z")
+        )
+        val missionStart = Instant.parse("2024-01-01T00:00:00Z")
+        val missionEnd = Instant.parse("2024-01-31T23:59:59Z")
+        Assertions.assertThat(entity.isWithinMissionDates(missionStart, missionEnd)).isFalse()
+    }
+
+    @Test
+    fun `isWithinMissionDates returns false when action end is after mission end`() {
+        val entity = MissionNavActionEntityMock.create(
+            startDateTimeUtc = Instant.parse("2024-01-30T10:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-02-15T12:00:00Z")
+        )
+        val missionStart = Instant.parse("2024-01-01T00:00:00Z")
+        val missionEnd = Instant.parse("2024-01-31T23:59:59Z")
+        Assertions.assertThat(entity.isWithinMissionDates(missionStart, missionEnd)).isFalse()
+    }
+
+    @Test
+    fun `isWithinMissionDates returns true when mission has no end date and action is after mission start`() {
+        val entity = MissionNavActionEntityMock.create(
+            startDateTimeUtc = Instant.parse("2024-01-15T10:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-02-15T12:00:00Z")
+        )
+        val missionStart = Instant.parse("2024-01-01T00:00:00Z")
+        Assertions.assertThat(entity.isWithinMissionDates(missionStart, null)).isTrue()
+    }
+
+    @Test
+    fun `isWithinMissionDates returns false when mission has no end date and action is before mission start`() {
+        val entity = MissionNavActionEntityMock.create(
+            startDateTimeUtc = Instant.parse("2023-12-31T10:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-01-15T12:00:00Z")
+        )
+        val missionStart = Instant.parse("2024-01-01T00:00:00Z")
+        Assertions.assertThat(entity.isWithinMissionDates(missionStart, null)).isFalse()
+    }
+
+    @Test
+    fun `isWithinMissionDates returns true when action has no end date and start is within mission dates`() {
+        val entity = MissionNavActionEntityMock.create(
+            startDateTimeUtc = Instant.parse("2024-01-15T10:00:00Z"),
+            endDateTimeUtc = null
+        )
+        val missionStart = Instant.parse("2024-01-01T00:00:00Z")
+        val missionEnd = Instant.parse("2024-01-31T23:59:59Z")
+        Assertions.assertThat(entity.isWithinMissionDates(missionStart, missionEnd)).isTrue()
+    }
+
 }
