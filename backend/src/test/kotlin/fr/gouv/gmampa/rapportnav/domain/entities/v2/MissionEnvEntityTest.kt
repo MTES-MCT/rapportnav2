@@ -135,4 +135,24 @@ class MissionEnvEntityTest {
             )
         ).isEqualTo(true)
     }
+
+    @Test
+    fun `execute not return exception but false when control unit list is empty`() {
+        val missionNavEntity = MissionNavEntity(
+            id = UUID.randomUUID(),
+            serviceId = 2,
+            endDateTimeUtc = Instant.now(),
+            startDateTimeUtc = Instant.now(),
+            isDeleted = false,
+            observationsByUnit = "myObservation",
+        )
+        val entity = MissionEnvEntity.fromMissionNavEntity(missionNavEntity)
+        entity.controlUnits = listOf()
+        assertThat(
+            entity.isCompleteForStats(
+                serviceTypeEnum = ServiceTypeEnum.ULAM,
+                isResourcesNotUsed = false
+            )
+        ).isEqualTo(false)
+    }
 }
