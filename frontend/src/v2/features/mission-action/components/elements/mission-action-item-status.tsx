@@ -1,6 +1,6 @@
 import { ActionStatusType } from '@common/types/action-types'
 import { getColorForStatus, mapStatusToText } from '@common/utils/status-utils'
-import { FormikDatePicker, FormikEffect, FormikTextarea, Icon, Tag } from '@mtes-mct/monitor-ui'
+import { FormikEffect, FormikTextarea, Icon, Tag } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
@@ -8,6 +8,7 @@ import FormikSelectStatusReason from '../../../common/components/ui/formik-selec
 import { MissionAction, MissionNavAction } from '../../../common/types/mission-action'
 import { useMissionActionStatus } from '../../hooks/use-mission-action-status'
 import { ActionStatusInput } from '../../types/action-type'
+import MissionBoundFormikDatePicker from '../../../common/components/elements/mission-bound-formik-date-picker.tsx'
 
 const MissionActionItemStatus: FC<{
   action: MissionNavAction
@@ -15,6 +16,7 @@ const MissionActionItemStatus: FC<{
   isMissionFinished?: boolean
 }> = ({ action, onChange }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionStatus(action, onChange)
+
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
@@ -32,7 +34,7 @@ const MissionActionItemStatus: FC<{
                   // Only handle submission, let Formik handle validation display
                   await handleSubmit(nextValue as ActionStatusInput)
                   // Optionally trigger validation to ensure UI updates
-                  await validateForm()
+                  await validateForm(nextValue)
                 }}
               />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
@@ -49,13 +51,14 @@ const MissionActionItemStatus: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <FormikDatePicker
+                      <MissionBoundFormikDatePicker
                         name="date"
                         isLight={true}
                         withTime={true}
                         isRequired={true}
                         isCompact={false}
                         label="Date et heure (utc)"
+                        missionId={action.missionId}
                       />
                     </Stack.Item>
                     <Stack.Item grow={3}>

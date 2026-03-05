@@ -74,17 +74,15 @@ export const offlineUpdateActionDefaults = {
   },
   onSuccess: async (serverResponse, newAction, _context) => {
     await queryClient.setQueryData(actionsKeys.byId(serverResponse?.id), serverResponse)
-  },
-  onSettled: async (_data, _error, variables: ActionInput, _context) => {
     await queryClient.invalidateQueries({
-      queryKey: actionsKeys.byId(variables.action?.id)
+      queryKey: actionsKeys.byId(serverResponse?.id)
     })
 
     await queryClient.invalidateQueries({
       queryKey:
-        variables.ownerType === OwnerType.INQUIRY
-          ? inquiriesKeys.byId(variables.ownerId)
-          : missionsKeys.byId(variables.ownerId),
+        serverResponse.ownerType === OwnerType.INQUIRY
+          ? inquiriesKeys.byId(serverResponse.ownerId)
+          : missionsKeys.byId(serverResponse.missionId),
       type: 'all'
     })
   },
@@ -95,16 +93,16 @@ export const offlineUpdateActionDefaults = {
 
 export const onlineUpdateActionDefaults = {
   mutationFn: updateAction,
-  onSettled: async (_data, _error, variables: ActionInput, _context) => {
+  onSuccess: async (serverResponse, newAction, _context) => {
     await queryClient.invalidateQueries({
-      queryKey: actionsKeys.byId(variables.action?.id),
+      queryKey: actionsKeys.byId(serverResponse?.id),
       type: 'all'
     })
     await queryClient.invalidateQueries({
       queryKey:
-        variables.ownerType === OwnerType.INQUIRY
-          ? inquiriesKeys.byId(variables.ownerId)
-          : missionsKeys.byId(variables.ownerId),
+        serverResponse.ownerType === OwnerType.INQUIRY
+          ? inquiriesKeys.byId(serverResponse.ownerId)
+          : missionsKeys.byId(serverResponse.ownerId),
       type: 'all'
     })
   },

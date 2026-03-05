@@ -33,6 +33,15 @@ interface DateHook {
 
   getTodayYearRange: (value?: Date) => DateRange
   getTodayMonthRange: (value?: Date) => DateRange
+
+  getDateRangeForInput: (actionDates: {
+    startDateTimeUtc?: string | null
+    endDateTimeUtc?: string | null
+  }) => [Date, Date]
+  getDateRangeFromInput: (dates: [Date?, Date?]) => {
+    startDateTimeUtc: string | undefined
+    endDateTimeUtc: string | undefined
+  }
 }
 
 export function useDate(): DateHook {
@@ -83,9 +92,14 @@ export function useDate(): DateHook {
     return date
   }
 
-  const postprocessDateFromPicker = (value?: Date | null): string | undefined => {
+  const postprocessDateFromPicker = (value?: Date | string | null): string | undefined => {
     if (!value) return undefined
     let date = value || new UTCDate()
+
+    if (typeof date === 'string') {
+      date = new UTCDate(date)
+    }
+
     if (!isValid(date)) date = new UTCDate()
     return date.toISOString()
   }
@@ -108,6 +122,22 @@ export function useDate(): DateHook {
     }
   }
 
+  const getDateRangeForInput = (actionDates: {
+    startDateTimeUtc?: string | null
+    endDateTimeUtc?: string | null
+  }): [Date | undefined, Date | undefined] => {
+    const startDate = actionDates.startDateTimeUtc ?? preprocessDateForPicker(actionDates.startDateTimeUtc)
+    const endDate = actionDates.endDateTimeUtc ?? preprocessDateForPicker(actionDates.endDateTimeUtc)
+    return [startDate, endDate]
+  }
+
+  const getDateRangeFromInput = (
+    dates: [Date?, Date?]
+  ): { startDateTimeUtc: string | undefined; endDateTimeUtc: string | undefined } => ({
+    startDateTimeUtc: dates[0] && postprocessDateFromPicker(dates[0]),
+    endDateTimeUtc: dates[1] && postprocessDateFromPicker(dates[1])
+  })
+
   return {
     formatTime,
     groupByDay,
@@ -121,6 +151,8 @@ export function useDate(): DateHook {
     postprocessDateFromPicker,
     formatDateTimeForFrenchHumans,
     getTodayYearRange,
-    getTodayMonthRange
+    getTodayMonthRange,
+    getDateRangeForInput,
+    getDateRangeFromInput
   }
 }

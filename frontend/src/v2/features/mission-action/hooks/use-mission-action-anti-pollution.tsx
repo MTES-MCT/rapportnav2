@@ -9,6 +9,8 @@ import { object } from 'yup'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
 import { useMemo } from 'react'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 
 export function useMissionActionAntiPollution(
   action: MissionAction,
@@ -16,15 +18,15 @@ export function useMissionActionAntiPollution(
 ): AbstractFormikSubFormHook<ActionAntiPollutionInput> {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.missionId)
+  const missionDates = useMissionDates(action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionAntiPollutionInput => {
-    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
+    const dates = getDateRangeForInput(data)
     return {
       ...data,
-      dates: [startDate, endDate],
+      dates,
       isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
@@ -34,9 +36,7 @@ export function useMissionActionAntiPollution(
     const { dates, geoCoords, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
+    return { ...newData, ...getDateRangeFromInput(dates), longitude, latitude }
   }
 
   const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionAntiPollutionInput>(
@@ -64,13 +64,17 @@ export function useMissionActionAntiPollution(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const createValidationSchema = (isMissionFinished: boolean) => {
+  const createValidationSchema = (isMissionFinished: boolean, missionStartDate?: string, missionEndDate?: string) => {
     return object().shape({
+      ...getDateRangeSchema({ isMissionFinished, missionStartDate, missionEndDate }),
       ...getGeoCoordsSchema(isMissionFinished)
     })
   }
 
-  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
 
   return {
     errors,
