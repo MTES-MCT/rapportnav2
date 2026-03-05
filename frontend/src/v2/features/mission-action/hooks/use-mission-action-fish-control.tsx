@@ -4,6 +4,10 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionFishActionData } from '../../common/types/mission-action'
 import { ActionFishControlInput } from '../types/action-type'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { object, string } from 'yup'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import { useMemo } from 'react'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionFishControl(
@@ -12,24 +16,22 @@ export function useMissionActionFishControl(
 ): AbstractFormikSubFormHook<ActionFishControlInput> {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionFishActionData
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionFishActionData): ActionFishControlInput => {
-    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
+    const dates = getDateRangeForInput(data)
     return {
       ...data,
-      dates: [startDate, endDate],
+      dates,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
 
   const fromInputToFieldValue = (value: ActionFishControlInput): MissionFishActionData => {
-    const { dates, geoCoords, ...newData } = value
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, startDateTimeUtc, endDateTimeUtc }
+    const { dates, geoCoords, isMissionFinished, ...newData } = value
+    return { ...newData, ...getDateRangeFromInput(dates) }
   }
 
   const { initValue, handleSubmit } = useAbstractFormik<MissionFishActionData, ActionFishControlInput>(
@@ -47,8 +49,21 @@ export function useMissionActionFishControl(
     handleSubmit(value, onSubmit)
   }
 
+  const createValidationSchema = (isMissionFinished: boolean, missionStartDate?: string, missionEndDate?: string) => {
+    return object().shape({
+      ...getDateRangeSchema({ isMissionFinished, missionStartDate, missionEndDate }),
+      observationsByUnit: string().nullable()
+    })
+  }
+
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
+
   return {
     initValue,
+    validationSchema,
     handleSubmit: handleSubmitOverride
   }
 }

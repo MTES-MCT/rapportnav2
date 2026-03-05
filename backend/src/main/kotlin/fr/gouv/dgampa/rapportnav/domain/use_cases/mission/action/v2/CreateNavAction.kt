@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -20,9 +21,12 @@ class CreateNavAction(
     fun execute(input: MissionAction): MissionNavActionEntity {
         val action = MissionNavActionData.toMissionNavActionEntity(input)
 
+
+
         val missionDates = getMissionDates.execute(
             missionId = action.missionId,
-            ownerId = action.ownerId
+            ownerId = action.ownerId,
+            inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
         ) ?: throw BackendInternalException(
             message = "Could not retrieve mission dates for missionId=${action.missionId}"
         )

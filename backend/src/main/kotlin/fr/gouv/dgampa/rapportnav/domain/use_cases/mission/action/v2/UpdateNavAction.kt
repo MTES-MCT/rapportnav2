@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -27,7 +28,8 @@ class UpdateNavAction(
 
         val missionDates = getMissionDates.execute(
             missionId = action.missionId,
-            ownerId = action.ownerId
+            ownerId = action.ownerId,
+            inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
         )
         if (missionDates != null && !action.isWithinMissionDates(missionDates.startDateTimeUtc, missionDates.endDateTimeUtc)) {
             throw BackendUsageException(code = BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION)

@@ -176,7 +176,7 @@ fun BackendUsageErrorCode.defaultMessage(): String = when (this) {
     BackendUsageErrorCode.ALREADY_EXISTS_EXCEPTION -> "A resource with this identifier already exists"
     BackendUsageErrorCode.TOO_MANY_ROWS_EXCEPTION -> "The query returned too many rows"
     BackendUsageErrorCode.COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION -> "No control found for the specified infraction"
-    BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION -> "The action dates must be within the mission date range"
+    BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION -> "Les dates doivent être comprises entre les dates de la mission"
 }
 
 /**

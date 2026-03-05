@@ -10,6 +10,8 @@ import getLocationSchema from '../../common/schemas/location-schema'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionControlInput } from '../types/action-type'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionGenericControl(
   action: MissionAction,
@@ -19,15 +21,15 @@ export function useMissionActionGenericControl(
   booleans?: string[]
 ): AbstractFormikSubFormHook<ActionControlInput> {
   const { getCoords } = useCoordinate()
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionControlInput => {
-    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
+    const dates = getDateRangeForInput(data)
     return {
       ...data,
-      dates: [startDate, endDate],
+      dates,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
@@ -58,15 +60,22 @@ export function useMissionActionGenericControl(
     handleSubmit(value, onSubmit)
   }
 
-  const createValidationSchema = (isMissionFinished?: boolean) => {
+  const createValidationSchema = (isMissionFinished?: boolean, missionStartDate?: string, missionEndDate?: string) => {
     return object().shape({
       ...(withGeoCoords ? getLocationSchema(isMissionFinished) : {}),
-      ...(getDateRangeSchema(isMissionFinished) as Record<string, any>),
+      ..(getDateRangeSchema({
+        isMissionFinished,
+        missionStartDate,
+        missionEndDate
+      }) as Record<string, any>),
       ...(schema ?? {})
     })
   }
 
-  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
 
   return {
     initValue,

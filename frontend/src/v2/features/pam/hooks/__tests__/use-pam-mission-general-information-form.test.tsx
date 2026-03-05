@@ -52,9 +52,11 @@ describe('usePamMissionGeneralInformationForm', () => {
 
     it('should require all conditional fields if mission is finished and not interservices', async () => {
       const schema = renderWithStates(true, false)
+      const startDate = new Date('2024-01-01T10:00:00Z')
+      const endDate = new Date('2024-01-01T12:00:00Z')
       const valid = await schema.isValid({
         // missing required fields
-        dates: [new Date(), new Date()]
+        dates: [startDate, endDate]
       })
       expect(valid).toBe(false)
 
@@ -64,16 +66,20 @@ describe('usePamMissionGeneralInformationForm', () => {
 
     it('should not require those fields if mission is finished but interservices', async () => {
       const schema = renderWithStates(true, true)
+      const startDate = new Date('2024-01-01T10:00:00Z')
+      const endDate = new Date('2024-01-01T12:00:00Z')
       const valid = await schema.isValid({
-        dates: [new Date(), new Date()]
+        dates: [startDate, endDate]
       })
       expect(valid).toBe(true)
     })
 
     it('should validate successfully when all required fields are present', async () => {
       const schema = renderWithStates(true, false)
+      const startDate = new Date('2024-01-01T10:00:00Z')
+      const endDate = new Date('2024-01-01T12:00:00Z')
       const valid = await schema.isValid({
-        dates: [new Date(), new Date()],
+        dates: [startDate, endDate],
         distanceInNauticalMiles: 10,
         consumedGOInLiters: 20,
         consumedFuelInLiters: 30,

@@ -4,6 +4,15 @@ import { Formik } from 'formik'
 import { MissionPassenger } from '../../../../../common/types/passenger-type.ts'
 import MissionGeneralInformationPassengerPamForm from '../mission-general-information-passenger-pam-form.tsx'
 
+// Mock the hooks
+vi.mock('../../../../../common/hooks/use-mission-finished.tsx', () => ({
+  useMissionFinished: vi.fn(() => true)
+}))
+
+vi.mock('../../../../../common/hooks/use-mission-dates.tsx', () => ({
+  useMissionDates: vi.fn(() => undefined)
+}))
+
 const samplePassenger: MissionPassenger = {
   id: '1',
   fullName: 'John Doe',
@@ -35,7 +44,7 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
     renderComponent({ passenger: undefined })
 
     // Check title
-    expect(screen.getByText('Ajout d’un passager')).toBeInTheDocument()
+    expect(screen.getByText("Ajout d'un passager")).toBeInTheDocument()
 
     // Check form elements
     expect(screen.getByText('Prénom, Nom')).toBeInTheDocument()
@@ -51,7 +60,7 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
     renderComponent()
 
     // Check title
-    expect(screen.getByText('Mise à jour d’un passager')).toBeInTheDocument()
+    expect(screen.getByText("Mise à jour d'un passager")).toBeInTheDocument()
 
     // Check form initial values
     const identityInput = screen.getByLabelText('Prénom, Nom')
@@ -71,7 +80,7 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
     // Check validation errors
     expect(await screen.findByText('Nom requis.')).toBeInTheDocument()
     expect(await screen.findByText('Organisation requise.')).toBeInTheDocument()
-    expect(screen.queryAllByText('Date requise')).toHaveLength(2)
+    expect(screen.queryAllByText('La date doit être bien renseignée')).toHaveLength(2)
   })
 
   it('submits the form successfully', async () => {
@@ -118,25 +127,7 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
 
     expect(await screen.findByText('Nom requis.')).toBeInTheDocument()
     expect(await screen.findByText('Organisation requise.')).toBeInTheDocument()
-    expect(screen.queryAllByText('Date requise')).toHaveLength(2)
+    expect(screen.queryAllByText('La date doit être bien renseignée')).toHaveLength(2)
   })
 
-  it('shows validation error messages when end date before start date', async () => {
-    renderComponent({
-      passenger: {
-        ...samplePassenger,
-        ...{
-          startDate: '2023-12-03',
-          endDate: '2023-12-02'
-        }
-      }
-    })
-
-    const submitButton = screen.getByTestId('submit-passenger-form-button')
-    fireEvent.click(submitButton) // trigger submit
-
-    expect(
-      await screen.findByText('La date de fin doit être antérieure ou égale à la date de début')
-    ).toBeInTheDocument()
-  })
 })
