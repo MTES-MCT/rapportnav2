@@ -157,6 +157,28 @@ class ComputeAEMData(
                 "Quantité de produits de la pêche saisis/rejetés en mer(en kg)"
             ) { it.illegalFish?.quantityOfFish },
 
+            // --- 4.4 Protection des biens culturels maritimes ---
+            MetricDef("4.4.1", "Nombre d’heures de mer") {
+                it.culturalMaritime?.nbrOfHourAtSea
+            },
+            MetricDef("4.4.2", "Nombre d’opérations scientifiques") {
+                it.culturalMaritime?.nbrOfScientificOperation
+            },
+            MetricDef("4.4.3", "Nombre d’opération de police des BCM") {
+                it.culturalMaritime?.nbrOfBCMPoliceOperation
+            },
+
+            // --- 5 Sûreté maritime et maintien de l'ordre public en mer ---
+            MetricDef("5.1", "Nombre d’heures de mer") {
+                it.seaSafety?.nbrOfHourAtSea
+            },
+            MetricDef("5.3", "Nombre d’opérations scientifiques") {
+                it.seaSafety?.nbrOfHourPublicOrder
+            },
+            MetricDef("5.4", "Nombre d’opération de police des BCM") {
+                it.seaSafety?.nbrOfPublicOrderOperation
+            },
+
             // --- 7 Sovereign Protect ---
             MetricDef(
                 "7.1",
