@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.69.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.69.0...docker-container@v2.69.1) (2026-03-05)
+
+
+### Bug Fixes
+
+* **backend:** handle empty resources list ([0e72d8b](https://github.com/MTES-MCT/rapportnav2/commit/0e72d8b6c57b8f7d2c37d4fd877989b3147557af))
+* **backend:** handle empty resources list ([1a97b84](https://github.com/MTES-MCT/rapportnav2/commit/1a97b843ec00cd81c98a12af06c6591fdd0552a7))
+
 ## [2.69.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.68.0...docker-container@v2.69.0) (2026-03-03)
 
 
