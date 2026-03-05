@@ -3,7 +3,6 @@ import { FormikEffect } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
 import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
@@ -14,6 +13,7 @@ import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-c
 import { ActionNavControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import MissionActionNavControlWarning from '../ui/mission-action-nav-control-warning'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 
 const MissionActionItemNavControl: FC<{
   action: MissionAction
@@ -49,11 +49,7 @@ const MissionActionItemNavControl: FC<{
                   <MissionControlNavSummary vesselType={values?.vesselType} controlMethod={values?.controlMethod} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <Field name="dates">
-                    {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                    )}
-                  </Field>
+                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId ?? action.missionId} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Field name="geoCoords">

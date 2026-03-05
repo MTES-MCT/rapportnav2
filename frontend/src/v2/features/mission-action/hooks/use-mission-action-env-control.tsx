@@ -4,7 +4,11 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionEnvActionData } from '../../common/types/mission-action'
 import { ActionEnvControlInput } from '../types/action-type'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import { object, string } from 'yup'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import { useMemo } from 'react'
 
 export function useMissionActionEnvControl(
   action: MissionAction,
@@ -12,24 +16,22 @@ export function useMissionActionEnvControl(
 ): AbstractFormikSubFormHook<ActionEnvControlInput> {
   const value = action?.data as MissionEnvActionData
   const { extractLatLngFromMultiPoint } = useCoordinate()
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionEnvActionData): ActionEnvControlInput => {
-    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
+    const dates = getDateRangeForInput(data)
     return {
       ...data,
-      dates: [startDate, endDate],
+      dates,
       geoCoords: extractLatLngFromMultiPoint(data.geom)
     }
   }
 
   const fromInputToFieldValue = (value: ActionEnvControlInput): MissionEnvActionData => {
     const { dates, geoCoords, ...newData } = value
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, endDateTimeUtc, startDateTimeUtc }
+    return { ...newData, ...getDateRangeFromInput(dates) }
   }
 
   const { initValue, handleSubmit } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
@@ -47,8 +49,21 @@ export function useMissionActionEnvControl(
     handleSubmit(value, onSubmit)
   }
 
+  const createValidationSchema = (isMissionFinished: boolean, missionStartDate?: string, missionEndDate?: string) => {
+    return object().shape({
+      ...getDateRangeSchema({ isMissionFinished, missionStartDate, missionEndDate }),
+      observationsByUnit: string().nullable()
+    })
+  }
+
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
+
   return {
     initValue,
+    validationSchema,
     handleSubmit: handleSubmitOverride
   }
 }

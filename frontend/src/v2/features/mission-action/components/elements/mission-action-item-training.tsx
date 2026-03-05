@@ -14,6 +14,7 @@ const MissionActionItemTraining: FC<{
   const schema = {
     trainingType: isMissionFinished ? string().required() : string().nullable()
   }
+
   return (
     <MissionActionItemGenericDateObservation
       action={action}

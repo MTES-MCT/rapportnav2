@@ -7,6 +7,7 @@ import {
   MissionReinforcementTypeEnum,
   MissionReportTypeEnum
 } from '../../common/types/mission-types.ts'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 
 export type MissionGeneralInfoInput = {
   dates: any
@@ -59,11 +60,8 @@ export const useUlamMissionGeneralInfoForm = (
   }
 
   const validationSchema = Yup.object().shape({
+    ...getDateRangeSchema({ isMissionFinished: true }),
     missionReportType: Yup.mixed<MissionReportTypeEnum>().required('Type de rapport obligatoire'),
-    dates: Yup.array()
-      .of(Yup.date())
-      .test(value => value && value[0] && value[1] && new Date(value[1]) > new Date(value[0]))
-      .required('Date et heure de début et de fin obligatoire'),
     reinforcementType: Yup.mixed<MissionReinforcementTypeEnum>().when('missionReportType', {
       is: MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT,
       then: schema => schema.required('Nature du renfort obligatoire')
