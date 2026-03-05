@@ -8,7 +8,9 @@ import { ActionStatusReason, ActionStatusType } from '@common/types/action-types
 import { mixed, object } from 'yup'
 import { useMemo } from 'react'
 import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
+import { getSingleDateSchema } from '../../common/schemas/dates-schema.ts'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
 
 export function useMissionActionStatus(
   action: MissionAction,
@@ -16,6 +18,7 @@ export function useMissionActionStatus(
 ): AbstractFormikSubFormHook<ActionStatusInput> {
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionStatusInput => {
@@ -43,7 +46,7 @@ export function useMissionActionStatus(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const createValidationSchema = (isMissionFinished: boolean) => {
+  const createValidationSchema = (isMissionFinished: boolean, missionStartDate?: string, missionEndDate?: string) => {
     return object().shape({
       status: mixed<ActionStatusType>().oneOf(Object.values(ActionStatusType) as ActionStatusType[]),
       reason: conditionallyRequired(
@@ -52,11 +55,15 @@ export function useMissionActionStatus(
         (val: ActionStatusType) => val === ActionStatusType.DOCKED || val === ActionStatusType.UNAVAILABLE,
         'Reason is required when status is DOCKED or UNAVAILABLE',
         schema => schema.oneOf(Object.values(ActionStatusReason) as ActionStatusReason[])
-      )(isMissionFinished)
+      )(isMissionFinished),
+      date: getSingleDateSchema({ isMissionFinished, missionStartDate, missionEndDate })
     })
   }
 
-  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
 
   return {
     errors,

@@ -14,6 +14,7 @@ const MissionActionItemInquiry: FC<{
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { availableControlTypes } = useInquiry()
+  // TODO there's actually no exported schemas from hook, validation is inefective
   const { initValue, handleSubmit, validationSchema } = useMissionActionInquiry(action, onChange)
 
   return (

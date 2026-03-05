@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
@@ -14,10 +15,14 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.isNull
+import org.mockito.kotlin.verify
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
+import java.util.*
 
 
 @SpringBootTest(classes = [CreateNavAction::class])
@@ -39,7 +44,7 @@ class CreateNavActionTest {
         val entity = MissionNavActionEntityMock.create()
         val input = MissionNavAction.fromMissionActionEntity(entity)
         val model = MissionActionModelMock.create()
-        `when`(getMissionDates.execute(anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
         `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
 
         val createNavAction = CreateNavAction(
@@ -54,7 +59,7 @@ class CreateNavActionTest {
     fun `test execute throws when startDate is null`() {
         val entity = MissionNavActionEntityMock.create(startDateTimeUtc = null)
         val input = MissionNavAction.fromMissionActionEntity(entity)
-        `when`(getMissionDates.execute(anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
 
         val createNavAction = CreateNavAction(
             missionActionRepository = missionActionRepository,
@@ -69,7 +74,7 @@ class CreateNavActionTest {
     fun `test execute throws when startDate is outside mission range`() {
         val entity = MissionNavActionEntityMock.create(startDateTimeUtc = Instant.parse("2020-01-01T00:00:00Z"))
         val input = MissionNavAction.fromMissionActionEntity(entity)
-        `when`(getMissionDates.execute(anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
 
         val createNavAction = CreateNavAction(
             missionActionRepository = missionActionRepository,
@@ -84,7 +89,7 @@ class CreateNavActionTest {
     fun `test execute throws when endDate is outside mission range`() {
         val entity = MissionNavActionEntityMock.create(endDateTimeUtc = Instant.parse("2020-01-01T00:00:00Z"))
         val input = MissionNavAction.fromMissionActionEntity(entity)
-        `when`(getMissionDates.execute(anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
 
         val createNavAction = CreateNavAction(
             missionActionRepository = missionActionRepository,
@@ -93,5 +98,57 @@ class CreateNavActionTest {
 
         val exception = assertThrows<BackendUsageException> { createNavAction.execute(input) }
         assertThat(exception.code).isEqualTo(BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION)
+    }
+
+    @Test
+    fun `test getMissionDates is called with inquiryId when actionType is INQUIRY`() {
+        val ownerId = UUID.randomUUID()
+        val entity = MissionNavActionEntityMock.create(
+            actionType = ActionType.INQUIRY,
+            ownerId = ownerId
+        )
+        val input = MissionNavAction.fromMissionActionEntity(entity)
+        val model = MissionActionModelMock.create()
+
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
+
+        val createNavAction = CreateNavAction(
+            missionActionRepository = missionActionRepository,
+            getMissionDates = getMissionDates
+        )
+        createNavAction.execute(input)
+
+        verify(getMissionDates).execute(
+            missionId = eq(entity.missionId),
+            ownerId = eq(ownerId),
+            inquiryId = eq(ownerId)
+        )
+    }
+
+    @Test
+    fun `test getMissionDates is called with null inquiryId when actionType is not INQUIRY`() {
+        val ownerId = UUID.randomUUID()
+        val entity = MissionNavActionEntityMock.create(
+            actionType = ActionType.CONTROL,
+            ownerId = ownerId
+        )
+        val input = MissionNavAction.fromMissionActionEntity(entity)
+        val model = MissionActionModelMock.create()
+
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
+
+        val createNavAction = CreateNavAction(
+            missionActionRepository = missionActionRepository,
+            getMissionDates = getMissionDates
+        )
+        createNavAction.execute(input)
+
+        verify(getMissionDates).execute(
+            missionId = eq(entity.missionId),
+            ownerId = eq(ownerId),
+            inquiryId = isNull()
+        )
     }
 }

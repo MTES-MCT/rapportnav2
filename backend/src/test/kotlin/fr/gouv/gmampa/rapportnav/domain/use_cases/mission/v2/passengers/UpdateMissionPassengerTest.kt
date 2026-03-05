@@ -43,7 +43,7 @@ class UpdateMissionPassengerTest {
             endDateTimeUtc = Instant.parse("2024-01-25T23:59:59Z")
         )
         Mockito.`when`(repo.save(any())).thenReturn(passenger.toMissionPassengerModel())
-        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
 
         useCase = UpdateMissionPassenger(
             repo = repo,
@@ -58,7 +58,7 @@ class UpdateMissionPassengerTest {
     fun `should create a new passenger when mission has no dates`() {
         val passenger = MissionPassengerEntityMock.create()
         Mockito.`when`(repo.save(any())).thenReturn(passenger.toMissionPassengerModel())
-        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull())).thenReturn(null)
+        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(null)
 
         useCase = UpdateMissionPassenger(
             repo = repo,
@@ -79,7 +79,7 @@ class UpdateMissionPassengerTest {
             startDateTimeUtc = Instant.parse("2024-01-10T00:00:00Z"),
             endDateTimeUtc = Instant.parse("2024-01-25T23:59:59Z")
         )
-        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
 
         useCase = UpdateMissionPassenger(
             repo = repo,
@@ -102,7 +102,7 @@ class UpdateMissionPassengerTest {
             startDateTimeUtc = Instant.parse("2024-01-10T00:00:00Z"),
             endDateTimeUtc = Instant.parse("2024-01-25T23:59:59Z")
         )
-        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull())).thenReturn(missionDates)
+        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
 
         useCase = UpdateMissionPassenger(
             repo = repo,

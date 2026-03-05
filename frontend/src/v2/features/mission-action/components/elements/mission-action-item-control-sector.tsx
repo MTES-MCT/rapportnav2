@@ -4,15 +4,18 @@ import { MissionAction } from '../../../common/types/mission-action'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import MissionActionItemSectorControlForm from '../ui/mission-action-control-sector-form.tsx'
 import MissionActionItemGenericControl from './mission-action-item-generic-control.tsx'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 const MissionActionItemSectorControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { allControlTypes } = useTarget()
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+
   const schema = {
-    resourceId: string().required(),
-    resourceType: string().required()
+    resourceId: isMissionFinished ? string().required() : string().nullable(),
+    resourceType: isMissionFinished ? string().required() : string().nullable()
   }
 
   return (

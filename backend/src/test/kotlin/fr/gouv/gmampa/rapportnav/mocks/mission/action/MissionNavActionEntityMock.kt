@@ -18,6 +18,7 @@ object MissionNavActionEntityMock {
     fun create(
         missionId: Int? = null,
         id: UUID? = null,
+        ownerId: UUID? = null,
         startDateTimeUtc: Instant? = DEFAULT_START_DATE,
         endDateTimeUtc: Instant? = null,
         observations: String? = null,
@@ -56,6 +57,7 @@ object MissionNavActionEntityMock {
         return MissionNavActionEntity(
             missionId = missionId?: 761,
             id = id?: UUID.randomUUID(),
+            ownerId = ownerId,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             observations = observations,
