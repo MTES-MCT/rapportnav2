@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.69.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.69.1...docker-container@v2.69.2) (2026-03-09)
+
+
+### Bug Fixes
+
+* **ApiAnalytics:** add AEM 4.4.x and 5.x ([2eec684](https://github.com/MTES-MCT/rapportnav2/commit/2eec684fab9c78ad0a88698380d983914d26d5cb))
+
 ## [2.69.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.69.0...docker-container@v2.69.1) (2026-03-05)
 
 
