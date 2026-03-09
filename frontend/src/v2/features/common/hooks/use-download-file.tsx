@@ -5,6 +5,7 @@ export enum BLOBTYPE {
   ODS = 'application/vnd.oasis.opendocument.spreadsheet',
   ODT = 'application/vnd.oasis.opendocument.text',
   ZIP = 'application/zip',
+  PDF = 'application/pdf',
   DEFAULT = 'application/octet-stream'
 }
 

@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportModeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportDummyPdf
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionReports
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -12,6 +13,7 @@ import jakarta.validation.Valid
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import org.slf4j.LoggerFactory
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -47,6 +49,7 @@ data class ErrorResponse(
 @RequestMapping("/api/v2/missions")
 class MissionExportController(
     private val exportMissionReports: ExportMissionReports,
+    private val exportDummyPdf: ExportDummyPdf,
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionExportController::class.java)
@@ -81,6 +84,27 @@ class MissionExportController(
             exportMode = request.exportMode,
             reportType = request.reportType
         )
+    }
+
+    @GetMapping("/export/dummy-pdf")
+    @Operation(
+        summary = "Export a dummy PDF for testing",
+        description = "Generates a simple test PDF with text and a table",
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "PDF generated successfully",
+                content = [Content(schema = Schema(implementation = MissionExportEntity::class))]
+            ),
+            ApiResponse(
+                responseCode = "500",
+                description = "Unexpected internal error",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))]
+            )
+        ]
+    )
+    fun exportDummyPdf(): MissionExportEntity {
+        return exportDummyPdf.execute()
     }
 
 }

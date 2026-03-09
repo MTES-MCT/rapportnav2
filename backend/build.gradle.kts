@@ -91,6 +91,8 @@ dependencies {
   // the two following apache poi dependencies should have the same version
   implementation("org.apache.poi:poi:5.4.1")
   implementation("org.apache.poi:poi-ooxml:5.4.1")
+  // OpenPDF for PDF generation
+  implementation("com.github.librepdf:openpdf:2.0.3")
   implementation("org.apache.commons:commons-text:1.14.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.11")
   implementation("com.neovisionaries:nv-i18n:1.29")

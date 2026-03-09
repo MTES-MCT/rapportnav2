@@ -4,6 +4,7 @@ import { Stack } from 'rsuite'
 import { ExportReportType } from '../../../../common/types/mission-export-types.ts'
 import { Mission2 } from '../../../../common/types/mission-types.ts'
 import { useOnlineManager } from '../../../../common/hooks/use-online-manager.tsx'
+import { useDummyPdfDownload } from '../../../../common/hooks/use-dummy-pdf-download.tsx'
 
 interface MissionListActionsPamProps {
   missions?: Mission2[]
@@ -19,6 +20,7 @@ const MissionListActionsPam: FC<MissionListActionsPamProps> = ({
   toggleAll
 }) => {
   const { isOffline } = useOnlineManager()
+  const { downloadDummyPdf, isLoading: isPdfLoading } = useDummyPdfDownload()
   return (
     <Stack direction={'row'} spacing={'0.2rem'} style={{ padding: '0 1rem' }}>
       <Stack.Item>
@@ -48,6 +50,16 @@ const MissionListActionsPam: FC<MissionListActionsPamProps> = ({
           disabled={!selectedMissionIds.length || isOffline}
           title={isOffline ? "Cette action n'est pas disponible hors ligne" : 'Export rapport de patrouille'}
           data-testid={'export-patrol'}
+        />
+      </Stack.Item>
+      <Stack.Item>
+        <IconButton
+          Icon={Icon.Document}
+          accent={Accent.SECONDARY}
+          onClick={() => downloadDummyPdf()}
+          disabled={isOffline || isPdfLoading}
+          title={isOffline ? "Cette action n'est pas disponible hors ligne" : 'Export PDF Test'}
+          data-testid={'export-dummy-pdf'}
         />
       </Stack.Item>
     </Stack>
