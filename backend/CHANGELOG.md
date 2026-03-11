@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.70.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.69.2...backend@v2.70.0) (2026-03-11)
+
+
+### Features
+
+* **secu:** improve CSP ([7dbc2bb](https://github.com/MTES-MCT/rapportnav2/commit/7dbc2bbbb9f290bab3edce1e10089aa9bb488d0c))
+
+
+### Bug Fixes
+
+* **errors:** fix and improve reporting for 400s ([204ed18](https://github.com/MTES-MCT/rapportnav2/commit/204ed18a34afa7b7e11db8362ab20cd476ac6cbf))
+
 ## [2.69.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.69.1...backend@v2.69.2) (2026-03-09)
 
 
