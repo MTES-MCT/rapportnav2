@@ -3,17 +3,20 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FISHING_GEAR_TYPES, FishingGearType } from '../../../common/types/leisure-fishing-gear-type'
 import { MissionAction } from '../../../common/types/mission-action'
+import { useTarget } from '../../../mission-target/hooks/use-target'
 import MissionActionItemGenericControl from './mission-action-item-generic-control'
 
 const MissionActionItemSleepingFishingGearControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
+  const { allControlTypes } = useTarget()
   return (
     <MissionActionItemGenericControl
       action={action}
       onChange={onChange}
       withGeoCoords={true}
+      controlTypes={allControlTypes}
       data-testid={'action-control-other'}
       component={() => (
         <Stack.Item style={{ width: '100%' }}>

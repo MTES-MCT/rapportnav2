@@ -48,8 +48,7 @@ export function useTimelineAction<T>(id: string): TimelineActionHook<T> {
         ...(moreData ?? {}),
         ...(ACTION_REGISTRY_INPUT[actionType] ?? {}),
         startDateTimeUtc: new UTCDate().toISOString(),
-        isWithinDepartment: true,
-        hasDivingDuringOperation: false
+        isWithinDepartment: true
       },
       ownerId: !isNumeric(id) ? id : undefined,
       missionId: isNumeric(id) ? Number(id) : undefined
