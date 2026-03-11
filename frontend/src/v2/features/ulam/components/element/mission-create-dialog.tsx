@@ -1,7 +1,11 @@
+import { UTCDate } from '@date-fns/utc'
 import { Accent, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FlexboxGrid, Stack } from 'rsuite'
+import { MissionGeneralInfo2 } from 'src/v2/features/common/types/mission-types.ts'
 import TimeConversion from '../../../common/components/ui/time-conversion.tsx'
+import useCreateMissionMutation from '../../services/use-create-mission.tsx'
 import MissionCreateNewUlam from './mission-create-new-ulam.tsx'
 
 interface MissionCreateDialogProps {
@@ -10,7 +14,21 @@ interface MissionCreateDialogProps {
 }
 
 const MissionCreateDialog: FC<MissionCreateDialogProps> = ({ isOpen, onClose }) => {
+  const navigate = useNavigate()
+  const mutation = useCreateMissionMutation()
   const [isDialogOpen, setIsDialogOpen] = useState(isOpen)
+  const value = {
+    startDateTimeUtc: new UTCDate().toISOString(),
+    endDateTimeUtc: new UTCDate().toISOString()
+  } as MissionGeneralInfo2
+
+  const onChange = async (value: MissionGeneralInfo2) => {
+    mutation.mutateAsync(value).then(response => {
+      const id = response.id ?? response.idUUID
+      if (id) navigate(`/ulam/missions/${id}`)
+    })
+    if (onClose) onClose()
+  }
 
   useEffect(() => {
     setIsDialogOpen(isOpen)
@@ -59,7 +77,7 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({ isOpen, onClose }) 
             backgroundColor: THEME.color.gainsboro
           }}
         >
-          <MissionCreateNewUlam onClose={handleClose} />
+          <MissionCreateNewUlam onClose={handleClose} value={value} onChange={onChange} />
         </Dialog.Body>
       </Dialog>
     )
