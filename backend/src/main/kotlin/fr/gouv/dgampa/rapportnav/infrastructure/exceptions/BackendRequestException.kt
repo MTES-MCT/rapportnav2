@@ -4,7 +4,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
- * Domain exception to throw when a request is invalid.
+ * Infrastructure exception thrown when HTTP request validation fails.
  *
  * ## Examples
  * - The request has missing or wrongly-typed properties.
@@ -21,7 +21,7 @@ open class BackendRequestException(
     val code: BackendRequestErrorCode,
     final override val message: String? = null,
     val data: Any? = null,
-) : Throwable(code.name) {
+) : RuntimeException(code.name) {
     private val logger: Logger = LoggerFactory.getLogger(BackendRequestException::class.java)
 
     init {

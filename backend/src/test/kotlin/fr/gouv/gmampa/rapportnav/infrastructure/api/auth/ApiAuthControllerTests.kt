@@ -13,8 +13,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.ApiAuthController
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthLoginDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthRegisterDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.outputs.AuthLoginDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCode
-import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -67,11 +65,11 @@ class ApiAuthControllerTests {
     fun `register throws exception when missing fields`() {
         val input = AuthRegisterDataInput(null, "", "John", "Doe", "f", null, null)
 
-        val ex = assertThrows(BackendRequestException::class.java) {
+        val ex = assertThrows(BackendUsageException::class.java) {
             controller.register(input)
         }
 
-        assertEquals(BackendRequestErrorCode.BODY_MISSING_DATA, ex.code)
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, ex.code)
     }
 
     /*TODO update when password pattern is OK
@@ -125,11 +123,11 @@ class ApiAuthControllerTests {
         val input = AuthLoginDataInput("", "")
         val response: HttpServletResponse = mock(HttpServletResponse::class.java)
 
-        val ex = assertThrows(BackendRequestException::class.java) {
+        val ex = assertThrows(BackendUsageException::class.java) {
             controller.login(input, mockRequest, response)
         }
 
-        assertEquals(BackendRequestErrorCode.BODY_MISSING_DATA, ex.code)
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, ex.code)
     }
 
     @Test

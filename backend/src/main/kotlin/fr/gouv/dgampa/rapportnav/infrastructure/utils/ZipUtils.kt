@@ -52,6 +52,8 @@ object ZipUtils {
                 }
             }
             return Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray())
+        } catch (e: BackendUsageException) {
+            throw e
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to zip files: ${e.message}",
