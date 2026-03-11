@@ -4,8 +4,6 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.api.ControllersExceptionHandler
-import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCode
-import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -148,78 +146,6 @@ class ControllersExceptionHandlerTest {
             val problemDetail = response.body!!
 
             assertThat(problemDetail.title).isEqualTo("Resource Not Found")
-        }
-    }
-
-    @Nested
-    inner class HandleBackendRequestException {
-
-        @Test
-        fun `should return HTTP 422 status`() {
-            val exception = BackendRequestException(
-                code = BackendRequestErrorCode.BODY_MISSING_DATA,
-                message = "Missing required data"
-            )
-
-            val response = handler.handleBackendRequestException(exception)
-
-            assertThat(response.statusCode).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY)
-        }
-
-        @Test
-        fun `should return application problem json content type`() {
-            val exception = BackendRequestException(
-                code = BackendRequestErrorCode.BODY_MISSING_DATA,
-                message = "Missing required data"
-            )
-
-            val response = handler.handleBackendRequestException(exception)
-
-            assertThat(response.headers.contentType).isEqualTo(PROBLEM_JSON_MEDIA_TYPE)
-        }
-
-        @Test
-        fun `should include error code in type URI`() {
-            val exception = BackendRequestException(
-                code = BackendRequestErrorCode.BODY_MISSING_DATA,
-                message = "Missing required data"
-            )
-
-            val response = handler.handleBackendRequestException(exception)
-            val problemDetail = response.body!!
-
-            assertThat(problemDetail.type.toString())
-                .isEqualTo("urn:rapportnav:error:request:BODY_MISSING_DATA")
-        }
-
-        @Test
-        fun `should include code extension property for backwards compatibility`() {
-            val exception = BackendRequestException(
-                code = BackendRequestErrorCode.BODY_MISSING_DATA,
-                message = "Missing required data"
-            )
-
-            val response = handler.handleBackendRequestException(exception)
-            val problemDetail = response.body!!
-
-            assertThat(problemDetail.properties).containsKey("code")
-            assertThat(problemDetail.properties!!["code"]).isEqualTo("BODY_MISSING_DATA")
-        }
-
-        @Test
-        fun `should include data extension property when provided`() {
-            val customData = mapOf("field" to "name")
-            val exception = BackendRequestException(
-                code = BackendRequestErrorCode.BODY_MISSING_DATA,
-                message = "Missing required data",
-                data = customData
-            )
-
-            val response = handler.handleBackendRequestException(exception)
-            val problemDetail = response.body!!
-
-            assertThat(problemDetail.properties).containsKey("data")
-            assertThat(problemDetail.properties!!["data"]).isEqualTo(customData)
         }
     }
 

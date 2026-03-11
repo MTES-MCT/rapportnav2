@@ -30,11 +30,15 @@ axiosInstance.interceptors.response.use(
       triggerGlobalLogout() // 🚀 clean + navigate
     }
 
-    // Extract meaningful message from RFC 7807 ProblemDetail response
+    // Extract meaningful info from RFC 7807 ProblemDetail response
     const problemDetail = error.response?.data
     if (problemDetail?.detail) {
       error.message = problemDetail.detail
     }
+
+    // Attach problem detail info to error for downstream handling
+    error.status = error.response?.status
+    error.problemDetail = problemDetail
 
     return Promise.reject(error)
   }

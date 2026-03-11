@@ -151,16 +151,13 @@ class MissionRestControllerTest {
         }
 
         // Act & Assert
-        // Note: In @WebMvcTest slice tests, ControllersExceptionHandler may not be fully loaded,
-        // so BackendUsageException (which extends Throwable) gets caught by Spring's default
-        // error handler returning 500. In production, the exception handler returns 400.
         mockMvc.perform(
             post("/api/v2/missions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json)
         )
-            .andExpect(status().isInternalServerError)
+            .andExpect(status().isBadRequest)
     }
 
 

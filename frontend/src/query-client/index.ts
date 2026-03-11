@@ -38,20 +38,50 @@ export const STATIC_DATA_STALE_TIME = 1000 * 60 * 60 * 24 * 3 // 3 days
 export const STATIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 15 // 15 days
 export const HOURLY_TIME = 1000 * 60 * 60
 
+/**
+ * Handles API errors based on HTTP status code:
+ * - 400 (Usage errors): User-correctable issues - show specific message, don't report to Sentry
+ * - 500 (Server errors): Unexpected issues - report to Sentry, show generic message
+ */
+const handleApiError = (error: any, context: 'query' | 'mutation') => {
+  const status = error?.status
+  const problemDetail = error?.problemDetail
+  const isUsageError = status === 400
+  const isServerError = status >= 500
+
+  // Skip Missing queryFn errors (React Query internal)
+  if (/Error: Missing queryFn/i.test(error?.toString())) return
+
+  // Always log to console for debugging
+  console.error(error)
+
+  // Report to Sentry for server errors and request errors (not usage errors)
+  if (!isUsageError) {
+    Sentry.captureException(error)
+  }
+
+  // Determine user message based on error type
+  const defaultMessage =
+    context === 'query'
+      ? `Une erreur s'est produite lors du chargement des données. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+      : `Une erreur s'est produite lors de l'enregistrement. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+
+  const userMessage = isUsageError
+    ? problemDetail?.detail || error.message || defaultMessage
+    : isServerError
+      ? defaultMessage
+      : problemDetail?.detail || error.message || defaultMessage
+
+  logSoftError({
+    isSideWindowError: false,
+    message: error.message,
+    userMessage
+  })
+}
+
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: error => {
-      // https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
-      console.error(error)
-      Sentry.captureException(error)
-      if (!/Error: Missing queryFn/i.test(error.toString())) {
-        logSoftError({
-          isSideWindowError: false,
-          message: error.message,
-          userMessage: `Une erreur s'est produite lors du chargement des données. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
-        })
-      }
-    }
+    onError: error => handleApiError(error, 'query')
   }),
   defaultOptions: {
     queries: {
@@ -66,15 +96,7 @@ const queryClient = new QueryClient({
     mutations: {
       networkMode: 'online',
       retry: false,
-      onError: error => {
-        console.error(error)
-        Sentry.captureException(error)
-        logSoftError({
-          isSideWindowError: false,
-          message: error.message,
-          userMessage: `Une erreur s'est produite lors de l'enregistrement. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
-        })
-      }
+      onError: error => handleApiError(error, 'mutation')
     }
   }
 })
