@@ -18,7 +18,6 @@ export function useMissionActionGenericControl(
   withGeoCoords?: boolean,
   booleans?: string[]
 ): AbstractFormikSubFormHook<ActionControlInput> {
-  const value = action?.data as MissionNavActionData
   const { getCoords } = useCoordinate()
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
@@ -43,7 +42,7 @@ export function useMissionActionGenericControl(
   }
 
   const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionControlInput>(
-    value,
+    action?.data,
     fromFieldValueToInput,
     fromInputToFieldValue,
     booleans

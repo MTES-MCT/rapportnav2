@@ -11,7 +11,7 @@ import MissionTargetList from '../../../mission-target/components/elements/missi
 import MissionTargetNew from '../../../mission-target/components/elements/mission-target-new.tsx'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionGenericControl } from '../../hooks/use-mission-action-generic-control.tsx'
-import { ActionControlInput, ActionEnvControlInput } from '../../types/action-type.ts'
+import { ActionControlInput } from '../../types/action-type.ts'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd.tsx'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
@@ -67,7 +67,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
         >
           {formik => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionEnvControlInput)} />
+              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionControlInput)} />
               <Stack
                 direction="column"
                 spacing="1rem"
