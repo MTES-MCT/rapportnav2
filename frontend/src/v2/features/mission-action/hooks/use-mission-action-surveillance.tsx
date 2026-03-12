@@ -4,7 +4,6 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionEnvActionData } from '../../common/types/mission-action'
 import { ActionSurveillanceInput } from '../types/action-type'
-import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
 
 export function useMissionActionSurveillance(
   action: MissionAction,
@@ -12,7 +11,6 @@ export function useMissionActionSurveillance(
 ): AbstractFormikSubFormHook<ActionSurveillanceInput> {
   const value = action?.data as unknown as MissionEnvActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
-  const missionDates = useMissionDates(action.missionId)
 
   const fromFieldValueToInput = (data: MissionEnvActionData): ActionSurveillanceInput => {
     const dates = getDateRangeForInput(data)

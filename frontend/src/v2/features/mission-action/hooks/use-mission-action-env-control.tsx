@@ -18,8 +18,8 @@ export function useMissionActionEnvControl(
   const value = action?.data as MissionEnvActionData
   const { extractLatLngFromMultiPoint } = useCoordinate()
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
-  const missionDates = useMissionDates(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionEnvActionData): ActionEnvControlInput => {
     const dates = getDateRangeForInput(data)

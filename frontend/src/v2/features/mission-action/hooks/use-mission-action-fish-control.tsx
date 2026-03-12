@@ -18,8 +18,8 @@ export function useMissionActionFishControl(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionFishActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
-  const missionDates = useMissionDates(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionFishActionData): ActionFishControlInput => {
     const dates = getDateRangeForInput(data)

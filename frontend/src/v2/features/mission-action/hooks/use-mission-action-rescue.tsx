@@ -21,8 +21,8 @@ export function useMissionActionRescue(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
-  const missionDates = useMissionDates(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionRescueInput => {
     const dates = getDateRangeForInput(data)

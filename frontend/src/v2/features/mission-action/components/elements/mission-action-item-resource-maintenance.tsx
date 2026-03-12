@@ -32,7 +32,7 @@ const MissionActionItemResourceMaintenance: FC<{
 }> = ({ action, onChange }) => {
   const user = useStore(store, state => state.user)
   const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const schema = {
     resourceId: isMissionFinished ? string().required() : string().nullable(),

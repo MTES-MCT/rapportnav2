@@ -30,7 +30,10 @@ const MissionActionItemSurveillance: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <MissionBoundFormikDateRangePicker isLight={true} missionId={action.missionId} />
+                      <MissionBoundFormikDateRangePicker
+                        isLight={true}
+                        missionId={action.ownerId ?? action.missionId}
+                      />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>

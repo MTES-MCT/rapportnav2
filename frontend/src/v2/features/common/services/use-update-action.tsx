@@ -80,7 +80,7 @@ export const offlineUpdateActionDefaults = {
 
     await queryClient.invalidateQueries({
       queryKey:
-        serverResponse.ownerType === OwnerType.INQUIRY
+        newAction.ownerType === OwnerType.INQUIRY
           ? inquiriesKeys.byId(serverResponse.ownerId)
           : missionsKeys.byId(serverResponse.missionId),
       type: 'all'
@@ -100,7 +100,7 @@ export const onlineUpdateActionDefaults = {
     })
     await queryClient.invalidateQueries({
       queryKey:
-        serverResponse.ownerType === OwnerType.INQUIRY
+        newAction.ownerType === OwnerType.INQUIRY
           ? inquiriesKeys.byId(serverResponse.ownerId)
           : missionsKeys.byId(serverResponse.ownerId),
       type: 'all'

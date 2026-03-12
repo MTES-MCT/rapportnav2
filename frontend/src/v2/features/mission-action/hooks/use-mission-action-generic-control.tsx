@@ -21,8 +21,8 @@ export function useMissionActionGenericControl(
 ): AbstractFormikSubFormHook<ActionControlInput> {
   const { getCoords } = useCoordinate()
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
-  const missionDates = useMissionDates(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionControlInput => {
     const dates = getDateRangeForInput(data)

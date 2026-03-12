@@ -54,7 +54,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                   <MissionActionEnvThemes themes={values?.themes} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.missionId} />
+                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId ?? action.missionId} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Field name="geoCoords">

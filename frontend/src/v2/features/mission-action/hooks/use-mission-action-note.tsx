@@ -14,8 +14,8 @@ export function useMissionActionFreeNote(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionFreeNoteInput> {
-  const missionDates = useMissionDates(action.missionId)
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 

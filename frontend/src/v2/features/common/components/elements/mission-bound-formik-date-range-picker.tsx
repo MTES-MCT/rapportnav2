@@ -9,7 +9,6 @@ type MissionBoundFormikDateRangePickerProps = FormikDateRangePickerProps & {
 
 const MissionBoundFormikDateRangePicker = ({ missionId, ...props }: MissionBoundFormikDateRangePickerProps) => {
   const { startDateTimeUtc, endDateTimeUtc } = useMissionDates(missionId)
-
   return (
     <FormikDateRangePicker
       shouldDisableDate={allowedRange(new UTCDate(startDateTimeUtc), new UTCDate(endDateTimeUtc))}

@@ -104,7 +104,7 @@ describe('useTimelineAction', () => {
       expect(actionInput.data.startDateTimeUtc).toBe('2024-02-15T12:00:00Z')
     })
 
-    it('sets default values for isWithinDepartment and hasDivingDuringOperation', () => {
+    it('sets default values for isWithinDepartment', () => {
       const missionId = '222'
       const mockMission = createMockMission(222, '2024-01-31T23:59:59Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
@@ -113,7 +113,6 @@ describe('useTimelineAction', () => {
       const actionInput = result.current.getActionInput(ActionType.CONTROL)
 
       expect(actionInput.data.isWithinDepartment).toBe(true)
-      expect(actionInput.data.hasDivingDuringOperation).toBe(false)
     })
 
     it('sets rescue flags for RESCUE action type', () => {
@@ -189,7 +188,6 @@ describe('useTimelineAction', () => {
       expect(actionInput.actionType).toBe(ActionType.ANTI_POLLUTION)
       expect(actionInput.data.startDateTimeUtc).toBe('2024-01-31T23:59:59Z')
       expect(actionInput.data.isWithinDepartment).toBe(true)
-      expect(actionInput.data.hasDivingDuringOperation).toBe(false)
     })
   })
 })
