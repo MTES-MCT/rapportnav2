@@ -7,6 +7,18 @@ vi.mock('../../../services/use-create-mission', () => ({
   default: vi.fn()
 }))
 
+vi.mock('../../../common/components/ui/time-conversion.tsx', () => ({
+  default: () => null
+}))
+
+vi.mock('../../../hooks/use-ulam-mission-general-information-form.tsx', () => ({
+  useUlamMissionGeneralInfoForm: () => ({
+    initValue: {},
+    handleSubmit: vi.fn(),
+    errors: {}
+  })
+}))
+
 describe('MissionCreateDialog', () => {
   it('renders the dialog when isOpen is true', () => {
     render(<MissionCreateDialog isOpen={true} onClose={vi.fn()} />)

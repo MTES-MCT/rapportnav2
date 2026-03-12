@@ -1,65 +1,41 @@
+import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import { FormikErrors } from 'formik'
+import * as Yup from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form.tsx'
+import { useDate } from '../../common/hooks/use-date.tsx'
 import {
   MissionGeneralInfo2,
-  MissionGeneralInfoExtended,
-  MissionULAMGeneralInfoInitial
+  MissionReinforcementTypeEnum,
+  MissionReportTypeEnum
 } from '../../common/types/mission-types.ts'
 
 export type MissionGeneralInfoInput = {
-  initial: MissionULAMGeneralInfoInitial
-  extended: MissionGeneralInfoExtended
+  dates: any
 } & MissionGeneralInfo2
 
 export const useUlamMissionGeneralInfoForm = (
   onChange: (newGeneralInfo: MissionGeneralInfo2) => Promise<unknown>,
   value: MissionGeneralInfo2
 ) => {
+  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
   const fromFieldValueToInput = (data: MissionGeneralInfo2): MissionGeneralInfoInput => {
-    const initial = {
-      id: data.id,
-      nbHourAtSea: data.nbHourAtSea,
-      startDateTimeUtc: data.startDateTimeUtc,
-      endDateTimeUtc: data.endDateTimeUtc,
-      missionReportType: data.missionReportType,
-      reinforcementType: data.reinforcementType,
-      missionTypes: data.missionTypes
+    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
+    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
+    return {
+      ...data,
+      dates: [startDate, endDate],
+      resources: data.resources ?? []
     }
-    const extended = {
-      isAllAgentsParticipating: data.isAllAgentsParticipating,
-      isWithInterMinisterialService: data.isWithInterMinisterialService,
-      isMissionArmed: data.isMissionArmed,
-      crew: data.crew,
-      observations: data.observations,
-      resources: data.resources ?? [],
-      interMinisterialServices: data.interMinisterialServices,
-      isUnderJdp: data.isUnderJdp,
-      jdpType: data.jdpType,
-      isResourcesNotUsed: data.isResourcesNotUsed
-    }
-    return { ...data, initial, extended }
   }
 
   const fromInputToFieldValue = (value: MissionGeneralInfoInput): MissionGeneralInfo2 => {
-    const { initial, extended, ...newData } = value
+    const { dates, ...newValues } = value
     return {
-      ...newData,
-      nbHourAtSea: initial.nbHourAtSea,
-      reinforcementType: initial.reinforcementType,
-      missionReportType: initial.missionReportType,
-      isMissionArmed: extended.isMissionArmed,
-      isAllAgentsParticipating: extended.isAllAgentsParticipating,
-      isWithInterMinisterialService: extended.isWithInterMinisterialService,
-      missionTypes: initial.missionTypes,
-      startDateTimeUtc: initial.startDateTimeUtc,
-      endDateTimeUtc: initial.endDateTimeUtc,
-      resources: extended.resources,
-      crew: extended.crew,
-      observations: extended.observations,
-      interMinisterialServices: extended.interMinisterialServices,
-      jdpType: extended.jdpType,
-      isUnderJdp: extended.isUnderJdp,
-      isResourcesNotUsed: extended.isResourcesNotUsed
+      ...newValues,
+      startDateTimeUtc: postprocessDateFromPicker(dates[0]),
+      endDateTimeUtc: postprocessDateFromPicker(dates[1]),
+      resources: value.isResourcesNotUsed ? [] : value.resources,
+      interMinisterialServices: !value.isWithInterMinisterialService ? [] : value.interMinisterialServices
     }
   }
 
@@ -83,6 +59,22 @@ export const useUlamMissionGeneralInfoForm = (
     await onChange(valueToSubmit)
   }
 
+  const validationSchema = Yup.object().shape({
+    missionReportType: Yup.mixed<MissionReportTypeEnum>().required('Type de rapport obligatoire'),
+    dates: Yup.array()
+      .of(Yup.date())
+      .test(value => value && value[0] && value[1] && new Date(value[1]) > new Date(value[0]))
+      .required('Date et heure de début et de fin obligatoire'),
+    reinforcementType: Yup.mixed<MissionReinforcementTypeEnum>().when('missionReportType', {
+      is: MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT,
+      then: schema => schema.required('Nature du renfort obligatoire')
+    }),
+    missionTypes: Yup.mixed<MissionTypeEnum[]>().when('missionReportType', {
+      is: MissionReportTypeEnum.FIELD_REPORT,
+      then: schema => schema.required('Type de mission obligatoire')
+    })
+  })
+
   const handleSubmitOverride = async (
     value?: MissionGeneralInfoInput,
     errors?: FormikErrors<MissionGeneralInfoInput>
@@ -90,5 +82,5 @@ export const useUlamMissionGeneralInfoForm = (
     handleSubmit(value, errors, onSubmit)
   }
 
-  return { initValue, handleSubmit: handleSubmitOverride }
+  return { initValue, handleSubmit: handleSubmitOverride, validationSchema }
 }
