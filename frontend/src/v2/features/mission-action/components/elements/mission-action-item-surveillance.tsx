@@ -1,9 +1,10 @@
 import Text from '@common/components/ui/text'
-import { FormikEffect, FormikTextarea, Label, THEME } from '@mtes-mct/monitor-ui'
+import { FormikEffect, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionSurveillance } from '../../hooks/use-mission-action-surveillance'
 import { ActionSurveillanceInput } from '../../types/action-type'
@@ -44,8 +45,7 @@ const MissionActionItemSurveillance: FC<{
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea
-                    isLight={true}
+                  <FormikTextAreaInput
                     name="observationsByUnit"
                     label="Observations (unités)"
                     data-testid="observations-by-unit"

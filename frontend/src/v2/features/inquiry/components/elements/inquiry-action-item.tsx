@@ -1,9 +1,5 @@
-import { useStore } from '@tanstack/react-store'
 import { isEqual } from 'lodash'
 import { FC } from 'react'
-import { store } from '../../../../store'
-import { resetDebounceTime } from '../../../../store/slices/delay-query-reducer'
-import { useDelay } from '../../../common/hooks/use-delay'
 import useUpdateActionMutation from '../../../common/services/use-update-action'
 import { MissionAction } from '../../../common/types/mission-action'
 import { OwnerType } from '../../../common/types/owner-type'
@@ -16,16 +12,10 @@ interface InquiryActionItemProps {
 
 const InquiryActionItem: FC<InquiryActionItemProps> = ({ action, ownerId }) => {
   const mutation = useUpdateActionMutation()
-  const { handleExecuteOnDelay } = useDelay()
-  const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
 
   const onChange = async (newAction: MissionAction) => {
-    handleExecuteOnDelay(async () => {
-      if (!isEqual(action, newAction) && action.id) {
-        await mutation.mutateAsync({ ownerId, ownerType: OwnerType.INQUIRY, action: newAction })
-      }
-      if (debounceTime !== undefined) resetDebounceTime()
-    }, debounceTime)
+    if (isEqual(action, newAction) && action.id) return
+    await mutation.mutateAsync({ ownerId, ownerType: OwnerType.INQUIRY, action: newAction })
   }
 
   return (

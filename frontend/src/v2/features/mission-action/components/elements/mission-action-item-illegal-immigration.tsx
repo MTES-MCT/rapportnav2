@@ -1,14 +1,15 @@
-import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikEffect } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
+import { FormikNumberInput } from '../../../common/components/ui/formik-number-input'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionIllegalImmigration } from '../../hooks/use-mission-action-illegal-immigration'
 import { ActionIllegalImmigrationInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download'
 
 const MissionActionItemIllegalImmigration: FC<{
@@ -60,7 +61,7 @@ const MissionActionItemIllegalImmigration: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
                     <Stack.Item style={{ width: '100%' }}>
-                      <MissionActionFormikNumberInput
+                      <FormikNumberInput
                         name="nbOfInterceptedVessels"
                         role="nbOfInterceptedVessels"
                         label="Nb de navires/embarcations interceptées"
@@ -69,14 +70,14 @@ const MissionActionItemIllegalImmigration: FC<{
                     <Stack.Item style={{ width: '100%' }}>
                       <Stack direction={'row'} spacing={'1rem'}>
                         <Stack.Item style={{ flex: 1 }}>
-                          <MissionActionFormikNumberInput
+                          <FormikNumberInput
                             name="nbOfInterceptedMigrants"
                             role="nbOfInterceptedMigrants"
                             label="Nb de migrants interceptés"
                           />
                         </Stack.Item>
                         <Stack.Item style={{ flex: 1 }}>
-                          <MissionActionFormikNumberInput
+                          <FormikNumberInput
                             name="nbOfSuspectedSmugglers"
                             role="nbOfSuspectedSmugglers"
                             label="Nb de passeurs présumés"
@@ -87,7 +88,7 @@ const MissionActionItemIllegalImmigration: FC<{
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                  <FormikTextAreaInput name="observations" label="Observations" data-testid="observations" />
                   <MissionActionIncidentDonwload />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>

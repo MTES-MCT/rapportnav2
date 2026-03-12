@@ -1,10 +1,11 @@
 import { ActionStatusType } from '@common/types/action-types'
 import { getColorForStatus, mapStatusToText } from '@common/utils/status-utils'
-import { FormikDatePicker, FormikEffect, FormikTextarea, Icon, Tag } from '@mtes-mct/monitor-ui'
+import { FormikDatePicker, FormikEffect, Icon, Tag } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import FormikSelectStatusReason from '../../../common/components/ui/formik-select-status-reason'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction, MissionNavAction } from '../../../common/types/mission-action'
 import { useMissionActionStatus } from '../../hooks/use-mission-action-status'
 import { ActionStatusInput } from '../../types/action-type'
@@ -64,7 +65,7 @@ const MissionActionItemStatus: FC<{
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                  <FormikTextAreaInput label="Observations" name="observations" data-testid="observations" />
                 </Stack.Item>
               </Stack>
             </>
