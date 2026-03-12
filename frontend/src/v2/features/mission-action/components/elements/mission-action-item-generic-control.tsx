@@ -1,10 +1,11 @@
 import { ControlType } from '@common/types/control-types.ts'
-import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikEffect } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik, FormikProps } from 'formik'
 import React, { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
 import { ObjectShape } from 'yup'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action.ts'
 import MissionTargetList from '../../../mission-target/components/elements/mission-target-list.tsx'
@@ -134,12 +135,12 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                   </FieldArray>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea
-                    isLight={true}
+                  <FormikTextAreaInput
                     name="observations"
                     data-testid="observations"
                     label="Observation de l'unité sur le contrôle"
                   />
+
                   <MissionActionIncidentDonwload />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>

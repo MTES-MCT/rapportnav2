@@ -1,25 +1,19 @@
 import Text from '@common/components/ui/text'
 import { ToggleLabel } from '@common/components/ui/toogle-label'
-import {
-  FormikCheckbox,
-  FormikEffect,
-  FormikMultiRadio,
-  FormikTextarea,
-  FormikTextInput,
-  FormikToggle,
-  THEME
-} from '@mtes-mct/monitor-ui'
+import { FormikCheckbox, FormikEffect, FormikMultiRadio, FormikToggle, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
+import { FormikNumberInput } from '../../../common/components/ui/formik-number-input'
+import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import { RescueType } from '../../../common/types/rescue-type'
 import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
 import { ActionRescueInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
 
 const RESCUE_TYPE_OPTIONS = [
   {
@@ -79,11 +73,7 @@ const MissionActionItemRescue: FC<{
                   </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextInput
-                    isLight={true}
-                    name="locationDescription"
-                    label="Précision concernant la localisation"
-                  />
+                  <FormikTextInput name="locationDescription" label="Précision concernant la localisation" />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikMultiRadio label="" name="rescueType" options={RESCUE_TYPE_OPTIONS} />
@@ -126,17 +116,14 @@ const MissionActionItemRescue: FC<{
                   <Stack.Item>
                     <Stack style={{ width: '100%', marginBottom: 25, marginTop: 25 }}>
                       <Stack.Item>
-                        <MissionActionFormikNumberInput
+                        <FormikNumberInput
                           style={{ marginRight: 10 }}
                           name="numberPersonsRescued"
                           label="Nb de personnes secourues"
                         />
                       </Stack.Item>
                       <Stack.Item>
-                        <MissionActionFormikNumberInput
-                          name="numberOfDeaths"
-                          label="Nb de personnes disparues / décédées"
-                        />
+                        <FormikNumberInput name="numberOfDeaths" label="Nb de personnes disparues / décédées" />
                       </Stack.Item>
                     </Stack>
                     <Stack.Item>
@@ -154,7 +141,7 @@ const MissionActionItemRescue: FC<{
 
               <Stack>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                  <FormikTextAreaInput label="Observations" name="observations" data-testid="observations" />
                 </Stack.Item>
               </Stack>
 
@@ -178,7 +165,7 @@ const MissionActionItemRescue: FC<{
                   </Stack.Item>
 
                   <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
-                    <MissionActionFormikNumberInput
+                    <FormikNumberInput
                       disabled={!initValue?.isMigrationRescue}
                       isRequired={!!initValue?.isMigrationRescue}
                       name="nbOfVesselsTrackedWithoutIntervention"
@@ -186,7 +173,7 @@ const MissionActionItemRescue: FC<{
                     />
                   </Stack.Item>
                   <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
-                    <MissionActionFormikNumberInput
+                    <FormikNumberInput
                       disabled={!initValue?.isMigrationRescue}
                       isRequired={!!initValue?.isMigrationRescue}
                       name="nbAssistedVesselsReturningToShore"

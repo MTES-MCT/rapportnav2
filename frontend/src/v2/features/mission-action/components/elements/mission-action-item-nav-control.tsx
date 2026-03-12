@@ -1,17 +1,18 @@
 import { VesselTypeEnum } from '@common/types/mission-types'
-import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikEffect } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
+import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
 import MissionTargetControl from '../../../mission-target/components/elements/mission-target-control-nav'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
 import { ActionNavControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import { MissionActionFormikTextInput } from '../ui/mission-action-formik-text-input'
 import MissionActionNavControlWarning from '../ui/mission-action-nav-control-warning'
 
 const MissionActionItemNavControl: FC<{
@@ -73,14 +74,14 @@ const MissionActionItemNavControl: FC<{
                       <FormikSelectVesselSize name="vesselSize" label="Taille du navire" data-testid={'vesselSize'} />
                     </Stack.Item>
                     <Stack.Item grow={1} basis={'25%'}>
-                      <MissionActionFormikTextInput
+                      <FormikTextInput
                         name="vesselIdentifier"
                         label="Immatriculation"
                         data-testid={'vesselIdentifier'}
                       />
                     </Stack.Item>
                     <Stack.Item grow={2} basis={'50%'}>
-                      <MissionActionFormikTextInput
+                      <FormikTextInput
                         label="Identité de la personne contrôlée"
                         name="identityControlledPerson"
                         data-testid={'identityControlledPerson'}
@@ -102,8 +103,7 @@ const MissionActionItemNavControl: FC<{
                   </FieldArray>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea
-                    isLight={true}
+                  <FormikTextAreaInput
                     name="observations"
                     data-testid="observations"
                     label="Observations générales sur le contrôle"

@@ -1,6 +1,7 @@
-import { FormikCheckbox, FormikNumberInput, FormikSelect, Message } from '@mtes-mct/monitor-ui'
+import { FormikCheckbox, FormikSelect, Message } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { FormikNumberInput } from '../../../common/components/ui/formik-number-input'
 import { FISHING_GEAR_TYPES, FishingGearType } from '../../../common/types/leisure-fishing-gear-type'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useTarget } from '../../../mission-target/hooks/use-target'
@@ -40,13 +41,7 @@ const MissionActionItemSleepingFishingGearControl: FC<{
               />
             </Stack.Item>
             <Stack.Item style={{ width: '50%' }}>
-              <FormikNumberInput
-                isLight={true}
-                isRequired={true}
-                name="nbrOfControl"
-                label="Nombre total de contrôles"
-                isErrorMessageHidden={true}
-              />
+              <FormikNumberInput name="nbrOfControl" label="Nombre total de contrôles" />
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
               <FormikCheckbox name="isSeizureSleepingFishingGear" label="Appréhension des engins de pêche dormant" />

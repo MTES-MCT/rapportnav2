@@ -1,7 +1,8 @@
-import { FormikMultiRadio, FormikNumberInput, Option } from '@mtes-mct/monitor-ui'
+import { FormikMultiRadio, Option } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { number, string } from 'yup'
+import { FormikNumberInput } from '../../../common/components/ui/formik-number-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import { VisitSecurityType } from '../../../common/types/visit-security-type'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
@@ -39,13 +40,7 @@ const MissionActionItemSecurityVisit: FC<{
             <FormikMultiRadio label="" name="securityVisitType" options={securityOptions} isErrorMessageHidden={true} />
           </Stack.Item>
           <Stack.Item style={{ width: '50%' }}>
-            <FormikNumberInput
-              isLight={true}
-              isRequired={true}
-              name="nbrSecurityVisit"
-              label="Nombre de visites réalisées"
-              isErrorMessageHidden={true}
-            />
+            <FormikNumberInput name="nbrSecurityVisit" label="Nombre de visites réalisées" />
           </Stack.Item>
         </Stack>
       </Stack.Item>

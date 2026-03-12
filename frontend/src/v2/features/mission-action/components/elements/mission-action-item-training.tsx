@@ -1,7 +1,7 @@
-import { FormikTextInput } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { string } from 'yup'
+import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
 
@@ -20,13 +20,7 @@ const MissionActionItemTraining: FC<{
       data-testid={'action-unit-mangement-form'}
     >
       <Stack.Item style={{ width: '100%' }}>
-        <FormikTextInput
-          isLight={true}
-          name="trainingType"
-          isRequired={true}
-          isErrorMessageHidden={true}
-          label="Nature de la formation (Nom)"
-        />
+        <FormikTextInput name="trainingType" label="Nature de la formation (Nom)" />
       </Stack.Item>
     </MissionActionItemGenericDateObservation>
   )

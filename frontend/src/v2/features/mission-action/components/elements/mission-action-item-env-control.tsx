@@ -1,9 +1,10 @@
 import Text from '@common/components/ui/text'
-import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
+import { FormikEffect, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import React from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionTargetControlEnv from '../../../mission-target/components/elements/mission-target-control-env.tsx'
@@ -143,8 +144,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea
-                    isLight={true}
+                  <FormikTextAreaInput
                     name="observationsByUnit"
                     data-testid="observationsByUnit"
                     label="Observation de l'unité sur le contrôle"
