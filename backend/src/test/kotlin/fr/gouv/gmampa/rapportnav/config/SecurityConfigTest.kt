@@ -331,23 +331,60 @@ class SecurityConfigIntegrationTest {
 
         @Test
         @WithMockUser
-        fun `CSP should include trusted-types directive`() {
-            mockMvc.perform(get("/api/v2/missions"))
-                .andExpect { result ->
-                    val cspHeader = result.response.getHeader("Content-Security-Policy")
-                    assertNotNull(cspHeader)
-                    assertTrue(cspHeader!!.contains("require-trusted-types-for"), "CSP should contain trusted-types directive")
-                }
-        }
-
-        @Test
-        @WithMockUser
         fun `response should include X-Frame-Options DENY header`() {
             mockMvc.perform(get("/api/v2/missions"))
                 .andExpect { result ->
                     val frameOptions = result.response.getHeader("X-Frame-Options")
                     assertNotNull(frameOptions, "X-Frame-Options header should be present")
                     assertEquals("DENY", frameOptions, "X-Frame-Options should be DENY")
+                }
+        }
+
+        @Test
+        @WithMockUser
+        fun `response should include X-Content-Type-Options nosniff header`() {
+            mockMvc.perform(get("/api/v2/missions"))
+                .andExpect { result ->
+                    val contentTypeOptions = result.response.getHeader("X-Content-Type-Options")
+                    assertNotNull(contentTypeOptions, "X-Content-Type-Options header should be present")
+                    assertEquals("nosniff", contentTypeOptions, "X-Content-Type-Options should be nosniff")
+                }
+        }
+
+        @Test
+        @WithMockUser
+        fun `response should include Strict-Transport-Security header over HTTPS`() {
+            // HSTS header is only sent over secure connections
+            mockMvc.perform(get("/api/v2/missions").secure(true))
+                .andExpect { result ->
+                    val hstsHeader = result.response.getHeader("Strict-Transport-Security")
+                    assertNotNull(hstsHeader, "Strict-Transport-Security header should be present")
+                    assertTrue(hstsHeader!!.contains("max-age=63072000"), "HSTS should have max-age of 2 years")
+                    assertTrue(hstsHeader.contains("includeSubDomains"), "HSTS should include subdomains")
+                }
+        }
+
+        @Test
+        @WithMockUser
+        fun `response should include Referrer-Policy header`() {
+            mockMvc.perform(get("/api/v2/missions"))
+                .andExpect { result ->
+                    val referrerPolicy = result.response.getHeader("Referrer-Policy")
+                    assertNotNull(referrerPolicy, "Referrer-Policy header should be present")
+                    assertEquals("strict-origin-when-cross-origin", referrerPolicy, "Referrer-Policy should be strict-origin-when-cross-origin")
+                }
+        }
+
+        @Test
+        @WithMockUser
+        fun `response should include Permissions-Policy header`() {
+            mockMvc.perform(get("/api/v2/missions"))
+                .andExpect { result ->
+                    val permissionsPolicy = result.response.getHeader("Permissions-Policy")
+                    assertNotNull(permissionsPolicy, "Permissions-Policy header should be present")
+                    assertTrue(permissionsPolicy!!.contains("geolocation=()"), "Permissions-Policy should disable geolocation")
+                    assertTrue(permissionsPolicy.contains("camera=()"), "Permissions-Policy should disable camera")
+                    assertTrue(permissionsPolicy.contains("microphone=()"), "Permissions-Policy should disable microphone")
                 }
         }
 

@@ -13,8 +13,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.user.Save
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthLoginDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthRegisterDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.outputs.AuthLoginDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCode
-import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
@@ -53,15 +51,15 @@ class ApiAuthController(
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     fun register(@RequestBody body: AuthRegisterDataInput): ResponseEntity<Any> {
         val requiredFields = listOf(body.email, body.password, body.firstName, body.lastName)
-        if (requiredFields.any { it.isEmpty() }) throw BackendRequestException(
-            code = BackendRequestErrorCode.BODY_MISSING_DATA,
+        if (requiredFields.any { it.isEmpty() }) throw BackendUsageException(
+            code = INVALID_PARAMETERS_EXCEPTION,
             message = "SignUp body does not contain all the required data"
         )
 
         if (!PasswordValidator.isStrong(body.password)) {
             throw BackendUsageException(
                 code = PASSWORD_TOO_WEAK_EXCEPTION,
-                message = "Password must be at least 10 characters long and include upper, lower, number, and special character"
+                message = "Password must be at least 16 characters long and include upper, lower, number, and special character"
             )
         }
 
@@ -102,8 +100,8 @@ class ApiAuthController(
                 userAgent = userAgent,
                 reason = "Missing email or password"
             )
-            throw BackendRequestException(
-                code = BackendRequestErrorCode.BODY_MISSING_DATA,
+            throw BackendUsageException(
+                code = INVALID_PARAMETERS_EXCEPTION,
                 message = "Login body does not contain all the required data"
             )
         }
