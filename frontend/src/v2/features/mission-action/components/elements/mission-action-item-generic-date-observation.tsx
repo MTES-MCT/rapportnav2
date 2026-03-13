@@ -1,9 +1,10 @@
-import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikEffect } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC, JSX } from 'react'
 import { Stack } from 'rsuite'
 import { ObjectShape } from 'yup'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionGenericDateObservation } from '../../hooks/use-mission-action-generic-date-observation'
 import { ActionGenericDateObservationInput } from '../../types/action-type'
@@ -52,7 +53,8 @@ const MissionActionItemGenericDateObservation: FC<{
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>{children}</Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                  <FormikTextAreaInput name="observations" label="Observations" data-testid="observations" />
+
                   {showIncidentReport && <MissionActionIncidentDonwload />}
                   {showDivingCheckBox && (
                     <Stack.Item style={{ width: '100%' }}>

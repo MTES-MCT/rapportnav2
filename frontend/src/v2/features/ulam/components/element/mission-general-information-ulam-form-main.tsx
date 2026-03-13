@@ -3,7 +3,7 @@ import { Field, FieldProps } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
-import { FormikNumberInputDelay } from '../../../common/components/ui/formik-number-input-delay.tsx'
+import { FormikNumberInput } from '../../../common/components/ui/formik-number-input.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 import { MissionGeneralInfoInput } from '../../hooks/use-ulam-mission-general-information-form.tsx'
 
@@ -83,11 +83,7 @@ const MissionGeneralInformationUlamFormMain: FC<MissionGeneralInformationUlamFor
           </Stack.Item>
           <Stack.Item style={{ width: '30%' }}>
             {!isCreation && isMissionTypeSea(values.missionTypes) && (
-              <Field name="nbHourAtSea">
-                {(field: FieldProps<number>) => (
-                  <FormikNumberInputDelay label={"Nb d'heures en mer"} name="nbHourAtSea" fieldFormik={field} />
-                )}
-              </Field>
+              <FormikNumberInput isLight={false} label={"Nb d'heures en mer"} name="nbHourAtSea" />
             )}
           </Stack.Item>
         </Stack>

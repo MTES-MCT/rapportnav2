@@ -1,7 +1,8 @@
-import { FormikDatePicker, FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikDatePicker, FormikEffect } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionFreeNote } from '../../hooks/use-mission-action-note'
 import { ActionFreeNoteInput } from '../../types/action-type'
@@ -33,7 +34,7 @@ const MissionActionItemNote: FC<{
                 </Stack>
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
-                <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                <FormikTextAreaInput name="observations" label="Observations" data-testid="observations" />
               </Stack.Item>
             </Stack>
           </>

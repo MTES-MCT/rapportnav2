@@ -1,9 +1,10 @@
 import { MissionActionType } from '@common/types/fish-mission-types.ts'
-import { FormikEffect, FormikTextarea, Label, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import { FormikEffect, Label, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import VesselName from '../../../common/components/ui/vessel-name'
 import { MissionAction } from '../../../common/types/mission-action'
@@ -155,8 +156,7 @@ const MissionActionItemFishControl: FC<{
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea
-                    isLight={true}
+                  <FormikTextAreaInput
                     name="observationsByUnit"
                     data-testid="observations-by-unit"
                     label="Observation de l'unité sur le contrôle"
