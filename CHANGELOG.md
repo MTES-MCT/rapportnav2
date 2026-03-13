@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.71.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.70.0...docker-container@v2.71.0) (2026-03-13)
+
+
+### Features
+
+* **frontend:** enable all control types for control sleeping engins ([87b05dc](https://github.com/MTES-MCT/rapportnav2/commit/87b05dcbf744f88785dfe08b005789e6aea00eb0))
+* **frontend:** remove 3 sec policy general infos ulam ([3ec8314](https://github.com/MTES-MCT/rapportnav2/commit/3ec8314eac1c03cfd2f6edbaea237b664b093e53))
+
+
+### Bug Fixes
+
+* add controlUnits mocks ([bdde185](https://github.com/MTES-MCT/rapportnav2/commit/bdde18553fe8d69549e72905555401f1850b58ee))
+
 ## [2.70.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.69.2...docker-container@v2.70.0) (2026-03-11)
 
 

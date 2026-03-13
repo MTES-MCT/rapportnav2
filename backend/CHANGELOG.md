@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.71.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.70.0...backend@v2.71.0) (2026-03-13)
+
+
+### Bug Fixes
+
+* add controlUnits mocks ([bdde185](https://github.com/MTES-MCT/rapportnav2/commit/bdde18553fe8d69549e72905555401f1850b58ee))
+
 ## [2.70.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.69.2...backend@v2.70.0) (2026-03-11)
 
 
