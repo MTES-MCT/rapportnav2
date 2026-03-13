@@ -10,7 +10,7 @@ class GetCrewByServiceId(
     fun execute(serviceId: Int):  List<AgentEntity> {
         val agents =  agentRepo
             .findByServiceId(serviceId = serviceId)
-            .sortedBy { it.role?.priority }
+            .sortedWith(compareBy({ it.role?.priority }, { it.id }))
             .map { AgentEntity.fromAgentModel(it) }
         return agents
     }

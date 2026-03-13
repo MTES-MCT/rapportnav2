@@ -59,7 +59,7 @@ export function useMissionActionNavControl(
 
   const createValidationSchema = (isMissionFinished: boolean) => {
     return object().shape({
-      ...getDateRangeSchema(isMissionFinished),
+      ...getDateRangeSchema({ required: isMissionFinished }),
       ...getGeoCoordsSchema(isMissionFinished),
 
       vesselSize: conditionallyRequired(
