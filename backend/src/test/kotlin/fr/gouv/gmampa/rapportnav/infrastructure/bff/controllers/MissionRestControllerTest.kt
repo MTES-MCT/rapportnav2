@@ -14,6 +14,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
@@ -42,8 +43,12 @@ class MissionRestControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    @Autowired
     private lateinit var objectMapper: JsonMapper
+
+    @BeforeEach
+    fun setUp() {
+        objectMapper = JsonMapper()
+    }
 
     @MockitoBean
     private lateinit var getServiceForUser: GetServiceForUser

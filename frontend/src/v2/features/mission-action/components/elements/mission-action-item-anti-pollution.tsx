@@ -2,7 +2,6 @@ import { FormikCheckbox, FormikEffect, FormikTextarea, Icon, THEME } from '@mtes
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { StyledFormikToggle } from '../../../common/components/ui/formik-styled-toogle'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionAntiPollution } from '../../hooks/use-mission-action-anti-pollution'
@@ -10,6 +9,7 @@ import { ActionAntiPollutionInput } from '../../types/action-type'
 import MissionActionAntiPollutionWarning from '../ui/mission-action-anti-pollution-warning'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 
 const MissionActionItemAntiPollution: FC<{
   action: MissionAction
@@ -33,7 +33,7 @@ const MissionActionItemAntiPollution: FC<{
                   // Only handle submission, let Formik handle validation display
                   await handleSubmit(nextValue as ActionAntiPollutionInput)
                   // Optionally trigger validation to ensure UI updates
-                  await validateForm()
+                  await validateForm(nextValue)
                 }}
               />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
@@ -51,11 +51,10 @@ const MissionActionItemAntiPollution: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <Field name="dates">
-                        {(field: FieldProps<Date[]>) => (
-                          <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                        )}
-                      </Field>
+                      <MissionBoundFormikDateRangePicker
+                        isLight={true}
+                        missionId={action.ownerId ?? action.missionId}
+                      />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>

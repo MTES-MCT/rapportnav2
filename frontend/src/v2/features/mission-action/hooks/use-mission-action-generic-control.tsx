@@ -9,25 +9,27 @@ import getGeoCoordsSchema from '../../common/schemas/geocoords-schema'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionControlInput } from '../types/action-type'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionGenericControl(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>,
   schema?: ObjectShape,
-  isMissionFinished?: boolean,
   withGeoCoords?: boolean,
   booleans?: string[]
 ): AbstractFormikSubFormHook<ActionControlInput> {
   const { getCoords } = useCoordinate()
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionControlInput => {
-    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
+    const dates = getDateRangeForInput(data)
     return {
       ...data,
-      dates: [startDate, endDate],
-      isMissionFinished: !!isMissionFinished,
+      dates,
+      isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
@@ -36,9 +38,7 @@ export function useMissionActionGenericControl(
     const { dates, geoCoords, isMissionFinished, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, latitude, longitude, endDateTimeUtc, startDateTimeUtc }
+    return { ...newData, latitude, longitude, ...getDateRangeFromInput(dates) }
   }
 
   const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionControlInput>(
@@ -57,15 +57,22 @@ export function useMissionActionGenericControl(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const createValidationSchema = (isMissionFinished?: boolean) => {
+  const createValidationSchema = (isMissionFinished?: boolean, missionStartDate?: string, missionEndDate?: string) => {
     return object().shape({
       ...(withGeoCoords ? getGeoCoordsSchema(isMissionFinished) : {}),
-      ...(getDateRangeSchema(isMissionFinished) as Record<string, any>),
+      ...(getDateRangeSchema({
+        isMissionFinished,
+        missionStartDate,
+        missionEndDate
+      }) as Record<string, any>),
       ...(schema ?? {})
     })
   }
 
-  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
 
   return {
     errors,

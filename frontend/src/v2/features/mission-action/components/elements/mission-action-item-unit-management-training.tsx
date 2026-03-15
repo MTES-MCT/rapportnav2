@@ -5,6 +5,7 @@ import { string } from 'yup'
 import { MissionAction } from '../../../common/types/mission-action'
 import { UnitManagementTrainingType } from '../../../common/types/unit-management-type'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 const trainingTypeLabel = {
   [UnitManagementTrainingType.DIVING]: `Plongée`,
@@ -16,8 +17,9 @@ const MissionActionItemUnitManagementTraining: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
   const schema = {
-    unitManagementTrainingType: string().required()
+    unitManagementTrainingType: isMissionFinished ? string().required() : string().nullable()
   }
   return (
     <MissionActionItemGenericDateObservation

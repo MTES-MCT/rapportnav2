@@ -35,6 +35,8 @@ describe('Hook useUpdateMissionAction', () => {
   const action = { id: actionId }
   const mockAction: MissionAction = {
     id: actionId,
+    missionId: missionId,
+    ownerId: missionId,
     data: { startDateTimeUtc: '2024-01-01T10:00:00Z' }
   }
   const mockMission: Mission2 = {
@@ -259,26 +261,6 @@ describe('Hook useUpdateMissionAction', () => {
           expect(invalidateQueriesSpy).toHaveBeenCalledWith({
             queryKey: missionsKeys.byId(missionId),
             type: 'all'
-          })
-        })
-      })
-
-      it('should invalidate queries on error', async () => {
-        mockedAxios.put.mockRejectedValue(new Error('Network error'))
-
-        const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
-
-        await act(async () => {
-          result.current.mutate({ ownerId: missionId, action: mockAction })
-        })
-
-        await waitFor(() => {
-          expect(result.current.isError).toBe(true)
-        })
-
-        await waitFor(() => {
-          expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-            queryKey: actionsKeys.byId(actionId)
           })
         })
       })

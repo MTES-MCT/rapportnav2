@@ -5,6 +5,7 @@ import { number, string } from 'yup'
 import { MissionAction } from '../../../common/types/mission-action'
 import { VisitSecurityType } from '../../../common/types/visit-security-type'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 const securityOptions: Option[] = [
   {
@@ -21,9 +22,10 @@ const MissionActionItemSecurityVisit: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
   const schema = {
-    nbrSecurityVisit: number().required(),
-    securityVisitType: string().required()
+    nbrSecurityVisit: isMissionFinished ? number().required() : number().nullable(),
+    securityVisitType: isMissionFinished ? string().required() : string().nullable()
   }
   return (
     <MissionActionItemGenericDateObservation

@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
@@ -20,6 +21,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.isNull
+import org.mockito.kotlin.verify
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -35,6 +39,9 @@ class UpdateNavActionTest {
 
     @MockitoBean
     private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
+
+    @MockitoBean
+    private lateinit var getMissionDates: GetMissionDates
 
     @Test
     fun `test execute update nav action`() {
@@ -57,7 +64,8 @@ class UpdateNavActionTest {
 
         val updateNavAction = UpdateNavAction(
             missionActionRepository = missionActionRepository,
-            processMissionActionTarget = processMissionActionTarget
+            processMissionActionTarget = processMissionActionTarget,
+            getMissionDates = getMissionDates
         )
 
         val response = updateNavAction.execute(actionId, input)
@@ -79,7 +87,8 @@ class UpdateNavActionTest {
 
         val updateNavAction = UpdateNavAction(
             missionActionRepository = missionActionRepository,
-            processMissionActionTarget = processMissionActionTarget
+            processMissionActionTarget = processMissionActionTarget,
+            getMissionDates = getMissionDates
         )
 
         val exception = assertThrows<BackendUsageException> {
@@ -122,4 +131,78 @@ class UpdateNavActionTest {
         reason = ActionStatusReason.ADMINISTRATION,
         status = ActionStatusType.ANCHORED
     )
+
+    @Test
+    fun `test getMissionDates is called with inquiryId when actionType is INQUIRY`() {
+        val actionId = UUID.randomUUID().toString()
+        val ownerId = UUID.randomUUID()
+        val missionId = 761
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = missionId,
+            ownerId = ownerId.toString(),
+            actionType = ActionType.INQUIRY,
+            source = MissionSourceEnum.RAPPORT_NAV,
+            data = getNavActionDataInput()
+        )
+        val model = MissionActionModelMock.create()
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
+        `when`(
+            processMissionActionTarget.execute(
+                anyOrNull(),
+                anyOrNull()
+            )
+        ).thenReturn(listOf(TargetEntityMock.create()))
+
+        val updateNavAction = UpdateNavAction(
+            missionActionRepository = missionActionRepository,
+            processMissionActionTarget = processMissionActionTarget,
+            getMissionDates = getMissionDates
+        )
+
+        updateNavAction.execute(actionId, input)
+
+        verify(getMissionDates).execute(
+            missionId = eq(missionId),
+            ownerId = eq(ownerId),
+            inquiryId = eq(ownerId)
+        )
+    }
+
+    @Test
+    fun `test getMissionDates is called with null inquiryId when actionType is not INQUIRY`() {
+        val actionId = UUID.randomUUID().toString()
+        val ownerId = UUID.randomUUID()
+        val missionId = 761
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = missionId,
+            ownerId = ownerId.toString(),
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORT_NAV,
+            data = getNavActionDataInput()
+        )
+        val model = MissionActionModelMock.create()
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
+        `when`(
+            processMissionActionTarget.execute(
+                anyOrNull(),
+                anyOrNull()
+            )
+        ).thenReturn(listOf(TargetEntityMock.create()))
+
+        val updateNavAction = UpdateNavAction(
+            missionActionRepository = missionActionRepository,
+            processMissionActionTarget = processMissionActionTarget,
+            getMissionDates = getMissionDates
+        )
+
+        updateNavAction.execute(actionId, input)
+
+        verify(getMissionDates).execute(
+            missionId = eq(missionId),
+            ownerId = eq(ownerId),
+            inquiryId = isNull()
+        )
+    }
 }

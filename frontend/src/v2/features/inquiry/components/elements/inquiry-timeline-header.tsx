@@ -18,7 +18,7 @@ const InquiryTimelineHeader: FC<InquiryTimelineHeaderProps> = ({ inquiryId }) =>
   const { getUrl } = useGlobalRoutes()
   const mutation = useCreateActionMutation()
   const { data: inquiry } = useGetInquiryQuery(inquiryId)
-  const { getActionInput } = useTimelineAction(inquiryId)
+  const { getActionInput } = useTimelineAction(inquiryId, 'inquiry')
 
   const handleAddActionInquiry = async () => {
     const action = getActionInput(ActionType.INQUIRY)

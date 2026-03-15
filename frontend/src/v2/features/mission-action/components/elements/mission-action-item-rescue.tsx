@@ -12,7 +12,6 @@ import {
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'
 import { RescueType } from '../../../common/types/rescue-type'
 import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
@@ -20,6 +19,7 @@ import { ActionRescueInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 
 const RESCUE_TYPE_OPTIONS = [
   {
@@ -39,7 +39,7 @@ const MissionActionItemRescue: FC<{
   const { initValue, handleSubmit, validationSchema, errors } = useMissionActionRescue(action, onChange)
 
   return (
-    <form style={{ width: '100%' }} data-testid={'action-nautical-event-form'}>
+    <form style={{ width: '100%' }} data-testid={'action-rescue-form'}>
       {initValue && (
         <Formik
           validateOnChange={true}
@@ -56,18 +56,17 @@ const MissionActionItemRescue: FC<{
                   // Only handle submission, let Formik handle validation display
                   await handleSubmit(nextValue as ActionRescueInput)
                   // Optionally trigger validation to ensure UI updates
-                  await validateForm()
+                  await validateForm(nextValue)
                 }}
               />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <Field name="dates">
-                        {(field: FieldProps<Date[]>) => (
-                          <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                        )}
-                      </Field>
+                      <MissionBoundFormikDateRangePicker
+                        isLight={true}
+                        missionId={action.ownerId ?? action.missionId}
+                      />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>

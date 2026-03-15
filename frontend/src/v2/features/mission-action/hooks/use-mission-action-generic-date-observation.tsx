@@ -4,6 +4,7 @@ import { object, ObjectShape } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
 import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction } from '../../common/types/mission-action'
@@ -15,20 +16,18 @@ export function useMissionActionGenericDateObservation(
   onChange: (newAction: MissionAction) => Promise<unknown>,
   schema?: ObjectShape
 ): AbstractFormikSubFormHook<ActionGenericDateObservationInput> {
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionActionData): ActionGenericDateObservationInput => {
-    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
-    return { ...data, dates: [startDate, endDate] }
+    const dates = getDateRangeForInput(data)
+    return { ...data, dates }
   }
 
   const fromInputToFieldValue = (value: ActionGenericDateObservationInput): MissionActionData => {
     const { dates, ...newData } = value
-    const processedEndDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const processedStartDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, startDateTimeUtc: processedStartDateTimeUtc, endDateTimeUtc: processedEndDateTimeUtc }
+    return { ...newData, ...getDateRangeFromInput(dates) }
   }
 
   const { initValue, handleSubmit, errors } = useAbstractFormik<MissionActionData, ActionGenericDateObservationInput>(
@@ -50,14 +49,17 @@ export function useMissionActionGenericDateObservation(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const createValidationSchema = (isMissionFinished: boolean) => {
+  const createValidationSchema = (isMissionFinished: boolean, missionStartDate?: string, missionEndDate?: string) => {
     return object().shape({
-      ...(getDateRangeSchema(isMissionFinished) as Record<string, any>),
+      ...(getDateRangeSchema({ isMissionFinished, missionStartDate, missionEndDate }) as Record<string, any>),
       ...(schema ?? {})
     })
   }
 
-  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
 
   return {
     errors,

@@ -4,14 +4,17 @@ import { Stack } from 'rsuite'
 import { string } from 'yup'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 const MissionActionItemTraining: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
   const schema = {
-    trainingType: string().required()
+    trainingType: isMissionFinished ? string().required() : string().nullable()
   }
+
   return (
     <MissionActionItemGenericDateObservation
       action={action}

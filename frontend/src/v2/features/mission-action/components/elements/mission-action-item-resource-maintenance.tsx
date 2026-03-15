@@ -2,12 +2,13 @@ import { FormikMultiRadio, FormikSelect, Option } from '@mtes-mct/monitor-ui'
 import { useStore } from '@tanstack/react-store'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { string } from 'yup'
+import { number, string } from 'yup'
 import { store } from '../../../../store'
 import useResourceByControlUnitQuery from '../../../common/services/use-resources-control-unit'
 import { ControlUnitResource } from '../../../common/types/control-unit-types'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 export enum ResourceType {
   NAUTICAL = 'NAUTICAL',
@@ -31,10 +32,11 @@ const MissionActionItemResourceMaintenance: FC<{
 }> = ({ action, onChange }) => {
   const user = useStore(store, state => state.user)
   const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const schema = {
-    resourceId: string().required(),
-    resourceType: string().required()
+    resourceId: isMissionFinished ? string().required() : string().nullable(),
+    resourceType: isMissionFinished ? string().required() : string().nullable()
   }
 
   return (
