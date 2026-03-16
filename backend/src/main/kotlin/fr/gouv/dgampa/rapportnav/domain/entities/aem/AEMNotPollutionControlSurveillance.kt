@@ -26,7 +26,15 @@ data class AEMNotPollutionControlSurveillance(
         fun getNbrOfInfraction(notPollutionActions: List<MissionEnvActionEntity?>): Double {
             return notPollutionActions
                 .fold(0.0) { acc, c ->
-                    acc.plus(c?.envInfractions?.flatMap { it.natinf ?: listOf() }?.size ?: 0)
+                    acc.plus(
+                        c?.targets?.count { target ->
+                            target.controls?.any { control ->
+                                control.infractions?.any { infraction ->
+                                    infraction.natinfs.isNotEmpty()
+                                } == true
+                            } == true
+                        } ?: 0
+                    )
                 }
         }
 
