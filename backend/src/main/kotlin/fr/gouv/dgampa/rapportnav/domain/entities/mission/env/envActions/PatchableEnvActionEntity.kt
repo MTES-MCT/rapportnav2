@@ -8,4 +8,6 @@ data class PatchedEnvActionEntity(
     val actionStartDateTimeUtc: Instant? = null,
     val actionEndDateTimeUtc: Instant? = null,
     val observationsByUnit: String? = null,
+    val hasDivingDuringOperation: Boolean? = null,
+    val incidentDuringOperation: Boolean? = null
 )

@@ -42,10 +42,14 @@ class MissionEnvActionData(
     override val targets: List<Target>? = null,
     override val tags: List<TagEntity>? = listOf(),
     override var themes: List<ThemeEntity>? = listOf(),
+    override var hasDivingDuringOperation: Boolean? = null,
+    override var incidentDuringOperation: Boolean? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
-    targets = targets
+    targets = targets,
+    hasDivingDuringOperation = hasDivingDuringOperation,
+    incidentDuringOperation = incidentDuringOperation,
 ),
     BaseMissionEnvActionData {
     companion object {
@@ -59,7 +63,9 @@ class MissionEnvActionData(
                 observationsByUnit = data.observationsByUnit,
                 envActionType = ActionTypeEnum.valueOf(input.actionType.toString()),
                 tags = data.tags,
-                themes = data.themes.orEmpty()
+                themes = data.themes.orEmpty(),
+                incidentDuringOperation = data.incidentDuringOperation,
+                hasDivingDuringOperation = data.hasDivingDuringOperation,
             )
             return action
         }

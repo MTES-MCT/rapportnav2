@@ -26,4 +26,6 @@ interface BaseMissionEnvActionData {
     val availableControlTypesForInfraction: List<ControlType>?
     val tags: List<TagEntity>?
     var themes: List<ThemeEntity>?
+    val hasDivingDuringOperation: Boolean?
+    val incidentDuringOperation: Boolean?
 }

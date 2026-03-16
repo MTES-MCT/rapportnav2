@@ -1,5 +1,5 @@
 import Text from '@common/components/ui/text'
-import { FormikEffect, THEME } from '@mtes-mct/monitor-ui'
+import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import React from 'react'
 import { Divider, Stack } from 'rsuite'
@@ -16,6 +16,8 @@ import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
 import MissionActionEnvThemes from '../ui/mission-action-env-themes.tsx'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
+import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
 
 export type MissionActionItemEnvControlProps = {
   action: MissionAction
@@ -145,11 +147,23 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextAreaInput
-                    name="observationsByUnit"
-                    data-testid="observationsByUnit"
-                    label="Observation de l'unité sur le contrôle"
-                  />
+                  <Stack direction={'column'}>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <FormikTextarea
+                        isLight={true}
+                        name="observationsByUnit"
+                        data-testid="observationsByUnit"
+                        label="Observation de l'unité sur le contrôle"
+                      />
+                    </Stack.Item>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <MissionActionIncidentDonwload />
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+
+                <Stack.Item style={{ width: '100%' }}>
+                  <MissionActionDivingOperation />
                 </Stack.Item>
               </Stack>
             </>

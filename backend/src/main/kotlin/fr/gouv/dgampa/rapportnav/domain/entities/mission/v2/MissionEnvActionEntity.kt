@@ -40,6 +40,8 @@ data class MissionEnvActionEntity(
     override var targets: List<TargetEntity>? = null,
     override val tags: List<TagEntity>? = listOf(),
     override var themes: List<ThemeEntity>? = listOf(),
+    override var hasDivingDuringOperation: Boolean? = null,
+    override var incidentDuringOperation: Boolean? = null
     ) : MissionActionEntity(
     missionId = missionId,
     isCompleteForStats = false,
@@ -51,7 +53,9 @@ data class MissionEnvActionEntity(
     isAdministrativeControl = isAdministrativeControl,
     isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
     isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
-    targets = targets
+    targets = targets,
+    hasDivingDuringOperation = hasDivingDuringOperation,
+    incidentDuringOperation = incidentDuringOperation,
 ),
     BaseMissionEnvAction {
 
@@ -162,6 +166,8 @@ data class MissionEnvActionEntity(
             envInfractions = action.infractions,
             tags = action.tags,
             themes = action.themes,
+            hasDivingDuringOperation = action.hasDivingDuringOperation,
+            incidentDuringOperation = action.incidentDuringOperation,
         )
     }
 }

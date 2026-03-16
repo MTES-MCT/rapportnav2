@@ -33,7 +33,9 @@ abstract class MissionActionEntity(
             DependentFieldValue(field = "actionType", value = ["CONTROL"])
         ]
     )
-    override var targets: List<TargetEntity>? = null
+    override var targets: List<TargetEntity>? = null,
+    override var hasDivingDuringOperation: Boolean? = null,
+    override var incidentDuringOperation: Boolean? = null
 
 ) : BaseMissionActionEntity {
 

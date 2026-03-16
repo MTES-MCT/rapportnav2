@@ -6,5 +6,7 @@ open class MissionActionData(
     open val startDateTimeUtc: Instant? = null,
     open val endDateTimeUtc: Instant? = null,
     open val observations: String? = null,
-    open val targets: List<Target>? = null
+    open val targets: List<Target>? = null,
+    open val hasDivingDuringOperation: Boolean? = null,
+    open val incidentDuringOperation: Boolean? = null
 )

@@ -27,6 +27,8 @@ class PatchEnvAction(private val envRepository: IEnvMissionRepository) {
                 observationsByUnit = input.observationsByUnit,
                 actionStartDateTimeUtc = input.startDateTimeUtc,
                 actionEndDateTimeUtc = input.endDateTimeUtc,
+                incidentDuringOperation = input.incidentDuringOperation,
+                hasDivingDuringOperation = input.hasDivingDuringOperation,
             )
         );
     }

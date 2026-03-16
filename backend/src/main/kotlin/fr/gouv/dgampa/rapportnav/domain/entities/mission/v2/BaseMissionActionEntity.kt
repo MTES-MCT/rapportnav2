@@ -24,4 +24,6 @@ interface BaseMissionActionEntity {
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean?
     val isSeafarersControl: Boolean?
     val targets: List<TargetEntity>?
+    var hasDivingDuringOperation: Boolean?
+    var incidentDuringOperation: Boolean?
 }

@@ -35,7 +35,8 @@ export function useMissionActionEnvControl(
   const { initValue, handleSubmit } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
     value,
     fromFieldValueToInput,
-    fromInputToFieldValue
+    fromInputToFieldValue,
+    ['incidentDuringOperation', 'hasDivingDuringOperation']
   )
 
   const onSubmit = async (valueToSubmit?: MissionEnvActionData) => {

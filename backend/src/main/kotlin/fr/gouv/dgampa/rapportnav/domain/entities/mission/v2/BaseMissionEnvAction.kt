@@ -27,5 +27,7 @@ interface BaseMissionEnvAction {
     val coverMissionZone: Boolean?
     val availableControlTypesForInfraction: List<ControlType>?
     val tags: List<TagEntity>?
-    var themes: List<ThemeEntity>?
+    val themes: List<ThemeEntity>?
+    val hasDivingDuringOperation: Boolean?
+    val incidentDuringOperation: Boolean?
 }

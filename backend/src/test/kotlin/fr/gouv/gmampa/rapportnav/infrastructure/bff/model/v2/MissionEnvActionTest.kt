@@ -40,6 +40,8 @@ class MissionEnvActionTest {
         assertThat(output.data.actionTargetType).isEqualTo(entity.actionTargetType)
         assertThat(output.data.isComplianceWithWaterRegulationsControl).isEqualTo(entity.isComplianceWithWaterRegulationsControl)
         assertThat(output.data.isSafetyEquipmentAndStandardsComplianceControl).isEqualTo(entity.isSafetyEquipmentAndStandardsComplianceControl)
+        assertThat(output.data.hasDivingDuringOperation).isEqualTo(entity.hasDivingDuringOperation)
+        assertThat(output.data.incidentDuringOperation).isEqualTo(entity.incidentDuringOperation)
     }
 
 
