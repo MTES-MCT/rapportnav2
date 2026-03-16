@@ -112,6 +112,8 @@ export interface MissionEnvActionData extends MissionActionData {
   availableControlTypesForInfraction: ControlType[]
   tags: EnvTag[]
   themes: EnvTheme[]
+  incidentDuringOperation?: boolean
+  hasDivingDuringOperation?: boolean
 }
 
 export interface MissionEnvAction extends MissionAction {

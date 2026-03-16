@@ -52,4 +52,6 @@ abstract class EnvActionEntity(
     open val coverMissionZone: Boolean? = null,
     open val tags: List<TagEntity>? = listOf(),
     open var themes: List<ThemeEntity>? = listOf(),
+    open var hasDivingDuringOperation: Boolean? = null,
+    open var incidentDuringOperation: Boolean? = null
 )

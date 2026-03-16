@@ -8,4 +8,6 @@ data class ActionEnvInput(
     val observationsByUnit: String? = null,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
+    val hasDivingDuringOperation: Boolean? = null,
+    val incidentDuringOperation: Boolean? = null
 )

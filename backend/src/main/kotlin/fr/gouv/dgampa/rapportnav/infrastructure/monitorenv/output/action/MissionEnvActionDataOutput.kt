@@ -9,15 +9,18 @@ data class MissionEnvActionDataOutput(
     val id: UUID,
     val actionStartDateTimeUtc: ZonedDateTime? = null,
     val actionEndDateTimeUtc: ZonedDateTime? = null,
-    val actionType: ActionTypeEnum,
     val observationsByUnit: String? = null,
+    val hasDivingDuringOperation: Boolean? = null,
+    val incidentDuringOperation: Boolean? = null
 ) {
     fun toPatchableEnvActionEntity(): PatchedEnvActionEntity {
         return PatchedEnvActionEntity(
             id = this.id,
             actionStartDateTimeUtc = this.actionStartDateTimeUtc?.toInstant(),
             actionEndDateTimeUtc = this.actionEndDateTimeUtc?.toInstant(),
-            observationsByUnit = this.observationsByUnit
+            observationsByUnit = this.observationsByUnit,
+            hasDivingDuringOperation = this.hasDivingDuringOperation,
+            incidentDuringOperation = this.incidentDuringOperation
         )
     }
 

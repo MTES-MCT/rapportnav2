@@ -66,6 +66,8 @@ class MissionEnvAction(
                     coverMissionZone = envAction.coverMissionZone,
                     tags = envAction.tags,
                     themes = envAction.themes,
+                    incidentDuringOperation = envAction.incidentDuringOperation,
+                    hasDivingDuringOperation = envAction.hasDivingDuringOperation,
                 )
             )
         }

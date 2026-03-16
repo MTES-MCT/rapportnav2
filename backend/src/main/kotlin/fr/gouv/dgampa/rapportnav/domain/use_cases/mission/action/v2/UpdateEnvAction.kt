@@ -21,7 +21,9 @@ class UpdateEnvAction(
                 missionId = action.missionId,
                 startDateTimeUtc = action.startDateTimeUtc,
                 endDateTimeUtc = action.endDateTimeUtc,
-                observationsByUnit = action.observationsByUnit
+                observationsByUnit = action.observationsByUnit,
+                hasDivingDuringOperation = action.hasDivingDuringOperation,
+                incidentDuringOperation = action.incidentDuringOperation,
             )
         )
         action.targets = processMissionActionTarget.execute(
