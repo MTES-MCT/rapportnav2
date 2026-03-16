@@ -1,9 +1,10 @@
-import { FormikCheckbox, FormikEffect, FormikTextarea, Icon, THEME } from '@mtes-mct/monitor-ui'
+import { FormikCheckbox, FormikEffect, Icon, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { StyledFormikToggle } from '../../../common/components/ui/formik-styled-toogle'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionAntiPollution } from '../../hooks/use-mission-action-anti-pollution'
 import { ActionAntiPollutionInput } from '../../types/action-type'
@@ -105,7 +106,7 @@ const MissionActionItemAntiPollution: FC<{
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                  <FormikTextAreaInput label="Observations" name="observations" data-testid="observations" />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionActionDivingOperation />

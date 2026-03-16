@@ -2,8 +2,6 @@ import { useStore } from '@tanstack/react-store'
 import { isEqual } from 'lodash'
 import { createElement, FC } from 'react'
 import { store } from '../../../../store'
-import { resetDebounceTime } from '../../../../store/slices/delay-query-reducer'
-import { useDelay } from '../../../common/hooks/use-delay'
 import useUpdateActionMutation from '../../../common/services/use-update-action'
 import { MissionAction } from '../../../common/types/mission-action'
 import { OwnerType } from '../../../common/types/owner-type'
@@ -15,20 +13,14 @@ interface MissionActionItemUlamProps {
 }
 
 const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, ownerId }) => {
-  const { handleExecuteOnDelay } = useDelay()
   const { component } = useUlamActionRegistry(action.actionType)
-  const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
   const isMissionFinished = useStore(store, state => state.mission.isMissionFinished)
 
   const mutation = useUpdateActionMutation()
 
   const onChange = async (newAction: MissionAction) => {
-    handleExecuteOnDelay(async () => {
-      if (!isEqual(action, newAction)) {
-        await mutation.mutateAsync({ ownerId, ownerType: OwnerType.MISSION, action: newAction })
-      }
-      if (debounceTime !== undefined) resetDebounceTime()
-    }, debounceTime)
+    if (isEqual(action, newAction)) return
+    await mutation.mutateAsync({ ownerId, ownerType: OwnerType.MISSION, action: newAction })
   }
 
   return (

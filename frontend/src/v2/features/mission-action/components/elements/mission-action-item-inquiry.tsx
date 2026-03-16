@@ -1,16 +1,9 @@
-import {
-  Accent,
-  Button,
-  FormikEffect,
-  FormikNumberInput,
-  FormikTextarea,
-  Icon,
-  Size,
-  THEME
-} from '@mtes-mct/monitor-ui'
+import { Accent, Button, FormikEffect, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FieldArray, FieldArrayRenderProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
+import { FormikNumberInput } from '../../../common/components/ui/formik-number-input'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useInquiry } from '../../../inquiry/hooks/use-inquiry'
 import MissionTargetInquiry from '../../../mission-target/components/elements/mission-target-inquiry'
@@ -47,8 +40,6 @@ const MissionActionItemInquiry: FC<{
                 <Stack direction="column" spacing="1rem" alignItems="flex-start" style={{ width: '100%' }}>
                   <Stack.Item style={{ width: '50%' }}>
                     <FormikNumberInput
-                      isLight={true}
-                      isRequired={true}
                       name="nbrOfHours"
                       data-testid="inquiry-nbr-hours"
                       label="Temps passé sur le controle (heure)"
@@ -77,12 +68,7 @@ const MissionActionItemInquiry: FC<{
                     </FieldArray>
                   </Stack.Item>
                   <Stack.Item style={{ width: '100%' }}>
-                    <FormikTextarea
-                      isLight={true}
-                      label="Observations"
-                      name="observations"
-                      data-testid="observations"
-                    />
+                    <FormikTextAreaInput name="observations" label="Observations" data-testid="observations" />
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

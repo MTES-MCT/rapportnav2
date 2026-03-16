@@ -24,14 +24,9 @@ const MissionGeneralInformationUlamForm: FC<{
           enableReinitialize={true}
           validationSchema={validationSchema}
         >
-          {({ values, validateForm }) => (
+          {({ values }) => (
             <>
-              <FormikEffect
-                onChange={async nextValue =>
-                  //validateForm(nextValue).then(errors => handleSubmit(nextValue as MissionGeneralInfoInput, errors))
-                  handleSubmit(nextValue as MissionGeneralInfoInput)
-                }
-              />
+              <FormikEffect onChange={async nextValue => handleSubmit(nextValue as MissionGeneralInfoInput)} />
               <Stack direction="column" style={{ width: '100%' }} alignItems={'flex-start'}>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionGeneralInformationUlamFormMainForm values={values} isCreation={false} />

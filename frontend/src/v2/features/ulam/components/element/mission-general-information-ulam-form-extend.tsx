@@ -4,7 +4,7 @@ import { Field, FieldArray, FieldArrayRenderProps, FieldProps } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { store } from '../../../../store/index.ts'
-import { FormikTextareaInputDelay } from '../../../common/components/ui/formik-text-area-delay.tsx'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 import useAdministrationsQuery from '../../../common/services/use-administrations.tsx'
@@ -118,18 +118,12 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
       </Stack.Item>
 
       <Stack.Item style={{ width: '100%' }}>
-        <Field name="observations">
-          {(field: FieldProps<string>) => (
-            <FormikTextareaInputDelay
-              isLight={false}
-              name="observations"
-              data-testid="mission-general-observation"
-              label="Observation générale à l'échelle de la mission (remarques, résumé)"
-              isErrorMessageHidden={true}
-              fieldFormik={field}
-            />
-          )}
-        </Field>
+        <FormikTextAreaInput
+          isLight={false}
+          name="observations"
+          data-testid="mission-general-observation"
+          label="Observation générale à l'échelle de la mission (remarques, résumé)"
+        />
       </Stack.Item>
     </Stack>
   )
