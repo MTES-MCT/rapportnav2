@@ -84,8 +84,10 @@ class AdminApiKeyAuthenticationFilterTest {
     }
 
     @Test
-    fun `should extract client IP from X-Forwarded-For`() {
-        whenever(request.getHeader("X-Forwarded-For")).thenReturn("5.6.7.8")
+    fun `should extract client IP from X-Real-IP`() {
+        // X-Forwarded-For is now handled by ForwardedHeaderFilter
+        // This test verifies the X-Real-IP fallback still works
+        whenever(request.getHeader("X-Real-IP")).thenReturn("5.6.7.8")
         whenever(request.getHeader("X-API-Key")).thenReturn(null)
 
         filter.doFilterInternal(request, response, filterChain)

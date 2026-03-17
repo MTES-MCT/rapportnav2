@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.LogAuthenticationAudit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.FindByEmail
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.Save
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.HttpRequestUtils
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthLoginDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthRegisterDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.outputs.AuthLoginDataOutput
@@ -32,21 +33,6 @@ class ApiAuthController(
     private val logAuthenticationAudit: LogAuthenticationAudit,
 ) {
 
-    private fun extractClientIp(request: HttpServletRequest): String? {
-        val xForwardedFor = request.getHeader("X-Forwarded-For")
-        if (!xForwardedFor.isNullOrBlank()) {
-            return xForwardedFor.split(",").firstOrNull()?.trim()
-        }
-        val xRealIp = request.getHeader("X-Real-IP")
-        if (!xRealIp.isNullOrBlank()) {
-            return xRealIp
-        }
-        return request.remoteAddr
-    }
-
-    private fun extractUserAgent(request: HttpServletRequest): String? {
-        return request.getHeader("User-Agent")
-    }
     @PostMapping("register")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     fun register(@RequestBody body: AuthRegisterDataInput): ResponseEntity<Any> {
@@ -89,8 +75,8 @@ class ApiAuthController(
         request: HttpServletRequest,
         response: HttpServletResponse
     ): AuthLoginDataOutput {
-        val ipAddress = extractClientIp(request)
-        val userAgent = extractUserAgent(request)
+        val ipAddress = HttpRequestUtils.getClientIp(request)
+        val userAgent = HttpRequestUtils.getUserAgent(request)
         val email = body.email.trim()
 
         if (body.email.isEmpty() || body.password.isEmpty()) {

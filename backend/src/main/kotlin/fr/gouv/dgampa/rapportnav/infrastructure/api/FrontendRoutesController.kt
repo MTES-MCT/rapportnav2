@@ -58,7 +58,7 @@ class FrontendRoutesController(
         )
 
         // Set CSP header with nonce
-        val isSecure = request.isSecure || request.getHeader("X-Forwarded-Proto") == "https"
+        val isSecure = request.isSecure
         setCspHeader(response, nonce, isSecure)
 
         return htmlContent

@@ -53,8 +53,6 @@ class ApiAuthControllerTests {
     fun setup() {
         MockitoAnnotations.openMocks(this)
         mockRequest = mock(HttpServletRequest::class.java)
-        `when`(mockRequest.getHeader("X-Forwarded-For")).thenReturn(null)
-        `when`(mockRequest.getHeader("X-Real-IP")).thenReturn(null)
         `when`(mockRequest.remoteAddr).thenReturn("127.0.0.1")
         `when`(mockRequest.getHeader("User-Agent")).thenReturn("Test-Agent")
     }
