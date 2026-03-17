@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.config
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.ValidateApiKey
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.HttpRequestUtils
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -33,7 +34,7 @@ class ApiKeyAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val clientIp = getClientIp(request)
+        val clientIp = HttpRequestUtils.getClientIp(request)
         val apiKey = request.getHeader(API_KEY_HEADER)?.trim()
 
         if (apiKey != null) {
@@ -73,15 +74,6 @@ class ApiKeyAuthenticationFilter(
         }
 
         filterChain.doFilter(request, response)
-    }
-
-    private fun getClientIp(request: HttpServletRequest): String {
-        val headers = listOf("X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP")
-        for (header in headers) {
-            val ip = request.getHeader(header)
-            if (!ip.isNullOrBlank() && ip != "unknown") return ip.split(",")[0].trim()
-        }
-        return request.remoteAddr ?: "unknown"
     }
 
     private fun respondWithError(response: HttpServletResponse, status: HttpStatus, message: String) {
