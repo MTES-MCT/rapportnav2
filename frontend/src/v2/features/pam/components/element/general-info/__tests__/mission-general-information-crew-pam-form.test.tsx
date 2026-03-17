@@ -24,17 +24,9 @@ const role2 = {
 }
 
 // Mock dependencies
-vi.mock('../../../../../common/services/use-agent-services.tsx', () => ({
+vi.mock('../../../../../common/services/use-agents.tsx', () => ({
   default: () => ({
-    data: [
-      {
-        service: {
-          id: 1,
-          name: 'service1'
-        },
-        agents: [agent1, agent2]
-      }
-    ]
+    data: [agent1, agent2]
   })
 }))
 
@@ -131,7 +123,7 @@ describe('MissionCrewFormPam', () => {
       expect(mockHandleSubmitForm).toHaveBeenCalledOnce()
       expect(mockHandleSubmitForm).toHaveBeenCalledWith(
         expect.objectContaining({
-          agent: expect.objectContaining({ id: agent1.id }),
+          agent: agent1,
           role: expect.objectContaining({ id: role1.id }),
           comment: 'Test comment'
         })
