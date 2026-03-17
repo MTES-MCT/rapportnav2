@@ -16,22 +16,25 @@ data class AEMIllegalFish(
     val nbrOfSeizureAndDiversionVessel: Double? = 0.0, // 4.3.8
     val quantityOfFish: Double? = 0.0 //4.3.9
 ) {
-    constructor(
-        fishActions: List<MissionFishActionEntity?>,
-        navActions: List<MissionNavActionEntity>,
-        missionEndDateTime: Instant?
-    ) : this(
-        nbrOfHourAtSea = getNbrOfHourAtSea(fishActions, navActions, missionEndDateTime),
-        nbrOfPolFishAction = fishActions.size.toDouble(),
-        nbrOfTargetedVessel = fishActions.size.toDouble(),
-        nbrOfInfraction = getNbrOfInfraction(fishActions),
-        nbrOfInfractionWithPV = getNbrOfInfractionWithPV(fishActions),
-        nbrOfSeizureAndDiversionVessel = getNbrOfSeizureAndDiversionVessel(fishActions),
-        quantityOfFish = getQuantityOfFish(fishActions)
-    ) {
-    }
-
     companion object {
+        operator fun invoke(
+            fishActions: List<MissionFishActionEntity?>,
+            navActions: List<MissionNavActionEntity>,
+            missionEndDateTime: Instant?
+        ): AEMIllegalFish {
+            // only keep SEA_CONTROL for FishActions
+            val seaControlActions = fishActions.filter { it?.fishActionType == MissionActionType.SEA_CONTROL }
+            return AEMIllegalFish(
+                nbrOfHourAtSea = getNbrOfHourAtSea(seaControlActions, navActions, missionEndDateTime),
+                nbrOfPolFishAction = seaControlActions.size.toDouble(),
+                nbrOfTargetedVessel = seaControlActions.size.toDouble(),
+                nbrOfInfraction = getNbrOfInfraction(seaControlActions),
+                nbrOfInfractionWithPV = getNbrOfInfractionWithPV(seaControlActions),
+                nbrOfSeizureAndDiversionVessel = getNbrOfSeizureAndDiversionVessel(seaControlActions),
+                quantityOfFish = getQuantityOfFish(seaControlActions)
+            )
+        }
+
         fun getNbrOfHourAtSea(fishActions: List<MissionFishActionEntity?>,
                               navActions: List<MissionNavActionEntity>,
                               missionEndDateTime: Instant?): Double {
@@ -50,7 +53,7 @@ data class AEMIllegalFish(
 
         fun getNbrOfInfraction(fishActions: List<MissionFishActionEntity?>): Double {
             return fishActions.filterNotNull().fold(0.0) { acc, c ->
-                acc.plus(c.fishInfractions?.count { it.natinf != null } ?: 0)
+                acc.plus(c.fishInfractions.count { it.natinf != null } ?: 0)
 
             };
         }
@@ -58,7 +61,7 @@ data class AEMIllegalFish(
         fun getNbrOfInfractionWithPV(fishActions: List<MissionFishActionEntity?>): Double {
             return fishActions.filterNotNull()
                 .fold(0.0) { acc, c ->
-                acc.plus(c.fishInfractions?.filter { g -> g.infractionType == InfractionType.WITH_RECORD }?.size ?: 0)
+                acc.plus(c.fishInfractions.filter { g -> g.infractionType == InfractionType.WITH_RECORD }?.size ?: 0)
 
             };
         }
