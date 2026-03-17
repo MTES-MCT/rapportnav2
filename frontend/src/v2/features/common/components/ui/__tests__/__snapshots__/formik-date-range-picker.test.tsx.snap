@@ -329,16 +329,6 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="rs-stack-item"
-          style="margin-top: 0.2rem;"
-        >
-          <p
-            class="sc-klnyBj sc-kCvKRo tsMzt dqhaeL"
-            color="#E1000F"
-            font-size="13"
-          />
-        </div>
       </div>
     </div>
     <div
@@ -688,16 +678,6 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             </fieldset>
           </div>
         </div>
-      </div>
-      <div
-        class="rs-stack-item"
-        style="margin-top: 0.2rem;"
-      >
-        <p
-          class="sc-klnyBj sc-kCvKRo tsMzt dqhaeL"
-          color="#E1000F"
-          font-size="13"
-        />
       </div>
     </div>
   </div>,
