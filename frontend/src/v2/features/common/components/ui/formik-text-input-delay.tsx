@@ -16,6 +16,14 @@ export const FormikTextInputDelay = styled(
       (v?: string | number) => fieldFormik.form.setFieldValue(name, v as string),
       delay
     )
-    return <TextInput {...props} name={name} value={value as string} onChange={(v?: string) => onChange(v)} />
+    return (
+      <TextInput
+        {...props}
+        name={name}
+        value={value as string}
+        onChange={(v?: string) => onChange(v)}
+        error={fieldFormik.meta.error}
+      />
+    )
   }
 )(() => ({}))
