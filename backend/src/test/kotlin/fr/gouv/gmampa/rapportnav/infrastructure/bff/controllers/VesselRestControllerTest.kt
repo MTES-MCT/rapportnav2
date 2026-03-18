@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetVessels
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.ProcessImpersonationRequest
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.VesselRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.VesselEntityMock
 import org.junit.jupiter.api.Test
@@ -38,6 +39,9 @@ class VesselRestControllerTest {
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
+
+    @MockitoBean
+    private lateinit var processImpersonationRequest: ProcessImpersonationRequest
 
     @Test
     fun `getVessels should return filtered list of vessels`() {

@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentRoles
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.ProcessImpersonationRequest
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.AgentRoleController
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -37,6 +38,9 @@ class AgentRoleControllerTest {
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
+
+    @MockitoBean
+    private lateinit var processImpersonationRequest: ProcessImpersonationRequest
 
     @Test
     fun `agentRoles should return list of roles`() {

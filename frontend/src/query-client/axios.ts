@@ -18,6 +18,25 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
+
+    // Add impersonation header if active (except for admin endpoints)
+    try {
+      const impersonation = sessionStorage.getItem('impersonation')
+      if (impersonation) {
+        const state = JSON.parse(impersonation)
+        if (state.isImpersonating && state.targetServiceId) {
+          // Don't impersonate admin endpoints - admins need full access
+          const url = config.url || ''
+          const isAdminEndpoint = /^\/?admin\//.test(url)
+          if (!isAdminEndpoint) {
+            config.headers['X-Impersonate-Service-Id'] = state.targetServiceId.toString()
+          }
+        }
+      }
+    } catch (e) {
+      // Ignore parsing errors
+    }
+
     return config
   },
   error => Promise.reject(error)

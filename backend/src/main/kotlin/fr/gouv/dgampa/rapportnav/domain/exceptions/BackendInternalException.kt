@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory
  *
  * ## Examples
  * - An unexpected exception has been caught.
+ * - Audit logging failed.
  *
  * ## Logging
  * This exception is logged as an error on the Backend side.
  */
 open class BackendInternalException(
+    val code: BackendInternalErrorCode? = null,
     final override val message: String,
     val originalException: Exception? = null,
 ) : RuntimeException(message) {

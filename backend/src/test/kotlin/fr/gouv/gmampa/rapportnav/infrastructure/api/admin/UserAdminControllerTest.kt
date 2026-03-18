@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.GetAuthenticationAuditList
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.ProcessImpersonationRequest
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.UserAdminController
 import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
@@ -63,6 +64,9 @@ class UserAdminControllerTest {
 
     @MockitoBean
     private lateinit var getAuthenticationAuditList: GetAuthenticationAuditList
+
+    @MockitoBean
+    private lateinit var processImpersonationRequest: ProcessImpersonationRequest
 
     private val jsonMapper = JsonMapper.builder().build()
 

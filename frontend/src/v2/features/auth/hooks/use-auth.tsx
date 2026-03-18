@@ -33,6 +33,9 @@ export const useAuth = (authTokenInstance: AuthToken = new AuthToken()): AuthHoo
     authToken.remove()
     setIsAuthenticated(false)
 
+    // clear impersonation state
+    sessionStorage.removeItem('impersonation')
+
     // clear react-query cache
     queryClient.clear()
 

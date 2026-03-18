@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v2/admin/users")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 class UserAdminController(
     private val updateUser: UpdateUser,
     private val disableUser: DisableUser,
@@ -58,7 +59,6 @@ class UserAdminController(
 
     @PostMapping("")
     @Operation(summary = "Create User")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiResponses(
         value = [
             ApiResponse(

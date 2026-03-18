@@ -27,8 +27,17 @@ beforeAll(async () => {
   axiosInstance = (await import('../axios')).default
 })
 
+let capturedHeaders: Record<string, string> = {}
+
 const server = setupServer(
-  http.get('/api/v2/ok', () => HttpResponse.json({ message: 'ok' })),
+  http.get('/api/v2/ok', ({ request }) => {
+    capturedHeaders = Object.fromEntries(request.headers.entries())
+    return HttpResponse.json({ message: 'ok' })
+  }),
+  http.get('/api/v2/admin/impersonation/services', ({ request }) => {
+    capturedHeaders = Object.fromEntries(request.headers.entries())
+    return HttpResponse.json([{ id: 1, name: 'Service 1' }])
+  }),
   http.get('/api/v2/forbidden', () => new HttpResponse(JSON.stringify({ error: 'Forbidden' }), { status: 403 })),
   http.get('/api/v2/not-found', () =>
     new HttpResponse(
@@ -49,6 +58,8 @@ afterEach(() => {
   server.resetHandlers()
   logoutSpy.mockClear()
   getMock.mockReset()
+  sessionStorage.clear()
+  capturedHeaders = {}
 })
 afterAll(() => server.close())
 
@@ -77,5 +88,41 @@ describe('axiosInstance', () => {
       expect(error.message).toBe('The requested mission could not be found')
       expect(error.response.data.code).toBe('COULD_NOT_FIND_EXCEPTION')
     }
+  })
+
+  it('adds impersonation header when impersonating for non-admin endpoints', async () => {
+    getMock.mockReturnValue('fake-token')
+    sessionStorage.setItem(
+      'impersonation',
+      JSON.stringify({ isImpersonating: true, targetServiceId: 123 })
+    )
+
+    await axiosInstance.get('/ok')
+
+    expect(capturedHeaders['x-impersonate-service-id']).toBe('123')
+  })
+
+  it('does NOT add impersonation header for admin endpoints', async () => {
+    getMock.mockReturnValue('fake-token')
+    sessionStorage.setItem(
+      'impersonation',
+      JSON.stringify({ isImpersonating: true, targetServiceId: 123 })
+    )
+
+    await axiosInstance.get('/admin/impersonation/services')
+
+    expect(capturedHeaders['x-impersonate-service-id']).toBeUndefined()
+  })
+
+  it('does not add impersonation header when not impersonating', async () => {
+    getMock.mockReturnValue('fake-token')
+    sessionStorage.setItem(
+      'impersonation',
+      JSON.stringify({ isImpersonating: false, targetServiceId: null })
+    )
+
+    await axiosInstance.get('/ok')
+
+    expect(capturedHeaders['x-impersonate-service-id']).toBeUndefined()
   })
 })
