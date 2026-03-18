@@ -22,7 +22,6 @@ export type MissionActionItemGenericControlProps = {
   schema?: ObjectShape
   withGeoCoords?: boolean
   controlTypes?: ControlType[]
-  isMissionFinished?: boolean
   isGeoCoordRequired?: boolean
   component?: FunctionComponent<{ formik: FormikProps<ActionControlInput> }>
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
@@ -35,7 +34,6 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
   component,
   controlTypes,
   withGeoCoords,
-  isMissionFinished,
   isGeoCoordRequired = true
 }) => {
   const { isOnline } = useOnlineManager()
@@ -44,7 +42,6 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
     action,
     onChange,
     schema,
-    isMissionFinished,
     withGeoCoords,
     [
       'incidentDuringOperation',

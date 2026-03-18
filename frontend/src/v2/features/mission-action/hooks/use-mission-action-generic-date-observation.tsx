@@ -16,7 +16,7 @@ export function useMissionActionGenericDateObservation(
   schema?: ObjectShape
 ): AbstractFormikSubFormHook<ActionGenericDateObservationInput> {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionActionData): ActionGenericDateObservationInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)

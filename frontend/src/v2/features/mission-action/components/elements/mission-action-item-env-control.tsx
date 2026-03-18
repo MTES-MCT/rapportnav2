@@ -19,17 +19,12 @@ import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-form
 
 export type MissionActionItemEnvControlProps = {
   action: MissionAction
-  isMissionFinished?: boolean
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }
 
-const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = ({
-  action,
-  onChange,
-  isMissionFinished
-}) => {
+const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = ({ action, onChange }) => {
   const { getAvailableEnvControlTypes } = useTarget()
-  const { initValue, handleSubmit } = useMissionActionEnvControl(action, onChange, isMissionFinished)
+  const { initValue, handleSubmit } = useMissionActionEnvControl(action, onChange)
 
   return (
     <form style={{ width: '100%' }}>

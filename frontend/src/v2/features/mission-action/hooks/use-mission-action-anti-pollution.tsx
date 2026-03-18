@@ -17,7 +17,7 @@ export function useMissionActionAntiPollution(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionAntiPollutionInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -25,7 +25,6 @@ export function useMissionActionAntiPollution(
     return {
       ...data,
       dates: [startDate, endDate],
-      isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }

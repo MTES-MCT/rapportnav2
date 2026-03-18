@@ -9,17 +9,18 @@ import getGeoCoordsSchema from '../../common/schemas/geocoords-schema'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionControlInput } from '../types/action-type'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionGenericControl(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>,
   schema?: ObjectShape,
-  isMissionFinished?: boolean,
   withGeoCoords?: boolean,
   booleans?: string[]
 ): AbstractFormikSubFormHook<ActionControlInput> {
   const { getCoords } = useCoordinate()
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -27,13 +28,12 @@ export function useMissionActionGenericControl(
     return {
       ...data,
       dates: [startDate, endDate],
-      isMissionFinished: !!isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
 
   const fromInputToFieldValue = (value: ActionControlInput): MissionNavActionData => {
-    const { dates, geoCoords, isMissionFinished, ...newData } = value
+    const { dates, geoCoords, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
