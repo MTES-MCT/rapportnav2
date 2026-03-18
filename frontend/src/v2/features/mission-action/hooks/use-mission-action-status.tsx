@@ -16,7 +16,7 @@ export function useMissionActionStatus(
 ): AbstractFormikSubFormHook<ActionStatusInput> {
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionStatusInput => {
     return { ...data, date: preprocessDateForPicker(data.startDateTimeUtc) }

@@ -23,9 +23,8 @@ import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-form
 const MissionActionItemFishControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
-  isMissionFinished?: boolean
-}> = ({ action, onChange, isMissionFinished }) => {
-  const { initValue, handleSubmit } = useMissionActionFishControl(action, onChange, isMissionFinished)
+}> = ({ action, onChange }) => {
+  const { initValue, handleSubmit } = useMissionActionFishControl(action, onChange)
   return (
     <div style={{ width: '100%' }}>
       {initValue && (

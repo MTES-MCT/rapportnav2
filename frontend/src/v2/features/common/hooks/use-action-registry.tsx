@@ -20,7 +20,6 @@ export type ActionRegistryItem = {
   component?: FunctionComponent<{
     action: MissionAction
     onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
-    isMissionFinished?: boolean
   }>
 }
 

@@ -19,7 +19,7 @@ export function useMissionActionIllegalImmigration(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionIllegalImmigrationInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -27,13 +27,12 @@ export function useMissionActionIllegalImmigration(
     return {
       ...data,
       dates: [startDate, endDate],
-      isMissionFinished: isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
 
   const fromInputToFieldValue = (value: ActionIllegalImmigrationInput): MissionNavActionData => {
-    const { dates, geoCoords, isMissionFinished, ...newData } = value
+    const { dates, geoCoords, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])

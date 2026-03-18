@@ -20,7 +20,7 @@ export function useMissionActionRescue(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionRescueInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -30,13 +30,12 @@ export function useMissionActionRescue(
       ...data,
       rescueType,
       dates: [startDate, endDate],
-      isMissionFinished: isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
 
   const fromInputToFieldValue = (value: ActionRescueInput): MissionNavActionData => {
-    const { dates, geoCoords, isMissionFinished, ...newData } = value
+    const { dates, geoCoords, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
 

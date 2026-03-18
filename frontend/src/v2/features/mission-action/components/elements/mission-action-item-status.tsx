@@ -13,7 +13,6 @@ import { ActionStatusInput } from '../../types/action-type'
 const MissionActionItemStatus: FC<{
   action: MissionNavAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
-  isMissionFinished?: boolean
 }> = ({ action, onChange }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionStatus(action, onChange)
   return (

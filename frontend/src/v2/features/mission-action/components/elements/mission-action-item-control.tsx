@@ -8,13 +8,12 @@ import MissionActionItemNavControl from './mission-action-item-nav-control'
 const MissionActionItemControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
-  isMissionFinished?: boolean
-}> = ({ action, onChange, isMissionFinished }) => {
+}> = ({ action, onChange }) => {
   switch (action.source) {
     case MissionSourceEnum.MONITORENV:
       return <MissionActionItemEnvControl action={action} onChange={onChange} />
     case MissionSourceEnum.MONITORFISH:
-      return <MissionActionItemFishControl action={action} onChange={onChange} isMissionFinished={isMissionFinished} />
+      return <MissionActionItemFishControl action={action} onChange={onChange} />
     default:
       return <MissionActionItemNavControl action={action} onChange={onChange} />
   }
