@@ -8,6 +8,7 @@ import useResourceByControlUnitQuery from '../../../common/services/use-resource
 import { ControlUnitResource } from '../../../common/types/control-unit-types'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 export enum ResourceType {
   NAUTICAL = 'NAUTICAL',
@@ -31,10 +32,11 @@ const MissionActionItemResourceMaintenance: FC<{
 }> = ({ action, onChange }) => {
   const user = useStore(store, state => state.user)
   const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const schema = {
-    resourceId: string().required(),
-    resourceType: string().required()
+    resourceId: isMissionFinished ? string().required() : string().nullable(),
+    resourceType: isMissionFinished ? string().required() : string().nullable()
   }
 
   return (
