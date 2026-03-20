@@ -1,5 +1,4 @@
-import { FormikErrors } from 'formik'
-import { boolean, number, object } from 'yup'
+import { boolean, mixed, number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -55,7 +54,7 @@ export function useMissionActionRescue(
     }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionRescueInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionRescueInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -75,28 +74,28 @@ export function useMissionActionRescue(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (value?: ActionRescueInput, errors?: FormikErrors<ActionRescueInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionRescueInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   const createValidationSchema = (isMissionFinished: boolean) => {
     return object().shape({
       ...getDateRangeSchema(isMissionFinished),
       ...getGeoCoordsSchema(isMissionFinished),
-      isPersonRescue: boolean(),
+      rescueType: mixed<RescueType>().oneOf(Object.values(RescueType)),
       isMigrationRescue: boolean(),
 
-      // Fields related to isPersonRescue
+      // Fields related to rescueType === PERSON
       numberPersonsRescued: conditionallyRequired(
         () => number().min(0).nullable(),
-        ['isPersonRescue'],
-        true,
+        ['rescueType'],
+        (val: RescueType) => val === RescueType.PERSON,
         'numberPersonsRescued is required'
       )(isMissionFinished),
       numberOfDeaths: conditionallyRequired(
         () => number().min(0).nullable(),
-        ['isPersonRescue'],
-        true,
+        ['rescueType'],
+        (val: RescueType) => val === RescueType.PERSON,
         'numberOfDeaths is required'
       )(isMissionFinished),
 
@@ -119,7 +118,6 @@ export function useMissionActionRescue(
   const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

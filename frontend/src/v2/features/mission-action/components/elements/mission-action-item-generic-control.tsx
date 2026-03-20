@@ -38,7 +38,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
 }) => {
   const { isOnline } = useOnlineManager()
   const { defaultControlTypes } = useTarget()
-  const { errors, initValue, handleSubmit, validationSchema } = useMissionActionGenericControl(
+  const { initValue, handleSubmit, validationSchema } = useMissionActionGenericControl(
     action,
     onChange,
     schema,
@@ -60,8 +60,8 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
           validateOnChange={true}
+          validateOnMount={true}
           enableReinitialize={true}
-          initialErrors={errors}
         >
           {formik => (
             <>

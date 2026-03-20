@@ -8,7 +8,7 @@ export function useAbstractControl<T, M>(
   fromFieldValueToInput: (input: T) => M,
   fromInputToFieldValue: (value?: M) => T
 ): AbstractFormikSubFormHook<M> {
-  const { initValue, handleSubmit, errors } = useAbstractFormikSubForm<T, M>(
+  const { initValue, handleSubmit } = useAbstractFormikSubForm<T, M>(
     name,
     fieldFormik,
     fromFieldValueToInput,
@@ -16,7 +16,6 @@ export function useAbstractControl<T, M>(
   )
 
   return {
-    errors,
     initValue,
     handleSubmit
   }
