@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -33,7 +32,7 @@ export function useMissionActionFishControl(
     return { ...newData, startDateTimeUtc, endDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionFishActionData, ActionFishControlInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionFishActionData, ActionFishControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -44,15 +43,11 @@ export function useMissionActionFishControl(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (
-    value?: ActionFishControlInput,
-    errors?: FormikErrors<ActionFishControlInput>
-  ) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionFishControlInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return {
-    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }

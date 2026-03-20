@@ -1,5 +1,4 @@
 import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
-import { FormikErrors } from 'formik'
 import * as Yup from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form.tsx'
 import { useDate } from '../../common/hooks/use-date.tsx'
@@ -75,11 +74,8 @@ export const useUlamMissionGeneralInfoForm = (
     })
   })
 
-  const handleSubmitOverride = async (
-    value?: MissionGeneralInfoInput,
-    errors?: FormikErrors<MissionGeneralInfoInput>
-  ) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: MissionGeneralInfoInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return { initValue, handleSubmit: handleSubmitOverride, validationSchema }

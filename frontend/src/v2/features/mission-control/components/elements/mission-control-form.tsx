@@ -45,7 +45,11 @@ const MissionControlForm: FC<MissionControlModelFormProps> = ({ name, controlTyp
         <Formik initialValues={initValue} onSubmit={handleSubmit} enableReinitialize>
           {formik => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ControlInput)} />
+              <FormikEffect
+                onChange={nextValues => {
+                  if (formik.isValid) handleSubmit(nextValues as ControlInput)
+                }}
+              />
               <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionControlUnitConfirm

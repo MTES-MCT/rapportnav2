@@ -29,6 +29,7 @@ const InquiryGeneralInfoForm: FC<{
         <Formik
           enableReinitialize
           validateOnChange={false}
+          validateOnMount={true}
           initialValues={initValue}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}

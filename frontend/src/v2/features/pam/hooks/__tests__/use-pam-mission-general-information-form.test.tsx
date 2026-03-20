@@ -9,8 +9,7 @@ import { useMissionInterServices } from '../../../common/hooks/use-mission-inter
 vi.mock('../../../common/hooks/use-abstract-formik-form.tsx', () => ({
   useAbstractFormik: () => ({
     initValue: {},
-    handleSubmit: vi.fn(),
-    errors: {}
+    handleSubmit: vi.fn()
   })
 }))
 

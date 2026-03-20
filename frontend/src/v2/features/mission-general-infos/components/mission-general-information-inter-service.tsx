@@ -69,7 +69,7 @@ const MissionGeneralInformationInterService: FC<MissionGeneralInformationInterSe
   return (
     <>
       {initialValues && (
-        <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
+        <Formik initialValues={initialValues} validateOnMount={true} onSubmit={handleSubmit} enableReinitialize>
           {({ values }) => (
             <>
               <FormikEffect onChange={newValues => handleSubmit(newValues)} />

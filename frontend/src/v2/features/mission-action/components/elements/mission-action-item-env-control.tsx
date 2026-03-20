@@ -29,7 +29,13 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize={true}>
+        <Formik
+          initialValues={initValue}
+          onSubmit={handleSubmit}
+          validateOnChange={true}
+          validateOnMount={true}
+          enableReinitialize={true}
+        >
           {({ values }) => (
             <>
               <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionEnvControlInput)} />

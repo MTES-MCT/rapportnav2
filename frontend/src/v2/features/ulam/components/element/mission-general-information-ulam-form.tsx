@@ -22,6 +22,7 @@ const MissionGeneralInformationUlamForm: FC<{
           onSubmit={handleSubmit}
           initialValues={initValue}
           enableReinitialize={true}
+          validateOnMount={true}
           validationSchema={validationSchema}
         >
           {({ values }) => (
