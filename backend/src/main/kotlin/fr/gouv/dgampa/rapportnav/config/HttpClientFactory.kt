@@ -6,6 +6,8 @@ import java.net.http.HttpClient
 @Component
 class HttpClientFactory {
     fun create(): HttpClient {
-        return HttpClient.newBuilder().build();
+        return HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_1_1)
+            .build()
     }
 }
