@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.71.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.70.0...backend@v2.71.0) (2026-03-23)
+
+
+### Features
+
+* bump to java25 ([e0d71d1](https://github.com/MTES-MCT/rapportnav2/commit/e0d71d19de6ed921a5602a79e7e63f025ed94269))
+
+
+### Bug Fixes
+
+* add controlUnits mocks ([bdde185](https://github.com/MTES-MCT/rapportnav2/commit/bdde18553fe8d69549e72905555401f1850b58ee))
+* **AEM:** change counting rule for 4.1.4 ([fb889f2](https://github.com/MTES-MCT/rapportnav2/commit/fb889f284d997bd20bc359237e0407bd53115851))
+* **AEM:** filter by sea_controls for 4.3 items ([8a6324e](https://github.com/MTES-MCT/rapportnav2/commit/8a6324e38711a43908d204639d341623a396e4f8))
+* **Secu:** limit IP spoofing and use Spring ForwardedHeaderFilter ([b2869d4](https://github.com/MTES-MCT/rapportnav2/commit/b2869d4dff06d49a0bd448b6c9c106a4e1675d55))
+* set HTTP 1.1 for MonitorEnv ([804cd19](https://github.com/MTES-MCT/rapportnav2/commit/804cd195633b7d6f39a4b70ab4ca24b64dc0e835))
+
 ## [2.70.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.69.2...backend@v2.70.0) (2026-03-11)
 
 

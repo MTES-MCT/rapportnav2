@@ -1,5 +1,30 @@
 # Changelog
 
+## [2.71.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.70.0...docker-container@v2.71.0) (2026-03-23)
+
+
+### Features
+
+* bump to java25 ([e0d71d1](https://github.com/MTES-MCT/rapportnav2/commit/e0d71d19de6ed921a5602a79e7e63f025ed94269))
+* **frontend:** enable all control types for control sleeping engins ([87b05dc](https://github.com/MTES-MCT/rapportnav2/commit/87b05dcbf744f88785dfe08b005789e6aea00eb0))
+* **frontend:** remove 3 sec delay ([a54c971](https://github.com/MTES-MCT/rapportnav2/commit/a54c971220a805267beaca6b72999868cd35a60d))
+* **frontend:** remove 3 sec delay ([515e165](https://github.com/MTES-MCT/rapportnav2/commit/515e16587eea0cb3a4fc13db3c236527d069dcb5))
+* **frontend:** remove 3 sec policy general infos ulam ([3ec8314](https://github.com/MTES-MCT/rapportnav2/commit/3ec8314eac1c03cfd2f6edbaea237b664b093e53))
+
+
+### Bug Fixes
+
+* add controlUnits mocks ([bdde185](https://github.com/MTES-MCT/rapportnav2/commit/bdde18553fe8d69549e72905555401f1850b58ee))
+* **AEM:** change counting rule for 4.1.4 ([fb889f2](https://github.com/MTES-MCT/rapportnav2/commit/fb889f284d997bd20bc359237e0407bd53115851))
+* **AEM:** filter by sea_controls for 4.3 items ([8a6324e](https://github.com/MTES-MCT/rapportnav2/commit/8a6324e38711a43908d204639d341623a396e4f8))
+* dependencies ([62ce8e0](https://github.com/MTES-MCT/rapportnav2/commit/62ce8e0436886f0a93c08dc08ebc0049b28c9809))
+* **formik:** fix validation on delay inputs ([bfe463d](https://github.com/MTES-MCT/rapportnav2/commit/bfe463d7249ff0d385bd89ca167cda4d66ae007b))
+* **formik:** read validation from parent for MissionActionFormikCoordinateInputDMD ([3e8cd50](https://github.com/MTES-MCT/rapportnav2/commit/3e8cd5089527349258caef211a0f0688d874ede9))
+* **formik:** remove isMissionFinished as form field ([895ae71](https://github.com/MTES-MCT/rapportnav2/commit/895ae710c485acd84e306a2ef4169f24d9a78bf3))
+* **Secu:** limit IP spoofing and use Spring ForwardedHeaderFilter ([b2869d4](https://github.com/MTES-MCT/rapportnav2/commit/b2869d4dff06d49a0bd448b6c9c106a4e1675d55))
+* set HTTP 1.1 for MonitorEnv ([804cd19](https://github.com/MTES-MCT/rapportnav2/commit/804cd195633b7d6f39a4b70ab4ca24b64dc0e835))
+* trivy version ([64f7832](https://github.com/MTES-MCT/rapportnav2/commit/64f7832e2ef1bceb358da939585a7dd3e7e35766))
+
 ## [2.70.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.69.2...docker-container@v2.70.0) (2026-03-11)
 
 
