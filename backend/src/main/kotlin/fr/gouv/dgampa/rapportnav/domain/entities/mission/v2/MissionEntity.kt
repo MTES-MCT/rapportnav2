@@ -72,7 +72,7 @@ data class MissionEntity(
     private fun isEnvDataCompleteForStats(): Boolean? {
         return data?.isCompleteForStats(
             serviceTypeEnum = generalInfos?.serviceType,
-            isResourcesNotUsed = generalInfos?.data?.isResourcesNotUsed
+            isResourcesNotUsed = if (generalInfos?.data?.missionReportType == MissionReportTypeEnum.FIELD_REPORT) generalInfos.data.isResourcesNotUsed else true
         )
     }
 
