@@ -2,11 +2,11 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
-import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action.ActionFishInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishActionData
@@ -15,18 +15,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishActi
 class UpdateFishAction(
     private val patchFishAction: PatchFishAction,
     private val processMissionActionTarget: ProcessMissionActionTarget,
+    private val entityValidityValidator: EntityValidityValidator,
     private val getMissionDates: GetMissionDates
 ) {
     fun execute(id: String, input: MissionFishAction): MissionFishActionEntity {
         val action = MissionFishActionData.toMissionFishActionEntity(input)
 
-        val missionDates = getMissionDates.execute(
-            missionId = action.missionId,
-            ownerId = null
-        )
-        if (missionDates != null && !action.isWithinMissionDates(missionDates.startDateTimeUtc, missionDates.endDateTimeUtc)) {
-            throw BackendUsageException(code = BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION)
-        }
+        entityValidityValidator.validateAndThrow(action, ValidateThrowsBeforeSave::class.java)
 
         patchFishAction.execute(
             ActionFishInput(
@@ -41,7 +36,9 @@ class UpdateFishAction(
             actionId = action.getActionId(),
             targets = input.data.targets?.map { it.toTargetEntity() } ?: listOf()
         )
-        action.computeCompleteness()
+        // compute validity
+        val missionDates = getMissionDates.execute(missionId = action.missionId, ownerId = null)
+        action.computeValidity(isMissionFinished = missionDates?.isMissionFinished() ?: false)
         return action
     }
 }

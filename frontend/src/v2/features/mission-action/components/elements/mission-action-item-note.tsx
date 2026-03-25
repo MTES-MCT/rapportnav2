@@ -38,7 +38,7 @@ const MissionActionItemNote: FC<{
                         isRequired={true}
                         isCompact={false}
                         label="Date et heure (utc)"
-                        missionId={action.missionId}
+                        missionId={action.ownerId ?? action.missionId}
                       />
                     </Stack.Item>
                   </Stack>

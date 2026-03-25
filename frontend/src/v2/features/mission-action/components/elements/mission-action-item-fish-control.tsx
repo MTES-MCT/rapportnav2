@@ -39,12 +39,7 @@ const MissionActionItemFishControl: FC<{
         >
           {({ values }) => (
             <>
-              <FormikEffect
-                onChange={async nextValues => {
-                  await handleSubmit(nextValues as ActionFishControlInput)
-                  await validateForm(nextValues)
-                }}
-              />
+              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionFishControlInput)} />
               <Stack
                 direction="column"
                 spacing="2rem"

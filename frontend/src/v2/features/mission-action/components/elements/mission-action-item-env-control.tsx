@@ -39,12 +39,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
         >
           {({ values }) => (
             <>
-              <FormikEffect
-                onChange={async nextValues => {
-                  await handleSubmit(nextValues as ActionEnvControlInput)
-                  await validateForm(nextValues)
-                }}
-              />
+              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionEnvControlInput)} />
               <Stack
                 direction="column"
                 spacing="2rem"

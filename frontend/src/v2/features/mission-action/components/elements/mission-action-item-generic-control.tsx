@@ -65,12 +65,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
         >
           {formik => (
             <>
-              <FormikEffect
-                onChange={async nextValues => {
-                  await handleSubmit(nextValues as ActionControlInput)
-                  await formik.validateForm(nextValues)
-                }}
-              />
+              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionControlInput)} />
               <Stack
                 direction="column"
                 spacing="1rem"

@@ -16,7 +16,7 @@ const MissionActionItemIllegalImmigration: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const { initValue, errors, validationSchema, handleSubmit } = useMissionActionIllegalImmigration(action, onChange)
+  const { initValue, validationSchema, handleSubmit } = useMissionActionIllegalImmigration(action, onChange)
 
   return (
     <form style={{ width: '100%' }} data-testid={'action-illegal-immigration-form'}>
@@ -26,7 +26,6 @@ const MissionActionItemIllegalImmigration: FC<{
           validateOnMount={true}
           onSubmit={handleSubmit}
           initialValues={initValue}
-          initialErrors={errors}
           validationSchema={validationSchema}
           enableReinitialize
         >

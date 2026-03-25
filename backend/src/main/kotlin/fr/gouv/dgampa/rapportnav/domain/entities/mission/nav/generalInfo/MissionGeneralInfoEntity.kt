@@ -6,27 +6,39 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEnti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.validation.RequiredFields
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import jakarta.validation.constraints.Min
 import java.util.*
 
+@RequiredFields(groups = [ValidateWhenMissionFinished::class])
 data class MissionGeneralInfoEntity(
     var id: Int? = null,
     var missionId: Int? = null,
     @MandatoryForStats
+    @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "La distance en milles nautiques doit être positive")
     var distanceInNauticalMiles: Float? = null,
     @MandatoryForStats
+    @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "La consommation de GO doit être positive")
     var consumedGOInLiters: Float? = null,
     @MandatoryForStats
+    @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "La consommation de carburant doit être positive")
     var consumedFuelInLiters: Float? = null,
+    @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "Les coûts d'exploitation doivent être positifs")
     var operatingCostsInEuro: Float? = null,
+    @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "Les coûts de carburant doivent être positifs")
     var fuelCostsInEuro: Float? = null,
     var service: ServiceEntity? = null,
     @MandatoryForStats
+    @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de navires reconnus doit être positif")
     var nbrOfRecognizedVessel: Int? = null,
     var isWithInterMinisterialService: Boolean? = false,
     var isAllAgentsParticipating: Boolean? = false,
     var isMissionArmed: Boolean? = false,
     var resources: List<LegacyControlUnitResourceEntity>? = listOf(),
+    @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre d'heures en mer doit être positif")
     var nbHourAtSea: Int? = null,
     var missionReportType: MissionReportTypeEnum? = null,
     var reinforcementType: MissionReinforcementTypeEnum? = null,

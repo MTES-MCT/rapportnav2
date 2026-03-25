@@ -1,11 +1,22 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew
 
-import fr.gouv.dgampa.rapportnav.domain.utils.MissionDateUtils
+import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger.MissionPassengerModel
-import java.time.Instant
 import java.time.LocalDate
 import java.util.*
 
+@EndAfterStart(
+    startField = "startDate",
+    endField = "endDate",
+    groups = [ValidateThrowsBeforeSave::class]
+)
+@WithinMissionDateRange(
+    startField = "startDate",
+    endField = "endDate",
+    groups = [ValidateThrowsBeforeSave::class]
+)
 data class MissionPassengerEntity(
     val id: Int? = null,
     val missionId: Int? = null,
@@ -16,19 +27,6 @@ data class MissionPassengerEntity(
     val startDate: LocalDate,
     val endDate: LocalDate,
 ){
-
-    /**
-     * Validates that passenger dates fall within the mission date range.
-     * Mission dates are provided as Instant and converted to LocalDate for comparison.
-     */
-    fun isWithinMissionDates(missionStart: Instant?, missionEnd: Instant?): Boolean {
-        return MissionDateUtils.isWithinMissionDates(
-            startDate = startDate,
-            endDate = endDate,
-            missionStart = missionStart,
-            missionEnd = missionEnd
-        )
-    }
 
     fun toMissionPassengerModel(): MissionPassengerModel {
         return MissionPassengerModel(

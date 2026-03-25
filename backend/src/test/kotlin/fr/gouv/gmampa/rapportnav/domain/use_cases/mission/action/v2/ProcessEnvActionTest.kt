@@ -3,7 +3,10 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import java.time.Instant
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -29,6 +32,9 @@ class ProcessEnvActionTest {
     @MockitoBean
     private lateinit var getComputeEnvTarget: GetComputeEnvTarget
 
+    @MockitoBean
+    private lateinit var getMissionDates: GetMissionDates
+
     @Test
     fun `test execute get Env action by id`() {
         val missionId = 761
@@ -39,9 +45,16 @@ class ProcessEnvActionTest {
 
         val mockTarget = TargetEntityMock.create()
         `when`(getComputeEnvTarget.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(listOf(mockTarget))
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
+            MissionDatesOutput(
+                startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
+                endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
+            )
+        )
         processEnvAction = ProcessEnvAction(
             getStatusForAction = getStatusForAction,
-            getComputeEnvTarget = getComputeEnvTarget
+            getComputeEnvTarget = getComputeEnvTarget,
+            getMissionDates = getMissionDates
         )
         val entity = processEnvAction.execute(missionId = missionId, envAction = action)
         val infractionIds = entity.getAllInfractions().map { it.id }.toSet()

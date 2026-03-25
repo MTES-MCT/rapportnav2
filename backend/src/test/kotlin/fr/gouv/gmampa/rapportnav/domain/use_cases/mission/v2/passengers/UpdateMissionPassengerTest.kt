@@ -3,20 +3,22 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2.passengers
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionPassengerRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.UpdateMissionPassenger
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.gmampa.rapportnav.mocks.mission.passenger.MissionPassengerEntityMock
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doNothing
+import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
-import java.time.Instant
 import java.time.LocalDate
 
 
@@ -27,45 +29,27 @@ class UpdateMissionPassengerTest {
     private lateinit var repo: IMissionPassengerRepository
 
     @MockitoBean
-    private lateinit var getMissionDates: GetMissionDates
+    private lateinit var entityValidityValidator: EntityValidityValidator
 
     @Autowired
     private lateinit var useCase: UpdateMissionPassenger
 
+    @BeforeEach
+    fun setup() {
+        // Default: validation passes
+        doNothing().whenever(entityValidityValidator).validateAndThrow(anyOrNull(), anyOrNull())
+    }
+
     @Test
-    fun `should create a new passenger when dates are within mission range`() {
+    fun `should update a passenger when dates are valid`() {
         val passenger = MissionPassengerEntityMock.create(
             startDate = LocalDate.of(2024, 1, 15),
             endDate = LocalDate.of(2024, 1, 20)
         )
-        val missionDates = MissionDatesOutput(
-            startDateTimeUtc = Instant.parse("2024-01-10T00:00:00Z"),
-            endDateTimeUtc = Instant.parse("2024-01-25T23:59:59Z")
-        )
         Mockito.`when`(repo.save(any())).thenReturn(passenger.toMissionPassengerModel())
-        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
-
-        useCase = UpdateMissionPassenger(
-            repo = repo,
-            getMissionDates = getMissionDates
-        )
 
         val response = useCase.execute(passenger = passenger)
-        assertThat(response).isNotNull()
-    }
 
-    @Test
-    fun `should create a new passenger when mission has no dates`() {
-        val passenger = MissionPassengerEntityMock.create()
-        Mockito.`when`(repo.save(any())).thenReturn(passenger.toMissionPassengerModel())
-        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(null)
-
-        useCase = UpdateMissionPassenger(
-            repo = repo,
-            getMissionDates = getMissionDates
-        )
-
-        val response = useCase.execute(passenger = passenger)
         assertThat(response).isNotNull()
     }
 
@@ -75,21 +59,21 @@ class UpdateMissionPassengerTest {
             startDate = LocalDate.of(2024, 1, 5),
             endDate = LocalDate.of(2024, 1, 15)
         )
-        val missionDates = MissionDatesOutput(
-            startDateTimeUtc = Instant.parse("2024-01-10T00:00:00Z"),
-            endDateTimeUtc = Instant.parse("2024-01-25T23:59:59Z")
-        )
-        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
 
-        useCase = UpdateMissionPassenger(
-            repo = repo,
-            getMissionDates = getMissionDates
-        )
+        doThrow(
+            BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "Erreur de validation",
+                data = mapOf("fieldErrors" to listOf(
+                    mapOf("field" to "_class", "message" to "Les dates doivent être comprises dans les dates de la mission", "rule" to "WithinMissionDateRange")
+                ))
+            )
+        ).whenever(entityValidityValidator).validateAndThrow(anyOrNull(), anyOrNull())
 
         val exception = assertThrows<BackendUsageException> {
             useCase.execute(passenger = passenger)
         }
-        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION)
+        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION)
     }
 
     @Test
@@ -98,21 +82,43 @@ class UpdateMissionPassengerTest {
             startDate = LocalDate.of(2024, 1, 15),
             endDate = LocalDate.of(2024, 1, 30)
         )
-        val missionDates = MissionDatesOutput(
-            startDateTimeUtc = Instant.parse("2024-01-10T00:00:00Z"),
-            endDateTimeUtc = Instant.parse("2024-01-25T23:59:59Z")
-        )
-        Mockito.`when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(missionDates)
 
-        useCase = UpdateMissionPassenger(
-            repo = repo,
-            getMissionDates = getMissionDates
-        )
+        doThrow(
+            BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "Erreur de validation",
+                data = mapOf("fieldErrors" to listOf(
+                    mapOf("field" to "_class", "message" to "Les dates doivent être comprises dans les dates de la mission", "rule" to "WithinMissionDateRange")
+                ))
+            )
+        ).whenever(entityValidityValidator).validateAndThrow(anyOrNull(), anyOrNull())
 
         val exception = assertThrows<BackendUsageException> {
             useCase.execute(passenger = passenger)
         }
-        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION)
+        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION)
     }
 
+    @Test
+    fun `should throw exception when end date is before start date`() {
+        val passenger = MissionPassengerEntityMock.create(
+            startDate = LocalDate.of(2024, 1, 20),
+            endDate = LocalDate.of(2024, 1, 15)
+        )
+
+        doThrow(
+            BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "Erreur de validation",
+                data = mapOf("fieldErrors" to listOf(
+                    mapOf("field" to "_class", "message" to "La date de fin doit être postérieure à la date de début", "rule" to "EndAfterStart")
+                ))
+            )
+        ).whenever(entityValidityValidator).validateAndThrow(anyOrNull(), anyOrNull())
+
+        val exception = assertThrows<BackendUsageException> {
+            useCase.execute(passenger = passenger)
+        }
+        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION)
+    }
 }

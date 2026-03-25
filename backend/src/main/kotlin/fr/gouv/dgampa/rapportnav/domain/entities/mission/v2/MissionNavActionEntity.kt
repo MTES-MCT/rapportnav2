@@ -11,11 +11,19 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
-import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
+import fr.gouv.dgampa.rapportnav.domain.validation.RequiredFields
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import jakarta.validation.constraints.Min
 import java.time.Instant
 import java.util.*
 
+@EndAfterStart(groups = [ValidateThrowsBeforeSave::class])
+@WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
+@RequiredFields(groups = [ValidateWhenMissionFinished::class])
 class MissionNavActionEntity(
     @MandatoryForStats
     override var id: UUID,
@@ -76,10 +84,13 @@ class MissionNavActionEntity(
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var identityControlledPerson: String? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["ILLEGAL_IMMIGRATION"])])
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbOfInterceptedVessels: Int? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["ILLEGAL_IMMIGRATION"])])
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de migrants interceptés doit être supérieur à 0")
     override var nbOfInterceptedMigrants: Int? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["ILLEGAL_IMMIGRATION"])])
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbOfSuspectedSmugglers: Int? = null,
 
     override var isVesselRescue: Boolean? = false,
@@ -95,6 +106,7 @@ class MissionNavActionEntity(
             )
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var numberPersonsRescued: Int? = null,
     @MandatoryForStats(
         enableIf = [
@@ -105,6 +117,7 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["RESCUE"]),
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var numberOfDeaths: Int? = null,
     override var operationFollowsDEFREP: Boolean? = false,
     override var locationDescription: String? = null,
@@ -118,6 +131,7 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["RESCUE"])
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbOfVesselsTrackedWithoutIntervention: Int? = null,
     @MandatoryForStats(
         enableIf = [
@@ -128,6 +142,7 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["RESCUE"]),
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbAssistedVesselsReturningToShore: Int? = null,
 
     @MandatoryForStats(
@@ -154,6 +169,7 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["INQUIRY"])
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrOfHours: Int? = null,
     @MandatoryForStats(
         enableIf = [
@@ -189,6 +205,7 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrOfControl: Int? = null,
     @MandatoryForStats(
         enableIf = [
@@ -207,12 +224,14 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrOfControlAmp: Int? = null,
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrOfControl300m: Int? = null,
     override var isControlDuringSecurityDay: Boolean? = null,
     override var isSeizureSleepingFishingGear: Boolean? = null,
@@ -251,6 +270,7 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["SECURITY_VISIT"])
         ]
     )
+    @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrSecurityVisit:Int? = null,
 ) : MissionActionEntity(
     status = status,
@@ -267,14 +287,23 @@ class MissionNavActionEntity(
         return id.toString()
     }
 
-    override fun computeCompleteness() {
-        this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
-        this.sourcesOfMissingDataForStats =
-            if (this.isCompleteForStats == true) emptyList()
-            else listOf(MissionSourceEnum.RAPPORT_NAV)
+    /**
+     * Computes validity for statistics using the new unified validation system.
+     * Uses Jakarta Bean Validation with validation groups.
+     *
+     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
+     */
+    override fun computeValidity(isMissionFinished: Boolean) {
+        // Run the new unified validation
+        this.computeValidityForStats(isMissionFinished)
+
+        // For Nav actions, the only source is RAPPORT_NAV
+        if (this.completenessForStats?.isComplete != true) {
+            this.sourcesOfMissingDataForStats = listOf(MissionSourceEnum.RAPPORT_NAV)
+            this.isCompleteForStats = false
+        }
 
         this.computeSummaryTags()
-        this.computeCompletenessForStats()
     }
 
     fun toMissionActionModel() = MissionActionModel(
