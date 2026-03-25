@@ -17,20 +17,23 @@ object ControlEntityMock {
         observations: String? = null,
         staffOutnumbered: ControlResult? = null,
         upToDateMedicalCheck: ControlResult? = null,
+        compliantSafeManningPermit: ControlResult? = null,
         compliantOperatingPermit: ControlResult? = null,
         upToDateNavigationPermit: ControlResult? = null,
         compliantSecurityDocuments: ControlResult? = null,
         knowledgeOfFrenchLawAndLanguage: ControlResult? = null,
         infractions: List<InfractionEntity> = listOf<InfractionEntity>(),
     ): ControlEntity {
-        val infractions = if (infractions.isEmpty()) listOf<InfractionEntity>(
-            InfractionEntity(
-                id = UUID.randomUUID(),
-                infractionType = InfractionTypeEnum.WITH_REPORT,
-                natinfs = listOf("natInf2", "natInf3"),
-                observations = "My observations"
+        val infractions = infractions.ifEmpty {
+            listOf(
+                InfractionEntity(
+                    id = UUID.randomUUID(),
+                    infractionType = InfractionTypeEnum.WITH_REPORT,
+                    natinfs = listOf("natInf2", "natInf3"),
+                    observations = "My observations"
+                )
             )
-        ) else infractions
+        }
         return ControlEntity(
             id = id ?: UUID.randomUUID(),
             controlType = controlType ?: ControlType.GENS_DE_MER,
@@ -39,6 +42,7 @@ object ControlEntityMock {
             observations = observations?:"My observations",
             staffOutnumbered = staffOutnumbered?:ControlResult.NO,
             upToDateMedicalCheck = upToDateMedicalCheck?:ControlResult.NO,
+            compliantSafeManningPermit = compliantSafeManningPermit?:ControlResult.YES,
             compliantOperatingPermit = compliantOperatingPermit?:ControlResult.YES,
             upToDateNavigationPermit = upToDateNavigationPermit?:ControlResult.NO,
             compliantSecurityDocuments = compliantSecurityDocuments?:ControlResult.NOT_CONCERNED,

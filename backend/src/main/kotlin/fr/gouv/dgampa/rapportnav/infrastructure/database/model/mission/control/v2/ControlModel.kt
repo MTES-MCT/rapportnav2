@@ -43,6 +43,9 @@ data class ControlModel(
     @Column(name = "knowledge_of_french_law_and_language", nullable = true)
     var knowledgeOfFrenchLawAndLanguage: String? = null,
 
+    @Column(name = "compliant_safe_manning_permit", nullable = true)
+    var compliantSafeManningPermit: String? = null,
+
     @Column(name = "compliant_operating_permit", nullable = true)
     var compliantOperatingPermit: String? = null,
 

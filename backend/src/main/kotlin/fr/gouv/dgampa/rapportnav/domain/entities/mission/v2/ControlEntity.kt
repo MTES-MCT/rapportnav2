@@ -11,6 +11,7 @@ data class ControlEntity(
     val amountOfControls: Int,
     val infractions: List<InfractionEntity>? = null,
     val observations: String? = null,
+    val compliantSafeManningPermit: ControlResult? = null,
     val compliantOperatingPermit: ControlResult? = null,
     val upToDateNavigationPermit: ControlResult? = null,
     val compliantSecurityDocuments: ControlResult? = null,
@@ -29,6 +30,7 @@ data class ControlEntity(
             staffOutnumbered = staffOutnumbered?.toString(),
             infractions = infractions?.map { it.toInfractionModel() },
             upToDateMedicalCheck = upToDateMedicalCheck?.toString(),
+            compliantSafeManningPermit = compliantSafeManningPermit?.toString(),
             compliantOperatingPermit = compliantOperatingPermit?.toString(),
             upToDateNavigationPermit = upToDateNavigationPermit?.toString(),
             compliantSecurityDocuments = compliantSecurityDocuments?.toString(),
@@ -45,6 +47,7 @@ data class ControlEntity(
         result = 31 * result + infractions.hashCode()
         result = 31 * result + amountOfControls.hashCode()
         result = 31 * result + (compliantOperatingPermit?.hashCode() ?: 0)
+        result = 31 * result + (compliantSafeManningPermit?.hashCode() ?: 0)
         result = 31 * result + (upToDateNavigationPermit?.hashCode() ?: 0)
         result = 31 * result + (compliantSecurityDocuments?.hashCode() ?: 0)
         result = 31 * result + (staffOutnumbered?.hashCode() ?: 0)
@@ -67,6 +70,7 @@ data class ControlEntity(
             && staffOutnumbered == other.staffOutnumbered
             && upToDateMedicalCheck == other.upToDateMedicalCheck
             && infractions?.toSet() == other.infractions?.toSet()
+            && compliantSafeManningPermit == other.compliantSafeManningPermit
             && compliantOperatingPermit == other.compliantOperatingPermit
             && upToDateNavigationPermit == other.upToDateNavigationPermit
             && compliantSecurityDocuments == other.compliantSecurityDocuments
@@ -85,6 +89,7 @@ data class ControlEntity(
                 staffOutnumbered = model.staffOutnumbered?.let { ControlResult.valueOf(it) },
                 infractions = model.infractions?.map { InfractionEntity.fromInfractionModel(it) },
                 upToDateMedicalCheck = model.upToDateMedicalCheck?.let { ControlResult.valueOf(it) },
+                compliantSafeManningPermit = model.compliantSafeManningPermit?.let { ControlResult.valueOf(it) },
                 compliantOperatingPermit = model.compliantOperatingPermit?.let { ControlResult.valueOf(it) },
                 upToDateNavigationPermit = model.upToDateNavigationPermit?.let { ControlResult.valueOf(it) },
                 compliantSecurityDocuments = model.compliantSecurityDocuments?.let { ControlResult.valueOf(it) },
