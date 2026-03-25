@@ -155,7 +155,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
                         data-testid="validate-infraction"
                         onClick={async () => {
                           setDebounceTime(0)
-                          handleSubmit(formik.values, formik.errors, onSubmit)
+                          handleSubmit(formik.values, onSubmit)
                         }}
                         disabled={!isEmpty(formik.errors)}
                       >

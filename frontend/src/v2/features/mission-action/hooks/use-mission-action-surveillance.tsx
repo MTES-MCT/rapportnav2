@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
@@ -28,7 +27,7 @@ export function useMissionActionSurveillance(
     return { ...newData, startDateTimeUtc, endDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionEnvActionData, ActionSurveillanceInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionEnvActionData, ActionSurveillanceInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -39,15 +38,11 @@ export function useMissionActionSurveillance(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (
-    value?: ActionSurveillanceInput,
-    errors?: FormikErrors<ActionSurveillanceInput>
-  ) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionSurveillanceInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return {
-    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }

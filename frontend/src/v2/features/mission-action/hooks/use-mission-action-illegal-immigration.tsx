@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
@@ -40,7 +39,7 @@ export function useMissionActionIllegalImmigration(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionIllegalImmigrationInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionIllegalImmigrationInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -51,11 +50,8 @@ export function useMissionActionIllegalImmigration(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (
-    value?: ActionIllegalImmigrationInput,
-    errors?: FormikErrors<ActionIllegalImmigrationInput>
-  ) => {
-    await handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionIllegalImmigrationInput) => {
+    await handleSubmit(value, onSubmit)
   }
 
   const createValidationSchema = (isMissionFinished: boolean) => {
@@ -94,7 +90,6 @@ export function useMissionActionIllegalImmigration(
   const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

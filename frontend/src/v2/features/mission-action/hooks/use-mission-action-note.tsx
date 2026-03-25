@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
@@ -22,7 +21,7 @@ export function useMissionActionFreeNote(
     return { ...newData, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionFreeNoteInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionFreeNoteInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -33,12 +32,11 @@ export function useMissionActionFreeNote(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (value?: ActionFreeNoteInput, errors?: FormikErrors<ActionFreeNoteInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionFreeNoteInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return {
-    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }

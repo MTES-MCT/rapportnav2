@@ -6,7 +6,6 @@ import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 import { useMemo } from 'react'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
-import { FormikErrors } from 'formik'
 import { useMissionInterServices } from '../../common/hooks/use-mission-interservices.tsx'
 
 export type MissionPAMGeneralInfoInitialInput = { dates: (Date | undefined)[] } & MissionGeneralInfo2
@@ -37,7 +36,7 @@ export const usePamMissionGeneralInfoForm = (
     }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionGeneralInfo2, MissionPAMGeneralInfoInitialInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionGeneralInfo2, MissionPAMGeneralInfoInitialInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -49,8 +48,8 @@ export const usePamMissionGeneralInfoForm = (
     await onChange(valueToSubmit)
   }
 
-  const handleSubmitOverride = async (value?: MissionGeneralInfo2, errors?: FormikErrors<MissionGeneralInfo2>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: MissionGeneralInfo2) => {
+    handleSubmit(value, onSubmit)
   }
 
   const createValidationSchema = (isMissionFinished: boolean) => {
@@ -104,7 +103,6 @@ export const usePamMissionGeneralInfoForm = (
   const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

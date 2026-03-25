@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useMemo } from 'react'
 import { object, ObjectShape } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
@@ -41,7 +40,7 @@ export function useMissionActionGenericControl(
     return { ...newData, latitude, longitude, endDateTimeUtc, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionControlInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionControlInput>(
     action?.data,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -53,8 +52,8 @@ export function useMissionActionGenericControl(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (value?: ActionControlInput, errors?: FormikErrors<ActionControlInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionControlInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   const createValidationSchema = (isMissionFinished?: boolean) => {
@@ -68,7 +67,6 @@ export function useMissionActionGenericControl(
   const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

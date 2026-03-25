@@ -1,5 +1,4 @@
 import { VesselSizeEnum } from '@common/types/env-mission-types'
-import { FormikErrors } from 'formik'
 import { mixed, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
@@ -41,7 +40,7 @@ export function useMissionActionNavControl(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -52,8 +51,8 @@ export function useMissionActionNavControl(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (value?: ActionNavControlInput, errors?: FormikErrors<ActionNavControlInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionNavControlInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   const createValidationSchema = (isMissionFinished: boolean) => {
@@ -63,7 +62,7 @@ export function useMissionActionNavControl(
 
       vesselSize: conditionallyRequired(
         () => mixed<VesselSizeEnum>().nullable().oneOf(Object.values(VesselSizeEnum)).default(undefined),
-        'isMissionFinished',
+        [],
         true,
         'Vessel size is required when the mission is finished',
         schema => schema.nonNullable()
@@ -71,7 +70,7 @@ export function useMissionActionNavControl(
 
       vesselIdentifier: conditionallyRequired(
         () => string().nullable().default(undefined),
-        'isMissionFinished',
+        [],
         true,
         'Vessel identifier is required when the mission is finished',
         schema => schema.nonNullable()
@@ -79,7 +78,7 @@ export function useMissionActionNavControl(
 
       identityControlledPerson: conditionallyRequired(
         () => string().nullable().default(undefined),
-        'isMissionFinished',
+        [],
         true,
         'Identity controlled person is required when the mission is finished',
         schema => schema.nonNullable()
@@ -90,7 +89,6 @@ export function useMissionActionNavControl(
   const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

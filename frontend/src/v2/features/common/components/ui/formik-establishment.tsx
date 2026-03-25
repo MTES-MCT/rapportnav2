@@ -31,6 +31,7 @@ export const FormikEstablishment = styled(
                 <Stack.Item style={{ width: '100%' }}>
                   {values.isForeign ? (
                     <ForeignEstablishment
+                      {...props}
                       label={label}
                       name={`name`}
                       establishment={values}

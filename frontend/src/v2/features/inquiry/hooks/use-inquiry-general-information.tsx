@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
@@ -51,8 +50,8 @@ export function useInquiryGeneralInformation(
     await onChange(valueToSubmit)
   }
 
-  const handleSubmitOverride = async (value?: InquiryInput, errors?: FormikErrors<InquiryInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: InquiryInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return {

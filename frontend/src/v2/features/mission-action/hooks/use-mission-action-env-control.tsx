@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -33,7 +32,7 @@ export function useMissionActionEnvControl(
     return { ...newData, endDateTimeUtc, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -44,12 +43,11 @@ export function useMissionActionEnvControl(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (value?: ActionEnvControlInput, errors?: FormikErrors<ActionEnvControlInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionEnvControlInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return {
-    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }
