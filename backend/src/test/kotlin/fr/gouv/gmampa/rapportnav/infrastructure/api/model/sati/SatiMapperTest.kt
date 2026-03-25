@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.ContactEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiResponseMapper
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -12,7 +12,7 @@ import java.time.OffsetDateTime
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-class SatiResponseMapperTest {
+class SatiMapperTest {
 
     @Test
     fun `fromEntity should map SatiEntity to SatiResponse`() {
@@ -98,7 +98,7 @@ class SatiResponseMapperTest {
             vesselOwnerContact = contact
         )
 
-        val response = SatiResponseMapper.fromEntity(sati)
+        val response = SatiMapper.fromEntity(sati)
 
         assertThat(response.id).isEqualTo(sati.id)
         assertThat(response.module).isEqualTo(sati.module)
@@ -116,7 +116,7 @@ class SatiResponseMapperTest {
 
     @Test
     fun `toEntity should map SatiResponse to SatiEntity`() {
-        val address = AddressResponse(
+        val address = Address(
             id = UUID.randomUUID(),
             street = "1 rue de la mer",
             zipcode = "75000",
@@ -125,7 +125,7 @@ class SatiResponseMapperTest {
             createdAt = OffsetDateTime.parse("2026-03-24T10:15:30+01:00")
         )
 
-        val contact = ContactResponse(
+        val contact = Contact(
             id = UUID.randomUUID(),
             fullName = "John Doe",
             nationality = "FRA",
@@ -135,7 +135,7 @@ class SatiResponseMapperTest {
             createdAt = OffsetDateTime.parse("2026-03-24T10:15:30+01:00")
         )
 
-        val response = SatiResponse(
+        val response = Sati(
             id = UUID.randomUUID(),
             module = "AA",
             ownerId = UUID.randomUUID(),
@@ -198,7 +198,7 @@ class SatiResponseMapperTest {
             vesselOwnerContact = contact
         )
 
-        val entity = SatiResponseMapper.toEntity(response)
+        val entity = SatiMapper.toEntity(response)
 
         assertThat(entity.id).isEqualTo(response.id)
         assertThat(entity.module).isEqualTo(response.module)

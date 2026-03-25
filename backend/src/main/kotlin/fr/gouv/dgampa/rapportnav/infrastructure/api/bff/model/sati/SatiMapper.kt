@@ -3,13 +3,13 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.ContactEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.AddressResponse
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.ContactResponse
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.SatiResponse
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Address
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Contact
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
 
-object SatiResponseMapper {
-    fun fromEntity(entity: SatiEntity): SatiResponse {
-        return SatiResponse(
+object SatiMapper {
+    fun fromEntity(entity: SatiEntity): Sati {
+        return Sati(
             id = entity.id,
             module = entity.module,
             ownerId = entity.ownerId,
@@ -73,7 +73,7 @@ object SatiResponseMapper {
         )
     }
 
-    fun toEntity(response: SatiResponse): SatiEntity {
+    fun toEntity(response: Sati): SatiEntity {
         return SatiEntity(
             id = response.id,
             module = response.module,
@@ -138,8 +138,8 @@ object SatiResponseMapper {
         )
     }
 
-    private fun fromEntity(entity: ContactEntity): ContactResponse {
-        return ContactResponse(
+    private fun fromEntity(entity: ContactEntity): Contact {
+        return Contact(
             id = entity.id,
             fullName = entity.fullName,
             nationality = entity.nationality,
@@ -150,7 +150,7 @@ object SatiResponseMapper {
         )
     }
 
-    private fun toEntity(response: ContactResponse): ContactEntity {
+    private fun toEntity(response: Contact): ContactEntity {
         return ContactEntity(
             id = response.id,
             fullName = response.fullName,
@@ -162,8 +162,8 @@ object SatiResponseMapper {
         )
     }
 
-    private fun fromEntity(entity: AddressEntity): AddressResponse {
-        return AddressResponse(
+    private fun fromEntity(entity: AddressEntity): Address {
+        return Address(
             id = entity.id,
             street = entity.street,
             zipcode = entity.zipcode,
@@ -173,7 +173,7 @@ object SatiResponseMapper {
         )
     }
 
-    private fun toEntity(response: AddressResponse): AddressEntity {
+    private fun toEntity(response: Address): AddressEntity {
         return AddressEntity(
             id = response.id,
             street = response.street,
