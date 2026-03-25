@@ -4,7 +4,11 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeSati
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import org.mockito.kotlin.anyOrNull
+import java.time.Instant
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -30,6 +34,9 @@ class ProcessFishActionTest {
     private lateinit var getComputeTarget: GetComputeTarget
 
     @MockitoBean
+    private lateinit var getMissionDates: GetMissionDates
+
+    @MockitoBean
     private lateinit var getComputeSati: GetComputeSati
 
     @Test
@@ -42,10 +49,17 @@ class ProcessFishActionTest {
 
         val mockTarget = TargetEntityMock.create()
         `when`(getComputeTarget.execute(actionId.hashCode().toString(), true)).thenReturn(listOf(mockTarget))
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
+            MissionDatesOutput(
+                startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
+                endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
+            )
+        )
         processFishAction = ProcessFishAction(
             getComputeSati = getComputeSati,
             getComputeTarget = getComputeTarget,
-            getStatusForAction = getStatusForAction
+            getStatusForAction = getStatusForAction,
+            getMissionDates = getMissionDates
         )
         val entity = processFishAction.execute(missionId = missionId, action = action)
         val infractionIds = entity.getAllInfractions().map { it.id }.toSet()
