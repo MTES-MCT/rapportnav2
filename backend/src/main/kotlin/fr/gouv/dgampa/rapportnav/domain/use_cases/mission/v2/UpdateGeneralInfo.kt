@@ -9,6 +9,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntit
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
@@ -25,8 +27,8 @@ class UpdateGeneralInfo(
     private val patchNavMission: PatchNavMission,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getMissionCrew: GetMissionCrew,
+    private val entityValidityValidator: EntityValidityValidator
 ) {
-
     fun execute(
         missionId: Int,
         generalInfo: MissionGeneralInfo2,
@@ -40,7 +42,11 @@ class UpdateGeneralInfo(
             )
         }
 
-        val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionId = missionId))
+        // Validate before save
+        val entity = generalInfo.toMissionGeneralInfoEntity(missionId = missionId)
+        entityValidityValidator.validateAndThrow(entity, ValidateThrowsBeforeSave::class.java)
+
+        val model = repository.save(entity)
         val crew = processMissionCrew.execute(
             missionId = missionId,
             items = getMissionCrew.execute(
@@ -85,7 +91,11 @@ class UpdateGeneralInfo(
             )
         }
 
-        val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID))
+        // Validate before save
+        val entity = generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)
+        entityValidityValidator.validateAndThrow(entity, ValidateThrowsBeforeSave::class.java)
+
+        val model = repository.save(entity)
         val crew = processMissionCrew.execute(
             missionId = missionIdUUID,
             items = getMissionCrew.execute(

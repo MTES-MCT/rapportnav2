@@ -19,14 +19,9 @@ const MissionActionItemSurveillance: FC<{
     <form style={{ width: '100%' }}>
       {initValue && (
         <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize={true}>
-          {({ values, validateForm }) => (
+          {({ values }) => (
             <>
-              <FormikEffect
-                onChange={async nextValue => {
-                  await handleSubmit(nextValue as ActionSurveillanceInput)
-                  await validateForm(nextValue)
-                }}
-              />
+              <FormikEffect onChange={async nextValue => handleSubmit(nextValue as ActionSurveillanceInput)} />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>

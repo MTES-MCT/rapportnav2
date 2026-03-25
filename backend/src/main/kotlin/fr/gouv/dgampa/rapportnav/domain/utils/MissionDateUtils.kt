@@ -38,27 +38,6 @@ object MissionDateUtils {
     }
 
     /**
-     * Validates that a single date (as Instant) falls within the mission date range.
-     *
-     * @param date The date to validate
-     * @param missionStart The mission start date
-     * @param missionEnd The mission end date (optional for ongoing missions)
-     * @return true if date is within range, false otherwise
-     */
-    fun isDateWithinMissionRange(
-        date: Instant?,
-        missionStart: Instant?,
-        missionEnd: Instant?
-    ): Boolean {
-        if (date == null || missionStart == null) return true
-
-        if (date.isBefore(missionStart)) return false
-        if (missionEnd != null && date.isAfter(missionEnd)) return false
-
-        return true
-    }
-
-    /**
      * Validates that dates (as LocalDate) fall within the mission date range.
      * Mission dates are provided as Instant and converted to LocalDate for comparison.
      *

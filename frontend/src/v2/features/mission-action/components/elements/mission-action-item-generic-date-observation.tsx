@@ -32,13 +32,10 @@ const MissionActionItemGenericDateObservation: FC<{
           enableReinitialize
           validationSchema={validationSchema}
         >
-          {({ validateForm }) => (
+          {() => (
             <>
               <FormikEffect
-                onChange={async nextValue => {
-                  await handleSubmit(nextValue as ActionGenericDateObservationInput)
-                  await validateForm(nextValue)
-                }}
+                onChange={async nextValue => handleSubmit(nextValue as ActionGenericDateObservationInput)}
               />
               <Stack direction="column" spacing="1rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>

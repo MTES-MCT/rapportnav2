@@ -17,7 +17,7 @@ import java.util.*
 
 @UseCase
 class GetComputeEnvTarget(
-    private val targetRepo: ITargetRepository,
+    private val targetRepo: ITargetRepository
 ) {
     fun execute(actionId: String, envInfractions: List<InfractionEnvEntity>?, isControl: Boolean?): List<TargetEntity>? {
         if (isControl != true) return null
@@ -79,6 +79,7 @@ class GetComputeEnvTarget(
             targetType = targetType,
             externalId = externalId,
             source = source.toString(),
+            startDateTimeUtc = Instant.now(),
             controls = getNewControls(),
             status = TargetStatusType.IN_PROCESS.toString()
 

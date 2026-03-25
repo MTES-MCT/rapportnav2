@@ -3,7 +3,6 @@ import { object, ObjectShape } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 import getDateRangeSchema from '../../common/schemas/dates-schema'
 import { cleanLocationFields } from '../../common/schemas/location-fields-cleaner'
 import getLocationSchema from '../../common/schemas/location-schema'
@@ -21,7 +20,7 @@ export function useMissionActionGenericControl(
   booleans?: string[]
 ): AbstractFormikSubFormHook<ActionControlInput> {
   const { getCoords } = useCoordinate()
-  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
+  const { getDateRangeForInput, postprocessDateFromPicker } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
   const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
@@ -39,7 +38,13 @@ export function useMissionActionGenericControl(
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
     if (withGeoCoords) {
-      return { ...newData, ...cleanLocationFields(locationType, geoCoords, newData), locationType, startDateTimeUtc, endDateTimeUtc }
+      return {
+        ...newData,
+        ...cleanLocationFields(locationType, geoCoords, newData),
+        locationType,
+        startDateTimeUtc,
+        endDateTimeUtc
+      }
     }
     return { ...newData, latitude: geoCoords[0], longitude: geoCoords[1], startDateTimeUtc, endDateTimeUtc }
   }
@@ -63,7 +68,7 @@ export function useMissionActionGenericControl(
   const createValidationSchema = (isMissionFinished?: boolean, missionStartDate?: string, missionEndDate?: string) => {
     return object().shape({
       ...(withGeoCoords ? getLocationSchema(isMissionFinished) : {}),
-      ..(getDateRangeSchema({
+      ...(getDateRangeSchema({
         isMissionFinished,
         missionStartDate,
         missionEndDate

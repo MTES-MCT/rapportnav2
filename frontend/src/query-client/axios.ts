@@ -36,6 +36,13 @@ axiosInstance.interceptors.response.use(
       error.message = problemDetail.detail
     }
 
+    if (parseInt(error.response?.status, 10) === 400 && problemDetail?.data?.fieldErrors?.length) {
+      const fieldMessages = problemDetail.data.fieldErrors
+        .map((err: { field: string; message: string }) => err.message)
+        .join(', ')
+      error.message = `${problemDetail.detail}: ${fieldMessages}`
+    }
+
     // Attach problem detail info to error for downstream handling
     error.status = error.response?.status
     error.problemDetail = problemDetail

@@ -27,16 +27,9 @@ const MissionActionItemInquiry: FC<{
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          {({ validateForm, setErrors }) => (
+          {() => (
             <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
-              <FormikEffect
-                onChange={nextValue =>
-                  validateForm().then(async errors => {
-                    await handleSubmit(nextValue)
-                    setErrors(errors)
-                  })
-                }
-              />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue)} />
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="column" spacing="1rem" alignItems="flex-start" style={{ width: '100%' }}>
                   <Stack.Item style={{ width: '50%' }}>

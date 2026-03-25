@@ -169,7 +169,7 @@ fun BackendUsageErrorCode.defaultMessage(): String = when (this) {
     BackendUsageErrorCode.INVALID_TOKEN_EXCEPTION -> "The provided token is invalid or expired"
     BackendUsageErrorCode.USER_NOT_FOUND_EXCEPTION -> "The user could not be found"
     BackendUsageErrorCode.USER_ACCOUNT_DISABLED_EXCEPTION -> "The user account is disabled or deleted"
-    BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION -> "The provided parameters are invalid"
+    BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION -> "Erreur de validation"
     BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION -> "The resource could not be saved"
     BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION -> "The requested resource could not be found"
     BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION -> "The resource could not be deleted"

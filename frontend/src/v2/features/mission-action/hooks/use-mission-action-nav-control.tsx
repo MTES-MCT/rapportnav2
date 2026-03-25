@@ -3,9 +3,6 @@ import { mixed, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
-import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
-import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import { cleanLocationFields } from '../../common/schemas/location-fields-cleaner.ts'
 import getLocationSchema from '../../common/schemas/location-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
@@ -14,7 +11,6 @@ import { ActionNavControlInput } from '../types/action-type'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
 import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
-import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
 import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 import { useMemo } from 'react'
 
@@ -24,7 +20,7 @@ export function useMissionActionNavControl(
 ): AbstractFormikSubFormHook<ActionNavControlInput> {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
-  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
+  const { getDateRangeForInput, postprocessDateFromPicker } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
   const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
@@ -41,7 +37,13 @@ export function useMissionActionNavControl(
     const { dates, geoCoords, locationType, ...newData } = value
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, ...cleanLocationFields(locationType, geoCoords, newData), locationType, startDateTimeUtc, endDateTimeUtc }
+    return {
+      ...newData,
+      ...cleanLocationFields(locationType, geoCoords, newData),
+      locationType,
+      startDateTimeUtc,
+      endDateTimeUtc
+    }
   }
 
   const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
