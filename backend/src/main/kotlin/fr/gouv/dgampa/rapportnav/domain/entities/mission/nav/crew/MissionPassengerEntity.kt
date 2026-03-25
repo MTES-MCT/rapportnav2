@@ -1,9 +1,22 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew
 
+import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger.MissionPassengerModel
 import java.time.LocalDate
 import java.util.*
 
+@EndAfterStart(
+    startField = "startDate",
+    endField = "endDate",
+    groups = [ValidateThrowsBeforeSave::class]
+)
+@WithinMissionDateRange(
+    startField = "startDate",
+    endField = "endDate",
+    groups = [ValidateThrowsBeforeSave::class]
+)
 data class MissionPassengerEntity(
     val id: Int? = null,
     val missionId: Int? = null,
