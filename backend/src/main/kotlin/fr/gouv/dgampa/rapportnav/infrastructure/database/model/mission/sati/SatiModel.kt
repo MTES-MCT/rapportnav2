@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
 import jakarta.persistence.*
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.*
 
 @Entity
@@ -16,14 +16,14 @@ data class SatiModel(
     @Column(nullable = false, length = 2)
     val module: String,
 
-    @Column(name = "owner_id", unique = true, nullable = false)
-    val ownerId: UUID,
+    @Column(name = "action_id", unique = true, nullable = false)
+    val actionId: String,
 
     @Column(name = "created_at", nullable = false)
-    val createdAt: OffsetDateTime? = null,
+    val createdAt: Instant? = null,
 
     @Column(name = "updated_at", nullable = false)
-    val updatedAt: OffsetDateTime? = null,
+    val updatedAt: Instant? = null,
 
     @Column(name = "action_taken", length = 100)
     val actionTaken: String? = null,
@@ -79,10 +79,10 @@ data class SatiModel(
     val infringementsObservations: String? = null,
 
     @Column(name = "inspection_end_datetime_utc")
-    val inspectionEndDatetimeUtc: OffsetDateTime? = null,
+    val inspectionEndDatetimeUtc: Instant? = null,
 
     @Column(name = "inspection_start_datetime_utc", nullable = false)
-    val inspectionStartDatetimeUtc: OffsetDateTime,
+    val inspectionStartDatetimeUtc: Instant,
 
     @Column(name = "inspection_location_address_id")
     val inspectionLocationAddressId: UUID? = null,

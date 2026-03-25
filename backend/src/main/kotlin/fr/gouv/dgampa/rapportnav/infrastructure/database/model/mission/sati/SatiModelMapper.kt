@@ -13,7 +13,7 @@ object SatiModelMapper {
         return SatiEntity(
             id = model.id,
             module = model.module,
-            ownerId = model.ownerId,
+            actionId = model.actionId,
             createdAt = model.createdAt,
             updatedAt = model.updatedAt,
             actionTaken = model.actionTaken,
@@ -78,7 +78,7 @@ object SatiModelMapper {
         return SatiModel(
             id = entity.id,
             module = entity.module,
-            ownerId = entity.ownerId,
+            actionId = entity.actionId,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
             actionTaken = entity.actionTaken,

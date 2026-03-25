@@ -7,5 +7,5 @@ import java.util.UUID
 
 @Repository
 interface IDBSatiRepository : JpaRepository<SatiModel, UUID> {
-    fun findByOwnerId(ownerId: UUID): SatiModel
+    fun findByActionId(actionId: String): SatiModel
 }

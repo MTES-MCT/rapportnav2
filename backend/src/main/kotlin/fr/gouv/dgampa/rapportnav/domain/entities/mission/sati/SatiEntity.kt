@@ -1,14 +1,14 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 data class SatiEntity(
     val id: UUID? = null,
     val module: String,
-    val ownerId: UUID,
-    val createdAt: OffsetDateTime? = null,
-    val updatedAt: OffsetDateTime? = null,
+    val actionId: String,
+    val createdAt: Instant? = null,
+    val updatedAt: Instant? = null,
     val actionTaken: String? = null,
 
     val agentContact: ContactEntity? = null,
@@ -26,8 +26,8 @@ data class SatiEntity(
     val freshnessCategories: String? = null,
     val importerContact: ContactEntity? = null,
     val infringementsObservations: String? = null,
-    val inspectionEndDatetimeUtc: OffsetDateTime? = null,
-    val inspectionStartDatetimeUtc: OffsetDateTime,
+    val inspectionEndDatetimeUtc: Instant? = null,
+    val inspectionStartDatetimeUtc: Instant,
     val inspectionLocationAddressId: UUID? = null,
     val inspectorComments: String? = null,
     val inspectorNameOrId: String? = null,

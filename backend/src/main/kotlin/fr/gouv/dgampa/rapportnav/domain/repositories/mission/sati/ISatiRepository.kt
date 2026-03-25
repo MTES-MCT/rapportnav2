@@ -5,7 +5,7 @@ import java.util.UUID
 
 interface ISatiRepository {
     fun findById(id: UUID): SatiEntity?
-    fun findByOwnerId(ownerId: UUID): SatiEntity?
+    fun findByActionId(actionId: String): SatiEntity?
     fun findAll(): List<SatiEntity>
     fun save(sati: SatiEntity): SatiEntity
     fun deleteById(id: UUID)

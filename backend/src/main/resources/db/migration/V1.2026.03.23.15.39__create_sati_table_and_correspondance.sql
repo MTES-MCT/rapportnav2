@@ -23,7 +23,7 @@ CREATE TABLE sati
 (
   id                                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   module                                      VARCHAR(2)  NOT NULL,
-  owner_id                                    UUID UNIQUE NOT NULL,
+  action_id                                   VARCHAR(50) UNIQUE NOT NULL,
   created_at                                  TIMESTAMPTZ      DEFAULT now(),
   updated_at                                  TIMESTAMPTZ      DEFAULT now(),
 

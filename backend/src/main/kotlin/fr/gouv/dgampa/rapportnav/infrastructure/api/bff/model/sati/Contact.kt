@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati
 
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 data class Contact(
@@ -10,5 +10,5 @@ data class Contact(
     val email: String? = null,
     val phone: String? = null,
     val address: Address? = null,
-    val createdAt: OffsetDateTime? = null
+    val createdAt: Instant? = null
 )

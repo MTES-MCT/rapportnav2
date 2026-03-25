@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati
 
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 data class Address(
@@ -9,5 +9,5 @@ data class Address(
     val zipcode: String? = null,
     val town: String? = null,
     val country: String? = null,
-    val createdAt: OffsetDateTime? = null
+    val createdAt: Instant? = null
 )

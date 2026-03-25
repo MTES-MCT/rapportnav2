@@ -27,12 +27,12 @@ class JPASatiRepository(
         }
     }
 
-    override fun findByOwnerId(ownerId: UUID): SatiEntity {
+    override fun findByActionId(actionId: String): SatiEntity {
         return try {
-            dbRepo.findByOwnerId(ownerId).let { SatiModelMapper.toEntity(it) }
+            dbRepo.findByActionId(actionId).let { SatiModelMapper.toEntity(it) }
         } catch (e: Exception) {
             throw BackendInternalException(
-                message = "JPASatiRepository.findByOwnerId failed for ownerId=$ownerId",
+                message = "JPASatiRepository.findByOwnerId failed for actionId=$actionId",
                 originalException = e
             )
         }

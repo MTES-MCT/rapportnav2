@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.Sati
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.sati.SatiModelMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 class SatiModelMapperTest {
@@ -22,7 +22,7 @@ class SatiModelMapperTest {
             zipcode = "75000",
             town = "Paris",
             country = "FRA",
-            createdAt = OffsetDateTime.parse("2026-03-24T10:15:30+01:00")
+            createdAt = Instant.parse("2026-03-24T10:15:30+01:00")
         )
 
         val contactModel = ContactModel(
@@ -32,15 +32,15 @@ class SatiModelMapperTest {
             email = "john.doe@example.com",
             phone = "+33123456789",
             address = addressModel,
-            createdAt = OffsetDateTime.parse("2026-03-24T10:15:30+01:00")
+            createdAt = Instant.parse("2026-03-24T10:15:30+01:00")
         )
 
         val model = SatiModel(
             id = UUID.randomUUID(),
             module = "AA",
-            ownerId = UUID.randomUUID(),
-            createdAt = OffsetDateTime.parse("2026-03-24T10:15:30+01:00"),
-            updatedAt = OffsetDateTime.parse("2026-03-24T11:15:30+01:00"),
+            actionId = UUID.randomUUID().toString(),
+            createdAt = Instant.parse("2026-03-24T10:15:30+01:00"),
+            updatedAt = Instant.parse("2026-03-24T11:15:30+01:00"),
             actionTaken = "Checked",
             agentContact = contactModel,
             appointingAuthority = "Prefecture",
@@ -57,8 +57,8 @@ class SatiModelMapperTest {
             freshnessCategories = "A",
             importerContact = contactModel,
             infringementsObservations = "None",
-            inspectionEndDatetimeUtc = OffsetDateTime.parse("2026-03-24T12:15:30+01:00"),
-            inspectionStartDatetimeUtc = OffsetDateTime.parse("2026-03-24T09:15:30+01:00"),
+            inspectionEndDatetimeUtc = Instant.parse("2026-03-24T12:15:30+01:00"),
+            inspectionStartDatetimeUtc = Instant.parse("2026-03-24T09:15:30+01:00"),
             inspectionLocationAddressId = UUID.randomUUID(),
             inspectorComments = "OK",
             inspectorNameOrId = "Inspector 1",
@@ -102,7 +102,7 @@ class SatiModelMapperTest {
 
         assertThat(entity.id).isEqualTo(model.id)
         assertThat(entity.module).isEqualTo(model.module)
-        assertThat(entity.ownerId).isEqualTo(model.ownerId)
+        assertThat(entity.actionId).isEqualTo(model.actionId)
         assertThat(entity.createdAt).isEqualTo(model.createdAt)
         assertThat(entity.updatedAt).isEqualTo(model.updatedAt)
         assertThat(entity.actionTaken).isEqualTo(model.actionTaken)
@@ -122,7 +122,7 @@ class SatiModelMapperTest {
             zipcode = "75000",
             town = "Paris",
             country = "FRA",
-            createdAt = OffsetDateTime.parse("2026-03-24T10:15:30+01:00")
+            createdAt = Instant.parse("2026-03-24T10:15:30+01:00")
         )
 
         val contactEntity = ContactEntity(
@@ -132,15 +132,15 @@ class SatiModelMapperTest {
             email = "john.doe@example.com",
             phone = "+33123456789",
             address = addressEntity,
-            createdAt = OffsetDateTime.parse("2026-03-24T10:15:30+01:00")
+            createdAt = Instant.parse("2026-03-24T10:15:30+01:00")
         )
 
         val entity = SatiEntity(
             id = UUID.randomUUID(),
             module = "AA",
-            ownerId = UUID.randomUUID(),
-            createdAt = OffsetDateTime.parse("2026-03-24T10:15:30+01:00"),
-            updatedAt = OffsetDateTime.parse("2026-03-24T11:15:30+01:00"),
+            actionId = UUID.randomUUID().toString(),
+            createdAt = Instant.parse("2026-03-24T10:15:30+01:00"),
+            updatedAt = Instant.parse("2026-03-24T11:15:30+01:00"),
             actionTaken = "Checked",
             agentContact = contactEntity,
             appointingAuthority = "Prefecture",
@@ -157,8 +157,8 @@ class SatiModelMapperTest {
             freshnessCategories = "A",
             importerContact = contactEntity,
             infringementsObservations = "None",
-            inspectionEndDatetimeUtc = OffsetDateTime.parse("2026-03-24T12:15:30+01:00"),
-            inspectionStartDatetimeUtc = OffsetDateTime.parse("2026-03-24T09:15:30+01:00"),
+            inspectionEndDatetimeUtc = Instant.parse("2026-03-24T12:15:30+01:00"),
+            inspectionStartDatetimeUtc = Instant.parse("2026-03-24T09:15:30+01:00"),
             inspectionLocationAddressId = UUID.randomUUID(),
             inspectorComments = "OK",
             inspectorNameOrId = "Inspector 1",
@@ -202,7 +202,7 @@ class SatiModelMapperTest {
 
         assertThat(model.id).isEqualTo(entity.id)
         assertThat(model.module).isEqualTo(entity.module)
-        assertThat(model.ownerId).isEqualTo(entity.ownerId)
+        assertThat(model.actionId).isEqualTo(entity.actionId)
         assertThat(model.createdAt).isEqualTo(entity.createdAt)
         assertThat(model.updatedAt).isEqualTo(entity.updatedAt)
         assertThat(model.actionTaken).isEqualTo(entity.actionTaken)

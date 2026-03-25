@@ -12,7 +12,7 @@ object SatiMapper {
         return Sati(
             id = entity.id,
             module = entity.module,
-            ownerId = entity.ownerId,
+            actionId = entity.actionId,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
             actionTaken = entity.actionTaken,
@@ -77,7 +77,7 @@ object SatiMapper {
         return SatiEntity(
             id = response.id,
             module = response.module,
-            ownerId = response.ownerId,
+            actionId = response.actionId,
             createdAt = response.createdAt,
             updatedAt = response.updatedAt,
             actionTaken = response.actionTaken,

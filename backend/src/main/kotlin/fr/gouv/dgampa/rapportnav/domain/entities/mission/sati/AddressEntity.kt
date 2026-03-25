@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 data class AddressEntity(
@@ -9,5 +9,5 @@ data class AddressEntity(
     val zipcode: String? = null,
     val town: String? = null,
     val country: String? = null,
-    val createdAt: OffsetDateTime? = null
+    val createdAt: Instant? = null
 )

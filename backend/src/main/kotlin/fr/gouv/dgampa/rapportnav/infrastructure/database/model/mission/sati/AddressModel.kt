@@ -5,7 +5,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 @Entity
@@ -30,5 +30,5 @@ data class AddressModel(
     val country: String? = null,
 
     @Column(name = "created_at", nullable = false)
-    val createdAt: OffsetDateTime? = null
+    val createdAt: Instant? = null
 )

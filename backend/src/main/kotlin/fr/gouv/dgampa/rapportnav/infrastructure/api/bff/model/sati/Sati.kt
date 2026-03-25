@@ -1,14 +1,14 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati
 
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 data class Sati(
     val id: UUID? = null,
     val module: String,
-    val ownerId: UUID,
-    val createdAt: OffsetDateTime? = null,
-    val updatedAt: OffsetDateTime? = null,
+    val actionId: String,
+    val createdAt: Instant? = null,
+    val updatedAt: Instant? = null,
     val actionTaken: String? = null,
     val agentContact: Contact? = null,
     val appointingAuthority: String? = null,
@@ -25,8 +25,8 @@ data class Sati(
     val freshnessCategories: String? = null,
     val importerContact: Contact? = null,
     val infringementsObservations: String? = null,
-    val inspectionEndDatetimeUtc: OffsetDateTime? = null,
-    val inspectionStartDatetimeUtc: OffsetDateTime,
+    val inspectionEndDatetimeUtc: Instant? = null,
+    val inspectionStartDatetimeUtc: Instant,
     val inspectionLocationAddressId: UUID? = null,
     val inspectorComments: String? = null,
     val inspectorNameOrId: String? = null,

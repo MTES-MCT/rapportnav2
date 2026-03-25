@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 data class ContactEntity(
@@ -10,5 +10,5 @@ data class ContactEntity(
     val email: String? = null,
     val phone: String? = null,
     val address: AddressEntity? = null,
-    val createdAt: OffsetDateTime? = null
+    val createdAt: Instant? = null
 )

@@ -8,7 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 @Entity
@@ -37,5 +37,5 @@ data class ContactModel(
     val address: AddressModel? = null,
 
     @Column(name = "created_at", nullable = false)
-    val createdAt: OffsetDateTime? = null
+    val createdAt: Instant? = null
 )
