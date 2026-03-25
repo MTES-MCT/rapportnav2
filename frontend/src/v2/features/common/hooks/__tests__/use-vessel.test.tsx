@@ -9,24 +9,32 @@ describe('useVessel', () => {
   it('should have every vessel type for ULAM module ', () => {
     const { result } = renderHook(() => useVessel())
     const response = result.current.getVesselTypeByModule(ModuleType.ULAM)
-    expect(response.length).toEqual(Object.keys(VesselTypeEnum).length - 1)
+    expect(response.length).toEqual(Object.keys(VesselTypeEnum).length - 2)
     expect(response).not.toContain(VesselTypeEnum.SAILING_LEISURE)
+    expect(response).not.toContain(VesselTypeEnum.FISHING)
   })
 
   it('should not have every vessel type for PAM module ', () => {
     const { result } = renderHook(() => useVessel())
     const response = result.current.getVesselTypeByModule(ModuleType.PAM)
-    expect(response.length).toEqual(5)
-    expect(response.filter(t => [VesselTypeEnum.SCHOOL, VesselTypeEnum.PASSENGER].includes(t.key))).toEqual([])
+    expect(response.length).toEqual(4)
+    expect(
+      response.filter(t =>
+        [VesselTypeEnum.SCHOOL, VesselTypeEnum.PASSENGER, VesselTypeEnum.FISHING, VesselTypeEnum.SHELLFISH].includes(
+          t.key
+        )
+      )
+    ).toEqual([])
   })
 
   it('should return the right name of a vessel', () => {
     const { result } = renderHook(() => useVessel())
     expect(result.current.getVesselTypeName()).toEqual('')
-    expect(result.current.getVesselTypeName(VesselTypeEnum.SCHOOL)).toEqual('bateaux école')
+    expect(result.current.getVesselTypeName(VesselTypeEnum.SCHOOL)).toEqual('Bateaux école')
     expect(result.current.getVesselTypeName(VesselTypeEnum.SAILING)).toEqual('Navire de plaisance professionnelle')
     expect(result.current.getVesselTypeName(VesselTypeEnum.MOTOR)).toEqual('Navire de services (travaux...)')
     expect(result.current.getVesselTypeName(VesselTypeEnum.FISHING)).toEqual('Navire de pêche professionnelle')
+    expect(result.current.getVesselTypeName(VesselTypeEnum.SHELLFISH)).toEqual('Navire conchylicole')
     expect(result.current.getVesselTypeName(VesselTypeEnum.PASSENGER)).toEqual(
       'Navires de passagers (navettes transports...)'
     )
@@ -43,7 +51,7 @@ describe('useVessel', () => {
 
   it('should return vessel type options', () => {
     const { result } = renderHook(() => useVessel())
-    expect(result.current.vesselTypeOptions.length).toEqual(7)
+    expect(result.current.vesselTypeOptions.length).toEqual(8)
   })
 
   it('should return vessel size options', () => {

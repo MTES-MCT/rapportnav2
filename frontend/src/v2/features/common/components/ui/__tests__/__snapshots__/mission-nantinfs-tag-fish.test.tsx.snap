@@ -20,7 +20,7 @@ exports[`MissionNatinfTag > should match the snapshot 1`] = `
               font-size="13"
               weight="medium"
             >
-              Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable / NATINF : 12345
+              Debarquement de produits de la pêche maritime et de l'aquaculture marine sans notification prealable / NATINF : 12345
             </p>
           </span>
         </div>
@@ -65,7 +65,7 @@ exports[`MissionNatinfTag > should match the snapshot 1`] = `
             font-size="13"
             weight="medium"
           >
-            Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable / NATINF : 12345
+            Debarquement de produits de la pêche maritime et de l'aquaculture marine sans notification prealable / NATINF : 12345
           </p>
         </span>
       </div>
