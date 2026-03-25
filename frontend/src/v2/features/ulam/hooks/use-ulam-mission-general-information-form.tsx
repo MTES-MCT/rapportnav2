@@ -71,7 +71,13 @@ export const useUlamMissionGeneralInfoForm = (
     missionTypes: Yup.mixed<MissionTypeEnum[]>().when('missionReportType', {
       is: MissionReportTypeEnum.FIELD_REPORT,
       then: schema => schema.required('Type de mission obligatoire')
-    })
+    }),
+    nbHourAtSea: Yup.number()
+      .min(0, "Le nombre d'heures en mer ne peut pas être négatif")
+      .when('missionTypes', {
+        is: (missionTypes?: MissionTypeEnum[]) => missionTypes?.includes(MissionTypeEnum.SEA),
+        then: schema => schema.required("Nombre d'heures en mer obligatoire")
+      })
   })
 
   const handleSubmitOverride = async (value?: MissionGeneralInfoInput) => {
