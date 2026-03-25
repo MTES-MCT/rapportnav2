@@ -10,7 +10,7 @@ describe('MissionInfractionFishSummary', () => {
             natinf: 12345,
             threat: 'Dissimulation',
             threatCharacterization:
-              "Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable",
+              "Debarquement de produits de la pêche maritime et de l'aquaculture marine sans notification prealable",
             comments: 'commentaire'
           }
         ]}
@@ -20,7 +20,7 @@ describe('MissionInfractionFishSummary', () => {
     expect(screen.getByText(/NATINF\s*:\s*12345/i)).toBeInTheDocument()
     expect(
       screen.getByText(
-        "Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable",
+        "Debarquement de produits de la pêche maritime et de l'aquaculture marine sans notification prealable",
         { exact: false }
       )
     ).toBeInTheDocument()

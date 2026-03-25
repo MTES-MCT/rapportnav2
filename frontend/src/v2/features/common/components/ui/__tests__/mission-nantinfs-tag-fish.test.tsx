@@ -7,7 +7,7 @@ describe('MissionNatinfTag', () => {
       <MissionNatinfTagFish
         natinf={12345}
         description={
-          "Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable"
+          "Debarquement de produits de la pêche maritime et de l'aquaculture marine sans notification prealable"
         }
       />
     )
@@ -25,14 +25,14 @@ describe('MissionNatinfTag', () => {
       <MissionNatinfTagFish
         natinf={12345}
         description={
-          "Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable"
+          "Debarquement de produits de la pêche maritime et de l'aquaculture marine sans notification prealable"
         }
       />
     )
     expect(screen.getByText('NATINF : 12345', { exact: false })).toBeInTheDocument()
     expect(
       screen.getByText(
-        "Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable",
+        "Debarquement de produits de la pêche maritime et de l'aquaculture marine sans notification prealable",
         { exact: false }
       )
     ).toBeInTheDocument()

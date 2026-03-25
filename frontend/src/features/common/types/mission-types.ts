@@ -5,7 +5,8 @@ export enum VesselTypeEnum {
   'COMMERCIAL' = 'COMMERCIAL',
   'SAILING_LEISURE' = 'SAILING_LEISURE',
   'SCHOOL' = 'SCHOOL',
-  'PASSENGER' = 'PASSENGER'
+  'PASSENGER' = 'PASSENGER',
+  'SHELLFISH' = 'SHELLFISH'
 }
 
 export enum VesselSizeEnum {
