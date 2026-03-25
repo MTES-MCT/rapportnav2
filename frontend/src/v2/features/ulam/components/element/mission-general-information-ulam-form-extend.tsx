@@ -47,6 +47,7 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
                         fieldFormik={field}
                         controlUnitResources={resources}
                         disabled={values.isResourcesNotUsed}
+                        isMissionFinished={isMissionFinished}
                       />
                     )}
                   </Field>
@@ -64,7 +65,7 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
             </Stack>
           </Stack.Item>
 
-          <Stack.Item style={{ width: '100%' }}>
+          <Stack.Item style={{ width: '100%', marginTop: '1rem' }}>
             <FieldArray name="crew">
               {(fieldArray: FieldArrayRenderProps) => (
                 <MissionGeneralInformationCrewNoComment

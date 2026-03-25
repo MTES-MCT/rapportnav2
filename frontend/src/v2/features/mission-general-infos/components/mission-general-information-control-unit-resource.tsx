@@ -4,6 +4,7 @@ import { isEqual } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import { ControlUnitResource } from '../../common/types/control-unit-types.ts'
+import Text from '@common/components/ui/text.tsx'
 
 type ResourceFormInput = { resources: { id?: number }[] } | undefined
 
@@ -12,13 +13,15 @@ interface MissionGeneralInformationControlUnitResourceProps {
   disabled?: boolean
   fieldFormik: FieldProps<ControlUnitResource[]>
   controlUnitResources?: ControlUnitResource[]
+  isMissionFinished: boolean
 }
 
 const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInformationControlUnitResourceProps> = ({
   name,
   disabled,
   fieldFormik,
-  controlUnitResources
+  controlUnitResources,
+  isMissionFinished
 }) => {
   const [initialValues, setInitialValues] = useState<ResourceFormInput>()
 
@@ -47,70 +50,79 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
   return (
     <>
       {initialValues && (
-        <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
-          {({ values }) => (
-            <>
-              <FormikEffect onChange={newValues => handleSubmit(newValues as ResourceFormInput)} />
-              <FieldArray name="resources">
-                {(arrayHelpers: FieldArrayRenderProps) => (
-                  <Stack direction="column" style={{ width: '100%' }}>
-                    <Stack.Item style={{ width: '100%' }}>
-                      {values.resources.map((value, index) => (
-                        <Stack
-                          direction="row"
-                          alignItems="flex-end"
-                          key={`resources.${index}.id`}
-                          style={{ width: '100%', marginTop: 6 }}
+        <>
+          <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
+            {({ values }) => (
+              <>
+                <FormikEffect onChange={newValues => handleSubmit(newValues as ResourceFormInput)} />
+                <FieldArray name="resources">
+                  {(arrayHelpers: FieldArrayRenderProps) => (
+                    <Stack direction="column" style={{ width: '100%' }}>
+                      <Stack.Item style={{ width: '100%' }}>
+                        {values.resources.map((value, index) => (
+                          <Stack
+                            direction="row"
+                            alignItems="flex-end"
+                            key={`resources.${index}.id`}
+                            style={{ width: '100%', marginTop: 6 }}
+                          >
+                            <Stack.Item style={{ width: '100%' }}>
+                              <FormikSelect
+                                isRequired
+                                searchable
+                                disabled={disabled}
+                                style={{ width: '100%' }}
+                                name={`resources.${index}.id`}
+                                label="Moyen(s) utilisé(s)"
+                                options={
+                                  controlUnitResources?.map((resource: ControlUnitResource) => ({
+                                    value: resource.id!!,
+                                    label: `${resource.name}`
+                                  })) || []
+                                }
+                                disabledItemValues={values.resources.map(resource => resource.id).filter(Boolean)}
+                              />
+                            </Stack.Item>
+                            <Stack.Item style={{ paddingLeft: 5 }}>
+                              <IconButton
+                                role="delete-resources"
+                                size={Size.NORMAL}
+                                Icon={Icon.Delete}
+                                accent={Accent.TERTIARY}
+                                disabled={index === 0 || disabled}
+                                onClick={() => arrayHelpers.remove(index)}
+                                style={{ border: `1px solid ${THEME.color.charcoal}` }}
+                              />
+                            </Stack.Item>
+                          </Stack>
+                        ))}
+                      </Stack.Item>
+                      <Stack.Item style={{ width: '100%', marginTop: 8 }}>
+                        <Button
+                          Icon={Icon.Plus}
+                          size={Size.SMALL}
+                          isFullWidth={true}
+                          disabled={disabled}
+                          accent={Accent.SECONDARY}
+                          onClick={() => arrayHelpers.push({})}
                         >
-                          <Stack.Item style={{ width: '100%' }}>
-                            <FormikSelect
-                              isRequired
-                              searchable
-                              disabled={disabled}
-                              style={{ width: '100%' }}
-                              name={`resources.${index}.id`}
-                              label="Moyen(s) utilisé(s)"
-                              options={
-                                controlUnitResources?.map((resource: ControlUnitResource) => ({
-                                  value: resource.id!!,
-                                  label: `${resource.name}`
-                                })) || []
-                              }
-                              disabledItemValues={values.resources.map(resource => resource.id).filter(Boolean)}
-                            />
-                          </Stack.Item>
-                          <Stack.Item style={{ paddingLeft: 5 }}>
-                            <IconButton
-                              role="delete-resources"
-                              size={Size.NORMAL}
-                              Icon={Icon.Delete}
-                              accent={Accent.TERTIARY}
-                              disabled={index === 0 || disabled}
-                              onClick={() => arrayHelpers.remove(index)}
-                              style={{ border: `1px solid ${THEME.color.charcoal}` }}
-                            />
-                          </Stack.Item>
-                        </Stack>
-                      ))}
-                    </Stack.Item>
-                    <Stack.Item style={{ width: '100%', marginTop: 8 }}>
-                      <Button
-                        Icon={Icon.Plus}
-                        size={Size.SMALL}
-                        isFullWidth={true}
-                        disabled={disabled}
-                        accent={Accent.SECONDARY}
-                        onClick={() => arrayHelpers.push({})}
-                      >
-                        Ajouter un moyen
-                      </Button>
-                    </Stack.Item>
-                  </Stack>
-                )}
-              </FieldArray>
-            </>
-          )}
-        </Formik>
+                          Ajouter un moyen
+                        </Button>
+                      </Stack.Item>
+                    </Stack>
+                  )}
+                </FieldArray>
+              </>
+            )}
+          </Formik>
+          {isMissionFinished &&
+            !fieldFormik.field.value?.length &&
+            fieldFormik.form.values.isResourcesNotUsed !== true && (
+              <Text as={'h2'} color={THEME.color.maximumRed} style={{ margin: '1rem 0' }}>
+                Veuillez renseigner la liste de ressources participant à la mission{' '}
+              </Text>
+            )}
+        </>
       )}
     </>
   )
