@@ -1,11 +1,15 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import java.util.*
 
 @Entity
 @Table(name = "sati")
+@EntityListeners(AuditingEntityListener::class)
 data class SatiModel(
 
     @Id
@@ -19,9 +23,11 @@ data class SatiModel(
     @Column(name = "action_id", unique = true, nullable = false)
     val actionId: String,
 
+    @CreatedDate
     @Column(name = "created_at", nullable = false)
     val createdAt: Instant? = null,
 
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     val updatedAt: Instant? = null,
 
