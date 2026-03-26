@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.72.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.71.0...backend@v2.72.0) (2026-03-26)
+
+
+### Features
+
+* **Controls:** add "permis d'armement confirme" for administrative controls [#1099](https://github.com/MTES-MCT/rapportnav2/issues/1099) ([2156b58](https://github.com/MTES-MCT/rapportnav2/commit/2156b5826476f6d8e06180e0505b404a14233105))
+* **Controls:** remove fishing pro (for all) - add shellfish (for ULAM only) [#1272](https://github.com/MTES-MCT/rapportnav2/issues/1272) ([1cd7bad](https://github.com/MTES-MCT/rapportnav2/commit/1cd7badabd9c7891d16202b07a443f2fdb9ca507))
+
+
+### Bug Fixes
+
+* **action:** update training type length ([72764c2](https://github.com/MTES-MCT/rapportnav2/commit/72764c230cb8a26fa36de80e019e0def6aad34af))
+* don't run env mission completeness on nav missions ([d3e6803](https://github.com/MTES-MCT/rapportnav2/commit/d3e680305c52df6242bc57fa78cee9da9c5bffaa))
+* **ULAM:** hide isMissionArmed for non field mission + rework validation rule accordingly ([6f782e8](https://github.com/MTES-MCT/rapportnav2/commit/6f782e85d71935ca100a9beab5899082db24ee47))
+
 ## [2.71.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.70.0...backend@v2.71.0) (2026-03-23)
 
 
