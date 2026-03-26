@@ -7,10 +7,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
+import java.util.*
 
 object EnvMissionMock {
     fun create(
         id: Int? = 1,
+        idUUID: UUID? = null,
         missionTypes: List<MissionTypeEnum> = listOf(),
         controlUnits: List<LegacyControlUnitEntity> = listOf(),
         openBy: String? = null,
@@ -31,6 +33,7 @@ object EnvMissionMock {
     ): MissionEnvEntity {
         return MissionEnvEntity(
             id = id,
+            idUUID = idUUID,
             missionTypes = missionTypes,
             controlUnits = controlUnits,
             openBy = openBy,
