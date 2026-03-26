@@ -1,15 +1,15 @@
+import { FC } from 'react'
 import { Message } from '@mtes-mct/monitor-ui'
 
-const MissionActionNaControlWarning: React.FC = () => {
+const MissionActionNavControlWarning: FC = () => {
   return (
-    <Message level="INFO">
-      Pour la saisie des contrôles de la pêche et de l’environnement marin,
+    <Message level="WARNING">
+      Veuillez contacter respectivement le CNSP et le CACEM pour la saisie des contrôles de pêche pro embarquée
+      (contrôle mer, débarquement et aériens) et de l'environnement marin.
       <br />
-      veuillez appeler les centres concernés.
-      <br />
-      Pêche : CNSP / Environnement Marin : CACEM
+      Les centres ouvriront le contrôle.
     </Message>
   )
 }
 
-export default MissionActionNaControlWarning
+export default MissionActionNavControlWarning
