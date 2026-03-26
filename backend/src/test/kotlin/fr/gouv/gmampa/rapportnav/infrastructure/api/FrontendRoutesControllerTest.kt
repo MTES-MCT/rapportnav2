@@ -137,7 +137,6 @@ class FrontendRoutesControllerTest {
             controller = createControllerWithHtml(html)
 
             whenever(request.isSecure).thenReturn(false)
-            whenever(request.getHeader("X-Forwarded-Proto")).thenReturn(null)
 
             controller.serveFrontend(request, response)
 
@@ -147,12 +146,13 @@ class FrontendRoutesControllerTest {
         }
 
         @Test
-        fun `should detect HTTPS from X-Forwarded-Proto header`() {
+        fun `should include upgrade-insecure-requests when request isSecure is true`() {
+            // ForwardedHeaderFilter now handles X-Forwarded-Proto automatically
+            // and sets request.isSecure accordingly
             val html = "<html><head></head><body></body></html>"
             controller = createControllerWithHtml(html)
 
-            whenever(request.isSecure).thenReturn(false)
-            whenever(request.getHeader("X-Forwarded-Proto")).thenReturn("https")
+            whenever(request.isSecure).thenReturn(true)
 
             controller.serveFrontend(request, response)
 

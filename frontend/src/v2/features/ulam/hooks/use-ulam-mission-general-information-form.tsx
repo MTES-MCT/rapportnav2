@@ -1,5 +1,4 @@
 import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
-import { FormikErrors } from 'formik'
 import * as Yup from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form.tsx'
 import { useDate } from '../../common/hooks/use-date.tsx'
@@ -72,14 +71,17 @@ export const useUlamMissionGeneralInfoForm = (
     missionTypes: Yup.mixed<MissionTypeEnum[]>().when('missionReportType', {
       is: MissionReportTypeEnum.FIELD_REPORT,
       then: schema => schema.required('Type de mission obligatoire')
-    })
+    }),
+    nbHourAtSea: Yup.number()
+      .min(0, "Le nombre d'heures en mer ne peut pas être négatif")
+      .when('missionTypes', {
+        is: (missionTypes?: MissionTypeEnum[]) => missionTypes?.includes(MissionTypeEnum.SEA),
+        then: schema => schema.required("Nombre d'heures en mer obligatoire")
+      })
   })
 
-  const handleSubmitOverride = async (
-    value?: MissionGeneralInfoInput,
-    errors?: FormikErrors<MissionGeneralInfoInput>
-  ) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: MissionGeneralInfoInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return { initValue, handleSubmit: handleSubmitOverride, validationSchema }

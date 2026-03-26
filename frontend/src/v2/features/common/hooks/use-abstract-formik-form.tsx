@@ -1,5 +1,4 @@
-import { FormikErrors } from 'formik'
-import { isEmpty, isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
+import { isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
 import { useEffect, useState } from 'react'
 import { AbstractFormikHook } from '../types/abstract-formik-hook'
 
@@ -10,7 +9,6 @@ export function useAbstractFormik<T, M>(
   booleans?: string[]
 ): AbstractFormikHook<T, M> {
   const [initValue, setInitValue] = useState<M>()
-  const [errors, setErrors] = useState<FormikErrors<M> | undefined>(undefined)
 
   const beforeInitValue = (value?: T): M | undefined => {
     const b = booleans ? mapValues(pick(value, booleans), o => !!o) : {}
@@ -29,44 +27,26 @@ export function useAbstractFormik<T, M>(
     setInitValue(valueToInit)
 
     return () => {
-      setErrors(undefined)
       setInitValue(undefined)
     }
   }, [value])
 
-  const beforeSubmit = (value?: M, errors?: FormikErrors<M>): T | undefined => {
+  const beforeSubmit = (value?: M): T | undefined => {
     if (!value) return
-    if (!isEmpty(errors)) {
-      console.log('Submission blocked due to validation errors:', errors)
-      return
-    }
-
     if (isEqual(value, initValue)) return
-
     return fromInputToFieldValue(value)
   }
 
-  const handleSubmit = async (
-    value?: M,
-    errors?: FormikErrors<M>,
-    onSubmit?: (valueToSubmit: T) => Promise<unknown>
-  ) => {
-    const valueToSubmit = beforeSubmit(value, errors)
+  const handleSubmit = async (value?: M, onSubmit?: (valueToSubmit: T) => Promise<unknown>) => {
+    const valueToSubmit = beforeSubmit(value)
 
     if (onSubmit && valueToSubmit) {
-      try {
-        await onSubmit(valueToSubmit)
-        setInitValue(value)
-        setErrors(undefined)
-      } catch (error) {
-        setErrors(errors)
-        throw error
-      }
+      await onSubmit(valueToSubmit)
+      setInitValue(value)
     }
   }
 
   return {
-    errors,
     initValue,
     handleSubmit,
     beforeSubmit,

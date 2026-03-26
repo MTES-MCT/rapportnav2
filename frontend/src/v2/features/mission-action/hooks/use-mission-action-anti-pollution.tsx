@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -17,7 +16,7 @@ export function useMissionActionAntiPollution(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionAntiPollutionInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -25,7 +24,6 @@ export function useMissionActionAntiPollution(
     return {
       ...data,
       dates: [startDate, endDate],
-      isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
@@ -39,7 +37,7 @@ export function useMissionActionAntiPollution(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionAntiPollutionInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionAntiPollutionInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -57,11 +55,8 @@ export function useMissionActionAntiPollution(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (
-    value?: ActionAntiPollutionInput,
-    errors?: FormikErrors<ActionAntiPollutionInput>
-  ) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionAntiPollutionInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   const createValidationSchema = (isMissionFinished: boolean) => {
@@ -73,7 +68,6 @@ export function useMissionActionAntiPollution(
   const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

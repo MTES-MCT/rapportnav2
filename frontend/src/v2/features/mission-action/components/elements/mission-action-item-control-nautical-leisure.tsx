@@ -3,11 +3,13 @@ import { MissionAction } from '../../../common/types/mission-action'
 import { CONTROL_NAUTICAL_LEISURE_SCHEMA } from '../../validation-schema/conrtol-nautical-leisure'
 import MissionActionNauticalLeisureControlForm from '../ui/mission-action-control-nautical-leisure-form'
 import MissionActionItemGenericControl from './mission-action-item-generic-control'
+import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 
 const MissionActionItemNauticalLeisureControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
+  const { allControlTypes } = useTarget()
   return (
     <MissionActionItemGenericControl
       action={action}
@@ -15,6 +17,7 @@ const MissionActionItemNauticalLeisureControl: FC<{
       withGeoCoords={true}
       isGeoCoordRequired={false}
       schema={CONTROL_NAUTICAL_LEISURE_SCHEMA}
+      controlTypes={allControlTypes}
       data-testid={'action-control-nautical-leisure'}
       component={MissionActionNauticalLeisureControlForm}
     />

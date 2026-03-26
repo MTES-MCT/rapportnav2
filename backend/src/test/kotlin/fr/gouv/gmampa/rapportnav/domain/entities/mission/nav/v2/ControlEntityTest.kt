@@ -24,6 +24,7 @@ class ControlEntityTest {
             observations = "My observations",
             staffOutnumbered = ControlResult.YES.toString(),
             upToDateMedicalCheck = ControlResult.NO.toString(),
+            compliantSafeManningPermit = ControlResult.YES.toString(),
             compliantOperatingPermit = ControlResult.YES.toString(),
             upToDateNavigationPermit = ControlResult.NOT_CONTROLLED.toString(),
             compliantSecurityDocuments = ControlResult.NOT_CONCERNED.toString(),
@@ -41,6 +42,7 @@ class ControlEntityTest {
         assertThat(entity.observations).isEqualTo(model.observations)
         assertThat(entity.staffOutnumbered.toString()).isEqualTo(model.staffOutnumbered)
         assertThat(entity.upToDateMedicalCheck.toString()).isEqualTo(model.upToDateMedicalCheck)
+        assertThat(entity.compliantSafeManningPermit.toString()).isEqualTo(model.compliantSafeManningPermit)
         assertThat(entity.compliantOperatingPermit.toString()).isEqualTo(model.compliantOperatingPermit)
         assertThat(entity.upToDateNavigationPermit.toString()).isEqualTo(model.upToDateNavigationPermit)
         assertThat(entity.compliantSecurityDocuments.toString()).isEqualTo(model.compliantSecurityDocuments)
@@ -60,6 +62,7 @@ class ControlEntityTest {
             upToDateMedicalCheck = ControlResult.NO,
             compliantOperatingPermit = ControlResult.YES,
             upToDateNavigationPermit = ControlResult.NO,
+            compliantSafeManningPermit = ControlResult.NOT_CONTROLLED,
             compliantSecurityDocuments = ControlResult.NOT_CONCERNED,
             knowledgeOfFrenchLawAndLanguage = ControlResult.NOT_CONTROLLED,
             infractions = listOf(InfractionEntity(id = UUID.randomUUID(), natinfs = listOf()))
@@ -75,6 +78,7 @@ class ControlEntityTest {
         assertThat(entity.observations).isEqualTo(model.observations)
         assertThat(entity.staffOutnumbered.toString()).isEqualTo(model.staffOutnumbered)
         assertThat(entity.upToDateMedicalCheck.toString()).isEqualTo(model.upToDateMedicalCheck)
+        assertThat(entity.compliantSafeManningPermit.toString()).isEqualTo(model.compliantSafeManningPermit)
         assertThat(entity.compliantOperatingPermit.toString()).isEqualTo(model.compliantOperatingPermit)
         assertThat(entity.upToDateNavigationPermit.toString()).isEqualTo(model.upToDateNavigationPermit)
         assertThat(entity.compliantSecurityDocuments.toString()).isEqualTo(model.compliantSecurityDocuments)

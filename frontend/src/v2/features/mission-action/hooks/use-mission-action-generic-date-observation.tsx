@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useMemo } from 'react'
 import { object, ObjectShape } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
@@ -16,7 +15,7 @@ export function useMissionActionGenericDateObservation(
   schema?: ObjectShape
 ): AbstractFormikSubFormHook<ActionGenericDateObservationInput> {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionActionData): ActionGenericDateObservationInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -31,7 +30,7 @@ export function useMissionActionGenericDateObservation(
     return { ...newData, startDateTimeUtc: processedStartDateTimeUtc, endDateTimeUtc: processedEndDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionActionData, ActionGenericDateObservationInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionActionData, ActionGenericDateObservationInput>(
     action.data,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -43,11 +42,8 @@ export function useMissionActionGenericDateObservation(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (
-    value?: ActionGenericDateObservationInput,
-    errors?: FormikErrors<ActionGenericDateObservationInput>
-  ) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionGenericDateObservationInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   const createValidationSchema = (isMissionFinished: boolean) => {
@@ -60,7 +56,6 @@ export function useMissionActionGenericDateObservation(
   const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

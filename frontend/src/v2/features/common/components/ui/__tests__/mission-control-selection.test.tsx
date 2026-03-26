@@ -10,13 +10,13 @@ describe('IconVesselCommerce', () => {
     expect(wrapper).toMatchSnapshot()
   })
 
-  it('should render 5 controls selection for PAM', () => {
+  it('should render 4 controls selection for PAM', () => {
     render(<MissionControlSelection moduleType={ModuleType.PAM} onSelect={handleSelect} />)
     const elements = screen.getAllByText('Contrôles de')
-    expect(elements.length).toEqual(5)
+    expect(elements.length).toEqual(4)
   })
 
-  it('should render 7 controls selection for ULAM', () => {
+  it('should render 6 controls selection for ULAM', () => {
     render(<MissionControlSelection moduleType={ModuleType.ULAM} onSelect={handleSelect} />)
     const elements = screen.getAllByText('Contrôles de')
     expect(elements.length).toEqual(6)

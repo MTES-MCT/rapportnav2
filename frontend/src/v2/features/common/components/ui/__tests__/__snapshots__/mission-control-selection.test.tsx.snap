@@ -195,35 +195,6 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     >
                       Contrôles de 
                       <b>
-                        navire de pêche professionnelle
-                      </b>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="rs-stack-item"
-              style="width: 100%;"
-            >
-              <div
-                class="sc-UnBNj eSvymD"
-              >
-                <div
-                  class="rs-stack"
-                  style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
-                >
-                  <div
-                    class="rs-stack-item"
-                    style="width: 80%;"
-                  >
-                    <p
-                      class="sc-klnyBj sc-kCvKRo irSiSP dqhaeL"
-                      font-size="13"
-                      weight="normal"
-                    >
-                      Contrôles de 
-                      <b>
                         navire de plaisance professionnelle
                       </b>
                     </p>
@@ -450,35 +421,6 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     Contrôles de 
                     <b>
                       navire de commerce
-                    </b>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="rs-stack-item"
-            style="width: 100%;"
-          >
-            <div
-              class="sc-UnBNj eSvymD"
-            >
-              <div
-                class="rs-stack"
-                style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
-              >
-                <div
-                  class="rs-stack-item"
-                  style="width: 80%;"
-                >
-                  <p
-                    class="sc-klnyBj sc-kCvKRo irSiSP dqhaeL"
-                    font-size="13"
-                    weight="normal"
-                  >
-                    Contrôles de 
-                    <b>
-                      navire de pêche professionnelle
                     </b>
                   </p>
                 </div>

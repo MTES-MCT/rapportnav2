@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
@@ -16,7 +15,7 @@ export function useMissionActionStatus(
 ): AbstractFormikSubFormHook<ActionStatusInput> {
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionStatusInput => {
     return { ...data, date: preprocessDateForPicker(data.startDateTimeUtc) }
@@ -28,7 +27,7 @@ export function useMissionActionStatus(
     return { ...newData, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionStatusInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionStatusInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -39,8 +38,8 @@ export function useMissionActionStatus(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (value?: ActionStatusInput, errors?: FormikErrors<ActionStatusInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionStatusInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   const createValidationSchema = (isMissionFinished: boolean) => {
@@ -59,7 +58,6 @@ export function useMissionActionStatus(
   const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

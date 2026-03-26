@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.71.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.70.0...frontend@v2.71.0) (2026-03-23)
+
+
+### Features
+
+* **frontend:** enable all control types for control sleeping engins ([87b05dc](https://github.com/MTES-MCT/rapportnav2/commit/87b05dcbf744f88785dfe08b005789e6aea00eb0))
+* **frontend:** remove 3 sec delay ([a54c971](https://github.com/MTES-MCT/rapportnav2/commit/a54c971220a805267beaca6b72999868cd35a60d))
+* **frontend:** remove 3 sec delay ([515e165](https://github.com/MTES-MCT/rapportnav2/commit/515e16587eea0cb3a4fc13db3c236527d069dcb5))
+* **frontend:** remove 3 sec policy general infos ulam ([3ec8314](https://github.com/MTES-MCT/rapportnav2/commit/3ec8314eac1c03cfd2f6edbaea237b664b093e53))
+
+
+### Bug Fixes
+
+* dependencies ([62ce8e0](https://github.com/MTES-MCT/rapportnav2/commit/62ce8e0436886f0a93c08dc08ebc0049b28c9809))
+* **formik:** fix validation on delay inputs ([bfe463d](https://github.com/MTES-MCT/rapportnav2/commit/bfe463d7249ff0d385bd89ca167cda4d66ae007b))
+* **formik:** read validation from parent for MissionActionFormikCoordinateInputDMD ([3e8cd50](https://github.com/MTES-MCT/rapportnav2/commit/3e8cd5089527349258caef211a0f0688d874ede9))
+* **formik:** remove isMissionFinished as form field ([895ae71](https://github.com/MTES-MCT/rapportnav2/commit/895ae710c485acd84e306a2ef4169f24d9a78bf3))
+
 ## [2.70.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.69.2...frontend@v2.70.0) (2026-03-11)
 
 

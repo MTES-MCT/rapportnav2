@@ -33,17 +33,9 @@ vi.mock('../../../../../common/services/use-agents.tsx', () => ({
   })
 }))
 
-vi.mock('../../../../../common/services/use-agent-services.tsx', () => ({
+vi.mock('../../../../../common/services/use-agents.tsx', () => ({
   default: () => ({
-    data: [
-      {
-        service: {
-          id: 1,
-          name: 'service1'
-        },
-        agents: [agent1, agent2]
-      }
-    ]
+    data: [agent1, agent2]
   })
 }))
 

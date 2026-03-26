@@ -1,19 +1,19 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionEnvActionData } from '../../common/types/mission-action'
 import { ActionEnvControlInput } from '../types/action-type'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionEnvControl(
   action: MissionAction,
-  onChange: (newAction: MissionAction) => Promise<unknown>,
-  isMissionFinished?: boolean
+  onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionEnvControlInput> {
   const value = action?.data as MissionEnvActionData
   const { extractLatLngFromMultiPoint } = useCoordinate()
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionEnvActionData): ActionEnvControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -21,19 +21,18 @@ export function useMissionActionEnvControl(
     return {
       ...data,
       dates: [startDate, endDate],
-      isMissionFinished: !!isMissionFinished,
       geoCoords: extractLatLngFromMultiPoint(data.geom)
     }
   }
 
   const fromInputToFieldValue = (value: ActionEnvControlInput): MissionEnvActionData => {
-    const { dates, geoCoords, isMissionFinished, ...newData } = value
+    const { dates, geoCoords, ...newData } = value
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
     return { ...newData, endDateTimeUtc, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
+  const { initValue, handleSubmit } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -44,12 +43,11 @@ export function useMissionActionEnvControl(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (value?: ActionEnvControlInput, errors?: FormikErrors<ActionEnvControlInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionEnvControlInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return {
-    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }

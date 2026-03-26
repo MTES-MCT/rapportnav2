@@ -3,7 +3,6 @@ import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
-import { FormikNumberInput } from '../../../common/components/ui/formik-number-input'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionIllegalImmigration } from '../../hooks/use-mission-action-illegal-immigration'
@@ -11,10 +10,10 @@ import { ActionIllegalImmigrationInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download'
+import { FormikNumberInput } from '../../../common/components/ui/formik-number-input.tsx'
 
 const MissionActionItemIllegalImmigration: FC<{
   action: MissionAction
-  isMissionFinished?: boolean
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { initValue, validationSchema, handleSubmit } = useMissionActionIllegalImmigration(action, onChange)
@@ -24,21 +23,15 @@ const MissionActionItemIllegalImmigration: FC<{
       {initValue && (
         <Formik
           validateOnChange={true}
+          validateOnMount={true}
           onSubmit={handleSubmit}
           initialValues={initValue}
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {({ validateForm }) => (
+          {() => (
             <>
-              <FormikEffect
-                onChange={async nextValue => {
-                  // Only handle submission, let Formik handle validation display
-                  await handleSubmit(nextValue as ActionIllegalImmigrationInput)
-                  // Optionally trigger validation to ensure UI updates
-                  await validateForm()
-                }}
-              />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionIllegalImmigrationInput)} />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
@@ -71,6 +64,7 @@ const MissionActionItemIllegalImmigration: FC<{
                       <Stack direction={'row'} spacing={'1rem'}>
                         <Stack.Item style={{ flex: 1 }}>
                           <FormikNumberInput
+                            isRequired={true}
                             name="nbOfInterceptedMigrants"
                             role="nbOfInterceptedMigrants"
                             label="Nb de migrants interceptés"

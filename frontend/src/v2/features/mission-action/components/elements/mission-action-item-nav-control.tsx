@@ -28,19 +28,13 @@ const MissionActionItemNavControl: FC<{
           initialValues={initValue}
           onSubmit={handleSubmit}
           validateOnChange={true}
+          validateOnMount={true}
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {({ validateForm, values }) => (
+          {({ values }) => (
             <>
-              <FormikEffect
-                onChange={async nextValue => {
-                  // Only handle submission, let Formik handle validation display
-                  await handleSubmit(nextValue as ActionNavControlInput)
-                  // Optionally trigger validation to ensure UI updates
-                  await validateForm()
-                }}
-              />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionNavControlInput)} />
               <Stack
                 direction="column"
                 spacing="2rem"

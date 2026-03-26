@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
@@ -24,8 +23,8 @@ export function useMissionActionInquiry(
     await onChange({ ...action, data: valueToSubmit })
   }
 
-  const handleSubmitOverride = async (value?: ActionInquiryInput, errors?: FormikErrors<ActionInquiryInput>) => {
-    handleSubmit(value, errors, onSubmit)
+  const handleSubmitOverride = async (value?: ActionInquiryInput) => {
+    handleSubmit(value, onSubmit)
   }
 
   return {

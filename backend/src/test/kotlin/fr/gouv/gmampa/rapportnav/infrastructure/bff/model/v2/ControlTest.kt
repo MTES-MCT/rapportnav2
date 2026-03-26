@@ -20,6 +20,7 @@ class ControlTest {
             amountOfControls = 2,
             infractions = listOf(),
             hasBeenDone = true,
+            compliantSafeManningPermit = ControlResult.YES,
             compliantOperatingPermit = ControlResult.YES,
             upToDateNavigationPermit = ControlResult.NO,
             compliantSecurityDocuments = ControlResult.NOT_CONTROLLED,
@@ -33,6 +34,7 @@ class ControlTest {
         assertThat(entity.id).isNotNull()
         assertThat(entity.infractions).isEmpty()
         assertThat(entity.hasBeenDone).isEqualTo(input.hasBeenDone)
+        assertThat(entity.compliantSafeManningPermit).isEqualTo(input.compliantSafeManningPermit)
         assertThat(entity.compliantOperatingPermit).isEqualTo(input.compliantOperatingPermit)
         assertThat(entity.upToDateNavigationPermit).isEqualTo(input.upToDateNavigationPermit)
         assertThat(entity.compliantSecurityDocuments).isEqualTo(input.compliantSecurityDocuments)
@@ -51,6 +53,7 @@ class ControlTest {
             amountOfControls = 2,
             infractions = listOf(),
             hasBeenDone = true,
+            compliantSafeManningPermit = ControlResult.YES,
             compliantOperatingPermit = ControlResult.YES,
             upToDateNavigationPermit = ControlResult.NO,
             compliantSecurityDocuments = ControlResult.NOT_CONTROLLED,
@@ -64,6 +67,7 @@ class ControlTest {
         assertThat(value.id).isNotNull()
         assertThat(value.infractions).isEmpty()
         assertThat(value.hasBeenDone).isEqualTo(entity.hasBeenDone)
+        assertThat(value.compliantSafeManningPermit).isEqualTo(entity.compliantSafeManningPermit)
         assertThat(value.compliantOperatingPermit).isEqualTo(entity.compliantOperatingPermit)
         assertThat(value.upToDateNavigationPermit).isEqualTo(entity.upToDateNavigationPermit)
         assertThat(value.compliantSecurityDocuments).isEqualTo(entity.compliantSecurityDocuments)

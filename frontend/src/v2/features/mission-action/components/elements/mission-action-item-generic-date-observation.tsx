@@ -19,11 +19,7 @@ const MissionActionItemGenericDateObservation: FC<{
   showDivingCheckBox?: boolean
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange, children, schema, showDivingCheckBox, showIncidentReport }) => {
-  const { initValue, handleSubmit, validationSchema, errors } = useMissionActionGenericDateObservation(
-    action,
-    onChange,
-    schema
-  )
+  const { initValue, handleSubmit, validationSchema } = useMissionActionGenericDateObservation(action, onChange, schema)
 
   return (
     <form style={{ width: '100%' }}>
@@ -32,9 +28,9 @@ const MissionActionItemGenericDateObservation: FC<{
           initialValues={initValue}
           onSubmit={handleSubmit}
           validateOnChange={true}
+          validateOnMount={true}
           enableReinitialize
           validationSchema={validationSchema}
-          initialErrors={errors}
         >
           {() => (
             <>

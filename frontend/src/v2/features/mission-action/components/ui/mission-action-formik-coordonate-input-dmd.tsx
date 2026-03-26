@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react'
 import { FormikCoordinatesInputProps, FormikEffect } from '@mtes-mct/monitor-ui'
 import { FieldProps, Formik } from 'formik'
 import { isEqual } from 'lodash'
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FormikCoordinateInputDMD } from '../../../common/components/ui/formik-coordonates-input-dmd'
 
@@ -37,7 +37,13 @@ export const MissionActionFormikCoordinateInputDMD = styled(
     return (
       <>
         {initValue && (
-          <Formik initialValues={initValue} onSubmit={handleSubmit} enableReinitialize validateOnChange>
+          <Formik
+            initialValues={initValue}
+            initialErrors={fieldFormik.meta.error ? { coords: fieldFormik.meta.error } : undefined}
+            onSubmit={handleSubmit}
+            enableReinitialize
+            validateOnChange
+          >
             {() => (
               <>
                 <FormikEffect onChange={nextValue => handleSubmit(nextValue as Coords)} />

@@ -37,6 +37,10 @@ const VESSEL_TYPE_REGISTRY: VesselTypeRegistry = {
     icon: <IconVesselFishing />,
     label: 'Navire de pêche professionnelle'
   },
+  [VesselTypeEnum.SHELLFISH]: {
+    icon: <IconVesselFishing />,
+    label: 'Navire conchylicole'
+  },
   [VesselTypeEnum.SAILING]: {
     icon: <IconVesselSailingPro />,
     label: 'Navire de plaisance professionnelle'
@@ -47,7 +51,7 @@ const VESSEL_TYPE_REGISTRY: VesselTypeRegistry = {
   },
   [VesselTypeEnum.SCHOOL]: {
     icon: IconVesselCommerce(),
-    label: 'bateaux école'
+    label: 'Bateaux école'
   },
   [VesselTypeEnum.PASSENGER]: {
     icon: <IconVesselPassenger />,
@@ -109,8 +113,17 @@ export function useVessel(): VesselHook {
   const getVesselTypeByModule = (moduleType: ModuleType) => {
     const entry =
       moduleType === ModuleType.ULAM
-        ? omit(VESSEL_TYPE_REGISTRY, [VesselTypeEnum.SAILING_LEISURE])
-        : omit(VESSEL_TYPE_REGISTRY, [VesselTypeEnum.SCHOOL, VesselTypeEnum.PASSENGER])
+        ? omit(VESSEL_TYPE_REGISTRY, [
+            //
+            VesselTypeEnum.SAILING_LEISURE,
+            VesselTypeEnum.FISHING
+          ])
+        : omit(VESSEL_TYPE_REGISTRY, [
+            VesselTypeEnum.SCHOOL,
+            VesselTypeEnum.PASSENGER,
+            VesselTypeEnum.FISHING,
+            VesselTypeEnum.SHELLFISH
+          ])
     return Object.keys(entry)?.map(key => ({
       key: VesselTypeEnum[key as keyof typeof VesselTypeEnum],
       ...VESSEL_TYPE_REGISTRY[key as keyof typeof VesselTypeEnum]
