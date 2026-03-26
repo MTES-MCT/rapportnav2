@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.72.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.71.0...docker-container@v2.72.0) (2026-03-26)
+
+
+### Features
+
+* **Controls:** add "permis d'armement confirme" for administrative controls [#1099](https://github.com/MTES-MCT/rapportnav2/issues/1099) ([2156b58](https://github.com/MTES-MCT/rapportnav2/commit/2156b5826476f6d8e06180e0505b404a14233105))
+* **Controls:** remove fishing pro (for all) - add shellfish (for ULAM only) [#1272](https://github.com/MTES-MCT/rapportnav2/issues/1272) ([1cd7bad](https://github.com/MTES-MCT/rapportnav2/commit/1cd7badabd9c7891d16202b07a443f2fdb9ca507))
+
+
+### Bug Fixes
+
+* **action:** update training type length ([72764c2](https://github.com/MTES-MCT/rapportnav2/commit/72764c230cb8a26fa36de80e019e0def6aad34af))
+* **Controls:** allow all infraction categories for NavControls ([8d2f829](https://github.com/MTES-MCT/rapportnav2/commit/8d2f829a4b9ea7162170039dd1b65fb2a1b6e6a4))
+* don't run env mission completeness on nav missions ([d3e6803](https://github.com/MTES-MCT/rapportnav2/commit/d3e680305c52df6242bc57fa78cee9da9c5bffaa))
+* **establishment:** propagate isLight prop to make field visible for all background colors ([035eecd](https://github.com/MTES-MCT/rapportnav2/commit/035eecdcf311f8a231a6beb409c06db09b7b878c))
+* **NavControl:** update warning message [#1259](https://github.com/MTES-MCT/rapportnav2/issues/1259) ([cd71354](https://github.com/MTES-MCT/rapportnav2/commit/cd713547764431bc6f1063bad0a0f3d54d3aab56))
+* npm audit ([56f1adc](https://github.com/MTES-MCT/rapportnav2/commit/56f1adc78f2933bf4ed45192fe6d9bd3153a14b4))
+* **ULAM:** hide isMissionArmed for non field mission + rework validation rule accordingly ([6f782e8](https://github.com/MTES-MCT/rapportnav2/commit/6f782e85d71935ca100a9beab5899082db24ee47))
+* **ULAM:** require nbHoursAtSea for SEA type missions [#1250](https://github.com/MTES-MCT/rapportnav2/issues/1250) ([bfb189a](https://github.com/MTES-MCT/rapportnav2/commit/bfb189ac6c37f60e0c7b900a36230560fae4b7b3))
+* **ULAM:** show validation error message when resources have not been set ([ebf4e70](https://github.com/MTES-MCT/rapportnav2/commit/ebf4e7070990380ccfb0d8055cd63c37d9907db2))
+* **validation:** fix conditional validation on ULAM actions ([c988774](https://github.com/MTES-MCT/rapportnav2/commit/c9887743ceb3b606638596c7824480c9df7c1195))
+* **validation:** fix overvalidation, fix conditionally-required-helper ([ce7a476](https://github.com/MTES-MCT/rapportnav2/commit/ce7a4766f6152a511acb5bd2ae4548e4cba315d0))
+
 ## [2.71.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.70.0...docker-container@v2.71.0) (2026-03-23)
 
 
