@@ -11,6 +11,7 @@ const DEFAULT_EMPTY_VALUES = {
 }
 
 const ADMINISTRATIVE_EMPTY_VALUES = {
+  compliantSafeManningPermit: undefined,
   compliantOperatingPermit: undefined,
   upToDateNavigationPermit: undefined,
   compliantSecurityDocuments: undefined
@@ -54,6 +55,7 @@ const CONTROL_TYPE_REGISTRY: ControlTypeRegistry = {
 const CONTROL_RADIO_REGISTRY: ControlRadioRegistry = {
   [ControlType.NAVIGATION]: [],
   [ControlType.ADMINISTRATIVE]: [
+    { name: 'compliantSafeManningPermit', label: "Permis d'armement conforme" },
     { name: 'compliantOperatingPermit', label: 'Permis de mise en exploitation (autorisation à pêcher) conforme' },
     { name: 'upToDateNavigationPermit', label: 'Permis de navigation à jour' },
     { name: 'compliantSecurityDocuments', label: 'Titres de sécurité conformes' }

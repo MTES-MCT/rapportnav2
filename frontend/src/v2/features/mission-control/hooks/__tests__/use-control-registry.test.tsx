@@ -119,16 +119,20 @@ describe('useControlRegistry', () => {
   describe('getRadios', () => {
     it('should return correct radios for ADMINISTRATIVE type', () => {
       const radios = hook.getRadios(ControlType.ADMINISTRATIVE)
-      expect(radios).toHaveLength(3)
+      expect(radios).toHaveLength(4)
       expect(radios[0]).toEqual({
+        name: 'compliantSafeManningPermit',
+        label: "Permis d'armement conforme"
+      })
+      expect(radios[1]).toEqual({
         name: 'compliantOperatingPermit',
         label: 'Permis de mise en exploitation (autorisation à pêcher) conforme'
       })
-      expect(radios[1]).toEqual({
+      expect(radios[2]).toEqual({
         name: 'upToDateNavigationPermit',
         label: 'Permis de navigation à jour'
       })
-      expect(radios[2]).toEqual({
+      expect(radios[3]).toEqual({
         name: 'compliantSecurityDocuments',
         label: 'Titres de sécurité conformes'
       })
