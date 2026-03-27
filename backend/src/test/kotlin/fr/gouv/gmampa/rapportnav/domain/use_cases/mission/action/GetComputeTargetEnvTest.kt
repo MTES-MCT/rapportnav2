@@ -35,8 +35,7 @@ class GetComputeTargetEnvTest {
         val envInfractions = listOf(
             InfractionEnvEntity(
                 id = externalId,
-                toProcess = false,
-                formalNotice = FormalNoticeEnum.NO,
+                                formalNotice = FormalNoticeEnum.NO,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
             )
         )
@@ -63,8 +62,7 @@ class GetComputeTargetEnvTest {
         val envInfractions = listOf(
             InfractionEnvEntity(
                 id = externalId,
-                toProcess = false,
-                formalNotice = FormalNoticeEnum.NO,
+                                formalNotice = FormalNoticeEnum.NO,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
             )
         )

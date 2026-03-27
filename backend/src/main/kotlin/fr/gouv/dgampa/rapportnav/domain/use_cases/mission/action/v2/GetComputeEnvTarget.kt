@@ -106,7 +106,6 @@ class GetComputeEnvTarget(
             id = envInfraction.id,
             natinfs = envInfraction.natinf,
             nbTarget = envInfraction.nbTarget,
-            toProcess = envInfraction.toProcess,
             vesselType = envInfraction.vesselType,
             vesselSize = envInfraction.vesselSize,
             companyName = envInfraction.companyName,
