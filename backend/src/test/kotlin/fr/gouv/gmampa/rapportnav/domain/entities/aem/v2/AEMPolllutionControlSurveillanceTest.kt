@@ -56,15 +56,13 @@ class AEMPolllutionControlSurveillanceTest {
                         id = "",
                         infractionType = InfractionTypeEnum.WITH_REPORT,
                         formalNotice = FormalNoticeEnum.YES,
-                        toProcess = false,
-                        natinf = listOf("natinf-1", "natinf-2", "natinf-3"),
+                                                natinf = listOf("natinf-1", "natinf-2", "natinf-3"),
                     ),
                     InfractionEnvEntity(
                         id = "",
                         infractionType = InfractionTypeEnum.WITHOUT_REPORT,
                         formalNotice = FormalNoticeEnum.NO,
-                        toProcess = false,
-                        natinf = listOf("natinf-1", "natinf-2"),
+                                                natinf = listOf("natinf-1", "natinf-2"),
                     )
                 ),
             ),

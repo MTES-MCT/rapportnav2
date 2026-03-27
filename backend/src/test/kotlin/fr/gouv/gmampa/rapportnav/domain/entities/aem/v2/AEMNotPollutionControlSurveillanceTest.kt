@@ -148,10 +148,10 @@ class AEMNotPollutionControlSurveillanceTest {
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 envInfractions = listOf(
-                    InfractionEnvEntity(id = "1", toProcess = false, formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT), // counts
-                    InfractionEnvEntity(id = "2", toProcess = false, formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITHOUT_REPORT), // filtered
-                    InfractionEnvEntity(id = "3", toProcess = false, formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT), // counts
-                    InfractionEnvEntity(id = "4", toProcess = false, formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WAITING) // filtered
+                    InfractionEnvEntity(id = "1", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT), // counts
+                    InfractionEnvEntity(id = "2", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITHOUT_REPORT), // filtered
+                    InfractionEnvEntity(id = "3", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT), // counts
+                    InfractionEnvEntity(id = "4", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WAITING) // filtered
                 )
             )
         )
@@ -217,21 +217,18 @@ class AEMNotPollutionControlSurveillanceTest {
                 envInfractions = listOf(
                     InfractionEnvEntity(
                         id = "",
-                        toProcess = false,
                         formalNotice = FormalNoticeEnum.YES,
                         infractionType = InfractionTypeEnum.WITH_REPORT,
                         natinf = listOf("natinf-1", "natinf-2", "natinf-3"),
                     ),
                     InfractionEnvEntity(
                         id = "",
-                        toProcess = false,
                         formalNotice = FormalNoticeEnum.NO,
                         infractionType = InfractionTypeEnum.WITHOUT_REPORT,
                         natinf = listOf("natinf-1")
                     ),
                     InfractionEnvEntity(
                         id = "",
-                        toProcess = false,
                         formalNotice = FormalNoticeEnum.YES,
                         infractionType = InfractionTypeEnum.WITH_REPORT,
                         natinf = listOf("natinf-1", "natinf-2")
