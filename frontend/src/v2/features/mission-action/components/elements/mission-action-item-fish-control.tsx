@@ -19,25 +19,27 @@ import MissionTargetControlNav from '../../../mission-target/components/elements
 import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish-control'
 import { ActionFishControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 
 const MissionActionItemFishControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const { initValue, handleSubmit } = useMissionActionFishControl(action, onChange)
+  const { initValue, handleSubmit, validationSchema } = useMissionActionFishControl(action, onChange)
   return (
     <div style={{ width: '100%' }}>
       {initValue && (
         <Formik
           initialValues={initValue}
           onSubmit={handleSubmit}
+          validationSchema={validationSchema}
           validateOnChange={true}
           validateOnMount={true}
           enableReinitialize
         >
           {({ values }) => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionFishControlInput)} />
+              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionFishControlInput)} />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -53,11 +55,7 @@ const MissionActionItemFishControl: FC<{
                   />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <Field name="dates">
-                    {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                    )}
-                  </Field>
+                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId ?? action.missionId} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   {initValue?.fishActionType === MissionActionType.LAND_CONTROL ? (

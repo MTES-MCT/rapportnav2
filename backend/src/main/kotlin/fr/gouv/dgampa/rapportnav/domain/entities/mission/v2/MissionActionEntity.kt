@@ -9,6 +9,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
 import java.time.Instant
 
 
@@ -37,13 +40,34 @@ abstract class MissionActionEntity(
 
 ) : BaseMissionActionEntity {
 
-    fun computeCompletenessForStats() {
-        val isControlCompleted = this.controlsToComplete.isNullOrEmpty()
-        val status = if(this.isCompleteForStats == true && isControlCompleted) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
-        this.completenessForStats = CompletenessForStatsEntity(
-            sources = this.sourcesOfMissingDataForStats,
-            status = status
+    /**
+     * Unified validation method - validates both validity (dates) and completeness (required fields).
+     * Uses Jakarta Bean Validation with validation groups.
+     *
+     * Required fields are always checked for completeness status.
+     *
+     * @param isMissionFinished Currently unused, kept for API compatibility
+     */
+    open fun computeValidityForStats(isMissionFinished: Boolean = false) {
+        // Always check both date constraints and required fields for completeness
+        val groups = arrayOf(
+            ValidateThrowsBeforeSave::class.java,
+            ValidateWhenMissionFinished::class.java
         )
+
+        this.completenessForStats = EntityValidityValidator.validateStatic(this, *groups)
+
+        // Update sources of missing data based on completeness
+        if (this.completenessForStats?.status == CompletenessForStatsStatusEnum.INCOMPLETE) {
+            val sources = listOf(this.source)
+            this.completenessForStats = this.completenessForStats?.copy(sources = sources)
+            this.sourcesOfMissingDataForStats = sources
+        } else {
+            this.sourcesOfMissingDataForStats = emptyList()
+        }
+
+        // Update isCompleteForStats based on completeness
+        this.isCompleteForStats = this.completenessForStats?.isComplete == true && this.controlsToComplete.isNullOrEmpty()
     }
 
     fun isControl(): Boolean {
@@ -85,17 +109,6 @@ abstract class MissionActionEntity(
         return SummaryTag(withReport = withReport, natInfSize = natInfSize)
     }
 
-    fun isStartDateEndDateOK(): Boolean {
-        if(this.endDateTimeUtc  == null ||  this.startDateTimeUtc == null) return false
-        try{
-            val endDateTime = Instant.parse(endDateTimeUtc.toString())
-            val startDateTime = Instant.parse(startDateTimeUtc.toString())
-            return endDateTime.isAfter(startDateTime)
-        }catch(e:Exception){
-            return false
-        }
-    }
-
     fun computeControlsToComplete() {
         this.controlsToComplete = this.targets?.flatMap { computeControlsToComplete2(it) }
     }
@@ -133,7 +146,13 @@ abstract class MissionActionEntity(
     }
 
     abstract fun getActionId(): String
-    abstract fun computeCompleteness()
+
+    /**
+     * Computes validity for statistics using the new unified validation system.
+     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
+     */
+    abstract fun computeValidity(isMissionFinished: Boolean = false)
+
     abstract fun isControlInValid(control: ControlEntity?): Boolean
 }
 

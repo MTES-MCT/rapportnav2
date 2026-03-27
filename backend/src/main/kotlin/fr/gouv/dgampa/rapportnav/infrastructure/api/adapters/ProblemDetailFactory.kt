@@ -157,6 +157,7 @@ fun BackendUsageErrorCode.toTitle(): String = when (this) {
     BackendUsageErrorCode.ALREADY_EXISTS_EXCEPTION -> "Resource Already Exists"
     BackendUsageErrorCode.TOO_MANY_ROWS_EXCEPTION -> "Too Many Rows"
     BackendUsageErrorCode.COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION -> "Control Not Found For Infraction"
+    BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION -> "Action Dates Outside Mission Range"
 }
 
 /**
@@ -168,13 +169,14 @@ fun BackendUsageErrorCode.defaultMessage(): String = when (this) {
     BackendUsageErrorCode.INVALID_TOKEN_EXCEPTION -> "The provided token is invalid or expired"
     BackendUsageErrorCode.USER_NOT_FOUND_EXCEPTION -> "The user could not be found"
     BackendUsageErrorCode.USER_ACCOUNT_DISABLED_EXCEPTION -> "The user account is disabled or deleted"
-    BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION -> "The provided parameters are invalid"
+    BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION -> "Erreur de validation"
     BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION -> "The resource could not be saved"
     BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION -> "The requested resource could not be found"
     BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION -> "The resource could not be deleted"
     BackendUsageErrorCode.ALREADY_EXISTS_EXCEPTION -> "A resource with this identifier already exists"
     BackendUsageErrorCode.TOO_MANY_ROWS_EXCEPTION -> "The query returned too many rows"
     BackendUsageErrorCode.COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION -> "No control found for the specified infraction"
+    BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION -> "Les dates doivent être comprises entre les dates de la mission"
 }
 
 /**

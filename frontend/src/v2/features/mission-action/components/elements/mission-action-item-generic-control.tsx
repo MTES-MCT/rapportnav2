@@ -4,7 +4,6 @@ import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik, FormikPro
 import React, { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
 import { ObjectShape } from 'yup'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action.ts'
@@ -16,6 +15,7 @@ import { ActionControlInput } from '../../types/action-type.ts'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd.tsx'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 
 export type MissionActionItemGenericControlProps = {
   action: MissionAction
@@ -65,7 +65,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
         >
           {formik => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionControlInput)} />
+              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionControlInput)} />
               <Stack
                 direction="column"
                 spacing="1rem"
@@ -74,22 +74,16 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                 data-testid={'action-generic-control'}
               >
                 <Stack.Item grow={1}>
-                  <Field name="dates">
-                    {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker
-                        label=""
-                        name="dates"
-                        isLight={true}
-                        fieldFormik={field}
-                        disabled={!isOnline}
-                        title={
-                          isOnline
-                            ? ''
-                            : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
-                        }
-                      />
-                    )}
-                  </Field>
+                  <MissionBoundFormikDateRangePicker
+                    isLight={true}
+                    disabled={!isOnline}
+                    missionId={action.missionId}
+                    title={
+                      isOnline
+                        ? ''
+                        : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
+                    }
+                  />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   {withGeoCoords && (

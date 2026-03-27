@@ -67,10 +67,10 @@ const handleApiError = (error: any, context: 'query' | 'mutation') => {
       : `Une erreur s'est produite lors de l'enregistrement. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
 
   const userMessage = isUsageError
-    ? problemDetail?.detail || error.message || defaultMessage
+    ? error.message || problemDetail?.detail || defaultMessage
     : isServerError
       ? defaultMessage
-      : problemDetail?.detail || error.message || defaultMessage
+      : error.message || problemDetail?.detail || defaultMessage
 
   logSoftError({
     isSideWindowError: false,

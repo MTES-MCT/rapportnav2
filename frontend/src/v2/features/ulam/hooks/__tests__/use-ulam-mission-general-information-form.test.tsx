@@ -45,7 +45,7 @@ describe('useUlamMissionGeneralInfoForm', () => {
     describe('dates', () => {
       it('should require dates', async () => {
         const schema = getValidationSchema()
-        await expect(schema.validateAt('dates', {})).rejects.toThrow('Date et heure de début et de fin obligatoire')
+        await expect(schema.validateAt('dates', {})).rejects.toThrow('Les dates sont requises')
       })
 
       it('should reject dates where end is before start', async () => {

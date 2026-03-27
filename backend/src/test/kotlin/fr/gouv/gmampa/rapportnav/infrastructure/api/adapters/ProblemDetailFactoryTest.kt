@@ -309,7 +309,7 @@ class ProblemDetailFactoryTest {
         fun `defaultMessage should return meaningful messages for all codes`() {
             assertThat(BackendUsageErrorCode.PASSWORD_TOO_WEAK_EXCEPTION.defaultMessage()).isEqualTo("The provided password does not meet security requirements")
             assertThat(BackendUsageErrorCode.INCORRECT_USER_IDENTIFIER_EXCEPTION.defaultMessage()).isEqualTo("The user identifier is incorrect")
-            assertThat(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION.defaultMessage()).isEqualTo("The provided parameters are invalid")
+            assertThat(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION.defaultMessage()).isEqualTo("Erreur de validation")
             assertThat(BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION.defaultMessage()).isEqualTo("The resource could not be saved")
             assertThat(BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION.defaultMessage()).isEqualTo("The requested resource could not be found")
             assertThat(BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION.defaultMessage()).isEqualTo("The resource could not be deleted")

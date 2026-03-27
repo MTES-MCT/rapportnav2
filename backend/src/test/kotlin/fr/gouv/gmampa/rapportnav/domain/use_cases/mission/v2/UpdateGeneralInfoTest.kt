@@ -1,5 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
@@ -9,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.*
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
@@ -17,6 +20,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.passenger.MissionPassengerEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
@@ -52,6 +56,20 @@ class UpdateGeneralInfoTest {
 
     @MockitoBean
     private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
+
+    @MockitoBean
+    private lateinit var entityValidityValidator: EntityValidityValidator
+
+    @BeforeEach
+    fun setup() {
+        // Default: validation passes
+        `when`(entityValidityValidator.validate(anyOrNull(), anyOrNull())).thenReturn(
+            CompletenessForStatsEntity(
+                status = CompletenessForStatsStatusEnum.COMPLETE,
+                errors = emptyList()
+            )
+        )
+    }
 
     private fun createMissionGeneralInfoEntityData(
         missionId: Int? = null,

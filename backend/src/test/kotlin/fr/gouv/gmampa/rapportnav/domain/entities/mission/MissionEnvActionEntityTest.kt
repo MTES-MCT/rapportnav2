@@ -56,7 +56,7 @@ class MissionEnvActionEntityTest {
     fun `execute should be complete for stats env `() {
         val envAction = getEnvAction()
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        entity.computeCompleteness()
+        entity.computeValidity(true)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
@@ -71,7 +71,7 @@ class MissionEnvActionEntityTest {
         val targetMock = TargetEntityMock.create(controls = controls)
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
         entity.targets = listOf(targetMock)
-        entity.computeCompleteness()
+        entity.computeValidity(true)
         assertThat(entity.controlsToComplete).isEqualTo(listOf( ControlType.SECURITY))
         assertThat(entity.availableControlTypesForInfraction).isEqualTo(
             listOf(
@@ -89,11 +89,11 @@ class MissionEnvActionEntityTest {
             completion = ActionCompletionEnum.COMPLETED
         )
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        entity.computeCompleteness()
+        entity.computeValidity(true)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
 
         entity.endDateTimeUtc = null
-        entity.computeCompleteness()
+        entity.computeValidity(true)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
     }
 

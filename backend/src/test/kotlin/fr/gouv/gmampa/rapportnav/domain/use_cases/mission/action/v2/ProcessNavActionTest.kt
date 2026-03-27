@@ -4,7 +4,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import org.mockito.kotlin.anyOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -29,6 +32,9 @@ class ProcessNavActionTest {
     @MockitoBean
     private lateinit var getComputeTarget: GetComputeTarget
 
+    @MockitoBean
+    private lateinit var getMissionDates: GetMissionDates
+
     @Test
     fun `test execute get nav action by id`() {
         val missionId = 761
@@ -47,9 +53,16 @@ class ProcessNavActionTest {
 
         val mockTarget = TargetEntityMock.create()
         `when`(getComputeTarget.execute(actionId.toString(), true)).thenReturn(listOf(mockTarget))
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
+            MissionDatesOutput(
+                startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
+                endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
+            )
+        )
         processNavAction = ProcessNavAction(
             getComputeTarget = getComputeTarget,
-            getStatusForAction = getStatusForAction
+            getStatusForAction = getStatusForAction,
+            getMissionDates = getMissionDates
         )
 
         val entity = processNavAction.execute(action = action)

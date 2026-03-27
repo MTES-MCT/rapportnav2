@@ -1,13 +1,20 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import com.neovisionaries.i18n.CountryCode
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
+import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
 import java.time.Instant
 
+@EndAfterStart(groups = [ValidateThrowsBeforeSave::class])
+@WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
 class MissionFishActionEntity(
     override val id: Int?,
     override val missionId: Int,
@@ -96,30 +103,62 @@ class MissionFishActionEntity(
         return SummaryTag(withReport = withReport, natInfSize = natInfSize)
     }
 
-    override fun computeCompleteness() {
+    /**
+     * Computes validity for statistics using the new unified validation system.
+     * For Fish actions, validates both RAPPORT_NAV and MONITORFISH sources.
+     *
+     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
+     */
+    override fun computeValidity(isMissionFinished: Boolean) {
         this.computeControlsToComplete()
 
-        val sourcesOfMissingDataForStats = mutableListOf<MissionSourceEnum>()
+        val sourcesOfMissingData = mutableListOf<MissionSourceEnum>()
+
+        // Run the new unified validation
+        val groups = mutableListOf<Class<*>>(ValidateThrowsBeforeSave::class.java)
+        if (isMissionFinished) {
+            groups.add(ValidateWhenMissionFinished::class.java)
+        }
+
+        val rapportNavCompleteness = EntityValidityValidator.validateWithSourceStatic(
+            this,
+            MissionSourceEnum.RAPPORT_NAV,
+            *groups.toTypedArray()
+        )
+
         // Fish endDateTime is not set in MonitorFish so MonitorFish considers the Action as complete
         // so it has to be set by the units
-        val rapportNavComplete =
-            EntityCompletenessValidator.isCompleteForStats(this)
-                && this.isStartDateEndDateOK()
-                && this.controlsToComplete.isNullOrEmpty() == true
+        // Check date validity: both dates must be present and end must be after start
+        val datesAreValid = this.startDateTimeUtc != null && this.endDateTimeUtc != null &&
+            this.endDateTimeUtc!!.isAfter(this.startDateTimeUtc)
+
+        val rapportNavComplete = rapportNavCompleteness.isComplete
+            && datesAreValid
+            && this.controlsToComplete.isNullOrEmpty() == true
 
         val monitorFishComplete = this.completion == Completion.COMPLETED
 
         if (!rapportNavComplete) {
-            sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORT_NAV)
+            sourcesOfMissingData.add(MissionSourceEnum.RAPPORT_NAV)
         }
         if (!monitorFishComplete) {
-            sourcesOfMissingDataForStats.add(MissionSourceEnum.MONITORFISH)
+            sourcesOfMissingData.add(MissionSourceEnum.MONITORFISH)
         }
-        this.isCompleteForStats = rapportNavComplete && monitorFishComplete
-        this.sourcesOfMissingDataForStats = sourcesOfMissingDataForStats
-        this.computeSummaryTags()
 
-        this.computeCompletenessForStats()
+        this.isCompleteForStats = rapportNavComplete && monitorFishComplete
+        this.sourcesOfMissingDataForStats = sourcesOfMissingData
+
+        // Update completenessForStats - status should reflect overall completeness
+        val overallStatus = if (rapportNavComplete && monitorFishComplete)
+            CompletenessForStatsStatusEnum.COMPLETE
+        else CompletenessForStatsStatusEnum.INCOMPLETE
+
+        this.completenessForStats = rapportNavCompleteness.copy(
+            status = overallStatus,
+            sources = sourcesOfMissingData.ifEmpty { null }
+        )
+
+        this.computeSummaryTags()
     }
 
 
