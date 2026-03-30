@@ -91,7 +91,7 @@ data class SatiModel(
     val inspectionStartDatetimeUtc: Instant,
 
     @Column(name = "inspection_location_address_id")
-    val inspectionLocationAddressId: UUID? = null,
+    val inspectionLocationAddressId: String? = null,
 
     @Column(name = "inspector_comments", columnDefinition = "text")
     val inspectorComments: String? = null,
@@ -123,7 +123,7 @@ data class SatiModel(
     val marketOwnerRepresentativeContact: ContactModel? = null,
 
     @Column(name = "market_premises_address_id")
-    val marketPremisesAddressId: UUID? = null,
+    val marketPremisesAddressId: String? = null,
 
     @Column(name = "market_premises_location", length = 255)
     val marketPremisesLocation: String? = null,
@@ -193,8 +193,8 @@ data class SatiModel(
     @Column(name = "use_of_undersized_fishery_products")
     val useOfUndersizedFisheryProducts: Boolean? = null,
 
-    @Column(name = "vehicle_nationality", length = 3)
-    val vehicleNationality: String? = null,
+    @Column(name = "vehicle_country_code", length = 3)
+    val vehicleCountryCode: String? = null,
 
     @OneToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "vehicle_owner_contact_id", referencedColumnName = "id")

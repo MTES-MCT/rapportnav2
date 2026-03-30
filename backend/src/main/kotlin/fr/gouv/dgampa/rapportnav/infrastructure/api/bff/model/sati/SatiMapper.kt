@@ -66,7 +66,7 @@ object SatiMapper {
             transporterComments = entity.transporterComments,
             transporterSignature = entity.transporterSignature,
             useOfUndersizedFisheryProducts = entity.useOfUndersizedFisheryProducts,
-            vehicleNationality = entity.vehicleNationality,
+            vehicleCountryCode = entity.vehicleCountryCode,
             vehicleOwnerContact = entity.vehicleOwnerContact?.let { fromEntity(it) },
             vehicleType = entity.vehicleType,
             vesselOwnerContact = entity.vesselOwnerContact?.let { fromEntity(it) }
@@ -131,7 +131,7 @@ object SatiMapper {
             transporterComments = response.transporterComments,
             transporterSignature = response.transporterSignature,
             useOfUndersizedFisheryProducts = response.useOfUndersizedFisheryProducts,
-            vehicleNationality = response.vehicleNationality,
+            vehicleCountryCode = response.vehicleCountryCode,
             vehicleOwnerContact = response.vehicleOwnerContact?.let { toEntity(it) },
             vehicleType = response.vehicleType,
             vesselOwnerContact = response.vesselOwnerContact?.let { toEntity(it) }
@@ -142,7 +142,7 @@ object SatiMapper {
         return Contact(
             id = entity.id,
             fullName = entity.fullName,
-            nationality = entity.nationality,
+            countryCode = entity.countryCode,
             email = entity.email,
             phone = entity.phone,
             address = entity.address?.let { fromEntity(it) },
@@ -154,7 +154,7 @@ object SatiMapper {
         return ContactEntity(
             id = response.id,
             fullName = response.fullName,
-            nationality = response.nationality,
+            countryCode = response.countryCode,
             email = response.email,
             phone = response.phone,
             address = response.address?.let { toEntity(it) },

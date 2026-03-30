@@ -28,7 +28,7 @@ data class ContactModel(
     val fullName: String? = null,
 
     @Column(length = 3)
-    val nationality: String? = null,
+    val countryCode: String? = null,
 
     @Column(length = 255)
     val email: String? = null,

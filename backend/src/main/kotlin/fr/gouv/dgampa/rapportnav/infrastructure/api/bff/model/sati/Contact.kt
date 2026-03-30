@@ -6,7 +6,7 @@ import java.util.UUID
 data class Contact(
     val id: UUID? = null,
     val fullName: String? = null,
-    val nationality: String? = null,
+    val countryCode: String? = null,
     val email: String? = null,
     val phone: String? = null,
     val address: Address? = null,

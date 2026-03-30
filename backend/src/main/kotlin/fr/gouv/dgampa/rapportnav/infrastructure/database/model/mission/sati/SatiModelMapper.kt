@@ -67,7 +67,7 @@ object SatiModelMapper {
             transporterComments = model.transporterComments,
             transporterSignature = model.transporterSignature,
             useOfUndersizedFisheryProducts = model.useOfUndersizedFisheryProducts,
-            vehicleNationality = model.vehicleNationality,
+            vehicleCountryCode = model.vehicleCountryCode,
             vehicleOwnerContact = model.vehicleOwnerContact?.toEntity(),
             vehicleType = model.vehicleType,
             vesselOwnerContact = model.vesselOwnerContact?.toEntity()
@@ -132,7 +132,7 @@ object SatiModelMapper {
             transporterComments = entity.transporterComments,
             transporterSignature = entity.transporterSignature,
             useOfUndersizedFisheryProducts = entity.useOfUndersizedFisheryProducts,
-            vehicleNationality = entity.vehicleNationality,
+            vehicleCountryCode = entity.vehicleCountryCode,
             vehicleOwnerContact = entity.vehicleOwnerContact?.toModel(),
             vehicleType = entity.vehicleType,
             vesselOwnerContact = entity.vesselOwnerContact?.toModel()
@@ -143,7 +143,7 @@ object SatiModelMapper {
         return ContactEntity(
             id = id,
             fullName = fullName,
-            nationality = nationality,
+            countryCode = countryCode,
             email = email,
             phone = phone,
             address = address?.toEntity(),
@@ -155,7 +155,7 @@ object SatiModelMapper {
         return ContactModel(
             id = id,
             fullName = fullName,
-            nationality = nationality,
+            countryCode = countryCode,
             email = email,
             phone = phone,
             address = address?.toModel(),
