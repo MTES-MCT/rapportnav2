@@ -66,7 +66,7 @@ object SatiMapper {
             transporterComments = entity.transporterComments,
             transporterSignature = entity.transporterSignature,
             useOfUndersizedFisheryProducts = entity.useOfUndersizedFisheryProducts,
-            vehicleCountryCode = entity.vehicleCountryCode,
+            vehicleNationality = entity.vehicleNationality,
             vehicleOwnerContact = entity.vehicleOwnerContact?.let { fromEntity(it) },
             vehicleType = entity.vehicleType,
             vesselOwnerContact = entity.vesselOwnerContact?.let { fromEntity(it) }
@@ -131,7 +131,7 @@ object SatiMapper {
             transporterComments = response.transporterComments,
             transporterSignature = response.transporterSignature,
             useOfUndersizedFisheryProducts = response.useOfUndersizedFisheryProducts,
-            vehicleCountryCode = response.vehicleCountryCode,
+            vehicleNationality = response.vehicleNationality,
             vehicleOwnerContact = response.vehicleOwnerContact?.let { toEntity(it) },
             vehicleType = response.vehicleType,
             vesselOwnerContact = response.vesselOwnerContact?.let { toEntity(it) }
@@ -142,7 +142,7 @@ object SatiMapper {
         return Contact(
             id = entity.id,
             fullName = entity.fullName,
-            countryCode = entity.countryCode,
+            nationality = entity.nationality,
             email = entity.email,
             phone = entity.phone,
             address = entity.address?.let { fromEntity(it) },
@@ -154,7 +154,7 @@ object SatiMapper {
         return ContactEntity(
             id = response.id,
             fullName = response.fullName,
-            countryCode = response.countryCode,
+            nationality = response.nationality,
             email = response.email,
             phone = response.phone,
             address = response.address?.let { toEntity(it) },
@@ -169,6 +169,8 @@ object SatiMapper {
             zipcode = entity.zipcode,
             town = entity.town,
             country = entity.country,
+            lat = entity.lat,
+            lng = entity.lng,
             createdAt = entity.createdAt
         )
     }
@@ -180,6 +182,8 @@ object SatiMapper {
             zipcode = response.zipcode,
             town = response.town,
             country = response.country,
+            lat = response.lat,
+            lng = response.lng,
             createdAt = response.createdAt
         )
     }

@@ -1,15 +1,10 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(name = "address")
@@ -21,17 +16,23 @@ data class AddressModel(
     @Column(nullable = false, updatable = false)
     val id: UUID? = null,
 
-    @Column(length = 255)
+    @Column(name = "street", nullable = true, length = 255)
     val street: String? = null,
 
-    @Column(length = 20)
+    @Column(name = "zipcode", nullable = true, length = 20)
     val zipcode: String? = null,
 
-    @Column(length = 100)
+    @Column(name = "town", nullable = true, length = 100)
     val town: String? = null,
 
-    @Column(length = 3)
+    @Column(name = "country", nullable = true, length = 3)
     val country: String? = null,
+
+    @Column(name = "longitude", nullable = true)
+    val lng: Double? = null,
+
+    @Column(name = "latitude", nullable = true)
+    val lat: Double? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)

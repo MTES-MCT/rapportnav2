@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati
 
+import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.ContactEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
@@ -21,14 +22,14 @@ class SatiMapperTest {
             street = "1 rue de la mer",
             zipcode = "75000",
             town = "Paris",
-            country = "FRA",
+            country = CountryCode.FR,
             createdAt = Instant.parse("2026-03-24T10:15:30+01:00")
         )
 
         val contact = ContactEntity(
             id = UUID.randomUUID(),
             fullName = "John Doe",
-            countryCode = "FRA",
+            nationality = CountryCode.FR,
             email = "john.doe@example.com",
             phone = "+33123456789",
             address = address,
@@ -92,7 +93,7 @@ class SatiMapperTest {
             transporterComments = "Transport note",
             transporterSignature = false,
             useOfUndersizedFisheryProducts = true,
-            vehicleCountryCode = "FRA",
+            vehicleNationality = CountryCode.FR,
             vehicleOwnerContact = contact,
             vehicleType = "Truck",
             vesselOwnerContact = contact
@@ -121,14 +122,14 @@ class SatiMapperTest {
             street = "1 rue de la mer",
             zipcode = "75000",
             town = "Paris",
-            country = "FRA",
+            country = CountryCode.FR,
             createdAt = Instant.parse("2026-03-24T10:15:30+01:00")
         )
 
         val contact = Contact(
             id = UUID.randomUUID(),
             fullName = "John Doe",
-            countryCode = "FRA",
+            nationality = CountryCode.FR,
             email = "john.doe@example.com",
             phone = "+33123456789",
             address = address,
@@ -192,7 +193,7 @@ class SatiMapperTest {
             transporterComments = "Transport note",
             transporterSignature = false,
             useOfUndersizedFisheryProducts = true,
-            vehicleCountryCode = "FRA",
+            vehicleNationality = CountryCode.FR,
             vehicleOwnerContact = contact,
             vehicleType = "Truck",
             vesselOwnerContact = contact

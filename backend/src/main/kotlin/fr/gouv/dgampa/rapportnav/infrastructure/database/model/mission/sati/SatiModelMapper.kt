@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.sati
 
+import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.ContactEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
@@ -67,7 +68,7 @@ object SatiModelMapper {
             transporterComments = model.transporterComments,
             transporterSignature = model.transporterSignature,
             useOfUndersizedFisheryProducts = model.useOfUndersizedFisheryProducts,
-            vehicleCountryCode = model.vehicleCountryCode,
+            vehicleNationality = CountryCode.getByAlpha3Code(model.vehicleNationality),
             vehicleOwnerContact = model.vehicleOwnerContact?.toEntity(),
             vehicleType = model.vehicleType,
             vesselOwnerContact = model.vesselOwnerContact?.toEntity()
@@ -132,7 +133,7 @@ object SatiModelMapper {
             transporterComments = entity.transporterComments,
             transporterSignature = entity.transporterSignature,
             useOfUndersizedFisheryProducts = entity.useOfUndersizedFisheryProducts,
-            vehicleCountryCode = entity.vehicleCountryCode,
+            vehicleNationality = entity.vehicleNationality?.alpha3,
             vehicleOwnerContact = entity.vehicleOwnerContact?.toModel(),
             vehicleType = entity.vehicleType,
             vesselOwnerContact = entity.vesselOwnerContact?.toModel()
@@ -143,7 +144,7 @@ object SatiModelMapper {
         return ContactEntity(
             id = id,
             fullName = fullName,
-            countryCode = countryCode,
+            nationality = CountryCode.getByAlpha3Code(nationality),
             email = email,
             phone = phone,
             address = address?.toEntity(),
@@ -155,7 +156,7 @@ object SatiModelMapper {
         return ContactModel(
             id = id,
             fullName = fullName,
-            countryCode = countryCode,
+            nationality = nationality?.alpha3,
             email = email,
             phone = phone,
             address = address?.toModel(),
@@ -169,7 +170,9 @@ object SatiModelMapper {
             street = street,
             zipcode = zipcode,
             town = town,
-            country = country,
+            lat = lat,
+            lng = lng,
+            country = CountryCode.getByAlpha3Code(country),
             createdAt = createdAt
         )
     }
@@ -180,7 +183,9 @@ object SatiModelMapper {
             street = street,
             zipcode = zipcode,
             town = town,
-            country = country,
+            lat = lat,
+            lng = lng,
+            country = country?.alpha3,
             createdAt = createdAt
         )
     }

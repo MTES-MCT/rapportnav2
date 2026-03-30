@@ -27,13 +27,13 @@ data class ContactModel(
     @Column(name = "full_name", length = 255)
     val fullName: String? = null,
 
-    @Column(length = 3)
-    val countryCode: String? = null,
+    @Column(name = "nationality", length = 3)
+    val nationality: String? = null,
 
-    @Column(length = 255)
+    @Column(name = "email", length = 255)
     val email: String? = null,
 
-    @Column(length = 50)
+    @Column(name = "phone", length = 50)
     val phone: String? = null,
 
     @OneToOne(fetch = FetchType.LAZY, optional = true)

@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati
 
+import com.neovisionaries.i18n.CountryCode
 import java.time.Instant
 import java.util.UUID
 
@@ -60,7 +61,7 @@ data class Sati(
     val transporterComments: String? = null,
     val transporterSignature: Boolean? = null,
     val useOfUndersizedFisheryProducts: Boolean? = null,
-    val vehicleCountryCode: String? = null,
+    val vehicleNationality: CountryCode? = null,
     val vehicleOwnerContact: Contact? = null,
     val vehicleType: String? = null,
     val vesselOwnerContact: Contact? = null

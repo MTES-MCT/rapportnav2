@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.sati
 
+import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.ContactEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
@@ -22,13 +23,15 @@ class SatiModelMapperTest {
             zipcode = "75000",
             town = "Paris",
             country = "FRA",
+            lng = 2.345678,
+            lat = 48.856789,
             createdAt = Instant.parse("2026-03-24T10:15:30+01:00")
         )
 
         val contactModel = ContactModel(
             id = UUID.randomUUID(),
             fullName = "John Doe",
-            countryCode = "FRA",
+            nationality = "FRA",
             email = "john.doe@example.com",
             phone = "+33123456789",
             address = addressModel,
@@ -92,7 +95,7 @@ class SatiModelMapperTest {
             transporterComments = "Transport note",
             transporterSignature = false,
             useOfUndersizedFisheryProducts = true,
-            vehicleCountryCode = "FRA",
+            vehicleNationality = "FRA",
             vehicleOwnerContact = contactModel,
             vehicleType = "Truck",
             vesselOwnerContact = contactModel
@@ -121,14 +124,16 @@ class SatiModelMapperTest {
             street = "1 rue de la mer",
             zipcode = "75000",
             town = "Paris",
-            country = "FRA",
+            country = CountryCode.FR,
+            lng = 2.345678,
+            lat = 48.856789,
             createdAt = Instant.parse("2026-03-24T10:15:30+01:00")
         )
 
         val contactEntity = ContactEntity(
             id = UUID.randomUUID(),
             fullName = "John Doe",
-            countryCode = "FRA",
+            nationality = CountryCode.FR,
             email = "john.doe@example.com",
             phone = "+33123456789",
             address = addressEntity,
@@ -192,7 +197,7 @@ class SatiModelMapperTest {
             transporterComments = "Transport note",
             transporterSignature = false,
             useOfUndersizedFisheryProducts = true,
-            vehicleCountryCode = "FRA",
+            vehicleNationality = CountryCode.FR,
             vehicleOwnerContact = contactEntity,
             vehicleType = "Truck",
             vesselOwnerContact = contactEntity

@@ -193,8 +193,8 @@ data class SatiModel(
     @Column(name = "use_of_undersized_fishery_products")
     val useOfUndersizedFisheryProducts: Boolean? = null,
 
-    @Column(name = "vehicle_country_code", length = 3)
-    val vehicleCountryCode: String? = null,
+    @Column(name = "vehicle_nationality", length = 3)
+    val vehicleNationality: String? = null,
 
     @OneToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "vehicle_owner_contact_id", referencedColumnName = "id")

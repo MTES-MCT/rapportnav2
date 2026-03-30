@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
+import com.neovisionaries.i18n.CountryCode
 import java.time.Instant
 import java.util.UUID
 
@@ -61,7 +62,7 @@ data class SatiEntity(
     val transporterComments: String? = null,
     val transporterSignature: Boolean? = null,
     val useOfUndersizedFisheryProducts: Boolean? = null,
-    val vehicleCountryCode: String? = null,
+    val vehicleNationality: CountryCode? = null,
     val vehicleOwnerContact: ContactEntity? = null,
     val vehicleType: String? = null,
     val vesselOwnerContact: ContactEntity? = null

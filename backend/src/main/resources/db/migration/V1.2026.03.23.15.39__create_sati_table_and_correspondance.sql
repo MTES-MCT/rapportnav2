@@ -5,6 +5,8 @@ CREATE TABLE address
   zipcode    VARCHAR(20),
   town       VARCHAR(100),
   country    VARCHAR(3),
+  longitude  DOUBLE PRECISION,
+  latitude   DOUBLE PRECISION,
   created_at TIMESTAMPTZ      DEFAULT now()
 );
 
@@ -12,7 +14,7 @@ CREATE TABLE contact
 (
   id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   full_name   VARCHAR(255),
-  countryCode VARCHAR(3),
+  nationality VARCHAR(3),
   email       VARCHAR(255),
   phone       VARCHAR(50),
   address_id  UUID REFERENCES address (id),
@@ -22,7 +24,7 @@ CREATE TABLE contact
 CREATE TABLE sati
 (
   id                                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  module                                      VARCHAR(2)  NOT NULL,
+  module                                      VARCHAR(2)         NOT NULL,
   action_id                                   VARCHAR(50) UNIQUE NOT NULL,
   created_at                                  TIMESTAMPTZ      DEFAULT now(),
   updated_at                                  TIMESTAMPTZ      DEFAULT now(),
@@ -44,7 +46,7 @@ CREATE TABLE sati
   importer_contact_id                         UUID,
   infringements_observations                  TEXT,
   inspection_end_datetime_utc                 TIMESTAMPTZ,
-  inspection_start_datetime_utc               TIMESTAMPTZ NOT NULL,
+  inspection_start_datetime_utc               TIMESTAMPTZ        NOT NULL,
   inspection_location_address_id              VARCHAR(50),
   inspector_comments                          TEXT,
   inspector_name_or_id                        VARCHAR(255),
@@ -78,7 +80,7 @@ CREATE TABLE sati
   transporter_comments                        TEXT,
   transporter_signature                       BOOLEAN,
   use_of_undersized_fishery_products          BOOLEAN,
-  vehicle_country_code                         VARCHAR(3),
+  vehicle_nationality                         VARCHAR(3),
   vehicle_owner_contact_id                    UUID,
   vehicle_type                                VARCHAR(50),
   vessel_owner_contact_id                     UUID
