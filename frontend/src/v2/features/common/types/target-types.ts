@@ -23,6 +23,7 @@ export interface Control {
   infractions?: Infraction[]
   observations?: string
   amountOfControls?: number
+  compliantSafeManningPermit?: ControlResult
   compliantOperatingPermit?: ControlResult
   upToDateNavigationPermit?: ControlResult
   compliantSecurityDocuments?: ControlResult
