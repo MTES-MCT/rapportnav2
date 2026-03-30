@@ -70,6 +70,8 @@ data class MissionEntity(
     }
 
     private fun isEnvDataCompleteForStats(): Boolean? {
+        // don't validate for NavMissions (i.e. when IdUUID)
+        if (data?.idUUID != null) return true
         return data?.isCompleteForStats(
             serviceTypeEnum = generalInfos?.serviceType,
             isResourcesNotUsed = generalInfos?.data?.isResourcesNotUsed

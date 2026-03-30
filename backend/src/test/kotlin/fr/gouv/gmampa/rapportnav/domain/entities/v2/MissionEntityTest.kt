@@ -5,8 +5,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
@@ -18,6 +21,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.Instant
+import java.util.*
 
 class MissionEntityTest {
 
@@ -158,6 +162,183 @@ class MissionEntityTest {
 
         assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
         assertTrue(result.sources!!.isEmpty())
+    }
+
+    @Test
+    fun `isCompleteForStats should return INCOMPLETE for FIELD_REPORT when isResourcesNotUsed is null and no resources for ULAM`() {
+        val generalInfo = MissionGeneralInfoEntity2Mock.create(
+            data = MissionGeneralInfoEntityMock.create(
+                service = ServiceEntityMock.create(id = 1, serviceType = ServiceTypeEnum.ULAM),
+                missionReportType = MissionReportTypeEnum.FIELD_REPORT,
+                isResourcesNotUsed = null
+            ),
+            crew = listOf(MissionCrewEntityMock.create())
+        )
+        val mission = MissionEntity(
+            actions = listOf(),
+            generalInfos = generalInfo,
+            data = EnvMissionMock.create(
+                observationsByUnit = "bla",
+                controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf()))
+            )
+        )
+
+        val result: CompletenessForStatsEntity = mission.isCompleteForStats()
+
+        assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
+        assertTrue(result.sources!!.contains(MissionSourceEnum.RAPPORT_NAV))
+    }
+
+    @Test
+    fun `isCompleteForStats should return COMPLETE for FIELD_REPORT when isResourcesNotUsed is true for ULAM`() {
+        val generalInfo = MissionGeneralInfoEntity2Mock.create(
+            data = MissionGeneralInfoEntityMock.create(
+                service = ServiceEntityMock.create(id = 1, serviceType = ServiceTypeEnum.ULAM),
+                missionReportType = MissionReportTypeEnum.FIELD_REPORT,
+                isResourcesNotUsed = true
+            ),
+            crew = listOf(MissionCrewEntityMock.create())
+        )
+        val mission = MissionEntity(
+            actions = listOf(),
+            generalInfos = generalInfo,
+            data = EnvMissionMock.create(
+                observationsByUnit = "bla",
+                controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf()))
+            )
+        )
+
+        val result: CompletenessForStatsEntity = mission.isCompleteForStats()
+
+        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+    }
+
+    @Test
+    fun `isCompleteForStats should return COMPLETE for FIELD_REPORT when resources exist for ULAM`() {
+        val generalInfo = MissionGeneralInfoEntity2Mock.create(
+            data = MissionGeneralInfoEntityMock.create(
+                service = ServiceEntityMock.create(id = 1, serviceType = ServiceTypeEnum.ULAM),
+                missionReportType = MissionReportTypeEnum.FIELD_REPORT,
+                isResourcesNotUsed = false
+            ),
+            crew = listOf(MissionCrewEntityMock.create())
+        )
+        val mission = MissionEntity(
+            actions = listOf(),
+            generalInfos = generalInfo,
+            data = EnvMissionMock.create(
+                observationsByUnit = "bla",
+                controlUnits = listOf(
+                    LegacyControlUnitEntityMock.create(
+                        resources = mutableListOf(LegacyControlUnitResourceEntity(id = 1, name = "Resource"))
+                    )
+                )
+            )
+        )
+
+        val result: CompletenessForStatsEntity = mission.isCompleteForStats()
+
+        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+    }
+
+    @Test
+    fun `isCompleteForStats should return INCOMPLETE for OFFICE_REPORT when isResourcesNotUsed is null and no resources for ULAM`() {
+        val generalInfo = MissionGeneralInfoEntity2Mock.create(
+            data = MissionGeneralInfoEntityMock.create(
+                service = ServiceEntityMock.create(id = 1, serviceType = ServiceTypeEnum.ULAM),
+                missionReportType = MissionReportTypeEnum.OFFICE_REPORT,
+                isResourcesNotUsed = null
+            ),
+            crew = listOf(MissionCrewEntityMock.create())
+        )
+        val mission = MissionEntity(
+            actions = listOf(),
+            generalInfos = generalInfo,
+            data = EnvMissionMock.create(
+                observationsByUnit = "bla",
+                controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf()))
+            )
+        )
+
+        val result: CompletenessForStatsEntity = mission.isCompleteForStats()
+
+        assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
+        assertTrue(result.sources!!.contains(MissionSourceEnum.RAPPORT_NAV))
+    }
+
+    @Test
+    fun `isCompleteForStats should return INCOMPLETE for EXTERNAL_REINFORCEMENT_TIME_REPORT when isResourcesNotUsed is null and no resources for ULAM`() {
+        val generalInfo = MissionGeneralInfoEntity2Mock.create(
+            data = MissionGeneralInfoEntityMock.create(
+                service = ServiceEntityMock.create(id = 1, serviceType = ServiceTypeEnum.ULAM),
+                missionReportType = MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT,
+                isResourcesNotUsed = null
+            ),
+            crew = listOf(MissionCrewEntityMock.create())
+        )
+        val mission = MissionEntity(
+            actions = listOf(),
+            generalInfos = generalInfo,
+            data = EnvMissionMock.create(
+                observationsByUnit = "bla",
+                controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf()))
+            )
+        )
+
+        val result: CompletenessForStatsEntity = mission.isCompleteForStats()
+
+        assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
+        assertTrue(result.sources!!.contains(MissionSourceEnum.RAPPORT_NAV))
+    }
+
+    @Test
+    fun `isCompleteForStats should return INCOMPLETE when missionReportType is null with isResourcesNotUsed null and no resources for ULAM`() {
+        val generalInfo = MissionGeneralInfoEntity2Mock.create(
+            data = MissionGeneralInfoEntityMock.create(
+                service = ServiceEntityMock.create(id = 1, serviceType = ServiceTypeEnum.ULAM),
+                missionReportType = null,
+                isResourcesNotUsed = null
+            ),
+            crew = listOf(MissionCrewEntityMock.create())
+        )
+        val mission = MissionEntity(
+            actions = listOf(),
+            generalInfos = generalInfo,
+            data = EnvMissionMock.create(
+                observationsByUnit = "bla",
+                controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf()))
+            )
+        )
+
+        val result: CompletenessForStatsEntity = mission.isCompleteForStats()
+
+        assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
+        assertTrue(result.sources!!.contains(MissionSourceEnum.RAPPORT_NAV))
+    }
+
+    @Test
+    fun `isCompleteForStats should return COMPLETE for NavMissions (when idUUID is set) regardless of env data`() {
+        val generalInfo = MissionGeneralInfoEntity2Mock.create(
+            data = MissionGeneralInfoEntityMock.create(
+                service = ServiceEntityMock.create(id = 1, serviceType = ServiceTypeEnum.ULAM),
+                missionReportType = MissionReportTypeEnum.FIELD_REPORT,
+                isResourcesNotUsed = null
+            ),
+            crew = listOf(MissionCrewEntityMock.create())
+        )
+        val mission = MissionEntity(
+            actions = listOf(),
+            generalInfos = generalInfo,
+            data = EnvMissionMock.create(
+                idUUID = UUID.randomUUID(),
+                observationsByUnit = null,
+                controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf()))
+            )
+        )
+
+        val result: CompletenessForStatsEntity = mission.isCompleteForStats()
+
+        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
     }
 
 }

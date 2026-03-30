@@ -14,6 +14,7 @@ import MissionGeneralInformationControlUnitResource from '../../../mission-gener
 import MissionGeneralInformationCrewNoComment from '../../../mission-general-infos/components/mission-general-information-crew-no-comment.tsx'
 import MissionGeneralInformationInterService from '../../../mission-general-infos/components/mission-general-information-inter-service.tsx'
 import { MissionGeneralInfoInput } from '../../hooks/use-ulam-mission-general-information-form.tsx'
+import { MissionReportTypeEnum } from '../../../common/types/mission-types.ts'
 
 export interface MissionGeneralInformationUlamFormExtendProps {
   missionId?: string
@@ -46,22 +47,25 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
                         fieldFormik={field}
                         controlUnitResources={resources}
                         disabled={values.isResourcesNotUsed}
+                        isMissionFinished={isMissionFinished}
                       />
                     )}
                   </Field>
                 </Stack.Item>
               )}
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikCheckbox
-                  isLight
-                  name="isResourcesNotUsed"
-                  label="Aucun moyen de l'unité n'est utilisé pour cette mission"
-                />
-              </Stack.Item>
+              {values.missionReportType === MissionReportTypeEnum.FIELD_REPORT && (
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikCheckbox
+                    isLight
+                    name="isResourcesNotUsed"
+                    label="Aucun moyen de l'unité n'est utilisé pour cette mission"
+                  />
+                </Stack.Item>
+              )}
             </Stack>
           </Stack.Item>
 
-          <Stack.Item style={{ width: '100%' }}>
+          <Stack.Item style={{ width: '100%', marginTop: '1rem' }}>
             <FieldArray name="crew">
               {(fieldArray: FieldArrayRenderProps) => (
                 <MissionGeneralInformationCrewNoComment

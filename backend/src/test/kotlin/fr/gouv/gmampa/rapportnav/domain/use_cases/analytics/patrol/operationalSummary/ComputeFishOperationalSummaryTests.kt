@@ -618,7 +618,7 @@ class ComputeFishOperationalSummaryTests {
                 themes = listOf(ThemeEntityMock.create(id = 1)),
                 envInfractions = listOf(InfractionEnvEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT))
             ),
-            // action surveillance peche loisir
+            // action surveillance pêche loisir
             MissionEnvActionEntityMock.create(
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 themes = listOf(ThemeEntityMock.create(id = 112)),

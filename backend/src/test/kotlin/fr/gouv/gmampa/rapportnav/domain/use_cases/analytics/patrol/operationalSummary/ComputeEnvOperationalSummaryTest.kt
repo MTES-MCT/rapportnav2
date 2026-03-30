@@ -59,7 +59,7 @@ class ComputeEnvOperationalSummaryTest {
                 themes = listOf(ThemeEntityMock.create(id = 1)),
                 envInfractions = listOf(InfractionEnvEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT, natinf = listOf("123")))
             ),
-            // action surveillance peche loisir
+            // action surveillance pêche loisir
             MissionEnvActionEntityMock.create(
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 themes = listOf(ThemeEntityMock.create(id = 112)),
