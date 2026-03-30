@@ -1,6 +1,10 @@
-import { number } from 'yup'
+import { number, string } from 'yup'
+import { LeisureType } from '../../common/types/leisure-fishing-gear-type'
 
 export const CONTROL_NAUTICAL_LEISURE_SCHEMA = {
+  leisureType: string()
+    .oneOf(Object.values(LeisureType), `Type de loisir invalide.`)
+    .required(`Type de loisir est requis.`),
   nbrOfControl: number().required(`Nombre de contrôles est requis.`),
   nbrOfControl300m: number()
     .required(`Nombre de contrôles 300m est requis.`)
