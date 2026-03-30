@@ -68,10 +68,10 @@ class MissionFishActionData(
             val action = MissionFishActionEntity(
                 id = Integer.parseInt(input.id),
                 missionId = input.missionId,
-                fishActionType = MissionActionType.AIR_CONTROL,
                 observationsByUnit = data.observationsByUnit,
                 actionDatetimeUtc = data.startDateTimeUtc,
-                actionEndDatetimeUtc = data.endDateTimeUtc
+                actionEndDatetimeUtc = data.endDateTimeUtc,
+                fishActionType = data.fishActionType,
             )
             return action
         }
