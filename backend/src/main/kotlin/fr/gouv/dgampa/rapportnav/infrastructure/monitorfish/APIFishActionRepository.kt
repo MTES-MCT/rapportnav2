@@ -2,9 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish
 
 import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
-import io.sentry.Sentry
-import io.sentry.SentryLevel
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.VesselEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.PortEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
@@ -102,7 +101,7 @@ class APIFishActionRepository(
     }
 
     @Cacheable(value = ["vessels"])
-    override fun getVessels(): List<VesselIdentityDataOutput> {
+    override fun getVessels(): List<VesselEntity> {
         val url = "$host/api/v1/vessels"
         logger.info("Fetching vessel Referential from URL: $url")
 
@@ -121,7 +120,8 @@ class APIFishActionRepository(
             )
         }
 
-        return mapper.readValue(response.body(), object : TypeReference<List<VesselIdentityDataOutput>>() {})
+        val list = mapper.readValue(response.body(), object : TypeReference<List<VesselIdentityDataOutput>>() {})
+        return list?.map { it.toVesselEntity() }?.toList() ?: emptyList()
     }
 
 

@@ -1,7 +1,5 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
-import com.neovisionaries.i18n.CountryCode
-import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetVessels
@@ -25,17 +23,15 @@ class GetVesselsTest {
     private lateinit var repository: IFishActionRepository
 
     @Test
-    fun `execute should map repository output`() {
+    fun `execute should return list of vessels from repository`() {
         val vessel = VesselEntityMock.create()
-        val vesselOutput = VesselIdentityDataOutput(
-            vesselId = 1,
-            flagState = CountryCode.FR
-        )
-        whenever(repository.getVessels()).thenReturn(listOf(vesselOutput))
+        whenever(repository.getVessels()).thenReturn(listOf(vessel))
 
         val result = useCase.execute()
 
-        assertEquals(vessel.vesselId, result.get(0).vesselId)
+        assertEquals(1, result.size)
+        assertEquals(vessel.vesselId, result[0].vesselId)
+        assertEquals(vessel.vesselName, result[0].vesselName)
         verify(repository).getVessels()
     }
 
