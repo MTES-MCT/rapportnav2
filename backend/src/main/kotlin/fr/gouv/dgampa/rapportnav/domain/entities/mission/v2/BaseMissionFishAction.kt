@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import java.time.Instant
 
 interface BaseMissionFishAction {
@@ -61,4 +62,5 @@ interface BaseMissionFishAction {
     var observationsByUnit: String?
     var speciesQuantitySeized: Int ?
     val fishInfractions: List<FishInfraction>
+    val sati: SatiEntity?
 }

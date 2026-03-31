@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import java.time.Instant
 
@@ -57,6 +58,7 @@ class MissionFishActionData(
     override var speciesQuantitySeized: Int? = null,
     override val targets: List<Target>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
+    override val sati: SatiEntity? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -72,6 +74,7 @@ class MissionFishActionData(
                 actionDatetimeUtc = data.startDateTimeUtc,
                 actionEndDatetimeUtc = data.endDateTimeUtc,
                 fishActionType = data.fishActionType,
+                sati = data.sati
             )
             return action
         }

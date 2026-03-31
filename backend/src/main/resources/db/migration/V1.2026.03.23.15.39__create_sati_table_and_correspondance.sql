@@ -1,0 +1,88 @@
+CREATE TABLE address
+(
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  street     VARCHAR(255),
+  zipcode    VARCHAR(20),
+  town       VARCHAR(100),
+  country    VARCHAR(3),
+  longitude  DOUBLE PRECISION,
+  latitude   DOUBLE PRECISION,
+  created_at TIMESTAMPTZ      DEFAULT now()
+);
+
+CREATE TABLE contact
+(
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  full_name   VARCHAR(255),
+  nationality VARCHAR(3),
+  email       VARCHAR(255),
+  phone       VARCHAR(50),
+  address_id  UUID REFERENCES address (id),
+  created_at  TIMESTAMPTZ      DEFAULT now()
+);
+
+CREATE TABLE sati
+(
+  id                                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  module                                      VARCHAR(2)         NOT NULL,
+  action_id                                   VARCHAR(50) UNIQUE NOT NULL,
+  created_at                                  TIMESTAMPTZ      DEFAULT now(),
+  updated_at                                  TIMESTAMPTZ      DEFAULT now(),
+
+  action_taken                                VARCHAR(100),
+  agent_contact_id                            UUID,
+  appointing_authority                        VARCHAR(50),
+  beneficial_owner_contact_id                 UUID,
+  catch_certificate_info                      BOOLEAN,
+  charterer_contact_id                        UUID,
+  common_marketing_standards                  BOOLEAN,
+  driver_contact_id                           UUID,
+  eu_fishing_trip_id                          VARCHAR(50),
+  fishery_lot_labelling                       BOOLEAN,
+  fishery_product_documents_inspection        BOOLEAN,
+  fishery_product_storage_mechanism_inspected BOOLEAN,
+  fishery_product_weighed_before_sale         BOOLEAN,
+  freshness_categories                        TEXT,
+  importer_contact_id                         UUID,
+  infringements_observations                  TEXT,
+  inspection_end_datetime_utc                 TIMESTAMPTZ,
+  inspection_start_datetime_utc               TIMESTAMPTZ        NOT NULL,
+  inspection_location_address_id              VARCHAR(50),
+  inspector_comments                          TEXT,
+  inspector_name_or_id                        VARCHAR(255),
+  inspector_signature                         BOOLEAN,
+  inspector_unique_id                         VARCHAR(50),
+  landing_declaration_info                    BOOLEAN,
+  lot_id_species_quantities                   JSONB,
+  lots_art58_compliance                       BOOLEAN,
+  market_owner_contact_id                     UUID,
+  market_owner_representative_contact_id      UUID,
+  market_premises_address_id                  VARCHAR(50),
+  market_premises_location                    VARCHAR(255),
+  market_premises_name                        VARCHAR(255),
+  master_comments                             TEXT,
+  master_contact_id                           UUID,
+  new_lot_composition_info                    JSONB,
+  operator_comments                           TEXT,
+  operator_signature                          BOOLEAN,
+  patrol_vessel_external_marking              VARCHAR(50),
+  patrol_vessel_radio_call_sign               VARCHAR(20),
+  registered_buyer_contact_id                 UUID,
+  responsible_person_signature                BOOLEAN,
+  size_grading_categories                     TEXT,
+  supplier_invoice_info                       BOOLEAN,
+  take_over_declaration_info                  BOOLEAN,
+  traceability_recording_system_art58         BOOLEAN,
+  traceability_supplier_identification_system BOOLEAN,
+  tractor_registration_number                 VARCHAR(20),
+  trailer_registration_number                 VARCHAR(20),
+  transport_document_info                     BOOLEAN,
+  transporter_comments                        TEXT,
+  transporter_signature                       BOOLEAN,
+  use_of_undersized_fishery_products          BOOLEAN,
+  vehicle_nationality                         VARCHAR(3),
+  vehicle_owner_contact_id                    UUID,
+  vehicle_type                                VARCHAR(50),
+  vessel_owner_contact_id                     UUID
+);
+

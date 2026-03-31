@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import java.time.Instant
 
@@ -64,6 +65,7 @@ class MissionFishActionEntity(
     override var speciesQuantitySeized: Int? = null,
     override var targets: List<TargetEntity>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
+    override var sati: SatiEntity? = null,
 ) : MissionActionEntity(
     missionId = missionId,
     actionType = ActionType.CONTROL,
