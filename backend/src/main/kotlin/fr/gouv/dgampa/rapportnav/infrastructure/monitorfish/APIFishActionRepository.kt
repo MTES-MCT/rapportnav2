@@ -5,10 +5,12 @@ import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.PortEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.MissionActionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.PortDataOutput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -120,5 +122,30 @@ class APIFishActionRepository(
         }
 
         return mapper.readValue(response.body(), object : TypeReference<List<VesselIdentityDataOutput>>() {})
+    }
+
+
+    @Cacheable(value = ["ports"])
+    override fun getPorts(): List<PortEntity> {
+        val url = "$host/api/v1/ports"
+        logger.info("Fetching ports Referential from URL: $url")
+
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("x-api-key", monitorFishApiKey)
+            .build()
+
+        val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
+        logger.info("APIFishActionRepository::ports Response received, Status code: ${response.statusCode()}")
+
+        if (response.statusCode() !in 200..299) {
+            throw BackendInternalException(
+                message = "APIFishActionRepository.ports failed with status ${response.statusCode()}",
+                originalException = RuntimeException(response.body())
+            )
+        }
+
+        val list = mapper.readValue(response.body(), object : TypeReference<List<PortDataOutput>>() {})
+        return list?.map { it.toPortEntity() }?.toList() ?: emptyList()
     }
 }

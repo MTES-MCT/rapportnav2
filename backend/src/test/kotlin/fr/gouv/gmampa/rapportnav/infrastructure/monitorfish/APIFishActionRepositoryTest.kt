@@ -489,4 +489,141 @@ class APIFishActionRepositoryTest {
             assertTrue(exception.message.contains("500"))
         }
     }
+
+    @Nested
+    inner class GetPorts {
+
+        @Test
+        fun `should fetch ports and return list`() {
+            val realMapper = createRealMapper()
+            val portsJson = """
+                [
+                    {
+                        "locode": "FRLEH",
+                        "name": "Le Havre",
+                        "latitude": 49.4944,
+                        "longitude": 0.1079,
+                        "region": "Normandie"
+                    },
+                    {
+                        "locode": "FRMRS",
+                        "name": "Marseille",
+                        "latitude": 43.2965,
+                        "longitude": 5.3698,
+                        "region": "PACA"
+                    }
+                ]
+            """.trimIndent()
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn(portsJson)
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val repository = APIFishActionRepository(
+                mapper = realMapper,
+                clientFactory = httpClientFactory,
+                host = host,
+                monitorFishApiKey = apiKey
+            )
+
+            val result = repository.getPorts()
+
+            assertEquals(2, result.size)
+            assertEquals("FRLEH", result[0].locode)
+            assertEquals("Le Havre", result[0].name)
+            assertEquals("FRMRS", result[1].locode)
+            assertEquals("Marseille", result[1].name)
+        }
+
+        @Test
+        fun `should call correct URL for ports`() {
+            val realMapper = createRealMapper()
+            val portsJson = "[]"
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn(portsJson)
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val repository = APIFishActionRepository(
+                mapper = realMapper,
+                clientFactory = httpClientFactory,
+                host = host,
+                monitorFishApiKey = apiKey
+            )
+
+            repository.getPorts()
+
+            verify(httpClient).send(
+                argThat { request ->
+                    request.uri() == URI.create("$host/api/v1/ports")
+                },
+                Mockito.any<HttpResponse.BodyHandler<String>>()
+            )
+        }
+
+        @Test
+        fun `should return empty list when API returns empty array`() {
+            val realMapper = createRealMapper()
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn("[]")
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val repository = APIFishActionRepository(
+                mapper = realMapper,
+                clientFactory = httpClientFactory,
+                host = host,
+                monitorFishApiKey = apiKey
+            )
+
+            val result = repository.getPorts()
+
+            assertTrue(result.isEmpty())
+        }
+
+        @Test
+        fun `should throw BackendInternalException when API returns 500`() {
+            val realMapper = createRealMapper()
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(500)
+            Mockito.`when`(httpResponse.body()).thenReturn("Internal Server Error")
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val repository = APIFishActionRepository(
+                mapper = realMapper,
+                clientFactory = httpClientFactory,
+                host = host,
+                monitorFishApiKey = apiKey
+            )
+
+            val exception = assertThrows(BackendInternalException::class.java) {
+                repository.getPorts()
+            }
+            assertTrue(exception.message.contains("500"))
+        }
+    }
 }

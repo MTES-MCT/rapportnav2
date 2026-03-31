@@ -2,7 +2,9 @@ package fr.gouv.dgampa.rapportnav.domain.repositories.mission
 
 import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.PortEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.PortDataOutput
 
 interface IFishActionRepository {
     fun findFishActions(missionId: Int): List<MissionAction>
@@ -10,4 +12,6 @@ interface IFishActionRepository {
     fun patchAction(actionId: String, action: PatchActionInput): MissionAction?
 
     fun getVessels(): List<VesselIdentityDataOutput>
+
+    fun getPorts(): List<PortEntity>
 }
