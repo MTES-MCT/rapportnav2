@@ -9,6 +9,6 @@ class GetVessels(
     private val fishActionRepo: IFishActionRepository,
 ) {
     fun execute(): List<VesselEntity> {
-        return fishActionRepo.getVessels().map { VesselEntity.fromVesselIdentityDataOutput(it) }
+        return fishActionRepo.getVessels()
     }
 }
