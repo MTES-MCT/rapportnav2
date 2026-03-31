@@ -112,7 +112,7 @@ class SecurityConfig(
                     csp.policyDirectives(
                         "default-src 'self'; " +
                         "script-src 'self'; " +
-                        "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr; " +
+                        "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
                         "frame-ancestors 'none'" +
                         upgradeInsecure
                     )
