@@ -4,6 +4,7 @@ import { Dropdown, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useAddressListQuery } from '../../services/use-address-service'
 import { Address } from '../../types/address-type.ts'
+import { FieldProps } from 'formik'
 
 type SearchAddressProps = {
   name: string
@@ -11,9 +12,10 @@ type SearchAddressProps = {
   isLight?: boolean
   label?: string
   onChange: (value?: string) => void
+  fieldFormik: FieldProps<string>
 }
 
-export const SearchCity = styled(({ value, isLight, label, onChange, ...props }: SearchAddressProps) => {
+export const SearchCity = styled(({ value, isLight, label, onChange, fieldFormik, ...props }: SearchAddressProps) => {
   const [open, setOpen] = useState<boolean>(false)
   const [search, setSearch] = useState<string>(value ?? '')
   const isUserTyping = useRef<boolean>(false)
@@ -45,13 +47,12 @@ export const SearchCity = styled(({ value, isLight, label, onChange, ...props }:
   }, [value])
 
   return (
-    <Stack direction="column" spacing="0.5rem">
+    <Stack direction="column" spacing="0.5rem" data-testid="search-city">
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="column">
           <Stack.Item style={{ width: '100%' }}>
             <TextInput
               {...props}
-              name="search-address"
               label={label ?? ''}
               placeholder=""
               value={search}
@@ -66,6 +67,7 @@ export const SearchCity = styled(({ value, isLight, label, onChange, ...props }:
                   onChange(undefined)
                 }
               }}
+              error={fieldFormik?.meta?.error}
             />
           </Stack.Item>
           <Stack.Item style={{ width: '100%', overflow: 'hidden' }}>

@@ -107,6 +107,13 @@ class MissionNavActionEntity(
     )
     override var numberOfDeaths: Int? = null,
     override var operationFollowsDEFREP: Boolean? = false,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
+            DependentFieldValue(field = "sectorType", value = ["FISHING"]),
+            DependentFieldValue(field = "sectorEstablishmentType", value = ["LANDING_SITE", "FISH_AUCTION"])
+        ]
+    )
     override var locationDescription: String? = null,
     override var isMigrationRescue: Boolean? = false,
     @MandatoryForStats(
@@ -192,7 +199,12 @@ class MissionNavActionEntity(
     override var nbrOfControl: Int? = null,
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
+            DependentFieldValue(
+                field = "sectorEstablishmentType",
+                value = ["GMS", "RESTAURANT", "MOBILE_FISHMONGER", "SEDENTARY_FISHMONGER",
+                    "ROADSIDE_INSPECTION", "FISHMONGER", "PLEASURE_MARKET", "SEA_DRIVING_LESSON", "OTHERS"]
+            )
         ]
     )
     override var establishment: EstablishmentEntity? = null,

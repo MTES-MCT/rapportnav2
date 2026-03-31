@@ -4,10 +4,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions
@@ -289,6 +292,90 @@ class MissionNavActionEntityTest {
                 ?.map { it.id }?.toSet()
         Assertions.assertThat(entity).isNotNull
         Assertions.assertThat(infractionIds).isEqualTo(mockInfractionIds)
+    }
+
+    @Test
+    fun `CONTROL_SECTOR with FISHING and LANDING_SITE should require locationDescription`() {
+        val entity = MissionNavActionEntityMock.create(
+            actionType = ActionType.CONTROL_SECTOR,
+            sectorType = SectorType.FISHING,
+            sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
+            locationDescription = null,
+            establishment = null
+        )
+        entity.computeCompleteness()
+        Assertions.assertThat(entity.isCompleteForStats).isEqualTo(false)
+        Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+
+        // Add locationDescription and endDateTimeUtc
+        entity.locationDescription = "Brest (29200)"
+        entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
+        entity.computeCompleteness()
+        Assertions.assertThat(entity.isCompleteForStats).isEqualTo(true)
+        Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
+    }
+
+    @Test
+    fun `CONTROL_SECTOR with FISHING and FISH_AUCTION should require locationDescription`() {
+        val entity = MissionNavActionEntityMock.create(
+            actionType = ActionType.CONTROL_SECTOR,
+            sectorType = SectorType.FISHING,
+            sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION,
+            locationDescription = null,
+            establishment = null
+        )
+        entity.computeCompleteness()
+        Assertions.assertThat(entity.isCompleteForStats).isEqualTo(false)
+        Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+
+        // Add locationDescription and endDateTimeUtc
+        entity.locationDescription = "Lorient (56100)"
+        entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
+        entity.computeCompleteness()
+        Assertions.assertThat(entity.isCompleteForStats).isEqualTo(true)
+        Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
+    }
+
+    @Test
+    fun `CONTROL_SECTOR with FISHING and GMS should require establishment`() {
+        val entity = MissionNavActionEntityMock.create(
+            actionType = ActionType.CONTROL_SECTOR,
+            sectorType = SectorType.FISHING,
+            sectorEstablishmentType = SectorEstablishmentType.GMS,
+            establishment = null,
+            locationDescription = null
+        )
+        entity.computeCompleteness()
+        Assertions.assertThat(entity.isCompleteForStats).isEqualTo(false)
+        Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+
+        // Add establishment and endDateTimeUtc
+        entity.establishment = EstablishmentEntity(siren = "123456789")
+        entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
+        entity.computeCompleteness()
+        Assertions.assertThat(entity.isCompleteForStats).isEqualTo(true)
+        Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
+    }
+
+    @Test
+    fun `CONTROL_SECTOR with PLEASURE should require establishment`() {
+        val entity = MissionNavActionEntityMock.create(
+            actionType = ActionType.CONTROL_SECTOR,
+            sectorType = SectorType.PLEASURE,
+            sectorEstablishmentType = SectorEstablishmentType.PLEASURE_MARKET,
+            establishment = null,
+            locationDescription = null
+        )
+        entity.computeCompleteness()
+        Assertions.assertThat(entity.isCompleteForStats).isEqualTo(false)
+        Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+
+        // Add establishment and endDateTimeUtc
+        entity.establishment = EstablishmentEntity(siren = "987654321", name = "Test Establishment")
+        entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
+        entity.computeCompleteness()
+        Assertions.assertThat(entity.isCompleteForStats).isEqualTo(true)
+        Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
 
 }

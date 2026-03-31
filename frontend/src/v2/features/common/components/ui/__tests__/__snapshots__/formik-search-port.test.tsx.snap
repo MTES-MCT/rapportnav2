@@ -6,6 +6,7 @@ exports[`FormikSearchPort > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
+        data-testid="search-port"
         style="width: 100%;"
       >
         <div
@@ -106,6 +107,7 @@ exports[`FormikSearchPort > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
+      data-testid="search-port"
       style="width: 100%;"
     >
       <div
