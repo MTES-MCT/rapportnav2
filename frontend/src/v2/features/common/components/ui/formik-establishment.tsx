@@ -36,6 +36,7 @@ export const FormikEstablishment = styled(
                       name={`name`}
                       establishment={values}
                       handleSubmit={handleSubmit}
+                      fieldFormik={fieldFormik}
                     />
                   ) : (
                     <SearchEstablishment
@@ -44,6 +45,7 @@ export const FormikEstablishment = styled(
                       label={label}
                       establishment={values}
                       handleSubmit={handleSubmit}
+                      fieldFormik={fieldFormik}
                     />
                   )}
                 </Stack.Item>

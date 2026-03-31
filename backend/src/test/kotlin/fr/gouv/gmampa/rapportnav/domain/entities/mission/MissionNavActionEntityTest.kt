@@ -139,7 +139,7 @@ class MissionNavActionEntityTest {
             nbrOfControl300m = 3,
             isControlDuringSecurityDay = false,
             isSeizureSleepingFishingGear = true,
-            sectorEstablishmentType = SectorEstablishmentType.SHOUTED,
+            sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION,
             leisureType = LeisureType.KAYAK,
             fishingGearType = FishingGearType.CASHIER,
             controlType = "my control type",

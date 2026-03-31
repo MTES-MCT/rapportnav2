@@ -15,10 +15,10 @@ type FormikSearchPortProps = {
 export const FormikSearchPort = styled(
   ({ name, port, fieldFormik, ...props }: Omit<FormikSearchProps, 'options'> & FormikSearchPortProps) => {
     const [open, setOpen] = useState<boolean>()
-    const [search, setSearch] = useState<string>()
+    const [search, setSearch] = useState<string>(fieldFormik?.field?.value)
     const { data: ports } = usePortListQuery(search)
 
-    const getName = (p: Port) => `${p?.name} - ${p?.locode}`
+    const getName = (p: Port) => `${p?.name} (${p?.locode})`
     const onSelect = (eventKey: string | undefined, event: React.SyntheticEvent) => {
       event.stopPropagation()
       if (!eventKey) return
@@ -26,7 +26,7 @@ export const FormikSearchPort = styled(
       if (!value) return
       setOpen(false)
       setSearch(getName(value))
-      fieldFormik.form.setFieldValue(name, value.locode)
+      fieldFormik.form.setFieldValue(name, getName(value))
     }
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export const FormikSearchPort = styled(
     }, [port])
 
     return (
-      <Stack.Item style={{ width: '100%' }}>
+      <Stack.Item style={{ width: '100%' }} data-testid="search-port">
         <Stack direction="column">
           <Stack.Item style={{ width: '100%' }}>
             <TextInput
@@ -50,6 +50,7 @@ export const FormikSearchPort = styled(
               Icon={Icon.Search}
               isErrorMessageHidden={true}
               onChange={value => setSearch(value)}
+              error={fieldFormik?.meta?.error}
             />
           </Stack.Item>
           <Stack.Item style={{ width: '100%', overflow: 'hidden' }}>

@@ -72,7 +72,7 @@ object MissionActionModelMock {
             nbrOfControl300m = 3,
             isControlDuringSecurityDay = false,
             isSeizureSleepingFishingGear = true,
-            sectorEstablishmentType = SectorEstablishmentType.SHOUTED?.toString(),
+            sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION?.toString(),
             leisureType = LeisureType.KAYAK?.toString(),
             fishingGearType = FishingGearType.CASHIER?.toString(),
             controlType = "my control type",

@@ -1,5 +1,5 @@
 import { FormikSearchProps, Message, TextInput } from '@mtes-mct/monitor-ui'
-import { FormikErrors } from 'formik'
+import { FieldProps, FormikErrors } from 'formik'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useDelayFormik } from '../../hooks/use-delay-formik'
@@ -8,10 +8,16 @@ import { Establishment } from '../../types/etablishment'
 type ForeignEstablishmentProps = {
   establishment?: Establishment
   handleSubmit: (value?: Establishment, errors?: FormikErrors<Establishment>) => void
+  fieldFormik: FieldProps<Establishment>
 }
 
 export const ForeignEstablishment = styled(
-  ({ establishment, handleSubmit, ...props }: Omit<FormikSearchProps, 'options'> & ForeignEstablishmentProps) => {
+  ({
+    establishment,
+    handleSubmit,
+    fieldFormik,
+    ...props
+  }: Omit<FormikSearchProps, 'options'> & ForeignEstablishmentProps) => {
     const { value, onChange } = useDelayFormik(
       establishment?.name,
       (v?: string | number) => handleSubmit({ ...establishment, name: v as string }),
@@ -37,6 +43,7 @@ export const ForeignEstablishment = styled(
                 value={value as string}
                 isErrorMessageHidden={true}
                 onChange={(v?: string) => onChange(v)}
+                error={fieldFormik?.meta?.error?.name}
               />
             </Stack.Item>
           </Stack>
