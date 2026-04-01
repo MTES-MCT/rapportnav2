@@ -32,10 +32,7 @@ class PortRestController(
         ]
     )
     fun getPorts(@RequestParam search: String): List<Port> {
-        return getPorts.execute()
-            .filter { it.name.startsWith(search, ignoreCase = true) }
-            .sortedBy { it.name }
-            .map { Port.fromPortEntity(it) }
+        return getPorts.execute(name = search).map { Port.fromPortEntity(it) }
     }
 }
 

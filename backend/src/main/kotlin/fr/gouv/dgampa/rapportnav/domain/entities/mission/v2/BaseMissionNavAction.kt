@@ -5,7 +5,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
 import java.time.Instant
 import java.util.*
 
@@ -27,6 +29,7 @@ interface BaseMissionNavAction {
     var isSimpleBrewingOperationDone: Boolean?
     var isAntiPolDeviceDeployed: Boolean?
     var controlMethod: ControlMethod?
+    var locationType: LocationType?
     var vesselIdentifier: String?
     var vesselType: VesselTypeEnum?
     var vesselSize: VesselSizeEnum?
@@ -56,6 +59,9 @@ interface BaseMissionNavAction {
     var resourceType: String?
     var resourceId: Int?
     var establishment: EstablishmentEntity?
+    var portLocode: String?
+    var zipCode: String?
+    var city: String?
     var nbrOfControl: Int?
     var controlType: String?
     val sectorType: SectorType?

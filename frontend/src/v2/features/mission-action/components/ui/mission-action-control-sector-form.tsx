@@ -18,17 +18,38 @@ const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControl
     (formik.values.sectorEstablishmentType === SectorFishingType.LANDING_SITE ||
       formik.values.sectorEstablishmentType === SectorFishingType.FISH_AUCTION)
 
+  const isLandingSite =
+    formik.values.sectorType === SectorType.FISHING &&
+    formik.values.sectorEstablishmentType === SectorFishingType.LANDING_SITE
+
+  const isFishAuction =
+    formik.values.sectorType === SectorType.FISHING &&
+    formik.values.sectorEstablishmentType === SectorFishingType.FISH_AUCTION
+
   useEffect(() => {
     if (shouldShowControlLocation) {
       if (formik.values.establishment) {
         formik.setFieldValue('establishment', undefined)
       }
     } else {
-      if (formik.values.locationDescription) {
-        formik.setFieldValue('locationDescription', undefined)
+      if (formik.values.zipCode) {
+        formik.setFieldValue('zipCode', undefined)
+      }
+      if (formik.values.city) {
+        formik.setFieldValue('city', undefined)
+      }
+      if (formik.values.portLocode) {
+        formik.setFieldValue('portLocode', undefined)
       }
     }
-  }, [shouldShowControlLocation])
+    if (isLandingSite) {
+      if (formik.values.zipCode) formik.setFieldValue('zipCode', undefined)
+      if (formik.values.city) formik.setFieldValue('city', undefined)
+    }
+    if (isFishAuction && formik.values.portLocode) {
+      formik.setFieldValue('portLocode', undefined)
+    }
+  }, [shouldShowControlLocation, isLandingSite, isFishAuction])
 
   return (
     <Stack.Item>
@@ -53,27 +74,25 @@ const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControl
         <Stack.Item style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
             {formik.values.sectorEstablishmentType === SectorFishingType.FISH_AUCTION ? (
-              <Field name="locationDescription">
+              <Field name="zipCode">
                 {(field: FieldProps<string>) => (
                   <SearchCity
-                    name="locationDescription"
+                    name="zipCode"
                     label="Lieu de contrôle"
                     isLight={true}
-                    value={formik.values.locationDescription}
-                    onChange={value => formik.setFieldValue('locationDescription', value)}
+                    value={{ zipCode: formik.values.zipCode, city: formik.values.city }}
+                    onChange={val => {
+                      formik.setFieldValue('zipCode', val?.zipCode)
+                      formik.setFieldValue('city', val?.city)
+                    }}
                     fieldFormik={field}
                   />
                 )}
               </Field>
             ) : formik.values.sectorEstablishmentType === SectorFishingType.LANDING_SITE ? (
-              <Field name="locationDescription">
+              <Field name="portLocode">
                 {(field: FieldProps<string>) => (
-                  <FormikSearchPort
-                    name="locationDescription"
-                    isLight={true}
-                    label="Lieu de contrôle"
-                    fieldFormik={field}
-                  />
+                  <FormikSearchPort name="portLocode" isLight={true} label="Lieu de contrôle" fieldFormik={field} />
                 )}
               </Field>
             ) : (

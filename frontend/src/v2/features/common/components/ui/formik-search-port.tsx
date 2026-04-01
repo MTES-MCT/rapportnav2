@@ -1,6 +1,6 @@
 import { FormikSearchProps, Icon, TextInput } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Dropdown, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { usePortListQuery } from '../../services/use-port-service'
@@ -8,34 +8,42 @@ import { Port } from '../../types/port-type'
 
 type FormikSearchPortProps = {
   name: string
-  port?: Port
   fieldFormik: FieldProps<string>
 }
 
 export const FormikSearchPort = styled(
-  ({ name, port, fieldFormik, ...props }: Omit<FormikSearchProps, 'options'> & FormikSearchPortProps) => {
-    const [open, setOpen] = useState<boolean>()
-    const [search, setSearch] = useState<string>(fieldFormik?.field?.value)
-    const { data: ports } = usePortListQuery(search)
+  ({ name, fieldFormik, ...props }: Omit<FormikSearchProps, 'options'> & FormikSearchPortProps) => {
+    const initialized = useRef(false)
+    const [open, setOpen] = useState<boolean>(false)
+    const [search, setSearch] = useState<string>('')
+    const locode = fieldFormik?.field?.value
+    const { data: ports } = usePortListQuery(!initialized.current && locode ? locode : search)
 
     const getName = (p: Port) => `${p?.name} (${p?.locode})`
+
+    // When ports load, resolve locode to display name (or open dropdown after init)
+    useEffect(() => {
+      if (!initialized.current && locode && ports?.length) {
+        const found = ports.find(p => p.locode === locode)
+        if (found) {
+          setSearch(getName(found))
+          initialized.current = true
+        }
+      } else if (initialized.current) {
+        setOpen(!!ports?.length)
+      }
+    }, [ports, locode])
+
     const onSelect = (eventKey: string | undefined, event: React.SyntheticEvent) => {
       event.stopPropagation()
       if (!eventKey) return
       const value = ports?.find(item => item.locode === eventKey)
       if (!value) return
+      initialized.current = true
       setOpen(false)
       setSearch(getName(value))
-      fieldFormik.form.setFieldValue(name, getName(value))
+      fieldFormik.form.setFieldValue(name, value.locode)
     }
-
-    useEffect(() => {
-      setOpen(!!ports?.length)
-    }, [ports])
-
-    useEffect(() => {
-      if (port?.name) setSearch(getName(port))
-    }, [port])
 
     return (
       <Stack.Item style={{ width: '100%' }} data-testid="search-port">
@@ -49,7 +57,10 @@ export const FormikSearchPort = styled(
               isRequired={true}
               Icon={Icon.Search}
               isErrorMessageHidden={true}
-              onChange={value => setSearch(value)}
+              onChange={value => {
+                initialized.current = true
+                setSearch(value ?? '')
+              }}
               error={fieldFormik?.meta?.error}
             />
           </Stack.Item>

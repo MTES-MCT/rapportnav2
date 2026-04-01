@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 @UseCase
 class ProcessNavAction(
     getStatusForAction: GetStatusForAction,
-    private val getComputeTarget: GetComputeTarget
+    private val getComputeTarget: GetComputeTarget,
 ) : AbstractGetMissionAction(getStatusForAction) {
 
     fun execute(action: MissionNavActionEntity): MissionNavActionEntity {
