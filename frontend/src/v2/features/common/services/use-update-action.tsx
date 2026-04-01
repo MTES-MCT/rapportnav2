@@ -22,6 +22,7 @@ export const offlineUpdateActionDefaults = {
       ...action,
       networkSyncStatus: isOnline ? NetworkSyncStatus.SYNC : NetworkSyncStatus.UNSYNC
     }
+    debugger
 
     await queryClient.cancelQueries({
       queryKey: ownerType === OwnerType.INQUIRY ? inquiriesKeys.byId(ownerId) : missionsKeys.byId(ownerId)

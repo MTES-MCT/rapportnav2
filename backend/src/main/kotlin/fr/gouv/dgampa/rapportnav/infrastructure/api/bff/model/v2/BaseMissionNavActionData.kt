@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.Instant
@@ -20,6 +21,7 @@ interface BaseMissionNavActionData {
     val isSimpleBrewingOperationDone: Boolean?
     val isAntiPolDeviceDeployed: Boolean?
     val controlMethod: ControlMethod?
+    val locationType: LocationType?
     val vesselIdentifier: String?
     val vesselType: VesselTypeEnum?
     val vesselSize: VesselSizeEnum?

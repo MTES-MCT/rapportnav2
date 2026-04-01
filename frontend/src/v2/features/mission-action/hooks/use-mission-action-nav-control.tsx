@@ -1,16 +1,17 @@
 import { VesselSizeEnum } from '@common/types/env-mission-types'
-import { mixed, object, string } from 'yup'
+import { array, mixed, number, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
-import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
-import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
-import { ActionNavControlInput } from '../types/action-type'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
-import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
-import { useMemo } from 'react'
+import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
+import { LocationType } from '../../common/types/location-type'
+import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
+import { ActionNavControlInput } from '../types/action-type'
+import { useMemo, useRef } from 'react'
 
 export function useMissionActionNavControl(
   action: MissionAction,
@@ -20,6 +21,7 @@ export function useMissionActionNavControl(
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const previousLocationType = useRef<LocationType | undefined>(value?.locationType)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionNavControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -32,12 +34,37 @@ export function useMissionActionNavControl(
   }
 
   const fromInputToFieldValue = (value: ActionNavControlInput): MissionNavActionData => {
-    const { dates, geoCoords, ...newData } = value
-    const latitude = geoCoords[0] ?? 0
-    const longitude = geoCoords[1] ?? 0
+    const { dates, geoCoords, locationType, ...newData } = value
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
+
+    // Check if locationType changed
+    const locationTypeChanged = locationType !== previousLocationType.current
+    previousLocationType.current = locationType
+
+    // Clear irrelevant fields based on locationType
+    if (locationType === LocationType.GPS) {
+      return {
+        ...newData,
+        locationType,
+        startDateTimeUtc,
+        endDateTimeUtc,
+        latitude: geoCoords[0] ?? undefined,
+        longitude: geoCoords[1] ?? undefined,
+        locationDescription: undefined
+      }
+    } else {
+      // PORT or COMMUNE - clear geoCoords and locationDescription if locationType changed
+      return {
+        ...newData,
+        locationType,
+        startDateTimeUtc,
+        endDateTimeUtc,
+        latitude: undefined,
+        longitude: undefined,
+        locationDescription: locationTypeChanged ? undefined : newData.locationDescription
+      }
+    }
   }
 
   const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
@@ -58,7 +85,26 @@ export function useMissionActionNavControl(
   const createValidationSchema = (isMissionFinished: boolean) => {
     return object().shape({
       ...getDateRangeSchema(isMissionFinished),
-      ...getGeoCoordsSchema(isMissionFinished),
+
+      locationType: conditionallyRequired(
+        () => mixed<LocationType>().nullable().oneOf(Object.values(LocationType)),
+        [],
+        true,
+        'Location type is required',
+        schema => schema.nonNullable()
+      )(isMissionFinished),
+
+      geoCoords: mixed().when('locationType', {
+        is: LocationType.GPS,
+        then: () => getGeoCoordsSchema(isMissionFinished).geoCoords,
+        otherwise: () => array().of(number()).nullable()
+      }),
+
+      locationDescription: string().when('locationType', {
+        is: (val: LocationType) => val === LocationType.PORT || val === LocationType.COMMUNE,
+        then: () => (isMissionFinished ? string().required('Location description is required') : string().nullable()),
+        otherwise: () => string().nullable()
+      }),
 
       vesselSize: conditionallyRequired(
         () => mixed<VesselSizeEnum>().nullable().oneOf(Object.values(VesselSizeEnum)).default(undefined),

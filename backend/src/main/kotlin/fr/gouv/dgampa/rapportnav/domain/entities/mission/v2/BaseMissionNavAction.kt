@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import java.time.Instant
 import java.util.*
@@ -27,6 +28,7 @@ interface BaseMissionNavAction {
     var isSimpleBrewingOperationDone: Boolean?
     var isAntiPolDeviceDeployed: Boolean?
     var controlMethod: ControlMethod?
+    var locationType: LocationType?
     var vesselIdentifier: String?
     var vesselType: VesselTypeEnum?
     var vesselSize: VesselSizeEnum?

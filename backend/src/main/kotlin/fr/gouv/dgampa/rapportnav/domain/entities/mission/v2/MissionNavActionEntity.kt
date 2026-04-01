@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATUS_AS_STRING
@@ -47,7 +48,7 @@ class MissionNavActionEntity(
             DependentFieldValue(
                 field = "actionType",
                 value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
-                ])
+            ])
         ]
     )
     override var latitude: Double? = null,
@@ -56,7 +57,7 @@ class MissionNavActionEntity(
             DependentFieldValue(
                 field = "actionType",
                 value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
-                ])
+            ])
         ]
     )
     override var longitude: Double? = null,
@@ -67,6 +68,8 @@ class MissionNavActionEntity(
     override var isAntiPolDeviceDeployed: Boolean? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var controlMethod: ControlMethod? = null,
+    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
+    override var locationType: LocationType? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var vesselIdentifier: String? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
@@ -293,6 +296,7 @@ class MissionNavActionEntity(
         isSimpleBrewingOperationDone = isSimpleBrewingOperationDone,
         isAntiPolDeviceDeployed = isAntiPolDeviceDeployed,
         controlMethod = controlMethod?.toString(),
+        locationType = locationType?.toString(),
         vesselIdentifier = vesselIdentifier,
         vesselType = vesselType?.toString(),
         vesselSize = vesselSize?.toString(),
@@ -360,6 +364,7 @@ class MissionNavActionEntity(
                 isSimpleBrewingOperationDone = model.isSimpleBrewingOperationDone,
                 isAntiPolDeviceDeployed = model.isAntiPolDeviceDeployed,
                 controlMethod = model.controlMethod?.let { ControlMethod.valueOf(it) },
+                locationType = model.locationType?.let { LocationType.valueOf(it) },
                 vesselIdentifier = model.vesselIdentifier,
                 vesselType = model.vesselType?.let { VesselTypeEnum.valueOf(it) },
                 vesselSize = model.vesselSize?.let { VesselSizeEnum.valueOf(it) },

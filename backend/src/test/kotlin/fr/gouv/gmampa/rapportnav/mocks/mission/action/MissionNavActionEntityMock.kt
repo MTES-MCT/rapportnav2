@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
@@ -27,6 +28,7 @@ object MissionNavActionEntityMock {
         isSimpleBrewingOperationDone: Boolean? = null,
         isAntiPolDeviceDeployed: Boolean? = null,
         controlMethod: ControlMethod? = null,
+        locationType: LocationType? = null,
         vesselIdentifier: String? = null,
         vesselType: VesselTypeEnum? = null,
         vesselSize: VesselSizeEnum? = null,
@@ -65,6 +67,7 @@ object MissionNavActionEntityMock {
             detectedPollution = detectedPollution,
             pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
             controlMethod = controlMethod,
+            locationType = locationType,
             vesselIdentifier = vesselIdentifier,
             vesselType = vesselType,
             vesselSize = vesselSize,

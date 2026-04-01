@@ -39,8 +39,9 @@ export const SearchCity = styled(({ value, isLight, label, onChange, ...props }:
   }, [addresses])
 
   useEffect(() => {
-    if (value && value !== search) {
-      setSearch(value)
+    const newValue = value ?? ''
+    if (newValue !== search) {
+      setSearch(newValue)
     }
   }, [value])
 

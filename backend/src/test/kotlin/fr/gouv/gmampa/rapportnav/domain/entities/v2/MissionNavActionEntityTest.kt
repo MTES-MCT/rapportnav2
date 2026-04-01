@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
@@ -222,7 +223,7 @@ class MissionNavActionEntityTest {
 
     @Test
     fun `execute should not complete for stats until all is filled action type CONTROL`() {
-        val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL)
+        val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL, locationType = LocationType.GPS)
         entity.computeCompleteness()
         Assertions.assertThat(entity.isCompleteForStats).isEqualTo(false)
         Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)

@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
@@ -19,6 +20,7 @@ class MissionNavActionData(
     override val isSimpleBrewingOperationDone: Boolean?,
     override val isAntiPolDeviceDeployed: Boolean?,
     override val controlMethod: ControlMethod?,
+    override val locationType: LocationType?,
     override val vesselIdentifier: String?,
     override val vesselType: VesselTypeEnum?,
     override val vesselSize: VesselSizeEnum?,
@@ -91,6 +93,7 @@ class MissionNavActionData(
                 isSimpleBrewingOperationDone = data.isSimpleBrewingOperationDone,
                 isAntiPolDeviceDeployed = data.isAntiPolDeviceDeployed,
                 controlMethod = data.controlMethod,
+                locationType = data.locationType,
                 vesselIdentifier = data.vesselIdentifier,
                 vesselType = data.vesselType,
                 vesselSize = data.vesselSize,

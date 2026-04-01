@@ -65,6 +65,9 @@ data class MissionActionModel(
     @Column(name = "control_method", nullable = true)
     var controlMethod: String? = null,
 
+    @Column(name = "location_type", nullable = true)
+    var locationType: String? = null,
+
     @Column(name = "vessel_identifier", nullable = true)
     var vesselIdentifier: String? = null,
 

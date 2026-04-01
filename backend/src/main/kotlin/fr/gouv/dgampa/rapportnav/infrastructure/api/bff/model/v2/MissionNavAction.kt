@@ -58,6 +58,7 @@ class MissionNavAction(
                     isSimpleBrewingOperationDone = navAction.isSimpleBrewingOperationDone,
                     isAntiPolDeviceDeployed = navAction.isAntiPolDeviceDeployed,
                     controlMethod = navAction.controlMethod,
+                    locationType = navAction.locationType,
                     vesselIdentifier = navAction.vesselIdentifier,
                     vesselType = navAction.vesselType,
                     vesselSize = navAction.vesselSize,
