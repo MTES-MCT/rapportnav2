@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstabl
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
@@ -225,7 +226,7 @@ class MissionNavActionEntityTest {
 
     @Test
     fun `execute should not complete for stats until all is filled action type CONTROL`() {
-        val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL)
+        val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL, locationType = LocationType.GPS)
         entity.computeCompleteness()
         Assertions.assertThat(entity.isCompleteForStats).isEqualTo(false)
         Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
@@ -295,20 +296,19 @@ class MissionNavActionEntityTest {
     }
 
     @Test
-    fun `CONTROL_SECTOR with FISHING and LANDING_SITE should require locationDescription`() {
+    fun `CONTROL_SECTOR with FISHING and LANDING_SITE should require portLocode`() {
         val entity = MissionNavActionEntityMock.create(
             actionType = ActionType.CONTROL_SECTOR,
             sectorType = SectorType.FISHING,
             sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
-            locationDescription = null,
             establishment = null
         )
         entity.computeCompleteness()
         Assertions.assertThat(entity.isCompleteForStats).isEqualTo(false)
         Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
-        // Add locationDescription and endDateTimeUtc
-        entity.locationDescription = "Brest (29200)"
+        // Add portLocode and endDateTimeUtc
+        entity.portLocode = "FRBST"
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
         entity.computeCompleteness()
         Assertions.assertThat(entity.isCompleteForStats).isEqualTo(true)
@@ -316,20 +316,19 @@ class MissionNavActionEntityTest {
     }
 
     @Test
-    fun `CONTROL_SECTOR with FISHING and FISH_AUCTION should require locationDescription`() {
+    fun `CONTROL_SECTOR with FISHING and FISH_AUCTION should require zipCode`() {
         val entity = MissionNavActionEntityMock.create(
             actionType = ActionType.CONTROL_SECTOR,
             sectorType = SectorType.FISHING,
             sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION,
-            locationDescription = null,
             establishment = null
         )
         entity.computeCompleteness()
         Assertions.assertThat(entity.isCompleteForStats).isEqualTo(false)
         Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
-        // Add locationDescription and endDateTimeUtc
-        entity.locationDescription = "Lorient (56100)"
+        // Add zipCode and endDateTimeUtc
+        entity.zipCode = "56100"
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
         entity.computeCompleteness()
         Assertions.assertThat(entity.isCompleteForStats).isEqualTo(true)

@@ -8,7 +8,7 @@ class PortEntity(
     val locode: String,
     /** ISO Alpha-2 country code */
     val countryCode: CountryCode? = CountryCode.FR,
-    val name: String,
+    val name: String? = null,
     val facade: String? = null,
     val faoAreas: List<String> = emptyList(),
     val latitude: Double? = null,

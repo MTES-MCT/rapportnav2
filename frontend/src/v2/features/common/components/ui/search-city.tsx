@@ -3,48 +3,55 @@ import { useEffect, useRef, useState } from 'react'
 import { Dropdown, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useAddressListQuery } from '../../services/use-address-service'
-import { Address } from '../../types/address-type.ts'
 import { FieldProps } from 'formik'
+
+type SearchCityValue = {
+  zipCode?: string
+  city?: string
+}
 
 type SearchAddressProps = {
   name: string
-  value?: string
+  value?: SearchCityValue
   isLight?: boolean
   label?: string
-  onChange: (value?: string) => void
+  onChange: (value?: SearchCityValue) => void
   fieldFormik: FieldProps<string>
 }
 
 export const SearchCity = styled(({ value, isLight, label, onChange, fieldFormik, ...props }: SearchAddressProps) => {
+  const userTyping = useRef<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
-  const [search, setSearch] = useState<string>(value ?? '')
-  const isUserTyping = useRef<boolean>(false)
+  const [search, setSearch] = useState<string>('')
   const { data: addresses } = useAddressListQuery(search)
 
-  const getDisplayName = (address: Address) => `${address.town} (${address.zipcode})`
+  const getDisplayName = (city?: string, zipCode?: string) =>
+    city && zipCode ? `${city} (${zipCode})` : (city ?? zipCode ?? '')
+
+  // Display from stored values on load
+  useEffect(() => {
+    if (!userTyping.current && value?.city) {
+      setSearch(getDisplayName(value.city, value.zipCode))
+    }
+  }, [value?.city, value?.zipCode])
+
+  // Only open dropdown when user is actively typing
+  useEffect(() => {
+    if (userTyping.current) {
+      setOpen(!!addresses?.length)
+    }
+  }, [addresses])
 
   const onSelect = (eventKey?: string, event?: React.SyntheticEvent) => {
     const selected = addresses?.find(item => item.town === eventKey)
     event?.stopPropagation()
     if (!selected) return
 
-    isUserTyping.current = false
+    userTyping.current = false
     setOpen(false)
-    setSearch(getDisplayName(selected))
-    onChange(getDisplayName(selected))
+    setSearch(getDisplayName(selected.town, selected.zipcode))
+    onChange({ zipCode: selected.zipcode, city: selected.town })
   }
-
-  useEffect(() => {
-    if (isUserTyping.current) {
-      setOpen(!!addresses?.length)
-    }
-  }, [addresses])
-
-  useEffect(() => {
-    if (value && value !== search) {
-      setSearch(value)
-    }
-  }, [value])
 
   return (
     <Stack direction="column" spacing="0.5rem" data-testid="search-city">
@@ -61,7 +68,7 @@ export const SearchCity = styled(({ value, isLight, label, onChange, fieldFormik
               Icon={Icon.Search}
               isErrorMessageHidden={true}
               onChange={newValue => {
-                isUserTyping.current = true
+                userTyping.current = true
                 setSearch(newValue ?? '')
                 if (!newValue) {
                   onChange(undefined)
@@ -75,7 +82,7 @@ export const SearchCity = styled(({ value, isLight, label, onChange, fieldFormik
               <Dropdown.Menu style={{ overflow: 'scroll', minHeight: 0 }} onSelect={onSelect}>
                 {addresses?.map(item => (
                   <Dropdown.Item key={item.town} eventKey={item.town} style={{ maxWidth: '100%' }}>
-                    {getDisplayName(item)}
+                    {getDisplayName(item.town, item.zipcode)}
                   </Dropdown.Item>
                 ))}
               </Dropdown.Menu>

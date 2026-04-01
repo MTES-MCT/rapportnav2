@@ -1,3 +1,4 @@
+import { LocationType } from '../../common/types/location-type'
 import { MissionEnvActionData, MissionFishActionData, MissionNavActionData } from '../../common/types/mission-action'
 import { MissionActionData } from '../../common/types/mission-action-data'
 import { RescueType } from '../../common/types/rescue-type'
@@ -31,6 +32,7 @@ export type ActionSurveillanceInput = { dates: [Date?, Date?] } & MissionEnvActi
 export type ActionNavControlInput = {
   dates: [Date?, Date?]
   geoCoords: (number | undefined)[]
+  locationType?: LocationType
 } & MissionNavActionData
 
 export type ActionFishControlInput = {
