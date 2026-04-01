@@ -60,6 +60,7 @@ class CreateNavActionTest {
         detectedPollution = false,
         pollutionObservedByAuthorizedAgent = false,
         controlMethod = ControlMethod.SEA,
+        locationType = null,
         vesselIdentifier = "vesselIdentifier",
         vesselType = VesselTypeEnum.FISHING,
         vesselSize = VesselSizeEnum.LESS_THAN_12m,

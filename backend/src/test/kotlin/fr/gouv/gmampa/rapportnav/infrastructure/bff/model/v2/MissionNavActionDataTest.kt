@@ -40,6 +40,7 @@ class MissionNavActionDataTest {
         assertThat(output.data.detectedPollution).isEqualTo(entity.detectedPollution)
         assertThat(output.data.pollutionObservedByAuthorizedAgent).isEqualTo(entity.pollutionObservedByAuthorizedAgent)
         assertThat(output.data.controlMethod).isEqualTo(entity.controlMethod)
+        assertThat(output.data.locationType).isEqualTo(entity.locationType)
         assertThat(output.data.vesselIdentifier).isEqualTo(entity.vesselIdentifier)
         assertThat(output.data.vesselType).isEqualTo(entity.vesselType)
         assertThat(output.data.vesselSize).isEqualTo(entity.vesselSize)
