@@ -10,7 +10,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("2.3.0")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("4.0.1")
+val springVersion by extra("4.0.5")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("11.20.0")
 
