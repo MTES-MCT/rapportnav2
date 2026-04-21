@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishActionData
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
@@ -24,6 +25,9 @@ class UpdateFishActionTest {
 
     @MockitoBean
     private lateinit var patchFishAction: PatchFishAction
+
+    @MockitoBean
+    private lateinit var processSati: ProcessSati
 
     @MockitoBean
     private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
@@ -48,6 +52,7 @@ class UpdateFishActionTest {
         ).thenReturn(listOf(TargetEntityMock.create()))
 
         val updateNavAction = UpdateFishAction(
+            processSati = processSati,
             patchFishAction = patchFishAction,
             processMissionActionTarget = processMissionActionTarget
         )
