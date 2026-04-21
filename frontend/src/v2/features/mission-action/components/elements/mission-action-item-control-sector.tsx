@@ -1,18 +1,29 @@
 import { FC } from 'react'
-import { string } from 'yup'
+import { object, string } from 'yup'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import MissionActionItemSectorControlForm from '../ui/mission-action-control-sector-form.tsx'
 import MissionActionItemGenericControl from './mission-action-item-generic-control.tsx'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 const MissionActionItemSectorControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { allControlTypes } = useTarget()
+  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+
   const schema = {
-    resourceId: string().required(),
-    resourceType: string().required()
+    sectorEstablishmentType: isMissionFinished ? string().required() : string().nullable(),
+    sectorType: isMissionFinished ? string().required() : string().nullable(),
+    // TODO: that's the idea but some more work is required to highlight the fields in rec
+    establishment: isMissionFinished
+      ? object()
+          .shape({
+            name: string().required()
+          })
+          .required()
+      : object().nullable()
   }
 
   return (

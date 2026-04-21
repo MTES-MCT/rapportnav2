@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeSati
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
@@ -28,6 +29,9 @@ class ProcessFishActionTest {
     @MockitoBean
     private lateinit var getComputeTarget: GetComputeTarget
 
+    @MockitoBean
+    private lateinit var getComputeSati: GetComputeSati
+
     @Test
     fun `test execute get fish action by id`() {
         val missionId = 761
@@ -39,6 +43,7 @@ class ProcessFishActionTest {
         val mockTarget = TargetEntityMock.create()
         `when`(getComputeTarget.execute(actionId.hashCode().toString(), true)).thenReturn(listOf(mockTarget))
         processFishAction = ProcessFishAction(
+            getComputeSati = getComputeSati,
             getComputeTarget = getComputeTarget,
             getStatusForAction = getStatusForAction
         )

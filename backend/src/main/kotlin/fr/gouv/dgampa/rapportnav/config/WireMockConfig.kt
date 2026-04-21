@@ -23,6 +23,7 @@ class WireMockConfig {
         FishActionsStubs.configureStubs(wireMockServer)
         MissionByIdStubs.configureStubs(wireMockServer)
         FishVesselsStubs.configureStubs(wireMockServer)
+        FishPortsStubs.configureStubs(wireMockServer)
 
         return wireMockServer
     }

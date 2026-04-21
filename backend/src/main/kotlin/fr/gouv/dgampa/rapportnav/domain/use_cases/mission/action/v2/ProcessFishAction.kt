@@ -9,13 +9,16 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 @UseCase
 class ProcessFishAction(
     getStatusForAction: GetStatusForAction,
-    private val getComputeTarget: GetComputeTarget
+    private val getComputeTarget: GetComputeTarget,
+    private val getComputeSati: GetComputeSati
 ) : AbstractGetMissionAction(getStatusForAction) {
 
     fun execute(missionId: Int, action: MissionAction): MissionFishActionEntity {
         val entity = MissionFishActionEntity.fromFishAction(action)
+        val sati = getComputeSati.execute(action = action)
         val targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
 
+        entity.sati = sati
         entity.targets = targets
         entity.status = this.getStatus(entity)
         entity.computeCompleteness()

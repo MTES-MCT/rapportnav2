@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import com.neovisionaries.i18n.CountryCode
-import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 
 class VesselEntity(
     val beaconNumber: String? = null,
@@ -15,15 +14,4 @@ class VesselEntity(
     val vesselId: Int,
     val vesselLength: Double? = null,
     val vesselName: String? = null
-) {
-    companion object {
-        fun fromVesselIdentityDataOutput(data: VesselIdentityDataOutput): VesselEntity {
-            return VesselEntity(
-                vesselId = data.vesselId,
-                vesselName = data.vesselName,
-                flagState = data.flagState,
-                externalReferenceNumber = data.externalReferenceNumber
-            )
-        }
-    }
-}
+)

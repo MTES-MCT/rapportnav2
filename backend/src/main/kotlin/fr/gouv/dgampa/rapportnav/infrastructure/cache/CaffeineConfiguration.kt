@@ -16,6 +16,8 @@ class CaffeineConfiguration {
 
     // long term caches for very static data
     val natinfs = "natinfs"
+    val vessels = "vessels"
+    val ports = "ports"
 
     // short term caches to reduce API calls
     val envMissions = "envMissions"
@@ -24,13 +26,13 @@ class CaffeineConfiguration {
     val envMission2 = "envMission2"
     val envActionList = "envActionList"
     val fishActionList = "fishActionList"
-    val vessels = "vessels"
 
     @Bean
     fun cacheManager(ticker: Ticker): CacheManager? {
 
         // long term caches for very static data
         val vesselsCache = buildCache(vessels, ticker, TimeUnit.DAYS, 7)
+        val portsCache = buildCache(ports, ticker, TimeUnit.DAYS, 7)
         val natinfsCache = buildCache(natinfs, ticker, TimeUnit.DAYS, 7)
 
         // short term caches for Missions and Actions
@@ -50,6 +52,7 @@ class CaffeineConfiguration {
             listOf(
                 // long term caches
                 vesselsCache,
+                portsCache,
                 natinfsCache,
 
                 // short term caches

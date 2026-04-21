@@ -22,6 +22,7 @@ class CaffeineConfigurationTest {
     fun `test cache manager configuration`() {
         val cacheNames = listOf(
             caffeineConfiguration.vessels,
+            caffeineConfiguration.ports,
             caffeineConfiguration.natinfs,
             caffeineConfiguration.envMissions,
             caffeineConfiguration.envMission,
@@ -39,13 +40,15 @@ class CaffeineConfigurationTest {
         }
 
         assertThat(cacheManager.cacheNames.toSet())
-            .hasSize(8)
+            .hasSize(9)
             .isEqualTo(cacheNames.toSet())
     }
 
     @Test
     fun `verify long-term cache expiration`() {
         val longTermCaches = listOf(
+            caffeineConfiguration.natinfs,
+            caffeineConfiguration.ports,
             caffeineConfiguration.natinfs,
         )
 

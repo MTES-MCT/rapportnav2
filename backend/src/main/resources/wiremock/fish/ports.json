@@ -1,0 +1,1003 @@
+[
+  {
+    "locode": "CACOR",
+    "name": "Corunna",
+    "latitude": 42.8847497,
+    "longitude": -82.450903,
+    "region": null
+  },
+  {
+    "locode": "BRFRC",
+    "name": "Franca",
+    "latitude": -20.5394551,
+    "longitude": -47.4010979,
+    "region": null
+  },
+  {
+    "locode": "FRCHR",
+    "name": "Châteauroux",
+    "latitude": 46.811434,
+    "longitude": 1.686779,
+    "region": "36"
+  },
+  {
+    "locode": "FRSTL",
+    "name": "Saint-Louis",
+    "latitude": 47.5859949,
+    "longitude": 7.563934,
+    "region": "68"
+  },
+  {
+    "locode": "FRVIL",
+    "name": "Villepinte",
+    "latitude": 48.960226,
+    "longitude": 2.542867,
+    "region": "93"
+  },
+  {
+    "locode": "IECTD",
+    "name": "Castletownsend",
+    "latitude": 51.5265757,
+    "longitude": -9.1793869,
+    "region": null
+  },
+  {
+    "locode": "NOBGO",
+    "name": "Bergen",
+    "latitude": 60.3912628,
+    "longitude": 5.3220544,
+    "region": null
+  },
+  {
+    "locode": "GBDIN",
+    "name": "Dingle",
+    "latitude": 53.381682,
+    "longitude": -2.9593668,
+    "region": null
+  },
+  {
+    "locode": "ESAVS",
+    "name": "Aviles",
+    "latitude": 43.5579523,
+    "longitude": -5.9246653,
+    "region": null
+  },
+  {
+    "locode": "ESEPT",
+    "name": "Espasante",
+    "latitude": 43.7123767,
+    "longitude": -7.7973413,
+    "region": null
+  },
+  {
+    "locode": "SCPOV",
+    "name": "Port Victoria",
+    "latitude": -4.6211298,
+    "longitude": 55.4522153,
+    "region": null
+  },
+  {
+    "locode": "GHTEM",
+    "name": "Tema",
+    "latitude": 5.7348119,
+    "longitude": 0.0302354,
+    "region": null
+  },
+  {
+    "locode": "ESALC",
+    "name": "Alicante",
+    "latitude": 38.3459963,
+    "longitude": -0.4906855,
+    "region": null
+  },
+  {
+    "locode": "ESLCG",
+    "name": "La Coruña",
+    "latitude": 43.3623436,
+    "longitude": -8.4115401,
+    "region": null
+  },
+  {
+    "locode": "NOTOS",
+    "name": "Tromsø",
+    "latitude": 69.6492047,
+    "longitude": 18.9553238,
+    "region": null
+  },
+  {
+    "locode": "ESMRS",
+    "name": "Muros",
+    "latitude": 42.8073676,
+    "longitude": -9.0460525,
+    "region": null
+  },
+  {
+    "locode": "ESCAR",
+    "name": "Cartagena",
+    "latitude": 37.6156944,
+    "longitude": -0.9892242,
+    "region": null
+  },
+  {
+    "locode": "ESVZR",
+    "name": "Vinaroz",
+    "latitude": 40.4679855,
+    "longitude": 0.4747301,
+    "region": null
+  },
+  {
+    "locode": "GAPOG",
+    "name": "Port Gentil",
+    "latitude": -0.7351026,
+    "longitude": 8.7591311,
+    "region": null
+  },
+  {
+    "locode": "GBLOV",
+    "name": "Lochinver",
+    "latitude": 58.146225,
+    "longitude": -5.2426102,
+    "region": null
+  },
+  {
+    "locode": "ESLPA",
+    "name": "Las Palmas - Puerto De La Luz",
+    "latitude": 28.137979428866,
+    "longitude": -15.4155945380265,
+    "region": null
+  },
+  {
+    "locode": "MGTLE",
+    "name": "Tulear (Toliara)",
+    "latitude": -23.3516191,
+    "longitude": 43.6854936,
+    "region": null
+  },
+  {
+    "locode": "ESBRL",
+    "name": "Burela",
+    "latitude": 43.6602954,
+    "longitude": -7.3611092,
+    "region": null
+  },
+  {
+    "locode": "BENIE",
+    "name": "Nieuwpoort",
+    "latitude": 51.1284296,
+    "longitude": 2.7480379,
+    "region": null
+  },
+  {
+    "locode": "ESCNO",
+    "name": "Cariño",
+    "latitude": 43.740925,
+    "longitude": -7.8699718,
+    "region": null
+  },
+  {
+    "locode": "GBSCB",
+    "name": "Salcombe",
+    "latitude": 50.23758,
+    "longitude": -3.769791,
+    "region": null
+  },
+  {
+    "locode": "GBSCA",
+    "name": "Scarborough",
+    "latitude": 54.283113,
+    "longitude": -0.399752,
+    "region": null
+  },
+  {
+    "locode": "IEKBS",
+    "name": "Killybegs",
+    "latitude": 54.6347625,
+    "longitude": -8.4547084,
+    "region": null
+  },
+  {
+    "locode": "VECUP",
+    "name": "Carupano",
+    "latitude": 10.6429802,
+    "longitude": -63.2562482,
+    "region": null
+  },
+  {
+    "locode": "GBSCR",
+    "name": "Scrabster",
+    "latitude": 58.611026,
+    "longitude": -3.552627,
+    "region": null
+  },
+  {
+    "locode": "ESVGO",
+    "name": "Vigo",
+    "latitude": 42.2405989,
+    "longitude": -8.7207268,
+    "region": null
+  },
+  {
+    "locode": "ESSCR",
+    "name": "San Carlos De La Rápita",
+    "latitude": 40.6204924,
+    "longitude": 0.5896357,
+    "region": null
+  },
+  {
+    "locode": "FOKVI",
+    "name": "Klaksvik",
+    "latitude": 62.2271922,
+    "longitude": -6.5779063,
+    "region": null
+  },
+  {
+    "locode": "GBHRW",
+    "name": "Harwich",
+    "latitude": 51.934731,
+    "longitude": 1.260297,
+    "region": null
+  },
+  {
+    "locode": "GBLER",
+    "name": "Lerwick",
+    "latitude": 60.1529871,
+    "longitude": -1.1492932,
+    "region": null
+  },
+  {
+    "locode": "GBPHD",
+    "name": "Peterhead",
+    "latitude": 57.508123,
+    "longitude": -1.784066,
+    "region": null
+  },
+  {
+    "locode": "ESARN",
+    "name": "Arenys De Mar",
+    "latitude": 41.5783288,
+    "longitude": 2.5346498,
+    "region": null
+  },
+  {
+    "locode": "IEDNM",
+    "name": "Dunmore East",
+    "latitude": 52.1527666,
+    "longitude": -6.994804,
+    "region": null
+  },
+  {
+    "locode": "TTPOS",
+    "name": "Port-Of-Spain",
+    "latitude": 10.6603196,
+    "longitude": -61.5085625,
+    "region": null
+  },
+  {
+    "locode": "ESEAS",
+    "name": "San Sebastián",
+    "latitude": 43.318334,
+    "longitude": -1.9812313,
+    "region": null
+  },
+  {
+    "locode": "CAFOR",
+    "name": "Fortune",
+    "latitude": 47.073042,
+    "longitude": -55.8281788,
+    "region": null
+  },
+  {
+    "locode": "NLSCI",
+    "name": "Schiedam",
+    "latitude": 51.9169599,
+    "longitude": 4.3988186,
+    "region": null
+  },
+  {
+    "locode": "NLSCE",
+    "name": "Scheveningen",
+    "latitude": 52.1024015,
+    "longitude": 4.3021834,
+    "region": null
+  },
+  {
+    "locode": "GBULL",
+    "name": "Ullapool",
+    "latitude": 57.895418,
+    "longitude": -5.161313,
+    "region": null
+  },
+  {
+    "locode": "IERSM",
+    "name": "Rossaveel",
+    "latitude": 53.2710388,
+    "longitude": -9.5476945,
+    "region": null
+  },
+  {
+    "locode": "NLDHR",
+    "name": "Den Helder",
+    "latitude": 52.9562808,
+    "longitude": 4.7607972,
+    "region": null
+  },
+  {
+    "locode": "ESORI",
+    "name": "Orio",
+    "latitude": 43.279531,
+    "longitude": -2.1290671,
+    "region": null
+  },
+  {
+    "locode": "ESBCN",
+    "name": "Barcelona",
+    "latitude": 41.3873974,
+    "longitude": 2.168568,
+    "region": null
+  },
+  {
+    "locode": "ESPAS",
+    "name": "Pasajes",
+    "latitude": 43.3254703,
+    "longitude": -1.9301396,
+    "region": null
+  },
+  {
+    "locode": "FOTVO",
+    "name": "Tvoeroyri",
+    "latitude": 61.5557494,
+    "longitude": -6.8119481,
+    "region": null
+  },
+  {
+    "locode": "SNDKR",
+    "name": "Dakar",
+    "latitude": 14.716677,
+    "longitude": -17.4676861,
+    "region": null
+  },
+  {
+    "locode": "AEDXB",
+    "name": "Dubai",
+    "latitude": 25.2048493,
+    "longitude": 55.2707828,
+    "region": null
+  },
+  {
+    "locode": "PACTB",
+    "name": "Cristóbal",
+    "latitude": 9.350599,
+    "longitude": -79.901527,
+    "region": null
+  },
+  {
+    "locode": "MGDIE",
+    "name": "Antsiranana",
+    "latitude": -12.3231349,
+    "longitude": 49.2942833,
+    "region": null
+  },
+  {
+    "locode": "GBNPO",
+    "name": "Newport, Isle of Wight",
+    "latitude": 50.700803,
+    "longitude": -1.291633,
+    "region": null
+  },
+  {
+    "locode": "MTMLA",
+    "name": "Valletta",
+    "latitude": 35.8992375,
+    "longitude": 14.5140996,
+    "region": null
+  },
+  {
+    "locode": "PTSSB",
+    "name": "Sesimbra",
+    "latitude": 38.444217,
+    "longitude": -9.1014903,
+    "region": null
+  },
+  {
+    "locode": "FOTHO",
+    "name": "Thorshavn",
+    "latitude": 62.0107248,
+    "longitude": -6.7740852,
+    "region": null
+  },
+  {
+    "locode": "GBESH",
+    "name": "Shoreham-By-Sea",
+    "latitude": 50.8342086,
+    "longitude": -0.2715558,
+    "region": null
+  },
+  {
+    "locode": "NLBRS",
+    "name": "Breskens",
+    "latitude": 51.3945258,
+    "longitude": 3.5558783,
+    "region": null
+  },
+  {
+    "locode": "NOEGE",
+    "name": "Egersund",
+    "latitude": 58.4514216,
+    "longitude": 5.9998032,
+    "region": null
+  },
+  {
+    "locode": "GBNYL",
+    "name": "Newlyn",
+    "latitude": 50.107058,
+    "longitude": -5.5503289,
+    "region": null
+  },
+  {
+    "locode": "ESGIJ",
+    "name": "Gijon (El Musel)",
+    "latitude": 43.5544576,
+    "longitude": -5.6997136,
+    "region": null
+  },
+  {
+    "locode": "ESMPG",
+    "name": "Marin",
+    "latitude": 42.3914848,
+    "longitude": -8.7020824,
+    "region": null
+  },
+  {
+    "locode": "NLIJM",
+    "name": "Ijmuiden/Velsen",
+    "latitude": 52.4569544,
+    "longitude": 4.6060138,
+    "region": null
+  },
+  {
+    "locode": "IEDIN",
+    "name": "Dingle",
+    "latitude": 52.1409389,
+    "longitude": -10.2640136,
+    "region": null
+  },
+  {
+    "locode": "VEPMP",
+    "name": "Pampatar",
+    "latitude": 10.9930572,
+    "longitude": -63.8141362,
+    "region": null
+  },
+  {
+    "locode": "BEZEE",
+    "name": "Zeebrugge",
+    "latitude": 51.3189468,
+    "longitude": 3.2068507,
+    "region": null
+  },
+  {
+    "locode": "ESRBS",
+    "name": "Ribadesella",
+    "latitude": 43.4630709,
+    "longitude": -5.0561255,
+    "region": null
+  },
+  {
+    "locode": "SRPBM",
+    "name": "Paramaribo",
+    "latitude": 5.8520355,
+    "longitude": -55.2038278,
+    "region": null
+  },
+  {
+    "locode": "ESCIO",
+    "name": "Cillero",
+    "latitude": 43.6798633,
+    "longitude": -7.5883459,
+    "region": null
+  },
+  {
+    "locode": "CIABJ",
+    "name": "Abidjan",
+    "latitude": 5.3599517,
+    "longitude": -4.0082563,
+    "region": null
+  },
+  {
+    "locode": "GBGSY",
+    "name": "Grimsby",
+    "latitude": 53.567471,
+    "longitude": -0.080784,
+    "region": null
+  },
+  {
+    "locode": "ESOND",
+    "name": "Ondarroa",
+    "latitude": 43.323022,
+    "longitude": -2.422308,
+    "region": null
+  },
+  {
+    "locode": "DKFDH",
+    "name": "Frederikshavn",
+    "latitude": 57.442711,
+    "longitude": 10.521006,
+    "region": null
+  },
+  {
+    "locode": "GYGEO",
+    "name": "Georgetown",
+    "latitude": 6.8012793,
+    "longitude": -58.1551255,
+    "region": null
+  },
+  {
+    "locode": "MGTNR",
+    "name": "Antananarivo",
+    "latitude": -18.8791902,
+    "longitude": 47.5079055,
+    "region": null
+  },
+  {
+    "locode": "GBBRX",
+    "name": "Brixham",
+    "latitude": 50.39514,
+    "longitude": -3.513924,
+    "region": null
+  },
+  {
+    "locode": "ESBIO",
+    "name": "Bilbao",
+    "latitude": 43.2630126,
+    "longitude": -2.9349852,
+    "region": null
+  },
+  {
+    "locode": "ESSDR",
+    "name": "Santander",
+    "latitude": 43.4636346,
+    "longitude": -3.8226402,
+    "region": null
+  },
+  {
+    "locode": "IEDLG",
+    "name": "Dun Laoghaire",
+    "latitude": 53.2943958,
+    "longitude": -6.1338666,
+    "region": null
+  },
+  {
+    "locode": "ESSNI",
+    "name": "Santa Eugenia De Riveira",
+    "latitude": 42.5540645,
+    "longitude": -8.9922481,
+    "region": null
+  },
+  {
+    "locode": "IEUNI",
+    "name": "Union Hall",
+    "latitude": 51.558803,
+    "longitude": -9.1434791,
+    "region": null
+  },
+  {
+    "locode": "BEOST",
+    "name": "Oostende (Ostend)",
+    "latitude": 51.2246631,
+    "longitude": 2.9091818,
+    "region": null
+  },
+  {
+    "locode": "FOFUG",
+    "name": "Fuglefjord",
+    "latitude": 62.2437948,
+    "longitude": -6.8131088,
+    "region": null
+  },
+  {
+    "locode": "NLVLI",
+    "name": "Vlissingen",
+    "latitude": 51.4536672,
+    "longitude": 3.5709125,
+    "region": null
+  },
+  {
+    "locode": "FORVK",
+    "name": "Runavik",
+    "latitude": 62.1069704,
+    "longitude": -6.7204804,
+    "region": null
+  },
+  {
+    "locode": "IEKLN",
+    "name": "Kinsale",
+    "latitude": 51.7058853,
+    "longitude": -8.5222327,
+    "region": null
+  },
+  {
+    "locode": "ESSPO",
+    "name": "Santa Pola",
+    "latitude": 38.1965614,
+    "longitude": -0.5612438,
+    "region": null
+  },
+  {
+    "locode": "ESCED",
+    "name": "Cedeira",
+    "latitude": 43.6607861,
+    "longitude": -8.0537698,
+    "region": null
+  },
+  {
+    "locode": "GBPLY",
+    "name": "Plymouth",
+    "latitude": 50.3754565,
+    "longitude": -4.1426565,
+    "region": null
+  },
+  {
+    "locode": "ESEWE",
+    "name": "Fuenterrabia",
+    "latitude": 43.3708434,
+    "longitude": -1.8001488,
+    "region": null
+  },
+  {
+    "locode": "ADALV",
+    "name": "Andorra La Vella",
+    "latitude": 42.5063174,
+    "longitude": 1.5218355,
+    "region": null
+  },
+  {
+    "locode": "GBSHO",
+    "name": "Shoreham",
+    "latitude": 50.8342086,
+    "longitude": -0.2715558,
+    "region": null
+  },
+  {
+    "locode": "GBSWY",
+    "name": "Scalloway",
+    "latitude": 60.137715,
+    "longitude": -1.282203,
+    "region": null
+  },
+  {
+    "locode": "NLNIJ",
+    "name": "Nijmegen",
+    "latitude": 51.8448837,
+    "longitude": 5.8428281,
+    "region": null
+  },
+  {
+    "locode": "SCMAW",
+    "name": "Mahé",
+    "latitude": -4.6826693,
+    "longitude": 55.480396,
+    "region": null
+  },
+  {
+    "locode": "NLSTD",
+    "name": "Stellendam",
+    "latitude": 51.806187,
+    "longitude": 4.0244063,
+    "region": null
+  },
+  {
+    "locode": "GBSTO",
+    "name": "Stornoway",
+    "latitude": 58.209435,
+    "longitude": -6.3848692,
+    "region": null
+  },
+  {
+    "locode": "ITCLS",
+    "name": "Calasetta",
+    "latitude": 39.1097941,
+    "longitude": 8.3692889,
+    "region": null
+  },
+  {
+    "locode": "IEORK",
+    "name": "Cork",
+    "latitude": 51.8985143,
+    "longitude": -8.4756035,
+    "region": null
+  },
+  {
+    "locode": "ESKLL",
+    "name": "La Ametlla De Mar",
+    "latitude": 40.8839435,
+    "longitude": 0.7996491,
+    "region": null
+  },
+  {
+    "locode": "ESJAV",
+    "name": "Javea",
+    "latitude": 38.7890109,
+    "longitude": 0.1660813,
+    "region": null
+  },
+  {
+    "locode": "MUPLU",
+    "name": "Port Louis",
+    "latitude": -20.1608912,
+    "longitude": 57.5012222,
+    "region": null
+  },
+  {
+    "locode": "IECTB",
+    "name": "Castletown Bearhaven",
+    "latitude": 51.6514954,
+    "longitude": -9.9103302,
+    "region": null
+  },
+  {
+    "locode": "GBCTN",
+    "name": "Castletown",
+    "latitude": 58.590804,
+    "longitude": -3.383761,
+    "region": null
+  },
+  {
+    "locode": "DKHAN",
+    "name": "Hanstholm",
+    "latitude": 57.112861,
+    "longitude": 8.617668,
+    "region": null
+  },
+  {
+    "locode": "DECUX",
+    "name": "Cuxhaven",
+    "latitude": 53.859336,
+    "longitude": 8.6879057,
+    "region": null
+  },
+  {
+    "locode": "ESCEL",
+    "name": "Celeiro",
+    "latitude": 43.678848,
+    "longitude": -7.596791,
+    "region": null
+  },
+  {
+    "locode": "PMFSP",
+    "name": "Saint-Pierre (Saint-Pierre-et-Miquelon)",
+    "latitude": 46.77,
+    "longitude": -56.16,
+    "region": null
+  },
+  {
+    "locode": "FRTS2",
+    "name": "Théoule-Sur-Mer",
+    "latitude": 43.505623,
+    "longitude": 6.940984,
+    "region": "06"
+  },
+  {
+    "locode": "FRTN2",
+    "name": "La Trinite",
+    "latitude": 43.742043,
+    "longitude": 7.313963,
+    "region": "06"
+  },
+  {
+    "locode": "FRNCE",
+    "name": "Nice",
+    "latitude": 43.7101728,
+    "longitude": 7.2619532,
+    "region": "06"
+  },
+  {
+    "locode": "FRSJC",
+    "name": "Saint-Jean-Cap-Ferrat",
+    "latitude": 43.68953,
+    "longitude": 7.332984,
+    "region": "06"
+  },
+  {
+    "locode": "FRVVV",
+    "name": "Villeneuve-Loubet",
+    "latitude": 43.6578919,
+    "longitude": 7.122337,
+    "region": "06"
+  },
+  {
+    "locode": "FRVFM",
+    "name": "Villefranche-Sur-Mer",
+    "latitude": 43.703976,
+    "longitude": 7.311109,
+    "region": "06"
+  },
+  {
+    "locode": "FRCME",
+    "name": "Cagnes-Sur-Mer",
+    "latitude": 43.663739,
+    "longitude": 7.14882,
+    "region": "06"
+  },
+  {
+    "locode": "FRBZM",
+    "name": "Beaulieu-Sur-Mer",
+    "latitude": 43.7077201,
+    "longitude": 7.3343701,
+    "region": "06"
+  },
+  {
+    "locode": "FRCEQ",
+    "name": "Cannes",
+    "latitude": 43.552847,
+    "longitude": 7.017369,
+    "region": "06"
+  },
+  {
+    "locode": "FRETN",
+    "name": "Menton",
+    "latitude": 43.774481,
+    "longitude": 7.49754,
+    "region": "06"
+  },
+  {
+    "locode": "FRANT",
+    "name": "Antibes",
+    "latitude": 43.580418,
+    "longitude": 7.125102,
+    "region": "06"
+  },
+  {
+    "locode": "FRGJE",
+    "name": "Golfe Juan",
+    "latitude": 43.5666466,
+    "longitude": 7.0779537,
+    "region": "06"
+  },
+  {
+    "locode": "FRJLP",
+    "name": "Juan-Les-Pins",
+    "latitude": 43.5691905,
+    "longitude": 7.1123854,
+    "region": "06"
+  },
+  {
+    "locode": "FRMND",
+    "name": "Mandelieu-La-Napoule",
+    "latitude": 43.546232,
+    "longitude": 6.938309,
+    "region": "06"
+  },
+  {
+    "locode": "FRWGE",
+    "name": "Gruissan",
+    "latitude": 43.107052,
+    "longitude": 3.086181,
+    "region": "11"
+  },
+  {
+    "locode": "FRNAR",
+    "name": "Narbonne",
+    "latitude": 43.184277,
+    "longitude": 3.003078,
+    "region": "11"
+  },
+  {
+    "locode": "FRUTE",
+    "name": "Leucate",
+    "latitude": 42.9103039,
+    "longitude": 3.028163,
+    "region": "11"
+  },
+  {
+    "locode": "FREBQ",
+    "name": "Etang De Bages-Sigean",
+    "latitude": 43.1017921,
+    "longitude": 2.9925577,
+    "region": "11"
+  },
+  {
+    "locode": "FRCCF",
+    "name": "Carcassonne",
+    "latitude": 43.2132151,
+    "longitude": 2.3517703,
+    "region": "11"
+  },
+  {
+    "locode": "FRNOU",
+    "name": "Port-La-Nouvelle",
+    "latitude": 43.021342,
+    "longitude": 3.043916,
+    "region": "11"
+  },
+  {
+    "locode": "FRMGN",
+    "name": "Marignane",
+    "latitude": 43.4212739,
+    "longitude": 5.218332,
+    "region": "13"
+  },
+  {
+    "locode": "FRMRS",
+    "name": "Marseille",
+    "latitude": 43.296482,
+    "longitude": 5.36978,
+    "region": "13"
+  },
+  {
+    "locode": "FRS22",
+    "name": "Sausset-Les-Pins",
+    "latitude": 43.332412,
+    "longitude": 5.11057,
+    "region": "13"
+  },
+  {
+    "locode": "FRPSL",
+    "name": "Port-Saint-Louis-Du-Rhône",
+    "latitude": 43.387847,
+    "longitude": 4.803225,
+    "region": "13"
+  },
+  {
+    "locode": "FRMTU",
+    "name": "Martigues",
+    "latitude": 43.404811,
+    "longitude": 5.053728,
+    "region": "13"
+  },
+  {
+    "locode": "FRPDB",
+    "name": "Port-De-Bouc",
+    "latitude": 43.405449,
+    "longitude": 4.985931,
+    "region": "13"
+  },
+  {
+    "locode": "FRAMA",
+    "name": "Saint-Chamas",
+    "latitude": 43.550669,
+    "longitude": 5.034508,
+    "region": "13"
+  },
+  {
+    "locode": "FRAIS",
+    "name": "Cassis",
+    "latitude": 43.215134,
+    "longitude": 5.53712,
+    "region": "13"
+  },
+  {
+    "locode": "FRARL",
+    "name": "Arles",
+    "latitude": 43.676647,
+    "longitude": 4.6277769,
+    "region": "13"
+  },
+  {
+    "locode": "FRCR2",
+    "name": "Carro (Martigues)",
+    "latitude": 43.337155,
+    "longitude": 5.040794,
+    "region": "13"
+  },
+  {
+    "locode": "FRXSR",
+    "name": "Saintes-Maries-De-La-Mer",
+    "latitude": 43.453241,
+    "longitude": 4.429074,
+    "region": "13"
+  },
+  {
+    "locode": "FRRYR",
+    "name": "Carry-Le-Rouet",
+    "latitude": 43.330673,
+    "longitude": 5.151576,
+    "region": "13"
+  },
+  {
+    "locode": "FRFOS",
+    "name": "Fos-Sur-Mer",
+    "latitude": 43.437882,
+    "longitude": 4.945711,
+    "region": "13"
+  }
+]

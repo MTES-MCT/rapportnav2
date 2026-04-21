@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
 import java.time.Instant
 
 class MissionFishActionData(
@@ -57,6 +59,7 @@ class MissionFishActionData(
     override var speciesQuantitySeized: Int? = null,
     override val targets: List<Target>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
+    override val sati: Sati? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -68,10 +71,11 @@ class MissionFishActionData(
             val action = MissionFishActionEntity(
                 id = Integer.parseInt(input.id),
                 missionId = input.missionId,
-                fishActionType = MissionActionType.AIR_CONTROL,
                 observationsByUnit = data.observationsByUnit,
                 actionDatetimeUtc = data.startDateTimeUtc,
-                actionEndDatetimeUtc = data.endDateTimeUtc
+                actionEndDatetimeUtc = data.endDateTimeUtc,
+                fishActionType = data.fishActionType,
+                sati = data.sati?.let {  SatiMapper.toEntity(data.sati)},
             )
             return action
         }

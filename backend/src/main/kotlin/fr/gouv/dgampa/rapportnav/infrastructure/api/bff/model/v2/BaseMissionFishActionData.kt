@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
 
 interface BaseMissionFishActionData {
     val vesselId: Int?
@@ -51,4 +53,5 @@ interface BaseMissionFishActionData {
     var observationsByUnit: String?
     var speciesQuantitySeized: Int ?
     val fishInfractions: List<FishInfraction>
+    val sati: Sati?
 }
