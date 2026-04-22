@@ -15,12 +15,12 @@ jobs:
       ACTIONS_RUNNER_DEBUG: true
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
       - name: Get frontend version
-        uses: avides/actions-project-version-check@v1.4.0
+        uses: avides/actions-project-version-check@884551b972f805b876a514bec199fbfaae21ea72
         id: frontend_version
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -33,7 +33,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           VERSION: ${{ steps.frontend_version.outputs.version }}
 
-      - uses: yesolutions/mirror-action@master
+      - uses: yesolutions/mirror-action@1708f16cdb28634fd3ba10c5c79abc91f5578a14
         with:
           REMOTE: https://gitlab-sml.din.developpement-durable.gouv.fr/rapportnav-v2/rapportnav_v2.git
           GIT_USERNAME: ${{ github.actor }}

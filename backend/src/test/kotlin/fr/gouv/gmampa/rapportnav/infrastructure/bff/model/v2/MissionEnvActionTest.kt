@@ -65,7 +65,6 @@ class MissionEnvActionTest {
                     id = "Infraction_Id",
                     infractionType = InfractionTypeEnum.WITH_REPORT,
                     formalNotice = FormalNoticeEnum.NO,
-                    toProcess = false
                 )
             ),
             actionStartDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),

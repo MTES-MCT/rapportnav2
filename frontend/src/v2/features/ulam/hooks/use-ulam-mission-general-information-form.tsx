@@ -7,6 +7,7 @@ import {
   MissionReinforcementTypeEnum,
   MissionReportTypeEnum
 } from '../../common/types/mission-types.ts'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export type MissionGeneralInfoInput = {
   dates: any
@@ -17,6 +18,7 @@ export const useUlamMissionGeneralInfoForm = (
   value: MissionGeneralInfo2
 ) => {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(value.missionId)
   const fromFieldValueToInput = (data: MissionGeneralInfo2): MissionGeneralInfoInput => {
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -75,7 +77,8 @@ export const useUlamMissionGeneralInfoForm = (
     nbHourAtSea: Yup.number()
       .min(0, "Le nombre d'heures en mer ne peut pas être négatif")
       .when('missionTypes', {
-        is: (missionTypes?: MissionTypeEnum[]) => missionTypes?.includes(MissionTypeEnum.SEA),
+        is: (missionTypes?: MissionTypeEnum[]) =>
+          isMissionFinished && missionTypes?.includes(MissionTypeEnum.SEA),
         then: schema => schema.required("Nombre d'heures en mer obligatoire")
       })
   })
