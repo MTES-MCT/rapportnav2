@@ -154,15 +154,13 @@ class MissionEnvActionEntityTest {
                 nbTarget = 4,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 formalNotice = FormalNoticeEnum.NO,
-                toProcess = false,
-                natinf = listOf("123", "234")
+                                natinf = listOf("123", "234")
             ),
             InfractionEnvEntity(
                 id = "2",
                 infractionType = InfractionTypeEnum.WITHOUT_REPORT,
                 formalNotice = FormalNoticeEnum.NO,
-                toProcess = false,
-                natinf = listOf("222")
+                                natinf = listOf("222")
             )
         )
 
@@ -216,8 +214,7 @@ class MissionEnvActionEntityTest {
                     id = "1",
                     infractionType = InfractionTypeEnum.WITH_REPORT,
                     formalNotice = FormalNoticeEnum.NO,
-                    toProcess = false,
-                    natinf = listOf("111", "222")
+                                        natinf = listOf("111", "222")
                 )
             )
         )
@@ -251,8 +248,7 @@ class MissionEnvActionEntityTest {
                 InfractionEnvEntity(
                     id = "Infraction_Id",
                     infractionType = InfractionTypeEnum.WITH_REPORT,
-                    formalNotice = FormalNoticeEnum.NO,
-                    toProcess = false
+                    formalNotice = FormalNoticeEnum.NO
                 )
             ),
             actionStartDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),

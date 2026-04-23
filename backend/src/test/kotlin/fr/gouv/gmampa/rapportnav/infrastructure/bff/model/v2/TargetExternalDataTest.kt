@@ -2,8 +2,6 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.FormalNoticeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetExternalDataEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.TargetExternalData
 import org.assertj.core.api.Assertions.assertThat
@@ -20,8 +18,8 @@ class TargetExternalDataTest {
             natinfs = listOf("natInf1", "natInf2"),
             toProcess = false,
             nbTarget = 4,
-            vesselType = VesselTypeEnum.SAILING,
-            vesselSize = VesselSizeEnum.FROM_12_TO_24m,
+            vesselType = "SAILING",
+            vesselSize = 23,
             companyName = "myExternalData",
             formalNotice = FormalNoticeEnum.YES,
             observations = "myExternalData",
@@ -56,8 +54,8 @@ class TargetExternalDataTest {
             natinfs = listOf("natInf1", "natInf2"),
             toProcess = false,
             nbTarget = 4,
-            vesselType = VesselTypeEnum.SAILING,
-            vesselSize = VesselSizeEnum.FROM_12_TO_24m,
+            vesselType = "SAILING",
+            vesselSize = 23,
             companyName = "myExternalData",
             formalNotice = FormalNoticeEnum.YES,
             observations = "myExternalData",

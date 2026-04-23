@@ -127,6 +127,27 @@
             }
           ]
         }
+      ],
+      "infractions": [
+        {
+          "id": "503aad9f-c792-46dc-ba1e-f218ead1c0ee",
+          "administrativeResponse": "REGULARIZATION",
+          "natinf": [],
+          "observations": "",
+          "registrationNumber": null,
+          "companyName": null,
+          "relevantCourt": null,
+          "imo": null,
+          "infractionType": "WITHOUT_REPORT",
+          "formalNotice": "NO",
+          "mmsi": null,
+          "nbTarget": 1,
+          "controlledPersonIdentity": null,
+          "vesselId": 1,
+          "vesselName": null,
+          "vesselSize": 11,
+          "vesselType": "COMMERCIAL"
+        }
       ]
     },
     {

@@ -4,7 +4,7 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.72.0"
+version = "2.73.0"
 // x-release-please-end
 description = "RapportNav"
 
@@ -53,10 +53,10 @@ dependencyManagement {
   }
   dependencies {
     // force any dependency like following :
-     dependency("org.apache.commons:commons-lang3:3.19.0")
+     dependency("org.apache.commons:commons-lang3:3.20.0")
     // remove following two after spring boot 4.0.3+
-     dependency("com.fasterxml.jackson.core:jackson-core:2.21.1")
-     dependency("tools.jackson.core:jackson-core:3.1.0")
+     dependency("com.fasterxml.jackson.core:jackson-core:2.21.2")
+     dependency("tools.jackson.core:jackson-core:3.1.1")
 
   }
 }
@@ -70,7 +70,7 @@ dependencies {
 
   // Version constraints (replaces dependencyManagement.dependencies)
   constraints {
-    implementation("org.apache.commons:commons-lang3:3.19.0")
+    implementation("org.apache.commons:commons-lang3:3.20.0")
   }
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")

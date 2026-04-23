@@ -1,6 +1,8 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.infraction
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.FormalNoticeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import java.util.*
 
 object InfractionEnvEntityMock {
@@ -14,10 +16,9 @@ object InfractionEnvEntityMock {
         relevantCourt: String? = null,
         infractionType: InfractionTypeEnum = InfractionTypeEnum.WITH_REPORT,
         formalNotice: FormalNoticeEnum = FormalNoticeEnum.YES,
-        toProcess: Boolean = false,
         controlledPersonIdentity: String? = null,
-        vesselType: VesselTypeEnum? = null,
-        vesselSize: VesselSizeEnum? = null,
+        vesselType: String? = null,
+        vesselSize: Number? = null,
     ): InfractionEnvEntity {
         return InfractionEnvEntity(
             id = id,
@@ -27,7 +28,6 @@ object InfractionEnvEntityMock {
             relevantCourt = relevantCourt,
             infractionType = infractionType,
             formalNotice = formalNotice,
-            toProcess = toProcess,
             observations = observations,
             controlledPersonIdentity = controlledPersonIdentity,
             vesselType = vesselType,

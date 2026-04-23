@@ -2,8 +2,6 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.FormalNoticeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 
 class TargetExternalDataEntity(
     val id: String,
@@ -17,6 +15,6 @@ class TargetExternalDataEntity(
     val formalNotice: FormalNoticeEnum? = null,
     val toProcess: Boolean? = null,
     val controlledPersonIdentity: String? = null,
-    val vesselType: VesselTypeEnum? = null,
-    val vesselSize: VesselSizeEnum? = null,
+    val vesselSize: Number? = null,
+    val vesselType: String? = null,
 )
