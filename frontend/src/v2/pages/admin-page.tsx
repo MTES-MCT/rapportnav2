@@ -16,6 +16,7 @@ import { store } from '../store'
 import AdminGeneralInfosItem from '../features/admin/components/elements/admin-general-infos-item.tsx'
 import AdminUserAuthLoggingItem from '../features/admin/components/elements/admin-user-auth-logging-item.tsx'
 import AdminApiKeyLoggingItem from '../features/admin/components/elements/admin-user-apikey-logging-item.tsx'
+import AdminFishAuctionItem from '../features/admin/components/elements/admin-fish-auction-item.tsx'
 
 const AdminPage: React.FC = () => {
   const { getSidebarItems } = useGlobalRoutes()
@@ -86,14 +87,18 @@ const AdminPage: React.FC = () => {
                       <AdminGeneralInfosItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="6" title="API Keys">
+                    <Tabs.Tab eventKey="6" title="Criées">
+                      <AdminFishAuctionItem />
+                    </Tabs.Tab>
+                    __
+                    <Tabs.Tab eventKey="7" title="API Keys">
                       <AdminApikeyItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="7" title="User Auth logs">
+                    <Tabs.Tab eventKey="8" title="User Auth logs">
                       <AdminUserAuthLoggingItem />
                     </Tabs.Tab>
-                    <Tabs.Tab eventKey="8" title="API Keys logs">
+                    <Tabs.Tab eventKey="9" title="API Keys logs">
                       <AdminApiKeyLoggingItem />
                     </Tabs.Tab>
                   </Tabs>
