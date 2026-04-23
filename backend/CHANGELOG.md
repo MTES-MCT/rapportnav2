@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.73.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.72.0...backend@v2.73.0) (2026-04-23)
+
+
+### Features
+
+* add address service from data.gouv.fr and frontend autocomplete ([a1a591d](https://github.com/MTES-MCT/rapportnav2/commit/a1a591d560430db109e2b5d980f8481af735a58f))
+* **backend:** add listener on model ([f778dac](https://github.com/MTES-MCT/rapportnav2/commit/f778dac17ef1f41851d1307a2420a9e1a1d4ca22))
+* **backend:** attributes with country code ([0a1ab3b](https://github.com/MTES-MCT/rapportnav2/commit/0a1ab3b43538a762f5870b666b7065793d638969))
+* **backend:** sati database and backbone ([ae20a99](https://github.com/MTES-MCT/rapportnav2/commit/ae20a993a1841a30e32d0a86eec8a42a6d100c77))
+* **backend:** update address id and country code ([69c6c67](https://github.com/MTES-MCT/rapportnav2/commit/69c6c674a6fb8cd47a9de984c342e01e2631241e))
+* **backend:** use case sati GET/PUT ([45741bd](https://github.com/MTES-MCT/rapportnav2/commit/45741bd0c85f288189f355fd85e822ac00f72543))
+* **backend:** use case sati GET/PUT ([12380da](https://github.com/MTES-MCT/rapportnav2/commit/12380da946cdb993bf858b9d0e73fdabf718c401))
+* **Ports:** add connection to Port API from NonitorFish and add UI search component ([515c603](https://github.com/MTES-MCT/rapportnav2/commit/515c6035501650bc57f19b668edc5809bd98c441))
+
+
+### Bug Fixes
+
+* add Port cache to Caffeine config ([4890d1d](https://github.com/MTES-MCT/rapportnav2/commit/4890d1d672a83597c7477c73b1a697e2d41b9aad))
+* **backend:** get sati with with return null possible ([779ea05](https://github.com/MTES-MCT/rapportnav2/commit/779ea054c72a886bafa7053da7e3cd62ed29d7e2))
+* **Env:** update InfractionEnvEntity.kt to match with Env class changes on their side - fixes MismatchedInputException ([0a87ea2](https://github.com/MTES-MCT/rapportnav2/commit/0a87ea2d95ff561ae1903f9abec6e464d730660f))
+* **Fish:** remove hardcoded fishActionType ([202ce0e](https://github.com/MTES-MCT/rapportnav2/commit/202ce0ea6b3ff0ae106a735ee6ff575d2a58e83a))
+
 ## [2.72.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.71.0...backend@v2.72.0) (2026-03-26)
 
 
