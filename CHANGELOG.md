@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.73.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.72.0...docker-container@v2.73.0) (2026-04-23)
+
+
+### Features
+
+* add address service from data.gouv.fr and frontend autocomplete ([a1a591d](https://github.com/MTES-MCT/rapportnav2/commit/a1a591d560430db109e2b5d980f8481af735a58f))
+* **backend:** add listener on model ([f778dac](https://github.com/MTES-MCT/rapportnav2/commit/f778dac17ef1f41851d1307a2420a9e1a1d4ca22))
+* **backend:** attributes with country code ([0a1ab3b](https://github.com/MTES-MCT/rapportnav2/commit/0a1ab3b43538a762f5870b666b7065793d638969))
+* **backend:** sati database and backbone ([ae20a99](https://github.com/MTES-MCT/rapportnav2/commit/ae20a993a1841a30e32d0a86eec8a42a6d100c77))
+* **backend:** update address id and country code ([69c6c67](https://github.com/MTES-MCT/rapportnav2/commit/69c6c674a6fb8cd47a9de984c342e01e2631241e))
+* **backend:** use case sati GET/PUT ([45741bd](https://github.com/MTES-MCT/rapportnav2/commit/45741bd0c85f288189f355fd85e822ac00f72543))
+* **backend:** use case sati GET/PUT ([12380da](https://github.com/MTES-MCT/rapportnav2/commit/12380da946cdb993bf858b9d0e73fdabf718c401))
+* **Ports:** add connection to Port API from NonitorFish and add UI search component ([515c603](https://github.com/MTES-MCT/rapportnav2/commit/515c6035501650bc57f19b668edc5809bd98c441))
+
+
+### Bug Fixes
+
+* add Port cache to Caffeine config ([4890d1d](https://github.com/MTES-MCT/rapportnav2/commit/4890d1d672a83597c7477c73b1a697e2d41b9aad))
+* **backend:** get sati with with return null possible ([779ea05](https://github.com/MTES-MCT/rapportnav2/commit/779ea054c72a886bafa7053da7e3cd62ed29d7e2))
+* bymp Trivy action to 0.36.0 ([f0c2742](https://github.com/MTES-MCT/rapportnav2/commit/f0c2742beeae6441d409275d78f6a189a59ae32b))
+* **Control:** add compliantSafeManningPermit to Control type ([7fc62f2](https://github.com/MTES-MCT/rapportnav2/commit/7fc62f2825235843b89f561705ffe16cd63d135d))
+* **Env:** update InfractionEnvEntity.kt to match with Env class changes on their side - fixes MismatchedInputException ([0a87ea2](https://github.com/MTES-MCT/rapportnav2/commit/0a87ea2d95ff561ae1903f9abec6e464d730660f))
+* fallback on address for establishment API usage ([d2edcf0](https://github.com/MTES-MCT/rapportnav2/commit/d2edcf0224b84dba52fdda82cc15cfbd6b5fbf19))
+* **Fish:** remove hardcoded fishActionType ([202ce0e](https://github.com/MTES-MCT/rapportnav2/commit/202ce0ea6b3ff0ae106a735ee6ff575d2a58e83a))
+* improve validation schema for control-nautical-leisure.ts ([d082b63](https://github.com/MTES-MCT/rapportnav2/commit/d082b633f15dcec8dbbe743ca85d9eaf965a9b84))
+* npm audit ([9a602fe](https://github.com/MTES-MCT/rapportnav2/commit/9a602feeb28960ce9a918f82525444e65d662fbd))
+* **secu:** hardcode trivy action hash instead of tag ([fb9fcd7](https://github.com/MTES-MCT/rapportnav2/commit/fb9fcd760a22151e62672c1adc8d92281e863248))
+* **secu:** use commit hash instead of tag for defense in depth ([7b7d5b4](https://github.com/MTES-MCT/rapportnav2/commit/7b7d5b452db60d57d911dff7f81489db5921d99f))
+* validation schema for control sector ([2505b36](https://github.com/MTES-MCT/rapportnav2/commit/2505b36b1916b17c8ecb7d4c0af0951d6bc19dab))
+* validation schema on create mission ([58a0b86](https://github.com/MTES-MCT/rapportnav2/commit/58a0b8611421bb7e134bd8ba6fb571798a825b7d))
+
 ## [2.72.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.71.0...docker-container@v2.72.0) (2026-03-26)
 
 
