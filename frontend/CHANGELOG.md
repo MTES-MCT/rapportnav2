@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.73.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.72.0...frontend@v2.73.0) (2026-04-23)
+
+
+### Features
+
+* add address service from data.gouv.fr and frontend autocomplete ([a1a591d](https://github.com/MTES-MCT/rapportnav2/commit/a1a591d560430db109e2b5d980f8481af735a58f))
+* **Ports:** add connection to Port API from NonitorFish and add UI search component ([515c603](https://github.com/MTES-MCT/rapportnav2/commit/515c6035501650bc57f19b668edc5809bd98c441))
+
+
+### Bug Fixes
+
+* **Control:** add compliantSafeManningPermit to Control type ([7fc62f2](https://github.com/MTES-MCT/rapportnav2/commit/7fc62f2825235843b89f561705ffe16cd63d135d))
+* fallback on address for establishment API usage ([d2edcf0](https://github.com/MTES-MCT/rapportnav2/commit/d2edcf0224b84dba52fdda82cc15cfbd6b5fbf19))
+* improve validation schema for control-nautical-leisure.ts ([d082b63](https://github.com/MTES-MCT/rapportnav2/commit/d082b633f15dcec8dbbe743ca85d9eaf965a9b84))
+* npm audit ([9a602fe](https://github.com/MTES-MCT/rapportnav2/commit/9a602feeb28960ce9a918f82525444e65d662fbd))
+* validation schema for control sector ([2505b36](https://github.com/MTES-MCT/rapportnav2/commit/2505b36b1916b17c8ecb7d4c0af0951d6bc19dab))
+* validation schema on create mission ([58a0b86](https://github.com/MTES-MCT/rapportnav2/commit/58a0b8611421bb7e134bd8ba6fb571798a825b7d))
+
 ## [2.72.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.71.0...frontend@v2.72.0) (2026-03-26)
 
 

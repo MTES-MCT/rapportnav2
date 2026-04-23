@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
-import { renderHook } from '@testing-library/react'
 import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import { useUlamMissionGeneralInfoForm } from '../use-ulam-mission-general-information-form.tsx'
 import { MissionReportTypeEnum } from '../../../common/types/mission-types.ts'
+import { renderHook } from '../../../../../test-utils.tsx'
 
 vi.mock('../../../common/hooks/use-abstract-formik-form.tsx', () => ({
   useAbstractFormik: () => ({
@@ -16,6 +16,10 @@ vi.mock('../../../common/hooks/use-date.tsx', () => ({
     preprocessDateForPicker: vi.fn(date => new Date(date)),
     postprocessDateFromPicker: vi.fn(date => date?.toString())
   })
+}))
+
+vi.mock('../../../common/hooks/use-mission-finished.tsx', () => ({
+  useMissionFinished: () => true
 }))
 
 describe('useUlamMissionGeneralInfoForm', () => {

@@ -9,6 +9,7 @@ interface SearchEstablishment {
   nom_complet: string
   nom_raison_sociale: string
   siege: {
+    adresse: string
     siret: string
     geo_adresse: string
     code_postal: string
@@ -22,7 +23,7 @@ const transform = (value: SearchEstablishment) => ({
   siret: value?.siege?.siret,
   city: value.siege.libelle_commune,
   zipcode: value?.siege?.code_postal,
-  address: value?.siege?.geo_adresse,
+  address: value?.siege?.geo_adresse ?? value?.siege?.adresse,
   name: value.nom_raison_sociale ?? value.nom_complet
 })
 
