@@ -3,12 +3,13 @@ import { object, ObjectShape } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 import getDateRangeSchema from '../../common/schemas/dates-schema'
-import getGeoCoordsSchema from '../../common/schemas/geocoords-schema'
+import { cleanLocationFields } from '../../common/schemas/location-fields-cleaner'
+import getLocationSchema from '../../common/schemas/location-schema'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionControlInput } from '../types/action-type'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionGenericControl(
   action: MissionAction,
@@ -32,12 +33,13 @@ export function useMissionActionGenericControl(
   }
 
   const fromInputToFieldValue = (value: ActionControlInput): MissionNavActionData => {
-    const { dates, geoCoords, ...newData } = value
-    const latitude = geoCoords[0]
-    const longitude = geoCoords[1]
+    const { dates, geoCoords, locationType, ...newData } = value
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, latitude, longitude, endDateTimeUtc, startDateTimeUtc }
+    if (withGeoCoords) {
+      return { ...newData, ...cleanLocationFields(locationType, geoCoords, newData), locationType, startDateTimeUtc, endDateTimeUtc }
+    }
+    return { ...newData, latitude: geoCoords[0], longitude: geoCoords[1], startDateTimeUtc, endDateTimeUtc }
   }
 
   const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionControlInput>(
@@ -58,7 +60,7 @@ export function useMissionActionGenericControl(
 
   const createValidationSchema = (isMissionFinished?: boolean) => {
     return object().shape({
-      ...(withGeoCoords ? getGeoCoordsSchema(isMissionFinished) : {}),
+      ...(withGeoCoords ? getLocationSchema(isMissionFinished) : {}),
       ...(getDateRangeSchema(isMissionFinished) as Record<string, any>),
       ...(schema ?? {})
     })

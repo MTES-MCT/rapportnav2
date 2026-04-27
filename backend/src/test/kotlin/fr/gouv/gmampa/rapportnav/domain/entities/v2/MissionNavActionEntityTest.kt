@@ -3,6 +3,8 @@ package fr.gouv.gmampa.rapportnav.domain.entities.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FacadeTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishAuctionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
@@ -12,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationTyp
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.FishAuction
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions
@@ -316,7 +319,7 @@ class MissionNavActionEntityTest {
     }
 
     @Test
-    fun `CONTROL_SECTOR with FISHING and FISH_AUCTION should require zipCode`() {
+    fun `CONTROL_SECTOR with FISHING and FISH_AUCTION should require fishAuction`() {
         val entity = MissionNavActionEntityMock.create(
             actionType = ActionType.CONTROL_SECTOR,
             sectorType = SectorType.FISHING,
@@ -328,7 +331,7 @@ class MissionNavActionEntityTest {
         Assertions.assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         // Add zipCode and endDateTimeUtc
-        entity.zipCode = "56100"
+        entity.fishAuction = FishAuctionEntity(name = "abc", facade = FacadeTypeEnum.MED)
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
         entity.computeCompleteness()
         Assertions.assertThat(entity.isCompleteForStats).isEqualTo(true)
