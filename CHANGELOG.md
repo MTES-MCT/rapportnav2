@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.74.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.73.0...docker-container@v2.74.0) (2026-04-27)
+
+
+### Features
+
+* **Criées:** ajout liste des criées + endpoints + admin panel ([87347da](https://github.com/MTES-MCT/rapportnav2/commit/87347da58c97f5a9cf2fb406730f0494de19b785))
+
+
+### Bug Fixes
+
+* **AEM:** update rule 4.1.3 ([7ce7f33](https://github.com/MTES-MCT/rapportnav2/commit/7ce7f3363196da039149650b4779aa0e6af859cd))
+* **AnalyticsAPI:** env surveillance duration fix ([89e15f2](https://github.com/MTES-MCT/rapportnav2/commit/89e15f25610da1b016d8947a29fa605e642bda97))
+* frontend tests ([2ffacd3](https://github.com/MTES-MCT/rapportnav2/commit/2ffacd3f37c6757e88f39483e1b6f2989d2fa28f))
+* frontend/package.json & frontend/package-lock.json to reduce vulnerabilities ([d7a2bce](https://github.com/MTES-MCT/rapportnav2/commit/d7a2bcea15b538d627413a88fd82d2c6829b0019))
+* **frontend:** target on adding new infraction on new control ([ce75902](https://github.com/MTES-MCT/rapportnav2/commit/ce759024677af1d9ab9e61bd8f4ce1388f7a9eff))
+
 ## [2.73.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.72.0...docker-container@v2.73.0) (2026-04-23)
 
 
