@@ -17,7 +17,7 @@ describe('useTarget', () => {
   })
 
   it('should validate that is default event when source is null', () => {
-    const target = { targetType: TargetType.DEFAULT, source: null } as Target
+    const target = { targetType: TargetType.DEFAULT, source: null } as unknown as Target
     const { result } = renderHook(() => useTarget())
     expect(result.current.isDefaultTarget(target)).toBeTruthy()
   })
@@ -85,6 +85,49 @@ describe('useTarget', () => {
     expect(infraction?.infractionType).toEqual(input.infraction?.infractionType)
   })
 
+  it('should add infraction in a new control, without erasing existing one', () => {
+    const infractionId1 = 'infraction1'
+    const infractionId2 = 'infraction2'
+
+    const input = {
+      target: {
+        actionId: 'mycontrolId',
+        identityControlledPerson: 'My identify controlled person',
+        controls: [
+          {
+            amountOfControls: 1,
+            controlType: ControlType.GENS_DE_MER,
+            infractions: [
+              {
+                id: infractionId1,
+                observations: 'infraction 1',
+                natinfs: ['10034'],
+                infractionType: InfractionTypeEnum.WITHOUT_REPORT
+              }
+            ]
+          }
+        ]
+      } as Target,
+      control: {
+        controlType: ControlType.TRANSPORT
+      } as Control,
+      infraction: {
+        id: infractionId2,
+        observations: 'infraction 2',
+        natinfs: ['10034', '43534624'],
+        infractionType: InfractionTypeEnum.WITH_REPORT
+      }
+    } as TargetInfraction
+    const { result } = renderHook(() => useTarget())
+    const response = result.current.fromInputToFieldValue(input)
+    expect(response).toBeTruthy()
+    expect(response?.controls?.length).toEqual(2)
+
+    const control = response?.controls?.find(c => c.controlType === ControlType.TRANSPORT)
+    expect(control?.infractions?.length).toEqual(1)
+    expect(control?.infractions?.at(0)?.id).toEqual(infractionId2)
+  })
+
   it('should push infraction into the target at the right control when isInquiry', () => {
     const input = {
       target: {
@@ -111,7 +154,7 @@ describe('useTarget', () => {
       }
     } as TargetInfraction
     const { result } = renderHook(() => useTarget())
-    const response = result.current.fromInputToFieldValue(input, true)
+    const response = result.current.fromInputToFieldValue(input)
     expect(response).toBeTruthy()
     expect(response?.controls?.length).toEqual(2)
     expect(response?.actionId).toEqual(input.target?.actionId)
@@ -293,7 +336,7 @@ describe('useTarget', () => {
         {
           targetType: TargetType.DEFAULT,
           controls: []
-        }
+        } as unknown
       ] as Target[]
 
       const responses = result.current.getAvailableEnvControlTypes(targets, controlTypes)
@@ -317,7 +360,7 @@ describe('useTarget', () => {
         const response = result.current.getAvailableEnvControlTypes(targets, controlTypes)
         expect(response).toEqual([])
       } catch (error) {
-        expect(error.message).toMatch(/entries.*reduce/)
+        expect((error as any).message).toMatch(/entries.*reduce/)
       }
     })
   })
