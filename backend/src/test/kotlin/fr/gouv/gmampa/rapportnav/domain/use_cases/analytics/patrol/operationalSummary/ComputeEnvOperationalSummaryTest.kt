@@ -91,6 +91,20 @@ class ComputeEnvOperationalSummaryTest {
         }
 
         @Test
+        fun `envActionSummary should filter out non-env actions`() {
+            val mixedActions = listOf(
+                MissionEnvActionEntityMock.create(
+                    themes = listOf(ThemeEntityMock.create(id = 112)),
+                ),
+                MissionNavActionEntityMock.create(),
+                MissionFishActionEntityMock.create(),
+            )
+            val summary = computeEnvOperationalSummary.execute(actions = mixedActions)
+            assertEquals(1, summary["nbControls"])
+            assertEquals(0, summary["nbSurveillances"])
+        }
+
+        @Test
         fun `envActionSummary should return data`() {
 
             val mission =
