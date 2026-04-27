@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.AddressModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.fish.FishAuctionModel
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
@@ -173,6 +173,11 @@ data class MissionActionModel(
 
     @Column(name = "city", nullable = true)
     var city: String? = null,
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "fish_auction_id")
+    @JsonIgnore
+    var fishAuction: FishAuctionModel? = null,
 
     @Column(name = "nbr_of_control", nullable = true)
     var nbrOfControl: Int? = null,

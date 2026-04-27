@@ -5,6 +5,10 @@ import { SectorType, SectorFishingType, SectorPleasureType } from '../../../../c
 import { FormikProps } from 'formik'
 import { ActionControlInput } from '../../../types/action-type'
 
+vi.mock('../../../../common/services/use-fish-auction-service', () => ({
+  useFishAuctionListQuery: vi.fn().mockReturnValue({ data: [] })
+}))
+
 const createMockFormik = (values: Partial<ActionControlInput>): FormikProps<ActionControlInput> =>
   ({
     values: {
@@ -33,14 +37,14 @@ describe('MissionActionItemSectorControlForm', () => {
     expect(screen.queryByTestId('search-establishment')).not.toBeInTheDocument()
   })
 
-  it('should show search city when FISHING and FISH_AUCTION', () => {
+  it('should show fish auction select when FISHING and FISH_AUCTION', () => {
     const formik = createMockFormik({
       sectorType: SectorType.FISHING,
       sectorEstablishmentType: SectorFishingType.FISH_AUCTION
     })
     render(<MissionActionItemSectorControlForm formik={formik} />)
 
-    expect(screen.getByTestId('search-city')).toBeInTheDocument()
+    expect(screen.getByTestId('select-fish-auction')).toBeInTheDocument()
     expect(screen.queryByTestId('search-establishment')).not.toBeInTheDocument()
     expect(screen.queryByTestId('search-port')).not.toBeInTheDocument()
   })

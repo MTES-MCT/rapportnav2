@@ -88,6 +88,7 @@ export interface MissionNavActionData extends MissionActionData {
   portLocode?: string
   zipCode?: string
   city?: string
+  fishAuction?: { id: number; name: string; facade: string }
 }
 
 export interface MissionNavAction extends MissionAction {

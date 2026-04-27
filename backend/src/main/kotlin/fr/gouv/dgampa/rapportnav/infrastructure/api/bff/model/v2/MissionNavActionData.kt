@@ -71,6 +71,7 @@ class MissionNavActionData(
     override var portLocode: String? = null,
     override var zipCode: String? = null,
     override var city: String? = null,
+    override var fishAuction: FishAuction? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -143,6 +144,7 @@ class MissionNavActionData(
                 portLocode = data.portLocode,
                 zipCode = data.zipCode,
                 city = data.city,
+                fishAuction = data.fishAuction?.toFishAuctionEntity(),
             )
             return action
         }

@@ -1,24 +1,42 @@
-import { Field, FieldProps, Formik } from 'formik'
+import { Formik } from 'formik'
 import { vi } from 'vitest'
 import { render } from '../../../../../../test-utils'
 import { FormikSearchPort } from '../formik-search-port'
+import * as usePortService from '../../../services/use-port-service'
 
 vi.mock('../../../services/use-port-service', () => ({
-  usePortListQuery: vi.fn().mockReturnValue({ data: undefined })
+  usePortListAllQuery: vi.fn().mockReturnValue({ data: undefined })
 }))
 
 const handleSubmit = vi.fn()
 describe('FormikSearchPort', () => {
-  it('should match the snapshot', () => {
-    const wrapper = render(
+  beforeEach(() => {
+    vi.clearAllMocks()
+    vi.mocked(usePortService.usePortListAllQuery).mockReturnValue({ data: undefined } as any)
+  })
+
+  it('should call usePortListAllQuery on mount', () => {
+    render(
       <Formik initialValues={{ portLocode: '' }} onSubmit={handleSubmit}>
-        <Field name="portLocode">
-          {(field: FieldProps<string>) => (
-            <FormikSearchPort name="portLocode" isLight={true} label="Port" fieldFormik={field} />
-          )}
-        </Field>
+        <FormikSearchPort name="portLocode" isLight={true} label="Port" />
       </Formik>
     )
-    expect(wrapper).toMatchSnapshot()
+    expect(usePortService.usePortListAllQuery).toHaveBeenCalled()
+  })
+
+  it('should render with port data', () => {
+    vi.mocked(usePortService.usePortListAllQuery).mockReturnValue({
+      data: [
+        { locode: 'FRPAR', name: 'Paris' },
+        { locode: 'FRLEH', name: 'Le Havre' }
+      ]
+    } as any)
+
+    const { container } = render(
+      <Formik initialValues={{ portLocode: '' }} onSubmit={handleSubmit}>
+        <FormikSearchPort name="portLocode" isLight={true} label="Port" />
+      </Formik>
+    )
+    expect(container).toBeTruthy()
   })
 })

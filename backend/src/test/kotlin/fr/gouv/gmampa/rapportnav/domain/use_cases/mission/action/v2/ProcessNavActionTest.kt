@@ -50,7 +50,6 @@ class ProcessNavActionTest {
         processNavAction = ProcessNavAction(
             getComputeTarget = getComputeTarget,
             getStatusForAction = getStatusForAction,
-            getPort = getPort
         )
 
         val entity = processNavAction.execute(action = action)

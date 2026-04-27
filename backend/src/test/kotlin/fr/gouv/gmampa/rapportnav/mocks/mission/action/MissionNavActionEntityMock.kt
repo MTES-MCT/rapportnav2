@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishAuctionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
@@ -59,7 +60,8 @@ object MissionNavActionEntityMock {
         establishment: EstablishmentEntity? = null,
         portLocode: String? = null,
         zipCode: String? = null,
-        city: String? = null
+        city: String? = null,
+        fishAuction: FishAuctionEntity? = null
     ): MissionNavActionEntity {
         return MissionNavActionEntity(
             missionId = missionId?: 761,
@@ -104,7 +106,8 @@ object MissionNavActionEntityMock {
             establishment = establishment,
             portLocode = portLocode,
             zipCode = zipCode,
-            city = city
+            city = city,
+            fishAuction = fishAuction
         )
     }
 }
