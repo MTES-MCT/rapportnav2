@@ -6,7 +6,7 @@ exports[`VesselName > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <p
-        class="sc-klnyBj sc-kCvKRo bSXskM dqhaeL"
+        class="sc-cKRJyd sc-amjVG cuvZXs dMSmjz"
         color="#282F3E"
         data-testid="vessel-name"
         font-size="13"
@@ -40,7 +40,7 @@ exports[`VesselName > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <p
-      class="sc-klnyBj sc-kCvKRo bSXskM dqhaeL"
+      class="sc-cKRJyd sc-amjVG cuvZXs dMSmjz"
       color="#282F3E"
       data-testid="vessel-name"
       font-size="13"
