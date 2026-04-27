@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 import fr.gouv.dgampa.rapportnav.config.DependentFieldValue
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishAuctionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
@@ -14,6 +15,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATU
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.fish.FishAuctionModel
 import java.time.Instant
 import java.util.*
 
@@ -47,17 +49,25 @@ class MissionNavActionEntity(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
-            ])
-        ]
+                value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
+            ),
+            DependentFieldValue(
+                field = "locationType",
+                value = ["GPS"]
+            )
+        ],
     )
     override var latitude: Double? = null,
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
-            ])
+                value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
+            ),
+            DependentFieldValue(
+                field = "locationType",
+                value = ["GPS"]
+            )
         ]
     )
     override var longitude: Double? = null,
@@ -218,6 +228,10 @@ class MissionNavActionEntity(
     )
     override var portLocode: String? = null,
 
+
+    override var zipCode: String? = null,
+    override var city: String? = null,
+
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
@@ -228,8 +242,7 @@ class MissionNavActionEntity(
             )
         ]
     )
-    override var zipCode: String? = null,
-    override var city: String? = null,
+    override var fishAuction: FishAuctionEntity? = null,
 
     @MandatoryForStats(
         enableIf = [
@@ -374,6 +387,7 @@ class MissionNavActionEntity(
         portLocode = portLocode,
         zipCode = zipCode,
         city = city,
+        fishAuction = fishAuction?.let { FishAuctionModel.fromFishAuctionEntity(it) },
         isWithinDepartment =  if(isWithinDepartment == null)  true else isWithinDepartment
     )
 
@@ -446,6 +460,7 @@ class MissionNavActionEntity(
                 portLocode = model.portLocode,
                 zipCode = model.zipCode,
                 city = model.city,
+                fishAuction = model.fishAuction?.toFishAuctionEntity(),
             )
         }
     }

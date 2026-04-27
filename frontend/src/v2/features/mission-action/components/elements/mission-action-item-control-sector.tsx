@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { mixed, object, string } from 'yup'
+import { object, string } from 'yup'
 import { SectorFishingType, SectorType } from '../../../common/types/sector-types'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
@@ -7,10 +7,14 @@ import MissionActionItemSectorControlForm from '../ui/mission-action-control-sec
 import MissionActionItemGenericControl from './mission-action-item-generic-control.tsx'
 import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
+const isLandingSiteMode = (sectorType?: SectorType, sectorEstablishmentType?: string) =>
+  sectorType === SectorType.FISHING && sectorEstablishmentType === SectorFishingType.LANDING_SITE
+
+const isFishAuctionMode = (sectorType?: SectorType, sectorEstablishmentType?: string) =>
+  sectorType === SectorType.FISHING && sectorEstablishmentType === SectorFishingType.FISH_AUCTION
+
 const isControlLocationMode = (sectorType?: SectorType, sectorEstablishmentType?: string) =>
-  sectorType === SectorType.FISHING &&
-  (sectorEstablishmentType === SectorFishingType.LANDING_SITE ||
-    sectorEstablishmentType === SectorFishingType.FISH_AUCTION)
+  isLandingSiteMode(sectorType, sectorEstablishmentType) || isFishAuctionMode(sectorType, sectorEstablishmentType)
 
 const MissionActionItemSectorControl: FC<{
   action: MissionAction
@@ -34,13 +38,20 @@ const MissionActionItemSectorControl: FC<{
             otherwise: schema => schema.nullable()
           })
       : object().nullable(),
-    locationDescription: isMissionFinished
+    portLocode: isMissionFinished
       ? string().when(['sectorType', 'sectorEstablishmentType'], {
-          is: isControlLocationMode,
+          is: isLandingSiteMode,
           then: schema => schema.required(),
           otherwise: schema => schema.nullable()
         })
-      : string().nullable()
+      : string().nullable(),
+    fishAuction: isMissionFinished
+      ? object().when(['sectorType', 'sectorEstablishmentType'], {
+          is: isFishAuctionMode,
+          then: schema => schema.required(),
+          otherwise: schema => schema.nullable()
+        })
+      : object().nullable()
   }
 
   return (

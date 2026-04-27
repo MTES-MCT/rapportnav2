@@ -104,7 +104,8 @@ class MissionNavAction(
                     targets = navAction.targets?.map { Target.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
                     portLocode = navAction.portLocode,
                     zipCode = navAction.zipCode,
-                    city = navAction.city
+                    city = navAction.city,
+                    fishAuction = navAction.fishAuction?.let { FishAuction.fromFishAuctionEntity(it) }
                 )
             )
         }

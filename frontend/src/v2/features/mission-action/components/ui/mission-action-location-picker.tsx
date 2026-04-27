@@ -22,7 +22,7 @@ const MissionActionLocationPicker: FC = () => {
               label="Lieu de l'operation"
               controlMethod={values.controlMethod}
               onChangeEffect={() => {
-                setFieldValue('locationDescription', undefined)
+                setFieldValue('geoCoords', [])
                 setFieldValue('zipCode', undefined)
                 setFieldValue('city', undefined)
                 setFieldValue('portLocode', undefined)

@@ -68,4 +68,5 @@ interface BaseMissionNavActionData {
     var portLocode: String?
     var zipCode: String?
     var city: String?
+    var fishAuction: FishAuction?
 }

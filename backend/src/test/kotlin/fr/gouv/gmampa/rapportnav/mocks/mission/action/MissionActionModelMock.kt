@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.EstablishmentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.fish.FishAuctionModel
 import java.time.Instant
 import java.util.*
 
@@ -22,6 +23,7 @@ object MissionActionModelMock {
         controlMethod: String? = ControlMethod.SEA.toString(),
         locationType: String? = LocationType.GPS.toString(),
         reason: String? = null,
+        fishAuction: FishAuctionModel? = null,
     ): MissionActionModel {
         return MissionActionModel(
             missionId = 761,
@@ -81,6 +83,7 @@ object MissionActionModelMock {
             controlType = "my control type",
             nbrSecurityVisit = 12,
             securityVisitType = SecurityVisitType.SCHOOL_BOAT.toString(),
+            fishAuction = fishAuction,
             establishment = EstablishmentModel(
                 id = 2,
                 name = "myEstablishment",

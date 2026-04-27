@@ -1,14 +1,14 @@
 import { FormikMultiRadio, FormikSelect } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, FormikProps } from 'formik'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { Stack } from 'rsuite'
 import { FormikEstablishment } from '../../../common/components/ui/formik-establishment.tsx'
+import { FormikSelectFishAuction } from '../../../common/components/ui/formik-select-fish-auction.tsx'
 import { useSector } from '../../../common/hooks/use-sector.tsx'
 import { Establishment } from '../../../common/types/etablishment.ts'
 import { SectorFishingType, SectorType } from '../../../common/types/sector-types.ts'
 import { ActionControlInput } from '../../types/action-type.ts'
 import { FormikSearchPort } from '../../../common/components/ui/formik-search-port.tsx'
-import { SearchCity } from '../../../common/components/ui/search-city.tsx'
 
 const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControlInput> }> = ({ formik }) => {
   const { sectorTypeOptions, getSectionEtablishmentTypeOptions } = useSector()
@@ -26,25 +26,41 @@ const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControl
     formik.values.sectorType === SectorType.FISHING &&
     formik.values.sectorEstablishmentType === SectorFishingType.FISH_AUCTION
 
+  const previousSectorType = useRef(formik.values.sectorType)
+
+  // Reset all dependent fields when sectorType changes
+  useEffect(() => {
+    if (previousSectorType.current !== formik.values.sectorType) {
+      previousSectorType.current = formik.values.sectorType
+      formik.setFieldValue('sectorEstablishmentType', undefined)
+      formik.setFieldValue('establishment', undefined)
+      formik.setFieldValue('portLocode', undefined)
+      formik.setFieldValue('fishAuction', undefined)
+    }
+  }, [formik.values.sectorType])
+
+  // Reset location/establishment fields when sectorEstablishmentType changes
   useEffect(() => {
     if (shouldShowControlLocation) {
       if (formik.values.establishment) {
         formik.setFieldValue('establishment', undefined)
       }
     } else {
+      if (formik.values.portLocode) {
+        formik.setFieldValue('portLocode', undefined)
+      }
+      if (formik.values.fishAuction) {
+        formik.setFieldValue('fishAuction', undefined)
+      }
       if (formik.values.zipCode) {
         formik.setFieldValue('zipCode', undefined)
       }
       if (formik.values.city) {
         formik.setFieldValue('city', undefined)
       }
-      if (formik.values.portLocode) {
-        formik.setFieldValue('portLocode', undefined)
-      }
     }
-    if (isLandingSite) {
-      if (formik.values.zipCode) formik.setFieldValue('zipCode', undefined)
-      if (formik.values.city) formik.setFieldValue('city', undefined)
+    if (isLandingSite && formik.values.fishAuction) {
+      formik.setFieldValue('fishAuction', undefined)
     }
     if (isFishAuction && formik.values.portLocode) {
       formik.setFieldValue('portLocode', undefined)
@@ -74,21 +90,7 @@ const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControl
         <Stack.Item style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
             {formik.values.sectorEstablishmentType === SectorFishingType.FISH_AUCTION ? (
-              <Field name="zipCode">
-                {(field: FieldProps<string>) => (
-                  <SearchCity
-                    name="zipCode"
-                    label="Lieu de contrôle"
-                    isLight={true}
-                    value={{ zipCode: formik.values.zipCode, city: formik.values.city }}
-                    onChange={val => {
-                      formik.setFieldValue('zipCode', val?.zipCode)
-                      formik.setFieldValue('city', val?.city)
-                    }}
-                    fieldFormik={field}
-                  />
-                )}
-              </Field>
+              <FormikSelectFishAuction name="fishAuction" label="Criée" isLight={true} />
             ) : formik.values.sectorEstablishmentType === SectorFishingType.LANDING_SITE ? (
               <Field name="portLocode">
                 {(field: FieldProps<string>) => (

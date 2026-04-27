@@ -77,9 +77,12 @@ export const SearchCity = styled(({ value, isLight, label, onChange, fieldFormik
               error={fieldFormik?.meta?.error}
             />
           </Stack.Item>
-          <Stack.Item style={{ width: '100%', overflow: 'hidden' }}>
+          <Stack.Item style={{ width: '100%', position: 'relative' }}>
             {open && (
-              <Dropdown.Menu style={{ overflow: 'scroll', minHeight: 0 }} onSelect={onSelect}>
+              <Dropdown.Menu
+                style={{ position: 'absolute', zIndex: 10, width: '100%', overflow: 'scroll', maxHeight: 200, minHeight: 0 }}
+                onSelect={onSelect}
+              >
                 {addresses?.map(item => (
                   <Dropdown.Item key={item.town} eventKey={item.town} style={{ maxWidth: '100%' }}>
                     {getDisplayName(item.town, item.zipcode)}
