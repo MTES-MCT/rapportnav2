@@ -1,9 +1,9 @@
 import Text from '@common/components/ui/text.tsx'
+import { ControlCheck } from '@common/types/fish-mission-types.ts'
 import { Accent, Button, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionFishActionData } from '../../../common/types/mission-action'
-import { ControlCheck } from '@common/types/fish-mission-types.ts'
 
 interface MissionControlFishAdministrativeSectionProps {
   action: MissionFishActionData
@@ -97,7 +97,7 @@ const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdmini
           </Stack.Item>
           <Stack.Item>
             <Text as="h3" weight="medium">
-              {action.licencesAndLogbookObservations ?? 'Aucune observation'}
+              {action?.licencesAndLogbookObservations ?? 'Aucune observation'}
             </Text>
           </Stack.Item>
         </Stack>
