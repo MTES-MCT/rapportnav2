@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.74.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.74.0...frontend@v2.74.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* frontend/package.json & frontend/package-lock.json to reduce vulnerabilities ([ffa4666](https://github.com/MTES-MCT/rapportnav2/commit/ffa4666895c94a228ce5d2000c31c96ead8dd485))
+
 ## [2.74.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.73.0...frontend@v2.74.0) (2026-04-27)
 
 

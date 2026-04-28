@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.74.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.74.0...docker-container@v2.74.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* add .trivyignore.yml ([8556563](https://github.com/MTES-MCT/rapportnav2/commit/85565637d666d360548aa76cfad4cb31de154028))
+* bump spring boot ([165e74b](https://github.com/MTES-MCT/rapportnav2/commit/165e74b528e1fb775fa31c35404085c825870f04))
+* frontend/package.json & frontend/package-lock.json to reduce vulnerabilities ([ffa4666](https://github.com/MTES-MCT/rapportnav2/commit/ffa4666895c94a228ce5d2000c31c96ead8dd485))
+
 ## [2.74.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.73.0...docker-container@v2.74.0) (2026-04-27)
 
 

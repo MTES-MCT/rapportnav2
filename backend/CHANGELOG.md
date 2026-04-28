@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.74.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.74.0...backend@v2.74.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* bump spring boot ([165e74b](https://github.com/MTES-MCT/rapportnav2/commit/165e74b528e1fb775fa31c35404085c825870f04))
+
 ## [2.74.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.73.0...backend@v2.74.0) (2026-04-27)
 
 
