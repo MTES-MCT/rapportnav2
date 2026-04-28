@@ -20,7 +20,7 @@ export default defineConfig({
     }
   },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         format: 'es',
         manualChunks(id) {
