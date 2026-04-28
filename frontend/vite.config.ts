@@ -67,7 +67,10 @@ export default defineConfig({
       },
       workbox: {
         // defining cached files formats
-        globPatterns: ['**/*.{js,css,html,ico,png,jpg,svg,webmanifest}']
+        // Note: index.html is excluded because the backend injects a CSP nonce per request
+        // Caching it would serve stale nonces, causing CSP violations and blank pages
+        globPatterns: ['**/*.{js,css,ico,png,jpg,svg,webmanifest}'],
+        navigateFallback: null,
       },
       devOptions: {
         enabled: true
