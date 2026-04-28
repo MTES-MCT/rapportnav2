@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.76.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.75.0...v2.76.0) (2026-04-28)
+
+
+### Features
+
+* rework release-please-config.json ([55363a9](https://github.com/MTES-MCT/rapportnav2/commit/55363a9a0acb8691bfd3732b6fe02f357a8730c7))
+
+
+### Bug Fixes
+
+* CSP html caching ([9239c35](https://github.com/MTES-MCT/rapportnav2/commit/9239c35cd4f628f91485f23129d3aa194d0c4c30))
+
 ## [2.75.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.74.1...v2.75.0) (2026-04-28)
 
 
