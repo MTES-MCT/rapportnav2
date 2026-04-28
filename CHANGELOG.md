@@ -1,5 +1,57 @@
 # Changelog
 
+## [2.76.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.76.0...v2.76.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* infinite loop caused by isLoggedIn in use-auth.ts ([6a09e0e](https://github.com/MTES-MCT/rapportnav2/commit/6a09e0e01b96be96b257788af02490b610d1381c))
+
+## [2.76.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.75.0...v2.76.0) (2026-04-28)
+
+
+### Features
+
+* rework release-please-config.json ([55363a9](https://github.com/MTES-MCT/rapportnav2/commit/55363a9a0acb8691bfd3732b6fe02f357a8730c7))
+
+
+### Bug Fixes
+
+* CSP html caching ([9239c35](https://github.com/MTES-MCT/rapportnav2/commit/9239c35cd4f628f91485f23129d3aa194d0c4c30))
+
+## [2.75.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.74.1...v2.75.0) (2026-04-28)
+
+
+### Features
+
+* rework release-please-config.json ([6a197bb](https://github.com/MTES-MCT/rapportnav2/commit/6a197bba656c74cd1d1d6d256f753ae9c199b34d))
+* rework release-please-config.json ([4e24402](https://github.com/MTES-MCT/rapportnav2/commit/4e2440284e72c410f6c1a09eb4fb52108c4097dd))
+
+## [2.74.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.74.0...docker-container@v2.74.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* add .trivyignore.yml ([8556563](https://github.com/MTES-MCT/rapportnav2/commit/85565637d666d360548aa76cfad4cb31de154028))
+* bump spring boot ([165e74b](https://github.com/MTES-MCT/rapportnav2/commit/165e74b528e1fb775fa31c35404085c825870f04))
+* frontend/package.json & frontend/package-lock.json to reduce vulnerabilities ([ffa4666](https://github.com/MTES-MCT/rapportnav2/commit/ffa4666895c94a228ce5d2000c31c96ead8dd485))
+
+## [2.74.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.73.0...docker-container@v2.74.0) (2026-04-27)
+
+
+### Features
+
+* **Criées:** ajout liste des criées + endpoints + admin panel ([87347da](https://github.com/MTES-MCT/rapportnav2/commit/87347da58c97f5a9cf2fb406730f0494de19b785))
+
+
+### Bug Fixes
+
+* **AEM:** update rule 4.1.3 ([7ce7f33](https://github.com/MTES-MCT/rapportnav2/commit/7ce7f3363196da039149650b4779aa0e6af859cd))
+* **AnalyticsAPI:** env surveillance duration fix ([89e15f2](https://github.com/MTES-MCT/rapportnav2/commit/89e15f25610da1b016d8947a29fa605e642bda97))
+* frontend tests ([2ffacd3](https://github.com/MTES-MCT/rapportnav2/commit/2ffacd3f37c6757e88f39483e1b6f2989d2fa28f))
+* frontend/package.json & frontend/package-lock.json to reduce vulnerabilities ([d7a2bce](https://github.com/MTES-MCT/rapportnav2/commit/d7a2bcea15b538d627413a88fd82d2c6829b0019))
+* **frontend:** target on adding new infraction on new control ([ce75902](https://github.com/MTES-MCT/rapportnav2/commit/ce759024677af1d9ab9e61bd8f4ce1388f7a9eff))
+
 ## [2.73.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.72.0...docker-container@v2.73.0) (2026-04-23)
 
 

@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.74.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.74.0...backend@v2.74.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* bump spring boot ([165e74b](https://github.com/MTES-MCT/rapportnav2/commit/165e74b528e1fb775fa31c35404085c825870f04))
+
+## [2.74.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.73.0...backend@v2.74.0) (2026-04-27)
+
+
+### Features
+
+* **Criées:** ajout liste des criées + endpoints + admin panel ([87347da](https://github.com/MTES-MCT/rapportnav2/commit/87347da58c97f5a9cf2fb406730f0494de19b785))
+
+
+### Bug Fixes
+
+* **AEM:** update rule 4.1.3 ([7ce7f33](https://github.com/MTES-MCT/rapportnav2/commit/7ce7f3363196da039149650b4779aa0e6af859cd))
+* **AnalyticsAPI:** env surveillance duration fix ([89e15f2](https://github.com/MTES-MCT/rapportnav2/commit/89e15f25610da1b016d8947a29fa605e642bda97))
+
 ## [2.73.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.72.0...backend@v2.73.0) (2026-04-23)
 
 

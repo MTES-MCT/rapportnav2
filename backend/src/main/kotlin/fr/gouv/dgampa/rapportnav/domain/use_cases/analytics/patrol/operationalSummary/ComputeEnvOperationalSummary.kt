@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalS
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ThemeStats
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
@@ -17,10 +18,9 @@ class ComputeEnvOperationalSummary(
     private val computeDurations: ComputeDurations
 
 ) {
-
-    fun execute(actions: List<MissionActionEntity>): Map<String, Any> {
-        val filteredActions = actions
-            .filterIsInstance<MissionEnvActionEntity>()
+fun execute(actions: List<MissionActionEntity>): Map<String, Any> {
+        val filteredActions = actions.takeIf { it.isNotEmpty() }?.filter { it.source == MissionSourceEnum.MONITORENV }
+            ?.filterIsInstance<MissionEnvActionEntity>().orEmpty()
 
         val controls = filteredActions.filter { it.envActionType == ActionTypeEnum.CONTROL }
         val surveillances = filteredActions.filter { it.envActionType == ActionTypeEnum.SURVEILLANCE }
@@ -41,8 +41,6 @@ class ComputeEnvOperationalSummary(
         val nbInfractionsWithoutRecord = controls.sumOf {
             it.envInfractions?.count { inf -> inf.infractionType == InfractionTypeEnum.WITHOUT_REPORT } ?: 0
         }
-
-
 
         val controlThemes = computeThemeStats(controls)
         val surveillanceThemes = computeThemeStats(surveillances)

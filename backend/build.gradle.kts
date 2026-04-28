@@ -4,13 +4,13 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.73.0"
+version = "2.76.1"
 // x-release-please-end
 description = "RapportNav"
 
 val kotlinVersion by extra("2.3.0")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("4.0.5")
+val springVersion by extra("4.0.6")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("11.20.0")
 
@@ -20,7 +20,7 @@ plugins {
   kotlin("jvm") version "2.3.0"
   kotlin("plugin.spring") version "2.3.0"
   kotlin("plugin.jpa") version "2.3.0"
-  id("org.springframework.boot") version "4.0.5"
+  id("org.springframework.boot") version "4.0.6"
   id("io.spring.dependency-management") version "1.1.7"
   id("org.owasp.dependencycheck") version "12.1.0"
 //  id("io.sentry.jvm.gradle") version "5.12.2"

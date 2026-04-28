@@ -1,54 +1,29 @@
 {
-  "plugins": [
-    {
-      "type": "linked-versions",
-      "groupName": "group-some-associated-services",
-      "components": ["docker-container", "backend", "frontend"],
-      "merge": true
-    }
-  ],
-  "separate-pull-requests": false,
-  "commit-search-depth": 50,
-  "release-search-depth": 50,
-  "always-link-local": true,
-  "include-v-in-tag": true,
-  "tag-separator": "@",
-  "bump-minor-pre-major": true,
-  "bump-patch-for-minor-pre-major": true,
-  "draft": false,
-  "prerelease": false,
-  "pull-request-header": "🤖 Release created:",
-  "pull-request-footer": "_release-please generated PR_",
   "packages": {
     ".": {
-      "component": "docker-container",
       "release-type": "simple",
-      "commit-message": "chore: release v${version}",
+      "include-component-in-tag": false,
       "extra-files": [
         {
           "type": "yaml",
           "path": ".gitlab-ci.yml",
           "jsonpath": "$.variables.PROJECT_VERSION.value"
-        }
-      ],
-       "exclude-paths": ["frontend/*", "backend/*"]
-    },
-    "backend": {
-      "component": "backend",
-      "release-type": "simple",
-      "commit-message": "chore: release v${version}",
-      "extra-files": [
+        },
+        {
+          "type": "json",
+          "path": "frontend/package.json",
+          "jsonpath": "$.version"
+        },
         {
           "type": "generic",
-          "path": "build.gradle.kts"
+          "path": "backend/build.gradle.kts"
         }
       ]
-    },
-    "frontend": {
-      "component": "frontend",
-      "release-type": "node",
-      "commit-message": "chore: release v${version}"
     }
   },
+  "include-v-in-tag": true,
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "pull-request-title-pattern": "chore: release v${version}",
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
 }

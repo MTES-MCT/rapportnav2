@@ -25,8 +25,55 @@ class AEMNotPollutionControlSurveillanceTest {
 
         assertThat(notPollution).isNotNull()
         assertThat(notPollution.nbrOfHourAtSea).isEqualTo(4.5)
+        assertThat(notPollution.nbrOfAction).isEqualTo(2.0) // 2 targets in the non-pollution action
         assertThat(notPollution.nbrOfInfraction).isEqualTo(2.0)
         assertThat(notPollution.nbrOfInfractionWithNotice).isEqualTo(2.0)
+    }
+
+    @Test
+    fun `getNbrOfTargets should count targets across all actions`() {
+        val actionId = UUID.randomUUID().toString()
+        val actions = listOf(
+            null, // null action -> 0
+            MissionEnvActionEntity( // null targets -> 0
+                missionId = 761,
+                id = UUID.randomUUID(),
+                envActionType = ActionTypeEnum.CONTROL,
+                targets = null
+            ),
+            MissionEnvActionEntity( // empty targets -> 0
+                missionId = 761,
+                id = UUID.randomUUID(),
+                envActionType = ActionTypeEnum.CONTROL,
+                targets = emptyList()
+            ),
+            MissionEnvActionEntity( // 3 targets -> 3
+                missionId = 761,
+                id = UUID.randomUUID(),
+                envActionType = ActionTypeEnum.CONTROL,
+                targets = listOf(
+                    TargetEntity(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE),
+                    TargetEntity(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE),
+                    TargetEntity(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE)
+                )
+            ),
+            MissionEnvActionEntity( // 1 target -> 1
+                missionId = 761,
+                id = UUID.randomUUID(),
+                envActionType = ActionTypeEnum.CONTROL,
+                targets = listOf(
+                    TargetEntity(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE)
+                )
+            )
+        )
+        val result = AEMNotPollutionControlSurveillance.getNbrOfTargets(actions)
+        assertThat(result).isEqualTo(4.0)
+    }
+
+    @Test
+    fun `getNbrOfTargets should return zero for empty list`() {
+        val result = AEMNotPollutionControlSurveillance.getNbrOfTargets(emptyList())
+        assertThat(result).isEqualTo(0.0)
     }
 
     @Test
@@ -201,7 +248,7 @@ class AEMNotPollutionControlSurveillanceTest {
             )
         )
         val notPollution = AEMNotPollutionControlSurveillance(envActions = actions)
-        assertThat(notPollution.nbrOfAction).isEqualTo(2.0) // Only 2 actions pass the filter
+        assertThat(notPollution.nbrOfAction).isEqualTo(0.0) // 2 actions pass the filter but neither has targets
     }
 
     private fun extendedEnvActionEntities(): List<MissionEnvActionEntity> {

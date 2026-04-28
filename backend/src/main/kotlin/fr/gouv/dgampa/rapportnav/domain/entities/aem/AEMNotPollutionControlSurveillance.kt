@@ -14,7 +14,7 @@ data class AEMNotPollutionControlSurveillance(
         envActions: List<MissionEnvActionEntity?>
     ) : this(
         nbrOfHourAtSea = AEMUtils.getDurationInHours2(getNotPollutionActions(envActions)),
-        nbrOfAction = getNotPollutionActions(envActions).size.toDouble(),
+        nbrOfAction = getNbrOfTargets(getNotPollutionActions(envActions)),
         nbrOfInfraction = getNbrOfInfraction(getNotPollutionActions(envActions)),
         nbrOfInfractionWithNotice = getNbrOfInfractionWithNotice(getNotPollutionActions(envActions))
     ) {
@@ -23,6 +23,15 @@ data class AEMNotPollutionControlSurveillance(
 
     companion object {
 
+        fun getNbrOfTargets(actions: List<MissionEnvActionEntity?>): Double {
+            return actions
+                .fold(0.0) { acc, c ->
+                    acc.plus(
+                        c?.targets?.count() ?: 0
+                    )
+                }
+
+        }
         fun getNbrOfInfraction(notPollutionActions: List<MissionEnvActionEntity?>): Double {
             return notPollutionActions
                 .fold(0.0) { acc, c ->
