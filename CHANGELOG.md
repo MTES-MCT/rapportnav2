@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.75.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.74.1...v2.75.0) (2026-04-28)
+
+
+### Features
+
+* rework release-please-config.json ([6a197bb](https://github.com/MTES-MCT/rapportnav2/commit/6a197bba656c74cd1d1d6d256f753ae9c199b34d))
+* rework release-please-config.json ([4e24402](https://github.com/MTES-MCT/rapportnav2/commit/4e2440284e72c410f6c1a09eb4fb52108c4097dd))
+
 ## [2.74.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.74.0...docker-container@v2.74.1) (2026-04-28)
 
 
