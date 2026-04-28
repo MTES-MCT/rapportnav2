@@ -53,7 +53,7 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
               value={action?.separateStowageOfPreservedSpecies ?? undefined}
             />
           </Stack.Item>
-          {action.speciesOnboard?.map((species: SpeciesControl) => (
+          {action?.speciesOnboard?.map((species: SpeciesControl) => (
             <Stack.Item key={species.speciesCode}>
               <Stack direction="column" alignItems="flex-start" spacing={'0.25rem'}>
                 <Stack.Item>
