@@ -12,7 +12,6 @@
   "release-search-depth": 50,
   "always-link-local": true,
   "include-v-in-tag": true,
-  "include-component-in-tag": false,
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": true,
   "draft": false,
@@ -24,6 +23,7 @@
     ".": {
       "component": "rapportnav",
       "release-type": "simple",
+      "include-component-in-tag": false,
       "extra-files": [
         {
           "type": "yaml",
@@ -36,6 +36,8 @@
     "backend": {
       "component": "backend",
       "release-type": "simple",
+      "include-component-in-tag": true,
+      "tag-separator": "@",
       "skip-github-release": true,
       "extra-files": [
         {
@@ -47,6 +49,8 @@
     "frontend": {
       "component": "frontend",
       "release-type": "node",
+      "include-component-in-tag": true,
+      "tag-separator": "@",
       "skip-github-release": true
     }
   },
