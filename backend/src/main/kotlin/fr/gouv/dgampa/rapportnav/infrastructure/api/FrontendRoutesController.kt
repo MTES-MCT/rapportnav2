@@ -57,6 +57,9 @@ class FrontendRoutesController(
             """<script nonce="$nonce"$1>"""
         )
 
+        // Prevent caching of HTML (each response has a unique CSP nonce)
+        response.setHeader("Cache-Control", "no-store")
+
         // Set CSP header with nonce
         val isSecure = request.isSecure
         setCspHeader(response, nonce, isSecure)
