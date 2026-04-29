@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.76.1-rc2",
+  "version": "2.76.1-rc3",
   "private": true,
   "type": "module",
   "engines": {
