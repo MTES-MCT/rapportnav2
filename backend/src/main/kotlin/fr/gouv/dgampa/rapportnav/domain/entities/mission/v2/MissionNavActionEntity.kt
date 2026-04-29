@@ -51,10 +51,6 @@ class MissionNavActionEntity(
                 field = "actionType",
                 value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
             ),
-            DependentFieldValue(
-                field = "locationType",
-                value = ["GPS"]
-            )
         ],
     )
     override var latitude: Double? = null,
@@ -64,10 +60,6 @@ class MissionNavActionEntity(
                 field = "actionType",
                 value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
             ),
-            DependentFieldValue(
-                field = "locationType",
-                value = ["GPS"]
-            )
         ]
     )
     override var longitude: Double? = null,

@@ -118,7 +118,7 @@ class MissionNavActionTest {
 
     @Test
     fun `execute should not complete for stats until all is filled action type ILLEGAL_IMMIGRATION`() {
-        val entity = MissionNavActionEntityMock.create(actionType = ActionType.ILLEGAL_IMMIGRATION)
+        val entity = MissionNavActionEntityMock.create(actionType = ActionType.ILLEGAL_IMMIGRATION,)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
