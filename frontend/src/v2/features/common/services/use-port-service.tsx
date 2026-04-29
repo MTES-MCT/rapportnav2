@@ -15,3 +15,15 @@ export const usePortListQuery = (search?: string) => {
   })
   return query
 }
+
+export const usePortListAllQuery = () => {
+  const fetchAllPorts = (): Promise<Port[]> => axios.get('ports').then(response => response.data)
+
+  return useQuery<Port[]>({
+    queryKey: ['ports-all'],
+    queryFn: fetchAllPorts,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 2
+  })
+}

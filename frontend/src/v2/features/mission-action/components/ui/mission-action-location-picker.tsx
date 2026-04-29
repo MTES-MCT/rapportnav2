@@ -38,28 +38,10 @@ const MissionActionLocationPicker: FC = () => {
               </Field>
             )}
             {values.locationType === LocationType.PORT && (
-              <Field name="portLocode">
-                {(field: FieldProps<string>) => (
-                  <FormikSearchPort name="portLocode" isLight={true} label="Nom du port" fieldFormik={field} />
-                )}
-              </Field>
+              <FormikSearchPort name="portLocode" isLight={true} label="Nom du port" />
             )}
             {values.locationType === LocationType.COMMUNE && (
-              <Field name="zipCode">
-                {(field: FieldProps<string>) => (
-                  <SearchCity
-                    name="zipCode"
-                    label="Nom de la commune"
-                    isLight={true}
-                    value={{ zipCode: values.zipCode, city: values.city }}
-                    onChange={val => {
-                      setFieldValue('zipCode', val?.zipCode)
-                      setFieldValue('city', val?.city)
-                    }}
-                    fieldFormik={field}
-                  />
-                )}
-              </Field>
+              <SearchCity name="zipCode" label="Nom de la commune" isLight={true} />
             )}
           </Stack.Item>
         </Stack>

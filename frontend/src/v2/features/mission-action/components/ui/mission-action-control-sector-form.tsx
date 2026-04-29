@@ -92,11 +92,7 @@ const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControl
             {formik.values.sectorEstablishmentType === SectorFishingType.FISH_AUCTION ? (
               <FormikSelectFishAuction name="fishAuction" label="Criée" isLight={true} />
             ) : formik.values.sectorEstablishmentType === SectorFishingType.LANDING_SITE ? (
-              <Field name="portLocode">
-                {(field: FieldProps<string>) => (
-                  <FormikSearchPort name="portLocode" isLight={true} label="Lieu de contrôle" fieldFormik={field} />
-                )}
-              </Field>
+              <FormikSearchPort name="portLocode" isLight={true} label="Lieu de contrôle" />
             ) : (
               <Field name="establishment">
                 {(field: FieldProps<Establishment>) => (

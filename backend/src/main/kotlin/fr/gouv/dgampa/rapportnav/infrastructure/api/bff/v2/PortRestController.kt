@@ -31,7 +31,8 @@ class PortRestController(
             ApiResponse(responseCode = "500", description = "Internal server error", content = [Content()])
         ]
     )
-    fun getPorts(@RequestParam search: String): List<Port> {
+    fun getPorts(@RequestParam(required = false) search: String?): List<Port> {
+        if (search.isNullOrBlank()) return getPorts.execute().map { Port.fromPortEntity(it) }
         return getPorts.execute(name = search).map { Port.fromPortEntity(it) }
     }
 }

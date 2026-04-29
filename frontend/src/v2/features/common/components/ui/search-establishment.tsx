@@ -41,7 +41,7 @@ export const SearchEstablishment = styled(
       }
       setSearch(getName(establishment))
     }, [establishment])
-
+    debugger
     return (
       <Stack direction="column" spacing="0.5rem" data-testid="search-establishment">
         <Stack.Item style={{ width: '100%' }}>
@@ -68,7 +68,14 @@ export const SearchEstablishment = styled(
             <Stack.Item style={{ width: '100%', position: 'relative' }}>
               {open && (
                 <Dropdown.Menu
-                  style={{ position: 'absolute', zIndex: 10, width: '100%', overflow: 'scroll', maxHeight: 200, minHeight: 0 }}
+                  style={{
+                    position: 'absolute',
+                    zIndex: 10,
+                    width: '100%',
+                    overflow: 'scroll',
+                    maxHeight: 200,
+                    minHeight: 0
+                  }}
                   onSelect={onSelect}
                 >
                   {establishments?.map(item => (

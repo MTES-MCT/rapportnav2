@@ -38,8 +38,9 @@ export const FormikSelectFishAuction = styled(({ ...props }: FormikSelectFishAuc
       isRequired={true}
       isErrorMessageHidden={true}
       {...props}
+      searchable={true}
       value={field.value?.id}
-      error={meta.touched ? meta.error : undefined}
+      error={meta.error}
       onChange={handleChange}
       options={options}
       data-testid="select-fish-auction"

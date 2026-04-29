@@ -45,7 +45,7 @@ export const FormikEstablishment = styled(
                       label={label}
                       establishment={values}
                       handleSubmit={handleSubmit}
-                      error={fieldFormik?.meta?.error?.name}
+                      fieldFormik={fieldFormik}
                     />
                   )}
                 </Stack.Item>

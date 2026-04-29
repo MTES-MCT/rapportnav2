@@ -6,15 +6,15 @@ exports[`FormikSelectLocationType > should render with LAND control method and s
   "baseElement": <body>
     <div>
       <div
-        class="sc-eSdRwU lgUvHd Element-Field Field-Select sc-klnyBj"
+        class="sc-jcwlQO bBcKJJ Element-Field Field-Select sc-cKRJyd"
       >
         <label
-          class="sc-fecFrX kiUWQt Element-Label"
+          class="sc-bBjQLF btTGjt Element-Label"
         >
           Lieu de l'operation
         </label>
         <div
-          class="sc-cNNTdM jTjTDQ"
+          class="sc-lbVuOe cYTCrY"
         >
           <div
             class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -108,15 +108,15 @@ exports[`FormikSelectLocationType > should render with LAND control method and s
   </body>,
   "container": <div>
     <div
-      class="sc-eSdRwU lgUvHd Element-Field Field-Select sc-klnyBj"
+      class="sc-jcwlQO bBcKJJ Element-Field Field-Select sc-cKRJyd"
     >
       <label
-        class="sc-fecFrX kiUWQt Element-Label"
+        class="sc-bBjQLF btTGjt Element-Label"
       >
         Lieu de l'operation
       </label>
       <div
-        class="sc-cNNTdM jTjTDQ"
+        class="sc-lbVuOe cYTCrY"
       >
         <div
           class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -245,15 +245,15 @@ exports[`FormikSelectLocationType > should render with SEA control method and sh
   "baseElement": <body>
     <div>
       <div
-        class="sc-eSdRwU lgUvHd Element-Field Field-Select sc-klnyBj"
+        class="sc-jcwlQO bBcKJJ Element-Field Field-Select sc-cKRJyd"
       >
         <label
-          class="sc-fecFrX kiUWQt Element-Label"
+          class="sc-bBjQLF btTGjt Element-Label"
         >
           Lieu de l'operation
         </label>
         <div
-          class="sc-cNNTdM jTjTDQ"
+          class="sc-lbVuOe cYTCrY"
         >
           <div
             class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -347,15 +347,15 @@ exports[`FormikSelectLocationType > should render with SEA control method and sh
   </body>,
   "container": <div>
     <div
-      class="sc-eSdRwU lgUvHd Element-Field Field-Select sc-klnyBj"
+      class="sc-jcwlQO bBcKJJ Element-Field Field-Select sc-cKRJyd"
     >
       <label
-        class="sc-fecFrX kiUWQt Element-Label"
+        class="sc-bBjQLF btTGjt Element-Label"
       >
         Lieu de l'operation
       </label>
       <div
-        class="sc-cNNTdM jTjTDQ"
+        class="sc-lbVuOe cYTCrY"
       >
         <div
           class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -484,15 +484,15 @@ exports[`FormikSelectLocationType > should render without control method and def
   "baseElement": <body>
     <div>
       <div
-        class="sc-eSdRwU lgUvHd Element-Field Field-Select sc-klnyBj"
+        class="sc-jcwlQO bBcKJJ Element-Field Field-Select sc-cKRJyd"
       >
         <label
-          class="sc-fecFrX kiUWQt Element-Label"
+          class="sc-bBjQLF btTGjt Element-Label"
         >
           Lieu de l'operation
         </label>
         <div
-          class="sc-cNNTdM jTjTDQ"
+          class="sc-lbVuOe cYTCrY"
         >
           <div
             class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -586,15 +586,15 @@ exports[`FormikSelectLocationType > should render without control method and def
   </body>,
   "container": <div>
     <div
-      class="sc-eSdRwU lgUvHd Element-Field Field-Select sc-klnyBj"
+      class="sc-jcwlQO bBcKJJ Element-Field Field-Select sc-cKRJyd"
     >
       <label
-        class="sc-fecFrX kiUWQt Element-Label"
+        class="sc-bBjQLF btTGjt Element-Label"
       >
         Lieu de l'operation
       </label>
       <div
-        class="sc-cNNTdM jTjTDQ"
+        class="sc-lbVuOe cYTCrY"
       >
         <div
           class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
