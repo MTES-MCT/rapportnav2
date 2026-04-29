@@ -46,6 +46,41 @@ class GetPortsTest {
     }
 
     @Test
+    fun `execute with name should filter by name prefix`() {
+        val ports = listOf(
+            PortEntityMock.create(locode = "FRLEH", name = "Le Havre"),
+            PortEntityMock.create(locode = "FRMRS", name = "Marseille")
+        )
+        whenever(repository.getPorts()).thenReturn(ports)
+
+        val result = useCase.execute(name = "Le")
+
+        assertThat(result).hasSize(1)
+        assertThat(result[0].locode).isEqualTo("FRLEH")
+    }
+
+    @Test
+    fun `execute with name should match by exact locode`() {
+        val ports = listOf(
+            PortEntityMock.create(locode = "FRLEH", name = "Le Havre"),
+            PortEntityMock.create(locode = "FRMRS", name = "Marseille")
+        )
+        whenever(repository.getPorts()).thenReturn(ports)
+
+        val result = useCase.execute(name = "FRMRS")
+
+        assertThat(result).hasSize(1)
+        assertThat(result[0].locode).isEqualTo("FRMRS")
+        assertThat(result[0].name).isEqualTo("Marseille")
+    }
+
+    @Test
+    fun `execute with blank name should return empty list`() {
+        val result = useCase.execute(name = "")
+        assertThat(result).isEmpty()
+    }
+
+    @Test
     fun `execute should propagate BackendInternalException from repository`() {
         val internalException = BackendInternalException(
             message = "API call failed",

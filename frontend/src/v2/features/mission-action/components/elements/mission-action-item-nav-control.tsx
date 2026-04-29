@@ -12,7 +12,7 @@ import MissionControlNavSummary from '../../../mission-control/components/ui/mis
 import MissionTargetControl from '../../../mission-target/components/elements/mission-target-control-nav'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
 import { ActionNavControlInput } from '../../types/action-type'
-import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionActionLocationPicker from '../ui/mission-action-location-picker'
 import MissionActionNavControlWarning from '../ui/mission-action-nav-control-warning'
 
 const MissionActionItemNavControl: FC<{
@@ -56,12 +56,9 @@ const MissionActionItemNavControl: FC<{
                   </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <Field name="geoCoords">
-                    {(field: FieldProps<number[]>) => (
-                      <MissionActionFormikCoordinateInputDMD name="geoCoords" fieldFormik={field} />
-                    )}
-                  </Field>
+                  <MissionActionLocationPicker />
                 </Stack.Item>
+
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1} basis={'25%'}>

@@ -21,17 +21,14 @@ object EntityCompletenessValidator {
                 val annotation = field.getAnnotation(MandatoryForStats::class.java)
                 val dependentFieldValues = annotation.enableIf
                 if (dependentFieldValues.isNotEmpty()) {
-                    for (dependentFieldValue in dependentFieldValues) {
+                    // Check if ALL conditions match (AND logic)
+                    val allConditionsMatch = dependentFieldValues.all { dependentFieldValue ->
                         val fieldValue = getNestedFieldValue(entity, dependentFieldValue.field)
-                        if (dependentFieldValue.value.contains(fieldValue)) {
-                            if (value == null || (value.toString().isEmpty())
-                            ) {
-                                return false
-                            }
-                            break
-                        } else {
-                            break
-                        }
+                        dependentFieldValue.value.contains(fieldValue)
+                    }
+                    // Only require the field if all conditions are met
+                    if (allConditionsMatch && (value == null || value.toString().isEmpty())) {
+                        return false
                     }
                 } else {
                     if (value == null || (value.toString().isEmpty())) {

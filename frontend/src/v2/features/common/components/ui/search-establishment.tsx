@@ -1,5 +1,5 @@
 import { Icon, Message, SearchProps, TextInput } from '@mtes-mct/monitor-ui'
-import { FormikErrors } from 'formik'
+import { FieldProps, FormikErrors } from 'formik'
 import { useEffect, useState } from 'react'
 import { Dropdown, Stack } from 'rsuite'
 import styled from 'styled-components'
@@ -9,10 +9,11 @@ import { Establishment } from '../../types/etablishment'
 type SearchEstablishmentProps = {
   establishment?: Establishment
   handleSubmit: (value?: Establishment, errors?: FormikErrors<Establishment>) => void
+  fieldFormik: FieldProps<Establishment>
 }
 
 export const SearchEstablishment = styled(
-  ({ establishment, handleSubmit, ...props }: Omit<SearchProps, 'options'> & SearchEstablishmentProps) => {
+  ({ establishment, handleSubmit, fieldFormik, ...props }: Omit<SearchProps, 'options'> & SearchEstablishmentProps) => {
     const [open, setOpen] = useState<boolean>()
     const [search, setSearch] = useState<string>()
     const { data: establishments } = useEstablishmentListQuery(search)
@@ -34,12 +35,15 @@ export const SearchEstablishment = styled(
     }, [establishments])
 
     useEffect(() => {
-      if (!establishment || !establishment.siren) return
+      if (!establishment || !establishment.siren) {
+        setSearch(undefined)
+        return
+      }
       setSearch(getName(establishment))
     }, [establishment])
-
+    debugger
     return (
-      <Stack direction="column" spacing="0.5rem">
+      <Stack direction="column" spacing="0.5rem" data-testid="search-establishment">
         <Stack.Item style={{ width: '100%' }}>
           <Message level="INFO">
             Recherche d'un établissement par son nom, <br />
@@ -58,11 +62,22 @@ export const SearchEstablishment = styled(
                 Icon={Icon.Search}
                 isErrorMessageHidden={true}
                 onChange={value => setSearch(value)}
+                error={fieldFormik?.meta?.error?.name}
               />
             </Stack.Item>
-            <Stack.Item style={{ width: '100%', overflow: 'hidden' }}>
+            <Stack.Item style={{ width: '100%', position: 'relative' }}>
               {open && (
-                <Dropdown.Menu style={{ overflow: 'scroll', minHeight: 0 }} onSelect={onSelect}>
+                <Dropdown.Menu
+                  style={{
+                    position: 'absolute',
+                    zIndex: 10,
+                    width: '100%',
+                    overflow: 'scroll',
+                    maxHeight: 200,
+                    minHeight: 0
+                  }}
+                  onSelect={onSelect}
+                >
                   {establishments?.map(item => (
                     <Dropdown.Item eventKey={item.id} style={{ maxWidth: '100%' }}>
                       {getName(item)}

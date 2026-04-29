@@ -14,15 +14,14 @@ import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionGenericControl } from '../../hooks/use-mission-action-generic-control.tsx'
 import { ActionControlInput } from '../../types/action-type.ts'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
-import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd.tsx'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
+import MissionActionLocationPicker from '../ui/mission-action-location-picker.tsx'
 
 export type MissionActionItemGenericControlProps = {
   action: MissionAction
   schema?: ObjectShape
   withGeoCoords?: boolean
   controlTypes?: ControlType[]
-  isGeoCoordRequired?: boolean
   component?: FunctionComponent<{ formik: FormikProps<ActionControlInput> }>
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }
@@ -33,8 +32,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
   onChange,
   component,
   controlTypes,
-  withGeoCoords,
-  isGeoCoordRequired = true
+  withGeoCoords
 }) => {
   const { isOnline } = useOnlineManager()
   const { defaultControlTypes } = useTarget()
@@ -91,20 +89,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                     )}
                   </Field>
                 </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  {withGeoCoords && (
-                    <Field name="geoCoords">
-                      {(field: FieldProps<number[]>) => (
-                        <MissionActionFormikCoordinateInputDMD
-                          isLight={true}
-                          name="geoCoords"
-                          fieldFormik={field}
-                          isRequired={isGeoCoordRequired}
-                        />
-                      )}
-                    </Field>
-                  )}
-                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>{withGeoCoords && <MissionActionLocationPicker />}</Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>{component && createElement(component, { formik })}</Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">

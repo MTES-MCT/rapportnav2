@@ -1,5 +1,6 @@
 import { ActionStatusReason, ActionStatusType } from '@common/types/action-types'
 import { ControlMethod, ControlType } from '@common/types/control-types'
+import { LocationType } from './location-type'
 import { ActionTargetTypeEnum, VehicleTypeEnum, VesselSizeEnum, VesselTypeEnum } from '@common/types/env-mission-types'
 import { EnvTag } from '@common/types/env-tags.ts'
 import { EnvTheme } from '@common/types/env-themes.ts'
@@ -44,6 +45,7 @@ export interface MissionNavActionData extends MissionActionData {
   isSimpleBrewingOperationDone?: boolean
   isAntiPolDeviceDeployed?: boolean
   controlMethod?: ControlMethod
+  locationType?: LocationType
   vesselIdentifier?: string
   vesselType?: VesselTypeEnum
   vesselSize?: VesselSizeEnum
@@ -83,6 +85,10 @@ export interface MissionNavActionData extends MissionActionData {
   sectorEstablishmentType?: SectorEtablishmentType
   incidentDuringOperation?: boolean
   establishment?: Establishment
+  portLocode?: string
+  zipCode?: string
+  city?: string
+  fishAuction?: { id: number; name: string; facade: string }
 }
 
 export interface MissionNavAction extends MissionAction {

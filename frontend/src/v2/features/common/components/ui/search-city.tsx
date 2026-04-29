@@ -1,86 +1,73 @@
-import { Icon, TextInput } from '@mtes-mct/monitor-ui'
-import { useEffect, useRef, useState } from 'react'
-import { Dropdown, Stack } from 'rsuite'
+import { Search } from '@mtes-mct/monitor-ui'
+import { useField, useFormikContext } from 'formik'
+import { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { useAddressListQuery } from '../../services/use-address-service'
-import { Address } from '../../types/address-type.ts'
 
-type SearchAddressProps = {
+type SearchCityProps = {
   name: string
-  value?: string
+  label: string
   isLight?: boolean
-  label?: string
-  onChange: (value?: string) => void
 }
 
-export const SearchCity = styled(({ value, isLight, label, onChange, ...props }: SearchAddressProps) => {
-  const [open, setOpen] = useState<boolean>(false)
-  const [search, setSearch] = useState<string>(value ?? '')
-  const isUserTyping = useRef<boolean>(false)
+export const SearchCity = styled(({ ...props }: SearchCityProps) => {
+  const [, meta, helpers] = useField<string | undefined>(props.name)
+  const { values, setFieldValue } = useFormikContext<any>()
+  const [search, setSearch] = useState(values.city ?? '')
   const { data: addresses } = useAddressListQuery(search)
 
-  const getDisplayName = (address: Address) => `${address.town} (${address.zipcode})`
+  // Sync search with formik city value when it changes externally (e.g. after refetch)
+  useEffect(() => {
+    if (values.city && values.city !== search) {
+      setSearch(values.city)
+    }
+  }, [values.city])
 
-  const onSelect = (eventKey?: string, event?: React.SyntheticEvent) => {
-    const selected = addresses?.find(item => item.town === eventKey)
-    event?.stopPropagation()
-    if (!selected) return
+  const options = useMemo(() => {
+    const apiOptions =
+      addresses
+        ?.filter(a => a.zipcode && a.town)
+        .map(a => ({
+          value: a.town!,
+          label: `${a.town} (${a.zipcode})`
+        })) ?? []
 
-    isUserTyping.current = false
-    setOpen(false)
-    setSearch(getDisplayName(selected))
-    onChange(getDisplayName(selected))
+    // Seed option for prepopulation when no API results loaded yet
+    if (values.city && values.zipCode && !apiOptions.some(o => o.value === values.city)) {
+      apiOptions.unshift({ value: values.city, label: `${values.city} (${values.zipCode})` })
+    }
+
+    return apiOptions
+  }, [addresses, values.city, values.zipCode])
+
+  const handleQuery = (query: string | undefined) => {
+    if (query) setSearch(query)
   }
 
-  useEffect(() => {
-    if (isUserTyping.current) {
-      setOpen(!!addresses?.length)
+  const handleChange = (nextValue: string | undefined) => {
+    if (!nextValue) {
+      helpers.setValue(undefined)
+      setFieldValue('city', undefined)
+      return
     }
-  }, [addresses])
-
-  useEffect(() => {
-    if (value && value !== search) {
-      setSearch(value)
-    }
-  }, [value])
+    const selected = addresses?.find(a => a.town === nextValue)
+    helpers.setValue(selected?.zipcode)
+    setFieldValue('city', nextValue)
+  }
 
   return (
-    <Stack direction="column" spacing="0.5rem">
-      <Stack.Item style={{ width: '100%' }}>
-        <Stack direction="column">
-          <Stack.Item style={{ width: '100%' }}>
-            <TextInput
-              {...props}
-              name="search-address"
-              label={label ?? ''}
-              placeholder=""
-              value={search}
-              isLight={isLight}
-              isRequired={true}
-              Icon={Icon.Search}
-              isErrorMessageHidden={true}
-              onChange={newValue => {
-                isUserTyping.current = true
-                setSearch(newValue ?? '')
-                if (!newValue) {
-                  onChange(undefined)
-                }
-              }}
-            />
-          </Stack.Item>
-          <Stack.Item style={{ width: '100%', overflow: 'hidden' }}>
-            {open && (
-              <Dropdown.Menu style={{ overflow: 'scroll', minHeight: 0 }} onSelect={onSelect}>
-                {addresses?.map(item => (
-                  <Dropdown.Item key={item.town} eventKey={item.town} style={{ maxWidth: '100%' }}>
-                    {getDisplayName(item)}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            )}
-          </Stack.Item>
-        </Stack>
-      </Stack.Item>
-    </Stack>
+    <Search<string>
+      isLight={true}
+      isRequired={true}
+      isErrorMessageHidden={true}
+      {...props}
+      value={values.city}
+      error={meta.error}
+      onChange={handleChange}
+      options={options}
+      onQuery={handleQuery}
+      filterBy={() => true}
+      data-testid="search-city"
+    />
   )
-})(() => ({}))
+})({})

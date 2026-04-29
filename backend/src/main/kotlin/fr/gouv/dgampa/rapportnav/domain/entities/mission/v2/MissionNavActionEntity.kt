@@ -3,16 +3,19 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 import fr.gouv.dgampa.rapportnav.config.DependentFieldValue
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishAuctionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.fish.FishAuctionModel
 import java.time.Instant
 import java.util.*
 
@@ -46,17 +49,17 @@ class MissionNavActionEntity(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
-                ])
-        ]
+                value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
+            ),
+        ],
     )
     override var latitude: Double? = null,
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
-                ])
+                value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
+            ),
         ]
     )
     override var longitude: Double? = null,
@@ -67,6 +70,8 @@ class MissionNavActionEntity(
     override var isAntiPolDeviceDeployed: Boolean? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var controlMethod: ControlMethod? = null,
+    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
+    override var locationType: LocationType? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var vesselIdentifier: String? = null,
     @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
@@ -190,12 +195,47 @@ class MissionNavActionEntity(
         ]
     )
     override var nbrOfControl: Int? = null,
+
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
+            DependentFieldValue(
+                field = "sectorEstablishmentType",
+                value = ["GMS", "RESTAURANT", "MOBILE_FISHMONGER", "SEDENTARY_FISHMONGER",
+                    "ROADSIDE_INSPECTION", "FISHMONGER", "PLEASURE_MARKET", "SEA_DRIVING_LESSON", "OTHERS"]
+            )
         ]
     )
     override var establishment: EstablishmentEntity? = null,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
+            DependentFieldValue(field = "sectorType", value = ["FISHING"]),
+            DependentFieldValue(
+                field = "sectorEstablishmentType",
+                value = ["LANDING_SITE"]
+            )
+        ]
+    )
+    override var portLocode: String? = null,
+
+
+    override var zipCode: String? = null,
+    override var city: String? = null,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
+            DependentFieldValue(field = "sectorType", value = ["FISHING"]),
+            DependentFieldValue(
+                field = "sectorEstablishmentType",
+                value = ["FISH_AUCTION"]
+            )
+        ]
+    )
+    override var fishAuction: FishAuctionEntity? = null,
+
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
@@ -293,6 +333,7 @@ class MissionNavActionEntity(
         isSimpleBrewingOperationDone = isSimpleBrewingOperationDone,
         isAntiPolDeviceDeployed = isAntiPolDeviceDeployed,
         controlMethod = controlMethod?.toString(),
+        locationType = locationType?.toString(),
         vesselIdentifier = vesselIdentifier,
         vesselType = vesselType?.toString(),
         vesselSize = vesselSize?.toString(),
@@ -335,6 +376,10 @@ class MissionNavActionEntity(
         nbrSecurityVisit = nbrSecurityVisit,
         securityVisitType = securityVisitType?.toString(),
         establishment = establishment?.toEstablishmentModel(),
+        portLocode = portLocode,
+        zipCode = zipCode,
+        city = city,
+        fishAuction = fishAuction?.let { FishAuctionModel.fromFishAuctionEntity(it) },
         isWithinDepartment =  if(isWithinDepartment == null)  true else isWithinDepartment
     )
 
@@ -360,6 +405,7 @@ class MissionNavActionEntity(
                 isSimpleBrewingOperationDone = model.isSimpleBrewingOperationDone,
                 isAntiPolDeviceDeployed = model.isAntiPolDeviceDeployed,
                 controlMethod = model.controlMethod?.let { ControlMethod.valueOf(it) },
+                locationType = model.locationType?.let { LocationType.valueOf(it) },
                 vesselIdentifier = model.vesselIdentifier,
                 vesselType = model.vesselType?.let { VesselTypeEnum.valueOf(it) },
                 vesselSize = model.vesselSize?.let { VesselSizeEnum.valueOf(it) },
@@ -402,7 +448,11 @@ class MissionNavActionEntity(
                 controlType = model.controlType,
                 nbrSecurityVisit = model.nbrSecurityVisit,
                 securityVisitType = model.securityVisitType?.let { SecurityVisitType.valueOf(it) },
-                establishment = model.establishment?.let { EstablishmentEntity.fromEstablishmentModel(it) }
+                establishment = model.establishment?.let { EstablishmentEntity.fromEstablishmentModel(it) },
+                portLocode = model.portLocode,
+                zipCode = model.zipCode,
+                city = model.city,
+                fishAuction = model.fishAuction?.toFishAuctionEntity(),
             )
         }
     }

@@ -24,6 +24,7 @@ interface AddressResult {
   metropole: boolean
   fulltext: string
   classification: number
+  names?: string[]
 }
 
 interface AddressResponse {
@@ -42,14 +43,14 @@ const transform = (result: AddressResult): Address => ({
 
 export const useAddressListQuery = (search?: string) => {
   const fetchAddresses = async (): Promise<AddressResult[]> => {
-    const params: AddressRequest = {
-      text: search ?? '',
-      type: 'PositionOfInterest',
-      poiType: 'commune',
-      maximumResponses: 10
-    }
+    const query = search ?? ''
+    const isNumeric = /^\d+$/.test(query)
+    const params: AddressRequest = isNumeric
+      ? { text: query, type: 'StreetAddress', maximumResponses: 10 }
+      : { text: query, type: 'PositionOfInterest', poiType: 'commune', maximumResponses: 10 }
     const response = await axios.get<AddressResponse>(url, { params })
-    return response.data.results
+    const results = response.data.results
+    return isNumeric ? results.filter(r => r.kind === 'municipality') : results
   }
 
   return useQuery<Address[]>({

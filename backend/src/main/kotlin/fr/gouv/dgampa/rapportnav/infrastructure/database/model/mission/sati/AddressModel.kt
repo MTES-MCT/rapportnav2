@@ -1,5 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
+import com.neovisionaries.i18n.CountryCode
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -37,4 +39,15 @@ data class AddressModel(
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     val createdAt: Instant? = null
-)
+) {
+    fun toAddressEntity(): AddressEntity = AddressEntity(
+        id = this.id,
+        street = this.street,
+        zipcode = this.zipcode,
+        town = this.town,
+        country = CountryCode.getByCode(this.country),
+        lat = this.lat,
+        lng = this.lng,
+        createdAt = this.createdAt
+    )
+}

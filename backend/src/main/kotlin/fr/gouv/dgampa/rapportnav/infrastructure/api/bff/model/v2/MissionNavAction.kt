@@ -58,6 +58,7 @@ class MissionNavAction(
                     isSimpleBrewingOperationDone = navAction.isSimpleBrewingOperationDone,
                     isAntiPolDeviceDeployed = navAction.isAntiPolDeviceDeployed,
                     controlMethod = navAction.controlMethod,
+                    locationType = navAction.locationType,
                     vesselIdentifier = navAction.vesselIdentifier,
                     vesselType = navAction.vesselType,
                     vesselSize = navAction.vesselSize,
@@ -100,7 +101,11 @@ class MissionNavAction(
                     securityVisitType = navAction.securityVisitType,
                     nbrSecurityVisit = navAction.nbrSecurityVisit,
                     establishment = navAction.establishment?.let { Establishment.fromEstablishmentEntity(it) },
-                    targets = navAction.targets?.map { Target.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
+                    targets = navAction.targets?.map { Target.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
+                    portLocode = navAction.portLocode,
+                    zipCode = navAction.zipCode,
+                    city = navAction.city,
+                    fishAuction = navAction.fishAuction?.let { FishAuction.fromFishAuctionEntity(it) }
                 )
             )
         }

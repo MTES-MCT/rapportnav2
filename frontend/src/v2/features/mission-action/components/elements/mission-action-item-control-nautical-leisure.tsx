@@ -15,7 +15,6 @@ const MissionActionItemNauticalLeisureControl: FC<{
       action={action}
       onChange={onChange}
       withGeoCoords={true}
-      isGeoCoordRequired={false}
       schema={CONTROL_NAUTICAL_LEISURE_SCHEMA}
       controlTypes={allControlTypes}
       data-testid={'action-control-nautical-leisure'}

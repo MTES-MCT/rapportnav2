@@ -3,13 +3,14 @@ import { mixed, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import { cleanLocationFields } from '../../common/schemas/location-fields-cleaner.ts'
+import getLocationSchema from '../../common/schemas/location-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionNavControlInput } from '../types/action-type'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
-import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
-import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
-import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 import { useMemo } from 'react'
 
 export function useMissionActionNavControl(
@@ -32,12 +33,10 @@ export function useMissionActionNavControl(
   }
 
   const fromInputToFieldValue = (value: ActionNavControlInput): MissionNavActionData => {
-    const { dates, geoCoords, ...newData } = value
-    const latitude = geoCoords[0] ?? 0
-    const longitude = geoCoords[1] ?? 0
+    const { dates, geoCoords, locationType, ...newData } = value
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
+    return { ...newData, ...cleanLocationFields(locationType, geoCoords, newData), locationType, startDateTimeUtc, endDateTimeUtc }
   }
 
   const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
@@ -58,7 +57,7 @@ export function useMissionActionNavControl(
   const createValidationSchema = (isMissionFinished: boolean) => {
     return object().shape({
       ...getDateRangeSchema(isMissionFinished),
-      ...getGeoCoordsSchema(isMissionFinished),
+      ...getLocationSchema(isMissionFinished),
 
       vesselSize: conditionallyRequired(
         () => mixed<VesselSizeEnum>().nullable().oneOf(Object.values(VesselSizeEnum)).default(undefined),

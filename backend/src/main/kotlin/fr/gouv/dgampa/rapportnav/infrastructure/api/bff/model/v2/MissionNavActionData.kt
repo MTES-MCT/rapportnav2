@@ -4,9 +4,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.PortEntity
 import java.time.Instant
 import java.util.*
 
@@ -19,6 +21,7 @@ class MissionNavActionData(
     override val isSimpleBrewingOperationDone: Boolean?,
     override val isAntiPolDeviceDeployed: Boolean?,
     override val controlMethod: ControlMethod?,
+    override val locationType: LocationType?,
     override val vesselIdentifier: String?,
     override val vesselType: VesselTypeEnum?,
     override val vesselSize: VesselSizeEnum?,
@@ -64,7 +67,11 @@ class MissionNavActionData(
     override var sectorEstablishmentType: SectorEstablishmentType? = null,
     override var nbrSecurityVisit:Int? = null,
     override var securityVisitType: SecurityVisitType? = null,
-    override var establishment: Establishment? = null
+    override var establishment: Establishment? = null,
+    override var portLocode: String? = null,
+    override var zipCode: String? = null,
+    override var city: String? = null,
+    override var fishAuction: FishAuction? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -91,6 +98,7 @@ class MissionNavActionData(
                 isSimpleBrewingOperationDone = data.isSimpleBrewingOperationDone,
                 isAntiPolDeviceDeployed = data.isAntiPolDeviceDeployed,
                 controlMethod = data.controlMethod,
+                locationType = data.locationType,
                 vesselIdentifier = data.vesselIdentifier,
                 vesselType = data.vesselType,
                 vesselSize = data.vesselSize,
@@ -132,7 +140,11 @@ class MissionNavActionData(
                 controlType = data.controlType,
                 securityVisitType = data.securityVisitType,
                 nbrSecurityVisit = data.nbrSecurityVisit,
-                establishment = data.establishment?.toEstablishmentEntity()
+                establishment = data.establishment?.toEstablishmentEntity(),
+                portLocode = data.portLocode,
+                zipCode = data.zipCode,
+                city = data.city,
+                fishAuction = data.fishAuction?.toFishAuctionEntity(),
             )
             return action
         }
