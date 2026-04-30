@@ -67,6 +67,8 @@ dependencies {
   // Version constraints (replaces dependencyManagement.dependencies)
   constraints {
     implementation("org.apache.commons:commons-lang3:3.20.0")
+    implementation("org.libreoffice:libreoffice:24.8.7")
+    implementation("org.eclipse.angus:angus-activation:2.1.0-M1")
   }
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
