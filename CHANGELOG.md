@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.77.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.77.0...v2.77.1) (2026-04-30)
+
+
+### Bug Fixes
+
+* bump dependencies ([fc76526](https://github.com/MTES-MCT/rapportnav2/commit/fc76526a5ea9ed240c285ba8d8228a979cdb22f6))
+* force dependencies versions ([56802b9](https://github.com/MTES-MCT/rapportnav2/commit/56802b9477654850a102d0479d5d1c9a4ae27c6c))
+
 ## [2.77.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.76.1...v2.77.0) (2026-04-30)
 
 
