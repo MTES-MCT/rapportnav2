@@ -22,7 +22,7 @@ const MissionControlFishSeizureSection: React.FC<MissionControlFishSeizureSectio
               readOnly={true}
               name="seizureAndDiversion"
               label="Appréhension et déroutement du navire"
-              checked={!!action.seizureAndDiversion}
+              checked={!!action?.seizureAndDiversion}
             />
           </Stack.Item>
           <Stack.Item style={{ paddingLeft: '1.5rem' }}>
@@ -30,7 +30,7 @@ const MissionControlFishSeizureSection: React.FC<MissionControlFishSeizureSectio
               readOnly={true}
               name="hasSomeSpeciesSeized"
               label="avec appréhension des espèces"
-              checked={!!action.hasSomeSpeciesSeized}
+              checked={!!action?.hasSomeSpeciesSeized}
             />
           </Stack.Item>
           <Stack.Item style={{ paddingLeft: '1.5rem' }}>
@@ -38,7 +38,7 @@ const MissionControlFishSeizureSection: React.FC<MissionControlFishSeizureSectio
               readOnly={true}
               name="hasSomeGearsSeized"
               label="avec appréhension des engins"
-              checked={!!action.hasSomeGearsSeized}
+              checked={!!action?.hasSomeGearsSeized}
             />
           </Stack.Item>
         </Stack>

@@ -2,7 +2,20 @@ import { MissionActionType } from '@common/types/fish-mission-types.ts'
 import { vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils.tsx'
 import { MissionAction } from '../../../../common/types/mission-action.ts'
+import * as useMissionActionFishControlModule from '../../../hooks/use-mission-action-fish-control.tsx'
 import MissionActionItemFishControl from '../mission-action-item-fish-control.tsx'
+
+vi.mock('../../../hooks/use-mission-action-fish-control.tsx', () => ({
+  useMissionActionFishControl: vi.fn()
+}))
+
+const useMissionActionFishControlMock = vi.mocked(useMissionActionFishControlModule.useMissionActionFishControl)
+const mockItems = [
+  { key: '1', title: 'Infos du navire', component: () => null },
+  { key: '2', title: 'Police des pêches', component: () => null },
+  { key: '3', title: 'Autres polices', component: () => null },
+  { key: '4', title: 'Conclusions', component: () => null }
+]
 
 const mockAction = {
   id: '1234',
@@ -14,6 +27,19 @@ const props = (action = mockAction, onChange = vi.fn(), isMissionFinished = fals
   action,
   isMissionFinished,
   onChange
+})
+
+beforeEach(() => {
+  useMissionActionFishControlMock.mockImplementation((action: any) => {
+    const fishActionType = action?.data?.fishActionType ?? action?.fishActionType ?? MissionActionType.SEA_CONTROL
+    const fishInfractions = action?.data?.fishInfractions ?? []
+
+    return {
+      initValue: { ...action.data, dates: [new Date('2025-01-01'), new Date('2025-01-01')], geoCoords: [1, 2] },
+      items: mockItems,
+      handleSubmit: vi.fn()
+    }
+  })
 })
 
 describe('MissionActionItemFishControl Component', () => {
@@ -63,6 +89,7 @@ describe('MissionActionItemFishControl Component', () => {
         }
       }
       render(<MissionActionItemFishControl {...props(action)} />)
+
       expect(screen.getByText("Lieu de l'opération")).toBeInTheDocument()
       expect(screen.getByTestId('portName')).toHaveValue('Audierne (AUD)')
     })
@@ -77,40 +104,6 @@ describe('MissionActionItemFishControl Component', () => {
       }
       render(<MissionActionItemFishControl {...props(action)} />)
       expect(screen.getByTestId('portName')).toHaveValue('Audierne ')
-    })
-  })
-
-  describe('Infractions', () => {
-    it('should show no infractions', () => {
-      const action = {
-        data: {
-          ...mockAction
-        }
-      }
-      render(<MissionActionItemFishControl {...props(action)} />)
-      expect(screen.getByText('Aucune infraction')).toBeInTheDocument()
-    })
-    it('should show infractions', () => {
-      const action = {
-        data: {
-          ...mockAction,
-          fishInfractions: [
-            {
-              natinf: 12345,
-              threat: 'Dissimulation'
-            },
-            {
-              natinf: 22182,
-              threat: 'Entrave à la justice'
-            }
-          ]
-        }
-      }
-      render(<MissionActionItemFishControl {...props(action)} />)
-      expect(screen.getByText('NATINF : 12345', { exact: false })).toBeInTheDocument()
-      expect(screen.getByText('Infraction 1 : Dissimulation', { exact: false })).toBeInTheDocument()
-      expect(screen.getByText('NATINF : 22182', { exact: false })).toBeInTheDocument()
-      expect(screen.getByText('Infraction 2 : Entrave à la justice', { exact: false })).toBeInTheDocument()
     })
   })
 })

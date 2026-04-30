@@ -8,3 +8,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.styled-tabs > .rs-nav-horizontal {
+  display: flex;
+  border-bottom: 1px solid #3b4559;
+}
+
+.styled-tabs > .rs-nav-horizontal > .rs-nav-item,
+.styled-tabs > .rs-nav-horizontal > .rs-dropdown {
+  flex: 1 1 0;
+  min-width: 0;
+  border: 1px solid #3b4559;
+  border-radius: unset !important;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.styled-tabs > .rs-nav-horizontal > .rs-nav-item.rs-nav-item-active {
+  background-color: #3b4559;
+  color: white;
+}

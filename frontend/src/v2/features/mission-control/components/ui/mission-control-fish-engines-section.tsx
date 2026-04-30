@@ -5,7 +5,6 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import { MissionFishActionData } from '../../../common/types/mission-action'
-import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary'
 
 interface MissionControlFishEnginesSectionProps {
   action: MissionFishActionData
@@ -18,7 +17,7 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
       <Stack.Item>
         <Label>Engins à bord</Label>
       </Stack.Item>
-      {action.gearOnboard?.map((gearControl: GearControl, i: number) => (
+      {action?.gearOnboard?.map((gearControl: GearControl, i: number) => (
         <Stack.Item
           style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}
           key={`${gearControl.gearCode}${i}`}

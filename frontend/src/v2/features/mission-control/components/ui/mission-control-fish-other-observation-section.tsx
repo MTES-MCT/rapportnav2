@@ -19,7 +19,7 @@ const MissionControlFishOtherObservationsSection: React.FC<MissionControlFishOth
       </Stack.Item>
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Text as="h3" weight="medium">
-          {!isEmpty(action.otherComments) ? action.otherComments : 'Aucune observation'}
+          {!isEmpty(action?.otherComments) ? action.otherComments : 'Aucune observation'}
         </Text>
       </Stack.Item>
     </Stack>
