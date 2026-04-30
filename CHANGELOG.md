@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.77.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.76.1...v2.77.0) (2026-04-30)
+
+
+### Features
+
+* **EnvControl:** add diving operations ([1568282](https://github.com/MTES-MCT/rapportnav2/commit/156828246f9b683e5dce0c424f812a82a917004a))
+
+
+### Bug Fixes
+
+* npm audit ([5e7dbb0](https://github.com/MTES-MCT/rapportnav2/commit/5e7dbb0aecee7d1261cc3468af711d41c9723bea))
+
 ## [2.76.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.76.0...v2.76.1) (2026-04-28)
 
 
