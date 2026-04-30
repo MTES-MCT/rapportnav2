@@ -80,7 +80,7 @@ class ComputeEnvOperationalSummaryTest {
             )
             val expected = mapOf(
                 "nbSurveillances" to 0,
-                "totalSurveillanceDurationInHours" to 0,
+                "totalSurveillanceDurationInHours" to 0.0,
                 "nbControls" to 0,
                 "nbInfractionsWithRecord" to 0,
                 "nbInfractionsWithoutRecord" to 0,
@@ -114,7 +114,7 @@ class ComputeEnvOperationalSummaryTest {
             )
             val expected = mapOf(
                 "nbSurveillances" to 2,
-                "totalSurveillanceDurationInHours" to 2,
+                "totalSurveillanceDurationInHours" to 2.0,
                 "nbControls" to 3,
                 "nbInfractionsWithRecord" to 1,
                 "nbInfractionsWithoutRecord" to 1,

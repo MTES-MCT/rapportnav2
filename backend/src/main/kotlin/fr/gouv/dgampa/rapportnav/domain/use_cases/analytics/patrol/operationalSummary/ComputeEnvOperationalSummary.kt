@@ -26,12 +26,15 @@ fun execute(actions: List<MissionActionEntity>): Map<String, Any> {
         val surveillances = filteredActions.filter { it.envActionType == ActionTypeEnum.SURVEILLANCE }
 
         val nbSurveillances = surveillances.size
-        val totalSurveillanceDurationInHours = surveillances.sumOf<MissionEnvActionEntity> { surveillance ->
-            ComputeDurationUtils.durationInHours(
+        val totalSurveillanceDurationInSeconds = surveillances.sumOf { surveillance ->
+            ComputeDurationUtils.durationInSeconds(
                 startDateTimeUtc = surveillance.startDateTimeUtc,
                 endDateTimeUtc = surveillance.endDateTimeUtc
-            ).toInt()
+            ) ?: 0
         }
+        val totalSurveillanceDurationInHours = ComputeDurationUtils.convertFromSeconds(
+            totalSurveillanceDurationInSeconds, DurationUnit.HOURS
+        )
 
         val nbControls = controls.size
 
