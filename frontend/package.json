@@ -69,7 +69,7 @@
     "msw": "^2.11.1",
     "prettier": "^3.7.4",
     "typescript": "^5.9.2",
-    "vite": "^7.1.5",
+    "vite": "^8.0.0",
     "vite-plugin-eslint2": "^5.1.0",
     "vite-plugin-pwa": "^1.2.0",
     "vite-plugin-svgr": "5.2.0",
