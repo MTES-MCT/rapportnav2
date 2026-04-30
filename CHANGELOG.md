@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.77.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.77.1...v2.77.2) (2026-04-30)
+
+
+### Bug Fixes
+
+* **Analytics:** fix truncating conversion to int too early in duration calculation ([27eaab8](https://github.com/MTES-MCT/rapportnav2/commit/27eaab8ba6d214c6f320051c0e7d318db8b01d3b))
+
 ## [2.77.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.77.0...v2.77.1) (2026-04-30)
 
 
