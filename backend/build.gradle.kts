@@ -54,10 +54,6 @@ dependencyManagement {
   dependencies {
     // force any dependency like following :
      dependency("org.apache.commons:commons-lang3:3.20.0")
-    // remove following two after spring boot 4.0.3+
-     dependency("com.fasterxml.jackson.core:jackson-core:2.21.2")
-     dependency("tools.jackson.core:jackson-core:3.1.1")
-
   }
 }
 
@@ -99,13 +95,13 @@ dependencies {
   implementation("io.sentry:sentry-log4j2")
   // apache poi for xml and docs
   // the two following apache poi dependencies should have the same version
-  implementation("org.apache.poi:poi:5.4.1")
-  implementation("org.apache.poi:poi-ooxml:5.4.1")
-  implementation("org.apache.commons:commons-text:1.14.0")
+  implementation("org.apache.poi:poi:5.5.1")
+  implementation("org.apache.poi:poi-ooxml:5.5.1")
+  implementation("org.apache.commons:commons-text:1.15.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.11")
   implementation("com.neovisionaries:nv-i18n:1.29")
-  implementation("org.wiremock:wiremock-standalone:4.0.0-beta.24")
-  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
+  implementation("org.wiremock:wiremock-standalone:4.0.0-beta.32")
+  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
   testImplementation("org.springframework.boot:spring-boot-starter-jackson-test")
