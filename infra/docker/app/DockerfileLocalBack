@@ -6,6 +6,7 @@ FROM bellsoft/liberica-openjdk-alpine:25 AS backend-dependencies
 
 # LibreOffice install
 RUN apk update && \
+    apk upgrade --no-cache && \
     apk add --no-cache libreoffice && \
     rm -rf /var/cache/apk/*
 
