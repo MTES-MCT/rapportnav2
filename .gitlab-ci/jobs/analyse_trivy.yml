@@ -4,7 +4,7 @@ analyse_trivy:
       when: always
   stage: analyze
   image:
-    name: aquasec/trivy:0.69.3
+    name: aquasec/trivy:0.70.0
     entrypoint: [""]
   variables:
     # No need to clone the repo, we exclusively work on artifacts.  See
