@@ -1,7 +1,7 @@
 .dependency_check:
   stage: analyze
   image:
-    name: ${CI_REGISTRY}/snum/dam/owasp/owasp-registry/dependency-check:12.2.2
+    name: ${CI_REGISTRY}/snum/dam/owasp/owasp-registry/dependency-check:12.1.1
     entrypoint: [ "" ]
   variables:
     OWASP_CACHE_URL: https://owasp-forge.e2.rie.gouv.fr/
