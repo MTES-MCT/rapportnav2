@@ -25,6 +25,7 @@ plugins {
   id("org.owasp.dependencycheck") version "12.1.0"
 //  id("io.sentry.jvm.gradle") version "5.12.2"
   jacoco
+  id("com.github.ben-manes.versions") version "0.54.0"
 }
 
 springBoot {
@@ -72,7 +73,7 @@ dependencies {
   }
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-  implementation("org.postgresql:postgresql:42.7.8")
+  implementation("org.postgresql:postgresql:42.7.11")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-data-rest")
   implementation("org.springframework.boot:spring-boot-starter-web")
@@ -87,12 +88,12 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
   implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
   implementation("tools.jackson.module:jackson-module-kotlin")
-  implementation("io.jsonwebtoken:jjwt-api:0.12.7")
+  implementation("io.jsonwebtoken:jjwt-api:0.13.0")
   implementation("jakarta.xml.bind:jakarta.xml.bind-api")
   implementation("org.locationtech.jts:jts-core:1.20.0")
   implementation("org.locationtech.jts.io:jts-io-common:1.20.0")
   // sentry
-  implementation(platform("io.sentry:sentry-bom:8.29.0"))
+  implementation(platform("io.sentry:sentry-bom:8.40.0"))
   implementation("io.sentry:sentry-spring-boot-4")
   implementation("io.sentry:sentry-log4j2")
   // apache poi for xml and docs
