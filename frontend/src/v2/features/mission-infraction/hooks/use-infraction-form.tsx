@@ -4,6 +4,16 @@ import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { AbstractFormikHook } from '../../common/types/abstract-formik-hook'
 import { TargetInfraction, TargetInfractionInput, TargetType } from '../../common/types/target-types'
 
+type InfractionTypeHook = { value: InfractionTypeEnum; label: string }
+
+const infractionTypeOptions = [
+  { value: InfractionTypeEnum.WITHOUT_REPORT, label: 'Sans Infraction (RAS)' },
+  {
+    value: InfractionTypeEnum.WITH_REPORT,
+    label: 'Avec infraction (Rappel à la loi / verbalisation)'
+  }
+]
+
 export function useInfractionForm(
   targetInfraction: TargetInfraction,
   targetType?: TargetType,
@@ -11,7 +21,10 @@ export function useInfractionForm(
   editTarget?: boolean,
   editControl?: boolean,
   editInfraction?: boolean
-): AbstractFormikHook<TargetInfraction, TargetInfractionInput> & { validationSchema?: ObjectSchema<any> } {
+): AbstractFormikHook<TargetInfraction, TargetInfractionInput> & {
+  validationSchema?: ObjectSchema<any>
+  infractionTypeOptions: InfractionTypeHook[]
+} {
   const fromFieldValueToInput = (targetInfraction: TargetInfraction): TargetInfractionInput => {
     return {
       target: getTargetInput(targetInfraction),
@@ -22,19 +35,8 @@ export function useInfractionForm(
 
   const fromInputToFieldValue = (value: TargetInfractionInput): TargetInfraction => {
     return {
-      control: value.control,
-      target: getTarget(value),
-      infraction: getinfraction(value)
-    }
-  }
-
-  const getinfraction = (value: TargetInfractionInput) => {
-    if (!value?.infraction) return
-    const { withReport, ...infraction } = value.infraction
-    const infractionType = withReport ? InfractionTypeEnum.WITH_REPORT : InfractionTypeEnum.WITHOUT_REPORT
-    return {
-      ...infraction,
-      infractionType
+      ...value,
+      target: getTarget(value)
     }
   }
 
@@ -118,6 +120,7 @@ export function useInfractionForm(
     handleSubmit,
     beforeSubmit,
     beforeInitValue,
+    infractionTypeOptions,
     validationSchema: getValidationSchema()
   }
 }
