@@ -4,7 +4,7 @@ import { Divider } from 'rsuite'
 const MissionActionDivingOperation: React.FC = () => {
   return (
     <>
-      <Divider style={{ backgroundColor: THEME.color.charcoal, marginBottom: 4 }} />
+      <Divider style={{ backgroundColor: THEME.color.charcoal, marginBottom: 4, marginTop: 0 }} />
       <FormikCheckbox isLight name="hasDivingDuringOperation" label="Plongée au cours de l'opération" />
     </>
   )
