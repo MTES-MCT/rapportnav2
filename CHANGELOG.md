@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.79.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.78.1...v2.79.0) (2026-05-05)
+
+
+### Features
+
+* **Vite:** upgrade to vite8 ([8937f8f](https://github.com/MTES-MCT/rapportnav2/commit/8937f8ff92695852f2364cb690fe43d963f1e142))
+
 ## [2.78.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.78.0...v2.78.1) (2026-05-05)
 
 
