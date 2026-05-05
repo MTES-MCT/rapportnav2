@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.78.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.78.0...v2.78.1) (2026-05-05)
+
+
+### Bug Fixes
+
+* **CI:** dependency-check artifact name ([fa06ef8](https://github.com/MTES-MCT/rapportnav2/commit/fa06ef8e1354d56b198bacc5b3ff201d1b23aa0b))
+* **CI:** update trivy command arguments ([b7f1cc9](https://github.com/MTES-MCT/rapportnav2/commit/b7f1cc938da7e5ea5957fedb7e5efabd999930c0))
+
 ## [2.78.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.77.1...v2.78.0) (2026-05-05)
 
 
