@@ -11,11 +11,11 @@ variables:
     value: postgres:15.15-alpine
     description: Image de la base de données
   PROJECT_VERSION:
-    value: 2.77.1
+    value: 2.78.0
     description: Version du projet à déployer
   ENV_DEPLOIEMENT:
     value: ecole
-    description: "Environnement cible (ecole/integration/production)"
+    description: Environnement cible (ecole/integration/production)
   SERVER_ENV_INT:
     value: int-rapportnav-appli01
     description: Serveur cible d'intégration
@@ -55,9 +55,9 @@ include:
   - /.gitlab-ci/jobs/analyse_sonar.yml
   - /.gitlab-ci/jobs/analyse_trivy.yml
   - /.gitlab-ci/jobs/analyse_dependency-check.yml
-  - project: 'dam/applications/deploiement_sml/ci-cd/templates-devops/deploiements'
+  - project: dam/applications/deploiement_sml/ci-cd/templates-devops/deploiements
     ref: main
-    file: 'deploiement-int.yml'
-  - project: 'dam/applications/deploiement_sml/ci-cd/templates-devops/deploiements'
+    file: deploiement-int.yml
+  - project: dam/applications/deploiement_sml/ci-cd/templates-devops/deploiements
     ref: main
-    file: 'deploiement-prod.yml'
+    file: deploiement-prod.yml
