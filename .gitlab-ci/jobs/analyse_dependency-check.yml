@@ -13,7 +13,7 @@ dependency_check_node:
       --data .dependency-checkdata/
       --project "${PROJECT_NAME} frontend ${PROJECT_VERSION}" --scan frontend/
       --enableExperimental --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies --failOnCVSS $FAIL_DP_CHECK_LVL --suppression .gitlab-ci/eco/suppression.xml
-      --out syssi-ui-$PROJECT_VERSION-DP-check.html
+      --out $PROJECT_NAME-frontend-$PROJECT_VERSION-DP-check.html
   artifacts:
     when: always
     paths:
