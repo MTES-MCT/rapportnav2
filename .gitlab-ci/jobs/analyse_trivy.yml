@@ -20,10 +20,10 @@ analyse_trivy:
     # Génère les rapports (sans filtre)
     - trivy image --no-progress --cache-dir .trivycache/ "$NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION" --format template --template "@/contrib/html.tpl" --output "$PROJECT_NAME-scanning-report.html"
     # Fail s'il existe une vulnérabilité critique
-    - trivy image --no-progress --cache-dir .trivycache/ --ignorefile .trivyignore "$NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION" --severity CRITICAL --exit-code 1
+    - trivy image --no-progress --cache-dir .trivycache/ --ignorefile .trivyignore.yml "$NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION" --severity CRITICAL --exit-code 1
   after_script:
     # On ne conserve que les bases de données dans le cache
-    - trivy image --no-progress --cache-dir .trivycache/ --clear-cache
+    - trivy clean --scan-cache --cache-dir .trivycache/
   cache:
     when: always
     paths:
