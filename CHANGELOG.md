@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.78.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.77.1...v2.78.0) (2026-05-05)
+
+
+### Features
+
+* **CI:** update CI to gitlab-forge ([7b6bf05](https://github.com/MTES-MCT/rapportnav2/commit/7b6bf053678d0989396071b7bc60b81c0b2b9111))
+
+
+### Bug Fixes
+
+* **Analytics:** fix truncating conversion to int too early in duration calculation ([27eaab8](https://github.com/MTES-MCT/rapportnav2/commit/27eaab8ba6d214c6f320051c0e7d318db8b01d3b))
+
 ## [2.77.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.77.0...v2.77.1) (2026-04-30)
 
 
