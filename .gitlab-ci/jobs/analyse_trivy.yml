@@ -1,0 +1,38 @@
+analyse_trivy:
+  rules:
+    - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
+      when: always
+  stage: analyze
+  image:
+    name: aquasec/trivy:0.69.3
+    entrypoint: [""]
+  variables:
+    # No need to clone the repo, we exclusively work on artifacts.  See
+    # https://docs.gitlab.com/ee/ci/runners/README.html#git-strategy
+    TRIVY_USERNAME: "$NEXUS_USER"
+    TRIVY_PASSWORD: "$NEXUS_PWD"
+    TRIVY_NON_SSL: "true"
+    TRIVY_SERVER: "http://trivy.dsi.damgm.i2"
+    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+  script:
+    # Génère les rapports (sans filtre)
+    - trivy image --no-progress --cache-dir .trivycache/ "$NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION" --format template --template "@/contrib/html.tpl" --output "$PROJECT_NAME-scanning-report.html"
+    # Fail s'il existe une vulnérabilité critique
+    - trivy image --no-progress --cache-dir .trivycache/ --ignorefile .trivyignore "$NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION" --severity CRITICAL --exit-code 1
+  after_script:
+    # On ne conserve que les bases de données dans le cache
+    - trivy image --no-progress --cache-dir .trivycache/ --clear-cache
+  cache:
+    when: always
+    paths:
+      - .trivycache/
+  artifacts:
+    when: always
+    paths:
+      - "*.html"
+  tags:
+    - dsi_saint-malo
+  needs:
+     - job: construction_image

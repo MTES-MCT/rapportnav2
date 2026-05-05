@@ -1,13 +1,13 @@
 construction_image:
+  rules:
+    - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
+      when: always
   stage: build
-  except:
-    variables:
-      - $IMAGE_CHECKSUM
   image: docker:20.10.5
   variables:
     HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
     HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
-    NO_PROXY: "docker,dockerhost,gitlab-sml.din.developpement-durable.gouv.fr,int-docker01,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+    NO_PROXY: "docker,dockerhost,gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
     GIT_STRATEGY: fetch
     GIT_CLEAN_FLAGS: none
     DOCKER_HOST: tcp://dockerhost:2375/
@@ -16,22 +16,22 @@ construction_image:
   services:
     - name: docker:20.10.5-dind
       alias: dockerhost
-      entrypoint: [ "sh", "-c", "dockerd-entrypoint.sh" ]
+      command: ["--insecure-registry=nexus.dsi.damgm.i2:5000"]
   script:
     # TODO à adapter en fonction du projet
     - docker build --pull -f infra/docker/app/Dockerfile .
-      -t $TAG_VERSION
-      -t $NEXUS_DOCKER_REPO/$PROJECT_NAME:Int
+      -t $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
+      --label org.opencontainers.image.revision=$CI_COMMIT_SHA
       --build-arg VERSION=$PROJECT_VERSION
       --build-arg ENV_PROFILE="prod"
-      --build-arg GITHUB_SHA=$CI_COMMIT_SHA
+      --build-arg GITHUB_SHA=$CI_COMMIT_SHA 
       --build-arg PROXY="http://$PROXY_HOST:$PROXY_PORT"
-    - docker login $NEXUS_DOCKER_REPO -u $NEXUS_USER -p $NEXUS_PWD
-    - docker image push --all-tags $NEXUS_DOCKER_REPO/$PROJECT_NAME
+    - echo "$NEXUS_PWD" | docker login -u "$NEXUS_USER" --password-stdin "$NEXUS_DOCKER_REPO"
+    - docker image push "$NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION"
     - docker logout $NEXUS_DOCKER_REPO
 
   tags:
-    - build
+    - dsi_saint-malo
 
   needs:
     - job: build_projet_gradle

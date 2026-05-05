@@ -1,7 +1,7 @@
 stages:
   - build
   - analyze
-  - deploy-int
+  - deploy-recette
   - deploy-prod
 variables:
   PROJECT_NAME:
@@ -13,6 +13,9 @@ variables:
   PROJECT_VERSION:
     value: 2.77.1
     description: Version du projet à déployer
+  ENV_DEPLOIEMENT:
+    value: ecole
+    description: "Environnement cible (ecole/integration/production)"
   SERVER_ENV_INT:
     value: int-rapportnav-appli01
     description: Serveur cible d'intégration
@@ -49,13 +52,12 @@ include:
   - /.gitlab-ci/jobs/build_projet_gradle.yml
   - /.gitlab-ci/jobs/build_projet_npm.yml
   - /.gitlab-ci/jobs/construction_image.yml
-  - project: num3-exploitation/chaine-ci/template-analyse-deploiement
-    ref: main
-    file: /jobs/analyse_sonar.yml
+  - /.gitlab-ci/jobs/analyse_sonar.yml
+  - /.gitlab-ci/jobs/analyse_trivy.yml
   - /.gitlab-ci/jobs/analyse_dependency-check.yml
-  - project: num3-exploitation/chaine-ci/templates-devops/deploiements
+  - project: 'dam/applications/deploiement_sml/ci-cd/templates-devops/deploiements'
     ref: main
-    file: deploiement-int.yml
-  - project: num3-exploitation/chaine-ci/templates-devops/deploiements
+    file: 'deploiement-int.yml'
+  - project: 'dam/applications/deploiement_sml/ci-cd/templates-devops/deploiements'
     ref: main
-    file: deploiement-prod.yml
+    file: 'deploiement-prod.yml'

@@ -1,20 +1,17 @@
 # TODO à adapter selon le projet
 build_projet_npm:
+  rules:
+    - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
+      when: always
   stage: build
   image: node:24
-  variables:
-    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
-    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
-    NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
   script:
     - cd frontend
-    - npm config set proxy $HTTP_PROXY
-    - npm config set https-proxy $HTTPS_PROXY
     - npm ci
     - npm run build --verbose
-  tags:
-    - build
   artifacts:
     name: "Npm artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
     paths:
       - "frontend/dist"
+  tags:
+    - selfservice

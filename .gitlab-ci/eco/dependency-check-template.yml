@@ -1,0 +1,14 @@
+.dependency_check:
+  stage: analyze
+  image:
+    name: ${CI_REGISTRY}/snum/dam/owasp/owasp-registry/dependency-check:12.1.1
+    entrypoint: [ "" ]
+  variables:
+    OWASP_CACHE_URL: https://owasp-forge.e2.rie.gouv.fr/
+  artifacts:
+    when: always
+    # Save the report.html. Exist report.xml, report.json, report.csv, report.sarif,
+    #   jenkins.html, junit.xml, gitlab.json
+    paths:
+      - ./reports/*
+    expire_in: 1 week
