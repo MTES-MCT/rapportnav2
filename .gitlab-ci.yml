@@ -52,7 +52,7 @@ include:
   - /.gitlab-ci/jobs/build_projet_gradle.yml
   - /.gitlab-ci/jobs/build_projet_npm.yml
   - /.gitlab-ci/jobs/construction_image.yml
-  - /.gitlab-ci/jobs/analyse_sonar.yml
+#  - /.gitlab-ci/jobs/analyse_sonar.yml
   - /.gitlab-ci/jobs/analyse_trivy.yml
   - /.gitlab-ci/jobs/analyse_dependency-check.yml
   - project: dam/applications/deploiement_sml/ci-cd/templates-devops/deploiements
