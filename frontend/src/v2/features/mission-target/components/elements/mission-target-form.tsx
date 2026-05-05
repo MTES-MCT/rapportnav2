@@ -51,7 +51,7 @@ const MissionTargetForm: FC<MissionTargetFormProps> = ({
         width: '100%',
         padding: '1rem',
         marginBottom: '1rem',
-        backgroundColor: THEME.color.white
+        backgroundColor: THEME.color.cultured
       }}
     >
       <MissionInfractionForm
