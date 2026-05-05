@@ -49,6 +49,9 @@ BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 back-version:
 	cd $(BACKEND_DIR) && ./gradlew properties | grep -w 'version' | awk -F': ' '{ if ($1 == "version") print $2 }'
 
+back-outdated:
+	cd $(BACKEND_DIR) && ./gradlew dependencyUpdates
+
 back-show-dependencies:
 	cd $(BACKEND_DIR) && ./gradlew dependencies
 
