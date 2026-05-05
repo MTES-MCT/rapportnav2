@@ -20,6 +20,16 @@ const MISSION_SOURCE_TYPES_EXTERNAL = [
   MissionSourceEnum.POSEIDON_CNSP
 ]
 
+const upsert = <T,>(
+  arr: T[],
+  item: T,
+  predicate: (el: T) => boolean,
+  merge: (existing: T, incoming: T) => T = (_, incoming) => incoming
+): T[] => {
+  const index = arr.findIndex(predicate)
+  return index === -1 ? [...arr, item] : arr.map((el, i) => (i === index ? merge(el, item) : el))
+}
+
 export function useTarget() {
   const isDefaultTarget = (target?: Target) =>
     target?.targetType === TargetType.DEFAULT && !MISSION_SOURCE_TYPES_EXTERNAL.includes(target?.source)
@@ -32,23 +42,21 @@ export function useTarget() {
     const control = { ...(input.control ?? ({} as Control)) }
     const infraction = { ...(input.infraction ?? ({} as Infraction)) }
 
-    if (!isEmpty(infraction)) {
-      const infractions = [...(control.infractions ?? [])]
-      const infractionIndex = infractions.findIndex(i => i.id === infraction.id)
-      if (infractionIndex === -1) infractions.push(infraction)
-      if (infractionIndex !== -1) infractions[infractionIndex] = infraction
-      control.infractions = infractions
-    }
+    const updatedControl = isEmpty(infraction)
+      ? control
+      : { ...control, infractions: upsert(control.infractions ?? [], infraction, i => i.id === infraction.id) }
 
-    if (!isEmpty(control)) {
-      const controls = [...(target.controls ?? [])]
-      const controlIndex = controls?.findIndex(c => c.controlType === control.controlType)
-      if (controlIndex === -1) controls.push(control)
-      if (controlIndex !== -1) controls[controlIndex] = control
-      target.controls = controls
-    }
+    if (isEmpty(updatedControl)) return target
 
-    return { ...target }
+    return {
+      ...target,
+      controls: upsert(
+        target.controls ?? [],
+        updatedControl,
+        c => c.controlType === updatedControl.controlType,
+        (existing, incoming) => ({ ...existing, infractions: incoming.infractions })
+      )
+    }
   }
 
   const deleteInfraction = (target: Target, controlIndex: number, infractionIndex: number): Target | undefined => {

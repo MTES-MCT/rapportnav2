@@ -1,10 +1,9 @@
 import { ControlType } from '@common/types/control-types.ts'
 import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
-import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
+import { FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Panel, Stack } from 'rsuite'
 import { Control } from '../../../common/types/target-types'
-import MissionInfractionList from '../../../mission-infraction/components/elements/mission-infraction-list'
 import { ControlInput, useControl } from '../../hooks/use-control'
 import MissionActionControlFormikMultiRadio from '../ui/mission-control-fomik-multi-radio'
 import { MissionControlTitle } from '../ui/mission-control-title'
@@ -15,21 +14,6 @@ type MissionControlModelFormProps = {
   isToComplete?: boolean
   controlType: ControlType
   fieldFormik: FieldProps<Control>
-}
-
-const getControlLabelPerType = (controlType: ControlType): string => {
-  switch (controlType) {
-    case ControlType.ADMINISTRATIVE:
-      return 'Observations (hors infraction) sur les pièces administratives'
-    case ControlType.GENS_DE_MER:
-      return 'Observations (hors infraction) sur les pièces administratives'
-    case ControlType.NAVIGATION:
-      return 'Observations (hors infraction) sur les règles de navigation'
-    case ControlType.SECURITY:
-      return 'Observations (hors infraction) sur la sécurité du navire (équipements…)'
-    default:
-      return 'Observations (hors infraction)'
-  }
 }
 
 const MissionControlForm: FC<MissionControlModelFormProps> = ({ name, controlType, fieldFormik, isToComplete }) => {
@@ -74,15 +58,8 @@ const MissionControlForm: FC<MissionControlModelFormProps> = ({ name, controlTyp
                       <FormikTextarea
                         style={{ width: '100%' }}
                         name={`observations`}
-                        label={getControlLabelPerType(controlType)}
+                        label={`Observations (hors infraction) sur le contrôle`}
                       />
-                    </Stack.Item>
-                    <Stack.Item style={{ width: '100%' }}>
-                      <FieldArray name="infractions">
-                        {(fieldArray: FieldArrayRenderProps) => (
-                          <MissionInfractionList name="infractions" fieldArray={fieldArray} controlType={controlType} />
-                        )}
-                      </FieldArray>
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>

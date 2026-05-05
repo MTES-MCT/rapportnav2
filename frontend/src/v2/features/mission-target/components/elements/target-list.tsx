@@ -1,13 +1,13 @@
-import { FC } from 'react'
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum, VehicleTypeEnum } from '@common/types/env-mission-types'
 import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
+import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { Target } from '../../../common/types/target-types'
 import { useTarget } from '../../hooks/use-target'
-import MissionTargetItem from './mission-target-item'
+import TargetItemOthers from './target-item-others'
 
-export interface MissionTargetListProps {
+export interface TargetListProps {
   name: string
   vehicleType?: VehicleTypeEnum
   actionNumberOfControls: number
@@ -17,7 +17,7 @@ export interface MissionTargetListProps {
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetList: FC<MissionTargetListProps> = ({
+const TargetList: FC<TargetListProps> = ({
   name,
   fieldArray,
   vehicleType,
@@ -35,7 +35,7 @@ const MissionTargetList: FC<MissionTargetListProps> = ({
           {!isDefaultTarget(target) && (
             <Field name={`targets[${targetIndex}]`}>
               {(fieldFormik: FieldProps<Target>) => (
-                <MissionTargetItem
+                <TargetItemOthers
                   index={targetIndex}
                   fieldFormik={fieldFormik}
                   vehicleType={vehicleType}
@@ -54,4 +54,4 @@ const MissionTargetList: FC<MissionTargetListProps> = ({
   )
 }
 
-export default MissionTargetList
+export default TargetList
