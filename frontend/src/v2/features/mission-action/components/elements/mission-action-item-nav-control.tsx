@@ -5,7 +5,6 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
 import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
-import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
 import MissionTargetControl from '../../../mission-target/components/elements/mission-target-control-nav'
@@ -17,6 +16,7 @@ import MissionBoundFormikDateRangePicker from '../../../common/components/elemen
 import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
+import NavControlConclusion from '../ui/nav-control-conclusion'
 
 const MissionActionItemNavControl: FC<{
   action: MissionAction

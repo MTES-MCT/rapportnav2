@@ -4,6 +4,11 @@ import { render, screen } from '../../../../../../test-utils'
 import { ActionFishControlInput } from '../../../types/action-type'
 import FishControlOthers from '../fish-control-others'
 
+const defaultValues = {
+  fishActionType: 'SEA_CONTROL',
+  userTrigram: 'ABC'
+} as ActionFishControlInput
+
 describe('FishControlOthers Component', () => {
   it('renders the target section label', () => {
     render(<FishControlOthers values={{} as ActionFishControlInput} controlsToComplete={[]} />, {

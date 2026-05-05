@@ -7,7 +7,6 @@ import FishControlFleetSegmentSection from '../../../mission-control/components/
 import FishControlOtherObservationsSection from '../../../mission-control/components/ui/mission-control-fish-other-observation-section.tsx'
 import FishControlSeizureSection from '../../../mission-control/components/ui/mission-control-fish-seizure-section.tsx'
 import FishControlSpeciesSection from '../../../mission-control/components/ui/mission-control-fish-species-section.tsx'
-import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary.tsx'
 import { ActionFishControlInput } from '../../types/action-type.ts'
 
 const FishControlPolpeche: FC<{
@@ -46,21 +45,6 @@ const FishControlPolpeche: FC<{
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Divider style={{ backgroundColor: THEME.color.charcoal }} />
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
-            <Stack.Item>
-              <Label>Infractions</Label>
-            </Stack.Item>
-            <Stack.Item style={{ width: '100%' }}>
-              <MissionInfractionFishSummary
-                showIndex={true}
-                title="Infraction"
-                isActionDisabled={true}
-                infractions={values?.fishInfractions ?? []}
-              />
-            </Stack.Item>
-          </Stack>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Stack direction="column" alignItems="flex-start">
