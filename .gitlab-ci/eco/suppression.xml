@@ -1,9 +1,33 @@
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
     <suppress>
         <notes><![CDATA[
-            Justification pour l'exclusion de cette CVE
+            False positive: jodconverter-core 4.4.11 is incorrectly matched to Gradle 4.4.11.
+            These CVEs (Gradle vulnerabilities) do not apply to the JODConverter library.
         ]]></notes>
-        <packageUrl regex="true">.*</packageUrl>
-        <vulnerabilityName>CVE-0000-00000000</vulnerabilityName>
+        <packageUrl regex="true">^pkg:maven/org\.jodconverter/.*$</packageUrl>
+        <cpe>cpe:/a:gradle:gradle</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: CVE-2018-1258 affects Spring Security 5.0.5.RELEASE and earlier.
+            Fixed in Spring Security 5.0.6 (2018). We use Spring Security 7.0.5 which is not affected.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/.*$</packageUrl>
+        <vulnerabilityName>CVE-2018-1258</vulnerabilityName>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: spring-security-oauth2-resource-server is incorrectly matched to
+            pivotal spring_security_oauth CPE. These are different products.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring-security-oauth2-resource-server@.*$</packageUrl>
+        <cpe>cpe:/a:pivotal:spring_security_oauth</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: spring-security-web is incorrectly matched to the generic "web" CPE.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring-security-web@.*$</packageUrl>
+        <cpe>cpe:/a:web_project:web</cpe>
     </suppress>
 </suppressions>
