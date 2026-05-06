@@ -8,4 +8,5 @@ export interface Establishment {
   country?: string
   zipcode?: string
   isForeign?: boolean
+  isHeadquarter?: boolean
 }

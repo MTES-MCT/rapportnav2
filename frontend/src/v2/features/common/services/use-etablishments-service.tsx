@@ -8,24 +8,44 @@ interface SearchEstablishment {
   siren: string
   nom_complet: string
   nom_raison_sociale: string
+  date_fermeture?: string | null
   siege: {
     adresse: string
     siret: string
     geo_adresse: string
     code_postal: string
     libelle_commune: string
+    est_siege?: boolean
   }
+  matching_etablissements: {
+    adresse: string
+    siret: string
+    geo_adresse: string
+    code_postal: string
+    libelle_commune: string
+    est_siege?: boolean
+  }[]
 }
 
-const transform = (value: SearchEstablishment) => ({
-  country: 'France',
-  siren: value?.siren,
-  siret: value?.siege?.siret,
-  city: value.siege.libelle_commune,
-  zipcode: value?.siege?.code_postal,
-  address: value?.siege?.geo_adresse ?? value?.siege?.adresse,
-  name: value.nom_raison_sociale ?? value.nom_complet
-})
+const filter = (value: SearchEstablishment) => {
+  return value.date_fermeture === null || value.date_fermeture === undefined
+}
+
+const transform = (value: SearchEstablishment): Establishment[] => {
+  const etablissements = value.matching_etablissements?.length > 0 ? value.matching_etablissements : [value.siege]
+  return etablissements
+    .map(etablissement => ({
+      country: 'France',
+      siren: value?.siren,
+      siret: etablissement.siret,
+      city: etablissement.libelle_commune,
+      zipcode: etablissement.code_postal,
+      address: etablissement.geo_adresse ?? etablissement.adresse,
+      name: value.nom_raison_sociale ?? value.nom_complet,
+      isHeadquarter: etablissement.est_siege
+    }))
+    .sort((a, b) => (b.isHeadquarter ? 1 : 0) - (a.isHeadquarter ? 1 : 0))
+}
 
 export const useEstablishmentListQuery = (search?: string) => {
   const fetchEtablishments = (): Promise<SearchEstablishment[]> =>
@@ -35,7 +55,8 @@ export const useEstablishmentListQuery = (search?: string) => {
     queryKey: ['establishments', search],
     queryFn:
       search && search.length >= 3
-        ? () => fetchEtablishments().then(data => data.map(value => transform(value)))
+        ? () =>
+            fetchEtablishments().then(data => data.filter(value => filter(value)).flatMap(value => transform(value)))
         : skipToken
   })
   return query
@@ -50,7 +71,7 @@ export const useLazyEstablishmentQuery = (siren?: string) => {
     queryFn: siren
       ? () =>
           fetchEtablishment()
-            .then(data => data.map(value => transform(value)))
+            .then(data => data.flatMap(value => transform(value)))
             .then(data => (data.length > 0 ? data[0] : undefined)) as Promise<Establishment>
       : skipToken
   })
