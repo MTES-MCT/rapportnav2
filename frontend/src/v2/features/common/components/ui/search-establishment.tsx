@@ -1,6 +1,6 @@
 import { Icon, Message, SearchProps, TextInput } from '@mtes-mct/monitor-ui'
 import { FormikErrors } from 'formik'
-import { useEffect, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 import { Dropdown, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useEstablishmentListQuery } from '../../services/use-etablishments-service'
@@ -19,7 +19,7 @@ export const SearchEstablishment = styled(
 
     const getName = (value: Establishment) => `${value.name} | n°${value.siren} | ${value.address}`
 
-    const onSelect = (eventKey?: string, event: React.SyntheticEvent) => {
+    const onSelect = (eventKey?: string, event: SyntheticEvent) => {
       const value = establishments?.find(item => item.id === eventKey)
       event.stopPropagation()
       if (!value) return
