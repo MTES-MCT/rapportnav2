@@ -12,7 +12,7 @@ val kotlinVersion by extra("2.3.0")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("4.0.6")
 val testcontainersVersion by extra("1.19.3")
-val flywayVersion by extra("11.20.0")
+val flywayVersion by extra("12.5.0")
 
 plugins {
   `java-library`
