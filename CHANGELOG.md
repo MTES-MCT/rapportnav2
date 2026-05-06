@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.79.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.79.1...v2.79.2) (2026-05-06)
+
+
+### Bug Fixes
+
+* bump kotlin ([3ca1f57](https://github.com/MTES-MCT/rapportnav2/commit/3ca1f5750262910a2c36f925b7a8a9c8ee6ab4af))
+
 ## [2.79.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.79.0...v2.79.1) (2026-05-06)
 
 
