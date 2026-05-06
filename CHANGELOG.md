@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.79.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.79.0...v2.79.1) (2026-05-06)
+
+
+### Bug Fixes
+
+* use different env var for DB_USER and DB_PASSWORD ([b6f37e4](https://github.com/MTES-MCT/rapportnav2/commit/b6f37e46335ccf31380417be258d50273d807e98))
+
 ## [2.79.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.78.1...v2.79.0) (2026-05-05)
 
 
