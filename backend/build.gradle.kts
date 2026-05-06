@@ -8,7 +8,7 @@ version = "2.79.1"
 // x-release-please-end
 description = "RapportNav"
 
-val kotlinVersion by extra("2.3.0")
+val kotlinVersion by extra("2.3.21")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("4.0.6")
 val testcontainersVersion by extra("1.19.3")
@@ -17,13 +17,12 @@ val flywayVersion by extra("12.5.0")
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "2.3.0"
-  kotlin("plugin.spring") version "2.3.0"
-  kotlin("plugin.jpa") version "2.3.0"
+  kotlin("jvm") version "2.3.21"
+  kotlin("plugin.spring") version "2.3.21"
+  kotlin("plugin.jpa") version "2.3.21"
   id("org.springframework.boot") version "4.0.6"
   id("io.spring.dependency-management") version "1.1.7"
   id("org.owasp.dependencycheck") version "12.1.0"
-//  id("io.sentry.jvm.gradle") version "5.12.2"
   jacoco
   id("com.github.ben-manes.versions") version "0.54.0"
 }
@@ -54,7 +53,7 @@ dependencyManagement {
   }
   dependencies {
     // force any dependency like following :
-     dependency("org.apache.commons:commons-lang3:3.20.0")
+       dependency("org.apache.commons:commons-lang3:3.20.0")
   }
 }
 
