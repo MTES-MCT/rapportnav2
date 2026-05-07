@@ -11,6 +11,7 @@ import TargetInfractionList from './target-infraction-list.tsx'
 
 interface TargetItemProps {
   name: string
+  buttonLabel?: string
   targetType: TargetType
   vehicleType?: VehicleTypeEnum
   fieldFormik: FieldProps<Target>
@@ -22,6 +23,7 @@ const TargetItemDefault: React.FC<TargetItemProps> = ({
   vehicleType,
   fieldFormik,
   targetType,
+  buttonLabel,
   availableControlTypes
 }) => {
   const [target, setTarget] = useState<Target>()
@@ -58,14 +60,14 @@ const TargetItemDefault: React.FC<TargetItemProps> = ({
             onClick={handleAddInfraction}
             title={'Infraction pour cette cible'}
           >
-            {`Ajouter une infraction (hors pol. pêche)`}
+            {buttonLabel ?? `Ajouter une infraction`}
           </Button>
         )}
       </Stack.Item>
       {editInfraction && (
         <Stack.Item style={{ width: '100%' }} data-testid={'mission-target-form'}>
           <Stack.Item style={{ width: '100%' }}>
-            <Label>Ajout d’infraction (hors pol.pêche)</Label>
+            <Label>Ajout d’infraction</Label>
           </Stack.Item>
           <MissionTargetForm
             name={name}

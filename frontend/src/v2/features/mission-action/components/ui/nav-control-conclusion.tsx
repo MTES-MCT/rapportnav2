@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { Target, TargetType } from '../../../common/types/target-types.ts'
-import MissionTargetItemDefault from '../../../mission-target/components/elements/target-item-default.tsx'
+import TargetItemDefault from '../../../mission-target/components/elements/target-item-default.tsx'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { ActionNavControlInput } from '../../types/action-type.ts'
 import MissionActionDivingOperation from './mission-action-diving-operation.tsx'
@@ -13,7 +13,7 @@ import MissionActionIncidentDonwload from './mission-action-incident-download.ts
 const NavControlConclusion: FC<{
   values: ActionNavControlInput
 }> = ({ values }) => {
-  const { allControlTypes } = useTarget()
+  const { defaultControlTypes } = useTarget()
   return (
     <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -24,11 +24,11 @@ const NavControlConclusion: FC<{
           <Stack.Item style={{ width: '100%' }}>
             <Field name={`targets[0]`}>
               {(fieldFormik: FieldProps<Target>) => (
-                <MissionTargetItemDefault
+                <TargetItemDefault
                   name={`targets[0]`}
                   fieldFormik={fieldFormik}
                   targetType={TargetType.DEFAULT}
-                  availableControlTypes={allControlTypes}
+                  availableControlTypes={defaultControlTypes}
                 />
               )}
             </Field>
