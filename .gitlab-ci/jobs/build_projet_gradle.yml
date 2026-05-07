@@ -8,11 +8,13 @@ build_projet_gradle:
   script:
     - cd backend
     - chmod +x gradlew
+    - ./gradlew test jacocoTestReport
     - ./gradlew clean assemble
   artifacts:
     name: "Gradle artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
     when: on_success
     paths:
       - "backend/build/libs/rapportnav-${PROJECT_VERSION}.jar"
+      - "backend/build/reports/jacoco/"
   tags:
     - selfservice

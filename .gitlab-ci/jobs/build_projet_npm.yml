@@ -8,10 +8,12 @@ build_projet_npm:
   script:
     - cd frontend
     - npm ci
+    - npm run test:coverage
     - npm run build --verbose
   artifacts:
     name: "Npm artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
     paths:
       - "frontend/dist"
+      - "frontend/coverage/lcov.info"
   tags:
     - selfservice
