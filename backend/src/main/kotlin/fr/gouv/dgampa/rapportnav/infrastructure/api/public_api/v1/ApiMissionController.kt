@@ -20,8 +20,7 @@ class ApiMissionController(
         summary = "Get data for a specific mission",
     )
     fun getMissionById(
-        @PathParam("ID of a Mission")
-        @PathVariable(name = "missionId")
+        @PathVariable @PathParam("ID of a Mission")
         missionId: Int,
     ): ApiMissionDataOutput? {
         val navActions: List<MissionNavActionEntity> = getComputeNavMission.execute(missionId = missionId)
