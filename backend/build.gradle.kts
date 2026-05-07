@@ -171,6 +171,21 @@ tasks.jacocoTestReport {
     html.required.set(true)  // Enable HTML report
     html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
   }
+
+  classDirectories.setFrom(
+    files(classDirectories.files.map {
+      fileTree(it) {
+        exclude(
+          "**/RapportNavApplication*",
+          "**/wiremock/**",
+          "**/database/repositories/interfaces/**",
+          "**/exceptions/**",
+          "**/api/**/adapters/**",
+          "**/utils/office/**",
+        )
+      }
+    })
+  )
 }
 
 tasks.test {
