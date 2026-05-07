@@ -4,8 +4,8 @@
             False positive: jodconverter-core 4.4.11 is incorrectly matched to Gradle 4.4.11.
             These CVEs (Gradle vulnerabilities) do not apply to the JODConverter library.
         ]]></notes>
-        <filePath regex="true">.*jodconverter-core-.*\.jar</filePath>
-        <cpe>cpe:2.3:a:gradle:gradle:*:*:*:*:*:*:*:*</cpe>
+        <filePath regex="true">.*jodconverter.*\.jar</filePath>
+        <cpe>cpe:/a:gradle:gradle</cpe>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -18,10 +18,10 @@
     <suppress>
         <notes><![CDATA[
             False positive: spring-security-oauth2-resource-server is incorrectly matched to
-            the legacy pivotal spring_security_oauth CPE. These are different products.
+            the legacy pivotal/pivotal_software spring_security_oauth CPE. These are different products.
         ]]></notes>
         <filePath regex="true">.*spring-security-oauth2-resource-server-.*\.jar</filePath>
-        <cpe>cpe:2.3:a:pivotal:spring_security_oauth:*:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:/a:pivotal:spring_security_oauth</cpe>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -29,7 +29,7 @@
             the legacy pivotal_software spring_security_oauth CPE. These are different products.
         ]]></notes>
         <filePath regex="true">.*spring-security-oauth2-resource-server-.*\.jar</filePath>
-        <cpe>cpe:2.3:a:pivotal_software:spring_security_oauth:*:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:/a:pivotal_software:spring_security_oauth</cpe>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -37,5 +37,14 @@
         ]]></notes>
         <filePath regex="true">.*spring-security-web-.*\.jar</filePath>
         <cpe>cpe:2.3:a:web_project:web:*:*:*:*:*:*:*:*</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            False positive: spring-graphql 2.0.3 is incorrectly matched to Spring Framework 2.0.3.
+            spring-graphql is a separate library, not spring-framework. CVE-2016-9878 is a
+            path traversal in Spring Framework 3.x/4.x and does not apply here.
+        ]]></notes>
+        <filePath regex="true">.*spring-graphql-.*\.jar</filePath>
+        <cpe>cpe:/a:pivotal_software:spring_framework</cpe>
     </suppress>
 </suppressions>
