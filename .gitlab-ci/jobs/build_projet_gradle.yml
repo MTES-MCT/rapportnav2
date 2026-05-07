@@ -8,8 +8,7 @@ build_projet_gradle:
   script:
     - cd backend
     - chmod +x gradlew
-    - ./gradlew test jacocoTestReport
-    - ./gradlew clean assemble
+    - ./gradlew clean assemble test jacocoTestReport
   artifacts:
     name: "Gradle artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
     when: on_success
