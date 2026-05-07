@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.80.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.79.3...v2.80.0) (2026-05-07)
+
+
+### Features
+
+* improve search establishment ([d6abde6](https://github.com/MTES-MCT/rapportnav2/commit/d6abde6d85e5ca95115d5069d1f551fa3afa3a5a))
+
+
+### Bug Fixes
+
+* **CI:** sonarqube fix coverage ([163fd0c](https://github.com/MTES-MCT/rapportnav2/commit/163fd0cf40dce6615b1718998ff62ab4386fc234))
+* comment diving for Env Controls ([e0683b3](https://github.com/MTES-MCT/rapportnav2/commit/e0683b3020a09787ec5b2e820fd95c9823b7aad4))
+* sonarqube Expected the Promise rejection reason to be an Error. ([d64a860](https://github.com/MTES-MCT/rapportnav2/commit/d64a86091e81d433ac2a8c83fb41d6983be51467))
+
 ## [2.79.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.79.2...v2.79.3) (2026-05-07)
 
 
