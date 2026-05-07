@@ -70,6 +70,8 @@ class MissionFishActionEntity(
     override var targets: List<TargetEntity>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
     override var sati: SatiEntity? = null,
+    override var hasDivingDuringOperation: Boolean? = null,
+    override var incidentDuringOperation: Boolean? = null
 ) : MissionActionEntity(
     missionId = missionId,
     actionType = ActionType.CONTROL,
@@ -214,6 +216,8 @@ class MissionFishActionEntity(
             observationsByUnit = action.observationsByUnit,
             speciesQuantitySeized = action.speciesQuantitySeized,
             fishInfractions = action.infractions,
+            hasDivingDuringOperation = action.hasDivingDuringOperation,
+            incidentDuringOperation = action.hasDivingDuringOperation
         )
     }
 }

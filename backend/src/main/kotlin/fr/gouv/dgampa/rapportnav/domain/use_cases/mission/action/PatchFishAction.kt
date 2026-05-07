@@ -26,6 +26,8 @@ class PatchFishAction(private val fishRepository: IFishActionRepository) {
                 observationsByUnit = input.observationsByUnit,
                 actionDatetimeUtc = input.startDateTimeUtc,
                 actionEndDatetimeUtc = input.endDateTimeUtc,
+                incidentDuringOperation = input.incidentDuringOperation,
+                hasDivingDuringOperation = input.hasDivingDuringOperation
             )
         )
         return patchedAction
