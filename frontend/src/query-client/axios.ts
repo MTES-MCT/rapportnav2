@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
     }
     return config
   },
-  error => Promise.reject(error)
+  error => Promise.reject(error instanceof Error ? error : new Error(error))
 )
 
 axiosInstance.interceptors.response.use(
@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
     error.status = error.response?.status
     error.problemDetail = problemDetail
 
-    return Promise.reject(error)
+    return Promise.reject(error instanceof Error ? error : new Error(error))
   }
 )
 
