@@ -156,13 +156,13 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         label="Observation de l'unité sur le contrôle"
                       />
                     </Stack.Item>
-                    <Stack.Item style={{ width: '100%' }}>
+                    <Stack.Item style={{ width: '100%', display: 'none' }}>
                       <MissionActionIncidentDonwload />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
 
-                <Stack.Item style={{ width: '100%' }}>
+                <Stack.Item style={{ width: '100%', display: 'none' }}>
                   <MissionActionDivingOperation />
                 </Stack.Item>
               </Stack>

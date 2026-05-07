@@ -225,7 +225,7 @@ class APIEnvMissionRepository(
             logger.debug("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}")
 
             val body = response.body()
-            logger.debug(body)
+            logger.error(body)
 
             val output: MissionEnvActionDataOutput? = mapper.readValue(body)
             output?.toPatchableEnvActionEntity()
