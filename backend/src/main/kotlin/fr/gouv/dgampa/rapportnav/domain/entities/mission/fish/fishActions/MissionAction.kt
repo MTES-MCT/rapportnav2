@@ -65,4 +65,6 @@ data class MissionAction(
     var observationsByUnit: String? = null,
     var speciesQuantitySeized: Int ? = null,
     val infractions: List<FishInfraction> = listOf(),
+    val hasDivingDuringOperation: Boolean? = null,
+    val incidentDuringOperation: Boolean? = null
 )
