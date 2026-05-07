@@ -7,11 +7,8 @@ import { TargetInfraction, TargetInfractionInput, TargetType } from '../../commo
 type InfractionTypeHook = { value: InfractionTypeEnum; label: string }
 
 const infractionTypeOptions = [
-  { value: InfractionTypeEnum.WITHOUT_REPORT, label: 'Sans Infraction (RAS)' },
-  {
-    value: InfractionTypeEnum.WITH_REPORT,
-    label: 'Avec infraction (Rappel à la loi / verbalisation)'
-  }
+  { value: InfractionTypeEnum.WITHOUT_REPORT, label: 'Rappel à la réglementation' },
+  { value: InfractionTypeEnum.WITH_REPORT, label: 'Verbalisation (Inf. avec PV)' }
 ]
 
 export function useInfractionForm(

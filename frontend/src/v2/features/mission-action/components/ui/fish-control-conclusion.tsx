@@ -5,7 +5,7 @@ import { Stack } from 'rsuite'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { Target, TargetType } from '../../../common/types/target-types.ts'
 import InfractionFishSummary from '../../../mission-infraction/components/ui/infraction-fish-summary.tsx'
-import MissionTargetItemDefault from '../../../mission-target/components/elements/target-item-default.tsx'
+import TargetItemDefault from '../../../mission-target/components/elements/target-item-default.tsx'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { ActionFishControlInput } from '../../types/action-type.ts'
 import MissionActionDivingOperation from './mission-action-diving-operation.tsx'
@@ -14,7 +14,8 @@ import MissionActionIncidentDonwload from './mission-action-incident-download.ts
 const FishControlConclusion: FC<{
   values: ActionFishControlInput
 }> = ({ values }) => {
-  const { allControlTypes } = useTarget()
+  const hideCheckbox = true // TODO: remove when MonitorFish dev is done
+  const { defaultControlTypes } = useTarget()
   return (
     <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -28,11 +29,12 @@ const FishControlConclusion: FC<{
           <Stack.Item style={{ width: '100%' }}>
             <Field name={`targets[0]`}>
               {(fieldFormik: FieldProps<Target>) => (
-                <MissionTargetItemDefault
+                <TargetItemDefault
                   name={`targets[0]`}
                   fieldFormik={fieldFormik}
                   targetType={TargetType.DEFAULT}
-                  availableControlTypes={allControlTypes}
+                  availableControlTypes={defaultControlTypes}
+                  buttonLabel={`Ajouter une infraction (hors pol. pêche)`}
                 />
               )}
             </Field>
@@ -44,11 +46,9 @@ const FishControlConclusion: FC<{
               data-testid="observations-by-unit"
               label="Observation de l'unité sur le contrôle"
             />
-            <MissionActionIncidentDonwload />
+            {!hideCheckbox && <MissionActionIncidentDonwload />}
           </Stack.Item>
-          <Stack.Item style={{ width: '100%' }}>
-            <MissionActionDivingOperation />
-          </Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>{!hideCheckbox && <MissionActionDivingOperation />}</Stack.Item>
         </Stack>
       </Stack.Item>
     </Stack>

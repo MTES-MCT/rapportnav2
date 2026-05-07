@@ -61,7 +61,8 @@ export function useMissionActionFishControl(
   const { initValue, handleSubmit } = useAbstractFormik<MissionFishActionData, ActionFishControlInput>(
     value,
     fromFieldValueToInput,
-    fromInputToFieldValue
+    fromInputToFieldValue,
+    ['incidentDuringOperation', 'hasDivingDuringOperation']
   )
 
   const onSubmit = async (valueToSubmit?: MissionFishActionData) => {
