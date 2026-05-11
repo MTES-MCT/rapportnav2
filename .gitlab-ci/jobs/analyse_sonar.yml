@@ -19,7 +19,7 @@ analyse_sonar:
   allow_failure: true
   script:
     # $FAIL_SONAR_CONDITION est défini dans .gitlab-ci.yml (défaut: -Dsonar.qualitygate.wait=true)
-    - sonar-scanner -Dproject.settings=sonar-project.properties $FAIL_SONAR_CONDITION
+    - sonar-scanner -X -Dproject.settings=sonar-project.properties $FAIL_SONAR_CONDITION
   cache:
     when: always
     key: "${CI_JOB_NAME}"
