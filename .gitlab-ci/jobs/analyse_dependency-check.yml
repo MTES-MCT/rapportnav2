@@ -6,6 +6,11 @@ dependency_check_node:
     - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
       when: always
   extends: .dependency_check
+  cache:
+    key: "dependency-check"
+    paths:
+      - .dependency-checkdata/
+    when: always
   script:
     - /usr/share/dependency-check/bin/dependency-check.sh
       --nvdDatafeed "${OWASP_CACHE_URL}" --nvdValidForHours 24
@@ -29,6 +34,11 @@ dependency_check_gradle:
     - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
       when: always
   extends: .dependency_check
+  cache:
+    key: "dependency-check"
+    paths:
+      - .dependency-checkdata/
+    when: always
   script:
     - /usr/share/dependency-check/bin/dependency-check.sh
       --nvdDatafeed "${OWASP_CACHE_URL}" --nvdValidForHours 24

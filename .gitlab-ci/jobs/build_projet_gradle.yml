@@ -5,15 +5,53 @@ build_projet_gradle:
       when: always
   stage: build
   image: gradle:9.5.0-jdk25
+  variables:
+    GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle"
   script:
     - cd backend
     - chmod +x gradlew
-    - ./gradlew clean assemble test jacocoTestReport
+    - ./gradlew clean assemble
+  cache:
+    key: "gradle"
+    paths:
+      - .gradle/
+    when: always
+    policy: pull-push
   artifacts:
     name: "Gradle artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
+    expire_in: 12 hours
     when: on_success
     paths:
-      - "backend/build/libs/rapportnav-${PROJECT_VERSION}.jar"
+      - "backend/build/"
+  tags:
+    - selfservice
+
+test_projet_gradle:
+  rules:
+    - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
+      when: always
+  stage: test
+  image: gradle:9.5.0-jdk25
+  variables:
+    GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle"
+  needs:
+    - job: build_projet_gradle
+      artifacts: true
+  script:
+    - cd backend
+    - chmod +x gradlew
+    - ./gradlew test jacocoTestReport
+  cache:
+    key: "gradle"
+    paths:
+      - .gradle/
+    when: always
+    policy: pull
+  artifacts:
+    name: "Gradle test artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
+    expire_in: 12 hours
+    when: on_success
+    paths:
       - "backend/build/reports/jacoco/"
   tags:
     - selfservice

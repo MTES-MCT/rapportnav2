@@ -35,5 +35,6 @@ construction_image:
 
   needs:
     - job: build_projet_gradle
+      artifacts: true
     - job: build_projet_npm
       artifacts: true

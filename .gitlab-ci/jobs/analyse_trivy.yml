@@ -25,6 +25,7 @@ analyse_trivy:
     # On ne conserve que les bases de données dans le cache
     - trivy clean --scan-cache --cache-dir .trivycache/
   cache:
+    key: "trivy"
     when: always
     paths:
       - .trivycache/
