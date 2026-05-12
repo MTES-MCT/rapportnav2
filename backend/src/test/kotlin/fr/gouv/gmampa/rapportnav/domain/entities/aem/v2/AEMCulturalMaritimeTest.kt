@@ -16,13 +16,30 @@ class AEMCulturalMaritimeTest {
     @Test
     fun `Should init Cultural Maritime with different values`() {
         val actions = extendedEnvActionEntities()
-        val culturalMaritime = AEMCulturalMaritime(envActions = actions);
+        val culturalMaritime = AEMCulturalMaritime(envActions = actions)
 
-        assertThat(culturalMaritime).isNotNull();
+        assertThat(culturalMaritime).isNotNull()
         assertThat(culturalMaritime.nbrOfHourAtSea).isNotNull()
-        assertThat(culturalMaritime.nbrOfHourAtSea).isEqualTo(4.0);
-        assertThat(culturalMaritime.nbrOfBCMPoliceOperation).isEqualTo(2.0);
-        assertThat(culturalMaritime.nbrOfScientificOperation).isEqualTo(1.0);
+        assertThat(culturalMaritime.nbrOfHourAtSea).isEqualTo(4.0)
+        assertThat(culturalMaritime.nbrOfBCMPoliceOperation).isEqualTo(2.0)
+        assertThat(culturalMaritime.nbrOfScientificOperation).isEqualTo(1.0)
+    }
+
+    @Test
+    fun `Should handle null elements and null themes in action lists`() {
+        val actions = listOf(
+            null,
+            MissionEnvActionEntity(
+                missionId = 761,
+                id = UUID.randomUUID(),
+                envActionType = ActionTypeEnum.CONTROL,
+                themes = null
+            )
+        )
+        val culturalMaritime = AEMCulturalMaritime(envActions = actions)
+        assertThat(culturalMaritime.nbrOfHourAtSea).isEqualTo(0.0)
+        assertThat(culturalMaritime.nbrOfBCMPoliceOperation).isEqualTo(0.0)
+        assertThat(culturalMaritime.nbrOfScientificOperation).isEqualTo(0.0)
     }
 
     private fun extendedEnvActionEntities(): List<MissionEnvActionEntity> {
@@ -51,7 +68,7 @@ class AEMCulturalMaritimeTest {
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T05:00:00.000+01:00"),
             )
-        );
+        )
         return actions
     }
 }

@@ -15,23 +15,30 @@ class AEMMigrationRescueTest {
 
     @Test
     fun `Should init migration rescue with different values`() {
-        val nbrOfHourAtSea = 2.0;
-        val nbrOfOperation = 1.0;
-        val nbrPersonsRescued = 2.0;
-        val nbrAssistedVesselsReturningToShore = 1.0;
-        val nbrOfVesselsTrackedWithoutIntervention = 5.0;
+        val nbrOfHourAtSea = 2.0
+        val nbrOfOperation = 1.0
+        val nbrPersonsRescued = 2.0
+        val nbrAssistedVesselsReturningToShore = 1.0
+        val nbrOfVesselsTrackedWithoutIntervention = 5.0
 
         val actions = navActionEntities()
-        val migrationRescue = AEMMigrationRescue(navActions = actions);
+        val migrationRescue = AEMMigrationRescue(navActions = actions)
 
-        assertThat(migrationRescue).isNotNull();
-        assertThat(migrationRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
-        assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(nbrPersonsRescued);
-        assertThat(migrationRescue.nbrOfOperation).isEqualTo(nbrOfOperation);
-        assertThat(migrationRescue.nbrAssistedVesselsReturningToShore).isEqualTo(nbrAssistedVesselsReturningToShore);
+        assertThat(migrationRescue).isNotNull()
+        assertThat(migrationRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea)
+        assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(nbrPersonsRescued)
+        assertThat(migrationRescue.nbrOfOperation).isEqualTo(nbrOfOperation)
+        assertThat(migrationRescue.nbrAssistedVesselsReturningToShore).isEqualTo(nbrAssistedVesselsReturningToShore)
         assertThat(migrationRescue.nbrOfVesselsTrackedWithoutIntervention).isEqualTo(
             nbrOfVesselsTrackedWithoutIntervention
-        );
+        )
+    }
+
+    @Test
+    fun `Should handle null elements in action lists`() {
+        assertThat(AEMMigrationRescue.getNbrPersonsRescued(listOf(null))).isEqualTo(0.0)
+        assertThat(AEMMigrationRescue.getNbrOfVesselsTrackedWithoutIntervention(listOf(null))).isEqualTo(0.0)
+        assertThat(AEMMigrationRescue.getAssistedVesselsReturningToShore(listOf(null))).isEqualTo(0.0)
     }
 
     private fun navActionEntities(): List<MissionNavActionEntity> {
@@ -67,7 +74,7 @@ class AEMMigrationRescueTest {
                 nbAssistedVesselsReturningToShore = 1,
                 nbOfVesselsTrackedWithoutIntervention = 5
             )
-        );
+        )
         return actions
     }
 }

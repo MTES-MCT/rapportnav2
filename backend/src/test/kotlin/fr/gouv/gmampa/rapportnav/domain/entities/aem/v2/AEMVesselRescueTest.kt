@@ -15,19 +15,25 @@ class AEMVesselRescueTest {
 
     @Test
     fun `Should init vessel rescue with different values`() {
-        val nbrOfHourAtSea = 5.0;
-        val nbrOfTowedVessel = 2.0;
-        val nbrOfNoticedVessel = 1.0;
-        val nbrOfRescuedOperation = 2.0;
+        val nbrOfHourAtSea = 5.0
+        val nbrOfTowedVessel = 2.0
+        val nbrOfNoticedVessel = 1.0
+        val nbrOfRescuedOperation = 2.0
 
         val actions = getNavActions()
-        val vesselRescue = AEMVesselRescue(navActions = actions);
+        val vesselRescue = AEMVesselRescue(navActions = actions)
 
-        assertThat(vesselRescue).isNotNull();
-        assertThat(vesselRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
-        assertThat(vesselRescue.nbrOfTowedVessel).isEqualTo(nbrOfTowedVessel);
-        assertThat(vesselRescue.nbrOfNoticedVessel).isEqualTo(nbrOfNoticedVessel);
-        assertThat(vesselRescue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation);
+        assertThat(vesselRescue).isNotNull()
+        assertThat(vesselRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea)
+        assertThat(vesselRescue.nbrOfTowedVessel).isEqualTo(nbrOfTowedVessel)
+        assertThat(vesselRescue.nbrOfNoticedVessel).isEqualTo(nbrOfNoticedVessel)
+        assertThat(vesselRescue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation)
+    }
+
+    @Test
+    fun `Should handle null elements in action lists`() {
+        assertThat(AEMVesselRescue.getNbrOfNoticedVessel(listOf(null))).isEqualTo(0.0)
+        assertThat(AEMVesselRescue.getNbrOfTowedVessel(listOf(null))).isEqualTo(0.0)
     }
 
     private fun getNavActions(): List<MissionNavActionEntity> {
@@ -65,7 +71,7 @@ class AEMVesselRescueTest {
                 isVesselTowed = true,
                 isVesselNoticed = false
             )
-        );
+        )
         return actions
     }
 }

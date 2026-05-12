@@ -18,28 +18,52 @@ class AEMPolllutionControlSurveillanceTest {
 
     @Test
     fun `Should init  pollution control surveillance with different values`() {
-        val nbrOfHourAtSea = 8.0;
-        val nbrOfInfraction = 5.0;
-        val nbrOfInfractionWithNotice = 1.0;
-        val nbrOfDiversionCarriedOut = 1.0;
-        val nbrOfSimpleBrewingOperation = 2.0;
-        val nbrOfAntiPolDeviceDeployed = 1.0;
-        val nbrOfPollutionObservedByAuthorizedAgent = 1.0;
+        val nbrOfHourAtSea = 8.0
+        val nbrOfInfraction = 5.0
+        val nbrOfInfractionWithNotice = 1.0
+        val nbrOfDiversionCarriedOut = 1.0
+        val nbrOfSimpleBrewingOperation = 2.0
+        val nbrOfAntiPolDeviceDeployed = 1.0
+        val nbrOfPollutionObservedByAuthorizedAgent = 1.0
 
-        val actions = navActionEntities();
-        val extendedActions = extendedEnvActionEntities();
-        val pollutionControl = AEMPollutionControlSurveillance(navActions = actions, envActions = extendedActions);
+        val actions = navActionEntities()
+        val extendedActions = extendedEnvActionEntities()
+        val pollutionControl = AEMPollutionControlSurveillance(navActions = actions, envActions = extendedActions)
 
-        assertThat(pollutionControl).isNotNull();
-        assertThat(pollutionControl.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
-        assertThat(pollutionControl.nbrOfInfraction).isEqualTo(nbrOfInfraction);
-        assertThat(pollutionControl.nbrOfInfractionWithNotice).isEqualTo(nbrOfInfractionWithNotice);
-        assertThat(pollutionControl.nbrOfDiversionCarriedOut).isEqualTo(nbrOfDiversionCarriedOut);
-        assertThat(pollutionControl.nbrOfSimpleBrewingOperation).isEqualTo(nbrOfSimpleBrewingOperation);
-        assertThat(pollutionControl.nbrOfAntiPolDeviceDeployed).isEqualTo(nbrOfAntiPolDeviceDeployed);
+        assertThat(pollutionControl).isNotNull()
+        assertThat(pollutionControl.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea)
+        assertThat(pollutionControl.nbrOfInfraction).isEqualTo(nbrOfInfraction)
+        assertThat(pollutionControl.nbrOfInfractionWithNotice).isEqualTo(nbrOfInfractionWithNotice)
+        assertThat(pollutionControl.nbrOfDiversionCarriedOut).isEqualTo(nbrOfDiversionCarriedOut)
+        assertThat(pollutionControl.nbrOfSimpleBrewingOperation).isEqualTo(nbrOfSimpleBrewingOperation)
+        assertThat(pollutionControl.nbrOfAntiPolDeviceDeployed).isEqualTo(nbrOfAntiPolDeviceDeployed)
         assertThat(pollutionControl.nbrOfPollutionObservedByAuthorizedAgent).isEqualTo(
             nbrOfPollutionObservedByAuthorizedAgent
-        );
+        )
+    }
+
+    @Test
+    fun `Should handle null elements in action lists`() {
+        // nav action methods with null elements
+        assertThat(AEMPollutionControlSurveillance.getNbrOfSimpleBrewingOperation(listOf(null))).isEqualTo(0.0)
+        assertThat(AEMPollutionControlSurveillance.getNbrOfAntiPolDeviceDeployed(listOf(null))).isEqualTo(0.0)
+        assertThat(AEMPollutionControlSurveillance.getNbrOfDiversionCarriedOut(listOf(null), listOf(null))).isEqualTo(0.0)
+        assertThat(AEMPollutionControlSurveillance.getNbrOfPollutionObservedByAuthorizedAgent(listOf(null), listOf(null))).isEqualTo(0.0)
+
+        // env action methods with null elements, null envInfractions, null natinf
+        assertThat(AEMPollutionControlSurveillance.getNbrOfInfraction(listOf(null))).isEqualTo(0.0)
+        assertThat(AEMPollutionControlSurveillance.getNbrOfInfractionWithNotice(listOf(null))).isEqualTo(0.0)
+        assertThat(AEMPollutionControlSurveillance.getNbrOfInfraction(listOf(
+            MissionEnvActionEntity(missionId = 761, id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, envInfractions = null)
+        ))).isEqualTo(0.0)
+        assertThat(AEMPollutionControlSurveillance.getNbrOfInfraction(listOf(
+            MissionEnvActionEntity(missionId = 761, id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, envInfractions = listOf(
+                InfractionEnvEntity(id = "1", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT, natinf = null)
+            ))
+        ))).isEqualTo(0.0)
+        assertThat(AEMPollutionControlSurveillance.getNbrOfInfractionWithNotice(listOf(
+            MissionEnvActionEntity(missionId = 761, id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, envInfractions = null)
+        ))).isEqualTo(0.0)
     }
 
     private fun extendedEnvActionEntities(): List<MissionEnvActionEntity> {
@@ -82,7 +106,7 @@ class AEMPolllutionControlSurveillanceTest {
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             )
-        );
+        )
         return actions
     }
 
@@ -116,7 +140,7 @@ class AEMPolllutionControlSurveillanceTest {
                 isSimpleBrewingOperationDone = true,
                 pollutionObservedByAuthorizedAgent = true
             )
-        );
+        )
         return actions
     }
 }
