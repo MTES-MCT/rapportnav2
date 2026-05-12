@@ -24,27 +24,23 @@ data class AEMNotPollutionControlSurveillance(
     companion object {
 
         fun getNbrOfTargets(actions: List<MissionEnvActionEntity?>): Double {
-            return actions
-                .fold(0.0) { acc, c ->
-                    acc.plus(
-                        c?.targets?.count() ?: 0
-                    )
-                }
-
+            return actions.sumOf { it?.targets?.size ?: 0 }.toDouble()
         }
+
         fun getNbrOfInfraction(notPollutionActions: List<MissionEnvActionEntity?>): Double {
-            return notPollutionActions
-                .fold(0.0) { acc, c ->
-                    acc.plus(
-                        c?.targets?.count { target ->
-                            target.controls?.any { control ->
-                                control.infractions?.any { infraction ->
-                                    infraction.natinfs.isNotEmpty()
-                                } == true
-                            } == true
-                        } ?: 0
-                    )
-                }
+            val fromEnvInfractions = notPollutionActions.sumOf { action ->
+                action?.envInfractions?.count { it.natinf?.isNotEmpty() == true } ?: 0
+            }
+            val fromTargets = notPollutionActions.sumOf { action ->
+                action?.targets?.count { target ->
+                    target.controls?.any { control ->
+                        control.infractions?.any { infraction ->
+                            infraction.natinfs.isNotEmpty()
+                        } == true
+                    } == true
+                } ?: 0
+            }
+            return (fromEnvInfractions + fromTargets).toDouble()
         }
 
         fun getNbrOfInfractionWithNotice(notPollutionActions: List<MissionEnvActionEntity?>): Double {
