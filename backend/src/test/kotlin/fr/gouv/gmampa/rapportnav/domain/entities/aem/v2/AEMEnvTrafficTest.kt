@@ -16,13 +16,28 @@ class AEMEnvTrafficTest {
     @Test
     fun `Should init Env traffic with different values`() {
         val actions = extendedEnvActionEntities()
-        val envTraffic = AEMEnvTraffic(envActions = actions);
+        val envTraffic = AEMEnvTraffic(envActions = actions)
 
-        assertThat(envTraffic).isNotNull();
+        assertThat(envTraffic).isNotNull()
         assertThat(envTraffic.nbrOfHourAtSea).isNotNull()
-        assertThat(envTraffic.nbrOfHourAtSea).isEqualTo(2.0);
-        assertThat(envTraffic.nbrOfSeizure).isEqualTo(0.0);
-        assertThat(envTraffic.nbrOfRedirectShip).isEqualTo(0.0);
+        assertThat(envTraffic.nbrOfHourAtSea).isEqualTo(2.0)
+        assertThat(envTraffic.nbrOfSeizure).isEqualTo(0.0)
+        assertThat(envTraffic.nbrOfRedirectShip).isEqualTo(0.0)
+    }
+
+    @Test
+    fun `Should handle null elements and null themes`() {
+        val actions = listOf(
+            null,
+            MissionEnvActionEntity(
+                missionId = 761,
+                id = UUID.randomUUID(),
+                envActionType = ActionTypeEnum.CONTROL,
+                themes = null
+            )
+        )
+        val result = AEMEnvTraffic.protectedSpeciesActionEntities(actions)
+        assertThat(result).isEmpty()
     }
 
     private fun extendedEnvActionEntities(): List<MissionEnvActionEntity> {
@@ -43,7 +58,7 @@ class AEMEnvTrafficTest {
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             )
-        );
+        )
         return actions
     }
 }

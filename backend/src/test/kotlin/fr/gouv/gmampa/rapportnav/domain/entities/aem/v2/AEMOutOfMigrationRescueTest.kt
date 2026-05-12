@@ -15,17 +15,17 @@ class AEMOutOfMigrationRescueTest {
 
     @Test
     fun `Should init out fo migration rescue with different values`() {
-        val nbrOfHourAtSea = 3.0;
-        val nbrPersonsRescued = 4.0;
-        val nbrOfRescuedOperation = 1.0;
+        val nbrOfHourAtSea = 3.0
+        val nbrPersonsRescued = 4.0
+        val nbrOfRescuedOperation = 1.0
 
         val actions = navActionEntities()
-        val migrationRescue = AEMOutOfMigrationRescue(navActions = actions);
+        val migrationRescue = AEMOutOfMigrationRescue(navActions = actions)
 
-        assertThat(migrationRescue).isNotNull();
-        assertThat(migrationRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
-        assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(nbrPersonsRescued);
-        assertThat(migrationRescue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation);
+        assertThat(migrationRescue).isNotNull()
+        assertThat(migrationRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea)
+        assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(nbrPersonsRescued)
+        assertThat(migrationRescue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation)
     }
 
     @Test
@@ -40,9 +40,14 @@ class AEMOutOfMigrationRescueTest {
             numberOfDeaths = 0,
             isMigrationRescue = false,
         )
-        val migrationRescue = AEMOutOfMigrationRescue(navActions = listOf(action));
-        assertThat(migrationRescue).isNotNull();
-        assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(0.0);
+        val migrationRescue = AEMOutOfMigrationRescue(navActions = listOf(action))
+        assertThat(migrationRescue).isNotNull()
+        assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(0.0)
+    }
+
+    @Test
+    fun `Should handle null elements in action list`() {
+        assertThat(AEMOutOfMigrationRescue.getNbrPersonsRescued(listOf(null))).isEqualTo(0.0)
     }
 
     private fun navActionEntities(): List<MissionNavActionEntity> {
@@ -78,7 +83,7 @@ class AEMOutOfMigrationRescueTest {
                 nbAssistedVesselsReturningToShore = 1,
                 nbOfVesselsTrackedWithoutIntervention = 5
             )
-        );
+        )
         return actions
     }
 }
