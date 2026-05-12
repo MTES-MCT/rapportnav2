@@ -148,7 +148,7 @@ class AEMIllegalFishTest {
     }
 
     @Test
-    fun `should filter only SEA_CONTROL for nbrOfPolFishAction`() {
+    fun `should count SEA and LAND actions for nbrOfPolFishAction`() {
         val actions = listOf(
             null,
             MissionFishActionEntity(missionId = 761, id = 1, fishActionType = MissionActionType.LAND_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
@@ -158,7 +158,7 @@ class AEMIllegalFishTest {
         )
         val result = AEMIllegalFish(fishActions = actions, navActions = emptyList(), missionEndDateTime = null)
 
-        assertThat(result.nbrOfPolFishAction).isEqualTo(2.0) // Only SEA_CONTROL
+        assertThat(result.nbrOfPolFishAction).isEqualTo(3.0)
         assertThat(result.nbrOfTargetedVessel).isEqualTo(2.0)
     }
 
