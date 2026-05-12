@@ -61,12 +61,14 @@ describe('FishControlConclusion', () => {
     expect(screen.getByTestId('observations-by-unit')).toBeInTheDocument()
   })
 
-  it('renders the incident download component', () => {
+  it.skip('renders the incident download component', () => {
+    //TODO: remove skip when MonitorFish dev is done
     render(<FishControlConclusion values={defaultValues} />)
     expect(screen.getByTestId('incident-download')).toBeInTheDocument()
   })
 
-  it('renders the diving operation component', () => {
+  it.skip('renders the diving operation component', () => {
+    //TODO: remove skip when MonitorFish dev is done
     render(<FishControlConclusion values={defaultValues} />)
     expect(screen.getByTestId('diving-operation')).toBeInTheDocument()
   })

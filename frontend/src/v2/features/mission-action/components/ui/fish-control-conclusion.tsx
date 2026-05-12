@@ -14,7 +14,7 @@ import MissionActionIncidentDonwload from './mission-action-incident-download.ts
 const FishControlConclusion: FC<{
   values: ActionFishControlInput
 }> = ({ values }) => {
-  const hideCheckbox = true // TODO: remove when MonitorFish dev is done
+  const showCheckbox = false // TODO: remove when MonitorFish dev is done
   const { defaultControlTypes } = useTarget()
   return (
     <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
@@ -46,9 +46,9 @@ const FishControlConclusion: FC<{
               data-testid="observations-by-unit"
               label="Observation de l'unité sur le contrôle"
             />
-            {!hideCheckbox && <MissionActionIncidentDonwload />}
+            {showCheckbox && <MissionActionIncidentDonwload />}
           </Stack.Item>
-          <Stack.Item style={{ width: '100%' }}>{!hideCheckbox && <MissionActionDivingOperation />}</Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>{showCheckbox && <MissionActionDivingOperation />}</Stack.Item>
         </Stack>
       </Stack.Item>
     </Stack>
