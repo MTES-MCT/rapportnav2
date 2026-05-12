@@ -19,7 +19,7 @@ const SECTOR_FISHING_TYPES: Record<SectorFishingType, string> = {
   MOBILE_FISHMONGER: 'Poissonnerie ambulante',
   SEDENTARY_FISHMONGER: 'Poissonnerie sédentaire',
   ROADSIDE_INSPECTION: 'Contrôle routier',
-  SHOUTED: 'Criée / Halle à marée',
+  FISH_AUCTION: 'Criée / Halle à marée',
   FISHMONGER: 'Mareyeur',
   LANDING_SITE: 'Site de débarquement',
   OTHERS: 'Autre'

@@ -41,13 +41,12 @@ class PortRestControllerTest {
 
     @Test
     fun `getPorts should return filtered and sorted list of ports`() {
-        val ports = listOf(
+        val filteredPorts = listOf(
             PortEntityMock.create(locode = "FRLEH", name = "Le Havre"),
-            PortEntityMock.create(locode = "FRLER", name = "Le Rayon"),
-            PortEntityMock.create(locode = "FRMRS", name = "Marseille")
+            PortEntityMock.create(locode = "FRLER", name = "Le Rayon")
         )
 
-        `when`(getPorts.execute()).thenReturn(ports)
+        `when`(getPorts.execute(name = "Le")).thenReturn(filteredPorts)
 
         mockMvc.perform(get("/api/v2/ports").param("search", "Le"))
             .andExpect(status().isOk)
@@ -60,11 +59,7 @@ class PortRestControllerTest {
 
     @Test
     fun `getPorts should return empty list when no match`() {
-        val ports = listOf(
-            PortEntityMock.create(locode = "FRLEH", name = "Le Havre")
-        )
-
-        `when`(getPorts.execute()).thenReturn(ports)
+        `when`(getPorts.execute(name = "Zeta")).thenReturn(emptyList())
 
         mockMvc.perform(get("/api/v2/ports").param("search", "Zeta"))
             .andExpect(status().isOk)
@@ -79,7 +74,7 @@ class PortRestControllerTest {
             originalException = RuntimeException("Connection error")
         )
 
-        `when`(getPorts.execute()).thenAnswer { throw internalException }
+        `when`(getPorts.execute(name = "Le")).thenAnswer { throw internalException }
 
         mockMvc.perform(get("/api/v2/ports").param("search", "Le"))
             .andExpect { result -> assert(result.response.status >= 400) }

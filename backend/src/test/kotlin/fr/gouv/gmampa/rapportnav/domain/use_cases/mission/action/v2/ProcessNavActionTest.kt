@@ -49,7 +49,7 @@ class ProcessNavActionTest {
         `when`(getComputeTarget.execute(actionId.toString(), true)).thenReturn(listOf(mockTarget))
         processNavAction = ProcessNavAction(
             getComputeTarget = getComputeTarget,
-            getStatusForAction = getStatusForAction
+            getStatusForAction = getStatusForAction,
         )
 
         val entity = processNavAction.execute(action = action)

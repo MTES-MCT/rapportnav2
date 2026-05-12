@@ -1,14 +1,68 @@
 import { FormikMultiRadio, FormikSelect } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, FormikProps } from 'formik'
-import { FC } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { Stack } from 'rsuite'
 import { FormikEstablishment } from '../../../common/components/ui/formik-establishment.tsx'
+import { FormikSelectFishAuction } from '../../../common/components/ui/formik-select-fish-auction.tsx'
 import { useSector } from '../../../common/hooks/use-sector.tsx'
 import { Establishment } from '../../../common/types/etablishment.ts'
+import { SectorFishingType, SectorType } from '../../../common/types/sector-types.ts'
 import { ActionControlInput } from '../../types/action-type.ts'
+import { FormikSearchPort } from '../../../common/components/ui/formik-search-port.tsx'
 
 const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControlInput> }> = ({ formik }) => {
   const { sectorTypeOptions, getSectionEtablishmentTypeOptions } = useSector()
+
+  const shouldShowControlLocation =
+    formik.values.sectorType === SectorType.FISHING &&
+    (formik.values.sectorEstablishmentType === SectorFishingType.LANDING_SITE ||
+      formik.values.sectorEstablishmentType === SectorFishingType.FISH_AUCTION)
+
+  const isLandingSite =
+    formik.values.sectorType === SectorType.FISHING &&
+    formik.values.sectorEstablishmentType === SectorFishingType.LANDING_SITE
+
+  const isFishAuction =
+    formik.values.sectorType === SectorType.FISHING &&
+    formik.values.sectorEstablishmentType === SectorFishingType.FISH_AUCTION
+
+  const previousSectorType = useRef(formik.values.sectorType)
+
+  // Reset all dependent fields when sectorType changes
+  useEffect(() => {
+    if (previousSectorType.current !== formik.values.sectorType) {
+      previousSectorType.current = formik.values.sectorType
+      formik.setFieldValue('sectorEstablishmentType', undefined)
+      formik.setFieldValue('establishment', undefined)
+      formik.setFieldValue('portLocode', undefined)
+      formik.setFieldValue('fishAuction', undefined)
+    }
+  }, [formik.values.sectorType])
+
+  // Reset location/establishment fields when sectorEstablishmentType changes
+  useEffect(() => {
+    if (shouldShowControlLocation && formik.values.establishment) {
+      formik.setFieldValue('establishment', undefined)
+    }
+    if (!shouldShowControlLocation && formik.values.portLocode) {
+      formik.setFieldValue('portLocode', undefined)
+    }
+    if (!shouldShowControlLocation && formik.values.fishAuction) {
+      formik.setFieldValue('fishAuction', undefined)
+    }
+    if (!shouldShowControlLocation && formik.values.zipCode) {
+      formik.setFieldValue('zipCode', undefined)
+    }
+    if (!shouldShowControlLocation && formik.values.city) {
+      formik.setFieldValue('city', undefined)
+    }
+    if (isLandingSite && formik.values.fishAuction) {
+      formik.setFieldValue('fishAuction', undefined)
+    }
+    if (isFishAuction && formik.values.portLocode) {
+      formik.setFieldValue('portLocode', undefined)
+    }
+  }, [shouldShowControlLocation, isLandingSite, isFishAuction])
 
   return (
     <Stack.Item>
@@ -32,11 +86,19 @@ const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControl
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
-            <Field name="establishment">
-              {(field: FieldProps<Establishment>) => (
-                <FormikEstablishment name="establishment" isLight={true} fieldFormik={field} />
-              )}
-            </Field>
+            {isFishAuction && (
+              <FormikSelectFishAuction name="fishAuction" label="Criée" isLight={true} />
+            )}
+            {isLandingSite && (
+              <FormikSearchPort name="portLocode" isLight={true} label="Lieu de contrôle" />
+            )}
+            {!isFishAuction && !isLandingSite && (
+              <Field name="establishment">
+                {(field: FieldProps<Establishment>) => (
+                  <FormikEstablishment name="establishment" isLight={true} fieldFormik={field} />
+                )}
+              </Field>
+            )}
           </Stack.Item>
         </Stack.Item>
       </Stack>

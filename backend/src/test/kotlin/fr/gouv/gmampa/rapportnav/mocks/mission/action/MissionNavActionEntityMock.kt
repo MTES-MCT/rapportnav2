@@ -3,9 +3,14 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishAuctionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import java.time.Instant
@@ -27,6 +32,7 @@ object MissionNavActionEntityMock {
         isSimpleBrewingOperationDone: Boolean? = null,
         isAntiPolDeviceDeployed: Boolean? = null,
         controlMethod: ControlMethod? = null,
+        locationType: LocationType? = null,
         vesselIdentifier: String? = null,
         vesselType: VesselTypeEnum? = null,
         vesselSize: VesselSizeEnum? = null,
@@ -48,7 +54,14 @@ object MissionNavActionEntityMock {
         nbAssistedVesselsReturningToShore: Int? = null,
         status: ActionStatusType? = null,
         reason: ActionStatusReason? = null,
-        targets: List<TargetEntity>? = null
+        targets: List<TargetEntity>? = null,
+        sectorType: SectorType? = null,
+        sectorEstablishmentType: SectorEstablishmentType? = null,
+        establishment: EstablishmentEntity? = null,
+        portLocode: String? = null,
+        zipCode: String? = null,
+        city: String? = null,
+        fishAuction: FishAuctionEntity? = null
     ): MissionNavActionEntity {
         return MissionNavActionEntity(
             missionId = missionId?: 761,
@@ -65,6 +78,7 @@ object MissionNavActionEntityMock {
             detectedPollution = detectedPollution,
             pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
             controlMethod = controlMethod,
+            locationType = locationType,
             vesselIdentifier = vesselIdentifier,
             vesselType = vesselType,
             vesselSize = vesselSize,
@@ -86,7 +100,14 @@ object MissionNavActionEntityMock {
             nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
             reason = reason,
             status = status,
-            targets = targets
+            targets = targets,
+            sectorType = sectorType,
+            sectorEstablishmentType = sectorEstablishmentType,
+            establishment = establishment,
+            portLocode = portLocode,
+            zipCode = zipCode,
+            city = city,
+            fishAuction = fishAuction
         )
     }
 }

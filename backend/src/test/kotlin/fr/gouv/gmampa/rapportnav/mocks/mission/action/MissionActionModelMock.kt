@@ -4,10 +4,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.EstablishmentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.fish.FishAuctionModel
 import java.time.Instant
 import java.util.*
 
@@ -19,7 +21,9 @@ object MissionActionModelMock {
         observations: String? = "observations",
         vesselType: String? = VesselTypeEnum.FISHING.toString(),
         controlMethod: String? = ControlMethod.SEA.toString(),
+        locationType: String? = LocationType.GPS.toString(),
         reason: String? = null,
+        fishAuction: FishAuctionModel? = null,
     ): MissionActionModel {
         return MissionActionModel(
             missionId = 761,
@@ -36,6 +40,7 @@ object MissionActionModelMock {
             detectedPollution = false,
             pollutionObservedByAuthorizedAgent = false,
             controlMethod = controlMethod,
+            locationType = locationType,
             vesselIdentifier = "FR-23566",
             vesselType = vesselType,
             vesselSize = VesselSizeEnum.LESS_THAN_12m.toString(),
@@ -72,12 +77,13 @@ object MissionActionModelMock {
             nbrOfControl300m = 3,
             isControlDuringSecurityDay = false,
             isSeizureSleepingFishingGear = true,
-            sectorEstablishmentType = SectorEstablishmentType.SHOUTED?.toString(),
+            sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION?.toString(),
             leisureType = LeisureType.KAYAK?.toString(),
             fishingGearType = FishingGearType.CASHIER?.toString(),
             controlType = "my control type",
             nbrSecurityVisit = 12,
             securityVisitType = SecurityVisitType.SCHOOL_BOAT.toString(),
+            fishAuction = fishAuction,
             establishment = EstablishmentModel(
                 id = 2,
                 name = "myEstablishment",
