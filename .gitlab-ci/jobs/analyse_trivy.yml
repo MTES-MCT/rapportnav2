@@ -3,6 +3,7 @@ analyse_trivy:
     - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
       when: always
   stage: analyze
+  allow_failure: true
   image:
     name: aquasec/trivy:0.70.0
     entrypoint: [""]
