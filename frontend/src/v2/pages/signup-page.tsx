@@ -88,7 +88,7 @@ const SignupPage: FC = () => {
     }
 
     if (!values.password) {
-      errors.password = 'Le mot de passe est requis'
+      errors.password = 'Le mot de passe est requis' // NOSONAR not a hard-coded password
     }
 
     if (!values.firstName) {

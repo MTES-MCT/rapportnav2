@@ -43,7 +43,7 @@ export type ActionEnvControlInput = {
   geoCoords: [number?, number?]
 } & MissionEnvActionData
 
-export type ActionInquiryInput = {} & MissionNavActionData
+export type ActionInquiryInput = MissionNavActionData
 
 export type ActionControlInput = {
   dates: [Date?, Date?]

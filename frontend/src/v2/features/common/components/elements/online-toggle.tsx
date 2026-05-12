@@ -5,7 +5,7 @@ import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
 import { Stack } from 'rsuite'
 import Text from '@common/components/ui/text.tsx'
 
-export type OfflineToggleProps = {} & Omit<ToggleProps, 'label' | 'name'>
+export type OfflineToggleProps = Omit<ToggleProps, 'label' | 'name'>
 
 // Styled version of the Toggle component
 const StyledToggle = styled(Toggle)`

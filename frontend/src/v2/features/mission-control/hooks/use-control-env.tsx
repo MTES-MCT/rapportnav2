@@ -6,7 +6,7 @@ import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
-export type ControlEnvInput = {} & Control
+export type ControlEnvInput = Control
 
 export function useEnvControl(
   name: string,
