@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.analytics.EnvOperationalSummaryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ThemeStats
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
@@ -18,14 +18,12 @@ class ComputeEnvOperationalSummary(
     private val computeDurations: ComputeDurations
 
 ) {
-fun execute(actions: List<MissionActionEntity>): Map<String, Any> {
-        val filteredActions = actions.takeIf { it.isNotEmpty() }?.filter { it.source == MissionSourceEnum.MONITORENV }
-            ?.filterIsInstance<MissionEnvActionEntity>().orEmpty()
+fun execute(actions: List<MissionActionEntity>): EnvOperationalSummaryEntity {
+        val filteredActions = actions.filterIsInstance<MissionEnvActionEntity>()
 
         val controls = filteredActions.filter { it.envActionType == ActionTypeEnum.CONTROL }
         val surveillances = filteredActions.filter { it.envActionType == ActionTypeEnum.SURVEILLANCE }
 
-        val nbSurveillances = surveillances.size
         val totalSurveillanceDurationInSeconds = surveillances.sumOf { surveillance ->
             ComputeDurationUtils.durationInSeconds(
                 startDateTimeUtc = surveillance.startDateTimeUtc,
@@ -36,8 +34,6 @@ fun execute(actions: List<MissionActionEntity>): Map<String, Any> {
             totalSurveillanceDurationInSeconds, DurationUnit.HOURS
         )
 
-        val nbControls = controls.size
-
         val nbInfractionsWithRecord = controls.sumOf {
             it.envInfractions?.count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
         }
@@ -45,22 +41,15 @@ fun execute(actions: List<MissionActionEntity>): Map<String, Any> {
             it.envInfractions?.count { inf -> inf.infractionType == InfractionTypeEnum.WITHOUT_REPORT } ?: 0
         }
 
-        val controlThemes = computeThemeStats(controls)
-        val surveillanceThemes = computeThemeStats(surveillances)
-
-
-        val summary = mapOf(
-            "nbControls" to nbControls,
-            "nbSurveillances" to nbSurveillances,
-            "totalSurveillanceDurationInHours" to totalSurveillanceDurationInHours,
-            "nbInfractionsWithRecord" to nbInfractionsWithRecord,
-            "nbInfractionsWithoutRecord" to nbInfractionsWithoutRecord,
-            "controlThemes" to controlThemes,
-            "surveillanceThemes" to surveillanceThemes,
+        return EnvOperationalSummaryEntity(
+            nbControls = controls.size,
+            nbSurveillances = surveillances.size,
+            totalSurveillanceDurationInHours = totalSurveillanceDurationInHours,
+            nbInfractionsWithRecord = nbInfractionsWithRecord,
+            nbInfractionsWithoutRecord = nbInfractionsWithoutRecord,
+            controlThemes = computeThemeStats(controls),
+            surveillanceThemes = computeThemeStats(surveillances),
         )
-
-
-        return summary
     }
 
 

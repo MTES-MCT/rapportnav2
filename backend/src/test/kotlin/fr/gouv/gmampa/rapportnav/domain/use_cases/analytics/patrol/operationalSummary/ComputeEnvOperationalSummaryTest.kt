@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary
 
+import fr.gouv.dgampa.rapportnav.domain.entities.analytics.EnvOperationalSummaryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ThemeStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
@@ -72,22 +73,14 @@ class ComputeEnvOperationalSummaryTest {
         )
 
         @Test
-        fun `envActionSummary should return empty map`() {
+        fun `envActionSummary should return empty entity`() {
             val mission =
                 MissionEntityMock.create(actions = listOf())
             val summary = computeEnvOperationalSummary.execute(
                 actions = mission.actions!!
             )
-            val expected = mapOf(
-                "nbSurveillances" to 0,
-                "totalSurveillanceDurationInHours" to 0.0,
-                "nbControls" to 0,
-                "nbInfractionsWithRecord" to 0,
-                "nbInfractionsWithoutRecord" to 0,
-                "controlThemes" to listOf<ThemeStats>(),
-                "surveillanceThemes" to listOf<ThemeStats>()
-            )
-            assertEquals(summary, expected)
+            val expected = EnvOperationalSummaryEntity()
+            assertEquals(expected, summary)
         }
 
         @Test
@@ -100,8 +93,8 @@ class ComputeEnvOperationalSummaryTest {
                 MissionFishActionEntityMock.create(),
             )
             val summary = computeEnvOperationalSummary.execute(actions = mixedActions)
-            assertEquals(1, summary["nbControls"])
-            assertEquals(0, summary["nbSurveillances"])
+            assertEquals(1, summary.nbControls)
+            assertEquals(0, summary.nbSurveillances)
         }
 
         @Test
@@ -112,24 +105,24 @@ class ComputeEnvOperationalSummaryTest {
             val summary = computeEnvOperationalSummary.execute(
                 actions = mission.actions!!
             )
-            val expected = mapOf(
-                "nbSurveillances" to 2,
-                "totalSurveillanceDurationInHours" to 2.0,
-                "nbControls" to 3,
-                "nbInfractionsWithRecord" to 1,
-                "nbInfractionsWithoutRecord" to 1,
-                "controlThemes" to listOf<ThemeStats>(
+            val expected = EnvOperationalSummaryEntity(
+                nbSurveillances = 2,
+                totalSurveillanceDurationInHours = 2.0,
+                nbControls = 3,
+                nbInfractionsWithRecord = 1,
+                nbInfractionsWithoutRecord = 1,
+                controlThemes = listOf(
                     ThemeStats(id=1, theme="Pêche loisir (autre que PAP)", nbActions=1, durationInHours=1.0),
                     ThemeStats(id=112, theme="Pêche loisir (autre que PAP)", nbActions=2, durationInHours=2.0),
                     ThemeStats(id=113,theme="Peche embarquée", nbActions=3, durationInHours=3.0)
                 ),
-                "surveillanceThemes" to listOf<ThemeStats>(
+                surveillanceThemes = listOf(
                     ThemeStats(id=1, theme="Pêche loisir (autre que PAP)", nbActions=1, durationInHours=1.0),
                     ThemeStats(id=112, theme="Pêche loisir (autre que PAP)", nbActions=1, durationInHours=1.0),
                     ThemeStats(id=113, theme="Peche embarquée", nbActions=2, durationInHours=2.0)
                 )
             )
-            assertEquals(summary, expected)
+            assertEquals(expected, summary)
         }
 
 

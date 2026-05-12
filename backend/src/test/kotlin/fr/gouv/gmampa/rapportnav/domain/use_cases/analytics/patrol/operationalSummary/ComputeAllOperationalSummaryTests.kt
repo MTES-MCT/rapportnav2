@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary
 
 import com.neovisionaries.i18n.CountryCode
+import fr.gouv.dgampa.rapportnav.domain.entities.analytics.EnvOperationalSummaryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.OperationalSummaryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
@@ -15,7 +16,10 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
 import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -38,6 +42,10 @@ class ComputeAllOperationalSummaryTests {
     @MockitoBean
     private lateinit var computeEnvOperationalSummary: ComputeEnvOperationalSummary
 
+    @BeforeEach
+    fun setUp() {
+        whenever(computeEnvOperationalSummary.execute(any())).thenReturn(EnvOperationalSummaryEntity())
+    }
 
     private fun getActions(actionType: MissionActionType): List<MissionFishActionEntity> {
 
@@ -188,7 +196,7 @@ class ComputeAllOperationalSummaryTests {
         leisureSailingSeaSummary = emptyMap(),
         leisureSailingLandSummary = emptyMap(),
         leisureFishingSummary = emptyMap(),
-        envSummary = emptyMap()
+        envSummary = EnvOperationalSummaryEntity()
     )
 
 

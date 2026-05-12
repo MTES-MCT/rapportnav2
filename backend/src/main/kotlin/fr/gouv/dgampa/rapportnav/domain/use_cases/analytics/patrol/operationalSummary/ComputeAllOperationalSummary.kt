@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.analytics.EnvOperationalSummaryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.OperationalSummaryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import kotlin.collections.orEmpty
@@ -27,7 +28,7 @@ class ComputeAllOperationalSummary(
 
         val leisureFishingSummary: Map<String, Int> = computeFishingOperationalSummary.getLeisureFishingSummary(mission?.actions.orEmpty())
 
-        val envSummary: Map<String, Any> = computeEnvOperationalSummary.execute(mission?.actions.orEmpty())
+        val envSummary: EnvOperationalSummaryEntity = computeEnvOperationalSummary.execute(mission?.actions.orEmpty())
 
         return OperationalSummaryEntity(
             proFishingSeaSummary = proFishingSeaSummary,
