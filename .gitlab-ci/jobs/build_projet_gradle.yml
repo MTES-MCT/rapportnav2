@@ -10,7 +10,7 @@ build_projet_gradle:
   script:
     - cd backend
     - chmod +x gradlew
-    - ./gradlew clean assemble
+    - ./gradlew clean assemble --build-cache
   cache:
     key: "gradle"
     paths:
@@ -22,7 +22,8 @@ build_projet_gradle:
     expire_in: 12 hours
     when: on_success
     paths:
-      - "backend/build/"
+      - "backend/build/libs/"
+      - "backend/build/classes/"
   tags:
     - selfservice
 
@@ -36,11 +37,11 @@ test_projet_gradle:
     GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle"
   needs:
     - job: build_projet_gradle
-      artifacts: true
+      artifacts: false
   script:
     - cd backend
     - chmod +x gradlew
-    - ./gradlew test jacocoTestReport
+    - ./gradlew test jacocoTestReport --build-cache
   cache:
     key: "gradle"
     paths:
