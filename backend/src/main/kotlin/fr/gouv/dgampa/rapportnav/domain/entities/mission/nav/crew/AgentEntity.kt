@@ -9,6 +9,7 @@ data class AgentEntity(
     val firstName: String,
     val lastName: String,
     val userId: Int? = null,
+    val cardId: String? = null,
     val role: AgentRoleEntity? = null,
     val disabledAt: Instant? = null,
     val createdAt: Instant? = null,
@@ -20,6 +21,7 @@ data class AgentEntity(
         return AgentModel(
             id = id,
             userId = userId,
+            cardId = cardId,
             lastName = lastName,
             firstName = firstName,
             disabledAt = disabledAt,
@@ -31,6 +33,7 @@ data class AgentEntity(
         fun fromAgentModel(model: AgentModel): AgentEntity {
             return AgentEntity(
                 id = model.id,
+                cardId = model.cardId,
                 userId = model.userId,
                 lastName = model.lastName,
                 firstName = model.firstName,

@@ -8,6 +8,7 @@ data class Agent(
     val firstName: String,
     val lastName: String,
     val userId: Int? = null,
+    val cardId: String? = null,
     val role: AgentRole? = null,
     val disabledAt: Instant? = null,
     val createdAt: Instant? = null,
@@ -19,6 +20,7 @@ data class Agent(
         return AgentEntity(
             id = id,
             userId = userId,
+            cardId = cardId,
             firstName = firstName,
             lastName = lastName,
             disabledAt = disabledAt,
@@ -33,6 +35,7 @@ data class Agent(
             return Agent(
                 id = entity.id,
                 userId = entity.userId,
+                cardId = entity.cardId,
                 firstName = entity.firstName,
                 lastName = entity.lastName,
                 updatedAt = entity.updatedAt,
