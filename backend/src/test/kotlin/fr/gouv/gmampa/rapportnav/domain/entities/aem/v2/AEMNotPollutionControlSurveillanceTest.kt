@@ -26,7 +26,7 @@ class AEMNotPollutionControlSurveillanceTest {
         assertThat(notPollution).isNotNull()
         assertThat(notPollution.nbrOfHourAtSea).isEqualTo(4.5)
         assertThat(notPollution.nbrOfAction).isEqualTo(2.0) // 2 targets in the non-pollution action
-        assertThat(notPollution.nbrOfInfraction).isEqualTo(2.0)
+        assertThat(notPollution.nbrOfInfraction).isEqualTo(5.0)
         assertThat(notPollution.nbrOfInfractionWithNotice).isEqualTo(2.0)
     }
 
@@ -81,32 +81,32 @@ class AEMNotPollutionControlSurveillanceTest {
         val actionId = UUID.randomUUID().toString()
         val actions = listOf(
             null, // null action -> 0
-            MissionEnvActionEntity( // null targets -> 0
+            MissionEnvActionEntity( // null envInfractions and null targets -> 0
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
+                envInfractions = null,
                 targets = null
             ),
-            MissionEnvActionEntity( // null controls -> 0
+            MissionEnvActionEntity( // empty envInfractions and empty targets -> 0
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
-                targets = listOf(
-                    TargetEntity(
-                        id = UUID.randomUUID(),
-                        actionId = actionId,
-                        targetType = TargetType.VEHICLE,
-                        controls = null
-                    )
-                )
+                envInfractions = emptyList(),
+                targets = emptyList()
             ),
-            MissionEnvActionEntity(
+            MissionEnvActionEntity( // 2 from envInfractions + 1 from targets = 3
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
+                envInfractions = listOf(
+                    InfractionEnvEntity(id = "1", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT, natinf = listOf("natinf-1")), // counts
+                    InfractionEnvEntity(id = "2", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT, natinf = emptyList()), // empty natinf -> 0
+                    InfractionEnvEntity(id = "3", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT, natinf = null), // null natinf -> 0
+                    InfractionEnvEntity(id = "4", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT, natinf = listOf("natinf-2")) // counts
+                ),
                 targets = listOf(
-                    // Target with natinfs -> counts as 1
-                    TargetEntity(
+                    TargetEntity( // has infraction with natinfs -> counts
                         id = UUID.randomUUID(),
                         actionId = actionId,
                         targetType = TargetType.VEHICLE,
@@ -115,14 +115,11 @@ class AEMNotPollutionControlSurveillanceTest {
                                 id = UUID.randomUUID(),
                                 controlType = ControlType.ADMINISTRATIVE,
                                 amountOfControls = 1,
-                                infractions = listOf(
-                                    InfractionEntity(id = UUID.randomUUID(), natinfs = listOf("natinf-1"))
-                                )
+                                infractions = listOf(InfractionEntity(id = UUID.randomUUID(), natinfs = listOf("natinf-1")))
                             )
                         )
                     ),
-                    // Target with empty natinfs -> 0
-                    TargetEntity(
+                    TargetEntity( // empty natinfs -> 0
                         id = UUID.randomUUID(),
                         actionId = actionId,
                         targetType = TargetType.VEHICLE,
@@ -131,47 +128,29 @@ class AEMNotPollutionControlSurveillanceTest {
                                 id = UUID.randomUUID(),
                                 controlType = ControlType.SECURITY,
                                 amountOfControls = 1,
-                                infractions = listOf(
-                                    InfractionEntity(id = UUID.randomUUID(), natinfs = emptyList())
-                                )
+                                infractions = listOf(InfractionEntity(id = UUID.randomUUID(), natinfs = emptyList()))
                             )
                         )
                     ),
-                    // Target with null infractions -> 0
-                    TargetEntity(
+                    TargetEntity( // null infractions -> 0
                         id = UUID.randomUUID(),
                         actionId = actionId,
                         targetType = TargetType.VEHICLE,
                         controls = listOf(
-                            ControlEntity(
-                                id = UUID.randomUUID(),
-                                controlType = ControlType.NAVIGATION,
-                                amountOfControls = 1,
-                                infractions = null
-                            )
+                            ControlEntity(id = UUID.randomUUID(), controlType = ControlType.NAVIGATION, amountOfControls = 1, infractions = null)
                         )
                     ),
-                    // Another target with natinfs -> counts as 1
-                    TargetEntity(
+                    TargetEntity( // null controls -> 0
                         id = UUID.randomUUID(),
                         actionId = actionId,
                         targetType = TargetType.VEHICLE,
-                        controls = listOf(
-                            ControlEntity(
-                                id = UUID.randomUUID(),
-                                controlType = ControlType.GENS_DE_MER,
-                                amountOfControls = 1,
-                                infractions = listOf(
-                                    InfractionEntity(id = UUID.randomUUID(), natinfs = listOf("natinf-2"))
-                                )
-                            )
-                        )
+                        controls = null
                     )
                 )
             )
         )
         val result = AEMNotPollutionControlSurveillance.getNbrOfInfraction(actions)
-        assertThat(result).isEqualTo(2.0)
+        assertThat(result).isEqualTo(3.0)
     }
 
     @Test
