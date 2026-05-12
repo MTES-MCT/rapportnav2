@@ -5,7 +5,7 @@ import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
-export type ControlInput = {} & Control
+export type ControlInput = Control
 
 export function useControl(
   name: string,

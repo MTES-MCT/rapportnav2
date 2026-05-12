@@ -73,7 +73,7 @@ const LoginPage: FC = () => {
     }
 
     if (!values.password) {
-      errors.password = 'Le mot de passe est requis'
+      errors.password = 'Le mot de passe est requis' // NOSONAR not a hard-coded password
     }
 
     return errors

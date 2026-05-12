@@ -121,7 +121,7 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
   }
 }
 
-type UlamActionRegistryHook = {} & UlamActionRegistry & ActionRegistryHook
+type UlamActionRegistryHook = UlamActionRegistry & ActionRegistryHook
 
 export function useUlamActionRegistry(actionType: ActionType): UlamActionRegistryHook {
   const common = useActionRegistry(actionType)

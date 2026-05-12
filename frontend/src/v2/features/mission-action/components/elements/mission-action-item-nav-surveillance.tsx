@@ -11,10 +11,11 @@ const MissionActionItemNavSurveillance: FC<{
     <MissionActionItemGenericDateObservation
       action={action}
       onChange={onChange}
-      children={<StyledFormikToggle name="isWithinDepartment" label="Surveillance dans le département" />}
       showDivingCheckBox={true}
       data-testid={'action-nav-surveillance-form'}
-    />
+    >
+      <StyledFormikToggle name="isWithinDepartment" label="Surveillance dans le département" />
+    </MissionActionItemGenericDateObservation>
   )
 }
 

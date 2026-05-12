@@ -11,7 +11,7 @@ export interface AdminAction {
   key: AdminActionType
   icon?: FunctionComponent<IconProps>
   disabled?: (rowData: unknown) => boolean
-  form: FunctionComponent<{ formik: FormikProps<unknown> } & any>
+  form: FunctionComponent<{ formik: FormikProps<unknown>; [key: string]: any }>
 }
 
 export enum AdminActionType {

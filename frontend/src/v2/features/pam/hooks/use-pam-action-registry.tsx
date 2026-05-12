@@ -26,7 +26,7 @@ const PAM_ACTION_REGISTRY: PamActionRegistry = {
   }
 }
 
-type PamActionRegistryHook = {} & PamActionRegistry & ActionRegistryHook
+type PamActionRegistryHook = PamActionRegistry & ActionRegistryHook
 
 export function usePamActionRegistry(actionType: ActionType): PamActionRegistryHook {
   const common = useActionRegistry(actionType)
