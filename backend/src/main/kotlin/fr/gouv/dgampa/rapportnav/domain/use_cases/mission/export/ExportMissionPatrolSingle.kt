@@ -320,14 +320,14 @@ class ExportMissionPatrolSingle(
                     )
 
                     // Pick only the three needed values from your new summary map
-                    val selectedKeys = listOf("nbSurveillances", "nbControls", "nbInfractionsWithRecord")
+                    val values = listOf(
+                        envSummary?.nbSurveillances,
+                        envSummary?.nbControls,
+                        envSummary?.nbInfractionsWithRecord,
+                    )
 
-                    val secondRow = selectedKeys.map { key ->
-                        val value = envSummary?.get(key)
-                        when (value) {
-                            is Number -> if (value.toInt() > 0) value.toString() else ""
-                            else -> ""
-                        }
+                    val secondRow = values.map { value ->
+                        if (value != null && value > 0) value.toString() else ""
                     }
 
                     val table = listOf(header, secondRow)

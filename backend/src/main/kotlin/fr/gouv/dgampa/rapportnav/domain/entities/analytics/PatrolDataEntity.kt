@@ -38,7 +38,17 @@ data class OperationalSummaryEntity(
     val leisureSailingSeaSummary: Map<String, Int>,
     val leisureSailingLandSummary: Map<String, Int>,
     val leisureFishingSummary: Map<String, Int>,
-    val envSummary: Map<String, Any>, // police environnement marin
+    val envSummary: EnvOperationalSummaryEntity, // police environnement marin
+)
+
+data class EnvOperationalSummaryEntity(
+    val nbControls: Int = 0,
+    val nbSurveillances: Int = 0,
+    val totalSurveillanceDurationInHours: Double = 0.0,
+    val nbInfractionsWithRecord: Int = 0,
+    val nbInfractionsWithoutRecord: Int = 0,
+    val controlThemes: List<ThemeStats> = listOf(),
+    val surveillanceThemes: List<ThemeStats> = listOf(),
 )
 
 data class ControlPoliciesEntity(
