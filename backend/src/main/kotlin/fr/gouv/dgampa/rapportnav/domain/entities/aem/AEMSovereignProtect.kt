@@ -52,9 +52,10 @@ data class AEMSovereignProtect(
             envActions: List<MissionEnvActionEntity?>,
             fishActions: List<MissionFishActionEntity?>
         ): Double {
-            val fishControls = fishActions.filter { it?.fishActionType == MissionActionType.SEA_CONTROL }.size
-            val navControls = navActions.filter { it.actionType == ActionType.CONTROL }.size
-            val envControls = envActions.filter { it?.vehicleType == VehicleTypeEnum.VESSEL }.sumOf { it?.actionNumberOfControls ?: 0 }
+
+            val fishControls = fishActions.filter { it?.fishActionType == MissionActionType.SEA_CONTROL }.sumOf { it?.targets?.size ?: 0 }
+            val navControls = navActions.filter { it.actionType == ActionType.CONTROL }.sumOf { it.targets?.size ?: 0 }
+            val envControls = envActions.filter { it?.vehicleType == VehicleTypeEnum.VESSEL }.sumOf { it?.targets?.size ?: 0 }
             return 0.0.plus(fishControls).plus(navControls).plus(envControls)
         }
 
