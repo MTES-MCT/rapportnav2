@@ -1,10 +1,13 @@
 # TODO à adapter selon le projet
 build_projet_gradle:
+  retry:
+    max: 1
+    when: runner_system_failure
   rules:
     - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
       when: always
   stage: build
-  image: gradle:9.5.0-jdk25
+  image: bellsoft/liberica-openjdk-alpine:25
   variables:
     GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle"
   script:
@@ -28,11 +31,14 @@ build_projet_gradle:
     - selfservice
 
 test_projet_gradle:
+  retry:
+    max: 1
+    when: runner_system_failure
   rules:
     - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
       when: always
   stage: test
-  image: gradle:9.5.0-jdk25
+  image: bellsoft/liberica-openjdk-alpine:25
   variables:
     GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle"
   needs:
