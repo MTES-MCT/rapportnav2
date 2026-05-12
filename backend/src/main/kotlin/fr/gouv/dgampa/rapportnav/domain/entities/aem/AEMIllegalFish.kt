@@ -23,10 +23,11 @@ data class AEMIllegalFish(
             missionEndDateTime: Instant?
         ): AEMIllegalFish {
             // only keep SEA_CONTROL for FishActions
+            val landAndSeaActions = fishActions.filter { it?.fishActionType == MissionActionType.SEA_CONTROL || it?.fishActionType == MissionActionType.LAND_CONTROL }
             val seaControlActions = fishActions.filter { it?.fishActionType == MissionActionType.SEA_CONTROL }
             return AEMIllegalFish(
                 nbrOfHourAtSea = getNbrOfHourAtSea(seaControlActions, navActions, missionEndDateTime),
-                nbrOfPolFishAction = seaControlActions.size.toDouble(),
+                nbrOfPolFishAction = landAndSeaActions.size.toDouble(),
                 nbrOfTargetedVessel = seaControlActions.size.toDouble(),
                 nbrOfInfraction = getNbrOfInfraction(seaControlActions),
                 nbrOfInfractionWithPV = getNbrOfInfractionWithPV(seaControlActions),
