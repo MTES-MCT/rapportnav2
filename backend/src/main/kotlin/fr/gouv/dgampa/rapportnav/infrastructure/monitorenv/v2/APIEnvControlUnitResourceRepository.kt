@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnvControlUnitResourceRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceEnv
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.PatchResourceInput
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
@@ -41,5 +42,41 @@ class APIEnvControlUnitResourceRepository(
         }
 
         return mapper.readValue(response.body())
+    }
+
+    override fun patch(id: Int, resource: PatchResourceInput): ControlUnitResourceEnv {
+        val url = "$host/api/v1/control_unit_resources/$id"
+        logger.info("Sending GET request for Env control unit resources fetching URL: $url")
+
+        try {
+            val json = mapper.writeValueAsString(resource) ?: ""
+            logger.info("Body request for Mission env patch as json : $json")
+            logger.info("Body request for resource env patch as entity : $resource")
+
+            val request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
+                .header("Content-Type", "application/json")
+                .build()
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            logger.info("APIEnvControlUnitResourceRepository::patch Response received, Status code: ${response.statusCode()}")
+
+            if (response.statusCode() !in 200..299) {
+                throw BackendInternalException(
+                    message = "APIEnvControlUnitResourceRepository.patch failed with status ${response.statusCode()}",
+                    originalException = RuntimeException(response.body())
+                )
+            }
+            return mapper.readValue(response.body())
+        } catch (e: BackendInternalException) {
+            throw e
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to PATCH Env resource id=$id",
+                originalException = e
+            )
+        }
     }
 }

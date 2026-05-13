@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvControlUnitResourceRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.PatchResourceInput
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -224,5 +225,129 @@ class APIEnvControlUnitResourceRepositoryTest {
             }
             assertTrue(exception.message.contains("400"))
         }
+    }
+
+    @Test
+    fun `should patch control unit resource and return updated resource`() {
+        val realMapper = createRealMapper()
+        val patchInput = PatchResourceInput(
+            registrationId = "REG-123",
+            radioFrequency = "VHF-16"
+        )
+        val resourceJson = """
+                {
+                    "id": 1,
+                    "controlUnitId": 10,
+                    "name": "PAM Themis",
+                    "type": "BARGE",
+                    "isArchived": false,
+                    "stationId": 1,
+                    "registrationId": "REG-123",
+                    "radioFrequency": "VHF-16",
+                    "controlUnit": {
+                        "id": 10,
+                        "administrationId": 1,
+                        "isArchived": false,
+                        "name": "Unit 1"
+                    },
+                    "station": {
+                        "id": 1,
+                        "latitude": 48.0,
+                        "longitude": -4.0,
+                        "name": "Station 1"
+                    }
+                }
+            """.trimIndent()
+
+        Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+        Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+        Mockito.`when`(httpResponse.body()).thenReturn(resourceJson)
+        Mockito.`when`(
+            httpClient.send(
+                Mockito.any(HttpRequest::class.java),
+                Mockito.any<HttpResponse.BodyHandler<String>>()
+            )
+        ).thenReturn(httpResponse)
+
+        val repository = APIEnvControlUnitResourceRepository(
+            clientFactory = httpClientFactory,
+            mapper = realMapper,
+            host = host
+        )
+
+        val result = repository.patch(id = 1, resource = patchInput)
+
+        assertEquals(1, result.id)
+        assertEquals(10, result.controlUnitId)
+        assertEquals("PAM Themis", result.name)
+
+        verify(httpClient).send(
+            argThat { request ->
+                request.uri() == URI.create("$host/api/v1/control_unit_resources/1") &&
+                    request.method() == "PATCH" &&
+                    request.headers().firstValue("Content-Type").orElse(null) == "application/json"
+            },
+            Mockito.any<HttpResponse.BodyHandler<String>>()
+        )
+    }
+
+    @Test
+    fun `should throw BackendInternalException when patch API returns 500`() {
+        val realMapper = createRealMapper()
+        val patchInput = PatchResourceInput(
+            registrationId = "REG-123",
+            radioFrequency = "VHF-16"
+        )
+
+        Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+        Mockito.`when`(httpResponse.statusCode()).thenReturn(500)
+        Mockito.`when`(httpResponse.body()).thenReturn("Internal Server Error")
+        Mockito.`when`(
+            httpClient.send(
+                Mockito.any(HttpRequest::class.java),
+                Mockito.any<HttpResponse.BodyHandler<String>>()
+            )
+        ).thenReturn(httpResponse)
+
+        val repository = APIEnvControlUnitResourceRepository(
+            clientFactory = httpClientFactory,
+            mapper = realMapper,
+            host = host
+        )
+
+        val exception = assertThrows(BackendInternalException::class.java) {
+            repository.patch(id = 1, resource = patchInput)
+        }
+
+        assertTrue(exception.message.contains("500"))
+    }
+
+    @Test
+    fun `should wrap exception when patch request fails`() {
+        val realMapper = createRealMapper()
+        val patchInput = PatchResourceInput(
+            registrationId = "REG-123",
+            radioFrequency = "VHF-16"
+        )
+
+        Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+        Mockito.`when`(
+            httpClient.send(
+                Mockito.any(HttpRequest::class.java),
+                Mockito.any<HttpResponse.BodyHandler<String>>()
+            )
+        ).thenThrow(RuntimeException("Network error"))
+
+        val repository = APIEnvControlUnitResourceRepository(
+            clientFactory = httpClientFactory,
+            mapper = realMapper,
+            host = host
+        )
+
+        val exception = assertThrows(BackendInternalException::class.java) {
+            repository.patch(id = 1, resource = patchInput)
+        }
+
+        assertTrue(exception.message.contains("Failed to PATCH Env resource id=1"))
     }
 }
