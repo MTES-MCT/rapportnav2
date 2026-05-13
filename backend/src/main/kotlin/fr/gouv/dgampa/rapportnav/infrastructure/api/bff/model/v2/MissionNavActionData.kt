@@ -8,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationTyp
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.PortEntity
 import java.time.Instant
 import java.util.*
 
