@@ -195,3 +195,10 @@ tasks.test {
   useJUnitPlatform()   // If you are using JUnit 5
   finalizedBy(tasks.jacocoTestReport)  // Generate the report after tests
 }
+
+tasks.register<JavaExec>("generateValidationDocs") {
+  group = "documentation"
+  description = "Generates docs/engineering/concepts/validation-rules.md from RequiredFieldsValidator rules"
+  mainClass.set("fr.gouv.dgampa.rapportnav.domain.validation.ValidationRulesDocGeneratorKt")
+  classpath = sourceSets.main.get().runtimeClasspath
+}
