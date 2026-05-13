@@ -16,7 +16,7 @@ class UpdateResource(
     fun execute(input: ResourceInput): ControlUnitResourceEnv {
         val resource = repository.findAll().find { it.id == input.id }
         if (resource?.controlUnitId != input.controlUnitId) throw BackendUsageException(
-            code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+            code = BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION,
             message = "Action not allowed for the user on the resource: ${input.id}"
         )
         return repository.patch(

@@ -121,7 +121,7 @@ class ServiceManageController(
     private fun checkServiceOwnerShip(serviceId: Int) {
         val service = getServiceForUser.execute()
         if (service?.id != serviceId) throw BackendUsageException(
-            code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+            code = BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION,
             message = "Action not allowed for the user on the service: $serviceId"
         )
     }
@@ -129,7 +129,7 @@ class ServiceManageController(
     private fun checkControlUnitOwnerShip(controlUnit: Int) {
         val service = getServiceForUser.execute()
         if (service?.controlUnits?.contains(controlUnit) != true) throw BackendUsageException(
-            code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+            code = BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION,
             message = "Action not allowed for the user on the control unit: $controlUnit"
         )
     }

@@ -39,5 +39,8 @@ enum class BackendUsageErrorCode {
     TOO_MANY_ROWS_EXCEPTION,
 
     //------------------------
-    COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION
+    COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION,
+
+    //------------------------
+    USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION
 }

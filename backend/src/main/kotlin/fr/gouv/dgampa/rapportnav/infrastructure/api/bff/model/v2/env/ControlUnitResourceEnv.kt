@@ -13,4 +13,6 @@ data class ControlUnitResourceEnv(
     val station: StationData,
     val stationId: Int,
     val type: ControlUnitResourceType,
+    val registrationId: String? = null,
+    val radioFrequency: String? = null
 )
