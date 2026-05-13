@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.81.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.80.0...v2.81.0) (2026-05-13)
+
+
+### Features
+
+* add address service from data.gouv.fr and frontend autocomplete ([ea7d759](https://github.com/MTES-MCT/rapportnav2/commit/ea7d75913664b3966a4c52b971d37cf38301fc6c))
+* **CI:** better leverage of backend build cache ([9540674](https://github.com/MTES-MCT/rapportnav2/commit/95406749cb9cec1fd923dc9f8d665a395796679f))
+* **CI:** frontend test need build step ([17898ed](https://github.com/MTES-MCT/rapportnav2/commit/17898ed0f1730b24652ba208a5c7e089734b5767))
+* **CI:** report frontend to sonarqube ([2ec9e19](https://github.com/MTES-MCT/rapportnav2/commit/2ec9e1919aa2ede1118e9e0675556782e6fce8f3))
+* **CI:** rework file exclusion ([0d482e4](https://github.com/MTES-MCT/rapportnav2/commit/0d482e4a2bf0c42040430268b7c60233020d850d))
+* **CI:** split build and test + leverage cache ([9a48bac](https://github.com/MTES-MCT/rapportnav2/commit/9a48bac6a5c15c5e1859ec4af6cb77091072ad3b))
+* **CI:** use bellsoft/liberica-openjdk-alpine:25 instead of gradle image ([34b0dd4](https://github.com/MTES-MCT/rapportnav2/commit/34b0dd4d0bfaef3bbf620bdb806dbe9853844307))
+* criées frontend ([3262cce](https://github.com/MTES-MCT/rapportnav2/commit/3262cce763963d2b83793a619f80d7256193d53f))
+* for nav control, add location type ([b4a834f](https://github.com/MTES-MCT/rapportnav2/commit/b4a834fd6f1be7a369eaabfed126db49a2e986f9))
+
+
+### Bug Fixes
+
+* **AEM:** for 4.3.3 - take SEA and LAND Fish Actions instead of just SEA ([b846f89](https://github.com/MTES-MCT/rapportnav2/commit/b846f89fa09be456e12ab30fb8f152079b18ea83))
+* **AEM:** for 7.4 count targets instead of actions ([3deb439](https://github.com/MTES-MCT/rapportnav2/commit/3deb439f373651e4d390082f0f83ed09803982dc))
+* **AEM:** rework 4.1.3 and 4.1.4 ([d912081](https://github.com/MTES-MCT/rapportnav2/commit/d91208192c108c1361c0b0a3ff4fb6eba1ffd887))
+* **RapportDePatrouille:** strong typing of operationalSummary.envSummary to try to match with correct otherActionsSummary.envSurveillances ([93dae22](https://github.com/MTES-MCT/rapportnav2/commit/93dae225aebaf3c00683940e961585ebfeb1e15b))
+* various sonar reliability fixes ([d88a42f](https://github.com/MTES-MCT/rapportnav2/commit/d88a42fe028c4e2ad0ff6ff5cb7135d5c2708658))
+
 ## [2.80.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.79.3...v2.80.0) (2026-05-07)
 
 
