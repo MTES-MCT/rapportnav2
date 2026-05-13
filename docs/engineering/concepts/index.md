@@ -7,3 +7,6 @@ Objectifs :
 - comprendre la notion de complétude de mission
 - comprendre la gestion des erreurs et exceptions
 
+## Pages
+- [Regles de validation des champs requis](validation-rules.md)
+
