@@ -4,7 +4,6 @@ import { FormikCheckbox, FormikEffect, FormikMultiRadio, FormikToggle, THEME } f
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { FormikNumberInput } from '../../../common/components/ui/formik-number-input'
 import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
@@ -14,6 +13,8 @@ import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
 import { ActionRescueInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 
 const RESCUE_TYPE_OPTIONS = [
   {
@@ -31,9 +32,10 @@ const MissionActionItemRescue: FC<{
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionRescue(action, onChange)
+  const { onFormError } = useFormValidationReporter()
 
   return (
-    <form style={{ width: '100%' }} data-testid={'action-nautical-event-form'}>
+    <form style={{ width: '100%' }} data-testid={'action-rescue-form'}>
       {initValue && (
         <Formik
           validateOnChange={true}
@@ -45,16 +47,15 @@ const MissionActionItemRescue: FC<{
         >
           {() => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionRescueInput)} />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionRescueInput)} onError={onFormError} />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <Field name="dates">
-                        {(field: FieldProps<Date[]>) => (
-                          <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                        )}
-                      </Field>
+                      <MissionBoundFormikDateRangePicker
+                        isLight={true}
+                        missionId={action.ownerId ?? action.missionId}
+                      />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
@@ -138,7 +139,12 @@ const MissionActionItemRescue: FC<{
 
               <Stack>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextAreaInput label="Observations" name="observations" data-testid="observations" />
+                  <FormikTextAreaInput
+                    label="Observations"
+                    name="observations"
+                    isLight={true}
+                    data-testid="observations"
+                  />
                 </Stack.Item>
               </Stack>
 

@@ -1,9 +1,8 @@
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { FormikEffect } from '@mtes-mct/monitor-ui'
-import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
+import { FieldArray, FieldArrayRenderProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
 import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
@@ -14,6 +13,8 @@ import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-c
 import { ActionNavControlInput } from '../../types/action-type'
 import MissionActionLocationPicker from '../ui/mission-action-location-picker'
 import MissionActionNavControlWarning from '../ui/mission-action-nav-control-warning'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 
@@ -22,6 +23,7 @@ const MissionActionItemNavControl: FC<{
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionNavControl(action, onChange)
+  const { onFormError } = useFormValidationReporter()
 
   return (
     <div style={{ width: '100%' }}>
@@ -36,7 +38,10 @@ const MissionActionItemNavControl: FC<{
         >
           {({ values }) => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionNavControlInput)} />
+              <FormikEffect
+                onChange={nextValue => handleSubmit(nextValue as ActionNavControlInput)}
+                onError={onFormError}
+              />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -51,11 +56,7 @@ const MissionActionItemNavControl: FC<{
                   <MissionControlNavSummary vesselType={values?.vesselType} controlMethod={values?.controlMethod} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <Field name="dates">
-                    {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                    )}
-                  </Field>
+                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId ?? action.missionId} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionActionLocationPicker />

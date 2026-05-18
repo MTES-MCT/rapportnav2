@@ -2,7 +2,6 @@ import { FormikCheckbox, FormikEffect, Icon, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { StyledFormikToggle } from '../../../common/components/ui/formik-styled-toogle'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
 import { MissionAction } from '../../../common/types/mission-action'
@@ -11,12 +10,15 @@ import { ActionAntiPollutionInput } from '../../types/action-type'
 import MissionActionAntiPollutionWarning from '../ui/mission-action-anti-pollution-warning'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 
 const MissionActionItemAntiPollution: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionAntiPollution(action, onChange)
+  const { onFormError } = useFormValidationReporter()
   return (
     <form style={{ width: '100%' }} data-testid={'action-nautical-event-form'}>
       {initValue && (
@@ -30,7 +32,7 @@ const MissionActionItemAntiPollution: FC<{
         >
           {() => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionAntiPollutionInput)} />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionAntiPollutionInput)} onError={onFormError} />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
@@ -46,11 +48,10 @@ const MissionActionItemAntiPollution: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <Field name="dates">
-                        {(field: FieldProps<Date[]>) => (
-                          <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                        )}
-                      </Field>
+                      <MissionBoundFormikDateRangePicker
+                        isLight={true}
+                        missionId={action.ownerId ?? action.missionId}
+                      />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>

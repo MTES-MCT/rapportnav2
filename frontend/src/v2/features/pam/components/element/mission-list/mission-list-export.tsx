@@ -42,13 +42,13 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
     exportInProgress ||
     every(
       availableMissions,
-      (m: Mission2) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
+      (m: Mission2) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
     )
 
   const missionOptions = availableMissions.map((mission: MissionListItem) => ({
     value: mission.id,
     label: mission.exportLabel,
-    isDisabled: mission.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
+    isDisabled: mission.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
   }))
 
   const title =
@@ -93,7 +93,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
             {exportAsZip &&
               some(
                 availableMissions,
-                (m: Mission2) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
+                (m: Mission2) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
               ) && (
                 <div style={{ marginTop: '1rem' }}>
                   <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'}>
@@ -102,7 +102,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
                   </Text>
                   {availableMissions
                     .filter(
-                      (m: MissionListItem) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
+                      (m: MissionListItem) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
                     )
                     .map((m: MissionListItem) => (
                       <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'} key={m.id}>

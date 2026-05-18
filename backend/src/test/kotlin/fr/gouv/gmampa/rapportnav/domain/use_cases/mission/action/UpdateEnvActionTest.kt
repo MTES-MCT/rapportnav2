@@ -19,7 +19,9 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -42,10 +44,7 @@ class UpdateEnvActionTest {
     @MockitoBean
     private lateinit var getMissionDates: GetMissionDates
 
-    private val validResult = CompletenessForStatsEntity(
-        status = CompletenessForStatsStatusEnum.COMPLETE,
-        errors = emptyList()
-    )
+    private val realValidator: EntityValidityValidator = EntityValidityValidator.createDefault()
 
     @Test
     fun `test execute update env action`() {
@@ -58,7 +57,6 @@ class UpdateEnvActionTest {
             data = getEnvActionData(),
         )
 
-        `when`(entityValidityValidator.validate(any(), eq(ValidateThrowsBeforeSave::class.java))).thenReturn(validResult)
         `when`(patchEnvAction.execute(anyOrNull())).thenReturn(null)
         `when`(
             processMissionActionTarget.execute(
@@ -76,7 +74,7 @@ class UpdateEnvActionTest {
         val updateEnvAction = UpdateEnvAction(
             patchEnvAction = patchEnvAction,
             processMissionActionTarget = processMissionActionTarget,
-            entityValidityValidator = entityValidityValidator,
+            entityValidityValidator = realValidator,
             getMissionDates = getMissionDates
         )
 

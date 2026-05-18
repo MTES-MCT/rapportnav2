@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
  * Generic class-level constraint that validates required fields.
  *
  * Rules are defined in RequiredFieldsValidator based on the entity class.
- * This replaces @MandatoryForStats with a single, unified annotation.
+ * Generic class-level constraint backed by RequiredFieldsValidator.
  *
  * Usage:
  * ```

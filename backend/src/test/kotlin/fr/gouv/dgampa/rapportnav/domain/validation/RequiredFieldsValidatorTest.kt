@@ -23,6 +23,8 @@ import java.util.*
 
 class RequiredFieldsValidatorTest {
 
+    private val validator = EntityValidityValidator.createDefault()
+
     // =========================================================================
     // MissionGeneralInfoEntity tests
     // =========================================================================
@@ -45,7 +47,7 @@ class RequiredFieldsValidatorTest {
                 nbrOfRecognizedVessel = 5
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.isComplete)
         }
@@ -62,7 +64,7 @@ class RequiredFieldsValidatorTest {
                 nbrOfRecognizedVessel = null
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.isComplete)
             assertEquals(4, result.errors.size)
@@ -80,7 +82,7 @@ class RequiredFieldsValidatorTest {
                 nbrOfRecognizedVessel = null
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.isComplete)
         }
@@ -95,7 +97,7 @@ class RequiredFieldsValidatorTest {
                 interMinisterialServices = listOf()
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.isComplete)
             assertTrue(result.errors.any { it.field == "interMinisterialServices" })
@@ -113,7 +115,7 @@ class RequiredFieldsValidatorTest {
                 )
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.errors.any { it.field == "interMinisterialServices" })
         }
@@ -127,7 +129,7 @@ class RequiredFieldsValidatorTest {
                 isWithInterMinisterialService = false
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.isComplete)
         }
@@ -139,7 +141,7 @@ class RequiredFieldsValidatorTest {
                 distanceInNauticalMiles = null
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateThrowsBeforeSave::class.java)
+            val result = validator.validate(entity, ValidateThrowsBeforeSave::class.java)
 
             assertTrue(result.isComplete)
         }
@@ -207,7 +209,7 @@ class RequiredFieldsValidatorTest {
         @Test
         fun `should be valid when all always-required fields are present`() {
             val entity = createNavAction(actionType = ActionType.OTHER)
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.isComplete)
         }
@@ -215,7 +217,7 @@ class RequiredFieldsValidatorTest {
         @Test
         fun `should be invalid when startDateTimeUtc is null`() {
             val entity = createNavAction(startDateTimeUtc = null)
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.isComplete)
             assertTrue(result.errors.any { it.field == "startDateTimeUtc" })
@@ -229,7 +231,7 @@ class RequiredFieldsValidatorTest {
                 locationType = LocationType.GPS,
                 latitude = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.isComplete)
             assertTrue(result.errors.any { it.field == "controlMethod" })
@@ -249,7 +251,7 @@ class RequiredFieldsValidatorTest {
                 vesselSize = VesselSizeEnum.LESS_THAN_12m,
                 identityControlledPerson = "John Doe"
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.errors.any { it.field == "controlMethod" })
             assertFalse(result.errors.any { it.field == "latitude" })
@@ -264,7 +266,7 @@ class RequiredFieldsValidatorTest {
                 latitude = 48.0,
                 longitude = 2.0
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "numberPersonsRescued" })
         }
@@ -276,7 +278,7 @@ class RequiredFieldsValidatorTest {
                 status = ActionStatusType.DOCKED,
                 reason = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "reason" })
         }
@@ -287,7 +289,7 @@ class RequiredFieldsValidatorTest {
                 actionType = ActionType.CONTROL,
                 controlMethod = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateThrowsBeforeSave::class.java)
+            val result = validator.validate(entity, ValidateThrowsBeforeSave::class.java)
 
             assertFalse(result.errors.any { it.field == "controlMethod" })
         }
@@ -300,7 +302,7 @@ class RequiredFieldsValidatorTest {
                 latitude = 48.0,
                 longitude = 2.0
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.isComplete, "Should be invalid when endDateTimeUtc is null for ILLEGAL_IMMIGRATION")
             assertTrue(result.errors.any { it.field == "endDateTimeUtc" }, "Should have endDateTimeUtc error")
@@ -318,7 +320,7 @@ class RequiredFieldsValidatorTest {
                 latitude = null,
                 longitude = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "latitude" })
             assertTrue(result.errors.any { it.field == "longitude" })
@@ -332,7 +334,7 @@ class RequiredFieldsValidatorTest {
                 city = null,
                 zipCode = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "city" })
             assertTrue(result.errors.any { it.field == "zipCode" })
@@ -345,7 +347,7 @@ class RequiredFieldsValidatorTest {
                 locationType = LocationType.PORT,
                 portLocode = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "portLocode" })
         }
@@ -359,7 +361,7 @@ class RequiredFieldsValidatorTest {
                 zipCode = "75001",
                 latitude = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.errors.any { it.field == "latitude" })
         }
@@ -372,7 +374,7 @@ class RequiredFieldsValidatorTest {
                 latitude = null,
                 longitude = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "latitude" })
             assertTrue(result.errors.any { it.field == "longitude" })
@@ -386,7 +388,7 @@ class RequiredFieldsValidatorTest {
                 city = null,
                 zipCode = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "city" })
             assertTrue(result.errors.any { it.field == "zipCode" })
@@ -399,7 +401,7 @@ class RequiredFieldsValidatorTest {
                 locationType = LocationType.PORT,
                 portLocode = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "portLocode" })
         }
@@ -416,7 +418,7 @@ class RequiredFieldsValidatorTest {
                 sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION,
                 fishAuction = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "fishAuction" })
         }
@@ -429,7 +431,7 @@ class RequiredFieldsValidatorTest {
                 sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
                 portLocode = null
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertTrue(result.errors.any { it.field == "portLocode" })
         }
@@ -442,7 +444,7 @@ class RequiredFieldsValidatorTest {
                 sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
                 portLocode = "FRBOD"
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.errors.any { it.field == "fishAuction" })
         }
@@ -454,7 +456,7 @@ class RequiredFieldsValidatorTest {
                 sectorType = SectorType.PLEASURE,
                 sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION
             )
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertFalse(result.errors.any { it.field == "fishAuction" })
         }

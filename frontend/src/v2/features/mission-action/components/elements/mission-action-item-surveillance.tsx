@@ -1,36 +1,37 @@
 import Text from '@common/components/ui/text'
 import { FormikEffect, Label, THEME } from '@mtes-mct/monitor-ui'
-import { Field, FieldProps, Formik } from 'formik'
+import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionSurveillance } from '../../hooks/use-mission-action-surveillance'
 import { ActionSurveillanceInput } from '../../types/action-type'
 import MissionActionEnvThemes from '../ui/mission-action-env-themes.tsx'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 
 const MissionActionItemSurveillance: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { initValue, handleSubmit } = useMissionActionSurveillance(action, onChange)
+  const { onFormError } = useFormValidationReporter()
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
         <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize={true}>
           {({ values }) => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionSurveillanceInput)} />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionSurveillanceInput)} onError={onFormError} />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <Field name="dates">
-                        {(field: FieldProps<Date[]>) => (
-                          <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                        )}
-                      </Field>
+                      <MissionBoundFormikDateRangePicker
+                        isLight={true}
+                        missionId={action.ownerId ?? action.missionId}
+                      />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>

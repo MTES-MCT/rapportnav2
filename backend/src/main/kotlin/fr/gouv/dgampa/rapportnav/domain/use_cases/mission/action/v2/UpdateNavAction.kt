@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -35,11 +36,15 @@ class UpdateNavAction(
             actionId = action.getActionId(),
             targets = input.data.targets?.map { it.toTargetEntity() } ?: listOf()
         )
-        // compute validity
-        val missionDates = getMissionDates.execute(missionId = action.missionId, ownerId = action.ownerId)
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
 
-        action.computeValidity(isMissionFinished = isMissionFinished)
+        // compute validity
+        val missionDates = getMissionDates.execute(
+            missionId = action.missionId,
+            ownerId = action.ownerId,
+            inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
+        )
+        val isMissionFinished = missionDates?.isMissionFinished() ?: false
+        action.computeValidity(isMissionFinished = isMissionFinished, validator = entityValidityValidator)
 
         return action
     }

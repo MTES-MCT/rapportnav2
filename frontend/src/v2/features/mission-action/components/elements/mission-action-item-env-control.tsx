@@ -15,8 +15,10 @@ import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
 import MissionActionEnvThemes from '../ui/mission-action-env-themes.tsx'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 
 export type MissionActionItemEnvControlProps = {
   action: MissionAction
@@ -25,7 +27,8 @@ export type MissionActionItemEnvControlProps = {
 
 const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = ({ action, onChange }) => {
   const { getAvailableEnvControlTypes } = useTarget()
-  const { initValue, handleSubmit } = useMissionActionEnvControl(action, onChange)
+  const { initValue, handleSubmit, validationSchema } = useMissionActionEnvControl(action, onChange)
+  const { onFormError } = useFormValidationReporter()
 
   return (
     <form style={{ width: '100%' }}>
@@ -33,13 +36,14 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
         <Formik
           initialValues={initValue}
           onSubmit={handleSubmit}
+          validationSchema={validationSchema}
           validateOnChange={true}
           validateOnMount={true}
           enableReinitialize={true}
         >
           {({ values }) => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionEnvControlInput)} />
+              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionEnvControlInput)} onError={onFormError} />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -51,11 +55,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                   <MissionActionEnvThemes themes={values?.themes} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <Field name="dates">
-                    {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                    )}
-                  </Field>
+                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId ?? action.missionId} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Field name="geoCoords">

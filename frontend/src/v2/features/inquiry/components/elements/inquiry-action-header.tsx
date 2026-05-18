@@ -1,5 +1,4 @@
-import { MissionStatusEnum } from '@common/types/mission-types.ts'
-import { useStore } from '@tanstack/react-store'
+import { useSelector } from '@tanstack/react-store'
 import { FC } from 'react'
 import { store } from '../../../../store'
 import ActionHeaderWrapper from '../../../common/components/layout/action-header-wrapper'
@@ -7,6 +6,7 @@ import ActionHeaderCompletenessForStats from '../../../common/components/ui/acti
 import { MissionAction } from '../../../common/types/mission-action'
 import { OwnerType } from '../../../common/types/owner-type'
 import { useInquiryTimelineRegistry } from '../../hooks/use-inquiry-timeline-registry'
+import { MissionStatusEnum } from '../../../common/types/mission-types.ts'
 
 export type InquiryActionHeaderProps = {
   inquiryId: string
@@ -16,7 +16,7 @@ export type InquiryActionHeaderProps = {
 
 const InquiryActionHeader: FC<InquiryActionHeaderProps> = ({ action, inquiryId, missionStatus }) => {
   const { getTimeline } = useInquiryTimelineRegistry()
-  const currentIndex = useStore(store, state => state.timeline.currentIndex)
+  const currentIndex = useSelector(store, state => state.timeline.currentIndex)
 
   return (
     <ActionHeaderWrapper

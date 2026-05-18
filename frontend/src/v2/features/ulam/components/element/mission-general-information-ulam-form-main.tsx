@@ -69,17 +69,7 @@ const MissionGeneralInformationUlamFormMain: FC<MissionGeneralInformationUlamFor
       <Stack.Item style={{ width: '100%', marginBottom: '1em', textAlign: 'left' }}>
         <Stack direction="row">
           <Stack.Item style={{ width: '70%' }}>
-            <Field name="dates">
-              {(field: FieldProps<Date[]>) => (
-                <FormikDateRangePicker
-                  label=""
-                  name="dates"
-                  fieldFormik={field}
-                  isLight={isCreation}
-                  validateOnSubmit={isCreation}
-                />
-              )}
-            </Field>
+            <FormikDateRangePicker name="dates" isLight={isCreation} />
           </Stack.Item>
           <Stack.Item style={{ width: '30%' }}>
             {!isCreation && isMissionTypeSea(values.missionTypes) && (

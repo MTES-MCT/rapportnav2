@@ -237,7 +237,7 @@ class ComputeAEMDataTest {
 
         assertThat(result?.completenessForStats).isNotNull()
         assertThat(result?.completenessForStats?.status).isIn(
-            CompletenessForStatsStatusEnum.COMPLETE,
+            CompletenessForStatsStatusEnum.VALID,
             CompletenessForStatsStatusEnum.INCOMPLETE
         )
     }

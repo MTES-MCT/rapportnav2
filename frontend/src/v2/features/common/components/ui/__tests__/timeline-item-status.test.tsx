@@ -21,7 +21,9 @@ describe('TimelineItemStatus', () => {
       />
     )
     expect(
-      screen.getByTitle('Cet évènement contient des données manquantes indispensables pour les statistiques.')
+      screen.getByTitle(
+        'Cet évènement contient des données manquantes/incorrectes indispensables pour les statistiques.'
+      )
     ).toBeInTheDocument()
   })
   it('should display the status otherwise', () => {
@@ -29,7 +31,7 @@ describe('TimelineItemStatus', () => {
       <TimelineItemStatus
         type={ActionType.NOTE}
         isUnsync={false}
-        completenessForStats={{ status: CompletenessForStatsStatusEnum.COMPLETE }}
+        completenessForStats={{ status: CompletenessForStatsStatusEnum.VALID }}
       />
     )
     expect(screen.getByTestId('timeline-item-status')).toBeInTheDocument()

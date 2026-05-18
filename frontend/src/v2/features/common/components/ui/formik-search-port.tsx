@@ -27,8 +27,6 @@ export const FormikSearchPort = styled(({ ...props }: FormikSearchPortProps) => 
     helpers.setValue(nextValue)
   }
 
-  debugger
-
   return (
     <Select<string>
       isLight={true}

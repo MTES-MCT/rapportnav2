@@ -38,7 +38,7 @@ export const FormikSelectLocationType = styled(
         isErrorMessageHidden={true}
         {...props}
         value={field.value}
-        error={meta.touched ? meta.error : undefined}
+        error={meta.error}
         onChange={handleChange}
         options={options}
       />

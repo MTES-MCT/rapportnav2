@@ -20,6 +20,9 @@ export interface State {
     status?: MissionStatusEnum
     isMissionFinished?: boolean
   }
+  formValidation: {
+    isValid?: boolean
+  }
   user?: User
   connectivity: {
     offlineSince?: string
@@ -35,6 +38,7 @@ export const store = new Store<State>({
   timeline: { currentIndex: 0 },
   generalInformations: {},
   mission: {},
+  formValidation: {},
   user: {} as User,
   connectivity: {},
   module: {

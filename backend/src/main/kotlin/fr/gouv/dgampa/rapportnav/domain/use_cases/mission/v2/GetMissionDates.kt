@@ -30,23 +30,21 @@ class GetMissionDates(
         if (inquiryId != null) {
             val inquiry: InquiryEntity? = inquiryId.let { getInquiryById.execute(id = it) }
             if (inquiry != null) {
-                val result = MissionDatesOutput(
+                return MissionDatesOutput(
                     startDateTimeUtc = inquiry.startDateTimeUtc,
                     endDateTimeUtc = inquiry.endDateTimeUtc
                 )
-                return result
             }
-        }
 
+        }
         // Try to get dates from Nav mission (local mission stored by UUID)
         if (ownerId != null) {
             val navMission = getNavMissionById2.execute(ownerId)
             if (navMission != null) {
-                val result = MissionDatesOutput(
+                return MissionDatesOutput(
                     startDateTimeUtc = navMission.startDateTimeUtc,
                     endDateTimeUtc = navMission.endDateTimeUtc
                 )
-                return result
             }
         }
 
@@ -54,11 +52,10 @@ class GetMissionDates(
         if (missionId != null) {
             val envMission = getEnvMissionById2.execute(missionId)
             if (envMission != null) {
-                val result = MissionDatesOutput(
+                return MissionDatesOutput(
                     startDateTimeUtc = envMission.startDateTimeUtc,
                     endDateTimeUtc = envMission.endDateTimeUtc
                 )
-                return result
             }
         }
 

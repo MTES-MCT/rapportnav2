@@ -140,7 +140,8 @@ export function useTimeline(): TimelineHook {
   }
 
   const isIncomplete = (action?: MissionTimelineAction) =>
-    action?.completenessForStats?.status === CompletenessForStatsStatusEnum.INCOMPLETE
+    action?.completenessForStats?.status !== undefined &&
+    action?.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
 
   return {
     isIncomplete,

@@ -11,6 +11,8 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepos
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MultiPolygonMock
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
@@ -189,7 +191,7 @@ class APIEnvMissionRepositoryTest {
         }
 
         @Test
-        fun `should throw BackendInternalException when PATCH returns 400`() {
+        fun `should throw BackendUsageException when PATCH returns 400`() {
             `when`(httpClientFactory.create()).thenReturn(httpClient)
             `when`(httpResponse.statusCode()).thenReturn(400)
             `when`(httpResponse.body()).thenReturn("Bad Request")
@@ -202,14 +204,14 @@ class APIEnvMissionRepositoryTest {
 
             val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
 
-            val exception = assertThrows(BackendInternalException::class.java) {
+            val exception = assertThrows(BackendUsageException::class.java) {
                 envRepo.patchMission(
                     missionId = 123,
                     mission = PatchMissionInput(observationsByUnit = "test")
                 )
             }
 
-            assertTrue(exception.message.contains("400"))
+            assertEquals(BackendUsageErrorCode.MONITORENV_VALIDATION_EXCEPTION, exception.code)
         }
 
         @Test

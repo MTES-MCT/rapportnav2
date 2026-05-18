@@ -1,7 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
-import fr.gouv.dgampa.rapportnav.config.DependentFieldValue
-import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -31,11 +29,6 @@ abstract class MissionActionEntity(
     override val isComplianceWithWaterRegulationsControl: Boolean? = null,
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL"])
-        ]
-    )
     override var targets: List<TargetEntity>? = null,
     override var hasDivingDuringOperation: Boolean? = null,
     override var incidentDuringOperation: Boolean? = null
@@ -46,21 +39,16 @@ abstract class MissionActionEntity(
      * Unified validation method - validates both validity (dates) and completeness (required fields).
      * Uses Jakarta Bean Validation with validation groups.
      *
-     * Required fields are always checked for completeness status.
-     *
-     * @param isMissionFinished Currently unused, kept for API compatibility
+     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
+     * @param validator The EntityValidityValidator instance to use
      */
-    open fun computeValidityForStats(isMissionFinished: Boolean = false) {
-        // Always check both date constraints and required fields for completeness
-        val groups = arrayOf(
-            ValidateThrowsBeforeSave::class.java,
-            ValidateWhenMissionFinished::class.java
-        )
+    open fun computeValidityForStats(isMissionFinished: Boolean = false, validator: EntityValidityValidator) {
+        val groups = mutableListOf<Class<*>>(ValidateThrowsBeforeSave::class.java, ValidateWhenMissionFinished::class.java)
 
-        this.completenessForStats = EntityValidityValidator.validateStatic(this, *groups)
+        this.completenessForStats = validator.validate(this, *groups.toTypedArray())
 
         // Update sources of missing data based on completeness
-        if (this.completenessForStats?.status == CompletenessForStatsStatusEnum.INCOMPLETE) {
+        if (this.completenessForStats?.status != CompletenessForStatsStatusEnum.VALID) {
             val sources = listOf(this.source)
             this.completenessForStats = this.completenessForStats?.copy(sources = sources)
             this.sourcesOfMissingDataForStats = sources
@@ -152,8 +140,9 @@ abstract class MissionActionEntity(
     /**
      * Computes validity for statistics using the new unified validation system.
      * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
+     * @param validator The EntityValidityValidator instance to use
      */
-    abstract fun computeValidity(isMissionFinished: Boolean = false)
+    abstract fun computeValidity(isMissionFinished: Boolean = false, validator: EntityValidityValidator)
 
     abstract fun isControlInValid(control: ControlEntity?): Boolean
 }

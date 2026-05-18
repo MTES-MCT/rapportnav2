@@ -1,5 +1,5 @@
 import { VesselSizeEnum } from '@common/types/env-mission-types'
-import { renderHook } from '@testing-library/react'
+import { renderHook } from '../../../../../test-utils.tsx'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { MissionAction, MissionNavActionData } from '../../../common/types/mission-action'
 import { ActionNavControlInput } from '../../types/action-type'

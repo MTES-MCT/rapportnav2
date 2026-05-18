@@ -44,7 +44,7 @@ export const SearchEstablishment = styled(
       }
       setSearch(getName(establishment))
     }, [establishment])
-    debugger
+
     return (
       <Stack direction="column" spacing="0.5rem" data-testid="search-establishment">
         <Stack.Item style={{ width: '100%' }}>

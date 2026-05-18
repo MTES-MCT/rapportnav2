@@ -8,7 +8,7 @@ describe('useMissionCompletenessForStats', () => {
     const isMissionFinished = true
     const completeForStats = {
       sources: [],
-      status: CompletenessForStatsStatusEnum.COMPLETE
+      status: CompletenessForStatsStatusEnum.VALID
     }
 
     const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))
@@ -38,7 +38,7 @@ describe('useMissionCompletenessForStats', () => {
     const isMissionFinished = false
     const completeForStats = {
       sources: [],
-      status: CompletenessForStatsStatusEnum.COMPLETE
+      status: CompletenessForStatsStatusEnum.VALID
     }
     const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))
     expect(result.current.icon).toEqual(Icon.Confirm)

@@ -10,7 +10,7 @@ const mockMission1 = {
   endDateTimeUtc: '2024-01-12T01:00:00Z',
   missionSource: MissionSourceEnum.MONITORENV,
   completenessForStats: {
-    status: CompletenessForStatsStatusEnum.COMPLETE
+    status: CompletenessForStatsStatusEnum.VALID
   },
   actions: []
 } as MissionListItem

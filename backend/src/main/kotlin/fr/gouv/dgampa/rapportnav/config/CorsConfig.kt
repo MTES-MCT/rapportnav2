@@ -10,7 +10,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @Configuration
 class CorsConfig(
     // SpEL expression to properly split comma-separated origins into a List
-    @Value("#{\"\${cors.allowed-origins}\".split(',')}")
+    @param:Value("#{\"\${cors.allowed-origins}\".split(',')}")
     private val allowedOrigins: List<String>
 ) {
     /**

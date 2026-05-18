@@ -10,7 +10,7 @@ describe('ActionHeaderCompletenessForStats', () => {
         isMissionFinished={false}
         networkSyncStatus={NetworkSyncStatus.SYNC}
         completenessForStats={{
-          status: CompletenessForStatsStatusEnum.COMPLETE,
+          status: CompletenessForStatsStatusEnum.VALID,
           sources: [MissionSourceEnum.RAPPORT_NAV]
         }}
       />

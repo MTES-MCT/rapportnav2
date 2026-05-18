@@ -14,7 +14,7 @@ const envAction: MissionAction = {
   status: ActionStatusType.UNAVAILABLE,
   summaryTags: ['tag1'],
   controlsToComplete: [],
-  completenessForStats: { status: CompletenessForStatsStatusEnum.COMPLETE },
+  completenessForStats: { status: CompletenessForStatsStatusEnum.VALID },
   data: {
     startDateTimeUtc: '2025-01-22T13:00:00Z',
     endDateTimeUtc: '2025-01-22T14:30:00Z',
@@ -118,7 +118,7 @@ describe('useTimeline', () => {
     const { result } = renderHook(() => useTimeline())
     const incomplete = { completenessForStats: { status: CompletenessForStatsStatusEnum.INCOMPLETE } }
     expect(result.current.isIncomplete(incomplete as any)).toBe(true)
-    const complete = { completenessForStats: { status: CompletenessForStatsStatusEnum.COMPLETE } }
+    const complete = { completenessForStats: { status: CompletenessForStatsStatusEnum.VALID } }
     expect(result.current.isIncomplete(complete as any)).toBe(false)
     expect(result.current.isIncomplete(undefined)).toBe(false)
   })

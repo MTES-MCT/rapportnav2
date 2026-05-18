@@ -16,6 +16,8 @@ import java.time.Instant
 
 class EntityValidityValidatorTest {
 
+    private val validator = EntityValidityValidator.createDefault()
+
     @EndAfterStart(groups = [ValidateThrowsBeforeSave::class])
     @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
     data class TestActionEntity(
@@ -42,9 +44,9 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateThrowsBeforeSave::class.java)
+            val result = validator.validate(entity, ValidateThrowsBeforeSave::class.java)
 
-            assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+            assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
             assertTrue(result.errors.isEmpty())
             assertTrue(result.isComplete)
         }
@@ -60,9 +62,9 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateThrowsBeforeSave::class.java)
+            val result = validator.validate(entity, ValidateThrowsBeforeSave::class.java)
 
-            assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
+            assertEquals(CompletenessForStatsStatusEnum.INVALID, result.status)
             assertFalse(result.errors.isEmpty())
             assertEquals("EndAfterStart", result.errors.first().rule)
             assertFalse(result.isComplete)
@@ -79,9 +81,9 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateThrowsBeforeSave::class.java)
+            val result = validator.validate(entity, ValidateThrowsBeforeSave::class.java)
 
-            assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+            assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
         }
     }
 
@@ -100,7 +102,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
             assertFalse(result.errors.isEmpty())
@@ -123,7 +125,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(
+            val result = validator.validate(
                 entity,
                 ValidateThrowsBeforeSave::class.java,
                 ValidateWhenMissionFinished::class.java
@@ -149,13 +151,13 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateWithSourceStatic(
+            val result = validator.validateWithSource(
                 entity,
                 MissionSourceEnum.RAPPORT_NAV,
                 ValidateThrowsBeforeSave::class.java
             )
 
-            assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
+            assertEquals(CompletenessForStatsStatusEnum.INVALID, result.status)
             assertEquals(listOf(MissionSourceEnum.RAPPORT_NAV), result.sources)
         }
 
@@ -170,13 +172,13 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateWithSourceStatic(
+            val result = validator.validateWithSource(
                 entity,
                 MissionSourceEnum.RAPPORT_NAV,
                 ValidateThrowsBeforeSave::class.java
             )
 
-            assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+            assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
             assertNull(result.sources)
         }
     }
@@ -196,13 +198,13 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result1 = EntityValidityValidator.validateWithSourceStatic(
+            val result1 = validator.validateWithSource(
                 entity1,
                 MissionSourceEnum.RAPPORT_NAV,
                 ValidateThrowsBeforeSave::class.java
             )
 
-            val result2 = EntityValidityValidator.validateWithSourceStatic(
+            val result2 = validator.validateWithSource(
                 entity1,
                 MissionSourceEnum.MONITORENV,
                 ValidateThrowsBeforeSave::class.java
@@ -210,7 +212,7 @@ class EntityValidityValidatorTest {
 
             val merged = EntityValidityValidator.merge(result1, result2)
 
-            assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, merged.status)
+            assertEquals(CompletenessForStatsStatusEnum.INVALID, merged.status)
             assertEquals(2, merged.errors.size)
             assertTrue(merged.sources?.contains(MissionSourceEnum.RAPPORT_NAV) == true)
             assertTrue(merged.sources?.contains(MissionSourceEnum.MONITORENV) == true)

@@ -7,6 +7,7 @@ import { FormikTextAreaInput } from '../../../common/components/ui/formik-textar
 import { MissionAction } from '../../../common/types/mission-action'
 import { useInquiry } from '../../../inquiry/hooks/use-inquiry'
 import MissionTargetInquiry from '../../../mission-target/components/elements/mission-target-inquiry'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 import { useMissionActionInquiry } from '../../hooks/use-mission-action-inquiry'
 
 const MissionActionItemInquiry: FC<{
@@ -14,28 +15,16 @@ const MissionActionItemInquiry: FC<{
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { availableControlTypes } = useInquiry()
-  const { initValue, handleSubmit, validationSchema } = useMissionActionInquiry(action, onChange)
+  const { initValue, handleSubmit } = useMissionActionInquiry(action, onChange)
+  const { onFormError } = useFormValidationReporter()
 
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik
-          enableReinitialize
-          validateOnChange={false}
-          initialValues={initValue}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          {({ validateForm, setErrors }) => (
+        <Formik enableReinitialize validateOnChange={false} initialValues={initValue} onSubmit={handleSubmit}>
+          {() => (
             <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
-              <FormikEffect
-                onChange={nextValue =>
-                  validateForm().then(async errors => {
-                    await handleSubmit(nextValue)
-                    setErrors(errors)
-                  })
-                }
-              />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue)} onError={onFormError} />
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="column" spacing="1rem" alignItems="flex-start" style={{ width: '100%' }}>
                   <Stack.Item style={{ width: '50%' }}>

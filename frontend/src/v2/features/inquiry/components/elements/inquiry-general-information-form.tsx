@@ -28,22 +28,15 @@ const InquiryGeneralInfoForm: FC<{
       {initValue && (
         <Formik
           enableReinitialize
-          validateOnChange={false}
+          validateOnChange={true}
           validateOnMount={true}
           initialValues={initValue}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          {({ values, validateForm, setErrors }) => (
+          {({ values }) => (
             <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
-              <FormikEffect
-                onChange={nextValue =>
-                  validateForm().then(async errors => {
-                    await handleSubmit(nextValue as InquiryInput)
-                    setErrors(errors)
-                  })
-                }
-              />
+              <FormikEffect onChange={async nextValue => handleSubmit(nextValue as InquiryInput)} />
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="column" spacing="16px" alignItems="flex-start" style={{ width: '100%' }}>
                   <Stack.Item style={{ width: '60%' }}>

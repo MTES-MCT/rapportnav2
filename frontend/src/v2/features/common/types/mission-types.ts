@@ -82,7 +82,8 @@ export enum MissionSourceEnum {
 }
 
 export enum CompletenessForStatsStatusEnum {
-  COMPLETE = 'COMPLETE',
+  VALID = 'VALID',
+  INVALID = 'INVALID',
   INCOMPLETE = 'INCOMPLETE'
 }
 

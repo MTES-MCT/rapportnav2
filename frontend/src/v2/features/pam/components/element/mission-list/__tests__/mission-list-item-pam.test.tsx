@@ -31,7 +31,7 @@ describe('MissionListItemPam', () => {
       missionNamePam: 'Mission #2024-01-01',
       missionSource: MissionSourceEnum.MONITORENV,
       completenessForStats: {
-        status: CompletenessForStatsStatusEnum.COMPLETE
+        status: CompletenessForStatsStatusEnum.VALID
       },
       generalInfo: {
         serviceId: 2

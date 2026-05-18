@@ -1,7 +1,7 @@
 import { ActionStatusType } from '@common/types/action-types'
 import { MissionSourceEnum } from '@common/types/env-mission-types'
-import { useStore } from '@tanstack/react-store'
-import { render } from '@testing-library/react'
+import { useSelector } from '@tanstack/react-store'
+import { render } from '../../../../../../test-utils.tsx'
 import { describe, expect, it, vi } from 'vitest'
 import { ActionType } from '../../../../common/types/action-type'
 import { MissionAction } from '../../../../common/types/mission-action'
@@ -35,7 +35,7 @@ const action: MissionAction = {
 
 // Mock dependencies
 vi.mock('@tanstack/react-store', () => ({
-  useStore: vi.fn()
+  useSelector: vi.fn()
 }))
 
 vi.mock('../../hooks/use-inquiry-timeline-registry', () => ({
@@ -60,7 +60,7 @@ vi.mock('../../../../common/components/elements/action-header-action', () => ({
 
 describe('InquiryActionHeader', () => {
   beforeEach(() => {
-    vi.mocked(useStore).mockReturnValue(1)
+    vi.mocked(useSelector).mockReturnValue(1)
   })
 
   it('renders with required props', () => {

@@ -4,6 +4,8 @@ import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
@@ -186,7 +188,7 @@ class APIEnvMissionRepository(
     override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEnvEntity? {
         val url = "$host/api/v2/missions/$missionId"
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
-        return try {
+        try {
             val json = mapper.writeValueAsString(mission) ?: ""
             val request = HttpRequest
                 .newBuilder()
@@ -201,18 +203,36 @@ class APIEnvMissionRepository(
             val body = response.body()
             logger.debug(body)
 
+            if (response.statusCode() !in 200..299) {
+                if (response.statusCode() == 400) {
+                    logger.warn("MonitorEnv validation error for PATCH mission id=$missionId: status=400, body=$body")
+                    throw BackendUsageException(
+                        code = BackendUsageErrorCode.MONITORENV_VALIDATION_EXCEPTION
+                    )
+                }
+                throw BackendInternalException(
+                    message = "MonitorEnv API returned status=${response.statusCode()} for PATCH mission id=$missionId"
+                )
+            }
+
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body)
-            missionDataOutput?.toMissionEnvEntity()
+            return missionDataOutput?.toMissionEnvEntity()
+        } catch (e: BackendUsageException) {
+            throw e
+        } catch (e: BackendInternalException) {
+            throw e
         } catch (e: Exception) {
-            logger.error("Failed to PATCH request for Env mission id=$missionId. URL: $url", e)
-            null
+            throw BackendInternalException(
+                message = "Failed to PATCH Env mission id=$missionId",
+                originalException = e
+            )
         }
     }
 
     override fun patchAction(actionId: String, action: PatchActionInput): PatchedEnvActionEntity? {
         val url = "$host/api/v1/actions/$actionId"
-        logger.info("Sending PATCH request for Env mission id=$actionId. URL: $url")
-        return try {
+        logger.info("Sending PATCH request for Env action id=$actionId. URL: $url")
+        try {
             val json = mapper.writeValueAsString(action) ?: ""
             val request = HttpRequest
                 .newBuilder()
@@ -225,13 +245,31 @@ class APIEnvMissionRepository(
             logger.debug("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}")
 
             val body = response.body()
-            logger.error(body)
+            logger.debug(body)
+
+            if (response.statusCode() !in 200..299) {
+                if (response.statusCode() == 400) {
+                    logger.warn("MonitorEnv validation error for PATCH action id=$actionId: status=400, body=$body")
+                    throw BackendUsageException(
+                        code = BackendUsageErrorCode.MONITORENV_VALIDATION_EXCEPTION
+                    )
+                }
+                throw BackendInternalException(
+                    message = "MonitorEnv API returned status=${response.statusCode()} for PATCH action id=$actionId"
+                )
+            }
 
             val output: MissionEnvActionDataOutput? = mapper.readValue(body)
-            output?.toPatchableEnvActionEntity()
+            return output?.toPatchableEnvActionEntity()
+        } catch (e: BackendUsageException) {
+            throw e
+        } catch (e: BackendInternalException) {
+            throw e
         } catch (e: Exception) {
-            logger.error("Failed to PATCH request for Env action id=$actionId. URL: $url", e)
-            null
+            throw BackendInternalException(
+                message = "Failed to PATCH Env action id=$actionId",
+                originalException = e
+            )
         }
     }
 

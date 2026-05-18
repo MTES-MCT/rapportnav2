@@ -48,8 +48,8 @@ function MissionTimelineAddAction({
     }
   }
 
-  const handleAddControl = (controlMethod: string, vesselType: VesselTypeEnum) => {
-    handleAddAction(ActionType.CONTROL, {
+  const handleAddControl = async (controlMethod: string, vesselType: VesselTypeEnum) => {
+    await handleAddAction(ActionType.CONTROL, {
       controlMethod,
       vesselType
     })

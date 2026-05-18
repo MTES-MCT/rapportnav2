@@ -26,7 +26,14 @@ class EntityValidityValidator(
      * @return CompletenessForStatsEntity with status and any errors
      */
     fun validate(entity: Any, vararg groups: Class<*>): CompletenessForStatsEntity {
-        val violations = validator.validate(entity, *groups)
+        val violations = validator.validate(entity, *groups).toSet()
+
+        if (violations.isEmpty()) {
+            return CompletenessForStatsEntity(
+                status = CompletenessForStatsStatusEnum.VALID,
+                errors = emptyList()
+            )
+        }
 
         val errors = violations.map { violation ->
             CompletenessForStatsErrorEntity(
@@ -36,9 +43,19 @@ class EntityValidityValidator(
             )
         }
 
+        // Classify: any RequiredFields (ValidateWhenMissionFinished) violation → INCOMPLETE, else → INVALID
+        val hasRequiredFieldViolations = violations.any { violation ->
+            violation.constraintDescriptor.groups.contains(ValidateWhenMissionFinished::class.java)
+        }
+
+        val status = if (hasRequiredFieldViolations) {
+            CompletenessForStatsStatusEnum.INCOMPLETE
+        } else {
+            CompletenessForStatsStatusEnum.INVALID
+        }
+
         return CompletenessForStatsEntity(
-            status = if (errors.isEmpty()) CompletenessForStatsStatusEnum.COMPLETE
-            else CompletenessForStatsStatusEnum.INCOMPLETE,
+            status = status,
             errors = errors
         )
     }
@@ -82,7 +99,7 @@ class EntityValidityValidator(
         vararg groups: Class<*>
     ): CompletenessForStatsEntity {
         val result = validate(entity, *groups)
-        return if (result.status == CompletenessForStatsStatusEnum.INCOMPLETE) {
+        return if (result.status != CompletenessForStatsStatusEnum.VALID) {
             result.copy(sources = listOf(source))
         } else {
             result
@@ -90,8 +107,15 @@ class EntityValidityValidator(
     }
 
     companion object {
-        // Fallback validator for non-Spring contexts (tests, etc.)
-        private val fallbackValidator: Validator = Validation.buildDefaultValidatorFactory().validator
+        /**
+         * Creates a default EntityValidityValidator for non-Spring contexts (tests, entity methods).
+         * Note: Validators that require Spring DI (e.g., WithinMissionDateRangeValidator)
+         * will gracefully degrade (skip validation) when used through this factory.
+         */
+        fun createDefault(): EntityValidityValidator {
+            val factory = Validation.buildDefaultValidatorFactory()
+            return EntityValidityValidator(factory.validator)
+        }
 
         /**
          * Merges multiple completeness results (for multi-source actions like Env/Fish).
@@ -103,51 +127,17 @@ class EntityValidityValidator(
             val allErrors = results.flatMap { it.errors }
             val allSources = results.mapNotNull { it.sources }.flatten().distinct()
 
+            val worstStatus = when {
+                results.any { it.status == CompletenessForStatsStatusEnum.INCOMPLETE } -> CompletenessForStatsStatusEnum.INCOMPLETE
+                results.any { it.status == CompletenessForStatsStatusEnum.INVALID } -> CompletenessForStatsStatusEnum.INVALID
+                else -> CompletenessForStatsStatusEnum.VALID
+            }
+
             return CompletenessForStatsEntity(
-                status = if (allErrors.isEmpty()) CompletenessForStatsStatusEnum.COMPLETE
-                else CompletenessForStatsStatusEnum.INCOMPLETE,
+                status = worstStatus,
                 errors = allErrors,
                 sources = allSources.ifEmpty { null }
             )
-        }
-
-        /**
-         * Static validation method for non-Spring contexts.
-         * Note: This won't have access to auto-fetch mission dates.
-         */
-        fun validateStatic(entity: Any, vararg groups: Class<*>): CompletenessForStatsEntity {
-            val violations = fallbackValidator.validate(entity, *groups)
-
-            val errors = violations.map { violation ->
-                CompletenessForStatsErrorEntity(
-                    field = violation.propertyPath.toString().ifEmpty { "_class" },
-                    rule = violation.constraintDescriptor.annotation.annotationClass.simpleName ?: "unknown",
-                    message = violation.message
-                )
-            }
-
-            return CompletenessForStatsEntity(
-                status = if (errors.isEmpty()) CompletenessForStatsStatusEnum.COMPLETE
-                else CompletenessForStatsStatusEnum.INCOMPLETE,
-                errors = errors
-            )
-        }
-
-        /**
-         * Static validation with source for non-Spring contexts.
-         * Note: This won't have access to auto-fetch mission dates.
-         */
-        fun validateWithSourceStatic(
-            entity: Any,
-            source: MissionSourceEnum,
-            vararg groups: Class<*>
-        ): CompletenessForStatsEntity {
-            val result = validateStatic(entity, *groups)
-            return if (result.status == CompletenessForStatsStatusEnum.INCOMPLETE) {
-                result.copy(sources = listOf(source))
-            } else {
-                result
-            }
         }
     }
 }
