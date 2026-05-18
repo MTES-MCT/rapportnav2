@@ -16,6 +16,5 @@ interface ValidateThrowsBeforeSave
 
 /**
  * Required field checks that ONLY apply when mission is FINISHED.
- * Use @NotNull(groups = [ValidateWhenMissionFinished::class]) to replace @MandatoryForStats
  */
 interface ValidateWhenMissionFinished

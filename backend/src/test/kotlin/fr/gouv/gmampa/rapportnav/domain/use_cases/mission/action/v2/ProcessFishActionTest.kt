@@ -1,13 +1,18 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeSati
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.whenever
 import java.time.Instant
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
@@ -39,6 +44,11 @@ class ProcessFishActionTest {
     @MockitoBean
     private lateinit var getComputeSati: GetComputeSati
 
+    @MockitoBean
+    private lateinit var entityValidityValidator: EntityValidityValidator
+
+    private val realValidator: EntityValidityValidator = EntityValidityValidator.createDefault()
+
     @Test
     fun `test execute get fish action by id`() {
         val missionId = 761
@@ -58,8 +68,9 @@ class ProcessFishActionTest {
         processFishAction = ProcessFishAction(
             getComputeSati = getComputeSati,
             getComputeTarget = getComputeTarget,
+            getMissionDates = getMissionDates,
             getStatusForAction = getStatusForAction,
-            getMissionDates = getMissionDates
+            entityValidityValidator = realValidator
         )
         val entity = processFishAction.execute(missionId = missionId, action = action)
         val infractionIds = entity.getAllInfractions().map { it.id }.toSet()

@@ -8,17 +8,14 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
-import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
-import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
-import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
-import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
+import fr.gouv.dgampa.rapportnav.domain.validation.*
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 import java.util.*
 
 @EndAfterStart(groups = [ValidateThrowsBeforeSave::class])
 @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
+@RequiredFields(groups = [ValidateWhenMissionFinished::class])
 data class MissionEnvActionEntity(
     override val id: UUID,
     override val missionId: Int,
@@ -93,30 +90,24 @@ data class MissionEnvActionEntity(
      * For Env actions, validates both RAPPORT_NAV and MONITORENV sources.
      *
      * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
+     * @param validator The EntityValidityValidator instance to use
      */
-    override fun computeValidity(isMissionFinished: Boolean) {
+    override fun computeValidity(isMissionFinished: Boolean, validator: EntityValidityValidator) {
         this.computeControlsToComplete()
         this.computeAvailableControlTypesForInfraction()
 
         val sourcesOfMissingData = mutableListOf<MissionSourceEnum>()
 
-        // Run the new unified validation
-        val groups = mutableListOf<Class<*>>(ValidateThrowsBeforeSave::class.java)
-        if (isMissionFinished) {
-            groups.add(ValidateWhenMissionFinished::class.java)
-        }
-
-        val rapportNavCompleteness = EntityValidityValidator.validateWithSourceStatic(
+        // Always include ValidateWhenMissionFinished for Env actions:
+        // date presence must be checked for completeness regardless of mission status
+        val rapportNavCompleteness = validator.validateWithSource(
             this,
             MissionSourceEnum.RAPPORT_NAV,
-            *groups.toTypedArray()
+            ValidateThrowsBeforeSave::class.java,
+            ValidateWhenMissionFinished::class.java
         )
 
-        // Check date validity: both dates must be present and end must be after start
-        val datesAreValid = this.startDateTimeUtc != null && this.endDateTimeUtc != null &&
-            this.endDateTimeUtc!!.isAfter(this.startDateTimeUtc)
-
-        val rapportNavComplete = rapportNavCompleteness.isComplete && datesAreValid && this.controlsToComplete.isNullOrEmpty()
+        val rapportNavComplete = rapportNavCompleteness.isComplete && this.controlsToComplete.isNullOrEmpty()
 
         val monitorEnvComplete = this.completion === ActionCompletionEnum.COMPLETED
 
@@ -130,7 +121,6 @@ data class MissionEnvActionEntity(
         this.isCompleteForStats = rapportNavComplete && monitorEnvComplete
         this.sourcesOfMissingDataForStats = sourcesOfMissingData
 
-        // Update completenessForStats - status should reflect overall completeness
         val overallStatus = if (rapportNavComplete && monitorEnvComplete)
             CompletenessForStatsStatusEnum.COMPLETE
         else CompletenessForStatsStatusEnum.INCOMPLETE

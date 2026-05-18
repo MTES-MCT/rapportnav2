@@ -1,7 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
-import fr.gouv.dgampa.rapportnav.config.DependentFieldValue
-import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishAuctionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
@@ -11,13 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATUS_AS_STRING
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
-import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
-import fr.gouv.dgampa.rapportnav.domain.validation.RequiredFields
-import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
-import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
-import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
+import fr.gouv.dgampa.rapportnav.domain.validation.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import jakarta.validation.constraints.Min
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.fish.FishAuctionModel
@@ -28,73 +20,34 @@ import java.util.*
 @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
 @RequiredFields(groups = [ValidateWhenMissionFinished::class])
 class MissionNavActionEntity(
-    @MandatoryForStats
     override var id: UUID,
 
-    @MandatoryForStats
     override var missionId: Int,
 
     override var ownerId: UUID? = null,
 
-    @MandatoryForStats
     override var actionType: ActionType,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
-    @MandatoryForStats
     override var startDateTimeUtc: Instant? = null,
-    @MandatoryForStats(
-        enableIf = [DependentFieldValue(
-            field = "actionType",
-            value = ["ANTI_POLLUTION", "BAAEM_PERMANENCE", "CONTROL", "RESCUE",
-                "VIGIMER", "REPRESENTATION", "PUBLIC_ORDER", "ILLEGAL_IMMIGRATION", "NAUTICAL_EVENT",
-                "CONDUCT_HEARING", "COMMUNICATION", "TRAINING", "UNIT_MANAGEMENT_PLANNING", "UNIT_MANAGEMENT_TRAINING",
-                "CONTROL_SECTOR", "CONTROL_NAUTICAL_LEISURE", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL",
-                "RESOURCES_MAINTENANCE", "MEETING", "PV_DRAFTING", "HEARING_CONDUCT", "LAND_SURVEILLANCE", "FISHING_SURVEILLANCE", "UNIT_MANAGEMENT_OTHER", "OTHER", "MARITIME_SURVEILLANCE"]
-        )]
-    )
     override var endDateTimeUtc: Instant? = null,
     override var observations: String? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "actionType",
-                value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
-            ),
-        ],
-    )
     override var latitude: Double? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "actionType",
-                value = ["RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
-            ),
-        ]
-    )
     override var longitude: Double? = null,
     override var detectedPollution: Boolean? = null,
     override var pollutionObservedByAuthorizedAgent: Boolean? = null,
     override var diversionCarriedOut: Boolean? = null,
     override var isSimpleBrewingOperationDone: Boolean? = null,
     override var isAntiPolDeviceDeployed: Boolean? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var controlMethod: ControlMethod? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var locationType: LocationType? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var vesselIdentifier: String? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var vesselType: VesselTypeEnum? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var vesselSize: VesselSizeEnum? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL"])])
     override var identityControlledPerson: String? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["ILLEGAL_IMMIGRATION"])])
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbOfInterceptedVessels: Int? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["ILLEGAL_IMMIGRATION"])])
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de migrants interceptés doit être supérieur à 0")
     override var nbOfInterceptedMigrants: Int? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["ILLEGAL_IMMIGRATION"])])
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbOfSuspectedSmugglers: Int? = null,
 
@@ -103,213 +56,58 @@ class MissionNavActionEntity(
     override var isVesselNoticed: Boolean? = false,
     override var isVesselTowed: Boolean? = false,
     override var isInSRRorFollowedByCROSSMRCC: Boolean? = false,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "isPersonRescue",
-                value = arrayOf("true")
-            )
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var numberPersonsRescued: Int? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "isPersonRescue",
-                value = arrayOf("true")
-            ),
-            DependentFieldValue(field = "actionType", value = ["RESCUE"]),
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var numberOfDeaths: Int? = null,
     override var operationFollowsDEFREP: Boolean? = false,
     override var locationDescription: String? = null,
     override var isMigrationRescue: Boolean? = false,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "isMigrationRescue",
-                value = arrayOf("true")
-            ),
-            DependentFieldValue(field = "actionType", value = ["RESCUE"])
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbOfVesselsTrackedWithoutIntervention: Int? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "isMigrationRescue",
-                value = arrayOf("true")
-            ),
-            DependentFieldValue(field = "actionType", value = ["RESCUE"]),
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbAssistedVesselsReturningToShore: Int? = null,
 
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["STATUS"])
-        ]
-    )
     override var status: ActionStatusType? = null,
-
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "status",
-                value = arrayOf(DOCKED_STATUS_AS_STRING, UNAVAILABLE_STATUS_AS_STRING)
-            ),
-            DependentFieldValue(field = "actionType", value = ["STATUS"])
-        ]
-    )
 
     override var reason: ActionStatusReason? = null,
     override var targets: List<TargetEntity>? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["INQUIRY"])
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrOfHours: Int? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["TRAINING"])
-        ]
-    )
     override var trainingType: String? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["UNIT_MANAGEMENT_TRAINING"])
-        ]
-    )
     override var unitManagementTrainingType: String? = null,
     override var isWithinDepartment: Boolean? = null,
     override var hasDivingDuringOperation: Boolean? = null,
     override var incidentDuringOperation: Boolean? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["RESOURCES_MAINTENANCE"])
-        ]
-    )
     override var resourceType: String? = null,
 
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["RESOURCES_MAINTENANCE"])
-        ]
-    )
     override var resourceId: Int? = null,
 
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrOfControl: Int? = null,
 
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
-            DependentFieldValue(
-                field = "sectorEstablishmentType",
-                value = ["GMS", "RESTAURANT", "MOBILE_FISHMONGER", "SEDENTARY_FISHMONGER",
-                    "ROADSIDE_INSPECTION", "FISHMONGER", "PLEASURE_MARKET", "SEA_DRIVING_LESSON", "OTHERS"]
-            )
-        ]
-    )
     override var establishment: EstablishmentEntity? = null,
 
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
-            DependentFieldValue(field = "sectorType", value = ["FISHING"]),
-            DependentFieldValue(
-                field = "sectorEstablishmentType",
-                value = ["LANDING_SITE"]
-            )
-        ]
-    )
     override var portLocode: String? = null,
 
 
     override var zipCode: String? = null,
     override var city: String? = null,
 
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"]),
-            DependentFieldValue(field = "sectorType", value = ["FISHING"]),
-            DependentFieldValue(
-                field = "sectorEstablishmentType",
-                value = ["FISH_AUCTION"]
-            )
-        ]
-    )
     override var fishAuction: FishAuctionEntity? = null,
 
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
-        ]
-    )
     override val sectorType: SectorType? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrOfControlAmp: Int? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrOfControl300m: Int? = null,
     override var isControlDuringSecurityDay: Boolean? = null,
     override var isSeizureSleepingFishingGear: Boolean? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
-        ]
-    )
     override var sectorEstablishmentType: SectorEstablishmentType? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
-        ]
-    )
     override var leisureType: LeisureType? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SLEEPING_FISHING_GEAR"])
-        ]
-    )
     override var fishingGearType: FishingGearType? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["OTHER_CONTROL"])
-        ]
-    )
     override var controlType: String? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["SECURITY_VISIT"])
-        ]
-    )
     override var securityVisitType:SecurityVisitType? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["SECURITY_VISIT"])
-        ]
-    )
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class])
     override var nbrSecurityVisit:Int? = null,
 ) : MissionActionEntity(
@@ -332,10 +130,10 @@ class MissionNavActionEntity(
      * Uses Jakarta Bean Validation with validation groups.
      *
      * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
+     * @param validator The EntityValidityValidator instance to use
      */
-    override fun computeValidity(isMissionFinished: Boolean) {
-        // Run the new unified validation
-        this.computeValidityForStats(isMissionFinished)
+    override fun computeValidity(isMissionFinished: Boolean, validator: EntityValidityValidator) {
+        this.computeValidityForStats(isMissionFinished, validator)
 
         // For Nav actions, the only source is RAPPORT_NAV
         if (this.completenessForStats?.isComplete != true) {
@@ -409,7 +207,7 @@ class MissionNavActionEntity(
         zipCode = zipCode,
         city = city,
         fishAuction = fishAuction?.let { FishAuctionModel.fromFishAuctionEntity(it) },
-        isWithinDepartment =  if(isWithinDepartment == null)  true else isWithinDepartment
+        isWithinDepartment = isWithinDepartment ?: true
     )
 
 

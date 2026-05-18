@@ -39,7 +39,7 @@ class UpdateNavAction(
         val missionDates = getMissionDates.execute(missionId = action.missionId, ownerId = action.ownerId)
         val isMissionFinished = missionDates?.isMissionFinished() ?: false
 
-        action.computeValidity(isMissionFinished = isMissionFinished)
+        action.computeValidity(isMissionFinished = isMissionFinished, validator = entityValidityValidator)
 
         return action
     }

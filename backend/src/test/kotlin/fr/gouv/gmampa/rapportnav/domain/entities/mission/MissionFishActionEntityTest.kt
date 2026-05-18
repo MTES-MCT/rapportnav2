@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishInfraction
@@ -19,6 +20,9 @@ import java.time.Instant
 
 @ExtendWith(SpringExtension::class)
 class MissionFishActionEntityTest {
+
+    private val validator = EntityValidityValidator.createDefault()
+
     @Test
     fun `execute should retrieve entity from fish action`() {
         val fishAction = getFishAction()
@@ -88,7 +92,7 @@ class MissionFishActionEntityTest {
             completion = Completion.COMPLETED,
         )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(emptyList<MissionSourceEnum>())
         assertThat(entity.completenessForStats?.sources).isNull()
@@ -102,7 +106,7 @@ class MissionFishActionEntityTest {
             completion = Completion.COMPLETED,
         )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORT_NAV))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORT_NAV))
@@ -116,7 +120,7 @@ class MissionFishActionEntityTest {
             completion = Completion.TO_COMPLETE,
         )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.MONITORFISH))
@@ -151,7 +155,7 @@ class MissionFishActionEntityTest {
         )
         entity.targets = listOf(TargetEntityMock.create(controls = listOf(controlWithIncompleteAdmin)))
 
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.controlsToComplete).contains(ControlType.ADMINISTRATIVE)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
@@ -162,7 +166,7 @@ class MissionFishActionEntityTest {
         )
         entity.targets = listOf(TargetEntityMock.create(controls = listOf(controlWithCompleteAdmin)))
 
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.controlsToComplete).doesNotContain(ControlType.ADMINISTRATIVE)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -173,11 +177,11 @@ class MissionFishActionEntityTest {
             completion = Completion.COMPLETED
         )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
 
         entity.endDateTimeUtc = null
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
     }
 
@@ -189,11 +193,11 @@ class MissionFishActionEntityTest {
             actionEndDatetimeUtc = Instant.parse("2021-01-02T13:00:01Z"),
         )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
 
         entity.endDateTimeUtc = Instant.parse("2023-01-02T13:00:01Z")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
     }
 

@@ -43,34 +43,13 @@ class EndAfterStartValidator : ConstraintValidator<EndAfterStart, Any> {
         }
 
         // Fallback to reflection for other entities
-        val startValue = getFieldValue(entity, startField) ?: return true
-        val endValue = getFieldValue(entity, endField) ?: return true
+        val startValue = ReflectionFieldUtils.getFieldValue(entity, startField) ?: return true
+        val endValue = ReflectionFieldUtils.getFieldValue(entity, endField) ?: return true
 
-        // Handle different date types
         return when {
             startValue is Instant && endValue is Instant -> endValue.isAfter(startValue)
             startValue is LocalDate && endValue is LocalDate -> endValue.isAfter(startValue)
-            else -> true // Unknown types, skip validation
-        }
-    }
-
-    private fun getFieldValue(obj: Any, fieldName: String): Any? {
-        return try {
-            val field = findField(obj::class.java, fieldName)
-            field?.isAccessible = true
-            field?.get(obj)
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    private fun findField(clazz: Class<*>?, fieldName: String): java.lang.reflect.Field? {
-        if (clazz == null) return null
-        return try {
-            clazz.getDeclaredField(fieldName)
-        } catch (e: NoSuchFieldException) {
-            // Search in parent class
-            findField(clazz.superclass, fieldName)
+            else -> true
         }
     }
 }

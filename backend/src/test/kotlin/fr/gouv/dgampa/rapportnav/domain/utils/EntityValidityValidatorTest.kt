@@ -16,6 +16,8 @@ import java.time.Instant
 
 class EntityValidityValidatorTest {
 
+    private val validator = EntityValidityValidator.createDefault()
+
     @EndAfterStart(groups = [ValidateThrowsBeforeSave::class])
     @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
     data class TestActionEntity(
@@ -42,7 +44,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateThrowsBeforeSave::class.java)
+            val result = validator.validate(entity, ValidateThrowsBeforeSave::class.java)
 
             assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
             assertTrue(result.errors.isEmpty())
@@ -60,7 +62,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateThrowsBeforeSave::class.java)
+            val result = validator.validate(entity, ValidateThrowsBeforeSave::class.java)
 
             assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
             assertFalse(result.errors.isEmpty())
@@ -79,7 +81,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateThrowsBeforeSave::class.java)
+            val result = validator.validate(entity, ValidateThrowsBeforeSave::class.java)
 
             assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
         }
@@ -100,7 +102,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
 
             assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
             assertFalse(result.errors.isEmpty())
@@ -123,7 +125,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateStatic(
+            val result = validator.validate(
                 entity,
                 ValidateThrowsBeforeSave::class.java,
                 ValidateWhenMissionFinished::class.java
@@ -149,7 +151,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateWithSourceStatic(
+            val result = validator.validateWithSource(
                 entity,
                 MissionSourceEnum.RAPPORT_NAV,
                 ValidateThrowsBeforeSave::class.java
@@ -170,7 +172,7 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result = EntityValidityValidator.validateWithSourceStatic(
+            val result = validator.validateWithSource(
                 entity,
                 MissionSourceEnum.RAPPORT_NAV,
                 ValidateThrowsBeforeSave::class.java
@@ -196,13 +198,13 @@ class EntityValidityValidatorTest {
                 missionEndDateTimeUtc = Instant.parse("2024-01-31T23:59:59Z")
             )
 
-            val result1 = EntityValidityValidator.validateWithSourceStatic(
+            val result1 = validator.validateWithSource(
                 entity1,
                 MissionSourceEnum.RAPPORT_NAV,
                 ValidateThrowsBeforeSave::class.java
             )
 
-            val result2 = EntityValidityValidator.validateWithSourceStatic(
+            val result2 = validator.validateWithSource(
                 entity1,
                 MissionSourceEnum.MONITORENV,
                 ValidateThrowsBeforeSave::class.java

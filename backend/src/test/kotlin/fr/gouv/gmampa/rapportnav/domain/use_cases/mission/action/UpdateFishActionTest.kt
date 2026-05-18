@@ -21,7 +21,9 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -46,10 +48,7 @@ class UpdateFishActionTest {
     @MockitoBean
     private lateinit var getMissionDates: GetMissionDates
 
-    private val validResult = CompletenessForStatsEntity(
-        status = CompletenessForStatsStatusEnum.COMPLETE,
-        errors = emptyList()
-    )
+    private val realValidator: EntityValidityValidator = EntityValidityValidator.createDefault()
 
     @Test
     fun `test execute update fish action`() {
@@ -62,7 +61,6 @@ class UpdateFishActionTest {
             data = getFishActionData(),
         )
 
-        `when`(entityValidityValidator.validate(any(), eq(ValidateThrowsBeforeSave::class.java))).thenReturn(validResult)
         `when`(patchFishAction.execute(anyOrNull())).thenReturn(null)
         `when`(
             processMissionActionTarget.execute(
@@ -81,7 +79,7 @@ class UpdateFishActionTest {
             processSati = processSati,
             patchFishAction = patchFishAction,
             processMissionActionTarget = processMissionActionTarget,
-            entityValidityValidator = entityValidityValidator,
+            entityValidityValidator = realValidator,
             getMissionDates = getMissionDates
         )
 

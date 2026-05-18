@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo
 
-import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
@@ -17,13 +16,10 @@ import java.util.*
 data class MissionGeneralInfoEntity(
     var id: Int? = null,
     var missionId: Int? = null,
-    @MandatoryForStats
     @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "La distance en milles nautiques doit être positive")
     var distanceInNauticalMiles: Float? = null,
-    @MandatoryForStats
     @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "La consommation de GO doit être positive")
     var consumedGOInLiters: Float? = null,
-    @MandatoryForStats
     @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "La consommation de carburant doit être positive")
     var consumedFuelInLiters: Float? = null,
     @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "Les coûts d'exploitation doivent être positifs")
@@ -31,7 +27,6 @@ data class MissionGeneralInfoEntity(
     @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "Les coûts de carburant doivent être positifs")
     var fuelCostsInEuro: Float? = null,
     var service: ServiceEntity? = null,
-    @MandatoryForStats
     @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de navires reconnus doit être positif")
     var nbrOfRecognizedVessel: Int? = null,
     var isWithInterMinisterialService: Boolean? = false,

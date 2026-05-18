@@ -10,9 +10,7 @@ enum class ActionStatusType {
     UNKNOWN
 }
 
-// the following are used in conjunction with annotations (like @MandatoryForStats)
-// annotations don't allow code like "ActionStatusType.DOCKED.toString()"
-// hence these two const val
+// String constants for use in annotation values where code like "ActionStatusType.DOCKED.toString()" is not allowed
 const val DOCKED_STATUS_AS_STRING: String = "DOCKED"
 const val UNAVAILABLE_STATUS_AS_STRING: String = "UNAVAILABLE"
 

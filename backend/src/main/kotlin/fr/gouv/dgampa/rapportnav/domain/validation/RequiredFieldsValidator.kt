@@ -8,6 +8,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationTyp
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.validation.RequiredFieldsValidator.Rule.Companion.conditional
 import jakarta.validation.ConstraintValidator
@@ -48,6 +50,9 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
     data class FieldViolation(val field: String, val message: String)
 
     companion object {
+        private const val MSG_START_DATE_REQUIRED = "La date de début est requise"
+        private const val MSG_END_DATE_REQUIRED = "La date de fin est requise"
+
         // =====================================================================
         // MissionGeneralInfoEntity rules
         // =====================================================================
@@ -96,10 +101,10 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
             Rule.always("id", "L'identifiant est requis") { it.id },
             Rule.always("missionId", "L'identifiant de mission est requis") { it.missionId },
             Rule.always("actionType", "Le type d'action est requis") { it.actionType },
-            Rule.always("startDateTimeUtc", "La date de début est requise") { it.startDateTimeUtc },
+            Rule.always("startDateTimeUtc", MSG_START_DATE_REQUIRED) { it.startDateTimeUtc },
 
             // Required for specific actionTypes
-            Rule.forActionTypes("endDateTimeUtc", ACTION_TYPES_REQUIRING_END_DATE, "La date de fin est requise") { it.endDateTimeUtc },
+            Rule.forActionTypes("endDateTimeUtc", ACTION_TYPES_REQUIRING_END_DATE, MSG_END_DATE_REQUIRED) { it.endDateTimeUtc },
             Rule.forActionTypes("latitude", ACTION_TYPES_REQUIRING_LOCATION, "La latitude est requise") { it.latitude },
             Rule.forActionTypes("longitude", ACTION_TYPES_REQUIRING_LOCATION, "La longitude est requise") { it.longitude },
 
@@ -212,11 +217,29 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
         )
 
         // =====================================================================
+        // MissionEnvActionEntity rules
+        // =====================================================================
+        private val envActionRules: List<Rule<MissionEnvActionEntity>> = listOf(
+            Rule.always("startDateTimeUtc", MSG_START_DATE_REQUIRED) { it.startDateTimeUtc },
+            Rule.always("endDateTimeUtc", MSG_END_DATE_REQUIRED) { it.endDateTimeUtc }
+        )
+
+        // =====================================================================
+        // MissionFishActionEntity rules
+        // =====================================================================
+        private val fishActionRules: List<Rule<MissionFishActionEntity>> = listOf(
+            Rule.always("startDateTimeUtc", MSG_START_DATE_REQUIRED) { it.startDateTimeUtc },
+            Rule.always("endDateTimeUtc", MSG_END_DATE_REQUIRED) { it.endDateTimeUtc }
+        )
+
+        // =====================================================================
         // Rules registry - maps entity classes to their validation rules
         // =====================================================================
         val rulesRegistry: Map<Class<*>, List<Rule<*>>> = mapOf(
             MissionGeneralInfoEntity::class.java to generalInfoRules,
-            MissionNavActionEntity::class.java to navActionRules
+            MissionNavActionEntity::class.java to navActionRules,
+            MissionEnvActionEntity::class.java to envActionRules,
+            MissionFishActionEntity::class.java to fishActionRules
         )
     }
 

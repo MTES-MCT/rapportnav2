@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
@@ -22,10 +23,12 @@ import java.time.Instant
 @ExtendWith(SpringExtension::class)
 class MissionNavActionTest {
 
+    private val validator = EntityValidityValidator.createDefault()
+
     @Test
     fun `execute should not complete for stats until all is filled action type NOTE`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.NOTE)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -33,18 +36,18 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type  ANTI_POLLUTION`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.ANTI_POLLUTION)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.latitude = 2.0
         entity.longitude = 2.0
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -53,12 +56,12 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type  BAAEM_PERMANENCE`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.BAAEM_PERMANENCE)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -67,12 +70,12 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type VIGIMER`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.VIGIMER)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -80,12 +83,12 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type REPRESENTATION`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.REPRESENTATION)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -93,12 +96,12 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type PUBLIC_ORDER`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.PUBLIC_ORDER)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -106,12 +109,12 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type NAUTICAL_EVENT`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.NAUTICAL_EVENT)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -119,34 +122,34 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type ILLEGAL_IMMIGRATION`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.ILLEGAL_IMMIGRATION)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
 
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.nbOfInterceptedVessels = 5
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.nbOfInterceptedMigrants = 10
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.nbOfSuspectedSmugglers = 3
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.latitude = 2.0
         entity.longitude = 2.0
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
 
@@ -158,49 +161,49 @@ class MissionNavActionTest {
             actionType = ActionType.RESCUE, isPersonRescue = true,
             isMigrationRescue = false
         )
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.latitude = 345.0
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
 
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.longitude = 897.0
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.numberPersonsRescued = 3
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.numberOfDeaths = 4
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.isMigrationRescue = true
         entity.isPersonRescue = false
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.nbOfVesselsTrackedWithoutIntervention = 9
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.nbAssistedVesselsReturningToShore = 2
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.now()
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -208,17 +211,17 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type STATUS`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.STATUS)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.status = ActionStatusType.DOCKED
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.reason = ActionStatusReason.ADMINISTRATION
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -226,53 +229,53 @@ class MissionNavActionTest {
     @Test
     fun `execute should not complete for stats until all is filled action type CONTROL`() {
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.latitude = 345.0
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
 
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.longitude = 897.0
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.controlMethod = ControlMethod.SEA
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.locationType = LocationType.GPS
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.vesselIdentifier = "My vessel identifier"
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.vesselType = VesselTypeEnum.SAILING
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.vesselSize = VesselSizeEnum.LESS_THAN_12m
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.identityControlledPerson = "My identify person"
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }

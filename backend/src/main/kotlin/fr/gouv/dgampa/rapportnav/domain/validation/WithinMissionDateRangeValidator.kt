@@ -6,8 +6,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.utils.MissionDateUtils
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 import java.time.Instant
 import java.time.LocalDate
 import java.util.*
@@ -16,15 +14,11 @@ import java.util.*
  * Validator for WithinMissionDateRange constraint.
  * Validates that entity dates fall within the mission date range.
  *
- * This validator is Spring-aware and auto-fetches mission dates from the database
- * using the entity's missionId or missionIdUUID.
+ * This validator auto-fetches mission dates from the database when injected via
+ * Spring's LocalValidatorFactoryBean. In non-Spring contexts (tests, etc.),
+ * getMissionDates will be null and validation is skipped gracefully.
  *
- * Supports both Instant and LocalDate field types. When entity has LocalDate fields,
- * mission dates (Instant) are converted to LocalDate for comparison.
- *
- * For entities implementing BaseMissionActionEntity, uses the interface properties
- * (startDateTimeUtc, endDateTimeUtc) which handles different internal field names
- * (e.g., actionDatetimeUtc in MissionFishActionEntity).
+ * Supports both Instant and LocalDate field types.
  *
  * Returns true (valid) if:
  * - Entity is null
@@ -32,11 +26,9 @@ import java.util.*
  * - Entity start date is null (nothing to validate)
  * - Entity dates are within mission date range
  */
-@Component
-class WithinMissionDateRangeValidator : ConstraintValidator<WithinMissionDateRange, Any> {
-
-    @Autowired(required = false)
-    private var getMissionDates: GetMissionDates? = null
+class WithinMissionDateRangeValidator(
+    private val getMissionDates: GetMissionDates? = null
+) : ConstraintValidator<WithinMissionDateRange, Any> {
 
     private lateinit var startField: String
     private lateinit var endField: String
@@ -52,21 +44,20 @@ class WithinMissionDateRangeValidator : ConstraintValidator<WithinMissionDateRan
         var missionStart: Instant? = null
         var missionEnd: Instant? = null
 
-        // Primary: Auto-fetch mission dates from database (Spring context)
+        // Auto-fetch mission dates from database (Spring context via LocalValidatorFactoryBean)
         if (getMissionDates != null) {
-            val missionId = getFieldValue(entity, "missionId") as? Int
-            val missionIdUUID = getFieldValue(entity, "missionIdUUID") as? UUID
-            val ownerId = getFieldValue(entity, "ownerId") as? UUID
-            val actionType = getFieldValue(entity, "actionType") as? ActionType
+            val missionId = ReflectionFieldUtils.getFieldValue(entity, "missionId") as? Int
+            val missionIdUUID = ReflectionFieldUtils.getFieldValue(entity, "missionIdUUID") as? UUID
+            val ownerId = ReflectionFieldUtils.getFieldValue(entity, "ownerId") as? UUID
+            val actionType = ReflectionFieldUtils.getFieldValue(entity, "actionType") as? ActionType
 
             val dates = when {
                 missionId != null -> {
                     val inquiryId = if (actionType == ActionType.INQUIRY) ownerId else null
-                    getMissionDates?.execute(missionId, ownerId, inquiryId)
+                    getMissionDates.execute(missionId, ownerId, inquiryId)
                 }
                 missionIdUUID != null -> {
-                    // missionIdUUID is used as ownerId for nav missions
-                    getMissionDates?.execute(null, missionIdUUID, null)
+                    getMissionDates.execute(null, missionIdUUID, null)
                 }
                 else -> null
             }
@@ -85,8 +76,8 @@ class WithinMissionDateRangeValidator : ConstraintValidator<WithinMissionDateRan
         }
 
         // Try to get dates using configured field names
-        val startValue = getFieldValue(entity, startField)
-        val endValue = getFieldValue(entity, endField)
+        val startValue = ReflectionFieldUtils.getFieldValue(entity, startField)
+        val endValue = ReflectionFieldUtils.getFieldValue(entity, endField)
 
         // Handle different date types using MissionDateUtils
         return when (startValue) {
@@ -101,23 +92,4 @@ class WithinMissionDateRangeValidator : ConstraintValidator<WithinMissionDateRan
         }
     }
 
-    private fun getFieldValue(obj: Any, fieldName: String): Any? {
-        return try {
-            val field = findField(obj::class.java, fieldName)
-            field?.isAccessible = true
-            field?.get(obj)
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    private fun findField(clazz: Class<*>?, fieldName: String): java.lang.reflect.Field? {
-        if (clazz == null) return null
-        return try {
-            clazz.getDeclaredField(fieldName)
-        } catch (e: NoSuchFieldException) {
-            // Search in parent class
-            findField(clazz.superclass, fieldName)
-        }
-    }
 }
