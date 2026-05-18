@@ -1,9 +1,11 @@
 import Text from '@common/components/ui/text'
-import { CompletenessForStats } from '@common/types/mission-types.ts'
+import { useSelector } from '@tanstack/react-store'
 import { createElement } from 'react'
 import { Stack } from 'rsuite'
+import { store } from '../../../../store'
 import { useMissionCompletenessForStats } from '../../hooks/use-mission-completeness-for-stats.tsx'
 import { NetworkSyncStatus } from '../../types/network-types.ts'
+import { CompletenessForStats, CompletenessForStatsStatusEnum, MissionSourceEnum } from '../../types/mission-types.ts'
 
 interface ActionHeaderCompletenessForStatsProps {
   isMissionFinished?: boolean
@@ -16,7 +18,17 @@ export const ActionHeaderCompletenessForStats: React.FC<ActionHeaderCompleteness
   completenessForStats,
   networkSyncStatus
 }) => {
-  const { icon, statusMessage, color } = useMissionCompletenessForStats(completenessForStats, isMissionFinished)
+  const formIsValid = useSelector(store, state => state.formValidation.isValid)
+
+  const effectiveCompleteness =
+    formIsValid === false
+      ? {
+          status: CompletenessForStatsStatusEnum.INVALID,
+          sources: completenessForStats?.sources ?? [MissionSourceEnum.RAPPORT_NAV]
+        }
+      : completenessForStats
+
+  const { icon, statusMessage, color } = useMissionCompletenessForStats(effectiveCompleteness, isMissionFinished)
 
   return (
     <Stack spacing={'0.5rem'}>

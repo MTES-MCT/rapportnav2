@@ -1,7 +1,10 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
 import { vi } from 'vitest'
+import { CompletenessForStatsStatusEnum } from '../../../types/mission-types.ts'
 import { NetworkSyncStatus } from '../../../types/network-types.ts'
 import ActionHeaderCompletenessForStats from '../action-header-completeness-for-stats.tsx'
+import { useMissionCompletenessForStats } from '../../../hooks/use-mission-completeness-for-stats.tsx'
+import { setFormValidation, resetFormValidation } from '../../../../../store/slices/form-validation-reducer'
 
 // Mock the hook
 vi.mock('../../../../common/hooks/use-mission-completeness-for-stats', async () => {
@@ -16,6 +19,11 @@ vi.mock('../../../../common/hooks/use-mission-completeness-for-stats', async () 
 })
 
 describe('ActionHeaderCompletenessForStats', () => {
+  beforeEach(() => {
+    resetFormValidation()
+    vi.clearAllMocks()
+  })
+
   it('renders icon and message when network is synced', () => {
     render(
       <ActionHeaderCompletenessForStats
@@ -46,5 +54,52 @@ describe('ActionHeaderCompletenessForStats', () => {
     render(<ActionHeaderCompletenessForStats />)
 
     expect(screen.getByText('Mocked status message')).toBeInTheDocument()
+  })
+
+  it('should override completeness to INVALID when formValidation.isValid is false', () => {
+    const completeness = { status: CompletenessForStatsStatusEnum.VALID, sources: [] }
+    setFormValidation(false)
+
+    render(
+      <ActionHeaderCompletenessForStats
+        isMissionFinished={false}
+        completenessForStats={completeness}
+        networkSyncStatus={NetworkSyncStatus.SYNC}
+      />
+    )
+
+    expect(useMissionCompletenessForStats).toHaveBeenCalledWith(
+      expect.objectContaining({ status: CompletenessForStatsStatusEnum.INVALID }),
+      false
+    )
+  })
+
+  it('should pass original completeness when formValidation.isValid is true', () => {
+    const completeness = { status: CompletenessForStatsStatusEnum.VALID, sources: [] }
+    setFormValidation(true)
+
+    render(
+      <ActionHeaderCompletenessForStats
+        isMissionFinished={false}
+        completenessForStats={completeness}
+        networkSyncStatus={NetworkSyncStatus.SYNC}
+      />
+    )
+
+    expect(useMissionCompletenessForStats).toHaveBeenCalledWith(completeness, false)
+  })
+
+  it('should pass original completeness when formValidation.isValid is undefined', () => {
+    const completeness = { status: CompletenessForStatsStatusEnum.VALID, sources: [] }
+
+    render(
+      <ActionHeaderCompletenessForStats
+        isMissionFinished={false}
+        completenessForStats={completeness}
+        networkSyncStatus={NetworkSyncStatus.SYNC}
+      />
+    )
+
+    expect(useMissionCompletenessForStats).toHaveBeenCalledWith(completeness, false)
   })
 })

@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
@@ -24,6 +25,8 @@ import java.util.*
 
 @ExtendWith(SpringExtension::class)
 class MissionNavActionEntityTest {
+
+    private val validator = EntityValidityValidator.createDefault()
 
     @Test
     fun `execute should retrieve entity  from model`() {
@@ -218,11 +221,11 @@ class MissionNavActionEntityTest {
     fun `execute should be complete for stats `() {
         val model = getActionModel()
         val entity = MissionNavActionEntity.fromMissionActionModel(model)
-        entity.computeValidity(true)
+        entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(emptyList<MissionSourceEnum>())
         assertThat(entity.completenessForStats?.sources).isNull()
-        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.VALID)
     }
 
     @Test

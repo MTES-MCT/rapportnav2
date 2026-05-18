@@ -51,7 +51,7 @@ class UpdateNavActionTest {
     private lateinit var getMissionDates: GetMissionDates
 
     private val validResult = CompletenessForStatsEntity(
-        status = CompletenessForStatsStatusEnum.COMPLETE,
+        status = CompletenessForStatsStatusEnum.VALID,
         errors = emptyList()
     )
 

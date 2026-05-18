@@ -96,7 +96,7 @@ describe('useInquiry', () => {
         actions: [
           {
             completenessForStats: {
-              status: 'COMPLETE'
+              status: 'VALID'
             }
           }
         ]
@@ -126,7 +126,7 @@ describe('useInquiry', () => {
         actions: [
           {
             completenessForStats: {
-              status: 'COMPLETE'
+              status: 'VALID'
             }
           }
         ]

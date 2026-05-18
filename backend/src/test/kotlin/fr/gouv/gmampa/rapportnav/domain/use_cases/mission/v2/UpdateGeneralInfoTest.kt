@@ -65,7 +65,7 @@ class UpdateGeneralInfoTest {
         // Default: validation passes
         `when`(entityValidityValidator.validate(anyOrNull(), anyOrNull())).thenReturn(
             CompletenessForStatsEntity(
-                status = CompletenessForStatsStatusEnum.COMPLETE,
+                status = CompletenessForStatsStatusEnum.VALID,
                 errors = emptyList()
             )
         )

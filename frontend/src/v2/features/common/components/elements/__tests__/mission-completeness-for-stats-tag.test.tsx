@@ -23,7 +23,7 @@ describe('MissionCompletenessForStatsTag component', () => {
   test('renders "Données à jour" when missionStatus is IN_PROGRESS and completenessForStats is COMPLETE', () => {
     render(
       <MissionCompletenessForStatsTag
-        completenessForStats={{ status: CompletenessForStatsStatusEnum.COMPLETE }}
+        completenessForStats={{ status: CompletenessForStatsStatusEnum.VALID }}
         missionStatus={MissionStatusEnum.IN_PROGRESS}
       />
     )
@@ -43,7 +43,7 @@ describe('MissionCompletenessForStatsTag component', () => {
   test('renders "Complété" when missionStatus is ENDED and completenessForStats is COMPLETE', () => {
     render(
       <MissionCompletenessForStatsTag
-        completenessForStats={{ status: CompletenessForStatsStatusEnum.COMPLETE }}
+        completenessForStats={{ status: CompletenessForStatsStatusEnum.VALID }}
         missionStatus={MissionStatusEnum.ENDED}
       />
     )

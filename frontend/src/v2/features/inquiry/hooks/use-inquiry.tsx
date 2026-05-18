@@ -33,7 +33,12 @@ const REPORT_STATUS = {
     icon: Icon.AttentionFilled,
     color: THEME.color.charcoal
   },
-  [CompletenessForStatsStatusEnum.COMPLETE]: {
+  [CompletenessForStatsStatusEnum.INVALID]: {
+    text: 'Données invalides',
+    icon: Icon.AttentionFilled,
+    color: THEME.color.charcoal
+  },
+  [CompletenessForStatsStatusEnum.VALID]: {
     text: 'Données à jour',
     icon: Icon.Confirm,
     color: THEME.color.mediumSeaGreen
@@ -78,13 +83,17 @@ export function useInquiry(): InquiryHook {
   const isClosable = (inquiry?: Inquiry) => {
     return (
       getInquirySchema().isValidSync(inquiry) &&
-      inquiry?.actions?.every(action => action.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
+      inquiry?.actions?.every(action => action.completenessForStats?.status === CompletenessForStatsStatusEnum.VALID)
     )
   }
 
   const getStatusReport = (inquiry?: Inquiry) => {
-    return isClosable(inquiry)
-      ? REPORT_STATUS[CompletenessForStatsStatusEnum.COMPLETE]
+    if (isClosable(inquiry)) return REPORT_STATUS[CompletenessForStatsStatusEnum.VALID]
+    const hasInvalid = inquiry?.actions?.some(
+      action => action.completenessForStats?.status === CompletenessForStatsStatusEnum.INVALID
+    )
+    return hasInvalid
+      ? REPORT_STATUS[CompletenessForStatsStatusEnum.INVALID]
       : REPORT_STATUS[CompletenessForStatsStatusEnum.INCOMPLETE]
   }
 

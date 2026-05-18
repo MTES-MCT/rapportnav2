@@ -5,7 +5,6 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import { MissionFishActionData } from '../../../common/types/mission-action'
-import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary'
 
 interface MissionControlFishSpeciesSectionProps {
   action: MissionFishActionData
@@ -96,7 +95,7 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Label>Observations (hors infraction) sur les espèces</Label>
         <Text as="h3" weight="medium">
-          {!!action?.speciesObservations ? action.speciesObservations : 'Aucune observation'}
+          {action?.speciesObservations ? action.speciesObservations : 'Aucune observation'}
         </Text>
       </Stack.Item>
     </Stack>

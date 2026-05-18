@@ -1,3 +1,4 @@
+import { logSoftError } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
 import axios from '../../../../query-client/axios'
@@ -38,23 +39,34 @@ export const offlineUpdateGeneralInfoMutationDefault = {
           return m.state.status === 'pending' && m.state.variables?.missionId === missionId
         })
 
-      const toCleanup = keepLatest ? mutations.sort((a, b) => b.mutationId - a.mutationId).slice(1) : mutations
-      toCleanup.forEach(m => (m.destroy?.(), mutationCache.remove(m as any)))
+      const sorted = [...mutations].sort((a, b) => b.mutationId - a.mutationId)
+      const toCleanup = keepLatest ? sorted.slice(1) : mutations
+      toCleanup.forEach(m => {
+        m.destroy?.()
+        mutationCache.remove(m as any)
+      })
     }
 
     const mutationCache = queryClient.getMutationCache()
     cleanupMutations(missionsKeys.update(), missionId, true)
   },
-  onSettled: async (_data, _error, variables, _context) => {
-    const { missionId } = variables
+  onSuccess: async (serverResponse, data, _context) => {
+    const { missionId, missionIdUUID } = serverResponse.data
     await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(missionId),
+      queryKey: missionsKeys.byId(missionIdUUID ?? missionId),
       type: 'all'
     })
   },
-  onError: (error: Error) => {
+  onError: (error: any) => {
     console.error(error)
     Sentry.captureException(error)
+    const problemDetail = error?.problemDetail
+    const userMessage = error.message || problemDetail?.detail || `Une erreur s'est produite lors de l'enregistrement.`
+    logSoftError({
+      isSideWindowError: false,
+      message: error.message,
+      userMessage
+    })
   },
   scope: {
     id: `update-general-info`
@@ -63,10 +75,22 @@ export const offlineUpdateGeneralInfoMutationDefault = {
 
 export const onlineUpdateGeneralInfoMutationDefault = {
   mutationFn: updateGeneralInfos,
-  onSettled: async (_data, _error, variables, _context) => {
+  onSuccess: async (serverResponse, data, _context) => {
+    const { missionId, missionIdUUID } = serverResponse.data
     await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(variables.missionId),
+      queryKey: missionsKeys.byId(missionIdUUID ?? missionId),
       type: 'all'
+    })
+  },
+  onError: (error: any) => {
+    console.error(error)
+    Sentry.captureException(error)
+    const problemDetail = error?.problemDetail
+    const userMessage = error.message || problemDetail?.detail || `Une erreur s'est produite lors de l'enregistrement.`
+    logSoftError({
+      isSideWindowError: false,
+      message: error.message,
+      userMessage
     })
   },
   scope: {

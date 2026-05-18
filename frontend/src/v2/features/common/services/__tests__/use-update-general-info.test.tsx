@@ -110,10 +110,10 @@ describe('Hook useUpdateGeneralInfoMutation', () => {
       })
     })
 
-    it('should invalidate mission queries on settle', async () => {
+    it('should invalidate mission queries on success', async () => {
       const invalidateQueriesSpy = vi.spyOn(queryClient, 'invalidateQueries')
 
-      mockedAxios.put.mockResolvedValue({ data: undefined })
+      mockedAxios.put.mockResolvedValue({ data: { data: { missionId } } })
 
       const { result } = renderHook(() => useUpdateGeneralInfoMutation(missionId), { wrapper })
 
@@ -123,24 +123,6 @@ describe('Hook useUpdateGeneralInfoMutation', () => {
           queryKey: missionsKeys.byId(missionId),
           type: 'all'
         })
-      })
-    })
-
-    it('should handle rollback on error', async () => {
-      mockedAxios.put.mockRejectedValue(new Error('Network error'))
-
-      const { result } = renderHook(() => useUpdateGeneralInfoMutation(missionId), { wrapper })
-
-      result.current.mutate({ missionId, generalInfo: mockGeneralInfo })
-
-      await waitFor(() => {
-        expect(result.current.isError).toBe(true)
-      })
-
-      // After error and invalidation, the original data should be restored
-      await waitFor(() => {
-        const mission = queryClient.getQueryData<Mission2>(missionsKeys.byId(missionId))
-        expect(mission?.generalInfos.distanceInNauticalMiles).toEqual(mockMission.generalInfos.distanceInNauticalMiles) // Should be restored
       })
     })
   })

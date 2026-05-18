@@ -26,7 +26,8 @@ data class MissionEntity(
         val isCompleteForStats = envDataCompleteForStats == true && generalInfoCompleteForStat == true
 
         return CompletenessForStatsEntity(
-            status = if (isCompleteForStats) actionsCompleteForStats.status else CompletenessForStatsStatusEnum.INCOMPLETE,
+            status = if (isCompleteForStats) actionsCompleteForStats.status
+            else CompletenessForStatsStatusEnum.INCOMPLETE,
             sources = if (isCompleteForStats) actionsCompleteForStats.sources else actionsCompleteForStats.sources?.plus(
                 MissionSourceEnum.RAPPORT_NAV
             )
@@ -61,10 +62,16 @@ data class MissionEntity(
             ?.distinct()
             ?: emptyList()
 
-        val status = if (sources.distinct().isEmpty()) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
+        val worstStatus = when {
+            this.actions?.any { it.completenessForStats?.status == CompletenessForStatsStatusEnum.INCOMPLETE } == true ->
+                CompletenessForStatsStatusEnum.INCOMPLETE
+            this.actions?.any { it.completenessForStats?.status == CompletenessForStatsStatusEnum.INVALID } == true ->
+                CompletenessForStatsStatusEnum.INVALID
+            else -> CompletenessForStatsStatusEnum.VALID
+        }
 
         return CompletenessForStatsEntity(
-            status = status,
+            status = worstStatus,
             sources = sources.distinct()
         )
     }

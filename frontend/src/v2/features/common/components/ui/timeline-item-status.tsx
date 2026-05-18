@@ -31,7 +31,7 @@ const TimelineItemStatus: FC<TimelineItemStatusProps> = ({ type, status, complet
       </div>
     )
   }
-  if (type !== ActionType.STATUS && completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
+  if (type !== ActionType.STATUS && completenessForStats?.status === CompletenessForStatsStatusEnum.VALID)
     return (
       <div style={{ width: '15px', height: '100%', padding: '5px 0 5px 5px' }} data-testid={'timeline-item-status'}>
         <TimelineStatusTag
@@ -44,14 +44,14 @@ const TimelineItemStatus: FC<TimelineItemStatusProps> = ({ type, status, complet
         />
       </div>
     )
-  if (completenessForStats?.status === CompletenessForStatsStatusEnum.INCOMPLETE)
+  if (completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID)
     return (
       <div data-testid={'timeline-item-incomplete-report'}>
         <IconButton
           accent={Accent.TERTIARY}
           Icon={Icon.AttentionFilled}
           color={color === 'transparent' ? THEME.color.charcoal : color}
-          title={'Cet évènement contient des données manquantes indispensables pour les statistiques.'}
+          title={'Cet évènement contient des données manquantes/incorrectes indispensables pour les statistiques.'}
           style={{ cursor: 'auto', width: '20px', marginLeft: '-5px' }}
         />
       </div>

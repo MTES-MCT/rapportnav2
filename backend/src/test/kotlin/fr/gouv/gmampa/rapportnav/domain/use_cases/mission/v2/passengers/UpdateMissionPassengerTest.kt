@@ -1,5 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2.passengers
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionPassengerRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.UpdateMissionPassenger
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
@@ -7,6 +9,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.passenger.MissionPassengerEntityM
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull

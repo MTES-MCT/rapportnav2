@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { FormikEffect, FormikNumberInput, FormikTextarea, Label, THEME } from '@mtes-mct/monitor-ui'
-import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
+import { FieldArray, FieldArrayRenderProps, Formik } from 'formik'
 import { Stack } from 'rsuite'
 import { MissionGeneralInfo2 } from '../../../../common/types/mission-types.ts'
 import { FormikDateRangePicker } from '../../../../common/components/ui/formik-date-range-picker.tsx'
@@ -45,18 +45,7 @@ const MissionGeneralInformationFormPam: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" alignItems={'flex-start'} justifyContent={'flex-end'}>
                     <Stack.Item style={{ width: '80%' }}>
-                      <Field name="dates">
-                        {(field: FieldProps<Date[]>) => (
-                          <FormikDateRangePicker
-                            label=""
-                            name="dates"
-                            isLight={false}
-                            fieldFormik={field}
-                            validateOnSubmit={false}
-                            isCompact={true}
-                          />
-                        )}
-                      </Field>
+                      <FormikDateRangePicker isLight={false} />
                     </Stack.Item>
                     <Stack.Item style={{ width: '20%' }}>
                       <MissionService services={generalInfo2.services} />

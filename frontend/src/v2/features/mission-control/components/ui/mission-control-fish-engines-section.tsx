@@ -5,7 +5,6 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import { MissionFishActionData } from '../../../common/types/mission-action'
-import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary'
 
 interface MissionControlFishEnginesSectionProps {
   action: MissionFishActionData
@@ -68,7 +67,7 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
             <Stack.Item>
               <Label>Observations (hors infractions) sur les obligations déclaratives / autorisations</Label>
               <Text as="h3" weight="medium">
-                {!!gearControl?.comments ? gearControl.comments : 'Aucune observation'}
+                {gearControl?.comments ? gearControl.comments : 'Aucune observation'}
               </Text>
             </Stack.Item>
             <Stack.Item>

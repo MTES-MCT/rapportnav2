@@ -9,22 +9,16 @@ export function useMissionActionSurveillance(
   onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionSurveillanceInput> {
   const value = action?.data as unknown as MissionEnvActionData
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
 
   const fromFieldValueToInput = (data: MissionEnvActionData): ActionSurveillanceInput => {
-    const endDate = preprocessDateForPicker(data?.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
-    return {
-      ...data,
-      dates: [startDate, endDate]
-    }
+    const dates = getDateRangeForInput(data)
+    return { ...data, dates }
   }
 
   const fromInputToFieldValue = (value: ActionSurveillanceInput): MissionEnvActionData => {
     const { dates, ...newData } = value
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, startDateTimeUtc, endDateTimeUtc }
+    return { ...newData, ...getDateRangeFromInput(dates) }
   }
 
   const { initValue, handleSubmit } = useAbstractFormik<MissionEnvActionData, ActionSurveillanceInput>(

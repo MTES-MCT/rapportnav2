@@ -27,13 +27,20 @@ data class CompletenessForStatsEntity(
      * Whether the entity is ready for statistics reporting.
      */
     val isComplete: Boolean
-        get() = status == CompletenessForStatsStatusEnum.COMPLETE
+        get() = status == CompletenessForStatsStatusEnum.VALID
 
     companion object {
-        fun complete() = CompletenessForStatsEntity(
-            status = CompletenessForStatsStatusEnum.COMPLETE,
+        fun valid() = CompletenessForStatsEntity(
+            status = CompletenessForStatsStatusEnum.VALID,
             errors = emptyList()
         )
+
+        fun invalid(errors: List<CompletenessForStatsErrorEntity>, sources: List<MissionSourceEnum>? = null) =
+            CompletenessForStatsEntity(
+                status = CompletenessForStatsStatusEnum.INVALID,
+                errors = errors,
+                sources = sources
+            )
 
         fun incomplete(errors: List<CompletenessForStatsErrorEntity>, sources: List<MissionSourceEnum>? = null) =
             CompletenessForStatsEntity(

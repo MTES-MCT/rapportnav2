@@ -1,4 +1,4 @@
-import { FormikDatePicker, FormikEffect } from '@mtes-mct/monitor-ui'
+import { FormikEffect } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
@@ -6,42 +6,52 @@ import { FormikTextAreaInput } from '../../../common/components/ui/formik-textar
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionFreeNote } from '../../hooks/use-mission-action-note'
 import { ActionFreeNoteInput } from '../../types/action-type'
+import MissionBoundFormikDatePicker from '../../../common/components/elements/mission-bound-formik-date-picker.tsx'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 
 const MissionActionItemNote: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const { initValue, handleSubmit } = useMissionActionFreeNote(action, onChange)
+  const { initValue, handleSubmit, validationSchema } = useMissionActionFreeNote(action, onChange)
+  const { onFormError } = useFormValidationReporter()
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
         <Formik
           initialValues={initValue}
-          validateOnMount={true}
           onSubmit={handleSubmit}
+          validationSchema={validationSchema}
           validateOnChange={true}
+          validateOnMount={true}
           enableReinitialize
         >
           {() => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionFreeNoteInput)} />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionFreeNoteInput)} onError={onFormError} />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <FormikDatePicker
+                      <MissionBoundFormikDatePicker
                         name="date"
                         isLight={true}
                         withTime={true}
                         isRequired={true}
                         isCompact={false}
                         label="Date et heure (utc)"
+                        missionId={action.ownerId ?? action.missionId}
                       />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextAreaInput name="observations" label="Observations" data-testid="observations" />
+                  <FormikTextAreaInput
+                    label="Observations"
+                    isLight={true}
+                    name="observations"
+                    data-testid="observations"
+                  />
                 </Stack.Item>
               </Stack>
             </>

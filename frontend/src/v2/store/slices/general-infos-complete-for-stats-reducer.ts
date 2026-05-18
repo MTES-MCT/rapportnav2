@@ -7,7 +7,7 @@ export const setTimelineCompleteForStats = (completeForStats: CompletenessForSta
       ...state,
       generalInformations: {
         completeForStats,
-        isCompleteForStats: completeForStats.status === CompletenessForStatsStatusEnum.COMPLETE
+        isCompleteForStats: completeForStats.status === CompletenessForStatsStatusEnum.VALID
       }
     }
   })

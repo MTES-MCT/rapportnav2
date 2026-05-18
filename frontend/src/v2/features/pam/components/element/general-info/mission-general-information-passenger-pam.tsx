@@ -97,6 +97,7 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
           {selectedPassengerId !== undefined && (
             <MissionGeneralInformationPassengerPamForm
               data-testid="passenger-form"
+              missionId={missionId}
               handleClose={() => setSelectedPassengerId(undefined)}
               passenger={
                 selectedPassengerId === -1 ? undefined : fieldArray.form.values.passengers[selectedPassengerId]

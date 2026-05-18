@@ -4,6 +4,8 @@ import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
@@ -131,6 +133,12 @@ class APIEnvMissionRepositoryV2(
             logger.info("Response received, Content: $body")
 
             if (response.statusCode() !in 200..299) {
+                if (response.statusCode() == 400) {
+                    logger.warn("MonitorEnv validation error for PATCH mission id=$missionId: status=400, body=$body")
+                    throw BackendUsageException(
+                        code = BackendUsageErrorCode.MONITORENV_VALIDATION_EXCEPTION
+                    )
+                }
                 throw BackendInternalException(
                     message = "MonitorEnv API returned status=${response.statusCode()} for PATCH mission id=$missionId"
                 )
@@ -138,6 +146,8 @@ class APIEnvMissionRepositoryV2(
 
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body)
             return missionDataOutput?.toMissionEnvEntity()
+        } catch (e: BackendUsageException) {
+            throw e
         } catch (e: BackendInternalException) {
             throw e
         } catch (e: Exception) {

@@ -86,7 +86,7 @@ class MissionEntityTest {
 
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
-        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+        assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
         assertTrue(result.sources!!.isEmpty())
     }
 
@@ -127,7 +127,7 @@ class MissionEntityTest {
 
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
-        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+        assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
         assertTrue(!result.sources!!.contains(MissionSourceEnum.RAPPORT_NAV))
     }
 
@@ -160,7 +160,7 @@ class MissionEntityTest {
 
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
-        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+        assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
         assertTrue(result.sources!!.isEmpty())
     }
 
@@ -210,7 +210,7 @@ class MissionEntityTest {
 
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
-        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+        assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
     }
 
     @Test
@@ -238,7 +238,7 @@ class MissionEntityTest {
 
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
-        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+        assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
     }
 
     @Test
@@ -338,7 +338,7 @@ class MissionEntityTest {
 
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
-        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+        assertEquals(CompletenessForStatsStatusEnum.VALID, result.status)
     }
 
 }

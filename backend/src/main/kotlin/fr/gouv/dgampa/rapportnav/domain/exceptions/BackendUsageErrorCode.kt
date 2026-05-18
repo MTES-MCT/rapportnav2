@@ -42,5 +42,13 @@ enum class BackendUsageErrorCode {
     COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION,
 
     //------------------------
-    USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION
+    USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION,
+
+    //------------------------
+    // Date validation errors
+    DATES_OUTSIDE_MISSION_RANGE_EXCEPTION,
+
+    //------------------------
+    // External API validation errors
+    MONITORENV_VALIDATION_EXCEPTION,
 }

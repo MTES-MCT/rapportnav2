@@ -15,11 +15,14 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import { MissionPassenger, PASSENGER_OPTIONS } from '../../../../common/types/passenger-type.ts'
+import { MissionDates, useMissionDates } from '../../../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../../../common/hooks/use-mission-finished.tsx'
+import { getSingleDateSchema } from '../../../../common/schemas/dates-schema.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -54,43 +57,52 @@ const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
   color: theme.color.gainsboro
 }))
 
-const passengerSchema = Yup.object().shape({
-  fullName: Yup.string().required('Nom requis.'),
-  organization: Yup.string().required('Organisation requise.'),
-  isIntern: Yup.boolean(),
-  startDate: Yup.date().required('Date requise').typeError('La date de début est mal formatée'),
-  endDate: Yup.date()
-    .test('is-defined', `Date requise`, function (value) {
-      return !!value
+const getPassengerSchema = (missionDates?: MissionDates, isMissionFinished?: boolean) =>
+  Yup.object().shape({
+    fullName: Yup.string().required('Nom requis.'),
+    organization: Yup.string().required('Organisation requise.'),
+    isIntern: Yup.boolean(),
+    startDate: getSingleDateSchema({
+      isMissionFinished,
+      missionStartDate: missionDates?.startDateTimeUtc,
+      missionEndDate: missionDates?.endDateTimeUtc
+    }),
+    endDate: getSingleDateSchema({
+      isMissionFinished,
+      missionStartDate: missionDates?.startDateTimeUtc,
+      missionEndDate: missionDates?.endDateTimeUtc
     })
-    .typeError('La date de fin est mal formatée')
-    .test('is-after-start', `La date de fin doit être antérieure ou égale à la date de début`, function (value) {
-      const { startDate } = this.parent
-      if (!startDate) return true
-      return value && startDate && new Date(value) >= new Date(startDate)
-    })
-})
+  })
 
 interface MissionPassengerModalProps {
+  missionId?: string
   passenger?: MissionPassenger
   handleClose: (open: boolean) => void
   handleSubmitForm: (passenger: MissionPassenger) => Promise<void>
 }
 
 const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> = ({
+  missionId,
   passenger,
   handleClose,
   handleSubmitForm
 }) => {
+  const missionDates = useMissionDates(missionId)
+  const isMissionFinished = useMissionFinished(missionId)
   const handleSubmit = async (value: MissionPassenger) => {
     await handleSubmitForm(value)
   }
+
+  const passengerSchema = useMemo(
+    () => getPassengerSchema(missionDates, isMissionFinished),
+    [missionDates, isMissionFinished]
+  )
 
   return (
     <Dialog data-testid={'crew-form'}>
       <Dialog.Title>
         <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
-          <FlexboxGrid.Item>{`${passenger ? 'Mise à jour' : 'Ajout'} d’un passager`}</FlexboxGrid.Item>
+          <FlexboxGrid.Item>{`${passenger ? 'Mise à jour' : 'Ajout'} d'un passager`}</FlexboxGrid.Item>
           <FlexboxGrid.Item>
             <CloseIconButton onClick={() => handleClose(false)} />
           </FlexboxGrid.Item>

@@ -234,7 +234,7 @@ class ComputePatrolDataTest {
 
         assertThat(actual?.completenessForStats).isNotNull()
         assertThat(actual?.completenessForStats?.status).isIn(
-            CompletenessForStatsStatusEnum.COMPLETE,
+            CompletenessForStatsStatusEnum.VALID,
             CompletenessForStatsStatusEnum.INCOMPLETE
         )
     }

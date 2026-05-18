@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
@@ -35,6 +36,9 @@ class ProcessNavActionTest {
     @MockitoBean
     private lateinit var getMissionDates: GetMissionDates
 
+    @MockitoBean
+    private lateinit var entityValidityValidator: EntityValidityValidator
+
     @Test
     fun `test execute get nav action by id`() {
         val missionId = 761
@@ -62,7 +66,8 @@ class ProcessNavActionTest {
         processNavAction = ProcessNavAction(
             getComputeTarget = getComputeTarget,
             getStatusForAction = getStatusForAction,
-            getMissionDates = getMissionDates
+            getMissionDates = getMissionDates,
+            entityValidityValidator = entityValidityValidator
         )
 
         val entity = processNavAction.execute(action = action)

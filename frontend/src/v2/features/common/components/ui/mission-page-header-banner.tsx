@@ -12,8 +12,8 @@ const MissionPageHeaderBanner: React.FC<MissionPageHeaderBannerProps> = ({ compl
   return (
     <Banner
       data-testid={'mission-report-status-banner'}
-      isClosable={completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE}
-      isCollapsible={completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE}
+      isClosable={completenessForStats?.status === CompletenessForStatsStatusEnum.VALID}
+      isCollapsible={completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID}
       isHiddenByDefault={false}
       level={bannerLevel}
       top={'60px'}

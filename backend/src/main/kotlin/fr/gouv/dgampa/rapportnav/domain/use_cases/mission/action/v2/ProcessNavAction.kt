@@ -1,32 +1,32 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 
 @UseCase
 class ProcessNavAction(
     getStatusForAction: GetStatusForAction,
     private val getComputeTarget: GetComputeTarget,
-    private val getMissionDates: GetMissionDates
+    private val getMissionDates: GetMissionDates,
+    private val entityValidityValidator: EntityValidityValidator
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    /**
-     * Processes a Nav action by computing targets and validating for stats.
-     * Automatically determines if mission is finished based on mission dates.
-     *
-     * @param action The action to process
-     */
     fun execute(action: MissionNavActionEntity): MissionNavActionEntity {
         action.targets = getComputeTarget.execute(actionId = action.getActionId(), isControl = action.isControl())
 
-        // Compute isMissionFinished internally
-        val missionDates = getMissionDates.execute(missionId = action.missionId, ownerId = action.ownerId)
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
-
         // compute validity
-        action.computeValidity(isMissionFinished)
+        val missionDates = getMissionDates.execute(
+            missionId = action.missionId,
+            ownerId = action.ownerId,
+            inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
+        )
+        val isMissionFinished = missionDates?.isMissionFinished() ?: false
+        action.computeValidity(isMissionFinished = isMissionFinished, validator = entityValidityValidator)
+
         return action
     }
 }

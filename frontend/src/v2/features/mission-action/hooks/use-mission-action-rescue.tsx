@@ -7,6 +7,7 @@ import { MissionAction, MissionNavActionData } from '../../common/types/mission-
 import { RescueType } from '../../common/types/rescue-type'
 import { ActionRescueInput } from '../types/action-type'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
 import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
 import { useMemo } from 'react'
@@ -18,17 +19,17 @@ export function useMissionActionRescue(
 ): AbstractFormikSubFormHook<ActionRescueInput> {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionRescueInput => {
-    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
+    const dates = getDateRangeForInput(data)
     const rescueType = data.isVesselRescue ? RescueType.VESSEL : RescueType.PERSON
     return {
       ...data,
       rescueType,
-      dates: [startDate, endDate],
+      dates,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
@@ -37,16 +38,11 @@ export function useMissionActionRescue(
     const { dates, geoCoords, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
-
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
     const isVesselRescue = value.rescueType === RescueType.VESSEL
     const isPersonRescue = value.rescueType === RescueType.PERSON
-
     return {
       ...newData,
-      startDateTimeUtc,
-      endDateTimeUtc,
+      ...getDateRangeFromInput(dates),
       longitude,
       latitude,
       isVesselRescue,
@@ -78,9 +74,9 @@ export function useMissionActionRescue(
     handleSubmit(value, onSubmit)
   }
 
-  const createValidationSchema = (isMissionFinished: boolean) => {
+  const createValidationSchema = (isMissionFinished: boolean, missionStartDate?: string, missionEndDate?: string) => {
     return object().shape({
-      ...getDateRangeSchema(isMissionFinished),
+      ...getDateRangeSchema({ isMissionFinished, missionStartDate, missionEndDate }),
       ...getGeoCoordsSchema(isMissionFinished),
       rescueType: mixed<RescueType>().oneOf(Object.values(RescueType)),
       isMigrationRescue: boolean(),
@@ -115,7 +111,10 @@ export function useMissionActionRescue(
     })
   }
 
-  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
 
   return {
     initValue,
