@@ -41,6 +41,24 @@ const server = setupServer(
       }),
       { status: 400, headers: { 'Content-Type': 'application/problem+json' } }
     )
+  ),
+  http.get('/api/v2/bad-request-fields', () =>
+    new HttpResponse(
+      JSON.stringify({
+        type: 'urn:rapportnav:error:usage:VALIDATION_EXCEPTION',
+        title: 'Validation Error',
+        status: 400,
+        detail: 'Validation failed',
+        code: 'VALIDATION_EXCEPTION',
+        data: {
+          fieldErrors: [
+            { field: 'startDate', message: 'Start date is required' },
+            { field: 'endDate', message: 'End date must be after start date' }
+          ]
+        }
+      }),
+      { status: 400, headers: { 'Content-Type': 'application/problem+json' } }
+    )
   )
 )
 
@@ -76,6 +94,19 @@ describe('axiosInstance', () => {
     } catch (error: any) {
       expect(error.message).toBe('The requested mission could not be found')
       expect(error.response.data.code).toBe('COULD_NOT_FIND_EXCEPTION')
+    }
+  })
+
+  it('concatenates fieldErrors into error message on 400', async () => {
+    getMock.mockReturnValue('fake-token')
+
+    try {
+      await axiosInstance.get('/bad-request-fields')
+      expect.fail('Should have thrown')
+    } catch (error: any) {
+      expect(error.message).toBe(
+        'Validation failed: Start date is required, End date must be after start date'
+      )
     }
   })
 })
