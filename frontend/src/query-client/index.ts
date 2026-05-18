@@ -66,11 +66,9 @@ const handleApiError = (error: any, context: 'query' | 'mutation') => {
       ? `Une erreur s'est produite lors du chargement des données. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
       : `Une erreur s'est produite lors de l'enregistrement. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
 
-  const userMessage = isUsageError
-    ? problemDetail?.detail || error.message || defaultMessage
-    : isServerError
-      ? defaultMessage
-      : problemDetail?.detail || error.message || defaultMessage
+  const message = error.message || problemDetail?.detail || defaultMessage
+
+  const userMessage: string = isServerError ? defaultMessage : message
 
   logSoftError({
     isSideWindowError: false,
