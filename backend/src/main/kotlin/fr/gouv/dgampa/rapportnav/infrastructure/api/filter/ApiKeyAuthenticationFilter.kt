@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.config
+package fr.gouv.dgampa.rapportnav.infrastructure.api.filter
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.ValidateApiKey

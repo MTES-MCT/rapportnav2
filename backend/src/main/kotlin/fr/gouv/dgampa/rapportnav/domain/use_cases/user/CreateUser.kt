@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.user
 
-import fr.gouv.dgampa.rapportnav.config.PasswordValidator
+import fr.gouv.dgampa.rapportnav.domain.utils.PasswordValidator
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User

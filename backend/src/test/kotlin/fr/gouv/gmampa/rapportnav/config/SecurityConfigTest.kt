@@ -1,10 +1,9 @@
 package fr.gouv.gmampa.rapportnav.config
 
-import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
-import fr.gouv.dgampa.rapportnav.config.CustomAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ApiKeyAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.CustomAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.config.SecurityConfig
-import fr.gouv.dgampa.rapportnav.config.SentryUserContextFilter
-import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthoritiesEnum
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.SentryUserContextFilter
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -117,14 +116,14 @@ class SecurityConfigTest {
     @Test
     fun `apiKeySecurityFilter should have Bean annotation`() {
         val method = SecurityConfig::class.java.getMethod("apiKeySecurityFilter", HttpSecurity::class.java)
-        val beanAnnotation = method.getAnnotation(org.springframework.context.annotation.Bean::class.java)
+        val beanAnnotation = method.getAnnotation(Bean::class.java)
         assertNotNull(beanAnnotation)
     }
 
     @Test
     fun `filterChain should have Bean annotation`() {
         val method = SecurityConfig::class.java.getMethod("filterChain", HttpSecurity::class.java)
-        val beanAnnotation = method.getAnnotation(org.springframework.context.annotation.Bean::class.java)
+        val beanAnnotation = method.getAnnotation(Bean::class.java)
         assertNotNull(beanAnnotation)
     }
 }

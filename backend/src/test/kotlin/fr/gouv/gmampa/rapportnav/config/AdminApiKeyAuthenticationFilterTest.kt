@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.config
 
-import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.apikey.ApiKeyEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.ValidateApiKey

@@ -1,5 +1,8 @@
 package fr.gouv.dgampa.rapportnav.config
 
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ApiKeyAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.CustomAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.SentryUserContextFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthoritiesEnum
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

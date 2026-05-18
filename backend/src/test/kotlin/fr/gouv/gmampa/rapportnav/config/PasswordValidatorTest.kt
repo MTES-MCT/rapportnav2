@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.config
 
-import fr.gouv.dgampa.rapportnav.config.PasswordValidator
+import fr.gouv.dgampa.rapportnav.domain.utils.PasswordValidator
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

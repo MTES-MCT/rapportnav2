@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.config
+package fr.gouv.dgampa.rapportnav.domain.utils
 
 object PasswordValidator {
     private val pattern = Regex(

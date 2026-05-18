@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.config
+package fr.gouv.dgampa.rapportnav.infrastructure.database
 
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import org.springframework.data.domain.AuditorAware
