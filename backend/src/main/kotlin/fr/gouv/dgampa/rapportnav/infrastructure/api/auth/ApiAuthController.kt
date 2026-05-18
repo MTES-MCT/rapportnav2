@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.auth
 
-import fr.gouv.dgampa.rapportnav.config.PasswordValidator
+import fr.gouv.dgampa.rapportnav.domain.utils.PasswordValidator
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode.*
@@ -78,6 +78,7 @@ class ApiAuthController(
         val ipAddress = HttpRequestUtils.getClientIp(request)
         val userAgent = HttpRequestUtils.getUserAgent(request)
         val email = body.email.trim()
+        val loginFailedMessage = "Login failed"
 
         if (body.email.isEmpty() || body.password.isEmpty()) {
             logAuthenticationAudit.logLoginFailure(
@@ -102,7 +103,7 @@ class ApiAuthController(
             )
             throw BackendUsageException(
                 code = INCORRECT_USER_IDENTIFIER_EXCEPTION,
-                message = "Login failed "
+                message = loginFailedMessage
             )
         }
 
@@ -115,14 +116,14 @@ class ApiAuthController(
             )
             throw BackendUsageException(
                 code = INCORRECT_USER_IDENTIFIER_EXCEPTION,
-                message = "Login failed "
+                message = loginFailedMessage
             )
         }
 
             if (user.disabledAt != null) {
             throw BackendUsageException(
                 code = USER_ACCOUNT_DISABLED_EXCEPTION,
-                message = "Login failed "
+                message = loginFailedMessage
             )
         }
 

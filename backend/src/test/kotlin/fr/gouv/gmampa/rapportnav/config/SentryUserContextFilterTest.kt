@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.config
 
-import fr.gouv.dgampa.rapportnav.config.SentryUserContextFilter
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.SentryUserContextFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import io.sentry.Sentry
