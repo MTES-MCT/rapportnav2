@@ -12,7 +12,7 @@ interface AdminAgentProps {
   formik: FormikProps<any>
 }
 
-const AdminAgentForm: React.FC<AdminAgentProps> = ({ type, formik, roles, services }) => {
+const AdminAgentForm: React.FC<AdminAgentProps> = ({ type, roles, services }) => {
   return (
     <Stack.Item style={{ width: '100%' }}>
       <Stack direction="row" spacing={'.5rem'}>

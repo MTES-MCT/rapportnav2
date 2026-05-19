@@ -3,7 +3,7 @@ import { FormikProps } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 
-const AdminAgentRoleForm: FC<{ formik: FormikProps<any> }> = ({ formik }) => {
+const AdminAgentRoleForm: FC<{ formik: FormikProps<any> }> = () => {
   return (
     <Stack direction="row" spacing={'.5rem'}>
       <Stack.Item style={{ width: '100%' }}>

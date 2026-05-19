@@ -28,6 +28,7 @@ export const useAuth = (authTokenInstance: AuthToken = new AuthToken()): AuthHoo
   const authToken = authTokenRef.current
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  // eslint-disable-next-line react-hooks/refs -- authTokenRef is used for reference stability, .get() reads from localStorage
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authToken.get())
 
   const logout = useCallback(async (): Promise<void> => {

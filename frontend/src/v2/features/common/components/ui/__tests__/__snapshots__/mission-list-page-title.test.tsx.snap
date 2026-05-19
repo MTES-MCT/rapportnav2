@@ -20,7 +20,7 @@ exports[`MissionListPageTitle > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <h4>
-             | 
+             | 
           </h4>
         </div>
         <div
@@ -78,7 +78,7 @@ exports[`MissionListPageTitle > should match the snapshot 1`] = `
         class="rs-stack-item"
       >
         <h4>
-           | 
+           | 
         </h4>
       </div>
       <div

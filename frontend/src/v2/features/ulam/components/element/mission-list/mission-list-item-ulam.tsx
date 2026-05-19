@@ -163,7 +163,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
                 Icon={Icon.Edit}
                 accent={Accent.TERTIARY}
                 data-testid={'go-to-mission-btn'}
-                onClick={e => goToMission(mission)}
+                onClick={() => goToMission(mission)}
               />
             </Stack.Item>
           </Stack>

@@ -14,6 +14,7 @@ export function useGlobalSyncStatus(stableDelay = 300) {
 
     if (busy) {
       // immediately show loader
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- timer-based debounce side-effect
       setActive(true)
 
       // cancel any scheduled hide

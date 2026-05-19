@@ -5,7 +5,7 @@ import ActionHeaderCompletenessForStats from '../action-header-completeness-for-
 
 // Mock the hook
 vi.mock('../../../../common/hooks/use-mission-completeness-for-stats', async () => {
-  const React = await import('react')
+  await import('react')
   return {
     useMissionCompletenessForStats: vi.fn(() => ({
       icon: () => <span data-testid="mock-icon">Icon</span>,

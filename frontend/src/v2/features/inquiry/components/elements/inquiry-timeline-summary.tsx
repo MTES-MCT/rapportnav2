@@ -1,7 +1,6 @@
 import Text from '@common/components/ui/text'
-import { FC, useEffect, useState } from 'react'
+import { FC, useMemo } from 'react'
 import { Stack } from 'rsuite'
-import { MissionNavAction } from '../../../common/types/mission-action'
 import { useTarget } from '../../../mission-target/hooks/use-target'
 import useGetInquiryQuery from '../../services/use-inquiry'
 import InquirySummaryItem from '../ui/inquiry-timeline-summary-item'
@@ -13,14 +12,13 @@ interface InquirySummaryProps {
 const InquirySummary: FC<InquirySummaryProps> = ({ inquiryId }) => {
   const { getNbrInfraction } = useTarget()
   const { data: inquiry } = useGetInquiryQuery(inquiryId)
-  const [nbrOfHours, setNbrOfHours] = useState<number>(0)
-  const [nbrOfInfractions, setNbrOfInfractions] = useState<number>(0)
-
-  useEffect(() => {
-    if (!inquiry || !inquiry.actions || inquiry.actions.length === 0) return
-    const actions: MissionNavAction[] = inquiry.actions
-    setNbrOfHours(actions.reduce((acc, action) => acc + (action.data.nbrOfHours ?? 0), 0))
-    setNbrOfInfractions(actions.reduce((acc, action) => acc + getNbrInfraction(action.data.targets), 0))
+  const nbrOfHours = useMemo(() => {
+    if (!inquiry?.actions?.length) return 0
+    return inquiry.actions.reduce((acc, action) => acc + (action.data.nbrOfHours ?? 0), 0)
+  }, [inquiry])
+  const nbrOfInfractions = useMemo(() => {
+    if (!inquiry?.actions?.length) return 0
+    return inquiry.actions.reduce((acc, action) => acc + getNbrInfraction(action.data.targets), 0)
   }, [inquiry, getNbrInfraction])
 
   return (

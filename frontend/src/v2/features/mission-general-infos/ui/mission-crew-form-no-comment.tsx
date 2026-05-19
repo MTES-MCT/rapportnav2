@@ -11,7 +11,7 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Form, Formik } from 'formik'
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
@@ -66,11 +66,9 @@ const MissionCrewFormNoComment: React.FC<MissionCrewFormNoCommentProps> = ({
   handleClose,
   handleEdit
 }) => {
-  const [initValue, setInitValue] = useState<CrewForm>()
-
-  useEffect(() => {
+  const initValue = useMemo<CrewForm>(() => {
     const ids = crewMembers?.map(crew => crew.agent?.id) ?? []
-    setInitValue({ agentIds: ids })
+    return { agentIds: ids }
   }, [crewMembers])
 
   const handleSubmit = async ({ agentIds }: CrewForm) => handleEdit(agentIds)

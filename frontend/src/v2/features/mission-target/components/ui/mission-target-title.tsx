@@ -1,7 +1,7 @@
 import Text from '@common/components/ui/text.tsx'
 import { VehicleTypeEnum } from '@common/types/env-mission-types'
 import { Accent, Tag, THEME } from '@mtes-mct/monitor-ui'
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useVehicule } from '../../../common/hooks/use-vehicule'
 import { useVessel } from '../../../common/hooks/use-vessel'
 import { Target, TargetType } from '../../../common/types/target-types'
@@ -15,8 +15,6 @@ interface MissionTargetTitleProps {
 const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, targetType, vehicleType }) => {
   const { getVesselTypeName } = useVessel()
   const { getVehiculeType } = useVehicule()
-  const [title, setTitle] = useState<string>()
-  const [nbTarget, setNbTarget] = useState<number>(1)
 
   const getTitleGroup = (vehicle?: string) => {
     const isVehicle = targetType === TargetType.VEHICLE
@@ -35,10 +33,8 @@ const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, targetT
     return (target?.externalData?.nbTarget ?? 0) > 1 ? getTitleGroup(vehicle) : getTitleSingle(target, vehicle)
   }
 
-  useEffect(() => {
-    setTitle(getTitle(target, vehicleType))
-    setNbTarget(target?.externalData?.nbTarget ?? 1)
-  }, [target, vehicleType])
+  const title = useMemo(() => getTitle(target, vehicleType), [target, vehicleType])
+  const nbTarget = target?.externalData?.nbTarget ?? 1
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>

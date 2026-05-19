@@ -40,6 +40,7 @@ export function useInfractionForm(
 
   const getTarget = (value: TargetInfractionInput) => {
     if (!value?.target) return
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isVessel, isTargetVehicule, ...target } = value.target
     return target
   }

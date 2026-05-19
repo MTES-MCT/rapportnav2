@@ -1,4 +1,4 @@
-import { createElement, FC, useEffect, useState } from 'react'
+import { createElement, FC } from 'react'
 import { useParams } from 'react-router-dom'
 import TimelineItemWrapper from '../../../../common/components/layout/timeline-item-wrapper.tsx'
 import { useTimeline } from '../../../../mission-timeline/hooks/use-timeline.tsx'
@@ -15,11 +15,7 @@ const MissionTimelineItemPam: FC<MissionTimelineItemPamProps> = ({ action, prevA
   const { actionId } = useParams()
   const { isIncomplete } = useTimeline()
   const { getTimeline } = usePamTimelineRegistry()
-  const [isSelected, setIsSelected] = useState<boolean>(false)
-
-  useEffect(() => {
-    setIsSelected(action.id === actionId)
-  }, [action, actionId])
+  const isSelected = action.id === actionId
   return (
     <TimelineItemWrapper
       action={action}

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FlexboxGrid } from 'rsuite'
 import { Accent, Button } from '@mtes-mct/monitor-ui'
 
-interface HeaderProps {}
+type HeaderProps = object
 
 const StyledHeader = styled.div`
   height: 104px;

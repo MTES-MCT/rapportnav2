@@ -95,6 +95,7 @@ export function useGlobalRoutes(): RouteHook {
       return homeUrl
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- also mutates external module store
     setHomeUrl(getUrl())
   }, [isAuthenticated, isLoggedIn])
 

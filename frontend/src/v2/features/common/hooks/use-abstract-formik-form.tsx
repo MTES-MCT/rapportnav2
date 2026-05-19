@@ -1,5 +1,5 @@
 import { isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AbstractFormikHook } from '../types/abstract-formik-hook'
 
 export function useAbstractFormik<T, M>(
@@ -8,8 +8,6 @@ export function useAbstractFormik<T, M>(
   fromInputToFieldValue: (input: M) => T,
   booleans?: string[]
 ): AbstractFormikHook<T, M> {
-  const [initValue, setInitValue] = useState<M>()
-
   const beforeInitValue = (value?: T): M | undefined => {
     const b = booleans ? mapValues(pick(value, booleans), o => !!o) : {}
     const fieldValue = omitBy(
@@ -22,14 +20,7 @@ export function useAbstractFormik<T, M>(
     return fromFieldValueToInput(fieldValue as T)
   }
 
-  useEffect(() => {
-    const valueToInit = beforeInitValue(value)
-    setInitValue(valueToInit)
-
-    return () => {
-      setInitValue(undefined)
-    }
-  }, [value])
+  const [initValue, setInitValue] = useState<M>(() => beforeInitValue(value))
 
   const beforeSubmit = (value?: M): T | undefined => {
     if (!value) return

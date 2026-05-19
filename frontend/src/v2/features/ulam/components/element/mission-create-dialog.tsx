@@ -1,6 +1,6 @@
 import { UTCDate } from '@date-fns/utc'
 import { Accent, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { MissionGeneralInfo2 } from 'src/v2/features/common/types/mission-types.ts'
@@ -16,7 +16,6 @@ interface MissionCreateDialogProps {
 const MissionCreateDialog: FC<MissionCreateDialogProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate()
   const mutation = useCreateMissionMutation()
-  const [isDialogOpen, setIsDialogOpen] = useState(isOpen)
   const value = {
     startDateTimeUtc: new UTCDate().toISOString(),
     endDateTimeUtc: new UTCDate().toISOString()
@@ -30,17 +29,12 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({ isOpen, onClose }) 
     if (onClose) onClose()
   }
 
-  useEffect(() => {
-    setIsDialogOpen(isOpen)
-  }, [isOpen])
-
   const handleClose = () => {
-    setIsDialogOpen(false)
     onClose()
   }
 
   return (
-    isDialogOpen && (
+    isOpen && (
       <Dialog>
         <Dialog.Title style={{ border: '1px solid black' }}>
           <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 14, paddingRight: 24 }}>

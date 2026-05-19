@@ -1,5 +1,5 @@
 import { IconProps, SideMenu } from '@mtes-mct/monitor-ui'
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Sidebar } from 'rsuite'
 import styled from 'styled-components'
@@ -22,16 +22,12 @@ const StyledMenu = styled.div`
 
 const MissionListPageSidebar: React.FC<MissionListPageSidebarProps> = ({ items, defaultItemKey }) => {
   const navigate = useNavigate()
-  const [currentKey, setCurrentKey] = useState<string>()
+  const [currentKey, setCurrentKey] = useState<string>(defaultItemKey)
 
   const handleClick = (item: SideBarItem) => {
     setCurrentKey(item.key)
     navigate(item.url)
   }
-
-  useEffect(() => {
-    setCurrentKey(defaultItemKey)
-  }, [defaultItemKey])
 
   return (
     <Sidebar style={{ flex: 0, width: '64px' }}>

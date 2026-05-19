@@ -43,7 +43,7 @@ const ACTIONS: AdminAction[] = [
   }
 ]
 
-type AdminAgentProps = {}
+type AdminAgentProps = object
 
 const AdminAgentRoleItem: React.FC<AdminAgentProps> = () => {
   const { data: agentRoles } = useGetAgentRoles()

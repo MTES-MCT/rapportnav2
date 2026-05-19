@@ -21,7 +21,7 @@ export const SearchCity = styled(({ ...props }: SearchCityProps) => {
     if (values.city && values.city !== search) {
       setSearch(values.city)
     }
-  }, [values.city])
+  }, [search, values.city])
 
   const options = useMemo(() => {
     const apiOptions =

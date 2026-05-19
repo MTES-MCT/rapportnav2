@@ -18,7 +18,7 @@ const CELLS = [
 
 const ACTIONS: AdminAction[] = []
 
-type AdminUserAuthLoggingProps = {}
+type AdminUserAuthLoggingProps = object
 
 const AdminUserAuthLoggingItem: React.FC<AdminUserAuthLoggingProps> = () => {
   const { data: logs } = useUserAuthLoggingListQuery()
@@ -33,13 +33,7 @@ const AdminUserAuthLoggingItem: React.FC<AdminUserAuthLoggingProps> = () => {
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <AdminBasicItemGeneric
-          cells={CELLS}
-          data={logs?.items}
-          actions={ACTIONS}
-          onSubmit={(action: AdminActionType, value: any) => {}}
-          title={'Tout'}
-        />
+        <AdminBasicItemGeneric cells={CELLS} data={logs?.items} actions={ACTIONS} onSubmit={() => {}} title={'Tout'} />
       </Stack.Item>
     </Stack>
   )

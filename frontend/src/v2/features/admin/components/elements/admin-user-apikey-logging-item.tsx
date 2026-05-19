@@ -1,9 +1,8 @@
 import Text from '@common/components/ui/text'
 import React from 'react'
 import { Stack } from 'rsuite'
-import { AdminAction, AdminActionType } from '../../types/admin-action'
+import { AdminAction } from '../../types/admin-action'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
-import useUserAuthLoggingListQuery from '../../services/use-admin-user-auth-logging-service.tsx'
 import useApiKeyLoggingListQuery from '../../services/use-admin-apikey-logging-service.tsx'
 
 const CELLS = [
@@ -17,7 +16,7 @@ const CELLS = [
 
 const ACTIONS: AdminAction[] = []
 
-type AdminApiKeyLoggingProps = {}
+type AdminApiKeyLoggingProps = object
 
 const AdminApiKeyLoggingItem: React.FC<AdminApiKeyLoggingProps> = () => {
   const { data: logs } = useApiKeyLoggingListQuery()
@@ -32,13 +31,7 @@ const AdminApiKeyLoggingItem: React.FC<AdminApiKeyLoggingProps> = () => {
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <AdminBasicItemGeneric
-          cells={CELLS}
-          data={logs?.items}
-          actions={ACTIONS}
-          onSubmit={(action: AdminActionType, value: any) => {}}
-          title={'Tout'}
-        />
+        <AdminBasicItemGeneric cells={CELLS} data={logs?.items} actions={ACTIONS} onSubmit={() => {}} title={'Tout'} />
       </Stack.Item>
     </Stack>
   )

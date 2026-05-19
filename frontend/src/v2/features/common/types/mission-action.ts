@@ -8,7 +8,6 @@ import {
   ControlCheck,
   FleetSegment,
   GearControl,
-  Infraction,
   MissionActionType,
   SpeciesControl
 } from '@common/types/fish-mission-types'
@@ -100,10 +99,10 @@ export interface MissionEnvActionData extends MissionActionData {
   geom: string
   facade: string
   department: string
-  isAdministrativeControl: Boolean
-  isComplianceWithWaterRegulationsControl: Boolean
-  isSafetyEquipmentAndStandardsComplianceControl: Boolean
-  isSeafarersControl: Boolean
+  isAdministrativeControl: boolean
+  isComplianceWithWaterRegulationsControl: boolean
+  isSafetyEquipmentAndStandardsComplianceControl: boolean
+  isSeafarersControl: boolean
   openBy: string
   observations: string
   observationsCacem: string
@@ -113,7 +112,7 @@ export interface MissionEnvActionData extends MissionActionData {
   actionTargetType: ActionTargetTypeEnum
   vehicleType: VehicleTypeEnum
   infractions: InfractionByTarget[]
-  coverMissionZone: Boolean
+  coverMissionZone: boolean
   controlsToComplete: ControlType[]
   availableControlTypesForInfraction: ControlType[]
   tags: EnvTag[]

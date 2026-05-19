@@ -76,7 +76,7 @@ const ACTIONS: AdminAction[] = [
   }
 ]
 
-type AdminAgentProps = {}
+type AdminAgentProps = object
 
 const AdminAgentItem: React.FC<AdminAgentProps> = () => {
   const { data: roles } = useGetAgentRoles()
@@ -97,13 +97,14 @@ const AdminAgentItem: React.FC<AdminAgentProps> = () => {
       case AdminActionType.DELETE:
         deleteAgent.mutateAsync(value.id)
         break
-      case AdminActionType.CREATE_USER:
+      case AdminActionType.CREATE_USER: {
         const { id, ...input } = value
         const user = await createUser.mutateAsync(input as AdminUserInput)
         createOrUpdateAgent.mutateAsync({ ...value, userId: user.id } as AdminAgentInput)
         break
+      }
       case AdminActionType.DISABLE_AGENT:
-        disableAgent.mutateAsync(value.id!!)
+        disableAgent.mutateAsync(value.id!)
         break
       case AdminActionType.MIGRATE_AGENT:
         migrateAgent.mutateAsync(value as AdminAgentInput)

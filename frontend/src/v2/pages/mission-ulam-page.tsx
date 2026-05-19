@@ -13,7 +13,7 @@ import MissionTimelineUlam from '../features/ulam/components/element/mission-tim
 
 const MissionUlamPage: React.FC = () => {
   const { getUrl } = useGlobalRoutes()
-  let { missionId, actionId } = useParams()
+  const { missionId, actionId } = useParams()
   const { navigateAndResetCache } = useAuth()
   const exitMission = async () => navigateAndResetCache(getUrl(OwnerType.MISSION), missionsKeys.all())
 

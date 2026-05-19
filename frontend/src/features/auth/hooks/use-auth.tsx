@@ -23,6 +23,7 @@ const useAuth = (): AuthHook => {
 
   useEffect(() => {
     if (!!authToken.get() && !isAuthenticated) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncs auth state with localStorage token
       setIsAuthenticated(true)
     }
   }, [isAuthenticated])

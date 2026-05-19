@@ -10,10 +10,7 @@ import { NetworkSyncStatus } from '../../types/network-types.ts'
 import TimelineItemStatus from '../ui/timeline-item-status.tsx'
 
 const DivStyled = styled(
-  ({
-    isSelected,
-    ...props
-  }: { isSelected: Boolean } & DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (
+  ({ ...props }: { isSelected: boolean } & DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (
     <div {...props} />
   )
 )(({ style, isSelected }) => ({

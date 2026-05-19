@@ -10,7 +10,7 @@ const useGetActionQuery = (ownerId?: string, actionId?: string): UseQueryResult<
   const query = useQuery<MissionAction>({
     queryKey: actionsKeys.byId(actionId),
     enabled: !!actionId,
-    queryFn: data => fetchAction({ ownerId, actionId }),
+    queryFn: () => fetchAction({ ownerId, actionId }),
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false

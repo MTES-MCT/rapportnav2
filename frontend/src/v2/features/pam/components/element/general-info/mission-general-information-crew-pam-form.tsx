@@ -13,7 +13,7 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { FC, useEffect, useState } from 'react'
+import { FC, useMemo } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
@@ -86,20 +86,10 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   // TODO: replace this, it's over complicated just to get a list of agents to fill a dropdown
   const { data: agents } = useAgentsQuery()
 
-  const inputCrewMember: MissionCrew | undefined = !!crewId && crewList.find((mc: MissionCrew) => mc.id === crewId)
-  const initialValue: CrewForm | undefined =
-    inputCrewMember &&
-    ({
-      agentId: inputCrewMember?.agent?.id,
-      roleId: inputCrewMember?.role?.id,
-      comment: inputCrewMember?.comment
-    } as CrewForm)
-
-  const [initValue, setInitValue] = useState<CrewForm | undefined>(initialValue)
-
-  useEffect(() => {
+  const initValue = useMemo<CrewForm>(() => {
     const crew = crewList?.find(crew => crew.id === crewId)
-    setInitValue({ roleId: crew?.role?.id, agentId: crew?.agent?.id, comment: crew?.comment || '' })
+    if (!crew) return { roleId: undefined, agentId: undefined, comment: '' }
+    return { roleId: crew?.role?.id, agentId: crew?.agent?.id, comment: crew?.comment || '' }
   }, [crewId, crewList])
 
   const handleSubmit = async (value: CrewForm) => {

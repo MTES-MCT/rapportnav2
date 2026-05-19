@@ -1,4 +1,4 @@
-import { createElement, FC, useEffect, useState } from 'react'
+import { createElement, FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { setTimelineCurrentIndex } from '../../../../store/slices/timeline-reducer'
 import TimelineItemWrapper from '../../../common/components/layout/timeline-item-wrapper'
@@ -17,12 +17,11 @@ const InquiryTimelineItem: FC<InquiryTimelineItemProps> = ({ index, action, prev
   const { actionId } = useParams()
   const { isIncomplete } = useTimeline()
   const { getTimeline } = useInquiryTimelineRegistry()
-  const [isSelected, setIsSelected] = useState<boolean>(false)
+  const isSelected = action.id === actionId
 
   useEffect(() => {
-    setIsSelected(action.id === actionId)
     if (action.id === actionId) setTimelineCurrentIndex(index)
-  }, [action, actionId, index])
+  }, [action.id, actionId, index, setTimelineCurrentIndex])
 
   return (
     <TimelineItemWrapper

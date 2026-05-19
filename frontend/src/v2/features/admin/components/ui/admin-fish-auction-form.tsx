@@ -8,7 +8,7 @@ interface AdminFishAuctionFormProps {
   formik: FormikProps<any>
 }
 
-const AdminFishAuctionForm: React.FC<AdminFishAuctionFormProps> = ({ type, formik }) => {
+const AdminFishAuctionForm: React.FC<AdminFishAuctionFormProps> = () => {
   return (
     <Stack.Item style={{ width: '100%' }}>
       <Stack direction="row" spacing={'.5rem'}>

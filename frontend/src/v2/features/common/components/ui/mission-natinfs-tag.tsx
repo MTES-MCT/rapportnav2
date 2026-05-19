@@ -3,7 +3,7 @@ import { Accent, Tag } from '@mtes-mct/monitor-ui'
 import React from 'react'
 
 interface MissionNatinfTagProps {
-  natinfs?: String[]
+  natinfs?: string[]
 }
 
 const MissionNatinfTag: React.FC<MissionNatinfTagProps> = ({ natinfs }) => {

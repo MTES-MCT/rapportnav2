@@ -1,6 +1,6 @@
 import { FormikSelect } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Form, Formik } from 'formik'
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Stack } from 'rsuite'
 
 type ServiceForm = { service: { admin: string; unit: string } }
@@ -15,11 +15,9 @@ const MissionGeneralInformationServiceForm: React.FC<MissionGeneralInformationSe
   handleEdit
 }) => {
   //TODO: get ser
-  const [initValue, setInitValue] = useState<ServiceForm>()
-
-  useEffect(() => {
-    if (!service) return
-    setInitValue({ service })
+  const initValue = useMemo<ServiceForm | undefined>(() => {
+    if (!service) return undefined
+    return { service }
   }, [service])
 
   const handleSubmit = async ({ service }: ServiceForm) => handleEdit(service)

@@ -74,7 +74,7 @@ const MissionActionItemResourceMaintenance: FC<{
             isErrorMessageHidden={true}
             options={
               resources?.map((resource: ControlUnitResource) => ({
-                value: resource.id!!,
+                value: resource.id!,
                 label: `${resource.name}`
               })) ?? []
             }

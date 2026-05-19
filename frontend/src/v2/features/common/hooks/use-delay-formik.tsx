@@ -14,17 +14,17 @@ export function useDelayFormik(
   const { handleExecuteOnDelay } = useDelay()
   const [value, setValue] = useState<string | number>()
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncs parent-controlled prop to local editable state
+    if (initValue) setValue(initValue)
+  }, [initValue])
+
   const onChange = (v?: string | number) => {
     setValue(v)
     handleExecuteOnDelay(async () => {
       onSubmit(v)
     }, delay ?? 3000)
   }
-
-  useEffect(() => {
-    if (!initValue) return
-    setValue(initValue)
-  }, [initValue])
 
   return {
     value,

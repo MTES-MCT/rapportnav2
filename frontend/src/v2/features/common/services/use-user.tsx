@@ -7,7 +7,7 @@ const useGetUserQuery = (userId?: number) => {
   const fetchUser = (): Promise<User> => axios.get(`users/${userId}`).then(response => response.data)
 
   const query = useQuery<User>({
-    queryKey: usersKeys.byId(userId!!),
+    queryKey: usersKeys.byId(userId!),
     enabled: !!userId,
     queryFn: fetchUser,
     refetchIntervalInBackground: false,

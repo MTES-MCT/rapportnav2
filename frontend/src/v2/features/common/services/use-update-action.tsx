@@ -18,7 +18,7 @@ export const offlineUpdateActionDefaults = {
   onMutate: async ({ ownerId, ownerType, action }: ActionInput) => {
     // create optimistic action
     const isOnline = onlineManager.isOnline()
-    let optimisticAction: MissionNavAction = {
+    const optimisticAction: MissionNavAction = {
       ...action,
       networkSyncStatus: isOnline ? NetworkSyncStatus.SYNC : NetworkSyncStatus.UNSYNC
     }
@@ -55,7 +55,9 @@ export const offlineUpdateActionDefaults = {
 
       const toCleanup = keepLatest ? mutations.sort((a, b) => b.mutationId - a.mutationId).slice(1) : mutations
 
-      toCleanup.forEach(m => (m.destroy?.(), mutationCache.remove(m as any)))
+      toCleanup.forEach(m => {
+        return (m.destroy?.(), mutationCache.remove(m as any))
+      })
     }
 
     const mutationCache = queryClient.getMutationCache()

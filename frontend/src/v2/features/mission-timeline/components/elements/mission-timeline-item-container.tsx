@@ -8,7 +8,7 @@ const DivStyled = styled(
   ({
     isCurrent,
     ...props
-  }: { isCurrent: Boolean } & DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (
+  }: { isCurrent: boolean } & DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (
     <div {...props} />
   )
 )(({ style, isCurrent }) => ({

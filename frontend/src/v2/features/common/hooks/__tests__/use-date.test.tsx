@@ -38,7 +38,7 @@ describe('useDate', () => {
 
     expect(date).not.toBeNull()
     expect(date).not.toBeUndefined()
-    expect(new Date(date!!).toDateString()).toEqual('Fri Sep 13 2024')
+    expect(new Date(date!).toDateString()).toEqual('Fri Sep 13 2024')
   })
 })
 it('should return correct month range for getTodayMonthRange with provided date', () => {

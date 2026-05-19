@@ -30,8 +30,8 @@ export type MissionTimelineAction = {
   vehicleType?: VehicleTypeEnum
   controlsToComplete?: ControlType[]
   observations?: string
-  isPersonRescue?: Boolean
-  isVesselRescue?: Boolean
+  isPersonRescue?: boolean
+  isVesselRescue?: boolean
   reason?: ActionStatusReason
   controlMethod?: ControlMethod
   vesselIdentifier?: string

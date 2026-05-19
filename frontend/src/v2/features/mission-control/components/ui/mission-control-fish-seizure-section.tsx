@@ -47,7 +47,7 @@ const MissionControlFishSeizureSection: React.FC<MissionControlFishSeizureSectio
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Label>Observations sur l’appréhension du navire / le déroutement</Label>
         <Text as="h3" weight="medium">
-          {!!action?.seizureAndDiversionComments ? action.seizureAndDiversionComments : 'Aucune observation'}
+          {action?.seizureAndDiversionComments ? action.seizureAndDiversionComments : 'Aucune observation'}
         </Text>
       </Stack.Item>
     </Stack>

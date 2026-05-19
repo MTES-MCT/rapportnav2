@@ -24,7 +24,7 @@ export type InfractionTarget = {
   relevantCourt?: string
   infractionType?: InfractionTypeEnum
   formalNotice?: FormalNoticeEnum
-  toProcess?: Boolean
+  toProcess?: boolean
   vesselType?: VesselTypeEnum
   vesselSize?: VesselSizeEnum
   vesselIdentifier?: string

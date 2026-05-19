@@ -3,8 +3,8 @@ import { FieldInputProps, FieldMetaProps, FieldProps, FormikProps } from 'formik
 import { vi } from 'vitest'
 import { useAbstractFormikSubForm } from '../use-abstract-formik-sub-form'
 
-type FormValue = {}
-type FormInput = {}
+type FormValue = object
+type FormInput = object
 
 const setFieldValue = vi.fn()
 

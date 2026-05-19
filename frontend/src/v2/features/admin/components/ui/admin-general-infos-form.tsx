@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 
-const AdminGeneralInfosForm: FC<{ formik: FormikProps<any> }> = ({ formik }) => {
+const AdminGeneralInfosForm: FC<{ formik: FormikProps<any> }> = () => {
   const { reportTypeOptions, jdpTypeOptions, reinforcementTypeOptions } = useMissionType()
   return (
     <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { Administration, ControlUnit } from '../../common/types/control-unit-types'
 
 type FilteredAdministration = {
@@ -14,15 +14,16 @@ type MissionGeneralInfosInterServiceHook = {
 export function useMissionGeneralInfosInterService(
   administrations: Administration[]
 ): MissionGeneralInfosInterServiceHook {
-  const [admins, setAdmins] = useState<FilteredAdministration[]>([])
-  const [controlUnits, setControlUnits] = useState<ControlUnit[]>([])
-
-  useEffect(() => {
-    if (!administrations) return
-    const admins = administrations.filter(a => !a.isArchived)
-    setControlUnits(admins.flatMap(a => a.controlUnits).filter(c => !c.isArchived))
-    setAdmins(admins.map(a => ({ id: a.id, name: a.name })))
+  const admins = useMemo<FilteredAdministration[]>(() => {
+    if (!administrations) return []
+    return administrations.filter(a => !a.isArchived).map(a => ({ id: a.id, name: a.name }))
   }, [administrations])
+
+  const controlUnits = useMemo<ControlUnit[]>(() => {
+    if (!administrations) return []
+    return administrations.filter(a => !a.isArchived).flatMap(a => a.controlUnits).filter(c => !c.isArchived)
+  }, [administrations])
+
   return {
     admins,
     controlUnits

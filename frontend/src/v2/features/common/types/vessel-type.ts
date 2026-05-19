@@ -1,7 +1,7 @@
 export interface Vessel {
   externalReferenceNumber: string
   flagState?: string
-  internalReferenceNumber?: String
+  internalReferenceNumber?: string
   vesselId: number
   vesselName?: string
 }

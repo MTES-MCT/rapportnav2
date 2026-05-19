@@ -43,7 +43,7 @@ const ACTIONS: AdminAction[] = [
   }
 ]
 
-type AdminServiceProps = {}
+type AdminServiceProps = object
 
 const AdminServiceItem: React.FC<AdminServiceProps> = () => {
   const [search, setSearch] = useState<string>()

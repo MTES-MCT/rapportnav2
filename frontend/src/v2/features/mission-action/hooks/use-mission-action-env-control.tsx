@@ -4,7 +4,6 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionEnvActionData } from '../../common/types/mission-action'
 import { ActionEnvControlInput } from '../types/action-type'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionEnvControl(
   action: MissionAction,
@@ -13,7 +12,6 @@ export function useMissionActionEnvControl(
   const value = action?.data as MissionEnvActionData
   const { extractLatLngFromMultiPoint } = useCoordinate()
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionEnvActionData): ActionEnvControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -26,7 +24,7 @@ export function useMissionActionEnvControl(
   }
 
   const fromInputToFieldValue = (value: ActionEnvControlInput): MissionEnvActionData => {
-    const { dates, geoCoords, ...newData } = value
+    const { dates, ...newData } = value
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
     return { ...newData, endDateTimeUtc, startDateTimeUtc }

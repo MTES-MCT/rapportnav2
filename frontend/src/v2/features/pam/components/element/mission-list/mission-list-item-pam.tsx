@@ -107,7 +107,7 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'}>
-          <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} onClick={e => goToMission(mission)} />
+          <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} onClick={() => goToMission(mission)} />
         </FlexboxGrid.Item>
       </FlexboxGrid>
     </ListItem>

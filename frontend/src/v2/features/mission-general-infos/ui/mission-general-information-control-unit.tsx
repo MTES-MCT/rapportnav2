@@ -1,5 +1,5 @@
 import { FormikSelect, Select } from '@mtes-mct/monitor-ui'
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { ControlUnit } from '../../common/types/control-unit-types'
 
 interface MissionGeneralInformationControlUnitProps {
@@ -17,11 +17,9 @@ const MissionGeneralInformationControlUnit: React.FC<MissionGeneralInformationCo
   controlUnits,
   isDisabled
 }) => {
-  const [options, setOptions] = useState<{ value: number; label: string }[]>([])
-
-  useEffect(() => {
-    if (!controlUnits) return
-    setOptions(controlUnits.map(c => ({ value: c.id, label: c.name })))
+  const options = useMemo<{ value: number; label: string }[]>(() => {
+    if (!controlUnits) return []
+    return controlUnits.map(c => ({ value: c.id, label: c.name }))
   }, [controlUnits])
   return (
     <>

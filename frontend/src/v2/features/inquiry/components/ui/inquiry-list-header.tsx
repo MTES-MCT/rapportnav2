@@ -30,7 +30,7 @@ const INQUIRY_ITEMS_HEADERS = [
   }
 ]
 
-interface InquiryListHeaderProps {}
+type InquiryListHeaderProps = object
 
 const InquiryListHeader: React.FC<InquiryListHeaderProps> = () => {
   return (

@@ -7,6 +7,6 @@ export const StyledFormikToggle = styled(({ label, ...props }: ToggleProps) => (
     <FormikToggle {...props} label="" isLight isLabelHidden readOnly={false} />
     <ToggleLabel>{label}</ToggleLabel>
   </div>
-))(({ theme }) => ({
+))(() => ({
   marginRight: 8
 }))

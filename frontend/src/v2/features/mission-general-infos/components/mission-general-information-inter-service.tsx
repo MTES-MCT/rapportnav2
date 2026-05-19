@@ -1,7 +1,7 @@
 import { Accent, Button, FormikEffect, FormikSelect, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { isEmpty, isEqual } from 'lodash'
-import { FC, useEffect, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { Administration } from '../../common/types/control-unit-types.ts'
 import { InterMinisterialService } from '../../common/types/mission-types.ts'
@@ -23,19 +23,16 @@ const MissionGeneralInformationInterService: FC<MissionGeneralInformationInterSe
   fieldFormik,
   administrations
 }) => {
-  const [opens, setOpens] = useState<boolean[]>([])
-  const [initialValues, setInitialValues] = useState<InterMinisterielFormInput>()
+  const [opens, setOpens] = useState<boolean[]>(() =>
+    fieldFormik.field?.value?.length ? fieldFormik.field.value.map(() => false) : []
+  )
   const { admins, controlUnits } = useMissionGeneralInfosInterService(administrations)
 
-  useEffect(() => {
+  const initialValues = useMemo<InterMinisterielFormInput>(() => {
     if (!fieldFormik.field?.value || fieldFormik.field.value.length === 0) {
-      setInitialValues({
-        interMinisterialServices: [{ administrationId: undefined, controlUnitId: undefined }]
-      })
-      return
+      return { interMinisterialServices: [{ administrationId: undefined, controlUnitId: undefined }] }
     }
-    setOpens(fieldFormik.field.value.map(() => false))
-    setInitialValues({ interMinisterialServices: fieldFormik.field.value })
+    return { interMinisterialServices: fieldFormik.field.value }
   }, [fieldFormik])
 
   const handleSubmit = (input: Record<string, any>) => {

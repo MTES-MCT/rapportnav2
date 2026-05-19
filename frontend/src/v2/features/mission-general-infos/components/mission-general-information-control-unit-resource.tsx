@@ -1,7 +1,7 @@
 import { Accent, Button, FormikEffect, FormikSelect, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { isEqual } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Stack } from 'rsuite'
 import { ControlUnitResource } from '../../common/types/control-unit-types.ts'
 import Text from '@common/components/ui/text.tsx'
@@ -23,15 +23,12 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
   controlUnitResources,
   isMissionFinished
 }) => {
-  const [initialValues, setInitialValues] = useState<ResourceFormInput>()
-
-  useEffect(() => {
-    if (!controlUnitResources) return
+  const initialValues = useMemo<ResourceFormInput>(() => {
+    if (!controlUnitResources) return undefined
     if (!fieldFormik.field?.value || fieldFormik.field.value.length === 0) {
-      setInitialValues({ resources: [{ id: undefined }] })
-      return
+      return { resources: [{ id: undefined }] }
     }
-    setInitialValues({ resources: fieldFormik.field.value?.map(v => ({ id: v.id })) })
+    return { resources: fieldFormik.field.value?.map(v => ({ id: v.id })) }
   }, [fieldFormik, controlUnitResources])
 
   const getNewValue = (input: ResourceFormInput) => {
@@ -76,7 +73,7 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
                                 label="Moyen(s) utilisé(s)"
                                 options={
                                   controlUnitResources?.map((resource: ControlUnitResource) => ({
-                                    value: resource.id!!,
+                                    value: resource.id!,
                                     label: `${resource.name}`
                                   })) || []
                                 }

@@ -45,7 +45,7 @@ const ACTIONS: AdminAction[] = [
   }
 ]
 
-type AdminGeneralInfosProps = {}
+type AdminGeneralInfosProps = object
 
 const AdminGeneralInfosItem: React.FC<AdminGeneralInfosProps> = () => {
   const [page, setPage] = useState(0)

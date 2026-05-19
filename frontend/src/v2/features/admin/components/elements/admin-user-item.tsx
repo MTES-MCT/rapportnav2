@@ -54,7 +54,7 @@ const ACTIONS: AdminAction[] = [
   }
 ]
 
-type AdminUserProps = {}
+type AdminUserProps = object
 
 const AdminUserItem: React.FC<AdminUserProps> = () => {
   const { data: users } = useUserListQuery()

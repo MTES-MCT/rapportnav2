@@ -2,7 +2,7 @@ import { Tag, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import Text from '@common/components/ui/text.tsx'
 
-interface MissionInterServicesTagProps {}
+type MissionInterServicesTagProps = object
 
 const MissionInterServicesTag: React.FC<MissionInterServicesTagProps> = () => {
   return (

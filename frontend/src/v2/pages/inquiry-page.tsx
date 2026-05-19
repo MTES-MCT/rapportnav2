@@ -13,7 +13,7 @@ import InquiryHeader from '../features/inquiry/components/ui/inquiry-header.tsx'
 
 const InquiryPage: React.FC = () => {
   const { getUrl } = useGlobalRoutes()
-  let { inquiryId, actionId } = useParams()
+  const { inquiryId, actionId } = useParams()
   const { navigateAndResetCache } = useAuth()
   const exitMission = async () => navigateAndResetCache(getUrl(OwnerType.INQUIRY), inquiriesKeys.all())
 

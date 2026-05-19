@@ -1,7 +1,7 @@
 import Text from '@common/components/ui/text'
 import { THEME } from '@mtes-mct/monitor-ui'
 
-type MissionControlEnvErrorProps = {}
+type MissionControlEnvErrorProps = object
 
 const MissionControlEnvError: React.FC<MissionControlEnvErrorProps> = () => {
   return (

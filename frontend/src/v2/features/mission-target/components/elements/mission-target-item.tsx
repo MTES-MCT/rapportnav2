@@ -2,7 +2,7 @@ import { ControlType } from '@common/types/control-types.ts'
 import { VehicleTypeEnum } from '@common/types/env-mission-types.ts'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Stack } from 'rsuite'
 import { MissionSourceEnum } from '../../../common/types/mission-types.ts'
 import { Target, TargetType } from '../../../common/types/target-types.ts'
@@ -33,12 +33,12 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
   targetType,
   availableControlTypes
 }) => {
-  const [target, setTarget] = useState<Target>()
   const { getAvailableControlTypes } = useTarget()
   const [showDetail, setShowDetail] = useState(false)
   const [editTarget, setEditTarget] = useState<boolean>(false)
   const [editInfraction, setEditInfraction] = useState<boolean>(false)
-  const [disabledAddInfraction, setDisableAddInfraction] = useState(false)
+  const target = fieldFormik.field.value
+  const disabledAddInfraction = targetType !== TargetType.VEHICLE && target?.source === MissionSourceEnum.MONITORENV
 
   const handleDeleteTarget = (index?: number) => {
     if (onDelete && (index ?? -1) >= 0) onDelete(index)
@@ -53,15 +53,6 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
   const handleEditTarget = () => setEditTarget(true)
   const handleShowDetail = () => setShowDetail(!showDetail)
   const handleAddInfraction = () => setEditInfraction(true)
-
-  useEffect(() => {
-    if (!fieldFormik.field.value) return
-    setTarget(fieldFormik.field.value)
-  }, [fieldFormik.field.value])
-
-  useEffect(() => {
-    setDisableAddInfraction(targetType !== TargetType.VEHICLE && target?.source === MissionSourceEnum.MONITORENV)
-  }, [targetType, target])
 
   return (
     <Stack

@@ -98,7 +98,7 @@ export const offlineCreateActionDefaults = {
 
 export const onlineCreateActionDefaults = {
   mutationFn: createAction,
-  onSuccess: async (serverResponse, newAction, _context) => {
+  onSuccess: async serverResponse => {
     await queryClient.invalidateQueries({
       queryKey: actionsKeys.byId(serverResponse?.data?.id),
       type: 'all'

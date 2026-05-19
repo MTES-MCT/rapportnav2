@@ -3,7 +3,7 @@ import { THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { FlexboxGrid } from 'rsuite'
 
-interface MissionListHeaderProps {}
+type MissionListHeaderProps = object
 
 const MissionListHeaderPam: React.FC<MissionListHeaderProps> = () => {
   return (

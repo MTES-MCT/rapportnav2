@@ -3,7 +3,7 @@ import { Banner, Icon, Level, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 
-export type ActionHeaderSyncStatusBannerProps = {}
+export type ActionHeaderSyncStatusBannerProps = object
 
 const ActionHeaderSyncStatusBanner: FC<ActionHeaderSyncStatusBannerProps> = () => {
   return (

@@ -34,6 +34,7 @@ export function useCoordinate(): CoordinateHook {
       const lat = multiPointString?.coordinates[0][1]
 
       return [Number(lat), Number(lng)]
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       return [0, 0]
     }

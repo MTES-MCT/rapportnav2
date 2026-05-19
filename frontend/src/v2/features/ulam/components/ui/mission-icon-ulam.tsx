@@ -14,7 +14,7 @@ const MissionIconUlam: FC<MissionIconUlamProps> = ({ missionReportType }) => {
     [MissionReportTypeEnum.FIELD_REPORT]: Icon.ShowErsMessages,
   };
 
-  const MissionIcon = iconMap[missionReportType!!] || Icon.ShowErsMessages;
+  const MissionIcon = iconMap[missionReportType!] || Icon.ShowErsMessages;
   return <MissionIcon size={28} color={THEME.color.charcoal} />;
 }
 

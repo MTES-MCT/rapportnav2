@@ -9,7 +9,7 @@ export const OFFLINE_CHECK_INTERVAL = 300000 // every 5 minutes
 // export const OFFLINE_CHECK_INTERVAL = 60000 // every 1 minute
 // export const OFFLINE_CHECK_INTERVAL = 6000 // every 1 sec
 
-type OfflineDialogProps = {}
+type OfflineDialogProps = object
 
 const OfflineDialog: FC<OfflineDialogProps> = () => {
   const { isOffline, hasNetwork, toggleOnline } = useOnlineManager()

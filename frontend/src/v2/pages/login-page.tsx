@@ -56,6 +56,7 @@ const LoginPage: FC = () => {
         authToken.set(content.token)
         navigate('/', { replace: true })
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setStatus('La connexion a échoué. Veuillez vérifier vos identifiants.')
     } finally {

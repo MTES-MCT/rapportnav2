@@ -2,9 +2,9 @@ import { Dropdown, Icon, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 import { ActionType } from '../../../common/types/action-type'
-import { TimelineDropdownItem, TimelineDropdownSubItem } from '../../../mission-timeline/hooks/use-timeline'
+import { TimelineDropdownItem, TimelineDropdownSubItem } from '../../hooks/use-timeline.tsx'
 
-const DropdownSubItemStyled = styled(Dropdown.Item)(({ theme }) => ({
+const DropdownSubItemStyled = styled(Dropdown.Item)(() => ({
   color: 'white !important',
   backgroundColor: THEME.color.blueYonder25
 }))

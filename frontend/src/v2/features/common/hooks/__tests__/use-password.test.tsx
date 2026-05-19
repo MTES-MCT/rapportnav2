@@ -30,7 +30,7 @@ describe('usePassword', () => {
   it('should contain at least one symbol', () => {
     const { result } = renderHook(() => usePassword())
     const password = result.current.generatePassword(16)
-    expect(password).toMatch(/[!@#$%^&*()\-_=+\[\]{}|;:,.<>?]/)
+    expect(password).toMatch(/[!@#$%^&*()\-_=+[\]{}|;:,.<>?]/)
   })
 
   it('should contain at least one lowercase letter', () => {
@@ -53,7 +53,7 @@ describe('usePassword', () => {
 
   it('should only contain valid characters', () => {
     const { result } = renderHook(() => usePassword())
-    const validChars = /^[0-9a-zA-Z!@#$%^&*()\-_=+\[\]{}|;:,.<>?]+$/
+    const validChars = /^[0-9a-zA-Z!@#$%^&*()\-_=+[\]{}|;:,.<>?]+$/
     const password = result.current.generatePassword(32)
     expect(password).toMatch(validChars)
   })
@@ -65,6 +65,6 @@ describe('usePassword', () => {
     expect(password).toMatch(/[0-9]/)
     expect(password).toMatch(/[a-z]/)
     expect(password).toMatch(/[A-Z]/)
-    expect(password).toMatch(/[!@#$%^&*()\-_=+\[\]{}|;:,.<>?]/)
+    expect(password).toMatch(/[!@#$%^&*()\-_=+[\]{}|;:,.<>?]/)
   })
 })

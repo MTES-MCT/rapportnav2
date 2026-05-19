@@ -14,7 +14,7 @@ import useAuth from '../features/auth/hooks/use-auth.tsx'
 
 const MissionPamPage: React.FC = () => {
   const { getUrl } = useGlobalRoutes()
-  let { missionId, actionId } = useParams()
+  const { missionId, actionId } = useParams()
   const { navigateAndResetCache } = useAuth()
   // invalidate mission list cache key when going back to list page
   const exitMission = async () => navigateAndResetCache(getUrl(OwnerType.MISSION), missionsKeys.filter())

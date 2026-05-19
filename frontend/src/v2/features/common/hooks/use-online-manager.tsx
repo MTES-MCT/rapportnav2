@@ -9,7 +9,7 @@ import { useOfflineSince, OFFLINE_SINCE_KEY } from './use-offline-since.tsx'
  * - Integrates with TanStack Query's onlineManager for query behavior.
  */
 export function useOnlineManager() {
-  const { offlineSince, setOfflineSince } = useOfflineSince()
+  const { setOfflineSince } = useOfflineSince()
 
   // Physical network availability
   const [hasNetwork, setHasNetwork] = useState(() => navigator.onLine)
@@ -59,12 +59,14 @@ export function useOnlineManager() {
 
   // Sync state when network or manual offline status changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncs with external connectivity state
     computeStatus(hasNetwork, manualOffline)
   }, [hasNetwork, manualOffline, computeStatus])
 
   // Listen to browser connectivity changes
   useEffect(() => {
     const onOnline = () => setHasNetwork(true)
+
     const onOffline = () => setHasNetwork(false)
 
     window.addEventListener('online', onOnline)

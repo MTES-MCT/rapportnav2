@@ -40,7 +40,7 @@ const ACTIONS: AdminAction[] = [
   }
 ]
 
-type AdminUserProps = {}
+type AdminUserProps = object
 
 const AdminApiKeyItem: React.FC<AdminUserProps> = () => {
   const { data } = useAdminFishAuctionListQuery()

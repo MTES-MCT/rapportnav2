@@ -26,6 +26,7 @@ interface MissionGeneralInformationCrewPamProps {
 }
 
 const EmptyCrewListText = styled((props: Omit<TextProps, 'as'> & { isMissionFinished: boolean }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isMissionFinished, ...otherProps } = props
   return <Text {...otherProps} as="h3" />
 })(({ theme, isMissionFinished }) => ({

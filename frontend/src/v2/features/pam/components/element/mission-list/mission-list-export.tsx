@@ -58,7 +58,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
 
   const onSelectExportType = (nextValue: string | undefined) => {
     setExportAsZip(nextValue)
-    nextValue && setMainMissionId(undefined) // reset the select field
+    if (nextValue) setMainMissionId(undefined) // reset the select field
   }
 
   const onSelectMainMission = (nextValue: number | undefined) => {

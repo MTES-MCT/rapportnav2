@@ -14,7 +14,7 @@ const MissionListPageTitle: React.FC<MissionListPageTitleProps> = ({ user }) => 
       <Stack.Item>
         <h4>Rapport Nav </h4>
       </Stack.Item>
-      <Stack.Item>{user?.serviceName && <h4> | </h4>}</Stack.Item>
+      <Stack.Item>{user?.serviceName && <h4> | </h4>}</Stack.Item>
       <Stack.Item>
         {user?.serviceName && <h4 style={{ color: THEME.color.blueGray }}> {user?.serviceName}</h4>}
       </Stack.Item>

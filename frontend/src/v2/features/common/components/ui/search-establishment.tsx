@@ -23,9 +23,9 @@ export const SearchEstablishment = styled(
       return `${value.name} ${headquarters}| SIRET=${value.siret} | ${value.address}`
     }
 
-    const onSelect = (eventKey?: string, event: SyntheticEvent) => {
+    const onSelect = (eventKey?: string, event?: SyntheticEvent) => {
       const value = establishments?.find(item => item.id === eventKey)
-      event.stopPropagation()
+      event?.stopPropagation()
       if (!value) return
 
       setOpen(false)
@@ -44,7 +44,6 @@ export const SearchEstablishment = styled(
       }
       setSearch(getName(establishment))
     }, [establishment])
-    debugger
     return (
       <Stack direction="column" spacing="0.5rem" data-testid="search-establishment">
         <Stack.Item style={{ width: '100%' }}>

@@ -24,9 +24,9 @@ const MissionTimelineItemStatusCardTitle: FC<{ action?: MissionTimelineAction; i
         }}
       >
         <b>{`${mapStatusToText(action?.status)} - début${
-          !!action?.reason ? ' - ' + statusReasonToHumanString(action?.reason) : ''
+          action?.reason ? ' - ' + statusReasonToHumanString(action?.reason) : ''
         }`}</b>
-        {!!action?.observations ? ' - ' + action?.observations : ''}
+        {action?.observations ? ' - ' + action?.observations : ''}
       </Text>
       <Icon.EditUnbordered size={20} color={THEME.color.slateGray} style={{ marginLeft: '0.5rem' }} />
     </div>

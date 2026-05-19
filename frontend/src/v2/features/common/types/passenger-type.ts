@@ -2,7 +2,7 @@ export type MissionPassenger = {
   id?: string
   missionId?: number
   missionIdUUID?: string
-  fullName: String
+  fullName: string
   organization?: string
   isIntern?: boolean
   startDate: string

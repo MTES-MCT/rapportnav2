@@ -3,7 +3,7 @@ import { Label, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
 
-interface MissionInfractionEmptyProps {}
+type MissionInfractionEmptyProps = object
 
 const MissionInfractionEmpty: React.FC<MissionInfractionEmptyProps> = () => {
   return (

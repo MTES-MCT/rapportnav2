@@ -1,6 +1,5 @@
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
-import { isNil } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Stack } from 'rsuite'
 
 const activeStyle = {
@@ -21,17 +20,12 @@ type YesNoToogleProps = {
 }
 
 const YesNoToogle: React.FC<YesNoToogleProps> = ({ initValue, onSubmit }) => {
-  const [value, setValue] = useState<boolean>()
+  const [value, setValue] = useState<boolean>(initValue)
 
   const handleResponse = (response: boolean) => {
     setValue(response)
     if (onSubmit) onSubmit(response)
   }
-
-  useEffect(() => {
-    if (isNil(initValue)) return
-    setValue(initValue)
-  }, [initValue])
 
   return (
     <Stack direction={'row'}>

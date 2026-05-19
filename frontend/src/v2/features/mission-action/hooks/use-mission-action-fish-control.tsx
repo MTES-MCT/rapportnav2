@@ -4,7 +4,6 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionFishActionData } from '../../common/types/mission-action'
 import { ActionFishControlInput } from '../types/action-type'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionFishControl(
   action: MissionAction,
@@ -13,7 +12,6 @@ export function useMissionActionFishControl(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionFishActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const fromFieldValueToInput = (data: MissionFishActionData): ActionFishControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -26,7 +24,7 @@ export function useMissionActionFishControl(
   }
 
   const fromInputToFieldValue = (value: ActionFishControlInput): MissionFishActionData => {
-    const { dates, geoCoords, ...newData } = value
+    const { dates, ...newData } = value
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
     return { ...newData, startDateTimeUtc, endDateTimeUtc }

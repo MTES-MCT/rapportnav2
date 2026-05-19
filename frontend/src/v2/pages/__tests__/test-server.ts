@@ -7,7 +7,7 @@ export const loginSuccessHandler = [
     return HttpResponse.json({ token: 'jwt' }, { status: 200 })
   })
 ]
-export const loginFailedHandler = http.post(LOGIN_ENDPOINT, (_req, res, ctx) => {
+export const loginFailedHandler = http.post(LOGIN_ENDPOINT, _req => {
   return HttpResponse.json({ message: 'Login Failed' }, { status: 400 })
 })
 
