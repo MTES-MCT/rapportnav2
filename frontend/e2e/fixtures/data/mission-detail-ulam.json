@@ -1,0 +1,36 @@
+{
+  "id": 201,
+  "idUUID": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "IN_PROGRESS",
+  "isCompleteForStats": false,
+  "data": {
+    "startDateTimeUtc": "2026-01-15T07:00:00Z",
+    "endDateTimeUtc": "2026-01-15T19:00:00Z",
+    "missionSource": "RAPPORT_NAV",
+    "missionTypes": ["LAND"],
+    "openBy": "ULAM Test Service",
+    "controlUnits": [
+      {
+        "id": 200,
+        "name": "ULAM Test Unit",
+        "administration": "DIRM SA",
+        "isArchived": false,
+        "resources": []
+      }
+    ],
+    "facade": "SA",
+    "hasMissionOrder": false,
+    "isUnderJdp": false
+  },
+  "generalInfos": {
+    "missionTypes": ["LAND"],
+    "missionReportType": "FIELD_REPORT",
+    "crew": [],
+    "nbHourAtSea": 0
+  },
+  "actions": [],
+  "completenessForStats": {
+    "status": "INCOMPLETE",
+    "sources": ["RAPPORT_NAV"]
+  }
+}

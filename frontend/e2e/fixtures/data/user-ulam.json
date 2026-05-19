@@ -1,0 +1,9 @@
+{
+  "id": 2,
+  "email": "ulam-user@test.gouv.fr",
+  "firstName": "Marie",
+  "lastName": "Martin",
+  "serviceId": 20,
+  "serviceName": "ULAM Test Service",
+  "controlUnitId": 200
+}
