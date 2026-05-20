@@ -1,14 +1,12 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import java.time.Instant
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 data class PatchMissionInput(
     @param:JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>? = null,
     @param:JsonProperty("controlUnits") var controlUnits: List<LegacyControlUnitEntity>? = null,
