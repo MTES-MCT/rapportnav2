@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.81.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.1...v2.81.2) (2026-05-20)
+
+
+### Bug Fixes
+
+* **secu:** force org.apache.tomcat.embed:tomcat-embed-core ([ff0ccf2](https://github.com/MTES-MCT/rapportnav2/commit/ff0ccf2518997e0da5ef8242dc59a67a919e0f9e))
+
 ## [2.81.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.0...v2.81.1) (2026-05-20)
 
 
