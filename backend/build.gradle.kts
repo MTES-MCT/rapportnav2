@@ -55,6 +55,8 @@ dependencyManagement {
     // force any dependency like following :
        dependency("org.apache.commons:commons-lang3:3.20.0")
        dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.22")
+       dependency("org.apache.tomcat.embed:tomcat-embed-el:11.0.22")
+       dependency("org.apache.tomcat.embed:tomcat-embed-websocket:11.0.22")
   }
 }
 
