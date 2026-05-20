@@ -4,13 +4,18 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.wiremock.*
 import org.slf4j.LoggerFactory
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 
-
-class WireMockConfig {
+@Configuration
+@Profile("local")
+open class WireMockConfig {
 
     private val logger = LoggerFactory.getLogger(WireMockConfig::class.java)
 
-    fun startWireMock(): WireMockServer {
+    @Bean(destroyMethod = "stop")
+    open fun wireMockServer(): WireMockServer {
         val wireMockServer = WireMockServer(
             WireMockConfiguration.options()
                 .port(8089)

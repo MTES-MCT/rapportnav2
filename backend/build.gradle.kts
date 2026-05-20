@@ -103,7 +103,6 @@ dependencies {
   implementation("org.apache.commons:commons-text:1.15.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.11")
   implementation("com.neovisionaries:nv-i18n:1.29")
-  implementation("org.wiremock:wiremock-standalone:4.0.0-beta.32")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
@@ -119,8 +118,33 @@ java {
   sourceCompatibility = JavaVersion.VERSION_25
 }
 
+sourceSets {
+  create("local") {
+    compileClasspath += sourceSets.main.get().output
+    runtimeClasspath += sourceSets.main.get().output
+  }
+}
+
+configurations {
+  named("localImplementation") {
+    extendsFrom(configurations.implementation.get())
+  }
+  named("localRuntimeOnly") {
+    extendsFrom(configurations.runtimeOnly.get())
+  }
+}
+
+dependencies {
+  "localImplementation"("org.wiremock:wiremock-standalone:4.0.0-beta.32")
+}
+
 kotlin {
   jvmToolchain(25)
+}
+
+tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+  classpath += sourceSets["local"].output
+  classpath += configurations["localRuntimeClasspath"]
 }
 
 tasks.withType<KotlinCompile>().configureEach {
