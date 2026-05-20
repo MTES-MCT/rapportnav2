@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.81.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.0...v2.81.1) (2026-05-20)
+
+
+### Bug Fixes
+
+* **frontend:** show 400s correctly ([2714613](https://github.com/MTES-MCT/rapportnav2/commit/2714613578f5a59a5b8920317b5c7a30088e97cd))
+* **monitorenv:** exclude null fields from PATCH mission payload ([78c170a](https://github.com/MTES-MCT/rapportnav2/commit/78c170ad014c98328f5ca79cc4d68f5a91387198))
+
 ## [2.81.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.80.0...v2.81.0) (2026-05-13)
 
 
