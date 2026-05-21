@@ -12,7 +12,7 @@ variables:
     value: postgres:15.17-alpine
     description: Image de la base de données
   PROJECT_VERSION:
-    value: 2.81.3
+    value: 2.81.4
     description: Version du projet à déployer
   ENV_DEPLOIEMENT:
     value: ecole
