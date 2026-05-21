@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.81.6](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.5...v2.81.6) (2026-05-21)
+
+
+### Bug Fixes
+
+* cache bust ([678e834](https://github.com/MTES-MCT/rapportnav2/commit/678e8348e9daff03dfa848dd02feea3db1b09d32))
+
 ## [2.81.5](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.4...v2.81.5) (2026-05-21)
 
 
