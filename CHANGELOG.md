@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.81.4](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.3...v2.81.4) (2026-05-21)
+
+
+### Bug Fixes
+
+* **Env:** ControlUnitResource type missing ([887e39f](https://github.com/MTES-MCT/rapportnav2/commit/887e39fba1139f570a6f41d1b04676bb1a2ca71a))
+
+
+### Reverts
+
+* PatchMissionInput annotation ([c003d8c](https://github.com/MTES-MCT/rapportnav2/commit/c003d8c37a97f15007336b315f5c8ed3cf1974e2))
+
 ## [2.81.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.2...v2.81.3) (2026-05-20)
 
 
