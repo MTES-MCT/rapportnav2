@@ -1,0 +1,6 @@
+DO
+$$
+BEGIN
+ALTER TABLE "agent_2" ADD COLUMN card_id VARCHAR(50) NULL;
+END
+$$;

@@ -81,6 +81,12 @@ class SecurityConfig(
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers("/api/v1/auth/register").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
                 .requestMatchers("/api/v2/admin/**").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
+                .requestMatchers("/api/v2/manage/**")
+                .hasAnyAuthority(
+                    AuthoritiesEnum.ROLE_ADMIN.toString(),
+                    AuthoritiesEnum.ROLE_MANAGER_PAM.toString(),
+                    AuthoritiesEnum.ROLE_MANAGER_ULAM.toString()
+                )
                 .requestMatchers("/api/v2/**").authenticated()
                 .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated()

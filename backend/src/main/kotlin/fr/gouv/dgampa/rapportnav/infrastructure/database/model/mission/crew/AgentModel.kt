@@ -35,6 +35,9 @@ class AgentModel
     @Column(name = "user_id", nullable = true)
     var userId: Int? = null,
 
+    @Column(name = "card_id", nullable = true)
+    var cardId: String? = null,
+
     @Column(name = "disabled_at", nullable = true)
     var disabledAt: Instant? = null,
 

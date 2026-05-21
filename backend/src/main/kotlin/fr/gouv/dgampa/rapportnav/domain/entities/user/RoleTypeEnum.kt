@@ -5,6 +5,9 @@ enum class RoleTypeEnum {
     API_USER,
     USER_PAM,
     USER_ULAM,
+    MANAGER_PAM,
+    MANAGER_ULAM
+
 }
 
 enum class AuthoritiesEnum {
@@ -12,6 +15,8 @@ enum class AuthoritiesEnum {
     ROLE_API_USER,
     ROLE_USER_PAM,
     ROLE_USER_ULAM,
+    ROLE_MANAGER_PAM,
+    ROLE_MANAGER_ULAM
 }
 
 fun RoleTypeEnum.toAuthority(): AuthoritiesEnum = when (this) {
@@ -19,4 +24,6 @@ fun RoleTypeEnum.toAuthority(): AuthoritiesEnum = when (this) {
     RoleTypeEnum.USER_PAM -> AuthoritiesEnum.ROLE_USER_PAM
     RoleTypeEnum.USER_ULAM -> AuthoritiesEnum.ROLE_USER_ULAM
     RoleTypeEnum.API_USER -> AuthoritiesEnum.ROLE_API_USER
+    RoleTypeEnum.MANAGER_PAM -> AuthoritiesEnum.ROLE_MANAGER_PAM
+    RoleTypeEnum.MANAGER_ULAM -> AuthoritiesEnum.ROLE_MANAGER_ULAM
 }

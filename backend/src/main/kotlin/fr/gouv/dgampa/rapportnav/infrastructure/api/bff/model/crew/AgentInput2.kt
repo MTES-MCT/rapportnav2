@@ -6,5 +6,6 @@ data class AgentInput2(
     val lastName: String,
     val userId: Int? = null,
     val roleId: Int? = null,
+    val cardId: String? = null,
     var serviceId: Int
 )

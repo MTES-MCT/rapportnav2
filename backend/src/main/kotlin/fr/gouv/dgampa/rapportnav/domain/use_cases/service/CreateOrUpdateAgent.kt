@@ -32,6 +32,7 @@ class CreateOrUpdateAgent(
         return AgentModel(
             id = input.id,
             service = service,
+            cardId = input.cardId,
             userId = input.userId,
             lastName = input.lastName,
             firstName = input.firstName,
@@ -52,9 +53,10 @@ class CreateOrUpdateAgent(
         return AgentModel(
             id = agentId,
             userId = input.userId,
+            cardId = input.cardId,
             service = agent.service,
             lastName = input.lastName,
-            firstName = input.firstName,
+            firstName = input.firstName
         )
     }
 }
