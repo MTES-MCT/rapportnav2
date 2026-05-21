@@ -7,6 +7,7 @@ data class LegacyControlUnitResourceEntity @JsonCreator constructor(
     @field:JsonProperty("id") val id: Int,
     @field:JsonProperty("controlUnitId") val controlUnitId: Int? = null,
     @field:JsonProperty("name") val name: String? = null,
+    @field:JsonProperty("type") val type: ControlUnitResourceType? = null,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
