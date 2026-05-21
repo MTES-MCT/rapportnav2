@@ -125,7 +125,7 @@ export const localStoragePersister = createAsyncStoragePersister({
 export const persistOptions: OmitKeyof<PersistQueryClientOptions, 'queryClient'> = {
   persister: localStoragePersister,
   maxAge: STATIC_DATA_GC_TIME,
-  buster: 'v4', // bump this to force wipe user cache
+  buster: 'v5', // bump this to force wipe user cache
   hydrateOptions: {
     // When recovering from localStorage on page load
     defaultOptions: {
