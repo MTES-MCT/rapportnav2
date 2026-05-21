@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceEnv
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Repository
 import tools.jackson.databind.json.JsonMapper
 import tools.jackson.module.kotlin.readValue
@@ -23,6 +24,7 @@ class APIEnvControlUnitResourceRepository(
     private val logger = LoggerFactory.getLogger(APIEnvControlUnitResourceRepository::class.java)
     private val client = clientFactory.create()
 
+    @Cacheable(value = ["resources"])
     override fun findAll(): List<ControlUnitResourceEnv> {
         val url = "$host/api/v1/control_unit_resources"
         logger.info("Sending GET request for Env control unit resources fetching URL: $url")
