@@ -1,32 +1,31 @@
 import Text from '@common/components/ui/text.tsx'
-import { useGlobalRoutes } from '@router/use-global-routes.tsx'
-import { useStore } from '@tanstack/react-store'
+import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
+import { useSelector } from '@tanstack/react-store'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FlexboxGrid, Stack, Tabs } from 'rsuite'
 import AdminAgentItem from '../features/admin/components/elements/admin-agent-item.tsx'
 import AdminAgentRoleItem from '../features/admin/components/elements/admin-agent-role-item.tsx'
 import AdminApikeyItem from '../features/admin/components/elements/admin-apikey-item.tsx'
+import AdminFishAuctionItem from '../features/admin/components/elements/admin-fish-auction-item.tsx'
+import AdminGeneralInfosItem from '../features/admin/components/elements/admin-general-infos-item.tsx'
 import AdminServiceItem from '../features/admin/components/elements/admin-service-item.tsx'
+import AdminApiKeyLoggingItem from '../features/admin/components/elements/admin-user-apikey-logging-item.tsx'
+import AdminUserAuthLoggingItem from '../features/admin/components/elements/admin-user-auth-logging-item.tsx'
 import AdminUserItem from '../features/admin/components/elements/admin-user-item.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper.tsx'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper.tsx'
-import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
 import { store } from '../store'
-import AdminGeneralInfosItem from '../features/admin/components/elements/admin-general-infos-item.tsx'
-import AdminUserAuthLoggingItem from '../features/admin/components/elements/admin-user-auth-logging-item.tsx'
-import AdminApiKeyLoggingItem from '../features/admin/components/elements/admin-user-apikey-logging-item.tsx'
-import AdminFishAuctionItem from '../features/admin/components/elements/admin-fish-auction-item.tsx'
 
 const AdminPage: React.FC = () => {
-  const { getSidebarItems } = useGlobalRoutes()
-  const user = useStore(store, state => state.user)
+  const navigate = useNavigate()
+  const user = useSelector(store, state => state.user)
   const [activeKey, setActiveKey] = useState<number>(1)
 
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle user={user} />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="admin" items={getSidebarItems()} />}
       footer={undefined}
     >
       <div
@@ -40,6 +39,14 @@ const AdminPage: React.FC = () => {
         }}
       >
         <div style={{ padding: '0 3rem', marginTop: '2rem' }}>
+          <Button
+            Icon={Icon.Minus}
+            accent={Accent.TERTIARY}
+            onClick={() => navigate('/')}
+            style={{ marginLeft: 8, marginRight: 4 }}
+          >
+            Retour page d'acceuil
+          </Button>
           <Text as={'h1'} style={{ fontSize: '32px' }}>
             Dashboard
           </Text>

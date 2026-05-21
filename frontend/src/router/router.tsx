@@ -1,19 +1,21 @@
 import { LOGIN_PATH, ROOT_PATH, SIGNUP_PATH } from '@router/routes.tsx'
 import { wrapCreateBrowserRouterV6 } from '@sentry/react'
 import { createBrowserRouter } from 'react-router-dom'
-import ErrorPage from '../v2/pages/error-page.tsx'
-import LoginPage from '../v2/pages/login-page.tsx'
-import SignupPage from '../v2/pages/signup-page.tsx'
-import AdminGuard from '../v2/features/auth/components/admin-guard.tsx'
 import AuthGuard from '../v2/features/auth/components/auth-guard.tsx'
+import RoleGuard from '../v2/features/auth/components/role-guard.tsx'
+import { RoleType } from '../v2/features/common/types/role-type.ts'
 import AdminPage from '../v2/pages/admin-page.tsx'
+import ErrorPage from '../v2/pages/error-page.tsx'
 import HomePage from '../v2/pages/home-page.tsx'
 import InquiryListPage from '../v2/pages/inquiry-list-page.tsx'
 import InquiryPage from '../v2/pages/inquiry-page.tsx'
+import LoginPage from '../v2/pages/login-page.tsx'
+import ManagePage from '../v2/pages/manage-page.tsx'
 import MissionListPamPage from '../v2/pages/mission-list-pam-page.tsx'
 import MissionListUlamPage from '../v2/pages/mission-list-ulam-page.tsx'
 import MissionPamPage from '../v2/pages/mission-pam-page.tsx'
 import MissionUlamPage from '../v2/pages/mission-ulam-page.tsx'
+import SignupPage from '../v2/pages/signup-page.tsx'
 
 const sentryCreateBrowserRouter = wrapCreateBrowserRouterV6(createBrowserRouter)
 
@@ -95,9 +97,20 @@ export const router = sentryCreateBrowserRouter([
     path: '/admin',
     element: (
       <AuthGuard>
-        <AdminGuard>
+        <RoleGuard roles={[RoleType.ADMIN]}>
           <AdminPage />
-        </AdminGuard>
+        </RoleGuard>
+      </AuthGuard>
+    ),
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/manage',
+    element: (
+      <AuthGuard>
+        <RoleGuard roles={[RoleType.MANAGER_PAM, RoleType.MANAGER_ULAM]}>
+          <ManagePage />
+        </RoleGuard>
       </AuthGuard>
     ),
     errorElement: <ErrorPage />
