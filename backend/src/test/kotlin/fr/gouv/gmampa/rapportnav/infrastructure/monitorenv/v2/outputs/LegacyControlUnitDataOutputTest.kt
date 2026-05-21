@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv.v2.outputs
 
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.ControlUnitResourceType
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.LegacyControlUnitDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.LegacyControlUnitResourceDataOutput
 import org.junit.jupiter.api.Assertions.*
@@ -14,8 +15,8 @@ class LegacyControlUnitDataOutputTest {
         @Test
         fun `should convert to LegacyControlUnitEntity with all fields`() {
             val resources = listOf(
-                LegacyControlUnitResourceDataOutput(id = 1, name = "PAM Themis"),
-                LegacyControlUnitResourceDataOutput(id = 2, name = "PAM Iris")
+                LegacyControlUnitResourceDataOutput(id = 1, name = "PAM Themis", controlUnitId = 1, type = ControlUnitResourceType.TUGBOAT),
+                LegacyControlUnitResourceDataOutput(id = 2, name = "PAM Iris", controlUnitId = 2, type = ControlUnitResourceType.SUPPORT_SHIP)
             )
 
             val output = LegacyControlUnitDataOutput(
@@ -38,8 +39,8 @@ class LegacyControlUnitDataOutputTest {
         @Test
         fun `should map resources with control unit id`() {
             val resources = listOf(
-                LegacyControlUnitResourceDataOutput(id = 1, name = "Resource 1"),
-                LegacyControlUnitResourceDataOutput(id = 2, name = "Resource 2")
+                LegacyControlUnitResourceDataOutput(id = 1, name = "PAM Themis", controlUnitId = 1, type = ControlUnitResourceType.TUGBOAT),
+                LegacyControlUnitResourceDataOutput(id = 2, name = "PAM Iris", controlUnitId = 2, type = ControlUnitResourceType.SUPPORT_SHIP)
             )
 
             val output = LegacyControlUnitDataOutput(
@@ -90,8 +91,8 @@ class LegacyControlUnitDataOutputTest {
         @Test
         fun `should preserve resource names`() {
             val resources = listOf(
-                LegacyControlUnitResourceDataOutput(id = 1, name = "PAM Themis"),
-                LegacyControlUnitResourceDataOutput(id = 2, name = "Vedette VN 123")
+                LegacyControlUnitResourceDataOutput(id = 1, name = "PAM Themis", controlUnitId = 1, type = ControlUnitResourceType.SUPPORT_SHIP),
+                LegacyControlUnitResourceDataOutput(id = 2, name = "Vedette VN 123", controlUnitId = 2, type = ControlUnitResourceType.SUPPORT_SHIP)
             )
 
             val output = LegacyControlUnitDataOutput(
@@ -112,8 +113,8 @@ class LegacyControlUnitDataOutputTest {
         @Test
         fun `should preserve resource ids`() {
             val resources = listOf(
-                LegacyControlUnitResourceDataOutput(id = 101, name = "Resource A"),
-                LegacyControlUnitResourceDataOutput(id = 202, name = "Resource B")
+                LegacyControlUnitResourceDataOutput(id = 101, name = "Resource A", controlUnitId = 1, type = ControlUnitResourceType.TUGBOAT),
+                LegacyControlUnitResourceDataOutput(id = 202, name = "Resource B", controlUnitId = 2, type = ControlUnitResourceType.SUPPORT_SHIP)
             )
 
             val output = LegacyControlUnitDataOutput(
