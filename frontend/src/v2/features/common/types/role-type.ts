@@ -1,5 +1,7 @@
 export enum RoleType {
   ADMIN = 'ADMIN',
   USER_PAM = 'USER_PAM',
-  USER_ULAM = 'USER_ULAM'
+  USER_ULAM = 'USER_ULAM',
+  MANAGER_PAM = 'MANAGER_PAM',
+  MANAGER_ULAM = 'MANAGER_ULAM'
 }

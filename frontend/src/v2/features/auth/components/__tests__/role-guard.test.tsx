@@ -1,13 +1,13 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../../../../../test-utils'
-import AdminGuard from '../admin-guard'
-import * as useAuthModule from '../../hooks/use-auth'
 import { RoleType } from '../../../common/types/role-type'
+import * as useAuthModule from '../../hooks/use-auth'
+import RoleGuard from '../role-guard'
 
 // Mock modules
 vi.mock('../../hooks/use-auth')
 
-describe('AdminGuard', () => {
+describe('RoleGuard', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -21,9 +21,9 @@ describe('AdminGuard', () => {
     })
 
     return render(
-      <AdminGuard>
+      <RoleGuard roles={[RoleType.ADMIN]}>
         <div>Admin Content</div>
-      </AdminGuard>
+      </RoleGuard>
     )
   }
 

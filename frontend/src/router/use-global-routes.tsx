@@ -107,7 +107,6 @@ export function useGlobalRoutes(): RouteHook {
     const roles = isLoggedIn()?.roles
     const SIDEBAR_ITEMS = [getSideBar(MISSION_SIDEBAR, roles)]
     if (roles?.includes(RoleType.USER_ULAM)) SIDEBAR_ITEMS.push(getSideBar(INQUIRY_SIDEBAR, roles))
-    if (roles?.includes(RoleType.ADMIN)) SIDEBAR_ITEMS.push(ADMIN_SIDEBAR)
     return SIDEBAR_ITEMS
   }
 

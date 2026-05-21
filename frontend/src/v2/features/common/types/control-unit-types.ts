@@ -59,6 +59,8 @@ export type ControlUnitResource = {
   controlUnitId: number
   name?: string
   type: ControlUnitResourceType
+  registrationId?: string
+  radioFrequency?: string
 }
 
 export type Station = {
@@ -84,4 +86,12 @@ export type Administration = {
   controlUnitIds: number[]
   isArchived: boolean
   controlUnits: ControlUnit[]
+}
+
+export type ResourceInput = {
+  id: number
+  name: string
+  controlUnitId: number
+  registrationId?: string
+  radioFrequency?: String
 }

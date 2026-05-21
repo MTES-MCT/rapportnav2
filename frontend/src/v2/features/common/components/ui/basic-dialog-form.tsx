@@ -2,15 +2,15 @@ import { Accent, Button, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct
 import { Formik } from 'formik'
 import { createElement } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { AdminAction } from '../../types/admin-action'
+import { BasicAction } from '../../types/basic-action'
 
-type DialogFormProps = {
+type BasicDialogFormProps = {
   initValue: any
-  action?: AdminAction
+  action?: BasicAction
   onSubmit: (response: boolean, value?: any) => void
 }
 
-const DialogForm: React.FC<DialogFormProps> = ({ action, initValue, onSubmit }) => {
+const BasicDialogForm: React.FC<BasicDialogFormProps> = ({ action, initValue, onSubmit }) => {
   return (
     <Formik
       validateOnChange={true}
@@ -36,21 +36,23 @@ const DialogForm: React.FC<DialogFormProps> = ({ action, initValue, onSubmit }) 
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </Dialog.Title>
-          <Dialog.Body>
+          <Dialog.Body style={{ padding: '24px 24px 0px 24px' }}>
             <Stack.Item style={{ width: '100%' }}>
               {action && createElement(action.form, { formik, type: action.key, ...(action.formProps ?? {}) })}
             </Stack.Item>
           </Dialog.Body>
-          <Dialog.Action>
+          <Dialog.Action style={{ display: 'flex', justifyContent: 'flex-end', padding: '32px 24px 24px 24px' }}>
             <Button data-testid="dialog-form-cancel-button" accent={Accent.SECONDARY} onClick={() => onSubmit(false)}>
               Annuler
             </Button>
             <Button
+              disabled={!formik.isValid}
               data-testid="dialog-form-confirm-button"
-              accent={Accent.PRIMARY}
+              accent={action?.accent ?? Accent.PRIMARY}
               onClick={() => onSubmit(true, formik.values)}
+              className={[Accent.ERROR, Accent.WARNING].includes(action?.accent ?? Accent.PRIMARY) ? '_active' : ''}
             >
-              Confirmer
+              {action?.validateButton ?? 'Confirmer'}
             </Button>
           </Dialog.Action>
         </Dialog>
@@ -59,4 +61,4 @@ const DialogForm: React.FC<DialogFormProps> = ({ action, initValue, onSubmit }) 
   )
 }
 
-export default DialogForm
+export default BasicDialogForm

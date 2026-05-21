@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 import { Container, Content, Stack } from 'rsuite'
 
 interface MissionListPageWrapperProps {
-  sidebar: JSX.Element
+  sidebar?: JSX.Element
   header: JSX.Element
   footer?: JSX.Element
   children: ReactNode
