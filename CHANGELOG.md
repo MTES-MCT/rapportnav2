@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.81.5](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.4...v2.81.5) (2026-05-21)
+
+
+### Bug Fixes
+
+* **Env:** ControlUnitResource type missing and cache ([6ca5f2b](https://github.com/MTES-MCT/rapportnav2/commit/6ca5f2b547e243489e88031f56600f624de97478))
+
 ## [2.81.4](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.3...v2.81.4) (2026-05-21)
 
 
