@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnit
 data class ControlResourceEntity(
     val id: Int,
     val name: String,
+    val type: ControlUnitResourceType
 ) {
     companion object {
         fun fromControlUnitResourceEnv(
@@ -12,7 +13,8 @@ data class ControlResourceEntity(
         ): ControlResourceEntity {
             return ControlResourceEntity(
                 id = resourceEnv.id,
-                name = resourceEnv.name
+                name = resourceEnv.name,
+                type = resourceEnv.type
             )
         }
     }

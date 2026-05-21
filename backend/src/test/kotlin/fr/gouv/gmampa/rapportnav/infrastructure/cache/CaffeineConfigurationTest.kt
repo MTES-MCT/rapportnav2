@@ -24,6 +24,7 @@ class CaffeineConfigurationTest {
             caffeineConfiguration.vessels,
             caffeineConfiguration.ports,
             caffeineConfiguration.natinfs,
+            caffeineConfiguration.resources,
             caffeineConfiguration.envMissions,
             caffeineConfiguration.envMission,
             caffeineConfiguration.fishActions,
@@ -40,14 +41,14 @@ class CaffeineConfigurationTest {
         }
 
         assertThat(cacheManager.cacheNames.toSet())
-            .hasSize(9)
+            .hasSize(10)
             .isEqualTo(cacheNames.toSet())
     }
 
     @Test
     fun `verify long-term cache expiration`() {
         val longTermCaches = listOf(
-            caffeineConfiguration.natinfs,
+            caffeineConfiguration.vessels,
             caffeineConfiguration.ports,
             caffeineConfiguration.natinfs,
         )
@@ -63,6 +64,25 @@ class CaffeineConfigurationTest {
             val duration = expireAfterWrite?.getExpiresAfter(TimeUnit.NANOSECONDS)
             assertThat(duration)
                 .isEqualTo(TimeUnit.DAYS.toNanos(7))
+        }
+    }
+
+    fun `verify medium-term cache expiration`() {
+        val longTermCaches = listOf(
+            caffeineConfiguration.resources,
+        )
+
+        longTermCaches.forEach { cacheName ->
+            val cache = cacheManager.getCache(cacheName) as CaffeineCache
+            val caffeineCache = cache.nativeCache
+            val expireAfterWrite = caffeineCache.policy().expireAfterWrite().orElse(null)
+
+            assertThat(expireAfterWrite)
+                .isNotNull()
+
+            val duration = expireAfterWrite?.getExpiresAfter(TimeUnit.NANOSECONDS)
+            assertThat(duration)
+                .isEqualTo(TimeUnit.DAYS.toNanos(1))
         }
     }
 
