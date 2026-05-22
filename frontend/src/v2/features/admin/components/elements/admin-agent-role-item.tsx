@@ -5,9 +5,9 @@ import { orderBy } from 'lodash'
 import React, { useMemo, useState } from 'react'
 import { Stack } from 'rsuite'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
+import { AdminActionType, BasicAction } from '../../../common/types/basic-action'
 import useAdminCreateOrUpdateAgentRoleMutation from '../../services/use-admin-create-update-agents-role-service'
 import useAdminDeleteAgentRoleMutation from '../../services/use-admin-delete-roles-service'
-import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminAgentRole } from '../../types/admin-agent-types'
 import AdminAgentRoleForm from '../ui/admin-agent-role'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
@@ -21,7 +21,7 @@ const CELLS = [
   { key: 'deletedAt', label: 'Date de suppression', width: 200 }
 ]
 
-const ACTIONS: AdminAction[] = [
+const ACTIONS: BasicAction[] = [
   {
     isMain: true,
     label: 'Créer un rôle',
