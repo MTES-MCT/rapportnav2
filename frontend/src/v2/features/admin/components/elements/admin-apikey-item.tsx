@@ -3,11 +3,11 @@ import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { orderBy } from 'lodash'
 import React, { useMemo, useState } from 'react'
 import { Stack } from 'rsuite'
+import { AdminActionType, BasicAction } from '../../../common/types/basic-action.ts'
 import useApiKeyListQuery from '../../services/use-admin-apikeys-service.tsx'
 import useAdminCreateOrUpdateApiKeyMutation from '../../services/use-admin-create-update-apikey-service.tsx'
 import useAdminDisableApiKeyMutation from '../../services/use-admin-disable-apikey-service.tsx'
 import useAdminRotateApiKeyMutation from '../../services/use-admin-rorate-apikey-service.tsx'
-import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { ApiKey } from '../../types/admin-apikey-types.ts'
 import AdminApikeyForm from '../ui/admin-apikey-form.tsx'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
@@ -22,7 +22,7 @@ const CELLS = [
   { key: 'disabledAt', label: 'Date de désactivation', width: 200 }
 ]
 
-const ACTIONS: AdminAction[] = [
+const ACTIONS: BasicAction[] = [
   {
     isMain: true,
     label: `Créer une api-key`,

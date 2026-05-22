@@ -2,12 +2,12 @@ import Text from '@common/components/ui/text.tsx'
 import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import React, { useState } from 'react'
 import { Stack } from 'rsuite'
-import { AdminAction, AdminActionType } from '../../types/admin-action'
-import AdminBasicItemGeneric from './admin-basic-item-generic'
-import AdminFishAuctionForm from '../ui/admin-fish-auction-form.tsx'
-import useAdminFishAuctionListQuery from '../../services/use-admin-fish-auctions-service.tsx'
+import { AdminAction, AdminActionType } from '../../../common/types/basic-action.ts'
 import useAdminCreateOrUpdateFishAuctionMutation from '../../services/use-admin-create-update-fish-auction-service.tsx'
 import useAdminDisableFishAuctionMutation from '../../services/use-admin-disable-fish-auction.tsx'
+import useAdminFishAuctionListQuery from '../../services/use-admin-fish-auctions-service.tsx'
+import AdminFishAuctionForm from '../ui/admin-fish-auction-form.tsx'
+import AdminBasicItemGeneric from './admin-basic-item-generic'
 
 const CELLS = [
   { key: 'id', label: 'Id', width: 32 },

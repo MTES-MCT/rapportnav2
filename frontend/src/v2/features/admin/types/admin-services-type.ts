@@ -7,4 +7,3 @@ export interface AdminService {
   serviceType: string
   controlUnits: number[]
 }
-export type AdminCell = { key: string; label: string; width: number }

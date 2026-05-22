@@ -4,6 +4,7 @@ import { orderBy } from 'lodash'
 import React, { useMemo, useState } from 'react'
 import { Stack } from 'rsuite'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
+import { AdminActionType, BasicAction } from '../../../common/types/basic-action'
 import useGetAdminAgentServices from '../../services/use-admin-agents-service'
 import useAdminCreateOrUpdateAgentMutation from '../../services/use-admin-create-update-agents-service'
 import useAdminCreateOrUpdateUserMutation from '../../services/use-admin-create-update-user-service'
@@ -11,7 +12,6 @@ import useAdminDeleteAgentMutation from '../../services/use-admin-delete-agents-
 import useAdminAgentDisableMutation from '../../services/use-admin-disable-agent-service'
 import useAdminMigrateAgentMutation from '../../services/use-admin-migrate-agents-service'
 import useAdminServiceListQuery from '../../services/use-admin-services-service'
-import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminAgent, AdminAgentInput, AdminUserFromAgentInput, AdminUserInput } from '../../types/admin-agent-types'
 import { AdminService } from '../../types/admin-services-type'
 import AdminAgentForm from '../ui/admin-agent-form'
@@ -22,14 +22,14 @@ const CELLS = [
   { key: 'id', label: 'Id', width: 60 },
   { key: 'name', label: 'Agent name', width: 250 },
   { key: 'role', label: 'Agent role', width: 200 },
-  { key: 'service', label: 'Service', width: 200 },
-  { key: 'userId', label: 'User id', width: 60 },
-  { key: 'createdAt', label: 'Date de Creation', width: 200 },
-  { key: 'updatedAt', label: 'Dernière mise à jour', width: 200 },
-  { key: 'disabledAt', label: 'Date de désactivation', width: 200 }
+  { key: 'service', label: 'Service', width: 150 },
+  { key: 'userId', label: 'User id', width: 50 },
+  { key: 'createdAt', label: 'Date de Creation', width: 150 },
+  { key: 'updatedAt', label: 'Dernière mise à jour', width: 150 },
+  { key: 'disabledAt', label: 'Date de désactivation', width: 150 }
 ]
 
-const ACTIONS: AdminAction[] = [
+const ACTIONS: BasicAction[] = [
   {
     isMain: true,
     key: AdminActionType.CREATE,
@@ -137,7 +137,7 @@ const AdminAgentItem: React.FC<AdminAgentProps> = () => {
         serviceId: agent.service?.id,
         service: agent.service.name,
         name: `${agent?.firstName} ${agent?.lastName}`,
-        role: `${agent.role?.id} - ${agent.role?.title}`
+        role: `${agent.role?.title}`
       })),
       [obj => new Date(obj.updatedAt ?? 0)],
       ['desc']

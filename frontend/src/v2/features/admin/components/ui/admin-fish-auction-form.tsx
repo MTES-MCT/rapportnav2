@@ -1,7 +1,7 @@
 import { FormikTextInput } from '@mtes-mct/monitor-ui'
 import { FormikProps } from 'formik'
 import { Stack } from 'rsuite'
-import { AdminActionType } from '../../types/admin-action.ts'
+import { AdminActionType } from '../../../common/types/basic-action.ts'
 
 interface AdminFishAuctionFormProps {
   type: AdminActionType
