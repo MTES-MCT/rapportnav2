@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { RoleType } from '../../common/types/role-type'
+import { RoleType } from '../../../common/types/role-type'
 import useAuth, { setGlobalLogout, triggerGlobalLogout } from '../use-auth'
 
 // Mocks

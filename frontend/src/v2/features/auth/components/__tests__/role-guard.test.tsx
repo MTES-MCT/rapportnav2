@@ -12,44 +12,33 @@ describe('RoleGuard', () => {
     vi.clearAllMocks()
   })
 
-  const renderWithRole = (roles: RoleType[] | undefined) => {
-    vi.mocked(useAuthModule.default).mockReturnValue({
-      isAuthenticated: roles !== undefined,
-      isLoggedIn: () => (roles !== undefined ? { userId: 1, roles } : undefined),
-      logout: vi.fn(),
-      navigateAndResetCache: vi.fn()
-    })
-
-    return render(
-      <RoleGuard roles={[RoleType.ADMIN]}>
-        <div>Admin Content</div>
-      </RoleGuard>
-    )
+  const getUseAuth = {
+    isAuthenticated: true,
+    isLoggedIn: vi.fn(),
+    logout: vi.fn(),
+    navigateAndResetCache: vi.fn(),
+    roleOptions: [],
+    hasRoles: vi.fn()
   }
 
   describe('Authorization', () => {
-    it('should render children when user has ADMIN role', () => {
-      renderWithRole([RoleType.ADMIN])
+    it('should render children when user has role', () => {
+      vi.mocked(useAuthModule.default).mockReturnValue({ ...getUseAuth, hasRoles: () => true })
+      render(
+        <RoleGuard roles={[RoleType.ADMIN]}>
+          <div>Admin Content</div>
+        </RoleGuard>
+      )
       expect(screen.getByText('Admin Content')).toBeInTheDocument()
     })
 
-    it('should render children when user has ADMIN role among other roles', () => {
-      renderWithRole([RoleType.USER_PAM, RoleType.ADMIN])
-      expect(screen.getByText('Admin Content')).toBeInTheDocument()
-    })
-
-    it('should redirect when user has USER_PAM role only', () => {
-      renderWithRole([RoleType.USER_PAM])
-      expect(screen.queryByText('Admin Content')).toBeNull()
-    })
-
-    it('should redirect when user has USER_ULAM role only', () => {
-      renderWithRole([RoleType.USER_ULAM])
-      expect(screen.queryByText('Admin Content')).toBeNull()
-    })
-
-    it('should redirect when user is not logged in', () => {
-      renderWithRole(undefined)
+    it('should redirect when user has not  role only', () => {
+      vi.mocked(useAuthModule.default).mockReturnValue({ ...getUseAuth, hasRoles: () => false })
+      render(
+        <RoleGuard roles={[RoleType.ADMIN]}>
+          <div>Admin Content</div>
+        </RoleGuard>
+      )
       expect(screen.queryByText('Admin Content')).toBeNull()
     })
   })
