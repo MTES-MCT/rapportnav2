@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.82.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.6...v2.82.0) (2026-05-27)
+
+
+### Features
+
+* manage agent and resource ([f79a225](https://github.com/MTES-MCT/rapportnav2/commit/f79a22522a2d0908ebe87a6588d7fe46a20a18b0))
+
+
+### Bug Fixes
+
+* **AEM:** 4.1.3 and 7.4 ([be8c870](https://github.com/MTES-MCT/rapportnav2/commit/be8c870043d3b7364fd83086cff206a3c956e855))
+
 ## [2.81.6](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.5...v2.81.6) (2026-05-21)
 
 
