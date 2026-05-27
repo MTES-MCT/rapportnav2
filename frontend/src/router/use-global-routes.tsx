@@ -37,6 +37,11 @@ const ADMIN_SIDEBAR = {
   url: '/admin',
   icon: Icon.GroupPerson
 }
+const METABASE_SIDEBAR = {
+  key: 'metabase',
+  url: '/metabase',
+  icon: Icon.Chart
+}
 
 type RouteHook = {
   homeUrl?: string
@@ -107,6 +112,7 @@ export function useGlobalRoutes(): RouteHook {
     const roles = isLoggedIn()?.roles
     const SIDEBAR_ITEMS = [getSideBar(MISSION_SIDEBAR, roles)]
     if (roles?.includes(RoleType.USER_ULAM)) SIDEBAR_ITEMS.push(getSideBar(INQUIRY_SIDEBAR, roles))
+    if (roles?.includes(RoleType.ADMIN)) SIDEBAR_ITEMS.push(METABASE_SIDEBAR)
     return SIDEBAR_ITEMS
   }
 

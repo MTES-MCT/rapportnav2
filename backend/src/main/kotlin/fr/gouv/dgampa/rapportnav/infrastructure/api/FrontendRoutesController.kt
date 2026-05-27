@@ -18,7 +18,8 @@ import java.util.*
  */
 @Controller
 class FrontendRoutesController(
-    @Value("\${STATIC_FILES_PATH:}") private val staticFilesPath: String
+    @param:Value("\${STATIC_FILES_PATH:}") private val staticFilesPath: String,
+    @param:Value("\${metabase.site-url}") private val metabaseSiteUrl: String
 ) {
     companion object {
         private const val NONCE_PLACEHOLDER = "__CSP_NONCE__"
@@ -35,7 +36,8 @@ class FrontendRoutesController(
             "/pam/**",
             "/ulam/**",
             "/inquiry/**",
-            "/v2/**"
+            "/v2/**",
+            "/metabase"
         ],
         produces = [MediaType.TEXT_HTML_VALUE]
     )
@@ -85,7 +87,7 @@ class FrontendRoutesController(
             "img-src 'self'; " +
             "font-src 'self' data:; " +
             "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
-            "frame-src 'none'; " +
+            "frame-src $metabaseSiteUrl; " +
             "base-uri 'self'; " +
             "frame-ancestors 'none'; " +
             "form-action 'self'; " +

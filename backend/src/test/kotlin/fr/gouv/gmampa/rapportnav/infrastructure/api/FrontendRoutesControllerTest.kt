@@ -33,7 +33,7 @@ class FrontendRoutesControllerTest {
     private fun createControllerWithHtml(htmlContent: String): FrontendRoutesController {
         val indexFile = File(tempDir.toFile(), "index.html")
         indexFile.writeText(htmlContent)
-        return FrontendRoutesController(tempDir.toString())
+        return FrontendRoutesController(tempDir.toString(), "https://metabase.test")
     }
 
     @Nested
