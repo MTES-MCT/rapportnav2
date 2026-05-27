@@ -4,11 +4,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ApiKeyAuthenticationF
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.CustomAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.SentryUserContextFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthoritiesEnum
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -21,10 +23,12 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
  */
 @Configuration
 @EnableWebSecurity(debug = false)
+@EnableMethodSecurity
 class SecurityConfig(
     private val customAuthenticationFilter: CustomAuthenticationFilter,
     private val apiKeyAuthFilter: ApiKeyAuthenticationFilter,
-    private val sentryUserContextFilter: SentryUserContextFilter
+    private val sentryUserContextFilter: SentryUserContextFilter,
+    @Value("\${metabase.site-url}") private val metabaseSiteUrl: String
 ) {
 
     /**
@@ -122,6 +126,7 @@ class SecurityConfig(
                         "default-src 'self'; " +
                         "script-src 'self'; " +
                         "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
+                        "frame-src $metabaseSiteUrl; " +
                         "frame-ancestors 'none'" +
                         upgradeInsecure
                     )

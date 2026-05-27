@@ -6,6 +6,7 @@ import RoleGuard from '../v2/features/auth/components/role-guard.tsx'
 import { RoleType } from '../v2/features/common/types/role-type.ts'
 import AdminPage from '../v2/pages/admin-page.tsx'
 import ErrorPage from '../v2/pages/error-page.tsx'
+import MetabasePage from '../v2/pages/metabase-page.tsx'
 import HomePage from '../v2/pages/home-page.tsx'
 import InquiryListPage from '../v2/pages/inquiry-list-page.tsx'
 import InquiryPage from '../v2/pages/inquiry-page.tsx'
@@ -88,6 +89,18 @@ export const router = sentryCreateBrowserRouter([
     element: (
       <AuthGuard>
         <MissionPamPage />
+      </AuthGuard>
+    ),
+    errorElement: <ErrorPage />
+  },
+  // Metabase route
+  {
+    path: '/metabase',
+    element: (
+      <AuthGuard>
+        <RoleGuard roles={[RoleType.ADMIN]}>
+          <MetabasePage />
+        </RoleGuard>
       </AuthGuard>
     ),
     errorElement: <ErrorPage />

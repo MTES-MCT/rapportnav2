@@ -45,7 +45,7 @@ class SecurityConfigTest {
         customAuthFilter = mock()
         apiKeyAuthFilter = mock()
         sentryUserContextFilter = mock()
-        securityConfig = SecurityConfig(customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter)
+        securityConfig = SecurityConfig(customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter, "https://metabase.test")
     }
 
     @Test
@@ -78,7 +78,7 @@ class SecurityConfigTest {
 
     @Test
     fun `should be instantiable with required dependencies`() {
-        val config = SecurityConfig(customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter)
+        val config = SecurityConfig(customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter, "https://metabase.test")
         assertNotNull(config)
     }
 
@@ -108,7 +108,7 @@ class SecurityConfigTest {
         val apiKeyFilter: ApiKeyAuthenticationFilter = mock()
         val sentryFilter: SentryUserContextFilter = mock()
 
-        val config = SecurityConfig(customFilter, apiKeyFilter, sentryFilter)
+        val config = SecurityConfig(customFilter, apiKeyFilter, sentryFilter, "https://metabase.test")
 
         assertNotNull(config)
     }
