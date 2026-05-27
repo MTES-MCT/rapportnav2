@@ -6,19 +6,19 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <fieldset
-        class="sc-iTVKKw hswhLJ Element-Fieldset sc-jUfyfO bPnaPf Field-CoordinatesInput sc-cKRJyd"
+        class="sc-cTJlnx cHgfwe Element-Fieldset sc-fcmLFn dbQIri Field-CoordinatesInput sc-amjVG"
         id="_r_0_"
       >
         <legend
-          class="sc-carION iEIPtd Element-Legend"
+          class="sc-efHYyK jmahmx Element-Legend"
         >
           my coords (01° 12.600′ S 044° 58.800′ E)
         </legend>
         <div
-          class="sc-iBzGbX btiose Element-Fieldset__InnerBox"
+          class="sc-jNnnjg gyROTL Element-Fieldset__InnerBox"
         >
           <div
-            class="sc-hOPivR dbqOlX"
+            class="sc-jUfyfO BDmUg"
           >
             <input
               data-cy="dmd-coordinates-input"
@@ -28,12 +28,12 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
               value=""
             />
             <span
-              class="sc-bTDMpC jsYWcn"
+              class="sc-dsXASE hkUxBv"
             >
               (DMD)
             </span>
             <span
-              class="sc-kHWUqP kbZnxp"
+              class="sc-daBwkf fjrBZQ"
             />
           </div>
         </div>
@@ -64,19 +64,19 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <fieldset
-      class="sc-iTVKKw hswhLJ Element-Fieldset sc-jUfyfO bPnaPf Field-CoordinatesInput sc-cKRJyd"
+      class="sc-cTJlnx cHgfwe Element-Fieldset sc-fcmLFn dbQIri Field-CoordinatesInput sc-amjVG"
       id="_r_0_"
     >
       <legend
-        class="sc-carION iEIPtd Element-Legend"
+        class="sc-efHYyK jmahmx Element-Legend"
       >
         my coords (01° 12.600′ S 044° 58.800′ E)
       </legend>
       <div
-        class="sc-iBzGbX btiose Element-Fieldset__InnerBox"
+        class="sc-jNnnjg gyROTL Element-Fieldset__InnerBox"
       >
         <div
-          class="sc-hOPivR dbqOlX"
+          class="sc-jUfyfO BDmUg"
         >
           <input
             data-cy="dmd-coordinates-input"
@@ -86,12 +86,12 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
             value=""
           />
           <span
-            class="sc-bTDMpC jsYWcn"
+            class="sc-dsXASE hkUxBv"
           >
             (DMD)
           </span>
           <span
-            class="sc-kHWUqP kbZnxp"
+            class="sc-daBwkf fjrBZQ"
           />
         </div>
       </div>

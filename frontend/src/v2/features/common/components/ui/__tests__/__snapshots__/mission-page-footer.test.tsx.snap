@@ -6,7 +6,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-dkuEPC gpAOrm"
+        class="sc-iXeKyx fSYRXo"
       >
         <div
           class="rs-stack"
@@ -17,12 +17,12 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
             style="padding-left: 1rem;"
           >
             <button
-              class="sc-kLojuI sc-hiKfXj gmLjqd ecSBZd Element-Button"
+              class="sc-hiKfXj sc-ciSjVf tYZth jUNkuc Element-Button"
               title="Cette mission ne peut pas être supprimée car elle a été créée ou contient des actions créées par les centres (CNSP / CACEM)"
               type="button"
             >
               <span
-                class="sc-gKzYWW dTSUGr Element-IconBox"
+                class="sc-dlnkDq eRcRaw Element-IconBox"
               >
                 <svg
                   height="20"
@@ -60,7 +60,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 </svg>
               </span>
               <span
-                class="sc-iklHWZ jmjrMc"
+                class="sc-gXfWgR lJbiQ"
               >
                 Supprimer la mission
               </span>
@@ -77,7 +77,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-cKRJyd sc-kmIOIQ bsmuMP hRQvYi"
+                  class="sc-amjVG sc-gJpWfT iQiYZF uARyq"
                   font-size="11"
                 />
               </div>
@@ -117,7 +117,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-dkuEPC gpAOrm"
+      class="sc-iXeKyx fSYRXo"
     >
       <div
         class="rs-stack"
@@ -128,12 +128,12 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
           style="padding-left: 1rem;"
         >
           <button
-            class="sc-kLojuI sc-hiKfXj gmLjqd ecSBZd Element-Button"
+            class="sc-hiKfXj sc-ciSjVf tYZth jUNkuc Element-Button"
             title="Cette mission ne peut pas être supprimée car elle a été créée ou contient des actions créées par les centres (CNSP / CACEM)"
             type="button"
           >
             <span
-              class="sc-gKzYWW dTSUGr Element-IconBox"
+              class="sc-dlnkDq eRcRaw Element-IconBox"
             >
               <svg
                 height="20"
@@ -171,7 +171,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               </svg>
             </span>
             <span
-              class="sc-iklHWZ jmjrMc"
+              class="sc-gXfWgR lJbiQ"
             >
               Supprimer la mission
             </span>
@@ -188,7 +188,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-cKRJyd sc-kmIOIQ bsmuMP hRQvYi"
+                class="sc-amjVG sc-gJpWfT iQiYZF uARyq"
                 font-size="11"
               />
             </div>
