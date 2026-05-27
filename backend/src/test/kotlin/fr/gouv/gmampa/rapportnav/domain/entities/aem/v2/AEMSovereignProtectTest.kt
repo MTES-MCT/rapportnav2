@@ -66,34 +66,34 @@ class AEMSovereignProtectTest {
             id = UUID.randomUUID(), missionId = 761, actionType = ActionType.CONTROL,
             startDateTimeUtc = timestamp, controlMethod = ControlMethod.SEA, targets = targets
         )
-        fun envAction(targets: List<TargetEntity>? = null) = MissionEnvActionEntity(
+        fun envAction(actionNumberOfControls: Int? = null) = MissionEnvActionEntity(
             missionId = 761, id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL,
-            startDateTimeUtc = timestamp, vehicleType = VehicleTypeEnum.VESSEL, targets = targets
+            startDateTimeUtc = timestamp, vehicleType = VehicleTypeEnum.VESSEL, actionNumberOfControls = actionNumberOfControls
         )
         fun fishAction(targets: List<TargetEntity>? = null) = MissionFishActionEntity(
             missionId = 761, id = 1, fishActionType = MissionActionType.SEA_CONTROL,
             actionDatetimeUtc = timestamp, targets = targets
         )
 
-        // fish null targets, others with targets
+        // fish null targets, others with values
         var result = AEMSovereignProtect.getNbrOfControlledVessel(
-            listOf(navAction(listOf(target("n1")))), listOf(envAction(listOf(target("e1")))), listOf(fishAction())
+            listOf(navAction(listOf(target("n1")))), listOf(envAction(2)), listOf(fishAction())
         )
-        assertThat(result).isEqualTo(2.0)
+        assertThat(result).isEqualTo(3.0) // 1 nav + 2 env + 0 fish
 
-        // nav null targets, others with targets
+        // nav null targets, others with values
         result = AEMSovereignProtect.getNbrOfControlledVessel(
-            listOf(navAction()), listOf(envAction(listOf(target("e1")))), listOf(fishAction(listOf(target("f1"))))
+            listOf(navAction()), listOf(envAction(2)), listOf(fishAction(listOf(target("f1"))))
         )
-        assertThat(result).isEqualTo(2.0)
+        assertThat(result).isEqualTo(3.0) // 0 nav + 2 env + 1 fish
 
-        // env null targets, others with targets
+        // env null actionNumberOfControls, others with targets
         result = AEMSovereignProtect.getNbrOfControlledVessel(
             listOf(navAction(listOf(target("n1")))), listOf(envAction()), listOf(fishAction(listOf(target("f1"))))
         )
-        assertThat(result).isEqualTo(2.0)
+        assertThat(result).isEqualTo(2.0) // 1 nav + 0 env + 1 fish
 
-        // all null targets
+        // all null/empty
         result = AEMSovereignProtect.getNbrOfControlledVessel(
             listOf(navAction()), listOf(envAction()), listOf(fishAction())
         )
@@ -101,9 +101,9 @@ class AEMSovereignProtectTest {
 
         // null elements in fish and env lists
         result = AEMSovereignProtect.getNbrOfControlledVessel(
-            listOf(navAction(listOf(target("n1")))), listOf(null, envAction(listOf(target("e1")))), listOf(null, fishAction(listOf(target("f1"))))
+            listOf(navAction(listOf(target("n1")))), listOf(null, envAction(3)), listOf(null, fishAction(listOf(target("f1"))))
         )
-        assertThat(result).isEqualTo(3.0)
+        assertThat(result).isEqualTo(5.0) // 1 nav + 3 env + 1 fish
     }
 
     @Test
@@ -161,51 +161,53 @@ class AEMSovereignProtectTest {
     }
 
     @Test
-    fun `Should count controlled vessels from env targets with VESSEL type only`() {
+    fun `Should count controlled vessels from env actions with VESSEL type, splitting CONTROL and SURVEILLANCE`() {
         val envActions = listOf(
-            MissionEnvActionEntity(
+            MissionEnvActionEntity( // VESSEL + CONTROL with actionNumberOfControls = 5 -> 5
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 vehicleType = VehicleTypeEnum.VESSEL,
-                targets = listOf(
-                    TargetEntity(id = UUID.randomUUID(), actionId = "e1", targetType = TargetType.VEHICLE),
-                    TargetEntity(id = UUID.randomUUID(), actionId = "e1", targetType = TargetType.VEHICLE)
-                )
+                actionNumberOfControls = 5
             ),
-            MissionEnvActionEntity(
+            MissionEnvActionEntity( // VESSEL + SURVEILLANCE -> counts as 1
+                missionId = 761,
+                id = UUID.randomUUID(),
+                envActionType = ActionTypeEnum.SURVEILLANCE,
+                startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                vehicleType = VehicleTypeEnum.VESSEL
+            ),
+            MissionEnvActionEntity( // VEHICLE_LAND + CONTROL -> filtered out (not VESSEL)
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 vehicleType = VehicleTypeEnum.VEHICLE_LAND,
-                targets = listOf(
-                    TargetEntity(id = UUID.randomUUID(), actionId = "e2", targetType = TargetType.VEHICLE)
-                )
+                actionNumberOfControls = 10
             )
         )
         val result = AEMSovereignProtect.getNbrOfControlledVessel(listOf(), envActions, listOf())
-        assertThat(result).isEqualTo(2.0)
+        assertThat(result).isEqualTo(6.0) // 5 from CONTROL + 1 from SURVEILLANCE
     }
 
     @Test
     fun `Should init sovereign protect with different values`() {
-        val nbrOfHourAtSea = 147.0;
-        val nbrOfRecognizedVessel = 0.0;
-        val nbrOfControlledVessel = 6.0;
+        val nbrOfHourAtSea = 147.0
+        val nbrOfRecognizedVessel = 0.0
+        val nbrOfControlledVessel = 6.0
 
-        val navActions = getNavActions();
-        val envActions = getEnvActions();
-        val fishActions = getFishActions();
-        val missionEndDate = Instant.parse("2019-09-15T01:00:00.000+01:00");
+        val navActions = getNavActions()
+        val envActions = getEnvActions()
+        val fishActions = getFishActions()
+        val missionEndDate = Instant.parse("2019-09-15T01:00:00.000+01:00")
 
-        val sovereign = AEMSovereignProtect(navActions, envActions, fishActions, missionEndDate);
+        val sovereign = AEMSovereignProtect(navActions, envActions, fishActions, missionEndDate)
 
-        assertThat(sovereign).isNotNull();
-        assertThat(sovereign.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
-        assertThat(sovereign.nbrOfRecognizedVessel).isEqualTo(nbrOfRecognizedVessel);
-        assertThat(sovereign.nbrOfControlledVessel).isEqualTo(nbrOfControlledVessel);
+        assertThat(sovereign).isNotNull()
+        assertThat(sovereign.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea)
+        assertThat(sovereign.nbrOfRecognizedVessel).isEqualTo(nbrOfRecognizedVessel)
+        assertThat(sovereign.nbrOfControlledVessel).isEqualTo(nbrOfControlledVessel)
     }
 
     private fun getNavActions(): List<MissionNavActionEntity> {
@@ -237,7 +239,7 @@ class AEMSovereignProtectTest {
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 status = ActionStatusType.NAVIGATING
             )
-        );
+        )
         return actions
     }
 
@@ -268,7 +270,7 @@ class AEMSovereignProtectTest {
                     TargetEntity(id = UUID.randomUUID(), actionId = "env-1", targetType = TargetType.VEHICLE)
                 )
             )
-        );
+        )
         return actions
     }
 
@@ -294,7 +296,7 @@ class AEMSovereignProtectTest {
                     TargetEntity(id = UUID.randomUUID(), actionId = "fish-2", targetType = TargetType.VEHICLE)
                 )
             )
-        );
+        )
         return actions
     }
 }

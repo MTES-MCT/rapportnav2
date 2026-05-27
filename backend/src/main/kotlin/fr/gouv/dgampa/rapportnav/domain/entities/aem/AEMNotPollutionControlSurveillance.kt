@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
@@ -24,7 +25,11 @@ data class AEMNotPollutionControlSurveillance(
     companion object {
 
         fun getNbrOfTargets(actions: List<MissionEnvActionEntity?>): Double {
-            return actions.sumOf { it?.targets?.size ?: 0 }.toDouble()
+            val controls = actions.filter { it?.envActionType == ActionTypeEnum.CONTROL }
+            val surveillances = actions.filter { it?.envActionType == ActionTypeEnum.SURVEILLANCE }
+            val nbrControls = controls.sumOf { it?.actionNumberOfControls ?: 0 }
+            val nbrSurveillances = surveillances.size
+            return (nbrControls + nbrSurveillances).toDouble()
         }
 
         fun getNbrOfInfraction(notPollutionActions: List<MissionEnvActionEntity?>): Double {
@@ -52,7 +57,7 @@ data class AEMNotPollutionControlSurveillance(
         }
 
         private fun getNotPollutionActions(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
-            val illicitRejects = listOf(19, 102);
+            val illicitRejects = listOf(19, 102)
             return envActions.filter {
                 it?.themes?.map { t -> t.id }?.intersect(illicitRejects)?.isEmpty() == true
             }
