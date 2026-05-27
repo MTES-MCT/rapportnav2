@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
@@ -55,7 +56,10 @@ data class AEMSovereignProtect(
 
             val fishControls = fishActions.filter { it?.fishActionType == MissionActionType.SEA_CONTROL }.sumOf { it?.targets?.size ?: 0 }
             val navControls = navActions.filter { it.actionType == ActionType.CONTROL }.sumOf { it.targets?.size ?: 0 }
-            val envControls = envActions.filter { it?.vehicleType == VehicleTypeEnum.VESSEL }.sumOf { it?.targets?.size ?: 0 }
+            val vesselActions = envActions.filter { it?.vehicleType == VehicleTypeEnum.VESSEL }
+            val envControlActions = vesselActions.filter { it?.envActionType == ActionTypeEnum.CONTROL }
+            val envSurveillanceActions = vesselActions.filter { it?.envActionType == ActionTypeEnum.SURVEILLANCE }
+            val envControls = envControlActions.sumOf { it?.actionNumberOfControls ?: 0 } + envSurveillanceActions.size
             return 0.0.plus(fishControls).plus(navControls).plus(envControls)
         }
 

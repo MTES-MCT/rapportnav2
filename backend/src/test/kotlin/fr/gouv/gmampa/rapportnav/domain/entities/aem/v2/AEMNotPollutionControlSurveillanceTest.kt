@@ -25,49 +25,46 @@ class AEMNotPollutionControlSurveillanceTest {
 
         assertThat(notPollution).isNotNull()
         assertThat(notPollution.nbrOfHourAtSea).isEqualTo(4.5)
-        assertThat(notPollution.nbrOfAction).isEqualTo(2.0) // 2 targets in the non-pollution action
+        assertThat(notPollution.nbrOfAction).isEqualTo(4.0) // actionNumberOfControls from the CONTROL action
         assertThat(notPollution.nbrOfInfraction).isEqualTo(5.0)
         assertThat(notPollution.nbrOfInfractionWithNotice).isEqualTo(2.0)
     }
 
     @Test
-    fun `getNbrOfTargets should count targets across all actions`() {
-        val actionId = UUID.randomUUID().toString()
+    fun `getNbrOfTargets should sum actionNumberOfControls for controls and count occurrences for surveillances`() {
         val actions = listOf(
             null, // null action -> 0
-            MissionEnvActionEntity( // null targets -> 0
+            MissionEnvActionEntity( // CONTROL with null actionNumberOfControls -> 0
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
-                targets = null
+                actionNumberOfControls = null
             ),
-            MissionEnvActionEntity( // empty targets -> 0
+            MissionEnvActionEntity( // CONTROL with 5 controls -> 5
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
-                targets = emptyList()
+                actionNumberOfControls = 5
             ),
-            MissionEnvActionEntity( // 3 targets -> 3
+            MissionEnvActionEntity( // CONTROL with 3 controls -> 3
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
-                targets = listOf(
-                    TargetEntity(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE),
-                    TargetEntity(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE),
-                    TargetEntity(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE)
-                )
+                actionNumberOfControls = 3
             ),
-            MissionEnvActionEntity( // 1 target -> 1
+            MissionEnvActionEntity( // SURVEILLANCE -> counts as 1
                 missionId = 761,
                 id = UUID.randomUUID(),
-                envActionType = ActionTypeEnum.CONTROL,
-                targets = listOf(
-                    TargetEntity(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE)
-                )
+                envActionType = ActionTypeEnum.SURVEILLANCE
+            ),
+            MissionEnvActionEntity( // SURVEILLANCE -> counts as 1
+                missionId = 761,
+                id = UUID.randomUUID(),
+                envActionType = ActionTypeEnum.SURVEILLANCE
             )
         )
         val result = AEMNotPollutionControlSurveillance.getNbrOfTargets(actions)
-        assertThat(result).isEqualTo(4.0)
+        assertThat(result).isEqualTo(10.0) // 5 + 3 controls + 2 surveillances
     }
 
     @Test
@@ -237,6 +234,7 @@ class AEMNotPollutionControlSurveillanceTest {
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
+                actionNumberOfControls = 4,
                 themes = listOf(ThemeEntity(id = 101, name = "Theme 101")),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:30:00.000+01:00"),
