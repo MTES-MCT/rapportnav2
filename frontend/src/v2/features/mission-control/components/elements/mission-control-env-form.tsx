@@ -8,6 +8,7 @@ import { ControlEnvInput, useEnvControl } from '../../hooks/use-control-env.tsx'
 import MissionControlEnvError from '../ui/mission-control-env-error.tsx'
 import { MissionControlTitle } from '../ui/mission-control-title.tsx'
 import { isEmpty } from 'lodash'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 
 export interface MissionControlEnvFormProps {
   name: string
@@ -78,10 +79,10 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
                           />
                         </Stack.Item>
                         <Stack.Item>
-                          <FormikTextInput
+                          <FormikTextAreaInput
                             isLight={true}
                             name="observations"
-                            style={{ width: '100%' }}
+                            style={{ width: '100%', height: '52px' }}
                             label="Observations (hors infraction)"
                           />
                         </Stack.Item>
