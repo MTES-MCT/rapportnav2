@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "email": "pam-user@test.gouv.fr",
+  "firstName": "Jean",
+  "lastName": "Dupont",
+  "serviceId": 10,
+  "serviceName": "PAM Test Service",
+  "controlUnitId": 100
+}

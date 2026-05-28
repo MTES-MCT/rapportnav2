@@ -18,7 +18,10 @@
     "test:watch": "vitest src",
     "test:coverage": "vitest run --coverage",
     "snapshots": "vitest -u",
-    "docs": "docsify serve docs"
+    "docs": "docsify serve docs",
+    "test:e2e": "playwright test --config e2e/playwright.config.ts",
+    "test:e2e:ui": "playwright test --config e2e/playwright.config.ts --ui",
+    "test:e2e:debug": "playwright test --config e2e/playwright.config.ts --debug"
   },
   "dependencies": {
     "@date-fns/utc": "^2.1.1",
@@ -50,6 +53,7 @@
     "@import-meta-env/cli": "^0.7.4",
     "@import-meta-env/prepare": "^0.2.3",
     "@import-meta-env/unplugin": "^0.6.2",
+    "@playwright/test": "^1.60.0",
     "@tanstack/react-query-devtools": "^5.83.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
