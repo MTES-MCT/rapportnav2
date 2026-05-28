@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.83.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.82.0...v2.83.0) (2026-05-28)
+
+
+### Features
+
+* restore diving for env controls ([3e00f12](https://github.com/MTES-MCT/rapportnav2/commit/3e00f12994405beb935b389edf2bbf5dc6bf4173))
+
+
+### Bug Fixes
+
+* dropdown in admin dialog ([6162549](https://github.com/MTES-MCT/rapportnav2/commit/6162549c1da99b52c207396bf472b3d144b248ea))
+
 ## [2.82.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.81.6...v2.82.0) (2026-05-27)
 
 
