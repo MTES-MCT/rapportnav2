@@ -4,7 +4,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEnt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
@@ -91,7 +90,7 @@ data class Mission(
                     isWithinDepartment = it.data.isWithinDepartment,
                     hasDivingDuringOperation = it.data.hasDivingDuringOperation,
                     incidentDuringOperation = it.data.incidentDuringOperation,
-                    resourceId = it.data.resourceId,
+                    resourceIds = it.data.resourceIds,
                     resourceType = it.data.resourceType,
                     nbrOfControl = it.data.nbrOfControl,
                     sectorType = it.data.sectorType,

@@ -65,14 +65,14 @@ class MissionNavActionEntityTest {
         assertThat(entity.nbOfVesselsTrackedWithoutIntervention).isEqualTo(model.nbOfVesselsTrackedWithoutIntervention)
         assertThat(entity.nbAssistedVesselsReturningToShore).isEqualTo(model.nbAssistedVesselsReturningToShore)
         assertThat(entity.status.toString()).isEqualTo(model.status)
-        assertThat(entity.reason).isEqualTo(model.reason)
+        assertThat(entity.reason.toString()).isEqualTo(model.reason.toString())
         assertThat(entity.nbrOfHours).isEqualTo(model.nbrOfHours)
         assertThat(entity.trainingType).isEqualTo(model.trainingType)
         assertThat(entity.unitManagementTrainingType).isEqualTo(model.unitManagementTrainingType)
         assertThat(entity.hasDivingDuringOperation).isEqualTo(model.hasDivingDuringOperation)
         assertThat(entity.incidentDuringOperation).isEqualTo(model.incidentDuringOperation)
         assertThat(entity.isWithinDepartment).isEqualTo(model.isWithinDepartment)
-        assertThat(entity.resourceId).isEqualTo(model.resourceId)
+        assertThat(entity.resourceIds).isEqualTo(model.resourceIds)
         assertThat(entity.resourceType).isEqualTo(model.resourceType)
 
         assertThat(entity.nbrSecurityVisit).isEqualTo(model.nbrSecurityVisit)
@@ -193,7 +193,7 @@ class MissionNavActionEntityTest {
         assertThat(model.incidentDuringOperation).isEqualTo(entity.incidentDuringOperation)
         assertThat(model.isWithinDepartment).isEqualTo(true)
 
-        assertThat(model.resourceId).isEqualTo(entity.resourceId)
+        assertThat(model.resourceIds).isEqualTo(emptyList<Int>())
         assertThat(model.resourceType).isEqualTo(entity.resourceType)
 
         assertThat(model.controlType).isEqualTo(entity.controlType)

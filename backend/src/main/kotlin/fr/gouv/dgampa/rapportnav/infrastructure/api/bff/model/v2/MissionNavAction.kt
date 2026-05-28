@@ -86,7 +86,7 @@ class MissionNavAction(
                     isWithinDepartment = navAction.isWithinDepartment,
                     hasDivingDuringOperation = navAction.hasDivingDuringOperation,
                     incidentDuringOperation = navAction.incidentDuringOperation,
-                    resourceId = navAction.resourceId,
+                    resourceIds = navAction.resourceIds,
                     resourceType = navAction.resourceType,
                     nbrOfControl = navAction.nbrOfControl,
                     sectorType = navAction.sectorType,

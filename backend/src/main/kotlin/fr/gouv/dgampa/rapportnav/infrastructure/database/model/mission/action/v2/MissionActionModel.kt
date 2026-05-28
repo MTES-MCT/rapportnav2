@@ -155,8 +155,10 @@ data class MissionActionModel(
     @Column(name = "resource_type", nullable = true)
     var resourceType: String? = null,
 
-    @Column(name = "resource_id", nullable = true)
-    var resourceId: Int? = null,
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "mission_action_resource", joinColumns = [JoinColumn(name = "action_id")])
+    @Column(name = "resource_id")
+    var resourceIds: List<Int> = emptyList(),
 
     @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "establishment_id")

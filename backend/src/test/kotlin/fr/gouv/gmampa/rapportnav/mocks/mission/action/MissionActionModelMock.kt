@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.EstablishmentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
@@ -70,16 +69,16 @@ object MissionActionModelMock {
             incidentDuringOperation = false,
             isWithinDepartment = true,
             resourceType = "NAUTICAL",
-            resourceId = 345,
+            resourceIds = listOf(345),
             nbrOfControl = 34,
             sectorType = SectorType.FISHING.toString(),
             nbrOfControlAmp = 4,
             nbrOfControl300m = 3,
             isControlDuringSecurityDay = false,
             isSeizureSleepingFishingGear = true,
-            sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION?.toString(),
-            leisureType = LeisureType.KAYAK?.toString(),
-            fishingGearType = FishingGearType.CASHIER?.toString(),
+            sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION.toString(),
+            leisureType = LeisureType.KAYAK.toString(),
+            fishingGearType = FishingGearType.CASHIER.toString(),
             controlType = "my control type",
             nbrSecurityVisit = 12,
             securityVisitType = SecurityVisitType.SCHOOL_BOAT.toString(),

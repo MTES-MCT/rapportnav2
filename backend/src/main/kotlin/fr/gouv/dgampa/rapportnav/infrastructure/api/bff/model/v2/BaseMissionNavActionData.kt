@@ -50,7 +50,7 @@ interface BaseMissionNavActionData {
     val hasDivingDuringOperation: Boolean?
     val incidentDuringOperation: Boolean?
     val resourceType: String?
-    val resourceId: Int?
+    val resourceIds: List<Int>?
     var nbrOfControl: Int?
     var controlType: String?
     val sectorType: SectorType?
