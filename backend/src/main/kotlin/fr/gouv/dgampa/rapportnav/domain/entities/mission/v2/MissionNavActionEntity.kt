@@ -187,7 +187,7 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["RESOURCES_MAINTENANCE"])
         ]
     )
-    override var resourceId: Int? = null,
+    override var resourceIds: List<Int>? = null,
 
     @MandatoryForStats(
         enableIf = [
@@ -362,7 +362,7 @@ class MissionNavActionEntity(
         hasDivingDuringOperation = hasDivingDuringOperation,
         incidentDuringOperation = incidentDuringOperation,
         resourceType = resourceType,
-        resourceId = resourceId,
+        resourceIds = resourceIds ?: emptyList(),
         nbrOfControl = nbrOfControl,
         sectorType = sectorType?.toString(),
         nbrOfControlAmp = nbrOfControlAmp,
@@ -435,7 +435,7 @@ class MissionNavActionEntity(
                 hasDivingDuringOperation = model.hasDivingDuringOperation,
                 incidentDuringOperation = model.incidentDuringOperation,
                 resourceType = model.resourceType,
-                resourceId = model.resourceId,
+                resourceIds = model.resourceIds,
                 nbrOfControl = model.nbrOfControl,
                 sectorType = model.sectorType?.let { SectorType.valueOf(it) },
                 nbrOfControlAmp = model.nbrOfControlAmp,

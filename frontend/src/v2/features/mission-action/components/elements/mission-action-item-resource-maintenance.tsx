@@ -1,8 +1,8 @@
-import { FormikMultiRadio, FormikSelect, Option } from '@mtes-mct/monitor-ui'
-import { useStore } from '@tanstack/react-store'
+import { FormikMultiRadio, FormikMultiSelect, Option } from '@mtes-mct/monitor-ui'
+import { useSelector } from '@tanstack/react-store'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { string } from 'yup'
+import { array, string } from 'yup'
 import { store } from '../../../../store'
 import useResourceByControlUnitQuery from '../../../common/services/use-resources-control-unit'
 import { ControlUnitResource } from '../../../common/types/control-unit-types'
@@ -30,12 +30,12 @@ const MissionActionItemResourceMaintenance: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const user = useStore(store, state => state.user)
+  const user = useSelector(store, state => state.user)
   const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const schema = {
-    resourceId: isMissionFinished ? string().required() : string().nullable(),
+    resourceIds: isMissionFinished ? array().of(string()).min(1).required() : array().of(string()).nullable(),
     resourceType: isMissionFinished ? string().required() : string().nullable()
   }
 
@@ -63,18 +63,18 @@ const MissionActionItemResourceMaintenance: FC<{
             isErrorMessageHidden={true}
           />
         </Stack.Item>
-        <Stack.Item style={{ width: '50%' }}>
-          <FormikSelect
+        <Stack.Item style={{ width: '100%' }}>
+          <FormikMultiSelect
             isRequired
             isLight
             searchable
-            name={`resourceId`}
+            name={`resourceIds`}
             label="Nom du moyen"
             style={{ width: '100%' }}
             isErrorMessageHidden={true}
             options={
               resources?.map((resource: ControlUnitResource) => ({
-                value: resource.id!!,
+                value: resource.id!,
                 label: `${resource.name}`
               })) ?? []
             }

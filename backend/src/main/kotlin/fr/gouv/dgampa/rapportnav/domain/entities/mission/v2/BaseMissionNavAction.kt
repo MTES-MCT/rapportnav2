@@ -57,7 +57,7 @@ interface BaseMissionNavAction {
     var hasDivingDuringOperation: Boolean?
     var incidentDuringOperation: Boolean?
     var resourceType: String?
-    var resourceId: Int?
+    var resourceIds: List<Int>?
     var establishment: EstablishmentEntity?
     var portLocode: String?
     var zipCode: String?
