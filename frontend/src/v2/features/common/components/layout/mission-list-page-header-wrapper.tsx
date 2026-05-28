@@ -1,11 +1,9 @@
 import { Accent, Button, Icon, IconButton, Size } from '@mtes-mct/monitor-ui'
-import { useSelector } from '@tanstack/react-store'
 import { useNavigate } from 'react-router-dom'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import republique from '../../../../../assets/images/republique.svg'
 import useAuth from '../../../../features/auth/hooks/use-auth'
-import { store } from '../../../../store'
 import { RoleType } from '../../types/role-type'
 
 const StyledHeader = styled.div`
@@ -25,10 +23,8 @@ export const MissionListPageHeaderWrapper: React.FC<MissionListHeaderWrapperProp
   title,
   actions
 }: MissionListHeaderWrapperProps) => {
-  const { hasRoles } = useAuth()
+  const { hasRoles, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
-  const user = useSelector(store, state => state.user)
-  const { isAuthenticated, logout } = useAuth()
   const handleLogout = () => logout()
 
   return (

@@ -93,5 +93,5 @@ export type ResourceInput = {
   name: string
   controlUnitId: number
   registrationId?: string
-  radioFrequency?: String
+  radioFrequency?: string
 }

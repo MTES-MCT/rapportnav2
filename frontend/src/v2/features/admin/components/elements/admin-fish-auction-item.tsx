@@ -2,7 +2,7 @@ import Text from '@common/components/ui/text.tsx'
 import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import React, { useState } from 'react'
 import { Stack } from 'rsuite'
-import { AdminAction, AdminActionType } from '../../../common/types/basic-action.ts'
+import { AdminActionType, BasicAction } from '../../../common/types/basic-action.ts'
 import useAdminCreateOrUpdateFishAuctionMutation from '../../services/use-admin-create-update-fish-auction-service.tsx'
 import useAdminDisableFishAuctionMutation from '../../services/use-admin-disable-fish-auction.tsx'
 import useAdminFishAuctionListQuery from '../../services/use-admin-fish-auctions-service.tsx'
@@ -18,7 +18,7 @@ const CELLS = [
   { key: 'deletedAt', label: 'Date de désactivation', width: 200 }
 ]
 
-const ACTIONS: AdminAction[] = [
+const ACTIONS: BasicAction[] = [
   {
     isMain: true,
     label: `Créer une crée`,

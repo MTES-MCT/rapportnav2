@@ -11,14 +11,16 @@ interface ManageAgentFormProps {
   formik: FormikProps<any>
 }
 
+const schema = object().shape({
+  cardId: string().required(),
+  roleId: string().required(),
+  lastName: string().required(),
+  firstName: string().required()
+})
+
 const ManageAgentForm: React.FC<ManageAgentFormProps> = ({ formik }) => {
   const { data: roles } = useGetAgentRoles()
-  const schema = object().shape({
-    cardId: string().required(),
-    roleId: string().required(),
-    lastName: string().required(),
-    firstName: string().required()
-  })
+
   useHandleDialogForm({ schema, formik })
 
   return (
