@@ -154,6 +154,7 @@ class MissionNavActionEntity(
 
     override var reason: ActionStatusReason? = null,
     override var targets: List<TargetEntity>? = null,
+    var agentIds: List<Int>? = null,
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["INQUIRY"])
@@ -453,6 +454,7 @@ class MissionNavActionEntity(
                 zipCode = model.zipCode,
                 city = model.city,
                 fishAuction = model.fishAuction?.toFishAuctionEntity(),
+                agentIds = model.agents.mapNotNull { it.id },
             )
         }
     }

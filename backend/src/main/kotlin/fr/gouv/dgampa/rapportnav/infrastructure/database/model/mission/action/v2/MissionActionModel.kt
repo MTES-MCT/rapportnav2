@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.fish.FishAuctionModel
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
@@ -229,7 +230,15 @@ data class MissionActionModel(
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    var updatedBy: Int? = null
+    var updatedBy: Int? = null,
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "mission_action_agent",
+        joinColumns = [JoinColumn(name = "mission_action_id")],
+        inverseJoinColumns = [JoinColumn(name = "agent_id")]
+    )
+    var agents: MutableList<AgentModel> = mutableListOf()
 
 ) {
     override fun hashCode(): Int {

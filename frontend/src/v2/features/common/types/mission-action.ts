@@ -8,7 +8,6 @@ import {
   ControlCheck,
   FleetSegment,
   GearControl,
-  Infraction,
   MissionActionType,
   SpeciesControl
 } from '@common/types/fish-mission-types'
@@ -72,6 +71,7 @@ export interface MissionNavActionData extends MissionActionData {
   isWithinDepartment?: boolean
   hasDivingDuringOperation?: boolean
   unitManagementTrainingType?: string
+  agentIds?: number[]
   resourceId?: string
   resourceType?: string
   nbrOfControl?: number

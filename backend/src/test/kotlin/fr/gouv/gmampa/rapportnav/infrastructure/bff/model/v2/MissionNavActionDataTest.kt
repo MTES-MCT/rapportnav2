@@ -6,7 +6,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -89,6 +92,22 @@ class MissionNavActionDataTest {
         assertThat(output.data.establishment?.isForeign).isEqualTo(entity.establishment?.isForeign)
     }
 
+    @Test
+    fun `execute should map agents from model to agentIds in entity and API output`() {
+        val service = ServiceEntityMock.create(id = 1, name = "Service").toServiceModel()
+        val model = MissionActionModelMock.create()
+        model.agents = mutableListOf(
+            AgentModel(id = 1, firstName = "John", lastName = "Doe", service = service, role = AgentRoleModel(id = 1, title = "")),
+            AgentModel(id = 2, firstName = "Jane", lastName = "Doe", service = service, role = AgentRoleModel(id = 1, title = ""))
+        )
+
+        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        assertThat(entity.agentIds).containsExactlyInAnyOrder(1, 2)
+
+        val output = MissionNavAction.fromMissionActionEntity(entity)
+        assertThat(output.data.agentIds).containsExactlyInAnyOrder(1, 2)
+    }
+
     @Nested
     inner class MissionNavActionDataStatusTest {
 
@@ -106,7 +125,7 @@ class MissionNavActionDataTest {
         fun `execute should use action data status when is Status Action and input status is null`() {
             val model =
                 MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
-            var input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
+            val input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
             assertThat(output.status.toString()).isEqualTo(model.status)

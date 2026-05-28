@@ -102,6 +102,7 @@ class MissionNavAction(
                     nbrSecurityVisit = navAction.nbrSecurityVisit,
                     establishment = navAction.establishment?.let { Establishment.fromEstablishmentEntity(it) },
                     targets = navAction.targets?.map { Target.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
+                    agentIds = navAction.agentIds,
                     portLocode = navAction.portLocode,
                     zipCode = navAction.zipCode,
                     city = navAction.city,
