@@ -21,7 +21,11 @@ const DialogForm: React.FC<DialogFormProps> = ({ action, initValue, onSubmit }) 
       {formik => (
         <Dialog>
           <Dialog.Title>
-            <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 14, paddingRight: 24 }}>
+            <FlexboxGrid
+              align="middle"
+              justify="space-between"
+              style={{ paddingLeft: 14, paddingRight: 24, width: '100%' }}
+            >
               <FlexboxGrid.Item style={{ fontSize: '16px' }}>{action?.label}</FlexboxGrid.Item>
               <FlexboxGrid.Item>
                 <IconButton
@@ -36,7 +40,7 @@ const DialogForm: React.FC<DialogFormProps> = ({ action, initValue, onSubmit }) 
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </Dialog.Title>
-          <Dialog.Body>
+          <Dialog.Body style={{ overflow: 'initial' }}>
             <Stack.Item style={{ width: '100%' }}>
               {action && createElement(action.form, { formik, type: action.key, ...(action.formProps ?? {}) })}
             </Stack.Item>
