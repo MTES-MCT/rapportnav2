@@ -12,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
+import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
 
 @UseCase
 class UpdateNavAction(
@@ -19,7 +20,8 @@ class UpdateNavAction(
     private val processMissionActionTarget: ProcessMissionActionTarget,
     private val entityValidityValidator: EntityValidityValidator,
     private val computeActionValidityAndRecomputeMission: ComputeActionValidityAndRecomputeMission,
-    private val resolveActionOwnerId: ResolveActionOwnerId
+    private val resolveActionOwnerId: ResolveActionOwnerId,
+    private val agentRepository: IDBAgentRepository
 ) {
     fun execute(id: String, input: MissionNavAction, ownerId: String? = null): MissionNavActionEntity {
         val action = MissionNavActionData.toMissionNavActionEntity(input)
@@ -49,7 +51,17 @@ class UpdateNavAction(
             inquiryId = inquiryId
         )
 
-        missionActionRepository.save(action.toMissionActionModel())
+        val model = action.toMissionActionModel()
+
+        // Save agents participating in the action. An empty/null agentIds clears them:
+        // the emptied collection is synced to the mission_action_agent join table on merge,
+        // deleting the rows (the action may become incomplete — that is allowed).
+        val agentIds = input.data.agentIds
+        model.agents = agentRepository.findAllById(agentIds ?: emptyList()).toMutableList()
+
+        missionActionRepository.save(model)
+        // Reflect the agents actually resolved/persisted (non-existent ids are dropped by findAllById).
+        action.agentIds = model.agents.mapNotNull { it.id }
 
         // Recompute the mission AFTER the save, so the aggregate re-reads the now-persisted action.
         computeActionValidityAndRecomputeMission.recomputeMission(action = action, ownerId = action.ownerId)

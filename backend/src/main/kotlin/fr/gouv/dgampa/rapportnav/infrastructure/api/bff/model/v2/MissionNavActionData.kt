@@ -71,6 +71,7 @@ class MissionNavActionData(
     override var zipCode: String? = null,
     override var city: String? = null,
     override var fishAuction: FishAuction? = null,
+    override val agentIds: List<Int>? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -122,6 +123,7 @@ class MissionNavActionData(
                 nbrOfHours = data.nbrOfHours,
                 trainingType = data.trainingType,
                 unitManagementTrainingType = data.unitManagementTrainingType,
+                agentIds = data.agentIds,
                 isWithinDepartment = data.isWithinDepartment,
                 hasDivingDuringOperation = data.hasDivingDuringOperation,
                 incidentDuringOperation = data.incidentDuringOperation,

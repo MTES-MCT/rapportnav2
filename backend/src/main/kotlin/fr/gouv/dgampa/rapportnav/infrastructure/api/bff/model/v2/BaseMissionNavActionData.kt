@@ -68,4 +68,5 @@ interface BaseMissionNavActionData {
     var zipCode: String?
     var city: String?
     var fishAuction: FishAuction?
+    val agentIds: List<Int>?
 }
