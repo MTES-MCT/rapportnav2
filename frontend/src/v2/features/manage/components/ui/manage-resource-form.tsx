@@ -11,11 +11,11 @@ interface ManageResourceFormProps {
   formik: FormikProps<any>
 }
 
-const ManageResourceForm: React.FC<ManageResourceFormProps> = ({ formik }) => {
-  const schema = object().shape({
-    registrationId: string().required()
-  })
+const schema = object().shape({
+  registrationId: string().required()
+})
 
+const ManageResourceForm: React.FC<ManageResourceFormProps> = ({ formik }) => {
   useHandleDialogForm({ schema, formik })
 
   return (

@@ -2,7 +2,7 @@ import Text from '@common/components/ui/text'
 import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import React, { useEffect, useState } from 'react'
 import { Pagination, Stack } from 'rsuite'
-import { AdminAction, AdminActionType } from '../../../common/types/basic-action.ts'
+import { BasicAction, AdminActionType } from '../../../common/types/basic-action.ts'
 import useAdminDeleteGeneralInfosMutation from '../../services/use-admin-delete-general-infos.tsx'
 import useGeneralInfosListQuery from '../../services/use-admin-general-infos.tsx'
 import useAdminUpdateGeneralInfosMutation from '../../services/use-admin-update-general-infos.tsx'
@@ -29,7 +29,7 @@ const CELLS = [
   { key: 'updatedAt', label: 'Mise à jour', width: 150 }
 ]
 
-const ACTIONS: AdminAction[] = [
+const ACTIONS: BasicAction[] = [
   {
     label: `Mise à jour`,
     key: AdminActionType.UPDATE,

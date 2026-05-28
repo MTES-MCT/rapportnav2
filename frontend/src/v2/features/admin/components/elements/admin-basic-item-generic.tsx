@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Stack } from 'rsuite'
 import AdminSectionWrapper from '../../../common/components/layout/admin-section-wrapper'
 import DialogForm from '../../../common/components/ui/basic-dialog-form'
@@ -17,14 +17,9 @@ type AdminServiceProps = {
 }
 
 const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, defaultData, cells, title, onSubmit, actions }) => {
-  const [mainAction, setMainAction] = useState<BasicAction>()
-  const [listActions, setListActions] = useState<BasicAction[]>([])
+  const mainAction = useMemo(() => actions.find(a => a.isMain), [actions])
+  const listActions = useMemo(() => actions.filter(a => !a.isMain), [actions])
   const { currentData, showDialogForm, currentAction, handleAction, handleSubmit } = useAdminBasicItem({ onSubmit })
-
-  useEffect(() => {
-    setListActions(actions.filter(a => !a.isMain))
-    setMainAction(actions.find(action => action.isMain))
-  }, [actions])
 
   return (
     <AdminSectionWrapper>

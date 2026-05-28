@@ -3,7 +3,7 @@ import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { orderBy } from 'lodash'
 import React, { useMemo, useState } from 'react'
 import { Stack } from 'rsuite'
-import { AdminAction, AdminActionType } from '../../../common/types/basic-action'
+import { BasicAction, AdminActionType } from '../../../common/types/basic-action'
 import { User } from '../../../common/types/user'
 import useAdminCreateOrUpdateUserMutation from '../../services/use-admin-create-update-user-service'
 import useAdminDisableUserMutation from '../../services/use-admin-disable-user'
@@ -26,7 +26,7 @@ const CELLS = [
   { key: 'disabledAt', label: 'Dernière de désactivation', width: 200 }
 ]
 
-const ACTIONS: AdminAction[] = [
+const ACTIONS: BasicAction[] = [
   {
     isMain: true,
     label: `Créer un user`,

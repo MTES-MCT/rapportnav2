@@ -9,7 +9,7 @@ import MissionListPageTitle from '../features/common/components/ui/mission-list-
 import StyledTabs, { StyledTabItem } from '../features/common/components/ui/styled-tab.tsx'
 import ManageCrewItem from '../features/manage/components/elements/manage-crew-item.tsx'
 import ManageResourceItem from '../features/manage/components/elements/manage-resource-item.tsx'
-import { store } from '../store/index.ts'
+import { store } from '../store'
 
 const ITEMS: StyledTabItem[] = [
   {
@@ -66,7 +66,7 @@ const ManagePage: React.FC = () => {
               onClick={() => navigate('/')}
               style={{ marginLeft: 8, marginRight: 4 }}
             >
-              Retour page d'acceuil
+              Retour page d'accueil
             </Button>
             <Text as={'h1'} style={{ fontSize: '32px' }}>
               Gestion de L'unité

@@ -1,5 +1,5 @@
 import { Icon } from '@mtes-mct/monitor-ui'
-import { useStore } from '@tanstack/react-store'
+import { useSelector } from '@tanstack/react-store'
 import { useEffect, useState } from 'react'
 import useAuth from '../v2/features/auth/hooks/use-auth'
 import { ModuleType } from '../v2/features/common/types/module-type'
@@ -47,7 +47,7 @@ type RouteHook = {
 export function useGlobalRoutes(): RouteHook {
   const [homeUrl, setHomeUrl] = useState<string>()
   const { isLoggedIn, isAuthenticated } = useAuth()
-  const module = useStore(store, (state: State) => state.module)
+  const module = useSelector(store, (state: State) => state.module)
 
   const getPageParams = (params?: object): URLSearchParams => {
     const searchParams = new URLSearchParams()

@@ -1,6 +1,6 @@
 import { Accent, IconButton, Size } from '@mtes-mct/monitor-ui'
 import { get } from 'lodash'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Table } from 'rsuite'
 import { Cell, HeaderCell, RowDataType } from 'rsuite-table'
 import Column from 'rsuite/esm/Table/TableColumn'
@@ -22,7 +22,7 @@ const BasicItemTable: React.FC<BasicItemTableProps> = ({ data, cells, actions, o
   return (
     <Table height={650} data={data}>
       {cells.map(cell => (
-        <Column width={cell.width} align="start" fixed>
+        <Column width={cell.width} align="start" fixed key={cell.key}>
           <HeaderCell>{cell.label}</HeaderCell>
           <Cell>
             {rowData => {
@@ -38,7 +38,7 @@ const BasicItemTable: React.FC<BasicItemTableProps> = ({ data, cells, actions, o
           {rowData => (
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               {actions.map((rowAction, index) => (
-                <>
+                <Fragment key={`${rowAction.key}-${index}`}>
                   {rowAction.icon && (
                     <IconButton
                       title={rowAction.title}
@@ -51,7 +51,7 @@ const BasicItemTable: React.FC<BasicItemTableProps> = ({ data, cells, actions, o
                       disabled={rowAction.disabled ? rowAction.disabled(rowData) : false}
                     />
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}

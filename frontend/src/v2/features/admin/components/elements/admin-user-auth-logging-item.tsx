@@ -1,7 +1,7 @@
 import Text from '@common/components/ui/text'
 import React from 'react'
 import { Stack } from 'rsuite'
-import { AdminAction, AdminActionType } from '../../../common/types/basic-action.ts'
+import { AdminActionType, BasicAction } from '../../../common/types/basic-action.ts'
 import useUserAuthLoggingListQuery from '../../services/use-admin-user-auth-logging-service.tsx'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
 
@@ -16,7 +16,7 @@ const CELLS = [
   { key: 'timestamp', label: 'timestamp', width: 150 }
 ]
 
-const ACTIONS: AdminAction[] = []
+const ACTIONS: BasicAction[] = []
 
 type AdminUserAuthLoggingProps = {}
 

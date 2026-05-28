@@ -45,7 +45,7 @@ const AdminPage: React.FC = () => {
             onClick={() => navigate('/')}
             style={{ marginLeft: 8, marginRight: 4 }}
           >
-            Retour page d'acceuil
+            Retour page d'accueil
           </Button>
           <Text as={'h1'} style={{ fontSize: '32px' }}>
             Dashboard

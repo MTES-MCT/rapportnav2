@@ -2,7 +2,7 @@ import AuthToken from '@features/auth/utils/token'
 import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { intersection } from 'lodash'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RoleType } from '../../common/types/role-type'
 
@@ -81,13 +81,16 @@ export const useAuth = (authTokenInstance: AuthToken = new AuthToken()): AuthHoo
     })
   }, [isAuthenticated, logout])
 
-  const getRoleOptions = () =>
-    Object.keys(RoleType)?.map(key => ({
-      value: RoleType[key as keyof typeof RoleType],
-      label: ROLE_REGISTRY[key as keyof typeof RoleType]
-    }))
+  const roleOptions = useMemo(
+    () =>
+      Object.keys(RoleType)?.map(key => ({
+        value: RoleType[key as keyof typeof RoleType],
+        label: ROLE_REGISTRY[key as keyof typeof RoleType]
+      })),
+    []
+  )
 
-  return { hasRoles, isAuthenticated, logout, navigateAndResetCache, isLoggedIn, roleOptions: getRoleOptions() }
+  return { hasRoles, isAuthenticated, logout, navigateAndResetCache, isLoggedIn, roleOptions }
 }
 
 export default useAuth
