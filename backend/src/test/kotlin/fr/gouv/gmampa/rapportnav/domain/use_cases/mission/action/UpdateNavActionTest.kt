@@ -7,23 +7,29 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.ResolveActionOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ComputeActionValidityAndRecomputeMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
+import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.argThat
+import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -44,6 +50,9 @@ class UpdateNavActionTest {
     private lateinit var processMissionActionTarget: ProcessMissionActionTarget
 
     @MockitoBean
+    private lateinit var agentRepository: IDBAgentRepository
+
+    @MockitoBean
     private lateinit var entityValidityValidator: EntityValidityValidator
 
     @MockitoBean
@@ -57,7 +66,8 @@ class UpdateNavActionTest {
         processMissionActionTarget = processMissionActionTarget,
         entityValidityValidator = entityValidityValidator,
         computeActionValidityAndRecomputeMission = computeActionValidityAndRecomputeMission,
-        resolveActionOwnerId = resolveActionOwnerId
+        resolveActionOwnerId = resolveActionOwnerId,
+        agentRepository = agentRepository
     )
 
     @Test
@@ -124,7 +134,110 @@ class UpdateNavActionTest {
         data = getNavActionDataInput(),
     )
 
-    private fun getNavActionDataInput() = MissionNavActionData(
+    @Test
+    fun `test execute update nav action with agentIds resolves agents`() {
+        val actionId = UUID.randomUUID().toString()
+        val agentIds = listOf(3, 4)
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORT_NAV,
+            data = getNavActionDataInput(agentIds = agentIds),
+        )
+
+        val service = ServiceEntityMock.create(id = 1, name = "Service").toServiceModel()
+        val mockAgents = listOf(
+            AgentModel(id = 3, firstName = "Alice", lastName = "A", service = service, role = AgentRoleModel(id = 1, title = "")),
+            AgentModel(id = 4, firstName = "Bob", lastName = "B", service = service, role = AgentRoleModel(id = 1, title = ""))
+        )
+
+        val model = MissionActionModelMock.create()
+        `when`(agentRepository.findAllById(agentIds)).thenReturn(mockAgents)
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
+        `when`(processMissionActionTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+
+        val response = useCase().execute(actionId, input)
+        assertThat(response).isNotNull
+        assertThat(response.agentIds).containsExactlyInAnyOrder(3, 4)
+        verify(agentRepository).findAllById(agentIds)
+    }
+
+    @Test
+    fun `computes completeness against the provided agentIds`() {
+        // Regression: the write-path entity must carry agentIds BEFORE computeActionValidity runs,
+        // otherwise a filled-in UNIT_MANAGEMENT_TRAINING action is wrongly scored incomplete-for-stats.
+        // Captured at invocation time because `action.agentIds` is later overwritten with the persisted ids.
+        val actionId = UUID.randomUUID().toString()
+        val agentIds = listOf(3, 4)
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.UNIT_MANAGEMENT_TRAINING,
+            source = MissionSourceEnum.RAPPORT_NAV,
+            data = getNavActionDataInput(agentIds = agentIds),
+        )
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(MissionActionModelMock.create())
+        `when`(processMissionActionTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+
+        var seenAgentIds: List<Int>? = null
+        doAnswer { seenAgentIds = (it.getArgument(0) as MissionNavActionEntity).agentIds; null }
+            .whenever(computeActionValidityAndRecomputeMission)
+            .computeActionValidity(anyOrNull(), anyOrNull(), anyOrNull())
+
+        useCase().execute(actionId, input)
+
+        assertThat(seenAgentIds).containsExactlyInAnyOrder(3, 4)
+    }
+
+    @Test
+    fun `test execute update nav action without agentIds clears agents`() {
+        val actionId = UUID.randomUUID().toString()
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORT_NAV,
+            data = getNavActionDataInput(),
+        )
+
+        val model = MissionActionModelMock.create()
+        `when`(agentRepository.findAllById(emptyList())).thenReturn(emptyList())
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
+        `when`(processMissionActionTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+
+        val response = useCase().execute(actionId, input)
+        assertThat(response).isNotNull
+        assertThat(response.agentIds).isEmpty()
+        // A null agentIds resolves to an empty agents collection, which the merge syncs to the
+        // mission_action_agent join table — deleting any previously stored agents for this action.
+        verify(agentRepository).findAllById(emptyList())
+        verify(missionActionRepository).save(argThat { this.agents.isEmpty() })
+    }
+
+    @Test
+    fun `test execute update nav action with empty agentIds clears agents`() {
+        val actionId = UUID.randomUUID().toString()
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORT_NAV,
+            data = getNavActionDataInput(agentIds = emptyList()),
+        )
+
+        val model = MissionActionModelMock.create()
+        `when`(agentRepository.findAllById(emptyList())).thenReturn(emptyList())
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
+        `when`(processMissionActionTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+
+        val response = useCase().execute(actionId, input)
+        assertThat(response).isNotNull
+        assertThat(response.agentIds).isEmpty()
+        verify(missionActionRepository).save(argThat { this.agents.isEmpty() })
+    }
+
+    private fun getNavActionDataInput(agentIds: List<Int>? = null) = MissionNavActionData(
         startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
         isAntiPolDeviceDeployed = true,
@@ -156,6 +269,7 @@ class UpdateNavActionTest {
         nbOfVesselsTrackedWithoutIntervention = 4,
         nbAssistedVesselsReturningToShore = 50,
         reason = ActionStatusReason.ADMINISTRATION,
-        status = ActionStatusType.ANCHORED
+        status = ActionStatusType.ANCHORED,
+        agentIds = agentIds
     )
 }

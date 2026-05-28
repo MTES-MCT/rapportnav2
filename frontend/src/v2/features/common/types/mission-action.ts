@@ -79,6 +79,7 @@ export interface MissionNavActionData extends MissionActionData {
   hasDivingDuringOperation?: boolean
   unitManagementTrainingType?: string
   resourceIds?: string[]
+  agentIds?: number[]
   resourceType?: string
   nbrOfControl?: number
   sectorType?: SectorType
