@@ -4,7 +4,6 @@ import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'fo
 import React from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
-import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionTargetControlEnv from '../../../mission-target/components/elements/mission-target-control-env.tsx'
@@ -156,13 +155,13 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         label="Observation de l'unité sur le contrôle"
                       />
                     </Stack.Item>
-                    <Stack.Item style={{ width: '100%', display: 'none' }}>
+                    <Stack.Item style={{ width: '100%' }}>
                       <MissionActionIncidentDonwload />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
 
-                <Stack.Item style={{ width: '100%', display: 'none' }}>
+                <Stack.Item style={{ width: '100%' }}>
                   <MissionActionDivingOperation />
                 </Stack.Item>
               </Stack>
