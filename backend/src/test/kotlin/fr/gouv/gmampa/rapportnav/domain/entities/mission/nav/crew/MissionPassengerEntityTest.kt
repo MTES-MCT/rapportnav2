@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.crew
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerOrganization
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRangeValidator
 import jakarta.validation.ConstraintValidatorContext
@@ -55,7 +55,7 @@ class MissionPassengerEntityTest {
 
     private fun setupMissionDates(missionStart: Instant?, missionEnd: Instant?) {
         `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
-            MissionDatesOutput(
+            MissionDates(
                 startDateTimeUtc = missionStart,
                 endDateTimeUtc = missionEnd
             )

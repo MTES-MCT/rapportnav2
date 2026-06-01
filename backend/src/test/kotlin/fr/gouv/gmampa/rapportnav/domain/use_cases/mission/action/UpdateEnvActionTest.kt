@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
@@ -65,7 +65,7 @@ class UpdateEnvActionTest {
             )
         ).thenReturn(listOf(TargetEntityMock.create()))
         `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
-            MissionDatesOutput(
+            MissionDates(
                 startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
                 endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
             )

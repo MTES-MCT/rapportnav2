@@ -221,7 +221,7 @@ class MissionNavActionEntityTest {
     fun `execute should be complete for stats `() {
         val model = getActionModel()
         val entity = MissionNavActionEntity.fromMissionActionModel(model)
-        entity.computeValidity(true, validator)
+        entity.computeValidity(validator = validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(emptyList<MissionSourceEnum>())
         assertThat(entity.completenessForStats?.sources).isNull()

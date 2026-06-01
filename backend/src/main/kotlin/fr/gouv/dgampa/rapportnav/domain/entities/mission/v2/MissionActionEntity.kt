@@ -7,10 +7,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
 import java.time.Instant
+
 
 
 abstract class MissionActionEntity(
@@ -39,13 +41,13 @@ abstract class MissionActionEntity(
      * Unified validation method - validates both validity (dates) and completeness (required fields).
      * Uses Jakarta Bean Validation with validation groups.
      *
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
      * @param validator The EntityValidityValidator instance to use
+     * @param missionDates Mission dates used for grandfathering rules by effective date
      */
-    open fun computeValidityForStats(isMissionFinished: Boolean = false, validator: EntityValidityValidator) {
+    open fun computeValidityForStats(validator: EntityValidityValidator, missionDates: MissionDates? = null) {
         val groups = mutableListOf<Class<*>>(ValidateThrowsBeforeSave::class.java, ValidateWhenMissionFinished::class.java)
 
-        this.completenessForStats = validator.validate(this, *groups.toTypedArray())
+        this.completenessForStats = validator.validate(this, *groups.toTypedArray(), missionStartDate = missionDates?.startDateTimeUtc)
 
         // Update sources of missing data based on completeness
         if (this.completenessForStats?.status != CompletenessForStatsStatusEnum.VALID) {
@@ -139,10 +141,10 @@ abstract class MissionActionEntity(
 
     /**
      * Computes validity for statistics using the new unified validation system.
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
      * @param validator The EntityValidityValidator instance to use
+     * @param missionDates Mission dates used for grandfathering rules by effective date
      */
-    abstract fun computeValidity(isMissionFinished: Boolean = false, validator: EntityValidityValidator)
+    abstract fun computeValidity(validator: EntityValidityValidator, missionDates: MissionDates? = null)
 
     abstract fun isControlInValid(control: ControlEntity?): Boolean
 }

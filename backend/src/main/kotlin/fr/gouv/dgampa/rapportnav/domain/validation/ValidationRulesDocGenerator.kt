@@ -4,6 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import java.io.File
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 /**
  * Generates a markdown documentation file from the validation rules defined in RequiredFieldsValidator.
@@ -18,7 +20,7 @@ fun main() {
     println("Generated ${outputFile.absolutePath}")
 }
 
-private data class FieldEntry(val field: String, val extraCondition: String?)
+private data class FieldEntry(val field: String, val extraCondition: String?, val effectiveDate: String? = null)
 
 fun generateValidationRulesMarkdown(): String {
     val sb = StringBuilder()
@@ -42,17 +44,26 @@ private fun appendHeader(sb: StringBuilder) {
     sb.appendLine()
 }
 
+private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.of("UTC"))
+
+private fun formatEffectiveDate(rule: RequiredFieldsValidator.Rule<*>): String {
+    val date = rule.effectiveDate ?: return "-"
+    return dateFormatter.format(date)
+}
+
 private fun appendRulesPerEntity(sb: StringBuilder) {
     for ((entityClass, rules) in RequiredFieldsValidator.rulesRegistry) {
         sb.appendLine("## ${entityClass.simpleName}")
         sb.appendLine()
-        sb.appendLine("| Champ | Condition | Message d'erreur |")
-        sb.appendLine("|-------|-----------|------------------|")
+        sb.appendLine("| Champ | Condition | Message d'erreur | Effectif depuis |")
+        sb.appendLine("|-------|-----------|------------------|-----------------|")
 
         val groupedByField = rules.groupBy { it.field }
         for ((field, fieldRules) in groupedByField) {
             val condition = fieldRules.joinToString(" **OU** ") { it.conditionDescription }
-            sb.appendLine("| `$field` | $condition | ${fieldRules.first().message} |")
+            val effectiveDate = fieldRules.mapNotNull { it.effectiveDate }.maxOrNull()
+                ?.let { dateFormatter.format(it) } ?: "-"
+            sb.appendLine("| `$field` | $condition | ${fieldRules.first().message} | $effectiveDate |")
         }
 
         sb.appendLine()
@@ -93,14 +104,15 @@ private fun collectFieldsForActionType(
     for (rule in rules) {
         if (!ruleMatchesActionType(rule, actionType)) continue
         val extra = (rule as? RequiredFieldsValidator.Rule.Conditional<*>)?.extraCondition
-        fields.add(FieldEntry(rule.field, extra))
+        fields.add(FieldEntry(rule.field, extra, rule.effectiveDate?.let { dateFormatter.format(it) }))
     }
 
     return fields
         .groupBy { it.field }
         .map { (field, entries) ->
             val extras = entries.mapNotNull { it.extraCondition }.distinct()
-            FieldEntry(field, extras.joinToString(" / ").ifEmpty { null })
+            val effectiveDates = entries.mapNotNull { it.effectiveDate }.distinct()
+            FieldEntry(field, extras.joinToString(" / ").ifEmpty { null }, effectiveDates.joinToString(" / ").ifEmpty { null })
         }
 }
 
@@ -115,10 +127,10 @@ private fun ruleMatchesActionType(rule: RequiredFieldsValidator.Rule<*>, actionT
 private fun appendActionTypeTable(sb: StringBuilder, actionType: ActionType, fields: List<FieldEntry>) {
     sb.appendLine("### $actionType")
     sb.appendLine()
-    sb.appendLine("| Champ | Condition supplementaire |")
-    sb.appendLine("|-------|-------------------------|")
+    sb.appendLine("| Champ | Condition supplementaire | Effectif depuis |")
+    sb.appendLine("|-------|-------------------------|-----------------|")
     for (entry in fields) {
-        sb.appendLine("| `${entry.field}` | ${entry.extraCondition ?: "-"} |")
+        sb.appendLine("| `${entry.field}` | ${entry.extraCondition ?: "-"} | ${entry.effectiveDate ?: "-"} |")
     }
     sb.appendLine()
 }

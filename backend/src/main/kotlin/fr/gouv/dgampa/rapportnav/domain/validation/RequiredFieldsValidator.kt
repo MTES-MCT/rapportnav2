@@ -14,12 +14,20 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 import fr.gouv.dgampa.rapportnav.domain.validation.RequiredFieldsValidator.Rule.Companion.conditional
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
+import java.time.Instant
 
 /**
  * Generic validator for required fields.
  *
  * Rules are defined per entity class in the companion object.
  * To add rules for a new entity, add an entry to the `rulesRegistry` map.
+ *
+ * Rules can have an optional `effectiveDate`. When set, the rule is only enforced
+ * for missions whose start date is on or after the effective date (grandfathering).
+ *
+ * The mission start date is passed via [missionStartDateHolder] ThreadLocal — a pragmatic
+ * workaround for Jakarta's ConstraintValidator.isValid() not supporting extra context parameters.
+ * Set by [EntityValidityValidator] before validation and cleared after.
  */
 class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
 
@@ -27,9 +35,11 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
         if (entity == null) return true
 
         val rules = rulesRegistry[entity::class.java] ?: return true
+        val missionStartDate = missionStartDateHolder.get()
         val violations = mutableListOf<FieldViolation>()
 
         for (rule in rules) {
+            if (rule.isGrandfathered(missionStartDate)) continue
             if (rule.appliesTo(entity) && rule.isViolated(entity)) {
                 violations.add(FieldViolation(rule.field, rule.message))
             }
@@ -50,6 +60,12 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
     data class FieldViolation(val field: String, val message: String)
 
     companion object {
+        /**
+         * ThreadLocal holding the mission's start date for effective date filtering.
+         * Set by [EntityValidityValidator] before validation, cleared after.
+         */
+        val missionStartDateHolder = ThreadLocal<Instant?>()
+
         private const val MSG_START_DATE_REQUIRED = "La date de début est requise"
         private const val MSG_END_DATE_REQUIRED = "La date de fin est requise"
 
@@ -252,20 +268,35 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
 
     /**
      * Represents a validation rule for a field.
+     *
+     * @param effectiveDate If set, the rule only applies to missions starting on or after this date.
+     *   Missions started before this date are "grandfathered" and exempt from the rule.
      */
     sealed class Rule<T>(
         val field: String,
         val message: String,
-        val conditionDescription: String
+        val conditionDescription: String,
+        val effectiveDate: Instant? = null
     ) {
         abstract fun appliesTo(entity: Any): Boolean
         abstract fun isViolated(entity: Any): Boolean
 
+        /**
+         * Returns true if this rule should be skipped because the mission predates the rule's effective date.
+         * If either effectiveDate or missionStartDate is null, the rule is NOT grandfathered (always applies).
+         */
+        fun isGrandfathered(missionStartDate: Instant?): Boolean {
+            val effective = effectiveDate ?: return false
+            val missionStart = missionStartDate ?: return false
+            return missionStart.isBefore(effective)
+        }
+
         class Always<T>(
             field: String,
             message: String,
+            effectiveDate: Instant? = null,
             private val getter: (T) -> Any?
-        ) : Rule<T>(field, message, "Toujours") {
+        ) : Rule<T>(field, message, "Toujours", effectiveDate) {
             override fun appliesTo(entity: Any) = true
             @Suppress("UNCHECKED_CAST")
             override fun isViolated(entity: Any) = getter(entity as T) == null
@@ -275,8 +306,9 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
             field: String,
             val actionTypes: List<ActionType>,
             message: String,
+            effectiveDate: Instant? = null,
             private val getter: (MissionNavActionEntity) -> Any?
-        ) : Rule<MissionNavActionEntity>(field, message, "actionType ∈ {${actionTypes.joinToString(", ")}}") {
+        ) : Rule<MissionNavActionEntity>(field, message, "actionType ∈ {${actionTypes.joinToString(", ")}}", effectiveDate) {
             override fun appliesTo(entity: Any) = (entity as? MissionNavActionEntity)?.actionType in actionTypes
             @Suppress("UNCHECKED_CAST")
             override fun isViolated(entity: Any) = getter(entity as MissionNavActionEntity) == null
@@ -289,8 +321,9 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
             private val condition: (T) -> Boolean,
             val relatedActionTypes: List<ActionType>? = null,
             val extraCondition: String? = null,
+            effectiveDate: Instant? = null,
             private val getter: (T) -> Any?
-        ) : Rule<T>(field, message, conditionDescription) {
+        ) : Rule<T>(field, message, conditionDescription, effectiveDate) {
             @Suppress("UNCHECKED_CAST")
             override fun appliesTo(entity: Any) = condition(entity as T)
             @Suppress("UNCHECKED_CAST")
@@ -298,19 +331,20 @@ class RequiredFieldsValidator : ConstraintValidator<RequiredFields, Any> {
         }
 
         companion object {
-            fun <T> always(field: String, message: String, getter: (T) -> Any?) =
-                Always(field, message, getter)
+            fun <T> always(field: String, message: String, effectiveDate: Instant? = null, getter: (T) -> Any?) =
+                Always(field, message, effectiveDate, getter)
 
-            fun forActionTypes(field: String, actionTypes: List<ActionType>, message: String, getter: (MissionNavActionEntity) -> Any?) =
-                ForActionTypes(field, actionTypes, message, getter)
+            fun forActionTypes(field: String, actionTypes: List<ActionType>, message: String, effectiveDate: Instant? = null, getter: (MissionNavActionEntity) -> Any?) =
+                ForActionTypes(field, actionTypes, message, effectiveDate, getter)
 
             fun <T> conditional(
                 field: String, message: String, conditionDescription: String,
                 condition: (T) -> Boolean,
                 relatedActionTypes: List<ActionType>? = null,
                 extraCondition: String? = null,
+                effectiveDate: Instant? = null,
                 getter: (T) -> Any?
-            ) = Conditional(field, message, conditionDescription, condition, relatedActionTypes, extraCondition, getter)
+            ) = Conditional(field, message, conditionDescription, condition, relatedActionTypes, extraCondition, effectiveDate, getter)
         }
     }
 }

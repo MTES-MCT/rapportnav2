@@ -24,8 +24,7 @@ class ProcessNavAction(
             ownerId = action.ownerId,
             inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
         )
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
-        action.computeValidity(isMissionFinished = isMissionFinished, validator = entityValidityValidator)
+        action.computeValidity(validator = entityValidityValidator, missionDates = missionDates)
 
         return action
     }

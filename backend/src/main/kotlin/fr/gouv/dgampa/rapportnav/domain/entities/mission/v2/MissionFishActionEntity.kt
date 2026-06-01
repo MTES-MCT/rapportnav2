@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import java.time.Instant
@@ -106,10 +107,10 @@ class MissionFishActionEntity(
      * Computes validity for statistics using the new unified validation system.
      * For Fish actions, validates both RAPPORT_NAV and MONITORFISH sources.
      *
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
      * @param validator The EntityValidityValidator instance to use
+     * @param missionDates Mission dates used for grandfathering rules by effective date
      */
-    override fun computeValidity(isMissionFinished: Boolean, validator: EntityValidityValidator) {
+    override fun computeValidity(validator: EntityValidityValidator, missionDates: MissionDates?) {
         this.computeControlsToComplete()
 
         val sourcesOfMissingData = mutableListOf<MissionSourceEnum>()
@@ -120,7 +121,8 @@ class MissionFishActionEntity(
             this,
             MissionSourceEnum.RAPPORT_NAV,
             ValidateThrowsBeforeSave::class.java,
-            ValidateWhenMissionFinished::class.java
+            ValidateWhenMissionFinished::class.java,
+            missionStartDate = missionDates?.startDateTimeUtc
         )
 
         val rapportNavComplete = rapportNavCompleteness.isComplete

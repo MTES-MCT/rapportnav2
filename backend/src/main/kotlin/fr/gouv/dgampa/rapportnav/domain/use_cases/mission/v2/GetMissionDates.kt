@@ -1,21 +1,11 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.GetInquiryById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
-import java.time.Instant
 import java.util.*
-
-data class MissionDatesOutput(
-    val startDateTimeUtc: Instant?,
-    val endDateTimeUtc: Instant?
-) {
-    /**
-     * Returns true if the mission is finished (end date is in the past).
-     */
-    fun isMissionFinished(): Boolean = endDateTimeUtc?.isBefore(Instant.now()) ?: false
-}
 
 @UseCase
 class GetMissionDates(
@@ -24,13 +14,13 @@ class GetMissionDates(
     private val getInquiryById: GetInquiryById
 ) {
 
-    fun execute(missionId: Int?, ownerId: UUID?, inquiryId: UUID? = null): MissionDatesOutput? {
+    fun execute(missionId: Int?, ownerId: UUID?, inquiryId: UUID? = null): MissionDates? {
 
         // Try to get from Inquiry table if inquiryId is provided
         if (inquiryId != null) {
             val inquiry: InquiryEntity? = inquiryId.let { getInquiryById.execute(id = it) }
             if (inquiry != null) {
-                return MissionDatesOutput(
+                return MissionDates(
                     startDateTimeUtc = inquiry.startDateTimeUtc,
                     endDateTimeUtc = inquiry.endDateTimeUtc
                 )
@@ -41,7 +31,7 @@ class GetMissionDates(
         if (ownerId != null) {
             val navMission = getNavMissionById2.execute(ownerId)
             if (navMission != null) {
-                return MissionDatesOutput(
+                return MissionDates(
                     startDateTimeUtc = navMission.startDateTimeUtc,
                     endDateTimeUtc = navMission.endDateTimeUtc
                 )
@@ -52,7 +42,7 @@ class GetMissionDates(
         if (missionId != null) {
             val envMission = getEnvMissionById2.execute(missionId)
             if (envMission != null) {
-                return MissionDatesOutput(
+                return MissionDates(
                     startDateTimeUtc = envMission.startDateTimeUtc,
                     endDateTimeUtc = envMission.endDateTimeUtc
                 )
