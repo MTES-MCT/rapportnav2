@@ -1,16 +1,17 @@
 import Text from '@common/components/ui/text'
 import { SpeciesControl } from '@common/types/fish-mission-types.ts'
 import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
+import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import { MissionFishActionData } from '../../../common/types/mission-action'
 
-interface MissionControlFishSpeciesSectionProps {
+interface FishControlSpeciesSectionProps {
   action: MissionFishActionData
 }
 
-const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectionProps> = ({ action }) => {
+const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ action }) => {
   const { controlCheckRadioOptions, controlCheckRadioBooleanOptions } = usecontrolCheck()
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
@@ -91,15 +92,16 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
           </Stack.Item>
         </Stack>
       </Stack.Item>
-
-      <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
-        <Label>Observations (hors infraction) sur les espèces</Label>
-        <Text as="h3" weight="medium">
-          {action?.speciesObservations ? action.speciesObservations : 'Aucune observation'}
-        </Text>
-      </Stack.Item>
+      {!isEmpty(action?.speciesObservations) && (
+        <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
+          <Label>Observations (hors infraction) sur les espèces</Label>
+          <Text as="h3" weight="medium">
+            {action?.speciesObservations}
+          </Text>
+        </Stack.Item>
+      )}
     </Stack>
   )
 }
 
-export default MissionControlFishSpeciesSection
+export default FishControlSpeciesSection

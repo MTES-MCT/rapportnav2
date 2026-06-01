@@ -5,13 +5,12 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionFishActionData } from '../../../common/types/mission-action'
 
-interface MissionControlFishOtherObservationsSectionProps {
+interface FishControlOtherObservationsSectionProps {
   action: MissionFishActionData
 }
 
-const MissionControlFishOtherObservationsSection: React.FC<MissionControlFishOtherObservationsSectionProps> = ({
-  action
-}) => {
+const FishControlOtherObservationsSection: React.FC<FishControlOtherObservationsSectionProps> = ({ action }) => {
+  if (isEmpty(action?.otherComments)) return <></>
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
       <Stack.Item>
@@ -19,11 +18,11 @@ const MissionControlFishOtherObservationsSection: React.FC<MissionControlFishOth
       </Stack.Item>
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Text as="h3" weight="medium">
-          {!isEmpty(action?.otherComments) ? action.otherComments : 'Aucune observation'}
+          {action.otherComments}
         </Text>
       </Stack.Item>
     </Stack>
   )
 }
 
-export default MissionControlFishOtherObservationsSection
+export default FishControlOtherObservationsSection

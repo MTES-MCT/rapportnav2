@@ -9,6 +9,7 @@ import MissionControlForm from '../../../mission-control/components/elements/mis
 type MissionTargetControlNavProps = {
   name: string
   label: string
+  collapsible?: boolean
   hideGensDeMer?: boolean
   fieldArray: FieldArrayRenderProps
   controlsToComplete?: ControlType[]
@@ -18,6 +19,7 @@ const MissionTargetControlNav: FC<MissionTargetControlNavProps> = ({
   label,
   name,
   fieldArray,
+  collapsible,
   hideGensDeMer,
   controlsToComplete
 }) => {
@@ -45,6 +47,7 @@ const MissionTargetControlNav: FC<MissionTargetControlNavProps> = ({
                                 <div data-testid={'control-form-nav'}>
                                   <MissionControlForm
                                     fieldFormik={field}
+                                    collapsible={collapsible}
                                     controlType={control.controlType}
                                     name={`targets[${targetIndex}].controls[${controlIndex}]`}
                                     isToComplete={controlsToComplete?.includes(control.controlType)}

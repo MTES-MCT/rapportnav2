@@ -1,9 +1,10 @@
-import { Label } from '@mtes-mct/monitor-ui'
+import { Label, Message, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps } from 'formik'
 import { FC } from 'react'
-import { Stack } from 'rsuite'
+import { Divider, Stack } from 'rsuite'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { Target, TargetType } from '../../../common/types/target-types.ts'
+import FishControlSeizureSection from '../../../mission-control/components/ui/fish-control-seizure-section.tsx'
 import InfractionFishSummary from '../../../mission-infraction/components/ui/infraction-fish-summary.tsx'
 import TargetItemDefault from '../../../mission-target/components/elements/target-item-default.tsx'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
@@ -31,13 +32,28 @@ const FishControlConclusion: FC<{
               {(fieldFormik: FieldProps<Target>) => (
                 <TargetItemDefault
                   name={`targets[0]`}
+                  message={
+                    <Message level="WARNING">
+                      Veuillez vous assurez que l’infraction n’a pas déjà été saisie par le CNSP
+                    </Message>
+                  }
                   fieldFormik={fieldFormik}
                   targetType={TargetType.DEFAULT}
                   availableControlTypes={defaultControlTypes}
+                  title={`Ajout d'infraction (hors pol. pêche)`}
                   buttonLabel={`Ajouter une infraction (hors pol. pêche)`}
                 />
               )}
             </Field>
+          </Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>
+            <Divider style={{ backgroundColor: THEME.color.lightGray, margin: 0 }} />
+          </Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>
+            <FishControlSeizureSection action={values} />
+          </Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>
+            <Divider style={{ backgroundColor: THEME.color.lightGray, margin: 0 }} />
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
             <FormikTextAreaInput
