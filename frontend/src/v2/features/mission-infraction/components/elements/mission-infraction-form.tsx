@@ -28,8 +28,8 @@ export interface MissionInfractionFormProps {
   editInfraction?: boolean
   value: TargetInfraction
   vehicleType?: VehicleTypeEnum
-  availableControlTypes?: ControlType[]
   targetType?: TargetType
+  availableControlTypes?: ControlType[]
   onSubmit: (value?: TargetInfraction) => Promise<unknown>
 }
 
@@ -64,7 +64,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
           onSubmit={value => handleSubmit(value, onSubmit)}
         >
           {formik => (
-            <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }} data-testid="mission-infraction-form">
+            <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }} data-testid="mission-infraction-form">
               {editInfraction && (
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikMultiRadio

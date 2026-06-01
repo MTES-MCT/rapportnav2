@@ -88,6 +88,7 @@ const MissionActionItemNavControl: FC<{
                     {(fieldArray: FieldArrayRenderProps) => (
                       <MissionTargetControl
                         name="targets"
+                        collapsible={true}
                         fieldArray={fieldArray}
                         controlsToComplete={action.controlsToComplete}
                         label={`Contrôle(s) effectué(s) par l’unité sur le navire`}

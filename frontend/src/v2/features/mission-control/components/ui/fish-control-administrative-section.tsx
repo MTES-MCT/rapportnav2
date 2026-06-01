@@ -1,11 +1,12 @@
 import Text from '@common/components/ui/text.tsx'
 import { ControlCheck } from '@common/types/fish-mission-types.ts'
-import { Accent, Button, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Label, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
+import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionFishActionData } from '../../../common/types/mission-action'
 
-interface MissionControlFishAdministrativeSectionProps {
+interface FishControlAdministrativeSectionProps {
   action: MissionFishActionData
 }
 
@@ -28,9 +29,7 @@ export const controlCheckMultiRadioOptions = Object.keys(ControlCheck).map(key =
   }
 })
 
-const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdministrativeSectionProps> = ({
-  action
-}) => {
+const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectionProps> = ({ action }) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
       <Stack.Item>
@@ -82,28 +81,25 @@ const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdmini
               label="Autorisations de pêche conformes à l'activité du navire (zone, engins, espèces)"
             />
           </Stack.Item>
-          <Stack.Item>
-            <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} disabled={true} isFullWidth={false}>
-              Ajouter une infraction obligations déclaratives / autorisations
-            </Button>
-          </Stack.Item>
         </Stack>
       </Stack.Item>
 
-      <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
-        <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'}>
-          <Stack.Item>
-            <Label>Observations (hors infractions) sur les obligations déclaratives / autorisations</Label>
-          </Stack.Item>
-          <Stack.Item>
-            <Text as="h3" weight="medium">
-              {action?.licencesAndLogbookObservations ?? 'Aucune observation'}
-            </Text>
-          </Stack.Item>
-        </Stack>
-      </Stack.Item>
+      {!isEmpty(action?.licencesAndLogbookObservations) && (
+        <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
+          <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'}>
+            <Stack.Item>
+              <Label>Observations (hors infractions) sur les obligations déclaratives / autorisations</Label>
+            </Stack.Item>
+            <Stack.Item>
+              <Text as="h3" weight="medium">
+                {action?.licencesAndLogbookObservations}
+              </Text>
+            </Stack.Item>
+          </Stack>
+        </Stack.Item>
+      )}
     </Stack>
   )
 }
 
-export default MissionControlFishAdministrativeSection
+export default FishControlAdministrativeSection

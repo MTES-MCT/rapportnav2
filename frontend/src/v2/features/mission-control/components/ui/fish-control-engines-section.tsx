@@ -1,16 +1,17 @@
 import Text from '@common/components/ui/text'
 import { GearControl } from '@common/types/fish-mission-types.ts'
-import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Checkbox, Label, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
+import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import { MissionFishActionData } from '../../../common/types/mission-action'
 
-interface MissionControlFishEnginesSectionProps {
+interface FishControlEnginesSectionProps {
   action: MissionFishActionData
 }
 
-const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectionProps> = ({ action }) => {
+const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ action }) => {
   const { controlCheckRadioBooleanOptions } = usecontrolCheck()
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
@@ -64,17 +65,14 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
                 </Stack.Item>
               </Stack>
             </Stack.Item>
-            <Stack.Item>
-              <Label>Observations (hors infractions) sur les obligations déclaratives / autorisations</Label>
-              <Text as="h3" weight="medium">
-                {gearControl?.comments ? gearControl.comments : 'Aucune observation'}
-              </Text>
-            </Stack.Item>
-            <Stack.Item>
-              <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} disabled={true} isFullWidth={false}>
-                Ajouter une infraction engins
-              </Button>
-            </Stack.Item>
+            {!isEmpty(gearControl?.comments) && (
+              <Stack.Item>
+                <Label>Observations (hors infractions) sur les obligations déclaratives / autorisations</Label>
+                <Text as="h3" weight="medium">
+                  {gearControl.comments}
+                </Text>
+              </Stack.Item>
+            )}
           </Stack>
         </Stack.Item>
       ))}
@@ -82,4 +80,4 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
   )
 }
 
-export default MissionControlFishEnginesSection
+export default FishControlEnginesSection

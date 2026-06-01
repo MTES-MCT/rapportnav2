@@ -1,6 +1,6 @@
 import { Icon, Message, SearchProps, TextInput } from '@mtes-mct/monitor-ui'
-import { SyntheticEvent, useEffect, useState } from 'react'
 import { FieldProps, FormikErrors } from 'formik'
+import { SyntheticEvent, useEffect, useState } from 'react'
 import { Dropdown, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useEstablishmentListQuery } from '../../services/use-etablishments-service'

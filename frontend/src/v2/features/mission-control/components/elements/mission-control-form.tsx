@@ -11,17 +11,24 @@ import MissionControlUnitConfirm from '../ui/mission-control-unit-confirm'
 
 type MissionControlModelFormProps = {
   name: string
+  collapsible?: boolean
   isToComplete?: boolean
   controlType: ControlType
   fieldFormik: FieldProps<Control>
 }
 
-const MissionControlForm: FC<MissionControlModelFormProps> = ({ name, controlType, fieldFormik, isToComplete }) => {
+const MissionControlForm: FC<MissionControlModelFormProps> = ({
+  name,
+  controlType,
+  fieldFormik,
+  isToComplete,
+  collapsible
+}) => {
   const { controlTypeLabel, radios, initValue, withRadios, handleSubmit } = useControl(name, fieldFormik, controlType)
   return (
     <Panel
       bordered
-      collapsible
+      collapsible={collapsible}
       header={<MissionControlTitle text={controlTypeLabel} isToComplete={isToComplete} />}
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
