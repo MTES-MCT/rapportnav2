@@ -14,6 +14,8 @@ import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-c
 import { ActionNavControlInput } from '../../types/action-type'
 import MissionActionLocationPicker from '../ui/mission-action-location-picker'
 import MissionActionNavControlWarning from '../ui/mission-action-nav-control-warning'
+import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
+import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 
 const MissionActionItemNavControl: FC<{
   action: MissionAction
@@ -99,6 +101,10 @@ const MissionActionItemNavControl: FC<{
                     data-testid="observations"
                     label="Observations générales sur le contrôle"
                   />
+                  <MissionActionIncidentDonwload />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <MissionActionDivingOperation />
                 </Stack.Item>
               </Stack>
             </>
