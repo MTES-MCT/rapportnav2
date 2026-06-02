@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.84.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.83.0...v2.84.0) (2026-06-02)
+
+
+### Features
+
+* add diving on nav control ([3b3e4e9](https://github.com/MTES-MCT/rapportnav2/commit/3b3e4e9a9777cdf46be358bdc7465763e1bbf978))
+* update entretien des moyens action + add table mission_action_resource [#1390](https://github.com/MTES-MCT/rapportnav2/issues/1390) ([afed9d0](https://github.com/MTES-MCT/rapportnav2/commit/afed9d064cca5e7ddeb9a9ef4d1d5b3f74099204))
+
+
+### Bug Fixes
+
+* ** frontend:** test snapshots ([7f9c82c](https://github.com/MTES-MCT/rapportnav2/commit/7f9c82ce780fdc48d06ce4cd2f80f8db9e9473cd))
+* textarea instead of text for env control observations ([6b88a04](https://github.com/MTES-MCT/rapportnav2/commit/6b88a04cc18a047a4f8de95236fd115dde901fbb))
+
 ## [2.83.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.82.0...v2.83.0) (2026-05-28)
 
 
