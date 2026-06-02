@@ -71,6 +71,7 @@ class MissionNavActionData(
     override var zipCode: String? = null,
     override var city: String? = null,
     override var fishAuction: FishAuction? = null,
+    override val agentIds: List<Int>? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
