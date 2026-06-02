@@ -10,20 +10,20 @@ exports[`MissionListPageSidebar > should match the snapshot 1`] = `
         style="flex: 0 1 0%; width: 64px;"
       >
         <div
-          class="sc-amjVG isGbfH"
+          class="sc-kmYGLm kylZkH"
         >
           <div
-            class="sc-bkbknG clLST"
+            class="sc-bjLslk gieSPc"
             role="menu"
           >
             <button
-              class="sc-hKFxUR sc-gKzYWW cKMNpg gHQSIM Element-IconButton sc-fFSRQT kMQboa"
+              class="sc-hKVpXn sc-gKkgUA eOayP hSPMoF Element-IconButton sc-fFCZOx dwUAHS"
               role="menuitem"
               title="mission"
               type="button"
             >
               <span
-                class="sc-dlnkDq eoMxcU Element-IconBox"
+                class="sc-dkXsAU iJxNiC Element-IconBox"
               >
                 <svg
                   height="20"
@@ -93,20 +93,20 @@ exports[`MissionListPageSidebar > should match the snapshot 1`] = `
       style="flex: 0 1 0%; width: 64px;"
     >
       <div
-        class="sc-amjVG isGbfH"
+        class="sc-kmYGLm kylZkH"
       >
         <div
-          class="sc-bkbknG clLST"
+          class="sc-bjLslk gieSPc"
           role="menu"
         >
           <button
-            class="sc-hKFxUR sc-gKzYWW cKMNpg gHQSIM Element-IconButton sc-fFSRQT kMQboa"
+            class="sc-hKVpXn sc-gKkgUA eOayP hSPMoF Element-IconButton sc-fFCZOx dwUAHS"
             role="menuitem"
             title="mission"
             type="button"
           >
             <span
-              class="sc-dlnkDq eoMxcU Element-IconBox"
+              class="sc-dkXsAU iJxNiC Element-IconBox"
             >
               <svg
                 height="20"

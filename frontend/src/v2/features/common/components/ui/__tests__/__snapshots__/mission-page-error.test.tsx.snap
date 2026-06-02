@@ -17,13 +17,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             style="max-width: 33%;"
           >
             <p
-              class="sc-amjVG sc-cwiwAl iQiYZF hzFOtm"
+              class="sc-kmYGLm sc-dkeMNg SyRXt dwcQyJ"
               font-size="16"
             >
               Une erreur est survenue
             </p>
             <p
-              class="sc-amjVG sc-dkuEPC iQiYZF cjRVZQ"
+              class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
               font-size="13"
             >
               this is and error
@@ -33,11 +33,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <button
-              class="sc-hiKfXj sc-cBooDE Rbjlb zCFyr Element-Button"
+              class="sc-hiunUN sc-cBEgGa jBInpu bvdigo Element-Button"
               type="button"
             >
               <span
-                class="sc-gXfWgR lJbiQ"
+                class="sc-gXvOjn hKdQEj"
               >
                 Retourner à l'accueil
               </span>
@@ -82,13 +82,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           style="max-width: 33%;"
         >
           <p
-            class="sc-amjVG sc-cwiwAl iQiYZF hzFOtm"
+            class="sc-kmYGLm sc-dkeMNg SyRXt dwcQyJ"
             font-size="16"
           >
             Une erreur est survenue
           </p>
           <p
-            class="sc-amjVG sc-dkuEPC iQiYZF cjRVZQ"
+            class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
             font-size="13"
           >
             this is and error
@@ -98,11 +98,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-hiKfXj sc-cBooDE Rbjlb zCFyr Element-Button"
+            class="sc-hiunUN sc-cBEgGa jBInpu bvdigo Element-Button"
             type="button"
           >
             <span
-              class="sc-gXfWgR lJbiQ"
+              class="sc-gXvOjn hKdQEj"
             >
               Retourner à l'accueil
             </span>
