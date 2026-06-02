@@ -22,7 +22,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
               style="align-self: baseline;"
             >
               <span
-                class="sc-dlnkDq eVjZLi Element-IconBox"
+                class="sc-dkXsAU rgiDY Element-IconBox"
               >
                 <svg
                   height="20"
@@ -81,7 +81,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
                   class="rs-stack-item"
                 >
                   <p
-                    class="sc-amjVG sc-cwiwAl iQiYZF hzFOtm"
+                    class="sc-kmYGLm sc-dkeMNg SyRXt dwcQyJ"
                     font-size="16"
                   >
                     Session de travail 1
@@ -91,7 +91,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
                   class="rs-stack-item"
                 >
                   <p
-                    class="sc-amjVG sc-cwiwAl iQiYZF WjcNs"
+                    class="sc-kmYGLm sc-dkeMNg SyRXt fvQuef"
                     font-size="16"
                     weight="normal"
                   >
@@ -126,7 +126,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
               style="align-self: center; color: rgb(59, 69, 89);"
             >
               <span
-                class="sc-dlnkDq eRcRaw Element-IconBox"
+                class="sc-dkXsAU BVBsu Element-IconBox"
               >
                 <svg
                   height="20"
@@ -166,7 +166,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
               style="align-self: baseline;"
             >
               <p
-                class="sc-amjVG sc-dkuEPC iQiYZF cjRVZQ"
+                class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
                 color="#3B4559"
                 font-size="13"
               >
@@ -196,7 +196,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
             style="align-self: baseline;"
           >
             <span
-              class="sc-dlnkDq eVjZLi Element-IconBox"
+              class="sc-dkXsAU rgiDY Element-IconBox"
             >
               <svg
                 height="20"
@@ -255,7 +255,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-amjVG sc-cwiwAl iQiYZF hzFOtm"
+                  class="sc-kmYGLm sc-dkeMNg SyRXt dwcQyJ"
                   font-size="16"
                 >
                   Session de travail 1
@@ -265,7 +265,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-amjVG sc-cwiwAl iQiYZF WjcNs"
+                  class="sc-kmYGLm sc-dkeMNg SyRXt fvQuef"
                   font-size="16"
                   weight="normal"
                 >
@@ -300,7 +300,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
             style="align-self: center; color: rgb(59, 69, 89);"
           >
             <span
-              class="sc-dlnkDq eRcRaw Element-IconBox"
+              class="sc-dkXsAU BVBsu Element-IconBox"
             >
               <svg
                 height="20"
@@ -340,7 +340,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
             style="align-self: baseline;"
           >
             <p
-              class="sc-amjVG sc-dkuEPC iQiYZF cjRVZQ"
+              class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
               color="#3B4559"
               font-size="13"
             >
