@@ -12,10 +12,10 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
           class="sc-kEbgWM jEKehV"
         />
         <div
-          class="sc-iqkkDd fxBNLL"
+          class="sc-iqkkDd hAXCrh"
         >
           <div
-            class="sc-qdQOe bxsIGM"
+            class="sc-qdQOe bjaXpq"
           >
             <div
               class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -75,7 +75,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-gtcBCx iKezPj"
+            class="sc-gtcBCx eCwPFK"
           >
             <div
               class="rs-stack"
@@ -207,10 +207,10 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
         class="sc-kEbgWM jEKehV"
       />
       <div
-        class="sc-iqkkDd fxBNLL"
+        class="sc-iqkkDd hAXCrh"
       >
         <div
-          class="sc-qdQOe bxsIGM"
+          class="sc-qdQOe bjaXpq"
         >
           <div
             class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -270,7 +270,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-gtcBCx iKezPj"
+          class="sc-gtcBCx eCwPFK"
         >
           <div
             class="rs-stack"
