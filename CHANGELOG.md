@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.84.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.84.0...v2.84.1) (2026-06-03)
+
+
+### Bug Fixes
+
+* mission create dialog dimensions ([41953ad](https://github.com/MTES-MCT/rapportnav2/commit/41953ad814b56626026b070bfbb4bdbc57ee5608))
+
 ## [2.84.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.83.0...v2.84.0) (2026-06-02)
 
 

@@ -2,7 +2,7 @@ import { UTCDate } from '@date-fns/utc'
 import { Accent, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FlexboxGrid, Stack } from 'rsuite'
+import { Stack } from 'rsuite'
 import { MissionGeneralInfo2 } from 'src/v2/features/common/types/mission-types.ts'
 import TimeConversion from '../../../common/components/ui/time-conversion.tsx'
 import useCreateMissionMutation from '../../services/use-create-mission.tsx'
@@ -41,10 +41,10 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({ isOpen, onClose }) 
 
   return (
     isDialogOpen && (
-      <Dialog>
-        <Dialog.Title style={{ border: '1px solid black' }}>
-          <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 14, paddingRight: 24 }}>
-            <FlexboxGrid.Item style={{ fontSize: '16px' }}>
+      <Dialog style={{}}>
+        <Dialog.Title>
+          <Stack alignItems="center" justifyContent="space-between" style={{ width: '100%', minWidth: '600px' }}>
+            <Stack.Item style={{ fontSize: '16px' }}>
               <Stack direction="row" alignItems="flex-end">
                 <Stack.Item>{`Création d'un rapport (`}</Stack.Item>
                 <Stack.Item>
@@ -54,8 +54,8 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({ isOpen, onClose }) 
                 </Stack.Item>
                 <Stack.Item>{`)`}</Stack.Item>
               </Stack>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item>
+            </Stack.Item>
+            <Stack.Item>
               <IconButton
                 Icon={Icon.Close}
                 size={Size.NORMAL}
@@ -65,16 +65,15 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({ isOpen, onClose }) 
                 data-testid="close-create-mission-icon"
                 onClick={handleClose}
               />
-            </FlexboxGrid.Item>
-          </FlexboxGrid>
+            </Stack.Item>
+          </Stack>
         </Dialog.Title>
         <Dialog.Body
           style={{
             width: '100%',
-            paddingTop: 31,
-            paddingLeft: 14,
             border: '1px solid black',
-            backgroundColor: THEME.color.gainsboro
+            backgroundColor: THEME.color.gainsboro,
+            maxHeight: '500px'
           }}
         >
           <MissionCreateNewUlam onClose={handleClose} value={value} onChange={onChange} />
