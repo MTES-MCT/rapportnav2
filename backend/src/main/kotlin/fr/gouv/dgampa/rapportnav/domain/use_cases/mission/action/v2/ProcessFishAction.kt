@@ -27,9 +27,7 @@ class ProcessFishAction(
         entity.status = this.getStatus(entity)
 
         val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
-
-        entity.computeValidity(isMissionFinished, entityValidityValidator)
+        entity.computeValidity(validator = entityValidityValidator, missionDates = missionDates)
         return entity
     }
 }

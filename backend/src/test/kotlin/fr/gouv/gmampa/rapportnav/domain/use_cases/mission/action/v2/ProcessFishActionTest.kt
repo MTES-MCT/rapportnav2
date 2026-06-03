@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeSa
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
@@ -60,7 +60,7 @@ class ProcessFishActionTest {
         val mockTarget = TargetEntityMock.create()
         `when`(getComputeTarget.execute(actionId.hashCode().toString(), true)).thenReturn(listOf(mockTarget))
         `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
-            MissionDatesOutput(
+            MissionDates(
                 startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
                 endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
             )

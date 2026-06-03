@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import java.time.Instant
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
@@ -55,7 +55,7 @@ class ProcessEnvActionTest {
         val mockTarget = TargetEntityMock.create()
         `when`(getComputeEnvTarget.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(listOf(mockTarget))
         `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
-            MissionDatesOutput(
+            MissionDates(
                 startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
                 endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
             )

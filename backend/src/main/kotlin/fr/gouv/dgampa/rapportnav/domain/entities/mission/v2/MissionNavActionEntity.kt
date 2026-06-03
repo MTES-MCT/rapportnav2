@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import jakarta.validation.constraints.Min
@@ -129,11 +130,11 @@ class MissionNavActionEntity(
      * Computes validity for statistics using the new unified validation system.
      * Uses Jakarta Bean Validation with validation groups.
      *
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
      * @param validator The EntityValidityValidator instance to use
+     * @param missionDates Mission dates used for grandfathering rules by effective date
      */
-    override fun computeValidity(isMissionFinished: Boolean, validator: EntityValidityValidator) {
-        this.computeValidityForStats(isMissionFinished, validator)
+    override fun computeValidity(validator: EntityValidityValidator, missionDates: MissionDates?) {
+        this.computeValidityForStats(validator, missionDates)
 
         // For Nav actions, the only source is RAPPORT_NAV
         if (this.completenessForStats?.isComplete != true) {

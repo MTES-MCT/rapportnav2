@@ -28,9 +28,7 @@ class ProcessEnvAction(
         action.status = this.getStatus(action)
 
         val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
-
-        action.computeValidity(isMissionFinished, entityValidityValidator)
+        action.computeValidity(validator = entityValidityValidator, missionDates = missionDates)
         return action
     }
 }

@@ -461,4 +461,104 @@ class RequiredFieldsValidatorTest {
             assertFalse(result.errors.any { it.field == "fishAuction" })
         }
     }
+
+    // =========================================================================
+    // Effective date (grandfathering) tests
+    // =========================================================================
+    @Nested
+    @DisplayName("Effective date grandfathering")
+    inner class EffectiveDateTests {
+
+        private val pamService = ServiceEntity(name = "PAM Test", serviceType = ServiceTypeEnum.PAM)
+
+        @Test
+        fun `rule with effectiveDate should be skipped when mission predates it`() {
+            // Mission started 2024-01-01, rule effective from 2025-06-01 → rule should be skipped
+            val entity = MissionGeneralInfoEntity(
+                id = 1,
+                missionId = 100,
+                service = pamService,
+                distanceInNauticalMiles = null // normally required for PAM
+            )
+
+            // Set mission start date BEFORE the rule effective date
+            val missionStartDate = Instant.parse("2024-01-01T00:00:00Z")
+            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java, missionStartDate = missionStartDate)
+
+            // distanceInNauticalMiles has no effectiveDate, so it SHOULD still be flagged
+            assertTrue(result.errors.any { it.field == "distanceInNauticalMiles" })
+        }
+
+        @Test
+        fun `rule with effectiveDate should be enforced when mission is after it`() {
+            // Directly test the Rule.isGrandfathered method
+            val rule = RequiredFieldsValidator.Rule.always<Any>(
+                "testField", "Test message",
+                effectiveDate = Instant.parse("2025-01-01T00:00:00Z")
+            ) { null }
+
+            // Mission started AFTER effective date → not grandfathered
+            assertFalse(rule.isGrandfathered(Instant.parse("2025-06-01T00:00:00Z")))
+        }
+
+        @Test
+        fun `rule with effectiveDate should be skipped when mission is before it`() {
+            val rule = RequiredFieldsValidator.Rule.always<Any>(
+                "testField", "Test message",
+                effectiveDate = Instant.parse("2025-06-01T00:00:00Z")
+            ) { null }
+
+            // Mission started BEFORE effective date → grandfathered
+            assertTrue(rule.isGrandfathered(Instant.parse("2025-01-01T00:00:00Z")))
+        }
+
+        @Test
+        fun `rule without effectiveDate should never be grandfathered`() {
+            val rule = RequiredFieldsValidator.Rule.always<Any>(
+                "testField", "Test message"
+            ) { null }
+
+            // No effective date → always applies
+            assertFalse(rule.isGrandfathered(Instant.parse("2020-01-01T00:00:00Z")))
+            assertFalse(rule.isGrandfathered(null))
+        }
+
+        @Test
+        fun `rule with effectiveDate should apply when missionStartDate is null`() {
+            val rule = RequiredFieldsValidator.Rule.always<Any>(
+                "testField", "Test message",
+                effectiveDate = Instant.parse("2025-06-01T00:00:00Z")
+            ) { null }
+
+            // Null mission start date → not grandfathered (safe default: all rules apply)
+            assertFalse(rule.isGrandfathered(null))
+        }
+
+        @Test
+        fun `integration - NavAction rule with effectiveDate is grandfathered for old mission`() {
+            // Create a nav action missing endDateTimeUtc (normally required for CONTROL)
+            val entity = MissionNavActionEntity(
+                id = UUID.randomUUID(),
+                missionId = 1,
+                actionType = ActionType.CONTROL,
+                startDateTimeUtc = Instant.now(),
+                endDateTimeUtc = null, // required for CONTROL
+                controlMethod = ControlMethod.SEA,
+                vesselIdentifier = "ABC",
+                vesselType = VesselTypeEnum.FISHING,
+                vesselSize = VesselSizeEnum.LESS_THAN_12m,
+                identityControlledPerson = "Test"
+            )
+
+            // Validate WITHOUT missionStartDate → endDateTimeUtc should be flagged
+            val resultWithout = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            assertTrue(resultWithout.errors.any { it.field == "endDateTimeUtc" })
+
+            // Validate WITH missionStartDate → endDateTimeUtc should still be flagged
+            // (because endDateTimeUtc rule has no effectiveDate)
+            val resultWith = validator.validate(entity, ValidateWhenMissionFinished::class.java,
+                missionStartDate = Instant.parse("2020-01-01T00:00:00Z"))
+            assertTrue(resultWith.errors.any { it.field == "endDateTimeUtc" })
+        }
+    }
 }

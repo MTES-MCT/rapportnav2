@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import jakarta.validation.Validation
 import jakarta.validation.Validator
 import org.springframework.stereotype.Service
+import java.time.Instant
 
 /**
  * Spring service wrapper around Jakarta Bean Validation for validating entities.
@@ -25,8 +26,13 @@ class EntityValidityValidator(
      * @param groups Validation groups to run (e.g., ValidateThrowsBeforeSave, ValidateWhenMissionFinished)
      * @return CompletenessForStatsEntity with status and any errors
      */
-    fun validate(entity: Any, vararg groups: Class<*>): CompletenessForStatsEntity {
-        val violations = validator.validate(entity, *groups).toSet()
+    fun validate(entity: Any, vararg groups: Class<*>, missionStartDate: Instant? = null): CompletenessForStatsEntity {
+        RequiredFieldsValidator.missionStartDateHolder.set(missionStartDate)
+        val violations = try {
+            validator.validate(entity, *groups).toSet()
+        } finally {
+            RequiredFieldsValidator.missionStartDateHolder.remove()
+        }
 
         if (violations.isEmpty()) {
             return CompletenessForStatsEntity(
@@ -68,8 +74,8 @@ class EntityValidityValidator(
      * @param groups Validation groups to run
      * @throws BackendUsageException if validation fails
      */
-    fun validateAndThrow(entity: Any, vararg groups: Class<*>) {
-        val result = validate(entity, *groups)
+    fun validateAndThrow(entity: Any, vararg groups: Class<*>, missionStartDate: Instant? = null) {
+        val result = validate(entity, *groups, missionStartDate = missionStartDate)
         if (!result.isComplete) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
@@ -96,9 +102,10 @@ class EntityValidityValidator(
     fun validateWithSource(
         entity: Any,
         source: MissionSourceEnum,
-        vararg groups: Class<*>
+        vararg groups: Class<*>,
+        missionStartDate: Instant? = null
     ): CompletenessForStatsEntity {
-        val result = validate(entity, *groups)
+        val result = validate(entity, *groups, missionStartDate = missionStartDate)
         return if (result.status != CompletenessForStatsStatusEnum.VALID) {
             result.copy(sources = listOf(source))
         } else {

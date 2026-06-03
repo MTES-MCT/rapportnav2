@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.validation
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import jakarta.validation.ConstraintValidatorContext
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -48,7 +48,7 @@ class WithinMissionDateRangeValidatorTest {
 
     private fun setupMissionDates(missionStart: Instant?, missionEnd: Instant?) {
         `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
-            MissionDatesOutput(
+            MissionDates(
                 startDateTimeUtc = missionStart,
                 endDateTimeUtc = missionEnd
             )

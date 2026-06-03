@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.*
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
@@ -89,10 +90,10 @@ data class MissionEnvActionEntity(
      * Computes validity for statistics using the new unified validation system.
      * For Env actions, validates both RAPPORT_NAV and MONITORENV sources.
      *
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
      * @param validator The EntityValidityValidator instance to use
+     * @param missionDates Mission dates used for grandfathering rules by effective date
      */
-    override fun computeValidity(isMissionFinished: Boolean, validator: EntityValidityValidator) {
+    override fun computeValidity(validator: EntityValidityValidator, missionDates: MissionDates?) {
         this.computeControlsToComplete()
         this.computeAvailableControlTypesForInfraction()
 
@@ -104,7 +105,8 @@ data class MissionEnvActionEntity(
             this,
             MissionSourceEnum.RAPPORT_NAV,
             ValidateThrowsBeforeSave::class.java,
-            ValidateWhenMissionFinished::class.java
+            ValidateWhenMissionFinished::class.java,
+            missionStartDate = missionDates?.startDateTimeUtc
         )
 
         val rapportNavComplete = rapportNavCompleteness.isComplete && this.controlsToComplete.isNullOrEmpty()

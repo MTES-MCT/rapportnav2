@@ -41,7 +41,7 @@ class UpdateFishAction(
         )
         // compute validity
         val missionDates = getMissionDates.execute(missionId = action.missionId, ownerId = null)
-        action.computeValidity(isMissionFinished = missionDates?.isMissionFinished() ?: false, validator = entityValidityValidator)
+        action.computeValidity(validator = entityValidityValidator, missionDates = missionDates)
         return action
     }
 }

@@ -27,7 +27,7 @@ const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, targetT
   const getTitleSingle = (target?: Target, vehicle?: string) => {
     const id = target?.externalData?.registrationNumber ?? target?.identityControlledPerson
     const vesselType = getVesselTypeName(target?.externalData?.vesselType ?? target?.vesselType)
-    return `${vehicle ?? ''}${vesselType && vehicle ? ` - ` : ''}${vesselType ?? ''}${vesselType && id ? ` - ` : ''}${id ?? ''}`
+    return `${vehicle ?? ''}${vesselType && vehicle ? ' - ' : ''}${vesselType ?? ''}${vesselType && id ? ' - ' : ''}${id ?? ''}`
   }
 
   const getTitle = (target?: Target, vehicleType?: VehicleTypeEnum): string => {
