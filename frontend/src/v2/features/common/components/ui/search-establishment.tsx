@@ -23,9 +23,9 @@ export const SearchEstablishment = styled(
       return `${value.name} ${headquarters}| SIRET=${value.siret} | ${value.address}`
     }
 
-    const onSelect = (eventKey?: string, event: SyntheticEvent) => {
+    const onSelect = (eventKey?: string, event?: SyntheticEvent) => {
       const value = establishments?.find(item => item.id === eventKey)
-      event.stopPropagation()
+      event?.stopPropagation()
       if (!value) return
 
       setOpen(false)
