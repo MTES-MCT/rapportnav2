@@ -1,7 +1,8 @@
 import AuthToken from '@features/auth/utils/token'
 import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { intersection } from 'lodash'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RoleType } from '../../common/types/role-type'
 
@@ -9,7 +10,17 @@ type AuthHook = {
   isAuthenticated: boolean
   logout: () => Promise<void>
   isLoggedIn: () => Token | undefined
+  hasRoles: (roles: RoleType[]) => boolean
+  roleOptions: { label: string; value: RoleType }[]
   navigateAndResetCache: (to: string, keys: string[]) => Promise<void>
+}
+
+const ROLE_REGISTRY = {
+  [RoleType.ADMIN]: 'Admin',
+  [RoleType.USER_PAM]: 'User PAM',
+  [RoleType.USER_ULAM]: 'User ULAM',
+  [RoleType.MANAGER_PAM]: 'Manager PAM',
+  [RoleType.MANAGER_ULAM]: 'Manager ULAM'
 }
 
 export type Token = JwtPayload & { userId: number; roles: RoleType[] }
@@ -50,6 +61,15 @@ export const useAuth = (authTokenInstance: AuthToken = new AuthToken()): AuthHoo
     return token ? jwtDecode(token) : undefined
   }, [authToken])
 
+  const hasRoles = useCallback(
+    (roles: RoleType[]): boolean => {
+      const token = authToken?.get()
+      if (!token) return false
+      return intersection((jwtDecode(token) as Token)?.roles, roles).length > 0
+    },
+    [authToken]
+  )
+
   useEffect(() => {
     if (!!authToken.get() && !isAuthenticated) {
       setIsAuthenticated(true)
@@ -61,7 +81,16 @@ export const useAuth = (authTokenInstance: AuthToken = new AuthToken()): AuthHoo
     })
   }, [isAuthenticated, logout])
 
-  return { isAuthenticated, logout, navigateAndResetCache, isLoggedIn }
+  const roleOptions = useMemo(
+    () =>
+      Object.keys(RoleType)?.map(key => ({
+        value: RoleType[key as keyof typeof RoleType],
+        label: ROLE_REGISTRY[key as keyof typeof RoleType]
+      })),
+    []
+  )
+
+  return { hasRoles, isAuthenticated, logout, navigateAndResetCache, isLoggedIn, roleOptions }
 }
 
 export default useAuth

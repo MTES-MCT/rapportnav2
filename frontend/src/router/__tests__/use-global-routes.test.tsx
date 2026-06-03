@@ -1,4 +1,4 @@
-import { useStore } from '@tanstack/react-store'
+import { useSelector } from '@tanstack/react-store'
 import { renderHook } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import useAuth, { Token } from '../../v2/features/auth/hooks/use-auth'
@@ -10,7 +10,7 @@ import { LOGIN_PATH } from '../routes'
 import { useGlobalRoutes } from '../use-global-routes'
 
 vi.mock('@tanstack/react-store', () => ({
-  useStore: vi.fn()
+  useSelector: vi.fn()
 }))
 vi.mock('../../v2/features/auth/hooks/use-auth', () => ({
   __esModule: true,
@@ -20,7 +20,7 @@ vi.mock('../../v2/store/slices/module-reducer', () => ({
   setModuleType: vi.fn()
 }))
 
-const mockUseStore = vi.mocked(useStore)
+const mockUseSelector = vi.mocked(useSelector)
 const mockUseAuth = vi.mocked(useAuth)
 const mockSetModuleType = vi.mocked(setModuleType)
 
@@ -90,7 +90,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('generates URL without params for v1', () => {
-      mockUseStore.mockReturnValue({ type: 'pam' })
+      mockUseSelector.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const url = result.current.getUrl(OwnerType.MISSION)
@@ -99,7 +99,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('generates URL with simple string params', () => {
-      mockUseStore.mockReturnValue({ type: 'pam' })
+      mockUseSelector.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = { status: 'active', search: 'test' }
@@ -109,7 +109,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('generates URL with Date params converted to ISO string', () => {
-      mockUseStore.mockReturnValue({ type: 'pam' })
+      mockUseSelector.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const startDate = new Date('2025-01-01T00:00:00.000Z')
@@ -126,7 +126,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('generates URL with mixed param types', () => {
-      mockUseStore.mockReturnValue({ type: 'ulam' })
+      mockUseSelector.mockReturnValue({ type: 'ulam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -141,7 +141,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('filters out null and undefined params', () => {
-      mockUseStore.mockReturnValue({ type: 'pam' })
+      mockUseSelector.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -156,7 +156,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('handles empty params object', () => {
-      mockUseStore.mockReturnValue({ type: 'admin' })
+      mockUseSelector.mockReturnValue({ type: 'admin' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const url = result.current.getUrl(OwnerType.MISSION, {})
@@ -165,7 +165,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('handles params with special characters that need encoding', () => {
-      mockUseStore.mockReturnValue({ type: 'pam' })
+      mockUseSelector.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -178,7 +178,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('works with different OwnerType values', () => {
-      mockUseStore.mockReturnValue({ type: 'admin' })
+      mockUseSelector.mockReturnValue({ type: 'admin' })
 
       const { result } = renderHook(() => useGlobalRoutes())
 
@@ -190,7 +190,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('handles numeric zero values correctly', () => {
-      mockUseStore.mockReturnValue({ type: 'pam' })
+      mockUseSelector.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -204,7 +204,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('handles boolean false values correctly', () => {
-      mockUseStore.mockReturnValue({ type: 'pam' })
+      mockUseSelector.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -218,7 +218,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('handles array values by converting to string', () => {
-      mockUseStore.mockReturnValue({ type: 'ulam' })
+      mockUseSelector.mockReturnValue({ type: 'ulam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {

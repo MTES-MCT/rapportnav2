@@ -6,6 +6,7 @@ export type AdminAgent = {
   firstName: string
   lastName: string
   userId?: number
+  cardId?: string
   role: AdminAgentRole
   service: AdminService
   disabledAt?: Date
@@ -27,6 +28,7 @@ export type AdminAgentInput = {
   roleId?: number
   firstName: string
   lastName: string
+  cardId: string
   userId?: number
 }
 

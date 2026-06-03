@@ -1,9 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { renderHook, act } from '@testing-library/react'
-import useAuth, { setGlobalLogout, triggerGlobalLogout } from '../use-auth'
 import { useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { act, renderHook } from '@testing-library/react'
 import { jwtDecode } from 'jwt-decode'
+import { useNavigate } from 'react-router-dom'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { RoleType } from '../../../common/types/role-type'
+import useAuth, { setGlobalLogout, triggerGlobalLogout } from '../use-auth'
 
 // Mocks
 vi.mock('@features/auth/utils/token')
@@ -102,6 +103,37 @@ describe('useAuth hook', () => {
     const { result } = renderHook(() => useAuth(fakeAuth as any))
     const token = result.current.isLoggedIn()
     expect(token).toBeUndefined()
+  })
+
+  it('hasRoles should return true when token contains a requested role', () => {
+    const fakeAuth = {
+      get: vi.fn(() => 'fake-token'),
+      remove: vi.fn()
+    }
+    ;(jwtDecode as vi.Mock).mockImplementation(() => ({
+      userId: 1,
+      roles: [RoleType.ADMIN]
+    }))
+
+    const { result } = renderHook(() => useAuth(fakeAuth as any))
+
+    expect(result.current.hasRoles([RoleType.ADMIN])).toBe(true)
+    expect(result.current.hasRoles([RoleType.USER_PAM, RoleType.ADMIN])).toBe(true)
+  })
+
+  it('hasRoles should return false when token does not contain a requested role', () => {
+    const fakeAuth = {
+      get: vi.fn(() => 'fake-token'),
+      remove: vi.fn()
+    }
+    ;(jwtDecode as vi.Mock).mockImplementation(() => ({
+      userId: 1,
+      roles: [RoleType.USER_PAM]
+    }))
+
+    const { result } = renderHook(() => useAuth(fakeAuth as any))
+
+    expect(result.current.hasRoles([RoleType.ADMIN])).toBe(false)
   })
 
   it('should register and trigger global logout', async () => {

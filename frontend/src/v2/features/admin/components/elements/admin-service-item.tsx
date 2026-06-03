@@ -3,10 +3,10 @@ import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { orderBy } from 'lodash'
 import React, { useMemo, useState } from 'react'
 import { Stack } from 'rsuite'
+import { AdminActionType, BasicAction } from '../../../common/types/basic-action'
 import useAdminCreateOrUpdateServiceMutation from '../../services/use-admin-create-update-services-service'
 import useAdminDeleteServiceMutation from '../../services/use-admin-delete-services-service'
 import useAdminServiceListQuery from '../../services/use-admin-services-service'
-import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminService } from '../../types/admin-services-type'
 import AdminServiceForm from '../ui/admin-service-form'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
@@ -21,7 +21,7 @@ const CELLS = [
   { key: 'deletedAt', label: 'Date de suppression', width: 200 }
 ]
 
-const ACTIONS: AdminAction[] = [
+const ACTIONS: BasicAction[] = [
   {
     isMain: true,
     label: `Créer un service`,
