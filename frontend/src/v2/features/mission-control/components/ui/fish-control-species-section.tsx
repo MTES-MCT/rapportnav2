@@ -1,6 +1,6 @@
 import Text from '@common/components/ui/text'
 import { SpeciesControl } from '@common/types/fish-mission-types.ts'
-import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Checkbox, Label, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
 import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
@@ -85,11 +85,6 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
               </Stack>
             </Stack.Item>
           ))}
-          <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%' }}>
-            <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} disabled={true} isFullWidth={false}>
-              Ajouter une infraction espèces
-            </Button>
-          </Stack.Item>
         </Stack>
       </Stack.Item>
       {!isEmpty(action?.speciesObservations) && (
