@@ -1,4 +1,3 @@
-import { VesselTypeEnum } from '@common/types/mission-types'
 import { FormikEffect } from '@mtes-mct/monitor-ui'
 import { FieldArray, FieldArrayRenderProps, Formik } from 'formik'
 import { FC } from 'react'
@@ -7,7 +6,6 @@ import { FormikSelectVesselSize } from '../../../common/components/ui/formik-sel
 import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
-import MissionTargetControl from '../../../mission-target/components/elements/mission-target-control-nav'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
 import { ActionNavControlInput } from '../../types/action-type'
 import MissionActionLocationPicker from '../ui/mission-action-location-picker'
@@ -84,29 +82,7 @@ const MissionActionItemNavControl: FC<{
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FieldArray name="targets">
-                    {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTargetControl
-                        name="targets"
-                        collapsible={true}
-                        fieldArray={fieldArray}
-                        controlsToComplete={action.controlsToComplete}
-                        label={`Contrôle(s) effectué(s) par l’unité sur le navire`}
-                        hideGensDeMer={values.vesselType === VesselTypeEnum.SAILING_LEISURE}
-                      />
-                    )}
-                  </FieldArray>
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextAreaInput
-                    name="observations"
-                    data-testid="observations"
-                    label="Observations générales sur le contrôle"
-                  />
-                  <MissionActionIncidentDonwload />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <MissionActionDivingOperation />
+                  <NavControlConclusion values={values} />
                 </Stack.Item>
               </Stack>
             </>
