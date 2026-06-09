@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.85.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.84.2...v2.85.0) (2026-06-09)
+
+
+### Features
+
+* **Metabase:** embed iframe metabase ([335da44](https://github.com/MTES-MCT/rapportnav2/commit/335da44f3a3fde0e0af055f8d1d97eb584458155))
+
+
+### Bug Fixes
+
+* validation rule adjust on write/read ([fd12ba8](https://github.com/MTES-MCT/rapportnav2/commit/fd12ba83612bd5fd0a44d96daf17ed85743ba008))
+
 ## [2.84.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.84.1...v2.84.2) (2026-06-03)
 
 
