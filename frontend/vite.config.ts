@@ -22,22 +22,24 @@ export default defineConfig({
   build: {
     rolldownOptions: {
       output: {
-        format: 'es',
-        manualChunks(id) {
-          // Separate third-party dependencies into a common chunk
-          // UI libraries
-          if (id.includes('rsuite') || id.includes('@mtes-mct/monitor-ui')) {
-            return 'ui-vendor'
-          }
-          if (id.includes('node_modules')) {
-            return 'vendor'
-          }
-          if (id.includes('src/features/pam')) {
-            return 'pam'
-          }
-          if (id.includes('src/v2')) {
-            return 'v2'
-          }
+        codeSplitting: {
+          groups: [
+            {
+              name: 'react-vendor',
+              test: /node_modules[\\/](react|react-dom|react-router-dom)/,
+              priority: 30
+            },
+            {
+              name: 'ui-vendor',
+              test: /node_modules[\\/](rsuite|@mtes-mct[\\/]monitor-ui|styled-components)/,
+              priority: 20
+            },
+            {
+              name: 'vendor',
+              test: /node_modules/,
+              priority: 10
+            }
+          ]
         }
       }
     },
@@ -70,7 +72,7 @@ export default defineConfig({
         // Note: index.html is excluded because the backend injects a CSP nonce per request
         // Caching it would serve stale nonces, causing CSP violations and blank pages
         globPatterns: ['**/*.{js,css,ico,png,jpg,svg,webmanifest}'],
-        navigateFallback: null,
+        navigateFallback: null
       },
       devOptions: {
         enabled: true
