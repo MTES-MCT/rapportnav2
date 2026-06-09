@@ -114,12 +114,12 @@ class MissionFishActionEntity(
 
         val sourcesOfMissingData = mutableListOf<MissionSourceEnum>()
 
-        // Always include ValidateWhenMissionFinished for Fish actions:
-        // date presence must be checked for completeness regardless of mission status
+        // Only run ValidateWhenMissionFinished for completeness computation.
+        // ValidateThrowsBeforeSave (date ordering, numeric constraints) is enforced on save only,
+        // so old missions with pre-existing data issues remain valid for stats.
         val rapportNavCompleteness = validator.validateWithSource(
             this,
             MissionSourceEnum.RAPPORT_NAV,
-            ValidateThrowsBeforeSave::class.java,
             ValidateWhenMissionFinished::class.java
         )
 
