@@ -8,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
-import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
 import java.time.Instant
 
@@ -43,7 +42,10 @@ abstract class MissionActionEntity(
      * @param validator The EntityValidityValidator instance to use
      */
     open fun computeValidityForStats(isMissionFinished: Boolean = false, validator: EntityValidityValidator) {
-        val groups = mutableListOf<Class<*>>(ValidateThrowsBeforeSave::class.java, ValidateWhenMissionFinished::class.java)
+        // Only run ValidateWhenMissionFinished for completeness computation.
+        // ValidateThrowsBeforeSave (date ordering, numeric constraints) is enforced on save only,
+        // so old missions with pre-existing data issues remain valid for stats.
+        val groups = mutableListOf<Class<*>>(ValidateWhenMissionFinished::class.java)
 
         this.completenessForStats = validator.validate(this, *groups.toTypedArray())
 

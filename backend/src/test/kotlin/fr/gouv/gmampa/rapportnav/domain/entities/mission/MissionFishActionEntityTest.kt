@@ -186,17 +186,15 @@ class MissionFishActionEntityTest {
     }
 
     @Test
-    fun `execute should not be complete if end date is not null but before startDate`() {
+    fun `execute should still be complete for stats even if end date is before startDate (backwards compat)`() {
+        // Date ordering (EndAfterStart) is only enforced on save, not during completeness computation,
+        // so old missions with bad dates remain valid for stats.
         val fishAction = FishActionControlMock.create(
             completion = Completion.COMPLETED,
             actionDatetimeUtc = Instant.parse("2022-01-02T12:00:01Z"),
             actionEndDatetimeUtc = Instant.parse("2021-01-02T13:00:01Z"),
         )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
-        entity.computeValidity(true, validator)
-        assertThat(entity.isCompleteForStats).isEqualTo(false)
-
-        entity.endDateTimeUtc = Instant.parse("2023-01-02T13:00:01Z")
         entity.computeValidity(true, validator)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
     }
