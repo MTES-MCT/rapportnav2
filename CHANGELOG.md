@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.85.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.85.0...v2.85.1) (2026-06-09)
+
+
+### Bug Fixes
+
+* backfill control set locationType to GPS ([1336b94](https://github.com/MTES-MCT/rapportnav2/commit/1336b9431e2aa92f6a8b0b2751885e7d9633d23d))
+
 ## [2.85.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.84.2...v2.85.0) (2026-06-09)
 
 
