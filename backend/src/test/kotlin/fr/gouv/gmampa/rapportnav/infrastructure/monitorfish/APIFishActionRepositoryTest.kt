@@ -69,7 +69,7 @@ class APIFishActionRepositoryTest {
         completion = Completion.COMPLETED,
         hasSomeGearsSeized = false,
         hasSomeSpeciesSeized = false,
-        isDeleted = false,
+        isLastHaul = false,
         isFromPoseidon = true
     )
 

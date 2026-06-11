@@ -11,7 +11,7 @@ interface MissionControlFishSpeciesSectionProps {
 }
 
 const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectionProps> = ({ action }) => {
-  const { controlCheckRadioOptions, controlCheckRadioBooleanOptions } = usecontrolCheck()
+  const { controlCheckRadioOptions } = usecontrolCheck()
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
       <Stack.Item>
@@ -27,7 +27,7 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
               name="speciesWeightControlled"
               label="Poids des espèces vérifié"
               onChange={function noRefCheck() {}}
-              options={controlCheckRadioBooleanOptions}
+              options={controlCheckRadioOptions}
               value={action?.speciesWeightControlled ?? undefined}
             />
           </Stack.Item>
@@ -38,7 +38,7 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
               name="speciesSizeControlled"
               label="Taille des espèces vérifiée"
               onChange={function noRefCheck() {}}
-              options={controlCheckRadioBooleanOptions}
+              options={controlCheckRadioOptions}
               value={action?.speciesSizeControlled ?? undefined}
             />
           </Stack.Item>

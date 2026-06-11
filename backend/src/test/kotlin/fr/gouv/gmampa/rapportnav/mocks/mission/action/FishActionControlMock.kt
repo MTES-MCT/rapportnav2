@@ -21,7 +21,7 @@ object FishActionControlMock {
         longitude: Double? = 14.3,
         vesselId: Int? = 314,
         vesselName: String? = "Le Pi",
-        speciesOnboard: List<SpeciesControl> = listOf(),
+        speciesOnboard: List<SpeciesOnboardControl> = listOf(),
         completion: Completion = Completion.COMPLETED,
         userTrigram: String = "TKT",
         flagState: CountryCode = CountryCode.FR,
