@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.85.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.85.1...v2.85.2) (2026-06-11)
+
+
+### Bug Fixes
+
+* **Dialog:** implement own Dialog, apply different styles ([ce5ac4a](https://github.com/MTES-MCT/rapportnav2/commit/ce5ac4aaa8501642d23db2c28314976d3a04adf9))
+
 ## [2.85.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.85.0...v2.85.1) (2026-06-09)
 
 
