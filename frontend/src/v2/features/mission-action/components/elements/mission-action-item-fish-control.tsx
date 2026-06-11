@@ -81,7 +81,7 @@ const MissionActionItemFishControl: FC<{
                   <StyledTabs
                     items={items}
                     defaultActiveKey={items[0].key}
-                    params={{ controlsToComplete: action.controlsToComplete, ...values }}
+                    params={{ controlsToComplete: action.controlsToComplete, values }}
                   />
                 </Stack.Item>
               </Stack>

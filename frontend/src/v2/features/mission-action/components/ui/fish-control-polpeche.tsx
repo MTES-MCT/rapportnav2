@@ -15,7 +15,7 @@ const FishControlPolpeche: FC<{
     <div style={{ width: '100%' }}>
       <Stack
         direction="column"
-        spacing="2rem"
+        spacing="1rem"
         alignItems="flex-start"
         style={{ width: '100%' }}
         data-testid={'action-control-nav'}
@@ -34,13 +34,13 @@ const FishControlPolpeche: FC<{
           <FishControlOtherObservationsSection action={values} />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Divider style={{ backgroundColor: THEME.color.charcoal }} />
+          <Divider style={{ backgroundColor: THEME.color.charcoal, margin: 0 }} />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <FishControlFleetSegmentSection action={values} />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Divider style={{ backgroundColor: THEME.color.charcoal }} />
+          <Divider style={{ backgroundColor: THEME.color.charcoal, margin: 0 }} />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Stack direction="column" alignItems="flex-start">
