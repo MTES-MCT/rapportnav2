@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.85.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.85.2...v2.85.3) (2026-06-11)
+
+
+### Bug Fixes
+
+* **Stubs:** add patch action env ([05e3ebb](https://github.com/MTES-MCT/rapportnav2/commit/05e3ebb1e349557a68bbdd4bb113054d3cf8b172))
+
 ## [2.85.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.85.1...v2.85.2) (2026-06-11)
 
 
