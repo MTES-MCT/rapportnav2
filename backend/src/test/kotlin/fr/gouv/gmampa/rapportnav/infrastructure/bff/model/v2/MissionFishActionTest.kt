@@ -72,5 +72,7 @@ class MissionFishActionTest {
         assertThat(output.data.isSeafarersControl).isEqualTo(entity.isSeafarersControl)
         assertThat(output.data.observationsByUnit).isEqualTo(entity.observationsByUnit)
         assertThat(output.data.speciesQuantitySeized).isEqualTo(entity.speciesQuantitySeized)
+        assertThat(output.data.incidentDuringOperation).isEqualTo(entity.incidentDuringOperation)
+        assertThat(output.data.hasDivingDuringOperation).isEqualTo(entity.hasDivingDuringOperation)
     }
 }

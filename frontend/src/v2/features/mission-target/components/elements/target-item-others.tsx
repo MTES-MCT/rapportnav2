@@ -11,9 +11,9 @@ import MissionTargetAction from '../ui/mission-target-action.tsx'
 import MissionTargetExternalData from '../ui/mission-target-external-data.tsx'
 import MissionTargetTitle from '../ui/mission-target-title.tsx'
 import MissionTargetForm from './mission-target-form.tsx'
-import MissionTargetInfractionList from './mission-target-infraction-list.tsx'
+import TargetInfractionList from './target-infraction-list.tsx'
 
-interface MissionTargetItemProps {
+interface MissionTargetItemOthersProps {
   index?: number
   name: string
   targetType: TargetType
@@ -24,7 +24,7 @@ interface MissionTargetItemProps {
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
+const MissionTargetItemOthers: React.FC<MissionTargetItemOthersProps> = ({
   index,
   name,
   onDelete,
@@ -116,7 +116,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
         </Stack.Item>
       )}
       <Stack.Item style={{ width: '100%' }} data-testid={'mission-target-infraction-list'}>
-        <MissionTargetInfractionList
+        <TargetInfractionList
           name={name}
           targetType={targetType}
           fieldFormik={fieldFormik}
@@ -127,4 +127,4 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
   )
 }
 
-export default MissionTargetItem
+export default MissionTargetItemOthers

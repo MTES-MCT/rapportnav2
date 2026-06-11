@@ -105,6 +105,8 @@ data class MissionActionDataOutput(
     val isSeafarersControl: Boolean? = null,
     val observationsByUnit: String? = null,
     val isDeleted: Boolean,
+    val hasDivingDuringOperation: Boolean? = null,
+    val incidentDuringOperation: Boolean? = null
 ) {
     fun toMissionAction(): MissionAction {
         return MissionAction(
@@ -160,7 +162,9 @@ data class MissionActionDataOutput(
             isSafetyEquipmentAndStandardsComplianceControl = this.isSafetyEquipmentAndStandardsComplianceControl,
             isSeafarersControl = this.isSeafarersControl,
             observationsByUnit = this.observationsByUnit,
-            speciesQuantitySeized = this.speciesQuantitySeized
+            speciesQuantitySeized = this.speciesQuantitySeized,
+            incidentDuringOperation = this.incidentDuringOperation,
+            hasDivingDuringOperation = this.hasDivingDuringOperation
         )
     }
 }

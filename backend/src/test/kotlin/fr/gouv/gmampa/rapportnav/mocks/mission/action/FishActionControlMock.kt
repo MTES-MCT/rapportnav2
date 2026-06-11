@@ -61,7 +61,9 @@ object FishActionControlMock {
             isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
             isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
             externalReferenceNumber = externalReferenceNumber,
-            infractions = infractions
-            )
+            infractions = infractions,
+            hasDivingDuringOperation = true,
+            incidentDuringOperation = true
+        )
     }
 }

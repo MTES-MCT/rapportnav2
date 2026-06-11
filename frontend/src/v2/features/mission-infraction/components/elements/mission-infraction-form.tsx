@@ -1,15 +1,13 @@
-import Text from '@common/components/ui/text'
 import { ControlType } from '@common/types/control-types'
 import { VehicleTypeEnum } from '@common/types/env-mission-types'
 import {
   Accent,
   Button,
+  FormikMultiRadio,
   FormikSelect,
   FormikTextarea,
   FormikTextInput,
-  FormikToggle,
-  Size,
-  THEME
+  Size
 } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { isEmpty } from 'lodash'
@@ -30,8 +28,8 @@ export interface MissionInfractionFormProps {
   editInfraction?: boolean
   value: TargetInfraction
   vehicleType?: VehicleTypeEnum
-  availableControlTypes?: ControlType[]
   targetType?: TargetType
+  availableControlTypes?: ControlType[]
   onSubmit: (value?: TargetInfraction) => Promise<unknown>
 }
 
@@ -47,7 +45,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
   availableControlTypes
 }) => {
   const { controlTypeOptions, getDisabledControlTypes } = useControlRegistry()
-  const { initValue, handleSubmit, validationSchema } = useInfractionForm(
+  const { initValue, handleSubmit, infractionTypeOptions, validationSchema } = useInfractionForm(
     value,
     targetType,
     vehicleType,
@@ -59,14 +57,25 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
     <>
       {initValue && (
         <Formik
-          initialValues={initValue}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
           enableReinitialize
           validateOnChange={true}
+          initialValues={initValue}
+          validationSchema={validationSchema}
+          onSubmit={value => handleSubmit(value, onSubmit)}
         >
           {formik => (
-            <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }} data-testid="mission-infraction-form">
+            <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }} data-testid="mission-infraction-form">
+              {editInfraction && (
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikMultiRadio
+                    isInline={true}
+                    isRequired={true}
+                    label="Action mise en oeuvre"
+                    name="infraction.infractionType"
+                    options={infractionTypeOptions}
+                  />
+                </Stack.Item>
+              )}
               {editControl && (
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikSelect
@@ -117,18 +126,6 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
               {editInfraction && (
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
-                    <Stack.Item style={{ width: '100%' }}>
-                      <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
-                        <Stack.Item>
-                          <FormikToggle size="sm" name="infraction.withReport" label="" />
-                        </Stack.Item>
-                        <Stack.Item style={{ marginTop: 8 }}>
-                          <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
-                            PV émis
-                          </Text>
-                        </Stack.Item>
-                      </Stack>
-                    </Stack.Item>
                     <Stack.Item style={{ width: '100%' }}>
                       <FormikMultiSelectNatinf name="infraction.natinfs" />
                     </Stack.Item>

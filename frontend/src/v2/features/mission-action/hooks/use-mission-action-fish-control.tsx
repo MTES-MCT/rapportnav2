@@ -1,19 +1,41 @@
+import { useMemo } from 'react'
+import { object, string } from 'yup'
+import { StyledTabItem } from '../../common/components/ui/styled-tab.tsx'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionFishActionData } from '../../common/types/mission-action'
+import FishControlConclusion from '../components/ui/fish-control-conclusion.tsx'
+import FishControlOthers from '../components/ui/fish-control-others.tsx'
+import FishControlPolpeche from '../components/ui/fish-control-polpeche.tsx'
 import { ActionFishControlInput } from '../types/action-type'
-import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
-import { object, string } from 'yup'
-import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
-import { useMemo } from 'react'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+
+const ITEMS: StyledTabItem[] = [
+  {
+    key: 'polpech',
+    title: 'Police des pêches',
+    component: FishControlPolpeche
+  },
+  {
+    key: 'others',
+    title: 'Autres polices',
+    component: FishControlOthers
+  },
+  {
+    key: 'conclusion',
+    title: 'Conclusions',
+    component: FishControlConclusion
+  }
+]
 
 export function useMissionActionFishControl(
   action: MissionAction,
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
-): AbstractFormikSubFormHook<ActionFishControlInput> {
+): AbstractFormikSubFormHook<ActionFishControlInput> & { items: StyledTabItem[] } {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionFishActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
@@ -37,7 +59,8 @@ export function useMissionActionFishControl(
   const { initValue, handleSubmit } = useAbstractFormik<MissionFishActionData, ActionFishControlInput>(
     value,
     fromFieldValueToInput,
-    fromInputToFieldValue
+    fromInputToFieldValue,
+    ['incidentDuringOperation', 'hasDivingDuringOperation']
   )
 
   const onSubmit = async (valueToSubmit?: MissionFishActionData) => {
@@ -63,6 +86,7 @@ export function useMissionActionFishControl(
 
   return {
     initValue,
+    items: ITEMS,
     validationSchema,
     handleSubmit: handleSubmitOverride
   }

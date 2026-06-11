@@ -3,8 +3,8 @@ import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
 import { Stack } from 'rsuite'
 import { Target } from '../../../common/types/target-types'
 import { useTarget } from '../../hooks/use-target'
-import MissionTargetInfractionList from './mission-target-infraction-list'
 import MissionTargetInquiryForm from './mission-target-inquiry-form'
+import TargetInfractionList from './target-infraction-list'
 
 export interface MissionTargetInquiryProps {
   isDisabled?: boolean
@@ -39,7 +39,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
         {fieldArray.form.values.targets?.map((target: Target, targetIndex: number) => (
           <Field name={`targets[${targetIndex}]`} key={`targets-item-[${targetIndex}]`}>
             {(fieldFormik: FieldProps<Target>) => (
-              <MissionTargetInfractionList
+              <TargetInfractionList
                 noDivider={true}
                 fieldFormik={fieldFormik}
                 targetType={target.targetType}

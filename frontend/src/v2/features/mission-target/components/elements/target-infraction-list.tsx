@@ -2,22 +2,20 @@ import { ControlType } from '@common/types/control-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
 import { FC } from 'react'
-import { Divider, Stack } from 'rsuite'
+import { Stack } from 'rsuite'
 import { Control, Infraction, Target, TargetInfraction, TargetType } from '../../../common/types/target-types'
 import { useTarget } from '../../hooks/use-target'
-import MissionTargetInfractionForm from './mission-target-infraction-form'
+import TargetInfractionForm from './target-infraction-form'
 
-export interface MissionTargetInfractionListProps {
+export interface TargetInfractionListProps {
   name: string
-  noDivider?: boolean
   targetType?: TargetType
   fieldFormik: FieldProps<Target>
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetInfractionList: FC<MissionTargetInfractionListProps> = ({
+const TargetInfractionList: FC<TargetInfractionListProps> = ({
   name,
-  noDivider,
   targetType,
   fieldFormik,
   availableControlTypes
@@ -39,6 +37,7 @@ const MissionTargetInfractionList: FC<MissionTargetInfractionListProps> = ({
     <div
       style={{
         width: '100%',
+        marginTop: '1rem',
         marginBottom: '1rem'
       }}
     >
@@ -51,14 +50,7 @@ const MissionTargetInfractionList: FC<MissionTargetInfractionListProps> = ({
               key={`${name}-${controlIndex}-${infractionIndex}`}
             >
               <Stack.Item style={{ width: '100%' }}>
-                {!noDivider && (
-                  <div data-testid={'target-infraction-list-divider'}>
-                    <Divider style={{ margin: '12px 0' }} />
-                  </div>
-                )}
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <MissionTargetInfractionForm
+                <TargetInfractionForm
                   index={infractionIndex}
                   targetType={targetType}
                   onSubmit={value => handleSubmit(value)}
@@ -76,4 +68,4 @@ const MissionTargetInfractionList: FC<MissionTargetInfractionListProps> = ({
   )
 }
 
-export default MissionTargetInfractionList
+export default TargetInfractionList

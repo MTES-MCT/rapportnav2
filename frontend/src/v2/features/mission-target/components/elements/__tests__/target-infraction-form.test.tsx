@@ -1,9 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../../../../../test-utils'
-import MissionTargetInfractionForm from '../mission-target-infraction-form'
-import { TargetInfraction } from '../../../../common/types/target-types'
 import { ControlType } from '@common/types/control-types.ts'
 import { InfractionTypeEnum } from '@common/types/env-mission-types.ts'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { fireEvent, render, screen } from '../../../../../../test-utils'
+import { TargetInfraction } from '../../../../common/types/target-types'
+import TargetInfractionForm from '../target-infraction-form'
 
 // Mock MissionInfractionForm
 let capturedOnSubmit: ((value?: TargetInfraction) => void) | undefined
@@ -24,44 +24,29 @@ const sampleValue: TargetInfraction = {
   control: { controlType: ControlType.ADMINISTRATIVE }
 }
 
-describe('MissionTargetInfractionForm', () => {
+describe('TargetInfractionForm', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     capturedOnSubmit = undefined
   })
 
   it('renders summary initially', () => {
-    render(
-      <MissionTargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />
-    )
-    expect(screen.getByTestId('mission-infraction-summary')).toBeInTheDocument()
+    render(<TargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />)
+    expect(screen.getByTestId('infraction-summary')).toBeInTheDocument()
     expect(screen.queryByTestId('mission-infraction-form')).not.toBeInTheDocument()
   })
 
   it('shows form when edit button is clicked', () => {
-    render(
-      <MissionTargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />
-    )
-    const editButton = screen.getByRole('edit-target')
+    render(<TargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />)
+    const editButton = screen.getByRole('edit-infraction')
     fireEvent.click(editButton)
     expect(screen.getByTestId('mission-infraction-form')).toBeInTheDocument()
   })
 
-  it('calls onDelete with index when delete button is clicked', () => {
-    render(
-      <MissionTargetInfractionForm index={5} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />
-    )
-    const deleteButton = screen.getByRole('delete-target')
-    fireEvent.click(deleteButton)
-    expect(mockOnDelete).toHaveBeenCalledWith(5)
-  })
-
   it('calls onSubmit and closes form', () => {
-    render(
-      <MissionTargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />
-    )
+    render(<TargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />)
     // open form
-    fireEvent.click(screen.getByRole('edit-target'))
+    fireEvent.click(screen.getByRole('edit-infraction'))
     expect(screen.getByTestId('mission-infraction-form')).toBeInTheDocument()
 
     // call captured onSubmit
@@ -70,10 +55,8 @@ describe('MissionTargetInfractionForm', () => {
   })
 
   it('closes form if onSubmit is called with undefined', () => {
-    render(
-      <MissionTargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />
-    )
-    fireEvent.click(screen.getByRole('edit-target'))
+    render(<TargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />)
+    fireEvent.click(screen.getByRole('edit-infraction'))
     expect(screen.getByTestId('mission-infraction-form')).toBeInTheDocument()
 
     capturedOnSubmit!(undefined)

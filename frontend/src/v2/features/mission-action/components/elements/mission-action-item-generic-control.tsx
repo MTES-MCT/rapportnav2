@@ -7,8 +7,8 @@ import { ObjectShape } from 'yup'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action.ts'
-import MissionTargetList from '../../../mission-target/components/elements/mission-target-list.tsx'
 import MissionTargetNew from '../../../mission-target/components/elements/mission-target-new.tsx'
+import TargetList from '../../../mission-target/components/elements/target-list.tsx'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionGenericControl } from '../../hooks/use-mission-action-generic-control.tsx'
 import { ActionControlInput } from '../../types/action-type.ts'
@@ -102,7 +102,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTargetList
+                      <TargetList
                         name="targets"
                         fieldArray={fieldArray}
                         actionNumberOfControls={0}

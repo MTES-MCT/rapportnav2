@@ -2,7 +2,7 @@ import { ControlType } from '@common/types/control-types'
 import { VehicleTypeEnum } from '@common/types/env-mission-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
-import { FC } from 'react'
+import { FC, JSX } from 'react'
 import { Target, TargetInfraction, TargetType } from '../../../common/types/target-types'
 import MissionInfractionForm from '../../../mission-infraction/components/elements/mission-infraction-form'
 import { useTarget } from '../../hooks/use-target'
@@ -18,12 +18,14 @@ export interface MissionTargetFormProps {
   fieldFormik: FieldProps<Target>
   availableControlTypes?: ControlType[]
   targetType: TargetType
+  message?: JSX.Element
 }
 
 const MissionTargetForm: FC<MissionTargetFormProps> = ({
   name,
   value,
   onClose,
+  message,
   vehicleType,
   fieldFormik,
   targetType,
@@ -50,10 +52,10 @@ const MissionTargetForm: FC<MissionTargetFormProps> = ({
       style={{
         width: '100%',
         padding: '1rem',
-        marginBottom: '1rem',
-        backgroundColor: THEME.color.white
+        backgroundColor: THEME.color.cultured
       }}
     >
+      <div style={{ marginBottom: '1rem' }}>{message}</div>
       <MissionInfractionForm
         value={value}
         onClose={handleClose}
