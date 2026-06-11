@@ -17,13 +17,11 @@ import java.util.*
 @Repository
 class JPAMissionCrewRepository(
     private val dbMissionCrewRepository: IDBMissionCrewRepository,
-    private val dbAgentRepository: IDBAgentRepository,
-    private val dbAgentRoleRepository: IDBAgentRoleRepository,
 ) : IMissionCrewRepository {
 
-    override fun findByMissionId(missionId: Int): List<MissionCrewModel> {
+    override fun findByMissionId(missionId: Int): List<MissionCrewEntity> {
         return try {
-            dbMissionCrewRepository.findByMissionId(missionId)
+            dbMissionCrewRepository.findByMissionId(missionId).map { MissionCrewEntity.fromMissionCrewModel(it) }
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "JPAMissionCrewRepository.findByMissionId failed for missionId=$missionId",
@@ -32,9 +30,9 @@ class JPAMissionCrewRepository(
         }
     }
 
-    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewModel> {
+    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewEntity> {
         return try {
-            dbMissionCrewRepository.findByMissionIdUUID(missionIdUUID)
+            dbMissionCrewRepository.findByMissionIdUUID(missionIdUUID).map { MissionCrewEntity.fromMissionCrewModel(it) }
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "JPAMissionCrewRepository.findByMissionIdUUID failed for missionIdUUID=$missionIdUUID",
@@ -44,20 +42,10 @@ class JPAMissionCrewRepository(
     }
 
     @Transactional
-    override fun save(crew: MissionCrewEntity): MissionCrewModel {
+    override fun save(crew: MissionCrewEntity): MissionCrewEntity {
         return try {
             val crewModel = crew.toMissionCrewModel()
-            if (crew.agent != null && crew.agent.id != null) {
-                val agent = dbAgentRepository.findById(crew.agent.id).orElseThrow()
-                crewModel.agent = agent
-            }
-
-            if (crew.role !== null) {
-                val role = dbAgentRoleRepository.findById(crew.role.id!!).orElseThrow()
-                crewModel.role = role
-            } //TODO("A refactoriser pour ULAM (mettre au niveau d'un usecase ?)")
-
-            dbMissionCrewRepository.save(crewModel)
+            MissionCrewEntity.fromMissionCrewModel(dbMissionCrewRepository.save(crewModel))
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,

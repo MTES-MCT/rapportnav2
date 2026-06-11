@@ -1,15 +1,15 @@
 import { vi } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
+import { render, screen, fireEvent, waitFor } from '../../../../../../../../test-utils.tsx'
 import { Formik } from 'formik'
-import { MissionPassenger } from '../../../../../common/types/passenger-type.ts'
+import { MissionPassenger } from '../../../../../../common/types/passenger-type.ts'
 import MissionGeneralInformationPassengerPamForm from '../mission-general-information-passenger-pam-form.tsx'
 
 // Mock the hooks
-vi.mock('../../../../../common/hooks/use-mission-finished.tsx', () => ({
+vi.mock('../../../../../../common/hooks/use-mission-finished.tsx', () => ({
   useMissionFinished: vi.fn(() => true)
 }))
 
-vi.mock('../../../../../common/hooks/use-mission-dates.tsx', () => ({
+vi.mock('../../../../../../common/hooks/use-mission-dates.tsx', () => ({
   useMissionDates: vi.fn(() => undefined)
 }))
 
