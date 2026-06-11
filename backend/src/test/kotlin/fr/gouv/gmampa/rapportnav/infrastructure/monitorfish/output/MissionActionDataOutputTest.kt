@@ -29,7 +29,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = true
             )
 
@@ -44,7 +44,6 @@ class MissionActionDataOutputTest {
             assertEquals(Completion.COMPLETED, result.completion)
             assertFalse(result.hasSomeGearsSeized)
             assertFalse(result.hasSomeSpeciesSeized)
-            assertFalse(result.isDeleted)
             assertTrue(result.isFromPoseidon)
         }
 
@@ -64,7 +63,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.TO_COMPLETE,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false
             )
 
@@ -93,7 +92,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false
             )
 
@@ -127,7 +126,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false
             )
 
@@ -153,7 +152,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false,
                 emitsVms = ControlCheck.YES,
                 emitsAis = ControlCheck.NO,
@@ -185,7 +184,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false,
                 longitude = -4.48,
                 latitude = 48.39,
@@ -215,10 +214,10 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = true,
                 hasSomeSpeciesSeized = true,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false,
-                speciesWeightControlled = true,
-                speciesSizeControlled = false,
+                speciesWeightControlled = ControlCheck.YES,
+                speciesSizeControlled = ControlCheck.NO,
                 seizureAndDiversion = true,
                 unitWithoutOmegaGauge = false,
                 isAdministrativeControl = true,
@@ -231,8 +230,8 @@ class MissionActionDataOutputTest {
 
             assertTrue(result.hasSomeGearsSeized)
             assertTrue(result.hasSomeSpeciesSeized)
-            assertEquals(true, result.speciesWeightControlled)
-            assertEquals(false, result.speciesSizeControlled)
+            assertEquals(ControlCheck.YES, result.speciesWeightControlled)
+            assertEquals(ControlCheck.NO, result.speciesSizeControlled)
             assertEquals(true, result.seizureAndDiversion)
             assertEquals(false, result.unitWithoutOmegaGauge)
             assertEquals(true, result.isAdministrativeControl)
@@ -253,7 +252,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false,
                 licencesAndLogbookObservations = "Licences observations",
                 speciesObservations = "Species observations",
@@ -285,7 +284,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false
             )
 
@@ -311,7 +310,7 @@ class MissionActionDataOutputTest {
                 completion = Completion.COMPLETED,
                 hasSomeGearsSeized = false,
                 hasSomeSpeciesSeized = false,
-                isDeleted = false,
+                isLastHaul = false,
                 isFromPoseidon = false,
                 faoAreas = listOf("27.7.e", "27.8.a")
             )
@@ -344,7 +343,7 @@ class MissionActionDataOutputTest {
                     completion = Completion.COMPLETED,
                     hasSomeGearsSeized = false,
                     hasSomeSpeciesSeized = false,
-                    isDeleted = false,
+                    isLastHaul = false,
                     isFromPoseidon = false
                 )
 

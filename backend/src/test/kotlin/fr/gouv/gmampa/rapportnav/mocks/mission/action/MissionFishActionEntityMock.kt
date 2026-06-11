@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FleetS
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FlightGoal
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.GearControl
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesControl
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesOnboardControl
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import java.time.Instant
@@ -34,8 +34,8 @@ object MissionFishActionEntityMock {
         flightGoals: List<FlightGoal>? = listOf(),
         logbookMatchesActivity: ControlCheck? = null,
         licencesMatchActivity: ControlCheck? = null,
-        speciesWeightControlled: Boolean? = null,
-        speciesSizeControlled: Boolean? = null,
+        speciesWeightControlled: ControlCheck? = null,
+        speciesSizeControlled: ControlCheck? = null,
         separateStowageOfPreservedSpecies: ControlCheck? = null,
         licencesAndLogbookObservations: String? = null,
         speciesObservations: String? = null,
@@ -55,7 +55,7 @@ object MissionFishActionEntityMock {
         seizureAndDiversionComments: String? = null,
         otherComments: String? = null,
         gearOnboard: List<GearControl>? = listOf(),
-        speciesOnboard: List<SpeciesControl>? = listOf(),
+        speciesOnboard: List<SpeciesOnboardControl>? = listOf(),
         isFromPoseidon: Boolean? = null,
         controlUnits: List<ControlUnit>? = listOf(),
         isDeleted: Boolean? = null,

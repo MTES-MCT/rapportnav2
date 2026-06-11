@@ -85,7 +85,6 @@ class GetComputeSatiTest {
             observationsByUnit = "Test observations",
             userTrigram = "Test user trigram",
             isFromPoseidon = false,
-            isDeleted = false,
             hasSomeGearsSeized = false,
             hasSomeSpeciesSeized = false,
             completion = Completion.TO_COMPLETE
