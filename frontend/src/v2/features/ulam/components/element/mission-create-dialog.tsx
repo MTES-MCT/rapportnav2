@@ -1,5 +1,6 @@
 import { UTCDate } from '@date-fns/utc'
-import { Accent, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Dialog } from '@common/components/ui/custom-dialog.tsx'
+import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'

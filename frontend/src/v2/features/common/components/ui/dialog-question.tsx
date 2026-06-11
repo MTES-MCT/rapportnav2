@@ -1,4 +1,5 @@
-import { Accent, Button, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Dialog } from '@common/components/ui/custom-dialog.tsx'
+import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { createElement } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 

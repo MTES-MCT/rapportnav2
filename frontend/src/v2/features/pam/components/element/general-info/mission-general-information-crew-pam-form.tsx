@@ -1,8 +1,8 @@
 import { AddOrUpdateMissionCrewInput } from '@features/pam/mission/hooks/use-add-update-mission-crew.tsx'
+import { Dialog } from '@common/components/ui/custom-dialog.tsx'
 import {
   Accent,
   Button,
-  Dialog,
   DialogProps,
   FormikSelect,
   FormikTextInput,
@@ -14,7 +14,7 @@ import {
 } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
 import { FC, useEffect, useState } from 'react'
-import { FlexboxGrid, Stack, StackProps } from 'rsuite'
+import { Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import useGetAgentRoles from '../../../../common/services/use-agent-roles.tsx'
@@ -126,12 +126,12 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   return (
     <Dialog data-testid={'crew-form'}>
       <Dialog.Title>
-        <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
-          <FlexboxGrid.Item>{`${crewId ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage ${crewId ? '' : 'du DCS'}`}</FlexboxGrid.Item>
-          <FlexboxGrid.Item>
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'flex-start'} style={{ width: '100%' }}>
+          <Stack.Item>{`${crewId ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage ${crewId ? '' : 'du DCS'}`}</Stack.Item>
+          <Stack.Item>
             <CloseIconButton onClick={() => handleClose(false)} />
-          </FlexboxGrid.Item>
-        </FlexboxGrid>
+          </Stack.Item>
+        </Stack>
       </Dialog.Title>
       {initValue && (
         <Formik

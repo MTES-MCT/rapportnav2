@@ -1,7 +1,7 @@
+import { Dialog } from '@common/components/ui/custom-dialog.tsx'
 import {
   Accent,
   Button,
-  Dialog,
   DialogProps,
   FormikMultiSelect,
   Icon,
