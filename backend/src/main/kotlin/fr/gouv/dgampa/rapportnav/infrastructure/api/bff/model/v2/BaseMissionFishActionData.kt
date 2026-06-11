@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
 
 interface BaseMissionFishActionData {
@@ -16,11 +15,26 @@ interface BaseMissionFishActionData {
     val fishActionType: MissionActionType?
     val emitsVms: ControlCheck?
     val emitsAis: ControlCheck?
+    val vmsEmissionControlBeforeArrival: ControlCheck?
+    val portEntranceAndLandingAuthorized: ControlCheck?
+    val logbookFilledPriorToControl: ControlCheck?
     val logbookMatchesActivity: ControlCheck?
     val licencesMatchActivity: ControlCheck?
-    val speciesWeightControlled: Boolean?
-    val speciesSizeControlled: Boolean?
+    val speciesWeightControlled: ControlCheck?
+    val speciesSizeControlled: ControlCheck?
     val separateStowageOfPreservedSpecies: ControlCheck?
+    val propulsionEnginePowerControl: ControlCheck?
+    val fishingLicencesMatchActivity: ControlCheck?
+    val stowagePlanPresent: ControlCheck?
+    val onboardWeighingPermit: ControlCheck?
+    val weighingCertificateAndSystemsValid: ControlCheck?
+    val underSizedSeparateStowage: ControlCheck?
+    val underSizedSeparateRecording: ControlCheck?
+    val minimumConservationReferenceSizeControlled: ControlCheck?
+    val cratesWeighingSamplingControl: ControlCheck?
+    val approvedWeighingOperatorInformation: ControlCheck?
+    val holdControlledAfterUnloading: ControlCheck?
+    val catchesWeighedAtLanding: ControlCheck?
     val licencesAndLogbookObservations: String?
     val speciesObservations: String?
     val seizureAndDiversion: Boolean?
@@ -39,17 +53,21 @@ interface BaseMissionFishActionData {
     val seizureAndDiversionComments: String?
     val otherComments: String?
     val gearOnboard: List<GearControl>?
-    val speciesOnboard: List<SpeciesControl>?
+    val speciesOnboard: List<SpeciesOnboardControl>?
+    val discardedSpecies: List<DiscardedSpeciesControl>?
     val isFromPoseidon: Boolean?
     val isDeleted: Boolean?
     val hasSomeGearsSeized: Boolean?
     val hasSomeSpeciesSeized: Boolean?
     val completedBy: String?
     val completion: Completion?
+    val isLastHaul: Boolean?
     val isAdministrativeControl: Boolean?
     val isComplianceWithWaterRegulationsControl: Boolean?
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean?
     val isSeafarersControl: Boolean?
+    val isINNControl: Boolean?
+    val isGangwayDeployed: Boolean?
     var observationsByUnit: String?
     var speciesQuantitySeized: Int ?
     val fishInfractions: List<FishInfraction>

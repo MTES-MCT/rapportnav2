@@ -75,7 +75,6 @@ class MissionFishActionEntityTest {
         assertThat(entity.speciesOnboard).isEqualTo(fishAction.speciesOnboard)
         assertThat(entity.isFromPoseidon).isEqualTo(fishAction.isFromPoseidon)
         assertThat(entity.controlUnits).isEqualTo(fishAction.controlUnits)
-        assertThat(entity.isDeleted).isEqualTo(fishAction.isDeleted)
         assertThat(entity.hasSomeGearsSeized).isEqualTo(fishAction.hasSomeGearsSeized)
         assertThat(entity.hasSomeSpeciesSeized).isEqualTo(fishAction.hasSomeSpeciesSeized)
         assertThat(entity.isAdministrativeControl).isEqualTo(fishAction.isAdministrativeControl)

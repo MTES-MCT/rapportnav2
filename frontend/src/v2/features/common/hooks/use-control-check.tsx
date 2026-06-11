@@ -5,7 +5,7 @@ type ControlCheckRegistry = { [key in ControlCheck]: string }
 const CONTROL_CHECK_REGISTRY: ControlCheckRegistry = {
   [ControlCheck.NO]: 'Non',
   [ControlCheck.YES]: 'Oui',
-  [ControlCheck.NOT_APPLICABLE]: 'Non contrôlé'
+  [ControlCheck.NOT_APPLICABLE]: 'Non concerné'
 }
 
 interface ControlCheckHook {

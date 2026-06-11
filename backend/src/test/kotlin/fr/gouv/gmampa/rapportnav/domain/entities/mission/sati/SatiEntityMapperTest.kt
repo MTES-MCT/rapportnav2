@@ -47,7 +47,6 @@ class SatiEntityMapperTest {
             actionEndDatetimeUtc = timestamp.plusSeconds(3600),
             userTrigram = "ABC",
             isFromPoseidon = false,
-            isDeleted = false,
             hasSomeGearsSeized = false,
             hasSomeSpeciesSeized = false,
             completion = Completion.TO_COMPLETE,
