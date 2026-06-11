@@ -1,5 +1,6 @@
 import Text from '@common/components/ui/text.tsx'
-import { Accent, Button, Dialog, Icon, Label, MultiRadio, Select, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Dialog } from '@common/components/ui/custom-dialog.tsx'
+import { Accent, Button, Icon, Label, MultiRadio, Select, Size, THEME } from '@mtes-mct/monitor-ui'
 import { every } from 'lodash'
 import some from 'lodash/some'
 import { FC, useState } from 'react'

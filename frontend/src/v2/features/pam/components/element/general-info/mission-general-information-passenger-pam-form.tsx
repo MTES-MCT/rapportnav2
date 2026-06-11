@@ -1,7 +1,7 @@
+import { Dialog } from '@common/components/ui/custom-dialog.tsx'
 import {
   Accent,
   Button,
-  Dialog,
   DialogProps,
   FormikCheckbox,
   FormikDatePicker,
@@ -16,7 +16,7 @@ import {
 } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
 import { FC, useMemo } from 'react'
-import { FlexboxGrid, Stack, StackProps } from 'rsuite'
+import { Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import { MissionPassenger, PASSENGER_OPTIONS } from '../../../../common/types/passenger-type.ts'
@@ -31,8 +31,8 @@ const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props
 }))
 
 const CrewFormDialogAction = styled((props: DialogProps) => <Dialog.Action {...props} />)(({ theme }) => ({
-  paddingTop: 0,
-  paddingBottom: 32,
+  paddingTop: 12,
+  paddingBottom: 12,
   justifyContent: 'center',
   backgroundColor: theme.color.gainsboro
 }))
@@ -101,12 +101,12 @@ const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> 
   return (
     <Dialog data-testid={'crew-form'}>
       <Dialog.Title>
-        <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
-          <FlexboxGrid.Item>{`${passenger ? 'Mise à jour' : 'Ajout'} d'un passager`}</FlexboxGrid.Item>
-          <FlexboxGrid.Item>
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'flex-start'} style={{ width: '100%' }}>
+          <Stack.Item>{`${passenger ? 'Mise à jour' : 'Ajout'} d'un passager`}</Stack.Item>
+          <Stack.Item>
             <CloseIconButton onClick={() => handleClose(false)} />
-          </FlexboxGrid.Item>
-        </FlexboxGrid>
+          </Stack.Item>
+        </Stack>
       </Dialog.Title>
       <Formik
         onSubmit={handleSubmit}

@@ -1,6 +1,7 @@
 import Text from '@common/components/ui/text'
 import { VesselTypeEnum } from '@common/types/mission-types'
-import { Accent, Button, Dialog } from '@mtes-mct/monitor-ui'
+import { Dialog } from '@common/components/ui/custom-dialog.tsx'
+import { Accent, Button } from '@mtes-mct/monitor-ui'
 import { JSX, useState } from 'react'
 import { Stack } from 'rsuite'
 import { v4 as uuidv4 } from 'uuid'

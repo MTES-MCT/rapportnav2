@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-import { Accent, Button, Dialog, Icon, THEME } from '@mtes-mct/monitor-ui'
+import { Dialog } from '@common/components/ui/custom-dialog.tsx'
+import { Accent, Button, Icon, THEME } from '@mtes-mct/monitor-ui'
 import Text from '@common/components/ui/text.tsx'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { Stack } from 'rsuite'
