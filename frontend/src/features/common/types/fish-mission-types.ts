@@ -1,7 +1,7 @@
 export enum ControlCheck {
+  YES = 'YES',
   NO = 'NO',
-  NOT_APPLICABLE = 'NOT_APPLICABLE',
-  YES = 'YES'
+  NOT_APPLICABLE = 'NOT_APPLICABLE'
 }
 
 export enum InfractionType {
