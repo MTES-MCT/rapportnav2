@@ -11,13 +11,13 @@ describe('usecontrolCheck', () => {
   it('should return control check options without', () => {
     const { result } = renderHook(() => usecontrolCheck())
     expect(result.current.controlCheckRadioBooleanOptions.length).toEqual(2)
-    expect(result.current.controlCheckRadioBooleanOptions.map(t => t.label).includes('Non concerné')).toBeFalsy()
+    expect(result.current.controlCheckRadioBooleanOptions.map(t => t.label).includes('Non contrôlé')).toBeFalsy()
   })
 
   it('should return control check options without', () => {
     const { result } = renderHook(() => usecontrolCheck())
     expect(result.current.getControlCheck(ControlCheck.NO)).toEqual('Non')
     expect(result.current.getControlCheck(ControlCheck.YES)).toEqual('Oui')
-    expect(result.current.getControlCheck(ControlCheck.NOT_APPLICABLE)).toEqual('Non concerné')
+    expect(result.current.getControlCheck(ControlCheck.NOT_APPLICABLE)).toEqual('Non contrôlé')
   })
 })

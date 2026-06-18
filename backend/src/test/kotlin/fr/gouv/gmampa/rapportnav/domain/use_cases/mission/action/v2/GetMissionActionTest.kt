@@ -48,7 +48,7 @@ class GetMissionActionTest {
             startDateTimeUtc = Instant.parse("2024-01-01T16:00:00Z")
         )
 
-        `when`(getEnvActionByMissionId.execute(missionId, null)).thenReturn(emptyList())
+        `when`(getEnvActionByMissionId.execute(missionId)).thenReturn(emptyList())
         `when`(getNavActionByMissionId.execute(missionId)).thenReturn(listOf(early, late))
         `when`(getFishListActionByMissionId.execute(missionId)).thenReturn(emptyList())
 
@@ -79,7 +79,7 @@ class GetMissionActionTest {
             startDateTimeUtc = Instant.parse("2024-01-01T10:00:00Z")
         )
 
-        `when`(getEnvActionByMissionId.execute(missionId, null)).thenReturn(emptyList())
+        `when`(getEnvActionByMissionId.execute(missionId)).thenReturn(emptyList())
         `when`(getNavActionByMissionId.execute(missionId)).thenReturn(listOf(statusAtSea, statusDocked, controlAction))
         `when`(getFishListActionByMissionId.execute(missionId)).thenReturn(emptyList())
 
@@ -98,7 +98,7 @@ class GetMissionActionTest {
             startDateTimeUtc = Instant.parse("2024-01-01T10:00:00Z")
         )
 
-        `when`(getEnvActionByMissionId.execute(missionId, null)).thenReturn(emptyList())
+        `when`(getEnvActionByMissionId.execute(missionId)).thenReturn(emptyList())
         `when`(getNavActionByMissionId.execute(missionId)).thenReturn(listOf(controlAction))
         `when`(getFishListActionByMissionId.execute(missionId)).thenReturn(emptyList())
 
@@ -122,7 +122,7 @@ class GetMissionActionTest {
             startDateTimeUtc = Instant.parse("2024-01-01T08:00:00Z")
         )
 
-        `when`(getEnvActionByMissionId.execute(missionId, null)).thenReturn(emptyList())
+        `when`(getEnvActionByMissionId.execute(missionId)).thenReturn(emptyList())
         `when`(getNavActionByMissionId.execute(missionId)).thenReturn(listOf(statusAction, earlyControl))
         `when`(getFishListActionByMissionId.execute(missionId)).thenReturn(emptyList())
 
