@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
 import jakarta.persistence.*
+import org.hibernate.annotations.BatchSize
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -11,6 +12,7 @@ import java.time.Instant
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @Table(name = "agent_role")
+@BatchSize(size = 20)
 class AgentRoleModel(
 
     @Id
