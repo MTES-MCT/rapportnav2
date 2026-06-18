@@ -26,7 +26,6 @@ class ProcessEnvAction(
         )
 
         action.targets = targets
-        action.status = this.getStatus(action)
 
         val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
         val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)

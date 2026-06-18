@@ -25,7 +25,6 @@ class ProcessFishAction(
 
         entity.sati = sati
         entity.targets = targets
-        entity.status = this.getStatus(entity)
 
         val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
         val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
