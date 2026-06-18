@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel
 import jakarta.persistence.*
+import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import org.springframework.data.annotation.CreatedBy
@@ -61,6 +62,7 @@ data class ControlModel(
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "control_id")
     @JsonIgnore
+    @BatchSize(size = 20)
     var infractions: List<InfractionModel>? = mutableListOf(),
 
     @CreatedDate
