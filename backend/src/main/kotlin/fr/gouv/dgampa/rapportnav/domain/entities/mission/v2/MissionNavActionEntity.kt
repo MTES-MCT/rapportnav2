@@ -9,7 +9,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.validation.*
+import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicy
+import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import jakarta.validation.constraints.Min
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.fish.FishAuctionModel
@@ -18,7 +22,6 @@ import java.util.*
 
 @EndAfterStart(groups = [ValidateThrowsBeforeSave::class])
 @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
-@RequiredFields(groups = [ValidateWhenMissionFinished::class])
 class MissionNavActionEntity(
     override var id: UUID,
 
@@ -125,15 +128,8 @@ class MissionNavActionEntity(
         return id.toString()
     }
 
-    /**
-     * Computes validity for statistics using the new unified validation system.
-     * Uses Jakarta Bean Validation with validation groups.
-     *
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
-     * @param validator The EntityValidityValidator instance to use
-     */
-    override fun computeValidity(isMissionFinished: Boolean, validator: EntityValidityValidator) {
-        this.computeValidityForStats(isMissionFinished, validator)
+    override fun computeValidity(validator: EntityValidityValidator, policy: ValidationPolicy) {
+        this.computeValidityForStats(validator, policy)
 
         // For Nav actions, the only source is RAPPORT_NAV
         if (this.completenessForStats?.isComplete != true) {

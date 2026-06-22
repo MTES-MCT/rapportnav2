@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEnt
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
 
 
 @UseCase
@@ -27,9 +28,9 @@ class ProcessFishAction(
         entity.status = this.getStatus(entity)
 
         val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
+        val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
 
-        entity.computeValidity(isMissionFinished, entityValidityValidator)
+        entity.computeValidity(validator = entityValidityValidator, policy = policy)
         return entity
     }
 }

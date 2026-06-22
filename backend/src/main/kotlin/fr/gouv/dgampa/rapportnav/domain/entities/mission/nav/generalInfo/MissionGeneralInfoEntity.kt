@@ -5,14 +5,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEnti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.validation.RequiredFields
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
-import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
 import jakarta.validation.constraints.Min
 import java.util.*
 
-@RequiredFields(groups = [ValidateWhenMissionFinished::class])
 data class MissionGeneralInfoEntity(
     var id: Int? = null,
     var missionId: Int? = null,

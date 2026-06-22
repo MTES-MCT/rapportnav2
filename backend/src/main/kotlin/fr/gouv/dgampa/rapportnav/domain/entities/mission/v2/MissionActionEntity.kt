@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
-import fr.gouv.dgampa.rapportnav.domain.validation.ValidateWhenMissionFinished
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicy
 import java.time.Instant
 
 
@@ -35,19 +35,13 @@ abstract class MissionActionEntity(
 ) : BaseMissionActionEntity {
 
     /**
-     * Unified validation method - validates both validity (dates) and completeness (required fields).
-     * Uses Jakarta Bean Validation with validation groups.
+     * Validates completeness against the given policy's required-field rules.
      *
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
      * @param validator The EntityValidityValidator instance to use
+     * @param policy The validation policy (versioned ruleset) to validate against
      */
-    open fun computeValidityForStats(isMissionFinished: Boolean = false, validator: EntityValidityValidator) {
-        // Only run ValidateWhenMissionFinished for completeness computation.
-        // ValidateThrowsBeforeSave (date ordering, numeric constraints) is enforced on save only,
-        // so old missions with pre-existing data issues remain valid for stats.
-        val groups = mutableListOf<Class<*>>(ValidateWhenMissionFinished::class.java)
-
-        this.completenessForStats = validator.validate(this, *groups.toTypedArray())
+    open fun computeValidityForStats(validator: EntityValidityValidator, policy: ValidationPolicy) {
+        this.completenessForStats = validator.validateCompleteness(this, policy)
 
         // Update sources of missing data based on completeness
         if (this.completenessForStats?.status != CompletenessForStatsStatusEnum.VALID) {
@@ -140,11 +134,11 @@ abstract class MissionActionEntity(
     abstract fun getActionId(): String
 
     /**
-     * Computes validity for statistics using the new unified validation system.
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
+     * Computes validity for statistics using the policy-based validation system.
      * @param validator The EntityValidityValidator instance to use
+     * @param policy The validation policy (versioned ruleset) to validate against
      */
-    abstract fun computeValidity(isMissionFinished: Boolean = false, validator: EntityValidityValidator)
+    abstract fun computeValidity(validator: EntityValidityValidator, policy: ValidationPolicy)
 
     abstract fun isControlInValid(control: ControlEntity?): Boolean
 }

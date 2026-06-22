@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
 
 @UseCase
 class ProcessNavAction(
@@ -18,14 +19,13 @@ class ProcessNavAction(
     fun execute(action: MissionNavActionEntity): MissionNavActionEntity {
         action.targets = getComputeTarget.execute(actionId = action.getActionId(), isControl = action.isControl())
 
-        // compute validity
         val missionDates = getMissionDates.execute(
             missionId = action.missionId,
             ownerId = action.ownerId,
             inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
         )
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
-        action.computeValidity(isMissionFinished = isMissionFinished, validator = entityValidityValidator)
+        val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
+        action.computeValidity(validator = entityValidityValidator, policy = policy)
 
         return action
     }

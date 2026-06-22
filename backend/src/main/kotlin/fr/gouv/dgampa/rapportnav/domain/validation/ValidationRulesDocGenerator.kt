@@ -6,7 +6,7 @@ import java.io.File
 import java.time.LocalDate
 
 /**
- * Generates a markdown documentation file from the validation rules defined in RequiredFieldsValidator.
+ * Generates a markdown documentation file from the validation policies.
  *
  * Run: ./gradlew generateValidationDocs
  * Or run the main function directly from your IDE.
@@ -23,8 +23,19 @@ private data class FieldEntry(val field: String, val extraCondition: String?)
 fun generateValidationRulesMarkdown(): String {
     val sb = StringBuilder()
     appendHeader(sb)
-    appendRulesPerEntity(sb)
-    appendRulesPerActionType(sb)
+
+    for (policy in ValidationPolicies.all) {
+        sb.appendLine("---")
+        sb.appendLine()
+        sb.appendLine("# Policy v${policy.version}: ${policy.label}")
+        sb.appendLine()
+        sb.appendLine("Applies from: `${policy.appliesFrom}`")
+        sb.appendLine()
+
+        appendRulesPerEntity(sb, policy)
+        appendRulesPerActionType(sb, policy)
+    }
+
     return sb.toString()
 }
 
@@ -37,13 +48,13 @@ private fun appendHeader(sb: StringBuilder) {
     sb.appendLine(">")
     sb.appendLine("> Derniere generation : ${LocalDate.now()}")
     sb.appendLine()
-    sb.appendLine("Ces regles sont evaluees lorsque la mission est cloturee (groupe `ValidateWhenMissionFinished`).")
-    sb.appendLine("Un champ en erreur apparait dans le panneau de completude.")
+    sb.appendLine("Ces regles sont evaluees pour la completude statistique.")
+    sb.appendLine("La politique applicable depend de la date de debut de la mission.")
     sb.appendLine()
 }
 
-private fun appendRulesPerEntity(sb: StringBuilder) {
-    for ((entityClass, rules) in RequiredFieldsValidator.rulesRegistry) {
+private fun appendRulesPerEntity(sb: StringBuilder, policy: ValidationPolicy) {
+    for ((entityClass, rules) in policy.rules) {
         sb.appendLine("## ${entityClass.simpleName}")
         sb.appendLine()
         sb.appendLine("| Champ | Condition | Message d'erreur |")
@@ -59,11 +70,9 @@ private fun appendRulesPerEntity(sb: StringBuilder) {
     }
 }
 
-private fun appendRulesPerActionType(sb: StringBuilder) {
-    val navRules = RequiredFieldsValidator.rulesRegistry[MissionNavActionEntity::class.java] ?: return
+private fun appendRulesPerActionType(sb: StringBuilder, policy: ValidationPolicy) {
+    val navRules = policy.rules[MissionNavActionEntity::class.java] ?: return
 
-    sb.appendLine("---")
-    sb.appendLine()
     sb.appendLine("## Champs requis par type d'action")
     sb.appendLine()
 

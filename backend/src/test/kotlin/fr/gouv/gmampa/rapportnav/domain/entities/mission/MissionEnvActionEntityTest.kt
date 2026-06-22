@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
@@ -59,7 +60,7 @@ class MissionEnvActionEntityTest {
     fun `execute should be complete for stats env `() {
         val envAction = getEnvAction()
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        entity.computeValidity(true, validator)
+        entity.computeValidity(validator, ValidationPolicies.v1)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
@@ -74,7 +75,7 @@ class MissionEnvActionEntityTest {
         val targetMock = TargetEntityMock.create(controls = controls)
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
         entity.targets = listOf(targetMock)
-        entity.computeValidity(true, validator)
+        entity.computeValidity(validator, ValidationPolicies.v1)
         assertThat(entity.controlsToComplete).isEqualTo(listOf( ControlType.SECURITY))
         assertThat(entity.availableControlTypesForInfraction).isEqualTo(
             listOf(
@@ -92,11 +93,11 @@ class MissionEnvActionEntityTest {
             completion = ActionCompletionEnum.COMPLETED
         )
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        entity.computeValidity(true, validator)
+        entity.computeValidity(validator, ValidationPolicies.v1)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
 
         entity.endDateTimeUtc = null
-        entity.computeValidity(true, validator)
+        entity.computeValidity(validator, ValidationPolicies.v1)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
     }
 

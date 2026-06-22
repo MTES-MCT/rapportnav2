@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEnti
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
 
 
 @UseCase
@@ -28,9 +29,9 @@ class ProcessEnvAction(
         action.status = this.getStatus(action)
 
         val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
+        val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
 
-        action.computeValidity(isMissionFinished, entityValidityValidator)
+        action.computeValidity(validator = entityValidityValidator, policy = policy)
         return action
     }
 }

@@ -11,19 +11,26 @@ import jakarta.validation.Validator
 import org.springframework.stereotype.Service
 
 /**
- * Spring service wrapper around Jakarta Bean Validation for validating entities.
- * Uses Spring-managed validators which can auto-fetch mission dates.
+ * Spring service for validating entities.
+ *
+ * Two validation paths:
+ * - **Jakarta** (via [validate] / [validateAndThrow]): structural constraints like @EndAfterStart, @WithinMissionDateRange.
+ *   Used at save time with [ValidateThrowsBeforeSave] group.
+ * - **Policy-based** (via [validateCompleteness] / [validateCompletenessWithSource]): required-field rules from [ValidationPolicy].
+ *   Used for completeness computation.
  */
 @Service
 class EntityValidityValidator(
     private val validator: Validator
 ) {
+
+    // =========================================================================
+    // Jakarta-based validation (structural constraints, save-time)
+    // =========================================================================
+
     /**
      * Validates entity using Jakarta Bean Validation with specified groups.
-     *
-     * @param entity The entity to validate
-     * @param groups Validation groups to run (e.g., ValidateThrowsBeforeSave, ValidateWhenMissionFinished)
-     * @return CompletenessForStatsEntity with status and any errors
+     * Used for structural constraints (@EndAfterStart, @WithinMissionDateRange).
      */
     fun validate(entity: Any, vararg groups: Class<*>): CompletenessForStatsEntity {
         val violations = validator.validate(entity, *groups).toSet()
@@ -43,30 +50,15 @@ class EntityValidityValidator(
             )
         }
 
-        // Classify: any RequiredFields (ValidateWhenMissionFinished) violation → INCOMPLETE, else → INVALID
-        val hasRequiredFieldViolations = violations.any { violation ->
-            violation.constraintDescriptor.groups.contains(ValidateWhenMissionFinished::class.java)
-        }
-
-        val status = if (hasRequiredFieldViolations) {
-            CompletenessForStatsStatusEnum.INCOMPLETE
-        } else {
-            CompletenessForStatsStatusEnum.INVALID
-        }
-
         return CompletenessForStatsEntity(
-            status = status,
+            status = CompletenessForStatsStatusEnum.INVALID,
             errors = errors
         )
     }
 
     /**
      * Validates entity and throws BackendUsageException if validation fails.
-     * Use this in use cases to avoid repetitive validation boilerplate.
-     *
-     * @param entity The entity to validate
-     * @param groups Validation groups to run
-     * @throws BackendUsageException if validation fails
+     * Use this in use cases to block saves with invalid structural data.
      */
     fun validateAndThrow(entity: Any, vararg groups: Class<*>) {
         val result = validate(entity, *groups)
@@ -85,20 +77,47 @@ class EntityValidityValidator(
         }
     }
 
+    // =========================================================================
+    // Policy-based validation (required fields, completeness)
+    // =========================================================================
+
     /**
-     * Validates entity and includes source information for multi-source actions.
-     *
-     * @param entity The entity to validate
-     * @param source The source to attribute errors to (e.g., RAPPORT_NAV)
-     * @param groups Validation groups to run
-     * @return CompletenessForStatsEntity with status, errors, and source attribution
+     * Validates entity completeness against a [ValidationPolicy]'s required-field rules.
      */
-    fun validateWithSource(
+    fun validateCompleteness(entity: Any, policy: ValidationPolicy): CompletenessForStatsEntity {
+        val violations = RequiredFieldsValidator.validate(entity, policy.rules)
+
+        if (violations.isEmpty()) {
+            return CompletenessForStatsEntity(
+                status = CompletenessForStatsStatusEnum.VALID,
+                errors = emptyList()
+            )
+        }
+
+        val errors = violations.map { violation ->
+            CompletenessForStatsErrorEntity(
+                field = violation.field,
+                rule = "RequiredFields",
+                message = violation.message
+            )
+        }
+
+        return CompletenessForStatsEntity(
+            status = CompletenessForStatsStatusEnum.INCOMPLETE,
+            errors = errors
+        )
+    }
+
+    /**
+     * Validates entity completeness and attributes errors to a specific source.
+     * Used for multi-source actions (Env/Fish) where RAPPORT_NAV fields are validated separately.
+     */
+    fun validateCompletenessWithSource(
         entity: Any,
         source: MissionSourceEnum,
-        vararg groups: Class<*>
+        policy: ValidationPolicy
     ): CompletenessForStatsEntity {
-        val result = validate(entity, *groups)
+        val result = validateCompleteness(entity, policy)
         return if (result.status != CompletenessForStatsStatusEnum.VALID) {
             result.copy(sources = listOf(source))
         } else {
@@ -119,9 +138,6 @@ class EntityValidityValidator(
 
         /**
          * Merges multiple completeness results (for multi-source actions like Env/Fish).
-         *
-         * @param results List of completeness results to merge
-         * @return Combined CompletenessForStatsEntity
          */
         fun merge(vararg results: CompletenessForStatsEntity): CompletenessForStatsEntity {
             val allErrors = results.flatMap { it.errors }

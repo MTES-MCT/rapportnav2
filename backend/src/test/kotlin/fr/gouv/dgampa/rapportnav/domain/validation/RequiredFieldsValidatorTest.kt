@@ -14,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -47,7 +48,7 @@ class RequiredFieldsValidatorTest {
                 nbrOfRecognizedVessel = 5
             )
 
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.isComplete)
         }
@@ -64,7 +65,7 @@ class RequiredFieldsValidatorTest {
                 nbrOfRecognizedVessel = null
             )
 
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.isComplete)
             assertEquals(4, result.errors.size)
@@ -82,7 +83,7 @@ class RequiredFieldsValidatorTest {
                 nbrOfRecognizedVessel = null
             )
 
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.isComplete)
         }
@@ -97,7 +98,7 @@ class RequiredFieldsValidatorTest {
                 interMinisterialServices = listOf()
             )
 
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.isComplete)
             assertTrue(result.errors.any { it.field == "interMinisterialServices" })
@@ -115,7 +116,7 @@ class RequiredFieldsValidatorTest {
                 )
             )
 
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.errors.any { it.field == "interMinisterialServices" })
         }
@@ -129,7 +130,7 @@ class RequiredFieldsValidatorTest {
                 isWithInterMinisterialService = false
             )
 
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.isComplete)
         }
@@ -209,7 +210,7 @@ class RequiredFieldsValidatorTest {
         @Test
         fun `should be valid when all always-required fields are present`() {
             val entity = createNavAction(actionType = ActionType.OTHER)
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.isComplete)
         }
@@ -217,7 +218,7 @@ class RequiredFieldsValidatorTest {
         @Test
         fun `should be invalid when startDateTimeUtc is null`() {
             val entity = createNavAction(startDateTimeUtc = null)
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.isComplete)
             assertTrue(result.errors.any { it.field == "startDateTimeUtc" })
@@ -231,7 +232,7 @@ class RequiredFieldsValidatorTest {
                 locationType = LocationType.GPS,
                 latitude = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.isComplete)
             assertTrue(result.errors.any { it.field == "controlMethod" })
@@ -251,7 +252,7 @@ class RequiredFieldsValidatorTest {
                 vesselSize = VesselSizeEnum.LESS_THAN_12m,
                 identityControlledPerson = "John Doe"
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.errors.any { it.field == "controlMethod" })
             assertFalse(result.errors.any { it.field == "latitude" })
@@ -266,7 +267,7 @@ class RequiredFieldsValidatorTest {
                 latitude = 48.0,
                 longitude = 2.0
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "numberPersonsRescued" })
         }
@@ -278,7 +279,7 @@ class RequiredFieldsValidatorTest {
                 status = ActionStatusType.DOCKED,
                 reason = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "reason" })
         }
@@ -302,7 +303,7 @@ class RequiredFieldsValidatorTest {
                 latitude = 48.0,
                 longitude = 2.0
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.isComplete, "Should be invalid when endDateTimeUtc is null for ILLEGAL_IMMIGRATION")
             assertTrue(result.errors.any { it.field == "endDateTimeUtc" }, "Should have endDateTimeUtc error")
@@ -320,7 +321,7 @@ class RequiredFieldsValidatorTest {
                 latitude = null,
                 longitude = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "latitude" })
             assertTrue(result.errors.any { it.field == "longitude" })
@@ -334,7 +335,7 @@ class RequiredFieldsValidatorTest {
                 city = null,
                 zipCode = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "city" })
             assertTrue(result.errors.any { it.field == "zipCode" })
@@ -347,7 +348,7 @@ class RequiredFieldsValidatorTest {
                 locationType = LocationType.PORT,
                 portLocode = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "portLocode" })
         }
@@ -361,7 +362,7 @@ class RequiredFieldsValidatorTest {
                 zipCode = "75001",
                 latitude = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.errors.any { it.field == "latitude" })
         }
@@ -374,7 +375,7 @@ class RequiredFieldsValidatorTest {
                 latitude = null,
                 longitude = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "latitude" })
             assertTrue(result.errors.any { it.field == "longitude" })
@@ -388,7 +389,7 @@ class RequiredFieldsValidatorTest {
                 city = null,
                 zipCode = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "city" })
             assertTrue(result.errors.any { it.field == "zipCode" })
@@ -401,7 +402,7 @@ class RequiredFieldsValidatorTest {
                 locationType = LocationType.PORT,
                 portLocode = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "portLocode" })
         }
@@ -418,7 +419,7 @@ class RequiredFieldsValidatorTest {
                 sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION,
                 fishAuction = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "fishAuction" })
         }
@@ -431,7 +432,7 @@ class RequiredFieldsValidatorTest {
                 sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
                 portLocode = null
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertTrue(result.errors.any { it.field == "portLocode" })
         }
@@ -444,7 +445,7 @@ class RequiredFieldsValidatorTest {
                 sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
                 portLocode = "FRBOD"
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.errors.any { it.field == "fishAuction" })
         }
@@ -456,9 +457,89 @@ class RequiredFieldsValidatorTest {
                 sectorType = SectorType.PLEASURE,
                 sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION
             )
-            val result = validator.validate(entity, ValidateWhenMissionFinished::class.java)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.errors.any { it.field == "fishAuction" })
+        }
+    }
+
+    // =========================================================================
+    // Policy resolution tests
+    // =========================================================================
+    @Nested
+    @DisplayName("ValidationPolicies")
+    inner class PolicyResolutionTests {
+
+        @Test
+        fun `should resolve v1 for missions before v2 effective date`() {
+            val policy = ValidationPolicies.forMissionStartDate(Instant.parse("2026-01-15T00:00:00Z"))
+            assertEquals(1, policy.version)
+        }
+
+        @Test
+        fun `should resolve v2 for missions on or after v2 effective date`() {
+            val policy = ValidationPolicies.forMissionStartDate(Instant.parse("2026-07-01T00:00:00Z"))
+            assertEquals(2, policy.version)
+        }
+
+        @Test
+        fun `should resolve v2 for missions well after v2 effective date`() {
+            val policy = ValidationPolicies.forMissionStartDate(Instant.parse("2027-01-01T00:00:00Z"))
+            assertEquals(2, policy.version)
+        }
+
+        @Test
+        fun `should resolve latest policy when start date is null`() {
+            val policy = ValidationPolicies.forMissionStartDate(null)
+            assertEquals(ValidationPolicies.latest.version, policy.version)
+        }
+
+        @Test
+        fun `should resolve v1 for missions that predate all policies`() {
+            val policy = ValidationPolicies.forMissionStartDate(Instant.parse("2024-01-01T00:00:00Z"))
+            assertEquals(1, policy.version)
+        }
+    }
+
+    // =========================================================================
+    // v1 vs v2 comparison tests
+    // =========================================================================
+    @Nested
+    @DisplayName("Policy versioning – v1 vs v2")
+    inner class PolicyVersioningTests {
+
+        private fun createNavAction(observations: String? = null) = MissionNavActionEntity(
+            id = UUID.randomUUID(),
+            missionId = 1,
+            actionType = ActionType.OTHER,
+            startDateTimeUtc = Instant.now(),
+            endDateTimeUtc = Instant.now().plusSeconds(3600),
+            observations = observations
+        )
+
+        @Test
+        fun `v1 should NOT require observations`() {
+            val entity = createNavAction(observations = null)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+            assertTrue(result.isComplete)
+        }
+
+        @Test
+        fun `v2 should require observations`() {
+            val entity = createNavAction(observations = null)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v2)
+
+            assertFalse(result.isComplete)
+            assertTrue(result.errors.any { it.field == "observations" })
+        }
+
+        @Test
+        fun `v2 should be valid when observations provided`() {
+            val entity = createNavAction(observations = "Some observation")
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v2)
+
+            assertFalse(result.errors.any { it.field == "observations" })
         }
     }
 }

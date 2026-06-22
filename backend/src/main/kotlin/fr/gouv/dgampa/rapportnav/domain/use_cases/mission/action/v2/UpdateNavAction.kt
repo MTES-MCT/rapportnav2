@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
 
@@ -37,14 +38,13 @@ class UpdateNavAction(
             targets = input.data.targets?.map { it.toTargetEntity() } ?: listOf()
         )
 
-        // compute validity
         val missionDates = getMissionDates.execute(
             missionId = action.missionId,
             ownerId = action.ownerId,
             inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
         )
-        val isMissionFinished = missionDates?.isMissionFinished() ?: false
-        action.computeValidity(isMissionFinished = isMissionFinished, validator = entityValidityValidator)
+        val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
+        action.computeValidity(validator = entityValidityValidator, policy = policy)
 
         return action
     }

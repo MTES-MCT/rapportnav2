@@ -8,14 +8,17 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.validation.*
+import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicy
+import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 import java.util.*
 
 @EndAfterStart(groups = [ValidateThrowsBeforeSave::class])
 @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
-@RequiredFields(groups = [ValidateWhenMissionFinished::class])
 data class MissionEnvActionEntity(
     override val id: UUID,
     override val missionId: Int,
@@ -85,26 +88,16 @@ data class MissionEnvActionEntity(
         return SummaryTag(withReport = withReport, natInfSize = natInfSize)
     }
 
-    /**
-     * Computes validity for statistics using the new unified validation system.
-     * For Env actions, validates both RAPPORT_NAV and MONITORENV sources.
-     *
-     * @param isMissionFinished When true, also checks required fields (ValidateWhenMissionFinished group)
-     * @param validator The EntityValidityValidator instance to use
-     */
-    override fun computeValidity(isMissionFinished: Boolean, validator: EntityValidityValidator) {
+    override fun computeValidity(validator: EntityValidityValidator, policy: ValidationPolicy) {
         this.computeControlsToComplete()
         this.computeAvailableControlTypesForInfraction()
 
         val sourcesOfMissingData = mutableListOf<MissionSourceEnum>()
 
-        // Only run ValidateWhenMissionFinished for completeness computation.
-        // ValidateThrowsBeforeSave (date ordering, numeric constraints) is enforced on save only,
-        // so old missions with pre-existing data issues remain valid for stats.
-        val rapportNavCompleteness = validator.validateWithSource(
+        val rapportNavCompleteness = validator.validateCompletenessWithSource(
             this,
             MissionSourceEnum.RAPPORT_NAV,
-            ValidateWhenMissionFinished::class.java
+            policy
         )
 
         val rapportNavComplete = rapportNavCompleteness.isComplete && this.controlsToComplete.isNullOrEmpty()
