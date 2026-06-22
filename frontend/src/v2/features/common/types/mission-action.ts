@@ -6,6 +6,7 @@ import { EnvTag } from '@common/types/env-tags.ts'
 import { EnvTheme } from '@common/types/env-themes.ts'
 import {
   ControlCheck,
+  DiscardedSpeciesControl,
   FleetSegment,
   GearControl,
   MissionActionType,
@@ -99,10 +100,10 @@ export interface MissionEnvActionData extends MissionActionData {
   geom: string
   facade: string
   department: string
-  isAdministrativeControl: Boolean
-  isComplianceWithWaterRegulationsControl: Boolean
-  isSafetyEquipmentAndStandardsComplianceControl: Boolean
-  isSeafarersControl: Boolean
+  isAdministrativeControl: boolean
+  isComplianceWithWaterRegulationsControl: boolean
+  isSafetyEquipmentAndStandardsComplianceControl: boolean
+  isSeafarersControl: boolean
   openBy: string
   observations: string
   observationsCacem: string
@@ -112,7 +113,7 @@ export interface MissionEnvActionData extends MissionActionData {
   actionTargetType: ActionTargetTypeEnum
   vehicleType: VehicleTypeEnum
   infractions: InfractionByTarget[]
-  coverMissionZone: Boolean
+  coverMissionZone: boolean
   controlsToComplete: ControlType[]
   availableControlTypesForInfraction: ControlType[]
   tags: EnvTag[]
@@ -136,11 +137,26 @@ export interface MissionFishActionData extends MissionActionData {
   fishActionType: MissionActionType
   emitsVms?: ControlCheck
   emitsAis?: ControlCheck
+  vmsEmissionControlBeforeArrival?: ControlCheck
+  portEntranceAndLandingAuthorized?: ControlCheck
+  logbookFilledPriorToControl?: ControlCheck
   logbookMatchesActivity?: ControlCheck
   licencesMatchActivity?: ControlCheck
-  speciesWeightControlled?: boolean
-  speciesSizeControlled?: boolean
+  speciesWeightControlled?: ControlCheck
+  speciesSizeControlled?: ControlCheck
   separateStowageOfPreservedSpecies?: ControlCheck
+  propulsionEnginePowerControl?: ControlCheck
+  fishingLicencesMatchActivity?: ControlCheck
+  stowagePlanPresent?: ControlCheck
+  onboardWeighingPermit?: ControlCheck
+  weighingCertificateAndSystemsValid?: ControlCheck
+  underSizedSeparateStowage?: ControlCheck
+  underSizedSeparateRecording?: ControlCheck
+  minimumConservationReferenceSizeControlled?: ControlCheck
+  cratesWeighingSamplingControl?: ControlCheck
+  approvedWeighingOperatorInformation?: ControlCheck
+  holdControlledAfterUnloading?: ControlCheck
+  catchesWeighedAtLanding?: ControlCheck
   licencesAndLogbookObservations?: string
   speciesObservations?: string
   seizureAndDiversion?: boolean
@@ -160,16 +176,20 @@ export interface MissionFishActionData extends MissionActionData {
   otherComments?: string
   gearOnboard?: GearControl[]
   speciesOnboard?: SpeciesControl[]
+  discardedSpecies?: DiscardedSpeciesControl[]
   isFromPoseidon?: boolean
   isDeleted?: boolean
   hasSomeGearsSeized?: boolean
   hasSomeSpeciesSeized?: boolean
   completedBy?: string
   completion?: string
+  isLastHaul?: boolean
   isAdministrativeControl?: boolean
   isComplianceWithWaterRegulationsControl?: boolean
   isSafetyEquipmentAndStandardsComplianceControl?: boolean
   isSeafarersControl?: boolean
+  isINNControl?: boolean
+  isGangwayDeployed?: boolean
   observationsByUnit?: string
   speciesQuantitySeized?: number
   fishInfractions: FishInfraction[]

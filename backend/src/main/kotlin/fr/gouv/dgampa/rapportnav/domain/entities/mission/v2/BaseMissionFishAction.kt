@@ -22,12 +22,27 @@ interface BaseMissionFishAction {
     val actionEndDatetimeUtc: Instant?
     val emitsVms: ControlCheck?
     val emitsAis: ControlCheck?
+    val vmsEmissionControlBeforeArrival: ControlCheck?
+    val portEntranceAndLandingAuthorized: ControlCheck?
+    val logbookFilledPriorToControl: ControlCheck?
     val flightGoals: List<FlightGoal>?
     val logbookMatchesActivity: ControlCheck?
     val licencesMatchActivity: ControlCheck?
-    val speciesWeightControlled: Boolean?
-    val speciesSizeControlled: Boolean?
+    val speciesWeightControlled: ControlCheck?
+    val speciesSizeControlled: ControlCheck?
     val separateStowageOfPreservedSpecies: ControlCheck?
+    val propulsionEnginePowerControl: ControlCheck?
+    val fishingLicencesMatchActivity: ControlCheck?
+    val stowagePlanPresent: ControlCheck?
+    val onboardWeighingPermit: ControlCheck?
+    val weighingCertificateAndSystemsValid: ControlCheck?
+    val underSizedSeparateStowage: ControlCheck?
+    val underSizedSeparateRecording: ControlCheck?
+    val minimumConservationReferenceSizeControlled: ControlCheck?
+    val cratesWeighingSamplingControl: ControlCheck?
+    val approvedWeighingOperatorInformation: ControlCheck?
+    val holdControlledAfterUnloading: ControlCheck?
+    val catchesWeighedAtLanding: ControlCheck?
     val licencesAndLogbookObservations: String?
     val speciesObservations: String?
     val seizureAndDiversion: Boolean?
@@ -47,7 +62,8 @@ interface BaseMissionFishAction {
     val seizureAndDiversionComments: String?
     val otherComments: String?
     val gearOnboard: List<GearControl>?
-    val speciesOnboard: List<SpeciesControl>?
+    val speciesOnboard: List<SpeciesOnboardControl>?
+    val discardedSpecies: List<DiscardedSpeciesControl>?
     val isFromPoseidon: Boolean?
     /**
      * This field is only used by the `GetVesselControls` use-case.
@@ -59,6 +75,9 @@ interface BaseMissionFishAction {
     val hasSomeSpeciesSeized: Boolean?
     val completedBy: String?
     val completion: Completion?
+    val isLastHaul: Boolean?
+    val isINNControl: Boolean?
+    val isGangwayDeployed: Boolean?
     var observationsByUnit: String?
     var speciesQuantitySeized: Int ?
     val fishInfractions: List<FishInfraction>

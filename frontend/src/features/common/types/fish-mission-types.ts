@@ -1,7 +1,7 @@
 export enum ControlCheck {
+  YES = 'YES',
   NO = 'NO',
-  NOT_APPLICABLE = 'NOT_APPLICABLE',
-  YES = 'YES'
+  NOT_APPLICABLE = 'NOT_APPLICABLE'
 }
 
 export enum InfractionType {
@@ -63,10 +63,27 @@ export type Infraction = {
 }
 
 export type SpeciesControl = {
-  controlledWeight: number | undefined
-  declaredWeight: number | undefined
-  nbFish: number | undefined
   speciesCode: string
   speciesName: string | undefined
+  isNotLanded: boolean | undefined
+  nbFish: number | undefined
+  declaredWeight: number | undefined
+  controlledWeight: number | undefined
   underSized: boolean | undefined
+  underSizedWeight: number | undefined
+  presentationCodes: string[] | undefined
+  faoZones: string[] | undefined
+}
+
+export enum DiscardReason {
+  DIM = 'DIM',
+  RET = 'RET',
+  DIS = 'DIS'
+}
+
+export type DiscardedSpeciesControl = {
+  speciesCode: string
+  rejectedWeight: number | undefined
+  discardReason: DiscardReason | undefined
+  faoZones: string[] | undefined
 }
