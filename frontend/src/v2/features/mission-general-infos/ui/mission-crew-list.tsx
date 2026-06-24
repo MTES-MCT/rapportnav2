@@ -58,13 +58,13 @@ export const MissionCrewDeleteIconButton = styled((props: Omit<IconButtonProps, 
 }))
 
 export const MissionCrewMemberText = styled(
-  ({ agent, ...props }: Omit<TextProps, 'as' | 'children'> & { agent?: Agent }) => (
+  ({ agent, fullName, ...props }: Omit<TextProps, 'as' | 'children'> & { agent?: Agent; fullName?: string }) => (
     <Text
       {...props}
       as="h3"
       truncate={true}
       data-testid="crew-member-agent"
-    >{`${agent?.firstName} ${agent?.lastName}`}</Text>
+    >{`${agent ? [agent?.firstName, agent?.lastName].join(' ') : fullName}`}</Text>
   )
 )(({ theme }) => ({
   color: theme.color.gunMetal
@@ -72,8 +72,19 @@ export const MissionCrewMemberText = styled(
 
 export const MissionCrewTitleLabel = styled((props: LabelProps) => <Label {...props} />)(({ theme }) => ({
   fontWeight: 'bold',
-  color: theme.color.gunMetal
+  color: theme.color.gunMetal,
+  cursor: 'pointer'
 }))
+
+export const MissionCrewCollapsibleTitle = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  cursor: 'pointer',
+  gap: '0.2rem',
+  '&:hover': {
+    opacity: 0.8
+  }
+})
 
 export const MissionCrewUnderlineStack = styled((props: StackProps) => (
   <Stack {...props} direction="row" alignItems="center" />
@@ -107,12 +118,12 @@ export const CommentIcon = styled((props: IconProps & { comment?: string }) => (
   <Icon.Comment data-testid="crew-member-comment-icon" {...props} size={14} />
 ))(({ theme, comment }) => ({
   marginRight: 13,
-  color: `${!comment || comment === '' ? theme.color.lightGray : theme.color.charcoal}`
+  color: `${!comment || comment === '' ? theme.color.lightGray : theme.color.slateGray}`
 }))
 
 export const TruncateCommentText = styled((props: Omit<TextProps, 'as'>) => <Text {...props} as="h3" truncate />)(
   ({ theme }) => ({
     fontStyle: 'italic',
-    color: theme.color.charcoal
+    color: theme.color.slateGray
   })
 )
