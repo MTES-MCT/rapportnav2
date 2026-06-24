@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '../../../../../../test-utils'
-import MissionTargetItem from '../mission-target-item'
 import { ControlType } from '@common/types/control-types'
 import { MissionSourceEnum } from '@common/types/env-mission-types'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { fireEvent, render, screen, waitFor } from '../../../../../../test-utils.tsx'
 import { TargetType } from '../../../../common/types/target-types.ts'
+import TargetItemOthers from '../target-item-others.tsx'
 
 // Mock useTarget hook
 const mockGetAvailableControlTypes = vi.fn()
@@ -14,7 +14,7 @@ vi.mock('../../../hooks/use-target', () => ({
   })
 }))
 
-describe('MissionTargetItem', () => {
+describe('TargetItemOthers', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockGetAvailableControlTypes.mockReturnValue([ControlType.SECURITY, ControlType.NAVIGATION])
@@ -28,7 +28,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -48,7 +48,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -68,7 +68,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -91,7 +91,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -116,7 +116,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -143,7 +143,7 @@ describe('MissionTargetItem', () => {
     const mockOnDelete = vi.fn()
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         index={0}
         name="targets[0]"
         targetType={TargetType.VEHICLE}
@@ -172,7 +172,7 @@ describe('MissionTargetItem', () => {
     const mockOnDelete = vi.fn()
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         index={undefined}
         name="targets[0]"
         targetType={TargetType.VEHICLE}
@@ -198,7 +198,7 @@ describe('MissionTargetItem', () => {
     const mockOnDelete = vi.fn()
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -222,7 +222,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.COMPANY}
         fieldFormik={{ field: { value: target } } as any}
@@ -242,7 +242,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.COMPANY}
         fieldFormik={{ field: { value: target } } as any}
@@ -265,7 +265,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -287,7 +287,7 @@ describe('MissionTargetItem', () => {
     const availableControlTypes = [ControlType.SECURITY, ControlType.NAVIGATION]
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -308,7 +308,7 @@ describe('MissionTargetItem', () => {
     }
 
     render(
-      <MissionTargetItem
+      <TargetItemOthers
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}

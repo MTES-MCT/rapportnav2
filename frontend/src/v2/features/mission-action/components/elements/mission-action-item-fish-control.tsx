@@ -1,32 +1,24 @@
 import { MissionActionType } from '@common/types/fish-mission-types.ts'
-import { FormikEffect, Label, TextInput, THEME } from '@mtes-mct/monitor-ui'
-import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
+import { FormikEffect, TextInput } from '@mtes-mct/monitor-ui'
+import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
-import { Divider, Stack } from 'rsuite'
-import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
-import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
+import { Stack } from 'rsuite'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
+import StyledTabs from '../../../common/components/ui/styled-tab.tsx'
 import VesselName from '../../../common/components/ui/vessel-name'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 import { MissionAction } from '../../../common/types/mission-action'
-import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/mission-control-fish-administrative-section'
-import FishControlEnginesSection from '../../../mission-control/components/ui/mission-control-fish-engines-section'
-import FishControlFleetSegmentSection from '../../../mission-control/components/ui/mission-control-fish-fleet-segment-section'
-import FishControlOtherObservationsSection from '../../../mission-control/components/ui/mission-control-fish-other-observation-section'
-import FishControlSeizureSection from '../../../mission-control/components/ui/mission-control-fish-seizure-section'
-import FishControlSpeciesSection from '../../../mission-control/components/ui/mission-control-fish-species-section'
-import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary.tsx'
-import MissionTargetControlNav from '../../../mission-target/components/elements/mission-target-control-nav.tsx'
 import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish-control'
 import { ActionFishControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
-import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 
 const MissionActionItemFishControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const { initValue, handleSubmit, validationSchema } = useMissionActionFishControl(action, onChange)
   const { onFormError } = useFormValidationReporter()
+  const { initValue, items, handleSubmit, validationSchema } = useMissionActionFishControl(action, onChange)
+
   return (
     <div style={{ width: '100%' }}>
       {initValue && (
@@ -40,7 +32,10 @@ const MissionActionItemFishControl: FC<{
         >
           {({ values }) => (
             <>
-              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionFishControlInput)} onError={onFormError} />
+              <FormikEffect
+                onChange={async nextValues => handleSubmit(nextValues as ActionFishControlInput)}
+                onError={onFormError}
+              />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -84,86 +79,10 @@ const MissionActionItemFishControl: FC<{
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
-                  <Divider style={{ backgroundColor: THEME.color.charcoal }} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <MissionControlFishAdministrativeSection action={values} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <FishControlEnginesSection action={values} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <FishControlSpeciesSection action={values} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <FishControlSeizureSection action={values} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <FishControlOtherObservationsSection action={values} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <Divider style={{ backgroundColor: THEME.color.charcoal }} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <FishControlFleetSegmentSection action={values} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <Divider style={{ backgroundColor: THEME.color.charcoal }} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
-                    <Stack.Item>
-                      <Label>Infractions</Label>
-                    </Stack.Item>
-                    <Stack.Item style={{ width: '100%' }}>
-                      <MissionInfractionFishSummary
-                        showIndex={true}
-                        isActionDisabled={true}
-                        infractions={action.data.fishInfractions ?? []}
-                        title="Infraction"
-                      />
-                    </Stack.Item>
-                  </Stack>
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <Stack direction="column" alignItems="flex-start">
-                    <Stack.Item>
-                      <Label>Saisi par</Label>
-                    </Stack.Item>
-                    <Stack.Item>{values.userTrigram ?? '--'}</Stack.Item>
-                  </Stack>
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <Divider style={{ backgroundColor: THEME.color.charcoal }} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  {(action?.controlsToComplete?.length ?? 0) > 0 && (
-                    <Stack.Item alignSelf="flex-end">
-                      <MissionIncompleteControlTag
-                        isLight={true}
-                        nbrIncompleteControl={action?.controlsToComplete?.length}
-                      />
-                    </Stack.Item>
-                  )}
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <FieldArray name="targets">
-                    {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTargetControlNav
-                        name="targets"
-                        fieldArray={fieldArray}
-                        controlsToComplete={action.controlsToComplete}
-                        label={`Autre(s) contrôle(s) effectué(s) par l’unité sur le navire`}
-                      />
-                    )}
-                  </FieldArray>
-                </Stack.Item>
-
-                <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextAreaInput
-                    name="observationsByUnit"
-                    data-testid="observations-by-unit"
-                    label="Observation de l'unité sur le contrôle"
+                  <StyledTabs
+                    items={items}
+                    defaultActiveKey={items[0].key}
+                    params={{ controlsToComplete: action.controlsToComplete, values }}
                   />
                 </Stack.Item>
               </Stack>

@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '../../../../../../test-utils'
-import MissionTargetList from '../mission-target-list'
 import { ActionTargetTypeEnum } from '@common/types/env-mission-types'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { render, screen, waitFor } from '../../../../../../test-utils'
 import { TargetType } from '../../../../common/types/target-types.ts'
+import TargetList from '../target-list.tsx'
 
 // Mock useTarget hook
 const mockIsDefaultTarget = vi.fn()
@@ -26,7 +26,7 @@ const createMockFieldArray = (targets = []) => ({
   push: vi.fn()
 })
 
-describe('MissionTargetList', () => {
+describe('TargetList', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockGetTargetType.mockReturnValue(TargetType.VEHICLE)
@@ -42,10 +42,9 @@ describe('MissionTargetList', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(
-      <MissionTargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />,
-      { formikValues: { targets } }
-    )
+    render(<TargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />, {
+      formikValues: { targets }
+    })
 
     expect(screen.getAllByTestId('mission-target-item').length).toBe(2)
   })
@@ -57,10 +56,9 @@ describe('MissionTargetList', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(
-      <MissionTargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />,
-      { formikValues: { targets } }
-    )
+    render(<TargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />, {
+      formikValues: { targets }
+    })
 
     expect(screen.queryByTestId('mission-target-item')).not.toBeInTheDocument()
   })
@@ -76,10 +74,9 @@ describe('MissionTargetList', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(
-      <MissionTargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />,
-      { formikValues: { targets } }
-    )
+    render(<TargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />, {
+      formikValues: { targets }
+    })
 
     // Should only render 1 non-default target
     expect(screen.getAllByTestId('mission-target-item').length).toBe(1)
@@ -96,10 +93,9 @@ describe('MissionTargetList', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(
-      <MissionTargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />,
-      { formikValues: { targets } }
-    )
+    render(<TargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />, {
+      formikValues: { targets }
+    })
 
     const deleteButtons = screen.getAllByTestId('delete-target')
 
@@ -119,7 +115,7 @@ describe('MissionTargetList', () => {
     const fieldArray = createMockFieldArray(targets)
 
     render(
-      <MissionTargetList
+      <TargetList
         name="targets"
         fieldArray={fieldArray}
         actionTargetType={ActionTargetTypeEnum.VEHICLE}
@@ -137,10 +133,9 @@ describe('MissionTargetList', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(
-      <MissionTargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />,
-      { formikValues: { targets } }
-    )
+    render(<TargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />, {
+      formikValues: { targets }
+    })
 
     expect(screen.queryByTestId('mission-target-item')).not.toBeInTheDocument()
   })
@@ -156,10 +151,9 @@ describe('MissionTargetList', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(
-      <MissionTargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />,
-      { formikValues: { targets } }
-    )
+    render(<TargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />, {
+      formikValues: { targets }
+    })
 
     expect(screen.queryByTestId('mission-target-item')).not.toBeInTheDocument()
   })
@@ -174,10 +168,9 @@ describe('MissionTargetList', () => {
       push: vi.fn()
     }
 
-    render(
-      <MissionTargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />,
-      { formikValues: {} }
-    )
+    render(<TargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />, {
+      formikValues: {}
+    })
 
     expect(screen.queryByTestId('mission-target-item')).not.toBeInTheDocument()
   })

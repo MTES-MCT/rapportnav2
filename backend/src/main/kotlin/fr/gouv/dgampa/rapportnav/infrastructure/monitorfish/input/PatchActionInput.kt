@@ -6,4 +6,6 @@ data class PatchActionInput(
     val observationsByUnit: String? = null,
     val actionDatetimeUtc: Instant? = null,
     val actionEndDatetimeUtc: Instant? = null,
+    val hasDivingDuringOperation: Boolean? = null,
+    val incidentDuringOperation: Boolean? = null
 )

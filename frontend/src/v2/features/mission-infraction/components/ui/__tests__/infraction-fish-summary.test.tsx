@@ -1,10 +1,10 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
-import MissionInfractionFishSummary from '../mission-infraction-fish-summary.tsx'
+import InfractionFishSummary from '../infraction-fish-summary.tsx'
 
-describe('MissionInfractionFishSummary', () => {
+describe('InfractionFishSummary', () => {
   it('should display infraction, category, description and comment', () => {
     render(
-      <MissionInfractionFishSummary
+      <InfractionFishSummary
         infractions={[
           {
             natinf: 12345,
@@ -25,5 +25,26 @@ describe('MissionInfractionFishSummary', () => {
       )
     ).toBeInTheDocument()
     expect(screen.getByText('commentaire')).toBeInTheDocument()
+  })
+
+  it('renders fish infractions with natinfs', () => {
+    render(
+      <InfractionFishSummary
+        infractions={[
+          {
+            natinf: 12345,
+            threat: 'Dissimulation'
+          },
+          {
+            natinf: 22182,
+            threat: 'Entrave à la justice'
+          }
+        ]}
+      />
+    )
+    expect(screen.getByText('NATINF : 12345', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('Infraction 1 : Dissimulation', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('NATINF : 22182', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('Infraction 2 : Entrave à la justice', { exact: false })).toBeInTheDocument()
   })
 })

@@ -29,9 +29,11 @@ class UpdateFishAction(
             ActionFishInput(
                 actionId = id,
                 missionId = action.missionId,
-                startDateTimeUtc = action.startDateTimeUtc,
                 endDateTimeUtc = action.endDateTimeUtc,
-                observationsByUnit = action.observationsByUnit
+                startDateTimeUtc = action.startDateTimeUtc,
+                observationsByUnit = action.observationsByUnit,
+                incidentDuringOperation = action.incidentDuringOperation,
+                hasDivingDuringOperation = action.hasDivingDuringOperation
             )
         )
         action.sati = processSati.execute(actionId = action.getActionId(), sati = input.data.sati)

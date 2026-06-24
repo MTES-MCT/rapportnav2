@@ -12,6 +12,7 @@ import {
   SpeciesControl
 } from '@common/types/fish-mission-types'
 import { InfractionByTarget } from '@common/types/infraction-types'
+import { FishInfraction } from '../../mission-infraction/types/infraction-input.tsx'
 import { ActionType } from './action-type'
 import { Establishment } from './etablishment.ts'
 import { FishingGearType, LeisureType } from './leisure-fishing-gear-type.ts'
@@ -19,7 +20,6 @@ import { MissionActionData } from './mission-action-data'
 import { CompletenessForStats, MissionSourceEnum } from './mission-types.ts'
 import { NetworkSyncStatus } from './network-types.ts'
 import { SectorEtablishmentType, SectorType } from './sector-types.ts'
-import { FishInfraction } from '../../mission-infraction/types/infraction-input.tsx'
 
 export interface MissionAction {
   id?: string
@@ -173,6 +173,8 @@ export interface MissionFishActionData extends MissionActionData {
   observationsByUnit?: string
   speciesQuantitySeized?: number
   fishInfractions: FishInfraction[]
+  incidentDuringOperation?: boolean
+  hasDivingDuringOperation?: boolean
 }
 
 export interface MissionFishAction extends MissionAction {

@@ -7,8 +7,8 @@ import { FormikDateRangePicker } from '../../../common/components/ui/formik-date
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionTargetControlEnv from '../../../mission-target/components/elements/mission-target-control-env.tsx'
-import MissionTargetList from '../../../mission-target/components/elements/mission-target-list.tsx'
 import MissionTargetNew from '../../../mission-target/components/elements/mission-target-new.tsx'
+import TargetList from '../../../mission-target/components/elements/target-list.tsx'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
 import { ActionEnvControlInput } from '../../types/action-type'
@@ -129,7 +129,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTargetList
+                      <TargetList
                         name="targets"
                         fieldArray={fieldArray}
                         vehicleType={values.vehicleType}

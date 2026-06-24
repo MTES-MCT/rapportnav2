@@ -1,9 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '../../../../../../test-utils'
-import MissionTargetInfractionList from '../mission-target-infraction-list'
-import { FieldProps } from 'formik'
-import { Control, Infraction, Target, TargetInfraction } from '../../../../common/types/target-types'
 import { ControlType } from '@common/types/control-types.ts'
+import { FieldProps } from 'formik'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { cleanup, fireEvent, render, screen } from '../../../../../../test-utils'
+import { Control, Infraction, Target } from '../../../../common/types/target-types'
+import TargetInfractionList from '../target-infraction-list'
 
 // Mock useTarget
 const mockDeleteInfraction = vi.fn()
@@ -38,7 +38,7 @@ const sampleControl2: Control = {
 }
 const sampleTarget: Target = { id: 't1', vesselName: 'Vessel 1', controls: [sampleControl1, sampleControl2] }
 
-describe('MissionTargetInfractionList', () => {
+describe('TargetInfractionList', () => {
   let fieldFormik: FieldProps<Target>
 
   beforeEach(() => {
@@ -52,15 +52,15 @@ describe('MissionTargetInfractionList', () => {
     })
   })
 
-  it('renders one MissionTargetInfractionForm per infraction', () => {
-    render(<MissionTargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
-    const forms = screen.getAllByTestId('mission-target-infraction-form')
+  it('renders one TargetInfractionForm per infraction', () => {
+    render(<TargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
+    const forms = screen.getAllByTestId('target-infraction-form')
     // two controls each with 1-2 infraction → 3 forms
     expect(forms).toHaveLength(3)
   })
 
   it('calls setFieldValue with transformed value when form is submitted', async () => {
-    render(<MissionTargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
+    render(<TargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
 
     // simulate a value to submit
     const valueToSubmit = { target: sampleTarget, control: sampleControl1, infraction: sampleInfraction1 }
@@ -80,9 +80,9 @@ describe('MissionTargetInfractionList', () => {
     const noControlsTarget: Target = { id: 't1', vesselName: 'Vessel 1', controls: undefined }
     const noControlsFieldFormik = createFieldFormik([noControlsTarget])
 
-    const { container } = render(<MissionTargetInfractionList name="targets[0]" fieldFormik={noControlsFieldFormik} />)
+    const { container } = render(<TargetInfractionList name="targets[0]" fieldFormik={noControlsFieldFormik} />)
 
-    const forms = screen.queryAllByTestId('mission-target-infraction-form')
+    const forms = screen.queryAllByTestId('target-infraction-form')
     expect(forms).toHaveLength(0)
     expect(container.querySelector('div')).toBeInTheDocument() // wrapper div still exists
   })
@@ -97,17 +97,17 @@ describe('MissionTargetInfractionList', () => {
     }
     const noInfractionsFieldFormik = createFieldFormik([noInfractionsTarget])
 
-    render(<MissionTargetInfractionList name="targets[0]" fieldFormik={noInfractionsFieldFormik} />)
+    render(<TargetInfractionList name="targets[0]" fieldFormik={noInfractionsFieldFormik} />)
 
-    const forms = screen.queryAllByTestId('mission-target-infraction-form')
+    const forms = screen.queryAllByTestId('target-infraction-form')
     expect(forms).toHaveLength(0)
   })
 
   it('does not call setFieldValue if handleSubmit is called with undefined', () => {
-    render(<MissionTargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
+    render(<TargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
 
-    // Get the first MissionTargetInfractionForm
-    const form = screen.getAllByTestId('mission-target-infraction-form')[0]
+    // Get the first TargetInfractionForm
+    const form = screen.getAllByTestId('target-infraction-form')[0]
 
     // Access the onSubmit prop directly from the rendered component
     const onSubmit = (form as any).props?.onSubmit
@@ -118,7 +118,7 @@ describe('MissionTargetInfractionList', () => {
   })
 
   it('calls deleteInfraction and updates field on delete', async () => {
-    render(<MissionTargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
+    render(<TargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
 
     // simulate deleting first infraction
     const updatedTarget = mockDeleteInfraction(sampleTarget, 0, 0)
@@ -137,7 +137,7 @@ describe('MissionTargetInfractionList', () => {
     }
     const emptyFieldFormik = createFieldFormik([emptyControlTarget])
 
-    render(<MissionTargetInfractionList name="targets[0]" fieldFormik={emptyFieldFormik} />)
+    render(<TargetInfractionList name="targets[0]" fieldFormik={emptyFieldFormik} />)
 
     // Call the mocked deleteInfraction directly
     const updatedTarget = mockDeleteInfraction(emptyControlTarget, 0, 0)
@@ -152,23 +152,10 @@ describe('MissionTargetInfractionList', () => {
     )
   })
 
-  it('does not render divider if noDivider is true', () => {
-    render(<MissionTargetInfractionList name="targets[0]" fieldFormik={fieldFormik} noDivider />)
-    const divider = screen.queryByTestId('target-infraction-list-divider')
-    expect(divider).toBeNull()
-  })
-
-  it('renders divider if noDivider is false or undefined', () => {
-    render(<MissionTargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
-    const dividers = screen.queryAllByTestId('target-infraction-list-divider')
-    // 2 controls each with 3 infraction → 2 divider
-    expect(dividers).toHaveLength(2)
-  })
-
   describe('interactions', () => {
-    vi.mock('../mission-target-infraction-form', () => ({
+    vi.mock('../target-infraction-form', () => ({
       default: ({ onSubmit, onDelete, value, ...props }: any) => (
-        <div data-testid="mission-target-infraction-form">
+        <div data-testid="target-infraction-form">
           <button data-testid="submit-button" onClick={() => onSubmit(value)}>
             Submit
           </button>
@@ -190,7 +177,7 @@ describe('MissionTargetInfractionList', () => {
 
     // Then replace/add these tests:
     it('calls fromInputToFieldValue and setFieldValue when handleSubmit is called with a value', async () => {
-      render(<MissionTargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
+      render(<TargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
 
       const submitButtons = screen.getAllByTestId('submit-button')
       submitButtons[0].click()
@@ -202,7 +189,7 @@ describe('MissionTargetInfractionList', () => {
     })
 
     it('calls deleteInfraction and setFieldValue when handleDelete is called', async () => {
-      render(<MissionTargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
+      render(<TargetInfractionList name="targets[0]" fieldFormik={fieldFormik} />)
 
       const deleteButtons = screen.getAllByTestId('delete-button')
       deleteButtons[0].click()
@@ -230,7 +217,7 @@ describe('MissionTargetInfractionList', () => {
 
       const freshFieldFormik = createFieldFormik([multiInfractionTarget])
 
-      render(<MissionTargetInfractionList name="targets[0]" fieldFormik={freshFieldFormik} />)
+      render(<TargetInfractionList name="targets[0]" fieldFormik={freshFieldFormik} />)
 
       const deleteButtons = screen.getAllByTestId('delete-button')
 

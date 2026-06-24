@@ -60,6 +60,8 @@ class MissionFishActionData(
     override val targets: List<Target>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
     override val sati: Sati? = null,
+    override val hasDivingDuringOperation: Boolean? = null,
+    override val incidentDuringOperation: Boolean? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -71,11 +73,13 @@ class MissionFishActionData(
             val action = MissionFishActionEntity(
                 id = Integer.parseInt(input.id),
                 missionId = input.missionId,
-                observationsByUnit = data.observationsByUnit,
+                fishActionType = data.fishActionType,
                 actionDatetimeUtc = data.startDateTimeUtc,
                 actionEndDatetimeUtc = data.endDateTimeUtc,
-                fishActionType = data.fishActionType,
-                sati = data.sati?.let {  SatiMapper.toEntity(data.sati)},
+                observationsByUnit = data.observationsByUnit,
+                incidentDuringOperation = data.incidentDuringOperation,
+                hasDivingDuringOperation = data.hasDivingDuringOperation,
+                sati = data.sati?.let {  SatiMapper.toEntity(data.sati)}
             )
             return action
         }
