@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModelMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.sati.IDBSatiRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository

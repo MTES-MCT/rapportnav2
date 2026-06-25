@@ -16,36 +16,27 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 
 @Entity
-@Table(name = "contact")
+@Table(name = "sati_party")
 @EntityListeners(AuditingEntityListener::class)
-class ContactModel(
+class SatiPartyModel(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     var id: Int? = null,
 
-    @Column(name = "full_name", length = 255)
-    var fullName: String? = null,
+    @Column(name = "party_type", length = 50)
+    var partyType: String? = null,
 
-    @Column(name = "first_name", length = 255)
-    var firstName: String? = null,
+    @Column(name = "comments")
+    var comments: String? = null,
 
-    @Column(name = "last_name", length = 255)
-    var lastName: String? = null,
-
-    @Column(name = "nationality", length = 16)
-    var nationality: String? = null,
-
-    @Column(name = "email", length = 255)
-    var email: String? = null,
-
-    @Column(name = "phone", length = 50)
-    var phone: String? = null,
+    @Column(name = "signature", nullable = false)
+    var signature: Boolean = false,
 
     @OneToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    var address: AddressModel? = null,
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    var contact: ContactModel? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

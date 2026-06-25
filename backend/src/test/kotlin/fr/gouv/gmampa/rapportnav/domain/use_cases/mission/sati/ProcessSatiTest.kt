@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.sati
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
@@ -52,13 +53,13 @@ class ProcessSatiTest {
         val sati = createSati(
             id = UUID.randomUUID(),
             actionId = actionId,
-            module = "AA",
+            module = SatiModuleType.M1,
             actionTaken = "Checked"
         )
         val existingInDb = createEntity(
             id = UUID.randomUUID(),
             actionId = actionId,
-            module = "BB"
+            module = SatiModuleType.M3
         )
         val processSati = ProcessSati(satiRepo)
         val entityToSave = SatiMapper.toEntity(sati)
@@ -76,24 +77,21 @@ class ProcessSatiTest {
     private fun createSati(
         id: UUID? = UUID.randomUUID(),
         actionId: String,
-        module: String = "MODULE",
+        module: SatiModuleType = SatiModuleType.M1,
         actionTaken: String? = null
     ): Sati {
         return Sati(
             id = id,
             module = module,
             actionId = actionId,
-            createdAt = Instant.parse("2026-03-24T10:15:30Z"),
-            updatedAt = Instant.parse("2026-03-24T11:15:30Z"),
-            actionTaken = actionTaken,
-            inspectionStartDatetimeUtc = Instant.parse("2026-03-24T09:15:30Z")
+            startDatetimeUtc = Instant.parse("2026-03-24T09:15:30Z")
         )
     }
 
     private fun createEntity(
         id: UUID? = UUID.randomUUID(),
         actionId: String,
-        module: String = "MODULE",
+        module: SatiModuleType = SatiModuleType.M1,
         actionTaken: String? = null
     ): SatiEntity {
         return SatiEntity(
@@ -102,8 +100,7 @@ class ProcessSatiTest {
             actionId = actionId,
             createdAt = Instant.parse("2026-03-24T10:15:30Z"),
             updatedAt = Instant.parse("2026-03-24T11:15:30Z"),
-            actionTaken = actionTaken,
-            inspectionStartDatetimeUtc = Instant.parse("2026-03-24T09:15:30Z")
+            startDatetimeUtc = Instant.parse("2026-03-24T09:15:30Z")
         )
     }
 }

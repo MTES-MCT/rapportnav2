@@ -106,7 +106,21 @@ data class MissionActionDataOutput(
     val observationsByUnit: String? = null,
     val isDeleted: Boolean,
     val hasDivingDuringOperation: Boolean? = null,
-    val incidentDuringOperation: Boolean? = null
+    val incidentDuringOperation: Boolean? = null,
+    val vesselLength: Double? = null,
+    val vesselType: String? = null,
+    val imo: String? = null,
+    val proprietorName: String? = null,
+    val proprietorPhones: List<String>? = null,
+    val proprietorEmails: List<String>? = null,
+    val proprietorNationality: String? = null,
+    val proprietorAddress: String? = null,
+    val tripNumber: String? = null,
+    val pnoReportId: String? = null,
+    val pnoPurpose: LogbookMessagePurpose? = null,
+    val lastDeparturePortLocode: String? = null,
+    val lastDeparturePortName: String? = null,
+    val lastDepartureDateTime: ZonedDateTime? = null
 ) {
     fun toMissionAction(): MissionAction {
         return MissionAction(
@@ -164,7 +178,21 @@ data class MissionActionDataOutput(
             observationsByUnit = this.observationsByUnit,
             speciesQuantitySeized = this.speciesQuantitySeized,
             incidentDuringOperation = this.incidentDuringOperation,
-            hasDivingDuringOperation = this.hasDivingDuringOperation
+            hasDivingDuringOperation = this.hasDivingDuringOperation,
+            vesselLength = this.vesselLength,
+            vesselType = this.vesselType,
+            imo = this.imo,
+            proprietorName = this.proprietorName,
+            proprietorPhones = this.proprietorPhones,
+            proprietorEmails = this.proprietorEmails,
+            proprietorNationality = this.proprietorNationality,
+            proprietorAddress = this.proprietorAddress,
+            tripNumber = this.tripNumber,
+            pnoReportId = this.pnoReportId,
+            pnoPurpose = this.pnoPurpose,
+            lastDeparturePortLocode = this.lastDeparturePortLocode,
+            lastDeparturePortName = this.lastDeparturePortName,
+            lastDepartureDateTime = this.lastDepartureDateTime?.toInstant(),
         )
     }
 }

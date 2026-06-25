@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.sati
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModel
@@ -36,15 +37,13 @@ class JPASatiRepositoryTest {
     private val satiModel = SatiModel(
         id = satiId,
         module = "T1",
-        actionId = actionId,
-        inspectionStartDatetimeUtc = now
+        actionId = actionId
     )
 
     private val satiEntity = SatiEntity(
         id = satiId,
-        module = "T1",
-        actionId = actionId,
-        inspectionStartDatetimeUtc = now
+        module = SatiModuleType.M1,
+        actionId = actionId
     )
 
     @BeforeEach

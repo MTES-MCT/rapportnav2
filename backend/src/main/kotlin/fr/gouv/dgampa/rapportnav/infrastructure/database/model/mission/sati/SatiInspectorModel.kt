@@ -16,36 +16,27 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 
 @Entity
-@Table(name = "contact")
+@Table(name = "sati_inspector")
 @EntityListeners(AuditingEntityListener::class)
-class ContactModel(
+class SatiInspectorModel(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     var id: Int? = null,
 
-    @Column(name = "full_name", length = 255)
-    var fullName: String? = null,
-
-    @Column(name = "first_name", length = 255)
-    var firstName: String? = null,
-
-    @Column(name = "last_name", length = 255)
-    var lastName: String? = null,
-
-    @Column(name = "nationality", length = 16)
-    var nationality: String? = null,
-
-    @Column(name = "email", length = 255)
-    var email: String? = null,
-
-    @Column(name = "phone", length = 50)
-    var phone: String? = null,
-
     @OneToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    var address: AddressModel? = null,
+    @JoinColumn(name = "party_id", referencedColumnName = "id")
+    var party: SatiPartyModel? = null,
+
+    @Column(name = "authority_type", length = 50)
+    var authorityType: String? = null,
+
+    @Column(name = "agent_id", length = 255)
+    var agentId: Int? = null,
+
+    @Column(name = "is_out_of_unit", nullable = false)
+    var isOutOfUnit: Boolean = false,
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
