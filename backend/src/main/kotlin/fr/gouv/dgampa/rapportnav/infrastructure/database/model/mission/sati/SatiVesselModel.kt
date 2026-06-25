@@ -22,11 +22,11 @@ class SatiVesselModel(
     @Column(name = "trip_number", length = 50)
     var tripNumber: String? = null,
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, optional = true)
     @JoinColumn(name = "agent_id", referencedColumnName = "id")
     var agent: SatiPartyModel? = null,
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, optional = true)
     @JoinColumn(name = "master_id", referencedColumnName = "id")
     var master: SatiPartyModel? = null,
 
@@ -34,10 +34,10 @@ class SatiVesselModel(
     var isMasterOwner: Boolean = false,
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,
 
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = true)
     var updatedAt: Instant? = null
 )

@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.EnableSati
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnvControlUnitResourceRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -23,6 +24,9 @@ import java.util.*
 class GetComputeSatiTest {
 
     @MockitoBean
+    private lateinit var enableSati: EnableSati
+
+    @MockitoBean
     private lateinit var satiRepo: ISatiRepository
 
     @MockitoBean
@@ -30,7 +34,8 @@ class GetComputeSatiTest {
 
     @Test
     fun `execute should throw IllegalArgumentException when action id is null`() {
-        val useCase = GetComputeSati(satiRepo, controlResourceRepo)
+        whenever(enableSati.execute()).thenReturn(true)
+        val useCase = GetComputeSati(enableSati, satiRepo, controlResourceRepo)
         val action = createAction(id = null, actionType = MissionActionType.AIR_CONTROL)
         assertThrows(IllegalArgumentException::class.java) {
             useCase.execute(action)
@@ -41,7 +46,8 @@ class GetComputeSatiTest {
 
     @Test
     fun `execute should return null when action type is not a control`() {
-        val useCase = GetComputeSati(satiRepo, controlResourceRepo)
+        whenever(enableSati.execute()).thenReturn(true)
+        val useCase = GetComputeSati(enableSati, satiRepo, controlResourceRepo)
         val action = createAction(id = 761, actionType = MissionActionType.AIR_SURVEILLANCE)
 
         val result = useCase.execute(action)
@@ -52,8 +58,9 @@ class GetComputeSatiTest {
 
     @Test
     fun `execute should merge db sati with action for control actions`() {
+        whenever(enableSati.execute()).thenReturn(true)
         val actionId = 761
-        val useCase = GetComputeSati(satiRepo, controlResourceRepo)
+        val useCase = GetComputeSati(enableSati, satiRepo, controlResourceRepo)
         val action = createAction(id = 761, actionType = MissionActionType.AIR_CONTROL)
 
         val dbSati = createSatiEntity(actionId = actionId)

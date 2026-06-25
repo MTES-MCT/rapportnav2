@@ -6,13 +6,11 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import org.hibernate.annotations.UuidGenerator
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -26,10 +24,8 @@ import java.util.UUID
 class SatiModel(
 
     @Id
-    @GeneratedValue
-    @UuidGenerator
     @Column(nullable = false, updatable = false)
-    var id: UUID? = null,
+    var id: UUID = UUID.randomUUID(),
 
     @Column(name = "module", nullable = false, length = 50)
     var module: String,
@@ -55,16 +51,16 @@ class SatiModel(
         cascade = [CascadeType.ALL],
         orphanRemoval = true
     )
-    @JoinColumn(name = "sati_id", referencedColumnName = "id")
+    @JoinColumn(name = "sati_id", referencedColumnName = "id", nullable = false)
     var inspectors: MutableList<SatiInspectorModel> = mutableListOf(),
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    val createdAt: Instant? = null,
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: Instant? = null,
 
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    val updatedAt: Instant? = null
+    @Column(name = "updated_at", nullable = true)
+    var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
         return Objects.hash(id)

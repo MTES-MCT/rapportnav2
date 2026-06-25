@@ -268,8 +268,6 @@ class SatiModelMapperTest {
             assertThat(model.id).isEqualTo(entity.id)
             assertThat(model.actionId).isEqualTo(entity.actionId)
             assertThat(model.module).isEqualTo("M1")
-            assertThat(model.createdAt).isEqualTo(entity.createdAt)
-            assertThat(model.updatedAt).isEqualTo(entity.updatedAt)
         }
 
         @Test

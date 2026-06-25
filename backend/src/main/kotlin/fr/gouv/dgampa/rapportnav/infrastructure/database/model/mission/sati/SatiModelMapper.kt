@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
+import java.util.UUID
 
 object SatiModelMapper {
     fun toEntity(model: SatiModel): SatiEntity {
@@ -22,10 +23,8 @@ object SatiModelMapper {
 
     fun toModel(entity: SatiEntity): SatiModel {
         return SatiModel(
-            id = entity.id,
+            id = entity.id ?: UUID.randomUUID(),
             actionId = entity.actionId,
-            createdAt = entity.createdAt,
-            updatedAt = entity.updatedAt,
             resourceId = entity.resource?.id,
             vessel = entity.vessel?.toModel(),
             module = entity.module.toString(),
@@ -56,8 +55,6 @@ object SatiModelMapper {
             town = town,
             street = street,
             zipcode = zipcode,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
             fullAddress = fullAddress,
             country = country?.alpha3
         )
@@ -86,8 +83,6 @@ object SatiModelMapper {
             fullName = fullName,
             lastName = lastName,
             firstName = firstName,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
             nationality = nationality,
             address = address?.toModel()
         )

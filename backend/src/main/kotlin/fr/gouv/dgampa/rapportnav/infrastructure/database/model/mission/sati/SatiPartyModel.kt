@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
@@ -34,15 +35,15 @@ class SatiPartyModel(
     @Column(name = "signature", nullable = false)
     var signature: Boolean = false,
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, optional = true)
     @JoinColumn(name = "contact_id", referencedColumnName = "id")
     var contact: ContactModel? = null,
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,
 
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = true)
     var updatedAt: Instant? = null
 )

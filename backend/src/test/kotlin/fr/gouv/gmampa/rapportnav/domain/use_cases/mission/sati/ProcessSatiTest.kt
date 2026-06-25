@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.sati
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.EnableSati
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
@@ -22,11 +23,14 @@ import java.util.UUID
 class ProcessSatiTest {
 
     @MockitoBean
-    private lateinit var  satiRepo: ISatiRepository
+    private lateinit var enableSati: EnableSati
+
+    @MockitoBean
+    private lateinit var satiRepo: ISatiRepository
 
     @Test
     fun `execute should return null when sati is null`() {
-        val processSati = ProcessSati(satiRepo)
+        val processSati = ProcessSati(enableSati, satiRepo)
         val result = processSati.execute(actionId = "action-1", sati = null)
         assertThat(result).isNull()
         verifyNoInteractions(satiRepo)
@@ -35,10 +39,11 @@ class ProcessSatiTest {
     @Test
     fun `execute should return entity without saving when incoming sati matches database value`() {
         val actionId = "action-1"
-        val processSati = ProcessSati(satiRepo)
+        val processSati = ProcessSati(enableSati, satiRepo)
         val sati = createSati(actionId = actionId)
         val entity = SatiMapper.toEntity(sati)
 
+        whenever(enableSati.execute()).thenReturn(true)
         whenever(satiRepo.findByActionId(actionId)).thenReturn(entity)
 
         val result = processSati.execute(actionId = actionId, sati = sati)
@@ -61,9 +66,10 @@ class ProcessSatiTest {
             actionId = actionId,
             module = SatiModuleType.M3
         )
-        val processSati = ProcessSati(satiRepo)
+        val processSati = ProcessSati(enableSati, satiRepo)
         val entityToSave = SatiMapper.toEntity(sati)
 
+        whenever(enableSati.execute()).thenReturn(true)
         whenever(satiRepo.findByActionId(actionId)).thenReturn(existingInDb)
         whenever(satiRepo.save(entityToSave)).thenReturn(entityToSave)
 

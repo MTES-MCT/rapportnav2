@@ -9,10 +9,12 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnv
 
 @UseCase
 class GetComputeSati(
+    private val enableSati: EnableSati,
     private val satiRepo: ISatiRepository,
     private val controlResourceRepo: IEnvControlUnitResourceRepository
 ) {
     fun execute(action: MissionAction): SatiEntity? {
+        if (!enableSati.execute()) return null
         if (action.id == null) throw IllegalArgumentException()
         if (!action.actionType.toString().endsWith("_CONTROL")) return null
         var sati = satiRepo.findByActionId(actionId = action.id.toString())

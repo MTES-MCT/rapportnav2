@@ -44,10 +44,10 @@ import java.time.Instant
     var lat: Double? = null,
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,
 
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = true)
     var updatedAt: Instant? = null
 )
