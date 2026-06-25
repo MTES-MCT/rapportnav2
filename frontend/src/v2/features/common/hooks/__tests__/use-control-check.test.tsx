@@ -18,6 +18,6 @@ describe('usecontrolCheck', () => {
     const { result } = renderHook(() => usecontrolCheck())
     expect(result.current.getControlCheck(ControlCheck.NO)).toEqual('Non')
     expect(result.current.getControlCheck(ControlCheck.YES)).toEqual('Oui')
-    expect(result.current.getControlCheck(ControlCheck.NOT_APPLICABLE)).toEqual('Non concerné')
+    expect(result.current.getControlCheck(ControlCheck.NOT_APPLICABLE)).toEqual('Non contrôlé')
   })
 })

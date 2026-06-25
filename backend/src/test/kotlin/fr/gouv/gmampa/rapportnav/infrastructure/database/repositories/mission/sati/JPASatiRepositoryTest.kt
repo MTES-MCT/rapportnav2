@@ -36,7 +36,7 @@ class JPASatiRepositoryTest {
 
     private val satiModel = SatiModel(
         id = satiId,
-        module = "T1",
+        module = "M1",
         actionId = actionId
     )
 
@@ -50,8 +50,6 @@ class JPASatiRepositoryTest {
     fun setUp() {
         jpaSatiRepository = JPASatiRepository(dbRepo)
     }
-
-    // --- findById ---
 
     @Test
     fun `findById should return entity when found`() {
@@ -83,7 +81,6 @@ class JPASatiRepositoryTest {
         assertThat(exception.message).contains("findById")
     }
 
-    // --- findByActionId ---
 
     @Test
     fun `findByActionId should return entity when found`() {
@@ -115,7 +112,6 @@ class JPASatiRepositoryTest {
         assertThat(exception.message).contains("findByOwnerId")
     }
 
-    // --- findAll ---
 
     @Test
     fun `findAll should return list of entities`() {
