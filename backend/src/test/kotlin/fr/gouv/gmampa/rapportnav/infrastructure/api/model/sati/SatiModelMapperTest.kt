@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.sati
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.*
 import org.assertj.core.api.Assertions.assertThat
@@ -142,8 +143,7 @@ class SatiModelMapperTest {
         val masterParty = SatiPartyEntity(id = 6, partyType = "MASTER", createdAt = timestamp, updatedAt = timestamp)
         val vessel = SatiVesselEntity(
             id = 10,
-            pnoType = "LAN",
-            tripNumber = "TRIP-001",
+            jpe = SatiJpeEntity(pnoType = LogbookMessagePurpose.LAN, tripNumber = "TRIP-001"),
             agent = agentParty,
             master = masterParty,
             isMasterOwner = true,
@@ -200,8 +200,8 @@ class SatiModelMapperTest {
             val entity = SatiModelMapper.toEntity(model)
 
             assertThat(entity.vessel).isNotNull
-            assertThat(entity.vessel?.pnoType).isEqualTo("LAN")
-            assertThat(entity.vessel?.tripNumber).isEqualTo("TRIP-001")
+            assertThat(entity.vessel?.jpe?.pnoType).isEqualTo(LogbookMessagePurpose.LAN)
+            assertThat(entity.vessel?.jpe?.tripNumber).isEqualTo("TRIP-001")
             assertThat(entity.vessel?.isMasterOwner).isTrue()
         }
 
@@ -363,8 +363,8 @@ class SatiModelMapperTest {
             assertThat(roundTripped.id).isEqualTo(entity.id)
             assertThat(roundTripped.actionId).isEqualTo(entity.actionId)
             assertThat(roundTripped.module).isEqualTo(entity.module)
-            assertThat(roundTripped.vessel?.pnoType).isEqualTo(entity.vessel?.pnoType)
-            assertThat(roundTripped.vessel?.tripNumber).isEqualTo(entity.vessel?.tripNumber)
+            assertThat(roundTripped.vessel?.jpe?.pnoType).isEqualTo(entity.vessel?.jpe?.pnoType)
+            assertThat(roundTripped.vessel?.jpe?.tripNumber).isEqualTo(entity.vessel?.jpe?.tripNumber)
             assertThat(roundTripped.vessel?.isMasterOwner).isEqualTo(entity.vessel?.isMasterOwner)
         }
     }

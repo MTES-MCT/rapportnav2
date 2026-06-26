@@ -18,7 +18,7 @@ class SatiEntityMapperTest {
             id = 10,
             agent = SatiPartyEntity(id = 5, partyType = "AGENT"),
             master = SatiPartyEntity(id = 6, partyType = "MASTER"),
-            tripNumber = "EXISTING-TRIP"
+            jpe = SatiJpeEntity(tripNumber = "EXISTING-TRIP")
         ),
         inspectors: List<SatiInspectorEntity> = listOf(
             SatiInspectorEntity(id = 7, agentId = 42, authorityType = AuthorityType.AECP)

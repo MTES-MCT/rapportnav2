@@ -15,6 +15,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
+import java.util.Objects
 
 @Entity
 @Table(name = "sati_party")
@@ -46,4 +47,19 @@ class SatiPartyModel(
     @LastModifiedDate
     @Column(name = "updated_at", nullable = true)
     var updatedAt: Instant? = null
-)
+) {
+    override fun hashCode(): Int {
+        return Objects.hash(id, partyType, comments, signature, contact)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as SatiPartyModel
+        return id == other.id
+            && partyType == other.partyType
+            && comments == other.comments
+            && signature == other.signature
+            && contact == other.contact
+    }
+}

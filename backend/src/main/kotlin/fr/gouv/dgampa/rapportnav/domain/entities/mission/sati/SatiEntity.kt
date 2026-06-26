@@ -9,7 +9,6 @@ data class SatiEntity(
     var id: UUID? = null,
     var module: SatiModuleType,
     var actionId: String,
-    var jpe: SatiJpeEntity? = null,
     var resource: ControlResourceEntity? = null,
     var vessel: SatiVesselEntity? = null,
     var createdAt: Instant? = null,

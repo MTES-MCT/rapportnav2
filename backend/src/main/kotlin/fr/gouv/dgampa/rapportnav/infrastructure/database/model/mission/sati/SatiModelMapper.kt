@@ -2,8 +2,9 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
-import java.util.UUID
+import java.util.*
 
 object SatiModelMapper {
     fun toEntity(model: SatiModel): SatiEntity {
@@ -115,10 +116,12 @@ object SatiModelMapper {
     private fun SatiVesselModel.toEntity(): SatiVesselEntity {
         return SatiVesselEntity(
             id = id,
-            pnoType = pnoType,
+            jpe = SatiJpeEntity(
+                tripNumber = tripNumber,
+                pnoType = pnoType?.let { LogbookMessagePurpose.valueOf(it) }
+            ),
             createdAt = createdAt,
             updatedAt = updatedAt,
-            tripNumber = tripNumber,
             agent = agent?.toEntity(),
             master = master?.toEntity(),
             isMasterOwner = isMasterOwner
@@ -128,13 +131,11 @@ object SatiModelMapper {
     private fun SatiVesselEntity.toModel(): SatiVesselModel {
         return SatiVesselModel(
             id = id,
-            pnoType = pnoType,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
-            tripNumber = tripNumber,
             agent = agent?.toModel(),
             master = master?.toModel(),
-            isMasterOwner = isMasterOwner
+            tripNumber = jpe?.tripNumber,
+            isMasterOwner = isMasterOwner,
+            pnoType = jpe?.pnoType?.toString()
         )
     }
 

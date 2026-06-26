@@ -1,14 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
-import com.neovisionaries.i18n.CountryCode
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitResourceType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModelMapper.toModel
-import java.time.Instant
-import java.util.UUID
 
 object SatiEntityMapper {
     fun merge(sati: SatiEntity, action: MissionAction): SatiEntity {
@@ -24,8 +18,8 @@ object SatiEntityMapper {
                     portName = action.lastDeparturePortName,
                     portId = action.lastDeparturePortLocode,
                     lastStopDate = action.lastDepartureDateTime,
-                    tripNumber = action.tripNumber ?: sati.vessel?.tripNumber,
-                    pnoType = action.pnoPurpose ?: sati.vessel?.pnoType?.let { LogbookMessagePurpose.valueOf(it) },
+                    tripNumber = action.tripNumber ?: sati.vessel?.jpe?.tripNumber,
+                    pnoType = action.pnoPurpose ?: sati.vessel?.jpe?.pnoType,
                 ),
                 ircs = action.ircs,
                 imo = action.imo,

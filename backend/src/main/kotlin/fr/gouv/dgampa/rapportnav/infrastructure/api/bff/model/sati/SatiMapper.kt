@@ -110,8 +110,6 @@ object SatiMapper {
     private fun SatiVessel.toEntity(): SatiVesselEntity {
         return SatiVesselEntity(
             id = id,
-            pnoType = pnoType,
-            tripNumber = tripNumber,
             isMasterOwner = isMasterOwner,
             jpe = jpe?.toEntity(),
             ircs = ircs,
@@ -132,8 +130,8 @@ object SatiMapper {
     private fun SatiVesselEntity.toOutput(): SatiVessel {
         return SatiVessel(
             id = id,
-            pnoType = pnoType,
-            tripNumber = tripNumber,
+            pnoType = jpe?.pnoType?.name,
+            tripNumber = jpe?.tripNumber,
             isMasterOwner = isMasterOwner,
             jpe = jpe?.toOutput(),
             ircs = ircs,

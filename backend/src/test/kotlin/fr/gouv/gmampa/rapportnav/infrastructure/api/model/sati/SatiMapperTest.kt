@@ -66,8 +66,6 @@ class SatiMapperTest {
             owner = party,
             flagState = CountryCode.FR,
             charterer = SatiPartyEntity(id = 4, partyType = "CHARTERER"),
-            pnoType = "LAN",
-            tripNumber = "TRIP-001",
             agent = SatiPartyEntity(id = 5, partyType = "AGENT"),
             master = SatiPartyEntity(id = 6, partyType = "MASTER"),
             isMasterOwner = true

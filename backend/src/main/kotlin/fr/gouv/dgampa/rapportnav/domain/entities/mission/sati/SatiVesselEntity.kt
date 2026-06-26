@@ -16,8 +16,6 @@ data class SatiVesselEntity(
     val owner: SatiPartyEntity? = null,
     val flagState: CountryCode? = null,
     val charterer: SatiPartyEntity? = null,
-    val pnoType: String? = null,
-    val tripNumber: String? = null,
     val agent: SatiPartyEntity? = null,
     val master: SatiPartyEntity? = null,
     val isMasterOwner: Boolean = false,

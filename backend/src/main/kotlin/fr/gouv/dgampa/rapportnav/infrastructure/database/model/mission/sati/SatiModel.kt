@@ -63,7 +63,7 @@ class SatiModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id)
+        return Objects.hash(id, module, actionId, resourceId, vessel, inspectors)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -71,5 +71,10 @@ class SatiModel(
         if (javaClass != other?.javaClass) return false
         other as SatiModel
         return id == other.id
+            && module == other.module
+            && actionId == other.actionId
+            && resourceId == other.resourceId
+            && vessel == other.vessel
+            && inspectors == other.inspectors
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
+import java.util.Objects
 
 @Entity
 @Table(name = "address")
@@ -50,4 +51,22 @@ import java.time.Instant
     @LastModifiedDate
     @Column(name = "updated_at", nullable = true)
     var updatedAt: Instant? = null
-)
+) {
+    override fun hashCode(): Int {
+        return Objects.hash(id, street, fullAddress, zipcode, town, country, lng, lat)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as AddressModel
+        return id == other.id
+            && street == other.street
+            && fullAddress == other.fullAddress
+            && zipcode == other.zipcode
+            && town == other.town
+            && country == other.country
+            && lng == other.lng
+            && lat == other.lat
+    }
+}
