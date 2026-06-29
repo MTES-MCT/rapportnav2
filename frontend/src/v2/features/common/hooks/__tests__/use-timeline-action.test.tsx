@@ -31,8 +31,9 @@ describe('useTimelineAction', () => {
     queryClient.clear()
   })
 
-  const createMockMission = (id: number, endDateTimeUtc?: string): Mission2 => ({
+  const createMockMission = (id: string, endDateTimeUtc?: string): Mission2 => ({
     id,
+    ownerId: 'uuid',
     status: MissionStatusEnum.IN_PROGRESS,
     isCompleteForStats: false,
     generalInfos: {},
@@ -49,18 +50,6 @@ describe('useTimelineAction', () => {
   })
 
   describe('getActionInput', () => {
-    it('returns action input with missionId when id is numeric', () => {
-      const missionId = '123'
-      const mockMission = createMockMission(123, '2024-01-31T23:59:59Z')
-      queryClient.setQueryData(['missions', missionId], mockMission)
-
-      const { result } = renderHook(() => useTimelineAction(missionId), { wrapper })
-      const actionInput = result.current.getActionInput(ActionType.CONTROL)
-
-      expect(actionInput.missionId).toBe(123)
-      expect(actionInput.ownerId).toBeUndefined()
-    })
-
     it('returns action input with ownerId when id is non-numeric', () => {
       const ownerId = 'abc-uuid-123'
 
@@ -68,12 +57,11 @@ describe('useTimelineAction', () => {
       const actionInput = result.current.getActionInput(ActionType.CONTROL)
 
       expect(actionInput.ownerId).toBe('abc-uuid-123')
-      expect(actionInput.missionId).toBeUndefined()
     })
 
     it('sets source to RAPPORT_NAV', () => {
       const missionId = '456'
-      const mockMission = createMockMission(456, '2024-01-31T23:59:59Z')
+      const mockMission = createMockMission('456', '2024-01-31T23:59:59Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const { result } = renderHook(() => useTimelineAction(missionId), { wrapper })
@@ -84,7 +72,7 @@ describe('useTimelineAction', () => {
 
     it('sets actionType from parameter', () => {
       const missionId = '789'
-      const mockMission = createMockMission(789, '2024-01-31T23:59:59Z')
+      const mockMission = createMockMission('789', '2024-01-31T23:59:59Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const { result } = renderHook(() => useTimelineAction(missionId), { wrapper })
@@ -95,7 +83,7 @@ describe('useTimelineAction', () => {
 
     it('sets startDateTimeUtc to mission endDateTimeUtc', () => {
       const missionId = '111'
-      const mockMission = createMockMission(111, '2024-02-15T12:00:00Z')
+      const mockMission = createMockMission('111', '2024-02-15T12:00:00Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const { result } = renderHook(() => useTimelineAction(missionId), { wrapper })
@@ -106,7 +94,7 @@ describe('useTimelineAction', () => {
 
     it('sets default values for isWithinDepartment', () => {
       const missionId = '222'
-      const mockMission = createMockMission(222, '2024-01-31T23:59:59Z')
+      const mockMission = createMockMission('222', '2024-01-31T23:59:59Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const { result } = renderHook(() => useTimelineAction(missionId), { wrapper })
@@ -117,7 +105,7 @@ describe('useTimelineAction', () => {
 
     it('sets rescue flags for RESCUE action type', () => {
       const missionId = '444'
-      const mockMission = createMockMission(444, '2024-01-31T23:59:59Z')
+      const mockMission = createMockMission('444', '2024-01-31T23:59:59Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const { result } = renderHook(() => useTimelineAction(missionId), { wrapper })
@@ -129,7 +117,7 @@ describe('useTimelineAction', () => {
 
     it('merges moreData into action input data', () => {
       const missionId = '555'
-      const mockMission = createMockMission(555, '2024-01-31T23:59:59Z')
+      const mockMission = createMockMission('555', '2024-01-31T23:59:59Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const moreData = {
@@ -148,7 +136,7 @@ describe('useTimelineAction', () => {
 
     it('registry input overrides moreData for same keys', () => {
       const missionId = '666'
-      const mockMission = createMockMission(666, '2024-01-31T23:59:59Z')
+      const mockMission = createMockMission('666', '2024-01-31T23:59:59Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const moreData = {
@@ -166,7 +154,7 @@ describe('useTimelineAction', () => {
 
     it('handles undefined mission endDateTimeUtc', () => {
       const missionId = '777'
-      const mockMission = createMockMission(777, undefined)
+      const mockMission = createMockMission('777', undefined)
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const { result } = renderHook(() => useTimelineAction(missionId), { wrapper })
@@ -179,7 +167,7 @@ describe('useTimelineAction', () => {
 
     it('handles action type without registry entry', () => {
       const missionId = '888'
-      const mockMission = createMockMission(888, '2024-01-31T23:59:59Z')
+      const mockMission = createMockMission('888', '2024-01-31T23:59:59Z')
       queryClient.setQueryData(['missions', missionId], mockMission)
 
       const { result } = renderHook(() => useTimelineAction(missionId), { wrapper })

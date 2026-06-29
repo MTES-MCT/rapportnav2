@@ -6,16 +6,17 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import java.time.Instant
+import java.util.*
 
 @UseCase
 class GetStatusForAction(
     private val missionActionsRepository: IDBMissionActionRepository,
 ) {
 
-    fun execute(missionId: Int, actionStartDateTimeUtc: Instant? = null): ActionStatusType {
+    fun execute(ownerId: UUID, actionStartDateTimeUtc: Instant? = null): ActionStatusType {
 
         val actions = missionActionsRepository
-            .findAllByMissionId(missionId)
+            .findAllByOwnerId(ownerId)
             .map { MissionNavActionEntity.fromMissionActionModel(it) }
 
         if (actions.isEmpty()) {

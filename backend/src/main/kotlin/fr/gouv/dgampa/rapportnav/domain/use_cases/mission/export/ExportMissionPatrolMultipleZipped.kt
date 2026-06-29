@@ -35,7 +35,7 @@ class ExportMissionPatrolMultipleZipped(
         val filesToZip = mutableListOf<MissionExportEntity>()
 
         for (missionId in missionIds) {
-            val mission = getComputeEnvMission.execute(missionId = missionId)
+            val mission = getComputeEnvMission.execute(externalId = missionId)
 
             if (mission.isCompleteForStats().status === CompletenessForStatsStatusEnum.VALID) {
                 exportMissionPatrolSingle.createFile(mission)?.let { filesToZip.add(it) }

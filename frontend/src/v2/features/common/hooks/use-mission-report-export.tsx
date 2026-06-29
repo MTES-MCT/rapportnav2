@@ -5,7 +5,7 @@ import { BLOBTYPE, useDownloadFile } from './use-download-file.tsx'
 import useExportMission from '../services/use-mission-export.tsx'
 
 interface ExportMissionHookProps {
-  missionIds: number[]
+  missionIds: string[]
   exportMode: ExportMode
   reportType: ExportReportType
 }

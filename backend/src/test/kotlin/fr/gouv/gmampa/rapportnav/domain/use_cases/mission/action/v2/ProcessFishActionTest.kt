@@ -51,7 +51,7 @@ class ProcessFishActionTest {
 
     @Test
     fun `test execute get fish action by id`() {
-        val missionId = 761
+        val missionId = 123
         val actionId = UUID.randomUUID()
         val action = FishActionControlMock.create(
             id = actionId.hashCode(),
@@ -72,7 +72,7 @@ class ProcessFishActionTest {
             getStatusForAction = getStatusForAction,
             entityValidityValidator = realValidator
         )
-        val entity = processFishAction.execute(missionId = missionId, action = action)
+        val entity = processFishAction.execute(ownerId = UUID.randomUUID(), action = action)
         val infractionIds = entity.getAllInfractions().map { it.id }.toSet()
         val mockInfractionIds = mockTarget.controls?.flatMap { it.infractions!! }?.map { it.id }?.toSet()
         assertThat(entity).isNotNull

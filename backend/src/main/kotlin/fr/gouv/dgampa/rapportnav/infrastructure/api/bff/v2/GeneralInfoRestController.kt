@@ -43,17 +43,14 @@ class GeneralInfoRestController(
         val controlUnits = getControlUnitsForUser.execute()
         return when {
             isValidUUID(missionId) -> updateGeneralInfo.execute(
-                missionIdUUID = UUID.fromString(missionId),
-                generalInfo = generalInfo
-            )
-            missionId.toIntOrNull() != null -> updateGeneralInfo.execute(
+                missionId = UUID.fromString(missionId),
                 generalInfo = generalInfo,
-                missionId = missionId.toInt(),
                 controlUnitId = controlUnits?.first()
+
             )
             else -> throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
-                message = "Invalid missionId format: must be a valid UUID or integer"
+                message = "Invalid missionId format: must be a valid UUID"
             )
         }
     }

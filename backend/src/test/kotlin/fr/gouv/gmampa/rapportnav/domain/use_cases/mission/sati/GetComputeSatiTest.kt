@@ -78,7 +78,7 @@ class GetComputeSatiTest {
     ): MissionAction {
         return MissionAction(
             id = id,
-            missionId = 761,
+            missionId = 123,
             actionType = actionType,
             actionDatetimeUtc = Instant.parse("2026-03-24T10:15:30Z"),
             actionEndDatetimeUtc = Instant.parse("2026-03-24T11:15:30Z"),

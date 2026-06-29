@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
@@ -110,7 +111,7 @@ class CreateEnvMissionTest {
         )
 
         val expectedMissionEnv = MissionEnvEntity(
-            id = 123,
+            externalId = 123,
             missionTypes = listOf(MissionTypeEnum.SEA),
             controlUnits = listOf(controlUnit),
             startDateTimeUtc = generalInfo.startDateTimeUtc!!,
@@ -128,7 +129,7 @@ class CreateEnvMissionTest {
         val result = createEnvMission.execute(generalInfo, controlUnitIds = listOf(1))
 
         assertThat(result).isNotNull
-        assertThat(result.id).isEqualTo(123)
+        assertThat(result.externalId).isEqualTo(123)
         assertThat(result.missionSource).isEqualTo(MissionSourceEnum.RAPPORT_NAV)
         Mockito.verify(monitorEnvRepo, Mockito.times(1)).createMission(anyOrNull())
     }

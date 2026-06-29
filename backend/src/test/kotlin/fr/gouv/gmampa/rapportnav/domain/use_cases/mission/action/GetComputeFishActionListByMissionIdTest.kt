@@ -5,10 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEnt
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionExternalId
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,10 +31,13 @@ class GetComputeFishActionListByMissionIdTest {
     @MockitoBean
     private lateinit var processFishAction: ProcessFishAction
 
+    @MockitoBean
+    private lateinit var getMissionExternalId: GetMissionExternalId
+
     @Test
     fun `test execute get Fish action list  by mission id`() {
 
-        val missionId = 761
+        val missionId = 123
         val actionId = UUID.randomUUID().hashCode()
         val action = FishActionControlMock.create(
             id = actionId,
@@ -42,21 +45,25 @@ class GetComputeFishActionListByMissionIdTest {
 
         val response = MissionFishActionEntity(
             id = actionId,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             fishActionType = MissionActionType.SEA_CONTROL,
             actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             speciesQuantitySeized = 4
         )
 
-        `when`(processFishAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        val missionUUID = UUID.randomUUID()
+
+        `when`(processFishAction.execute(anyOrNull(), anyOrNull())).thenReturn(response)
         `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
+        `when`(getMissionExternalId.execute(missionUUID)).thenReturn(missionId)
 
         getFishActionList = GetComputeFishActionListByMissionId(
             processFishAction = processFishAction,
             getFishActionListByMissionId = getFishActionListByMissionId,
+            getMissionExternalId = getMissionExternalId
         )
-        val fishActions = getFishActionList.execute(missionId = missionId)
+        val fishActions = getFishActionList.execute(missionId = missionUUID)
 
         assertThat(fishActions).isNotNull
         assertThat(fishActions.size).isEqualTo(1)

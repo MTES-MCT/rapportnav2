@@ -9,11 +9,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEnti
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionExternalId
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionNoteMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,9 +36,12 @@ class GetComputeEnvActionListByMissionIdTest {
     @MockitoBean
     private lateinit var processEnvAction: ProcessEnvAction
 
+    @MockitoBean
+    private lateinit var getMissionExternalId: GetMissionExternalId
+
     @Test
     fun `test execute get Env action list  by mission id`() {
-        val missionId = 761
+        val missionId = 123
         val actionId = UUID.randomUUID()
 
         val missionEnvEntity = MissionEnvEntity(
@@ -59,21 +62,25 @@ class GetComputeEnvActionListByMissionIdTest {
 
         val response = MissionEnvActionEntity(
             id = actionId,
-            missionId = missionId,
+            ownerId = UUID.randomUUID(),
             envActionType = ActionTypeEnum.CONTROL,
             startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             themes = listOf(ThemeEntity(id = 104, name = "Theme 104", subThemes = listOf(ThemeEntity(id = 143, name = "SubTheme 143"))))
         )
 
-        `when`(processEnvAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        val missionUUID = UUID.randomUUID()
+
+        `when`(processEnvAction.execute(anyOrNull(), anyOrNull())).thenReturn(response)
         `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEnvEntity)
+        `when`(getMissionExternalId.execute(missionUUID)).thenReturn(missionId)
 
         getEnvActionListById = GetComputeEnvActionListByMissionId(
             getEnvMissionById2 = getEnvMissionById2,
-            processEnvAction = processEnvAction
+            processEnvAction = processEnvAction,
+            getMissionExternalId = getMissionExternalId
         )
-        val envActions = getEnvActionListById.execute(missionId = missionId)
+        val envActions = getEnvActionListById.execute(missionId = missionUUID)
         assertThat(envActions).isNotNull
         assertThat(envActions.size).isEqualTo(1)
         assertThat(envActions.get(0).id).isEqualTo(actionId)

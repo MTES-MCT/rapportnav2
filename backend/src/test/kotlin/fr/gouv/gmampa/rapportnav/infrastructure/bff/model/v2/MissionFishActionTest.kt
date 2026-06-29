@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.util.UUID
 
 @ExtendWith(SpringExtension::class)
 class MissionFishActionTest {
@@ -14,7 +15,7 @@ class MissionFishActionTest {
     @Test
     fun `execute should retrieve output from mission action fish Entity`() {
         val fishAction = FishActionControlMock.create()
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = MissionFishActionEntity.fromFishAction(ownerId = UUID.randomUUID(), action = fishAction)
         val output = MissionFishAction.fromMissionActionEntity(entity)
 
         assertThat(output).isNotNull()

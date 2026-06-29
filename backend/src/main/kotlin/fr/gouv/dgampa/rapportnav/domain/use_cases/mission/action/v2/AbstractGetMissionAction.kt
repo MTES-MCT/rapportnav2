@@ -10,8 +10,9 @@ abstract class AbstractGetMissionAction(
     fun getStatus(action: MissionActionEntity): ActionStatusType? {
         if (action.status != null) return action.status
         return getStatusForAction.execute(
-            missionId = action.missionId,
-            actionStartDateTimeUtc = action.startDateTimeUtc
-        )
+                ownerId = action.ownerId,
+                actionStartDateTimeUtc = action.startDateTimeUtc
+            )
+
     }
 }

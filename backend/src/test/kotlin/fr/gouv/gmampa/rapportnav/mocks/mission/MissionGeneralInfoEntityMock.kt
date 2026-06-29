@@ -12,8 +12,7 @@ import java.util.UUID
 object MissionGeneralInfoEntityMock {
     fun create(
         id: Int? = null,
-        missionId: Int? = null,
-        missionIdUUID: UUID? = UUID.fromString("135689d8-3163-426c-aa26-e20eb9eb5f2e"),
+        missionId: UUID? = UUID.fromString("135689d8-3163-426c-aa26-e20eb9eb5f2e"),
         distanceInNauticalMiles: Float? = null,
         consumedGOInLiters: Float? = null,
         consumedFuelInLiters: Float? = null,
@@ -34,7 +33,6 @@ object MissionGeneralInfoEntityMock {
     ) = MissionGeneralInfoEntity(
         id = id,
         missionId = missionId,
-        missionIdUUID = missionIdUUID,
         distanceInNauticalMiles = distanceInNauticalMiles,
         consumedGOInLiters = consumedGOInLiters,
         consumedFuelInLiters = consumedFuelInLiters,

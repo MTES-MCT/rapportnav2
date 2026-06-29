@@ -6,8 +6,7 @@ export type JdpType = 'DOCKED' | 'ONBOARD'
 
 export type AdminGeneralInfos = {
   id?: number
-  missionId?: number
-  missionIdUUID?: string
+  missionId?: string
   serviceId?: number
   distanceInNauticalMiles?: number
   consumedGOInLiters?: number

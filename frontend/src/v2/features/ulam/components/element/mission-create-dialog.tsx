@@ -25,8 +25,7 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({ isOpen, onClose }) 
 
   const onChange = async (value: MissionGeneralInfo2) => {
     mutation.mutateAsync(value).then(response => {
-      const id = response.id ?? response.idUUID
-      if (id) navigate(`/ulam/missions/${id}`)
+      if (response.id) navigate(`/ulam/missions/${response.id}`)
     })
     if (onClose) onClose()
   }

@@ -15,14 +15,13 @@ class GetMissionCrew(
     fun execute(
         newServiceId: Int? = null,
         oldServiceId: Int? = null,
-        missionId: Int? = null,
-        missionIdUUID: UUID? = null,
+        missionId: UUID? = null,
         generalInfo: MissionGeneralInfo2? = null
     ): List<MissionCrewEntity> {
 
         if ((newServiceId == oldServiceId) && generalInfo?.crew != null) {
             return generalInfo.crew.map {
-                it.toMissionCrewEntity(missionIdUUID = missionIdUUID, missionId = missionId)
+                it.toMissionCrewEntity(missionId = missionId)
             }
         }
         if (newServiceId == null) return emptyList()
@@ -30,8 +29,7 @@ class GetMissionCrew(
             MissionCrewEntity(
                 role = it.role,
                 agent = it,
-                missionId = missionId,
-                missionIdUUID = missionIdUUID
+                missionId = missionId
             )
         }
     }

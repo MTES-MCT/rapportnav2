@@ -9,11 +9,6 @@ class GetComputeNavActionListByMissionId(
     private val processNavAction: ProcessNavAction,
     private val getNavActionListByOwnerId: GetNavActionListByOwnerId
 ) {
-    fun execute(missionId: Int): List<MissionNavActionEntity> {
-        val actions = getNavActionListByOwnerId.execute(missionId = missionId)
-        return actions.map { processNavAction.execute(action = it) }
-    }
-
     fun execute(ownerId: UUID): List<MissionNavActionEntity> {
         val actions = getNavActionListByOwnerId.execute(ownerId = ownerId)
         return actions.map { processNavAction.execute(action = it) }

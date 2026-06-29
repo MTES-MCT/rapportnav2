@@ -11,7 +11,6 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
@@ -27,8 +26,8 @@ class GeneralInfoRestControllerTest {
     private val controller = GeneralInfoRestController(updateGeneralInfo, getControlUnitsForUser)
 
     @Test
-    fun `update should return updated general info for integer missionId`() {
-        val missionId = 123
+    fun `update should return updated general info for UUID missionId`() {
+        val missionId = UUID.randomUUID()
         val controlUnitId = 9
         val generalInfo = MissionGeneralInfo2(missionId = missionId)
         val entity = MissionGeneralInfoEntityMock.create(missionId = missionId)
@@ -43,38 +42,18 @@ class GeneralInfoRestControllerTest {
             updateGeneralInfo.execute(
                 missionId = eq(missionId),
                 generalInfo = any(),
-                controlUnitId = anyInt()
+                controlUnitId = eq(controlUnitId)
             )
         ).thenReturn(expectedResult)
 
         val result = controller.update(missionId.toString(), generalInfo)
 
         assertEquals(expectedResult, result)
-        verify(updateGeneralInfo).execute(missionId = eq(missionId), generalInfo = any(), controlUnitId = anyInt())
-    }
-
-    @Test
-    fun `update should return updated general info for UUID missionId`() {
-        val missionIdUUID = UUID.randomUUID()
-        val generalInfo = MissionGeneralInfo2(missionIdUUID = missionIdUUID)
-        val entity = MissionGeneralInfoEntityMock.create(missionIdUUID = missionIdUUID)
-        val expectedResult = MissionGeneralInfoEntity2(
-            data = entity,
-            crew = emptyList(),
-            passengers = emptyList()
-        )
-
-        `when`(updateGeneralInfo.execute(missionIdUUID = eq(missionIdUUID), generalInfo = any())).thenReturn(expectedResult)
-
-        val result = controller.update(missionIdUUID.toString(), generalInfo)
-
-        assertEquals(expectedResult, result)
-        verify(updateGeneralInfo).execute(missionIdUUID = eq(missionIdUUID), generalInfo = any())
     }
 
     @Test
     fun `update should throw BackendUsageException for invalid missionId format`() {
-        val invalidMissionId = "not-a-uuid-or-integer"
+        val invalidMissionId = "not-a-uuid"
         val generalInfo = MissionGeneralInfo2()
 
         val exception = assertThrows<BackendUsageException> {
@@ -82,9 +61,8 @@ class GeneralInfoRestControllerTest {
         }
 
         assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
-        assertEquals("Invalid missionId format: must be a valid UUID or integer", exception.message)
+        assertEquals("Invalid missionId format: must be a valid UUID", exception.message)
 
-        verify(updateGeneralInfo, never()).execute(missionIdUUID = any<UUID>(), generalInfo = any())
-        verify(updateGeneralInfo, never()).execute(missionId = any<Int>(), generalInfo = any(), controlUnitId = anyInt())
+        verify(updateGeneralInfo, never()).execute(missionId = any<UUID>(), generalInfo = any(), controlUnitId = any())
     }
 }

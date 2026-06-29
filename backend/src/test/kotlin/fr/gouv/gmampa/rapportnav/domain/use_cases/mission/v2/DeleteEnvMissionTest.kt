@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -65,7 +66,7 @@ class DeleteEnvMissionTest {
             name = "service",
             serviceType = ServiceTypeEnum.ULAM
         )
-        val mission = EnvMissionMock.create(id = id)
+        val mission = EnvMissionMock.create(externalId = id)
 
         `when`(getEnvMissionById2.execute(id)).thenReturn(mission)
         `when`(getServiceByControlUnit.execute(any())).thenReturn(listOf(service))
@@ -88,7 +89,7 @@ class DeleteEnvMissionTest {
             serviceType = ServiceTypeEnum.ULAM
         )
         val mission = EnvMissionMock.create(
-            id = id,
+            externalId = id,
             envActions = listOf(EnvActionControlMock.create())
         )
 
@@ -111,7 +112,7 @@ class DeleteEnvMissionTest {
             name = "service",
             serviceType = ServiceTypeEnum.ULAM
         )
-        val mission = EnvMissionMock.create(id = id)
+        val mission = EnvMissionMock.create(externalId = id)
 
         `when`(getEnvMissionById2.execute(id)).thenReturn(mission)
         `when`(getServiceByControlUnit.execute(any())).thenReturn(listOf(service))

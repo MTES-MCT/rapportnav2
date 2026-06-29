@@ -5,37 +5,43 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionExternalId
 import java.time.Instant
 import java.util.*
 
 @UseCase
-class GetMissionAction(
+class GetActionsByOwnerId(
     private val getEnvActionByMissionId: GetComputeEnvActionListByMissionId,
-    private val getNavActionByMissionId: GetComputeNavActionListByMissionId,
     private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId,
     private val getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId,
+    private val getMissionExternalId: GetMissionExternalId
 ) {
-    fun execute(missionId: Int): List<MissionActionEntity> {
-        val envActions = getEnvActionByMissionId.execute(missionId = missionId)
-        val navActions = getNavActionByMissionId.execute(missionId = missionId)
-        val fishActions = getFIshListActionByMissionId.execute(missionId = missionId)
+    fun execute(missionId: UUID): List<MissionActionEntity> {
+        // Resolve the external id once and thread it into the env/fish sub-use-cases so they
+        // don't each re-resolve the same mission (avoids an N+1 on the mission table).
+        val externalId = getMissionExternalId.execute(missionId)
 
+        val envAndFishActions = if (externalId != null) {
+            val envActions = getEnvActionByMissionId.execute(missionId = missionId, externalId = externalId)
+            val fishActions = getFIshListActionByMissionId.execute(missionId = missionId, externalId = externalId)
+            envActions + fishActions
+        } else {
+            emptyList()
+        }
+
+        val navActions = getComputeNavActionListByMissionId.execute(ownerId = missionId)
         // extract STATUS actions from already-fetched nav actions to avoid re-querying the DB per action
         val statusActions = navActions
             .filterIsInstance<MissionNavActionEntity>()
             .filter { it.actionType == ActionType.STATUS && it.startDateTimeUtc != null }
 
-        return (envActions + navActions + fishActions)
-            .sortedByDescending { it.startDateTimeUtc }
+
+        return (envAndFishActions + navActions)
+            .sortedByDescending { action -> action.startDateTimeUtc }
             .map { action ->
                 action.status = computeStatus(action.startDateTimeUtc, statusActions)
                 action
             }
-    }
-
-    fun execute(missionIdUUID: UUID): List<MissionActionEntity> {
-        return getComputeNavActionListByMissionId.execute(ownerId = missionIdUUID)
-            .sortedByDescending { action -> action.startDateTimeUtc }
     }
 
     private fun computeStatus(

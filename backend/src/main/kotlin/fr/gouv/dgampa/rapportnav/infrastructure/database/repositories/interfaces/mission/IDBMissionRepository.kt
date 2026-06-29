@@ -23,4 +23,6 @@ interface IDBMissionRepository: JpaRepository<MissionModel, UUID> {
     ): List<MissionModel?>
 
     override fun findById(id: UUID): Optional<MissionModel>
+
+    fun findByExternalId(externalId: String): Optional<MissionModel>
 }

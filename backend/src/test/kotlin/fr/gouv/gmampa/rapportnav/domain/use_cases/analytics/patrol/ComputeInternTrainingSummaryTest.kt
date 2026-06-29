@@ -25,7 +25,6 @@ class ComputeInternTrainingSummaryTest {
         return MissionPassengerEntity(
             id = null,
             missionId = null,
-            missionIdUUID = UUID.randomUUID(),
             fullName = "Test",
             organization = organization,
             isIntern = isIntern,

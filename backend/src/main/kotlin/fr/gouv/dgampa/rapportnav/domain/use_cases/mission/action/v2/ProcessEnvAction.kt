@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
+import java.util.*
 
 
 @UseCase
@@ -17,8 +18,8 @@ class ProcessEnvAction(
     private val entityValidityValidator: EntityValidityValidator
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(missionId: Int, envAction: EnvActionEntity): MissionEnvActionEntity {
-        val action = MissionEnvActionEntity.fromEnvAction(missionId = missionId, action = envAction)
+    fun execute(ownerId: UUID, envAction: EnvActionEntity): MissionEnvActionEntity {
+        val action = MissionEnvActionEntity.fromEnvAction(ownerId = ownerId, action = envAction)
         val targets = getComputeEnvTarget.execute(
             actionId = action.getActionId(),
             isControl = action.isControl(),
@@ -27,7 +28,7 @@ class ProcessEnvAction(
 
         action.targets = targets
 
-        val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
+        val missionDates = getMissionDates.execute(missionId = ownerId)
         val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
 
         action.computeValidity(validator = entityValidityValidator, policy = policy)

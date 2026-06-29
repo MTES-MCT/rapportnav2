@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
@@ -41,7 +42,7 @@ class ComputeEnvControlPolicyTest {
 
     @Test
     fun `returns empty summary when no actions`() {
-        val mission = MissionEntity(id = 123, actions = emptyList())
+        val mission = MissionEntity(id = UUID.randomUUID(), actions = emptyList())
 
         val result = useCase.execute(mission)
 
@@ -108,7 +109,7 @@ class ComputeEnvControlPolicyTest {
         )
         val otherAction = MissionEnvActionEntityMock.create(envActionType = ActionTypeEnum.SURVEILLANCE)
 
-        val mission = MissionEntity(id = 123, actions = listOf(controlAction, otherAction))
+        val mission = MissionEntity(id = UUID.randomUUID(), actions = listOf(controlAction, otherAction))
 
         val result = useCase.execute(mission)
 

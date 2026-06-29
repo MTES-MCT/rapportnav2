@@ -74,10 +74,10 @@ class JPAMissionNavRepositoryTest {
     }
 
     @Test
-    fun `finById should return mission when found`() {
+    fun `findById should return mission when found`() {
         `when`(dbRepository.findById(missionId)).thenReturn(Optional.of(missionModel))
 
-        val result = jpaMissionNavRepository.finById(missionId)
+        val result = jpaMissionNavRepository.findById(missionId)
 
         assertThat(result).isPresent
         assertThat(result.get().id).isEqualTo(missionId)
@@ -85,22 +85,22 @@ class JPAMissionNavRepositoryTest {
     }
 
     @Test
-    fun `finById should return empty optional when not found`() {
+    fun `findById should return empty optional when not found`() {
         val unknownId = UUID.randomUUID()
         `when`(dbRepository.findById(unknownId)).thenReturn(Optional.empty())
 
-        val result = jpaMissionNavRepository.finById(unknownId)
+        val result = jpaMissionNavRepository.findById(unknownId)
 
         assertThat(result).isEmpty
         verify(dbRepository).findById(unknownId)
     }
 
     @Test
-    fun `finById should throw BackendInternalException on error`() {
+    fun `findById should throw BackendInternalException on error`() {
         `when`(dbRepository.findById(missionId)).thenThrow(RuntimeException("Database error"))
 
         val exception = assertThrows<BackendInternalException> {
-            jpaMissionNavRepository.finById(missionId)
+            jpaMissionNavRepository.findById(missionId)
         }
         assertThat(exception.message).contains("Failed to find MissionNav")
     }

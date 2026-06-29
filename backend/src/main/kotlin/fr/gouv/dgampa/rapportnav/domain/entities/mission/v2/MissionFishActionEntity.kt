@@ -13,12 +13,13 @@ import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicy
 import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import java.time.Instant
+import java.util.*
 
 @EndAfterStart(groups = [ValidateThrowsBeforeSave::class])
 @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
 class MissionFishActionEntity(
     override val id: Int?,
-    override val missionId: Int,
+    override val ownerId: UUID,
     override val vesselId: Int? = null,
     override val vesselName: String? = null,
     override val internalReferenceNumber: String? = null,
@@ -95,7 +96,6 @@ class MissionFishActionEntity(
     override var hasDivingDuringOperation: Boolean? = null,
     override var incidentDuringOperation: Boolean? = null
 ) : MissionActionEntity(
-    missionId = missionId,
     actionType = ActionType.CONTROL,
     isCompleteForStats = false,
     endDateTimeUtc = actionEndDatetimeUtc,
@@ -173,9 +173,9 @@ class MissionFishActionEntity(
 
 
     companion object {
-        fun fromFishAction(action: FishAction) = MissionFishActionEntity(
+        fun fromFishAction(ownerId: UUID, action: FishAction) = MissionFishActionEntity(
             id = action.id,
-            missionId = action.missionId,
+            ownerId = ownerId,
             fishActionType = action.actionType,
             actionDatetimeUtc = action.actionDatetimeUtc,
             actionEndDatetimeUtc = action.actionEndDatetimeUtc,

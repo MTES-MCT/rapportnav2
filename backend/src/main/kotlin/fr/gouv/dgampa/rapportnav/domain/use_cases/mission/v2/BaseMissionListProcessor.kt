@@ -3,22 +3,15 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 import java.util.UUID
 
 abstract class BaseMissionListProcessor<T, ID>(
-    private val loadByInt: (Int) -> List<T>,
-    private val loadByUUID: (UUID) -> List<T>,
+    private val loadById: (UUID) -> List<T>,
     private val saveItem: (T) -> T,
     private val deleteItem: (ID) -> Unit,
     private val getId: (T) -> ID?
 ) {
-    fun execute(missionId: Int, items: List<T>): List<T> {
-        val existing = loadByInt(missionId)
-        process(items, existing)
-        return loadByInt(missionId)
-    }
-
     fun execute(missionId: UUID, items: List<T>): List<T> {
-        val existing = loadByUUID(missionId)
+        val existing = loadById(missionId)
         process(items, existing)
-        return loadByUUID(missionId)
+        return loadById(missionId)
     }
 
     private fun process(items: List<T>, existing: List<T>) {

@@ -5,9 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRoleRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBMissionCrewRepository
 import jakarta.transaction.Transactional
 import org.springframework.dao.InvalidDataAccessApiUsageException
@@ -20,24 +17,12 @@ class JPAMissionCrewRepository(
 ) : IMissionCrewRepository {
 
     @Transactional
-    override fun findByMissionId(missionId: Int): List<MissionCrewEntity> {
+    override fun findByMissionId(missionId: UUID): List<MissionCrewEntity> {
         return try {
             dbMissionCrewRepository.findByMissionId(missionId).map { MissionCrewEntity.fromMissionCrewModel(it) }
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "JPAMissionCrewRepository.findByMissionId failed for missionId=$missionId",
-                originalException = e
-            )
-        }
-    }
-
-    @Transactional
-    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewEntity> {
-        return try {
-            dbMissionCrewRepository.findByMissionIdUUID(missionIdUUID).map { MissionCrewEntity.fromMissionCrewModel(it) }
-        } catch (e: Exception) {
-            throw BackendInternalException(
-                message = "JPAMissionCrewRepository.findByMissionIdUUID failed for missionIdUUID=$missionIdUUID",
                 originalException = e
             )
         }

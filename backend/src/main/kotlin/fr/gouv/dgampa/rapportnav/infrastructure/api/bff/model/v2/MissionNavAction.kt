@@ -7,11 +7,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import java.util.UUID
 
 class MissionNavAction(
     override val id: String? = null,
-    override val missionId: Int,
-    override val ownerId: String? = null,
+    override val ownerId: UUID,
     override val actionType: ActionType,
     override val source: MissionSourceEnum,
     override val summaryTags: List<String>? = null,
@@ -23,7 +23,6 @@ class MissionNavAction(
     override val data: MissionNavActionData,
 ) : MissionAction(
     id = id.toString(),
-    missionId = missionId,
     ownerId = ownerId,
     status = status,
     actionType = actionType,
@@ -37,8 +36,7 @@ class MissionNavAction(
             val navAction = action as MissionNavActionEntity
             return MissionNavAction(
                 id = navAction.id.toString(),
-                missionId = navAction.missionId,
-                ownerId = navAction.ownerId?.toString(),
+                ownerId = navAction.ownerId,
                 status = navAction.status,
                 source = navAction.source,
                 actionType = navAction.actionType,

@@ -7,9 +7,11 @@ import java.util.*
 interface IMissionNavRepository {
     fun save(model: MissionModel): MissionModel
 
-    fun finById(id: UUID): Optional<MissionModel>
+    fun findById(id: UUID): Optional<MissionModel>
 
     fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<MissionModel?>
 
     fun deleteById(id: UUID)
+
+    fun findByExternalId(externalId: String): Optional<MissionModel>
 }

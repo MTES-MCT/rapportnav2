@@ -46,21 +46,14 @@ class WithinMissionDateRangeValidator(
 
         // Auto-fetch mission dates from database (Spring context via LocalValidatorFactoryBean)
         if (getMissionDates != null) {
-            val missionId = ReflectionFieldUtils.getFieldValue(entity, "missionId") as? Int
-            val missionIdUUID = ReflectionFieldUtils.getFieldValue(entity, "missionIdUUID") as? UUID
-            val ownerId = ReflectionFieldUtils.getFieldValue(entity, "ownerId") as? UUID
+            val ownerId = (ReflectionFieldUtils.getFieldValue(entity, "ownerId") as? UUID)
+                ?: (ReflectionFieldUtils.getFieldValue(entity, "missionId") as? UUID)
             val actionType = ReflectionFieldUtils.getFieldValue(entity, "actionType") as? ActionType
 
-            val dates = when {
-                missionId != null -> {
-                    val inquiryId = if (actionType == ActionType.INQUIRY) ownerId else null
-                    getMissionDates.execute(missionId, ownerId, inquiryId)
-                }
-                missionIdUUID != null -> {
-                    getMissionDates.execute(null, missionIdUUID, null)
-                }
-                else -> null
-            }
+            val inquiryId = if (actionType == ActionType.INQUIRY) ownerId else null
+            val dates = if (ownerId != null) {
+                getMissionDates.execute(ownerId, ownerId, inquiryId)
+            } else null
             missionStart = dates?.startDateTimeUtc
             missionEnd = dates?.endDateTimeUtc
         }

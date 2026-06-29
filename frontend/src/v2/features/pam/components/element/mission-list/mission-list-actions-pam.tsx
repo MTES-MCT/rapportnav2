@@ -7,7 +7,7 @@ import { useOnlineManager } from '../../../../common/hooks/use-online-manager.ts
 
 interface MissionListActionsPamProps {
   missions?: Mission2[]
-  selectedMissionIds: number[]
+  selectedMissionIds: string[]
   toggleDialog: (variant?: ExportReportType) => void
   toggleAll: (isChecked?: boolean) => void
 }

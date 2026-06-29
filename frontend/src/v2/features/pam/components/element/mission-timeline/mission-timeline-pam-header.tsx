@@ -5,7 +5,7 @@ import MissionTimelineHeaderWrapper from '../../../../mission-timeline/component
 import { usePamTimelineRegistry } from '../../../hooks/use-pam-timeline-registry.tsx'
 
 interface MissionTimelinePamHeaderProps {
-  missionId: number
+  missionId: string
 }
 
 const MissionTimelinePamHeader: FC<MissionTimelinePamHeaderProps> = ({ missionId }) => {

@@ -26,17 +26,14 @@ object MissionCrewEntityMock {
             id = 1,
             title = ""
         ),
-        missionId: Int? = null,
-        missionIdUUID: UUID? = null,
-        absences: List<MissionCrewAbsenceEntity>? = listOf()
+        absences: List<MissionCrewAbsenceEntity>? = listOf(),
+        missionId: UUID? = null,
     ): MissionCrewEntity {
         return MissionCrewEntity(
             id = id,
             agent = agent!!,
             comment = comment,
             role = role,
-            missionId = missionId,
-            missionIdUUID = missionIdUUID,
             absences = absences
         )
     }

@@ -57,7 +57,7 @@ class MissionEnvActionData(
             val data = input.data as MissionEnvActionData
             val action = MissionEnvActionEntity(
                 id = UUID.fromString(input.id),
-                missionId = input.missionId,
+                ownerId = input.ownerId,
                 endDateTimeUtc = data.endDateTimeUtc,
                 startDateTimeUtc = data.startDateTimeUtc,
                 observationsByUnit = data.observationsByUnit,

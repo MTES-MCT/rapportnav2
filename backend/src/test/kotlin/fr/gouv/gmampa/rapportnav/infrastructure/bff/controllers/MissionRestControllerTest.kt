@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
@@ -49,46 +50,28 @@ class MissionRestControllerTest {
     private lateinit var getServiceForUser: GetServiceForUser
 
     @MockitoBean
-    private lateinit var getComputeEnvMission: GetComputeEnvMission
-
-    @MockitoBean
-    private lateinit var getComputeNavMission: GetComputeNavMission
-
-    @MockitoBean
     private lateinit var createMission: CreateMission
 
     @MockitoBean
     private lateinit var getMissions: GetMissions
 
     @MockitoBean
+    private lateinit var getComputeMission: GetComputeMission
+
+    @MockitoBean
+    private lateinit var deleteMission: DeleteMission
+
+    @MockitoBean
     private lateinit var tokenService: TokenService
-
-    @MockitoBean
-    private lateinit var deleteNavMission: DeleteNavMission
-
-    @MockitoBean
-    private lateinit var deleteEnvMission: DeleteEnvMission
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
 
-    /**
-     *
-     *  private val getComputeEnvMission: GetComputeEnvMission,
-     *     private val getServiceForUser: GetServiceForUser,
-     *     private val createMission: CreateMission,
-     *     private val getMissions: GetMissions,
-     *     private val getComputeNavMission: GetComputeNavMission
-     */
-
-
     @Test
     fun `should return a list of missions`() {
-        // Arrange
-        val mockMissionEntity = MissionEntityMock.create(id = 1)
+        val mockMissionEntity = MissionEntityMock.create()
         `when`(getMissions.execute(Instant.parse("2025-04-16T09:02:58.082289Z"))).thenReturn(listOf(mockMissionEntity))
 
-        // Act & Assert
         mockMvc.perform(
             get("/api/v2/missions")
                 .param("startDateTimeUtc", "2025-04-16T09:02:58.082289Z")
@@ -99,32 +82,35 @@ class MissionRestControllerTest {
 
     @Test
     fun `should return a mission by id`() {
-        // Arrange
-        val missionId = 1
-        val mockMissionEntity = MissionEntityMock.create(id = 1)
-        `when`(getComputeEnvMission.execute(missionId = 1)).thenReturn(mockMissionEntity)
+        val missionId = UUID.randomUUID()
+        val mockMissionEntity = MissionEntityMock.create(id = missionId)
+        `when`(getComputeMission.execute(id = missionId)).thenReturn(mockMissionEntity)
 
-        // Act & Assert
         mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.id").value(missionId))
+            .andExpect(jsonPath("$.id").value(missionId.toString()))
+    }
+
+    @Test
+    fun `should return error for invalid missionId format`() {
+        mockMvc.perform(get("/api/v2/missions/{missionId}", "not-a-uuid"))
+            .andExpect(status().isBadRequest)
     }
 
     @Test
     fun `should create a new mission`() {
         val controlUnitsIds = listOf(123)
-        // Arrange
+        val missionId = UUID.randomUUID()
         val service = ServiceEntityMock.create(2, name = "test", controlUnits = controlUnitsIds)
         val requestBody = MissionGeneralInfo2Mock.create()
         val mockMission = MissionEntityMock.create(
-            id = 123,
+            id = missionId,
             controlUnits = listOf(LegacyControlUnitEntityMock.create(id = controlUnitsIds.first()))
         )
         val json = objectMapper.writeValueAsString(requestBody)
         `when`(getServiceForUser.execute()).thenReturn(service)
         `when`(createMission.execute(requestBody, service)).thenReturn(mockMission)
 
-        // Act & Assert
         mockMvc.perform(
             post("/api/v2/missions")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -132,17 +118,15 @@ class MissionRestControllerTest {
                 .content(json)
         )
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.id").value(123))
+            .andExpect(jsonPath("$.id").value(missionId.toString()))
     }
 
     @Test
     fun `should return error when mission creation fails with validation error`() {
-        // Arrange
         val requestBody = MissionGeneralInfo2Mock.create()
         val json = objectMapper.writeValueAsString(requestBody)
         val service = ServiceEntityMock.create(2, name = "test", controlUnits = listOf(123))
         `when`(getServiceForUser.execute()).thenReturn(service)
-        // Simulate mission creation throwing BackendUsageException using mockito-kotlin
         whenever(createMission.execute(any(), any())).thenAnswer {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
@@ -150,7 +134,6 @@ class MissionRestControllerTest {
             )
         }
 
-        // Act & Assert
         mockMvc.perform(
             post("/api/v2/missions")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -159,6 +142,4 @@ class MissionRestControllerTest {
         )
             .andExpect(status().isBadRequest)
     }
-
-
 }

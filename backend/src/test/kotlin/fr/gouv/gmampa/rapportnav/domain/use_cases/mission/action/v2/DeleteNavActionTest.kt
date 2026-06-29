@@ -29,7 +29,7 @@ class DeleteNavActionTest {
         val actionId = UUID.randomUUID()
         val action = MissionActionModel(
             id = actionId,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",

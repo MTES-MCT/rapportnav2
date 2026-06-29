@@ -25,8 +25,7 @@ describe('useTimelineAction', () => {
     const response = result.current.getActionInput(ActionType.NOTE, {})
 
     // When no mission data is in cache, uses current date
-    expect(response.missionId).toEqual(2)
-    expect(response.ownerId).toBeUndefined()
+    expect(response.ownerId).toEqual('2')
     expect(response.actionType).toEqual(ActionType.NOTE)
     expect(response.data.startDateTimeUtc).toBeDefined()
   })

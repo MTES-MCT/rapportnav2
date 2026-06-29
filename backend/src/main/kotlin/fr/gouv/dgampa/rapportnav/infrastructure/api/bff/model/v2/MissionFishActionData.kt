@@ -91,7 +91,7 @@ class MissionFishActionData(
             val data = input.data as MissionFishActionData
             val action = MissionFishActionEntity(
                 id = Integer.parseInt(input.id),
-                missionId = input.missionId,
+                ownerId = input.ownerId,
                 fishActionType = data.fishActionType,
                 actionDatetimeUtc = data.startDateTimeUtc,
                 actionEndDatetimeUtc = data.endDateTimeUtc,

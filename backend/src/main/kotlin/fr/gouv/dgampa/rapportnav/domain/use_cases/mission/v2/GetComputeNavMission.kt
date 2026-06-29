@@ -29,11 +29,11 @@ class GetComputeNavMission(
                 message = "Nav mission not found: $missionId"
             )
 
-        val generalInfos = getGeneralInfo2.execute(missionIdUUID = mission.id, serviceId = navMission?.serviceId)
+        val generalInfos = getGeneralInfo2.execute(missionId = mission.id, serviceId = mission.serviceId)
         val actions = getComputeNavActionListByMissionId.execute(ownerId = mission.id)
 
         return MissionEntity(
-            idUUID = mission.id,
+            id = mission.id,
             actions = actions,
             generalInfos = generalInfos,
             data = MissionEnvEntity.fromMissionNavEntity(entity = mission)

@@ -24,7 +24,7 @@ data class MissionData(
     @param:JsonDeserialize(using = JtsMultiPolygonDeserializer::class)
     @get:JsonSerialize(using = JtsGeometrySerializer::class)
     val geom: MultiPolygon? = null,
-    val startDateTimeUtc: Instant? = null,
+    val startDateTimeUtc: Instant,
     val endDateTimeUtc: Instant? = null,
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean? = false,

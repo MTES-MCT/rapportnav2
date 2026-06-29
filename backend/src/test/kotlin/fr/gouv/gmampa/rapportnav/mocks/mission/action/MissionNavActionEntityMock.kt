@@ -20,9 +20,8 @@ object MissionNavActionEntityMock {
     private val DEFAULT_START_DATE = Instant.parse("2019-09-08T22:00:00.000+01:00")
 
     fun create(
-        missionId: Int? = null,
         id: UUID? = null,
-        ownerId: UUID? = null,
+        ownerId: UUID = UUID.randomUUID(),
         startDateTimeUtc: Instant? = DEFAULT_START_DATE,
         endDateTimeUtc: Instant? = null,
         observations: String? = null,
@@ -67,7 +66,6 @@ object MissionNavActionEntityMock {
         fishAuction: FishAuctionEntity? = null
     ): MissionNavActionEntity {
         return MissionNavActionEntity(
-            missionId = missionId?: 761,
             id = id?: UUID.randomUUID(),
             ownerId = ownerId,
             startDateTimeUtc = startDateTimeUtc,

@@ -24,7 +24,7 @@ class MissionGeneralInfoModel(
     var id: Int? = null,
 
     @Column(name = "mission_id", nullable = true)
-    var missionId: Int? = 0,
+    var missionId: UUID? = null,
 
     @Column(name = "distance_in_nautical_miles", nullable = true)
     var distanceInNauticalMiles: Float? = null,
@@ -73,9 +73,6 @@ class MissionGeneralInfoModel(
     @Enumerated(EnumType.STRING)
     @Column(name = "jdp_type")
     var jdpType: JdpTypeEnum? = null,
-
-    @Column(name = "mission_id_uuid", nullable = true)
-    var missionIdUUID: UUID? = null,
 
     @Column(name = "is_resources_not_used", nullable = true)
     var isResourcesNotUsed: Boolean? = null,

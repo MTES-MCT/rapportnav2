@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionExternalId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
@@ -44,6 +45,9 @@ class UpdateEnvActionTest {
     @MockitoBean
     private lateinit var getMissionDates: GetMissionDates
 
+    @MockitoBean
+    private lateinit var getMissionExternalId: GetMissionExternalId
+
     private val realValidator: EntityValidityValidator = EntityValidityValidator.createDefault()
 
     @Test
@@ -51,7 +55,7 @@ class UpdateEnvActionTest {
         val actionId = UUID.randomUUID().toString()
         val input = MissionEnvAction(
             id = actionId,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORT_NAV,
             data = getEnvActionData(),
@@ -75,7 +79,8 @@ class UpdateEnvActionTest {
             patchEnvAction = patchEnvAction,
             processMissionActionTarget = processMissionActionTarget,
             entityValidityValidator = realValidator,
-            getMissionDates = getMissionDates
+            getMissionDates = getMissionDates,
+            getMissionExternalId = getMissionExternalId
         )
 
         val response = updateEnvAction.execute(actionId, input)

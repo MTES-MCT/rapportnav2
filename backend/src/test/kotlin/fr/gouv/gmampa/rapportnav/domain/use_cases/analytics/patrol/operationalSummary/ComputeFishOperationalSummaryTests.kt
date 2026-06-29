@@ -16,6 +16,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.util.UUID
 
 class ComputeFishOperationalSummaryTests {
 
@@ -269,8 +270,8 @@ class ComputeFishOperationalSummaryTests {
         @Test
         fun `should return values equal to 0 because no control action`() {
             val fishActions = listOf(
-                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
-                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
+                MissionFishActionEntity.fromFishAction(ownerId = UUID.randomUUID(), action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
+                MissionFishActionEntity.fromFishAction(ownerId = UUID.randomUUID(), action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
             )
             val mission = MissionEntityMock.create(actions = fishActions)
             val summary = computeFishingOperationalSummary.getProFishingSeaSummary(
@@ -283,8 +284,8 @@ class ComputeFishOperationalSummaryTests {
         @Test
         fun `getProFishingSeaSummary - should return 2 actions but other values to 0`() {
             val fishActions = listOf(
-                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create()),
-                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(flagState = CountryCode.GR)),
+                MissionFishActionEntity.fromFishAction(ownerId = UUID.randomUUID(), action = FishActionControlMock.create()),
+                MissionFishActionEntity.fromFishAction(ownerId = UUID.randomUUID(), action = FishActionControlMock.create(flagState = CountryCode.GR)),
             )
 
             val mission = MissionEntityMock.create(actions = fishActions)

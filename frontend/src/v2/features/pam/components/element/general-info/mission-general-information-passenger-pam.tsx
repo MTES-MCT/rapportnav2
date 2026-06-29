@@ -16,7 +16,7 @@ import MissionGeneralInformationPassengerPamForm from './passengers/mission-gene
 
 interface MissionGeneralInformationCrewPamProps {
   name: string
-  missionId?: number
+  missionId?: string
   currentPassengerList: MissionPassenger[]
   fieldArray: FieldArrayRenderProps
 }

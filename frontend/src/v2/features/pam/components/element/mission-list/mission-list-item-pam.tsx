@@ -27,8 +27,7 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
   const navigate = useNavigate()
   const { getUrl } = useGlobalRoutes()
   const goToMission = (mission: MissionListItem) => {
-    const id = mission?.id ?? mission.idUUID
-    if (id) navigate(`${getUrl(OwnerType.MISSION)}/${mission?.id}`)
+    if (mission?.id) navigate(`${getUrl(OwnerType.MISSION)}/${mission.id}`)
   }
 
   return (

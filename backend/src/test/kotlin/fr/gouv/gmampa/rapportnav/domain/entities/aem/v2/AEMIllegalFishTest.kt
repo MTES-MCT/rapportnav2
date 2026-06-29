@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMIllegalFish
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
@@ -16,8 +17,8 @@ class AEMIllegalFishTest {
     fun `Should init illegal fish with different values`() {
         val actions = listOf(
             MissionFishActionEntity(
-                missionId = 761,
                 id = 234,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -29,8 +30,8 @@ class AEMIllegalFishTest {
                 ),
             ),
             MissionFishActionEntity(
-                missionId = 761,
                 id = 235,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
@@ -56,32 +57,32 @@ class AEMIllegalFishTest {
     fun `getNbrOfHourAtSea should filter LAND_CONTROL and SEA_CONTROL and handle null cases`() {
         val actions = listOf(
             null, // null action -> filtered
-            MissionFishActionEntity( // SEA_CONTROL 2h -> included
-                missionId = 761, id = 1,
+            MissionFishActionEntity(id = null, // SEA_CONTROL 2h -> included
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
             ),
-            MissionFishActionEntity( // LAND_CONTROL 1h -> included
-                missionId = 761, id = 2,
+            MissionFishActionEntity(id = null, // LAND_CONTROL 1h -> included
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.LAND_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T03:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             ),
-            MissionFishActionEntity( // AIR_CONTROL 3h -> NOT included
-                missionId = 761, id = 3,
+            MissionFishActionEntity(id = null, // AIR_CONTROL 3h -> NOT included
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.AIR_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T05:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T08:00:00.000+01:00"),
             ),
-            MissionFishActionEntity( // SEA_CONTROL null dates -> 0h
-                missionId = 761, id = 4,
+            MissionFishActionEntity(id = null, // SEA_CONTROL null dates -> 0h
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 actionEndDatetimeUtc = null,
             ),
-            MissionFishActionEntity( // SEA_CONTROL null start -> 0h
-                missionId = 761, id = 5,
+            MissionFishActionEntity(id = null, // SEA_CONTROL null start -> 0h
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = null,
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
@@ -97,7 +98,8 @@ class AEMIllegalFishTest {
         val actions = listOf(
             null, // null action -> filtered out by all methods
             MissionFishActionEntity(
-                missionId = 761, id = 1,
+                id = null,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 speciesQuantitySeized = 5,
@@ -110,7 +112,8 @@ class AEMIllegalFishTest {
                 ),
             ),
             MissionFishActionEntity(
-                missionId = 761, id = 2,
+                id = null,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 speciesQuantitySeized = null, // uses 0
@@ -120,14 +123,16 @@ class AEMIllegalFishTest {
                 ),
             ),
             MissionFishActionEntity(
-                missionId = 761, id = 3,
+                id = null,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 speciesQuantitySeized = 3,
                 seizureAndDiversion = null, // doesn't count
             ),
             MissionFishActionEntity(
-                missionId = 761, id = 4,
+                id = null,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 seizureAndDiversion = true, // counts
@@ -151,10 +156,10 @@ class AEMIllegalFishTest {
     fun `should count SEA and LAND actions for nbrOfPolFishAction`() {
         val actions = listOf(
             null,
-            MissionFishActionEntity(missionId = 761, id = 1, fishActionType = MissionActionType.LAND_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
-            MissionFishActionEntity(missionId = 761, id = 2, fishActionType = MissionActionType.AIR_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
-            MissionFishActionEntity(missionId = 761, id = 3, fishActionType = MissionActionType.SEA_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
-            MissionFishActionEntity(missionId = 761, id = 4, fishActionType = MissionActionType.SEA_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
+            MissionFishActionEntity(id = 1, ownerId = UUID.randomUUID(), fishActionType = MissionActionType.LAND_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
+            MissionFishActionEntity(id = 2, ownerId = UUID.randomUUID(), fishActionType = MissionActionType.AIR_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
+            MissionFishActionEntity(id = 3, ownerId = UUID.randomUUID(), fishActionType = MissionActionType.SEA_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
+            MissionFishActionEntity(id = 4, ownerId = UUID.randomUUID(), fishActionType = MissionActionType.SEA_CONTROL, actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00")),
         )
         val result = AEMIllegalFish(fishActions = actions, navActions = emptyList(), missionEndDateTime = null)
 

@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.time.LocalDate
+import java.util.*
 
 @SpringBootTest(classes = [WithinMissionDateRangeValidator::class])
 class MissionPassengerEntityTest {
@@ -41,7 +42,7 @@ class MissionPassengerEntityTest {
     }
 
     private fun createPassenger(
-        missionId: Int = 100,
+        missionId: UUID? = UUID.randomUUID(),
         startDate: LocalDate = LocalDate.of(2024, 1, 15),
         endDate: LocalDate = LocalDate.of(2024, 1, 20)
     ) = MissionPassengerEntity(

@@ -73,7 +73,7 @@ class APIEnvMissionRepositoryV2(
     }
 
     override fun update(mission: MissionEnvEntity): MissionEnvEntity? {
-        val url = "$host/api/v1/missions/${mission.id}"
+        val url = "$host/api/v1/missions/${mission.externalId}"
         logger.info("Sending POST request for Env mission update URL: $url")
         try {
             val json = mapper.writeValueAsString(mission) ?: ""
@@ -95,7 +95,7 @@ class APIEnvMissionRepositoryV2(
 
             if (response.statusCode() !in 200..299) {
                 throw BackendInternalException(
-                    message = "MonitorEnv API returned status=${response.statusCode()} for POST mission update id=${mission.id}"
+                    message = "MonitorEnv API returned status=${response.statusCode()} for POST mission update id=${mission.externalId}"
                 )
             }
 
@@ -105,7 +105,7 @@ class APIEnvMissionRepositoryV2(
             throw e
         } catch (e: Exception) {
             throw BackendInternalException(
-                message = "Failed to update Env mission id=${mission.id}",
+                message = "Failed to update Env mission id=${mission.externalId}",
                 originalException = e
             )
         }

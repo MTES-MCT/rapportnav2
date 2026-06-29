@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -11,8 +12,10 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionExternalId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -44,12 +47,15 @@ class ExportMissionAEMSingleTest {
     private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
     @MockitoBean
     private lateinit var getComputeEnvMission: GetComputeEnvMission
+    @MockitoBean
+    private lateinit var getMissionExternalId: GetMissionExternalId
 
     @Test
     fun `createFile should throw BackendInternalException when underlying service throws`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val mission = MissionEntityMock.create(id = missionId)
-        whenever(getEnvMissionById2.execute(any()))
+        whenever(getMissionExternalId.execute(missionId)).thenReturn(123)
+        whenever(getEnvMissionById2.execute(any<Int>()))
             .thenThrow(RuntimeException("boom"))
         assertThrows(BackendInternalException::class.java) {
             useCase.createFile(mission)
@@ -58,8 +64,8 @@ class ExportMissionAEMSingleTest {
 
     @Test
     fun `execute should throw BackendUsageException when mission not found`() {
-        val missionId = 123
-        whenever(getComputeEnvMission.execute(missionId = missionId))
+        val missionId = 999
+        whenever(getComputeEnvMission.execute(externalId = missionId))
             .thenAnswer {
                 throw BackendUsageException(
                     code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
@@ -74,33 +80,31 @@ class ExportMissionAEMSingleTest {
     }
 
     @Test
-    fun `getAemData should return null when missionId is null`() {
-        val result = useCase.getAemData(null)
-        assertThat(result).isNull()
-    }
-
-    @Test
     fun `getAemData should return AEMTableExport2 when missionId is valid`() {
-        val missionId = 123
-        whenever(getEnvMissionById2.execute(missionId)).thenReturn(null)
-        whenever(getEnvActionByMissionId.execute(missionId)).thenReturn(emptyList())
-        whenever(getNavActionByMissionId.execute(missionId)).thenReturn(emptyList())
-        whenever(getFIshListActionByMissionId.execute(missionId)).thenReturn(emptyList())
-        whenever(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(null)
+        val missionUUID = UUID.randomUUID()
+        whenever(getMissionExternalId.execute(missionUUID)).thenReturn(123)
+        whenever(getEnvMissionById2.execute(123)).thenReturn(null)
+        whenever(getEnvActionByMissionId.execute(missionUUID)).thenReturn(emptyList())
+        whenever(getFIshListActionByMissionId.execute(missionUUID)).thenReturn(emptyList())
 
-        val result = useCase.getAemData(missionId)
+        val result = useCase.getAemData(missionId = missionUUID)
 
         assertNotNull(result)
         assertThat(result).isInstanceOf(AEMTableExport::class.java)
     }
 
     @Test
-    fun `createFile should throw BackendInternalException when mission id is null`() {
-        val mission = MissionEntityMock.create(id = null)
+    fun `createFile should not throw when externalId is null`() {
+        val missionId = UUID.randomUUID()
+        val mission = MissionEntity(id = missionId, externalId = null)
+        whenever(getMissionExternalId.execute(missionId)).thenReturn(null)
+        whenever(getEnvActionByMissionId.execute(missionId)).thenReturn(emptyList())
+        whenever(getFIshListActionByMissionId.execute(missionId)).thenReturn(emptyList())
 
-        assertThrows(BackendInternalException::class.java) {
-            useCase.createFile(mission)
-        }
+        // createFile should succeed (not throw) when externalId is null
+        // since getAemData handles missing externalId gracefully
+        val result = useCase.createFile(mission)
+        assertNotNull(result)
     }
 
 }

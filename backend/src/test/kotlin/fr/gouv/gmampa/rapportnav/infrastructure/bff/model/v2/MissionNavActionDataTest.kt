@@ -26,7 +26,7 @@ class MissionNavActionDataTest {
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(entity.id)
         assertThat(output.status).isEqualTo(entity.status)
-        assertThat(entity.missionId).isEqualTo(entity.missionId)
+        assertThat(entity.ownerId).isEqualTo(entity.ownerId)
         assertThat(output.summaryTags).isEqualTo(entity.summaryTags)
         assertThat(output.data.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
         assertThat(output.data.endDateTimeUtc).isEqualTo(entity.endDateTimeUtc)

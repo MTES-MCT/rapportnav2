@@ -10,8 +10,7 @@ class ProcessMissionPassengers(
     updateMissionPassenger: UpdateMissionPassenger,
     deleteMissionPassenger: DeleteMissionPassenger,
 ) : BaseMissionListProcessor<MissionPassengerEntity, Int>(
-    loadByInt = { getMissionPassengers.execute(missionId = it) },
-    loadByUUID = { getMissionPassengers.execute(missionIdUUID = it) },
+    loadById = { getMissionPassengers.execute(missionId = it) },
     saveItem = { updateMissionPassenger.execute(it) },
     deleteItem = { deleteMissionPassenger.execute(it) },
     getId = { it.id }

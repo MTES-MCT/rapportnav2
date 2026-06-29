@@ -6,9 +6,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.Instant
+import java.util.UUID
 
 interface BaseMissionActionEntity {
-    val missionId: Int
+    val ownerId: UUID
     val actionType: ActionType
     val isCompleteForStats: Boolean?
     val source: MissionSourceEnum

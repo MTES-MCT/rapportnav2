@@ -41,11 +41,11 @@ class ProcessNavActionTest {
 
     @Test
     fun `test execute get nav action by id`() {
-        val missionId = 761
+        val missionId = UUID.randomUUID()
         val actionId = UUID.randomUUID()
         val action = MissionNavActionEntity(
             id = actionId,
-            missionId = missionId,
+            ownerId = missionId,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",

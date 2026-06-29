@@ -25,7 +25,6 @@ object MissionActionModelMock {
         fishAuction: FishAuctionModel? = null,
     ): MissionActionModel {
         return MissionActionModel(
-            missionId = 761,
             id = UUID.fromString("0000-00-00-00-000000"),
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),

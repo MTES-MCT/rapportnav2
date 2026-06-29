@@ -30,8 +30,8 @@ class AEMCulturalMaritimeTest {
         val actions = listOf(
             null,
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = null
             )
@@ -45,24 +45,24 @@ class AEMCulturalMaritimeTest {
     private fun extendedEnvActionEntities(): List<MissionEnvActionEntity> {
         val actions = listOf(
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 104, name = "Cultural Maritime", subThemes = listOf(ThemeEntity(id = 143, name = "SubTheme")))),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             ),
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 themes = listOf(ThemeEntity(id = 101, name = "Theme 101", subThemes = listOf(ThemeEntity(id = 165, name = "Scientific Campaign")))),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             ),
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 themes = listOf(ThemeEntity(id = 104, name = "Cultural Maritime", subThemes = listOf(ThemeEntity(id = 67, name = "SubTheme 67")))),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),

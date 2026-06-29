@@ -105,7 +105,7 @@ describe('MissionPageFooter', () => {
     it('should enable the button when Nav Mission', () => {
       vi.mocked(useMission).mockReturnValue({
         data: {
-          idUUID: '5f03e402-3236-4e80-8221-e1925f5d1bf0'
+          id: '5f03e402-3236-4e80-8221-e1925f5d1bf0'
         }
       } as any)
       render(

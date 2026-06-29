@@ -30,7 +30,6 @@ class MissionEnvEntityTest {
         val response = MissionEnvEntity.fromMissionNavEntity(missionNavEntity)
 
         assertThat(response).isNotNull()
-        assertThat(response.idUUID).isEqualTo(missionNavEntity.id)
         assertThat(response.isDeleted).isEqualTo(missionNavEntity.isDeleted)
         assertThat(response.endDateTimeUtc).isEqualTo(missionNavEntity.endDateTimeUtc)
         assertThat(response.startDateTimeUtc).isEqualTo(missionNavEntity.startDateTimeUtc)

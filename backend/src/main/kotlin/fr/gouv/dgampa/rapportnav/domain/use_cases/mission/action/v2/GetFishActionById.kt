@@ -5,12 +5,14 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishAc
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 
 @UseCase
 class GetFishActionById(
     private val processFishAction: ProcessFishAction,
-    private val getFishActionListByMissionId: GetFishActionListByMissionId
+    private val getFishActionListByMissionId: GetFishActionListByMissionId,
+    private val missionNavRepository: IMissionNavRepository
 ) {
     fun execute(missionId: Int?, actionId: String?): MissionFishActionEntity? {
         if (!isInteger(actionId) || isValidUUID(actionId)) return null
@@ -20,8 +22,10 @@ class GetFishActionById(
                 message = "GetFishActionById: missionId and actionId are required"
             )
         }
+        val missionUUID = missionNavRepository.findByExternalId(missionId.toString()).orElse(null)?.id
+            ?: return null
         val fishAction = getFishAction(missionId = missionId, actionId = actionId) ?: return null
-        return processFishAction.execute(missionId = missionId, action = fishAction)
+        return processFishAction.execute(ownerId = missionUUID, action = fishAction)
     }
 
     private fun getFishAction(missionId: Int, actionId: String?): FishAction? {

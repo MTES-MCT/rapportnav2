@@ -28,12 +28,12 @@ class GetNavMissionById2Test {
     fun `returns null when mission not found`() {
         val missionId = UUID.randomUUID()
 
-        whenever(repository.finById(missionId)).thenReturn(Optional.empty())
+        whenever(repository.findById(missionId)).thenReturn(Optional.empty())
 
         val result = useCase.execute(missionId)
 
         assertNull(result)
-        verify(repository).finById(missionId)
+        verify(repository).findById(missionId)
     }
 
     @Test
@@ -42,11 +42,11 @@ class GetNavMissionById2Test {
         val model = MissionModelMock.create(id = missionId)
         val expected = MissionNavEntity.fromMissionModel(model)
 
-        whenever(repository.finById(missionId)).thenReturn(Optional.of(model))
+        whenever(repository.findById(missionId)).thenReturn(Optional.of(model))
 
         val result = useCase.execute(missionId)
 
         assertEquals(expected, result)
-        verify(repository).finById(missionId)
+        verify(repository).findById(missionId)
     }
 }

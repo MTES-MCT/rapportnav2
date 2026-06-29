@@ -5,7 +5,7 @@ import { ExportMode, ExportReportType, MissionExport } from '../types/mission-ex
 
 type ExportMissionBody = {
   data: {
-    missionIds?: number[]
+    missionIds?: string[]
     exportMode: ExportMode
     reportType: ExportReportType
   }

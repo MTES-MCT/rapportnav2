@@ -81,7 +81,7 @@ class EntityValidityValidatorTest {
         fun `should be valid when all required fields present`() {
             val entity = MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 1,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.OTHER,
                 startDateTimeUtc = Instant.now(),
                 endDateTimeUtc = Instant.now().plusSeconds(3600)
@@ -98,7 +98,7 @@ class EntityValidityValidatorTest {
         fun `should be incomplete when required field is missing`() {
             val entity = MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 1,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.OTHER,
                 startDateTimeUtc = null
             )
@@ -119,7 +119,7 @@ class EntityValidityValidatorTest {
         fun `should include source in result when incomplete`() {
             val entity = MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 1,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.OTHER,
                 startDateTimeUtc = null
             )
@@ -139,7 +139,7 @@ class EntityValidityValidatorTest {
         fun `should not include source when valid`() {
             val entity = MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 1,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.OTHER,
                 startDateTimeUtc = Instant.now(),
                 endDateTimeUtc = Instant.now().plusSeconds(3600)
@@ -165,7 +165,7 @@ class EntityValidityValidatorTest {
         fun `should merge multiple incomplete results`() {
             val entity = MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 1,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.OTHER,
                 startDateTimeUtc = null
             )

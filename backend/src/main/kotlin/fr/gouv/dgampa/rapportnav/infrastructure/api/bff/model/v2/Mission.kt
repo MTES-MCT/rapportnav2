@@ -11,8 +11,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.Mis
 import java.util.UUID
 
 data class Mission(
-    val id: Int? = null,
-    val idUUID: String? = null,
+    val id: UUID,
     val status: MissionStatusEnum,
     val data: MissionData? = null,
     var actions: List<MissionAction?> = listOf(),
@@ -24,7 +23,6 @@ data class Mission(
     fun toMissionEntity(): MissionEntity {
         return MissionEntity(
             id = id,
-            idUUID = idUUID?.let { UUID.fromString(it) },
             data = MissionEnvEntity(
                 missionTypes = data?.missionTypes,
                 openBy = data?.openBy,
@@ -46,9 +44,8 @@ data class Mission(
             actions = actions.map {
                 val a = it as MissionNavAction
                 MissionNavActionEntity(
-                    id = UUID.fromString(a.id),
-                    missionId = a.missionId,
-                    ownerId = it.ownerId?.let { UUID.fromString(it) },
+                    id = a.id?.let { UUID.fromString(it)} ?: UUID.randomUUID(),
+                    ownerId = id,
                     actionType = it.actionType,
                     status = it.status,
                     sourcesOfMissingDataForStats = it.sourcesOfMissingDataForStats,
@@ -82,7 +79,6 @@ data class Mission(
                     isMigrationRescue = it.data.isMigrationRescue,
                     nbOfVesselsTrackedWithoutIntervention = it.data.nbOfVesselsTrackedWithoutIntervention,
                     nbAssistedVesselsReturningToShore = it.data.nbAssistedVesselsReturningToShore,
-                    //status = if (it.data?.actionType == ActionType.STATUS) it.data?.status else null, // status only set for ActionType Status
                     reason = it.data.reason,
                     nbrOfHours = it.data.nbrOfHours,
                     trainingType = it.data.trainingType,
@@ -112,13 +108,11 @@ data class Mission(
                 services = generalInfos?.services,
                 crew = generalInfos?.crew?.map {
                     it.toMissionCrewEntity(
-                        missionId = id,
-                        missionIdUUID = idUUID?.let { UUID.fromString(it) }
+                        missionId = id
                     )
                 },
                 data = generalInfos?.toMissionGeneralInfoEntity(
-                    missionId = id,
-                    missionIdUUID = idUUID?.let { UUID.fromString(it) })
+                    missionId = id)
             )
         )
     }
@@ -133,7 +127,6 @@ data class Mission(
             return Mission(
                 id = mission.id,
                 status = status,
-                idUUID = mission.idUUID?.toString(),
                 completenessForStats = completenessForStats,
                 data = MissionData.fromMissionEntity(mission.data),
                 isCompleteForStats = completenessForStats.sources?.isEmpty(),

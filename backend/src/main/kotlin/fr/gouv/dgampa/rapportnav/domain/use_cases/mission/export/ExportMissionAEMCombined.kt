@@ -29,7 +29,7 @@ class ExportMissionAEMCombined(
             )
         }
 
-        val missions = missionIds.map { getComputeEnvMission.execute(missionId = it) }
+        val missions = missionIds.map { getComputeEnvMission.execute(externalId = it) }
 
         val firstMission = missions.first()
         val combinedActions = missions.flatMap { it.actions.orEmpty() }

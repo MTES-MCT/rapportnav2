@@ -27,7 +27,7 @@ class CreateGeneralInfosTest {
 
     @Test
     fun `should create general info with missionId`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val generalInfo2 = MissionGeneralInfo2Mock.create(missionId = missionId)
         val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
         val model = entity.toMissionGeneralInfoModel()
@@ -35,7 +35,6 @@ class CreateGeneralInfosTest {
         whenever(generalInfosRepository.save(any())).thenReturn(model)
 
         val result = createGeneralInfos.execute(
-            missionId = missionId,
             generalInfo2 = generalInfo2
         )
 
@@ -44,35 +43,32 @@ class CreateGeneralInfosTest {
     }
 
     @Test
-    fun `should create general info with missionIdUUID`() {
-        val missionIdUUID = UUID.randomUUID()
-        val generalInfo2 = MissionGeneralInfo2Mock.create(missionIdUUID = missionIdUUID)
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionIdUUID = missionIdUUID)
+    fun `should create general info without explicit missionId`() {
+        val missionId = UUID.randomUUID()
+        val generalInfo2 = MissionGeneralInfo2Mock.create(missionId = missionId)
+        val entity = MissionGeneralInfoEntityMock.create(id = 1)
         val model = entity.toMissionGeneralInfoModel()
 
         whenever(generalInfosRepository.save(any())).thenReturn(model)
 
         val result = createGeneralInfos.execute(
-            missionIdUUID = missionIdUUID,
             generalInfo2 = generalInfo2
         )
 
         assertThat(result).isNotNull
-        assertThat(result.data?.missionIdUUID).isEqualTo(missionIdUUID)
     }
 
     @Test
     fun `should create general info with service`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val service = ServiceEntityMock.create(id = 10, name = "Test Service")
         val generalInfo2 = MissionGeneralInfo2Mock.create(missionId = missionId)
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId, service = service)
+        val entity = MissionGeneralInfoEntityMock.create(id = 1, service = service)
         val model = entity.toMissionGeneralInfoModel()
 
         whenever(generalInfosRepository.save(any())).thenReturn(model)
 
         val result = createGeneralInfos.execute(
-            missionId = missionId,
             generalInfo2 = generalInfo2,
             service = service
         )
@@ -83,7 +79,7 @@ class CreateGeneralInfosTest {
 
     @Test
     fun `should propagate BackendInternalException from repository`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val generalInfo2 = MissionGeneralInfo2Mock.create(missionId = missionId)
         val internalException = BackendInternalException(
             message = "Repository error",
@@ -93,7 +89,7 @@ class CreateGeneralInfosTest {
         whenever(generalInfosRepository.save(any())).thenAnswer { throw internalException }
 
         val exception = assertThrows<BackendInternalException> {
-            createGeneralInfos.execute(missionId = missionId, generalInfo2 = generalInfo2)
+            createGeneralInfos.execute(generalInfo2 = generalInfo2)
         }
         assertThat(exception.message).isEqualTo("Repository error")
     }

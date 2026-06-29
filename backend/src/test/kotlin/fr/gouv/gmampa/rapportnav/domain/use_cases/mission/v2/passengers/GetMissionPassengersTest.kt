@@ -38,7 +38,7 @@ class GetMissionPassengersTest {
 
     @Test
     fun `executeById returns mapped passengers`() {
-        val missionId = 42
+        val missionId = UUID.randomUUID()
 
         whenever(repo.findByMissionId(missionId))
             .thenReturn(listOf(passenger1.toMissionPassengerModel(), passenger2.toMissionPassengerModel()))
@@ -56,24 +56,24 @@ class GetMissionPassengersTest {
     @Test
     fun `executeByUUID throws if uuid is null`() {
         assertThrows<IllegalArgumentException> {
-            useCase.execute(missionIdUUID = null)
+            useCase.execute(missionId = null)
         }
-        verify(repo, never()).findByMissionIdUUID(any())
+        verify(repo, never()).findByMissionId(any())
     }
 
     @Test
     fun `executeByUUID returns mapped passengers`() {
         val uuid = UUID.randomUUID()
 
-        whenever(repo.findByMissionIdUUID(uuid))
+        whenever(repo.findByMissionId(uuid))
             .thenReturn(listOf(passenger1.toMissionPassengerModel()))
 
-        val result = useCase.execute(missionIdUUID = uuid)
+        val result = useCase.execute(missionId = uuid)
 
         assertThat(result).hasSize(1)
         assertThat(result.first().fullName).isEqualTo("John Doe")
 
-        verify(repo, times(1)).findByMissionIdUUID(uuid)
+        verify(repo, times(1)).findByMissionId(uuid)
     }
 
 

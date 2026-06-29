@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -8,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionExternalId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
@@ -48,6 +50,9 @@ class UpdateFishActionTest {
     @MockitoBean
     private lateinit var getMissionDates: GetMissionDates
 
+    @MockitoBean
+    private lateinit var getMissionExternalId: GetMissionExternalId
+
     private val realValidator: EntityValidityValidator = EntityValidityValidator.createDefault()
 
     @Test
@@ -55,7 +60,7 @@ class UpdateFishActionTest {
         val actionId = 54566.toString()
         val input = MissionFishAction(
             id = actionId,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORT_NAV,
             data = getFishActionData(),
@@ -80,7 +85,8 @@ class UpdateFishActionTest {
             patchFishAction = patchFishAction,
             processMissionActionTarget = processMissionActionTarget,
             entityValidityValidator = realValidator,
-            getMissionDates = getMissionDates
+            getMissionDates = getMissionDates,
+            getMissionExternalId = getMissionExternalId
         )
 
         val response = updateNavAction.execute(actionId, input)

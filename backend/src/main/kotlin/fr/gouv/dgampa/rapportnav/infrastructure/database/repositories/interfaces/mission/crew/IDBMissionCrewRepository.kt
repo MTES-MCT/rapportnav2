@@ -6,7 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface IDBMissionCrewRepository : JpaRepository<MissionCrewModel, Int> {
-    fun findByMissionId(missionId: Int): List<MissionCrewModel>
-
-    fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewModel>
+    fun findByMissionId(missionId: UUID): List<MissionCrewModel>
 }

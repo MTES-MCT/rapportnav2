@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.adapters.mission
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
@@ -19,7 +20,7 @@ class MissionEnvInputTest {
         val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00")
         val endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         val input = MissionEnvInput(
-            missionId = 761,
+            missionId = 123,
             isUnderJdp = false,
             controlUnitId = 741,
             endDateTimeUtc = endDateTimeUtc,
@@ -60,7 +61,7 @@ class MissionEnvInputTest {
     fun `execute should return a mission env input from a mission env`() {
         val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00")
         val mission = MissionEnvEntity(
-            id = 761,
+            externalId = 761,
             isDeleted = false,
             isUnderJdp = false,
             hasMissionOrder = false,

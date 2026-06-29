@@ -12,8 +12,7 @@ import AdminBasicItemGeneric from './admin-basic-item-generic'
 
 const CELLS = [
   { key: 'id', label: 'Id', width: 60 },
-  { key: 'missionId', label: 'missionId', width: 60 },
-  { key: 'missionIdUUID', label: 'missionIdUUID', width: 340 },
+  { key: 'missionId', label: 'missionId', width: 340 },
   { key: 'serviceId', label: 'Service', width: 50 },
   { key: 'missionReportType', label: 'Type rapport', width: 140 },
   { key: 'reinforcementType', label: 'Renfort', width: 100 },
@@ -98,7 +97,7 @@ const AdminGeneralInfosItem: React.FC<AdminGeneralInfosProps> = () => {
             <TextInput
               name="search"
               value={search}
-              label="Rechercher par missionId ou missionIdUUID"
+              label="Rechercher par missionId"
               placeholder="ex: 123 ou 550e8400-e29b-41d4-a716-446655440000"
               onChange={handleSearchChange}
             />

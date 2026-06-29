@@ -41,7 +41,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
 
     fun toMissionEnvEntity(): MissionEnvEntity {
         return MissionEnvEntity(
-            id = id,
+            externalId = id,
             missionTypes = missionTypes,
             controlUnits = controlUnits.orEmpty(),
             openBy = openBy,

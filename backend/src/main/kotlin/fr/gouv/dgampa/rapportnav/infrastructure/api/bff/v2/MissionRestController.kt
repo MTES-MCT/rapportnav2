@@ -1,5 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
@@ -18,13 +20,11 @@ import java.util.*
 @RestController
 @RequestMapping("/api/v2/missions")
 class MissionRestController(
-    private val getComputeEnvMission: GetComputeEnvMission,
     private val getServiceForUser: GetServiceForUser,
     private val createMission: CreateMission,
     private val getMissions: GetMissions,
-    private val getComputeNavMission: GetComputeNavMission,
-    private val deleteNavMission: DeleteNavMission,
-    private val deleteEnvMission: DeleteEnvMission
+    private val getComputeMission: GetComputeMission,
+    private val deleteMission: DeleteMission
 ) {
 
     /**
@@ -91,13 +91,15 @@ class MissionRestController(
         ]
     )
     fun getMissionById(
-        @PathVariable(name = "missionId") missionId: String
+        @PathVariable missionId: String
     ): Mission {
-        val mission = if (isValidUUID(missionId)) {
-            getComputeNavMission.execute(missionId = UUID.fromString(missionId))
-        } else {
-            getComputeEnvMission.execute(missionId = Integer.valueOf(missionId))
+        if (!isValidUUID(missionId)) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "Invalid missionId format: must be a valid UUID"
+            )
         }
+        val mission = getComputeMission.execute(id = UUID.fromString(missionId))
         return Mission.fromMissionEntity(mission)
     }
 
@@ -146,9 +148,8 @@ class MissionRestController(
     ) {
         val serviceId = getServiceForUser.execute()?.id
         if (isValidUUID(missionId)) {
-            deleteNavMission.execute(id = UUID.fromString(missionId), serviceId = serviceId)
-        } else {
-            deleteEnvMission.execute(id = Integer.parseInt(missionId), serviceId = serviceId)
+            val uuid = UUID.fromString(missionId)
+            deleteMission.execute(id = uuid, serviceId = serviceId)
         }
     }
 }

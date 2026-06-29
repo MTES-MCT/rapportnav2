@@ -11,7 +11,7 @@ import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
 import { fetchAction } from './use-action.tsx'
 
 const updateAction = ({ ownerId, action }: ActionInput): Promise<MissionAction> =>
-  axios.put(`owners/${ownerId}/actions/${action.id}`, action).then(response => response.data)
+  axios.put(`owners/${ownerId}/actions/${action.id}`, { ...action, ownerId: ownerId }).then(response => response.data)
 
 export const offlineUpdateActionDefaults = {
   mutationFn: updateAction,
@@ -82,7 +82,7 @@ export const offlineUpdateActionDefaults = {
       queryKey:
         newAction.ownerType === OwnerType.INQUIRY
           ? inquiriesKeys.byId(serverResponse.ownerId)
-          : missionsKeys.byId(serverResponse.missionId),
+          : missionsKeys.byId(serverResponse.ownerId),
       type: 'all'
     })
   },

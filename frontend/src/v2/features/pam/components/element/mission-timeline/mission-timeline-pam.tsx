@@ -12,9 +12,9 @@ const MissionTimelinePam: FC<MissionTimelineProps> = ({ missionId }) => {
   const { data: actions, error, isLoading } = useGetMissionTimelineQuery(missionId)
   return (
     <PageSectionWrapper
-      sectionHeader={<MissionTimelinePamHeader missionId={Number(missionId)} />}
+      sectionHeader={<MissionTimelinePamHeader missionId={missionId} />}
       sectionBody={
-        <MissionTimelinePamBody isError={error} actions={actions} isLoading={isLoading} missionId={Number(missionId)} />
+        <MissionTimelinePamBody isError={error} actions={actions} isLoading={isLoading} missionId={missionId} />
       }
     />
   )

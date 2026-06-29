@@ -36,7 +36,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
   variant
 }) => {
   const [exportAsZip, setExportAsZip] = useState<boolean>(options[0].value)
-  const [mainMissionId, setMainMissionId] = useState<number | undefined>(undefined)
+  const [mainMissionId, setMainMissionId] = useState<string | undefined>(undefined)
 
   const exportButtonDisabled =
     (!exportAsZip && !mainMissionId) ||
@@ -62,7 +62,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
     nextValue && setMainMissionId(undefined) // reset the select field
   }
 
-  const onSelectMainMission = (nextValue: number | undefined) => {
+  const onSelectMainMission = (nextValue: string | undefined) => {
     setMainMissionId(nextValue)
   }
 

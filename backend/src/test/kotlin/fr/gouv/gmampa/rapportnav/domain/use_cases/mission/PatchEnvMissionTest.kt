@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.PatchEnvMission
@@ -22,7 +23,7 @@ class PatchEnvMissionTest {
 
     @Test
     fun `execute update env mission with ObservationByUnit`() {
-        val missionId = 761
+        val missionId = 123
         val observationsByUnit = "MyBeautifulObservation"
         val mission = EnvMissionMock.create(observationsByUnit = observationsByUnit)
         val missionEnvEntity = PatchMissionInput(observationsByUnit = observationsByUnit)

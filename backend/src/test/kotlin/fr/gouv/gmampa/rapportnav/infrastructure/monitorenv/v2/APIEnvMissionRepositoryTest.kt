@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv.v2
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
@@ -116,7 +117,7 @@ class APIEnvMissionRepositoryTest {
             .thenReturn(httpResponse)
         val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
         val mission = MissionEnvEntity(
-            id = 1,
+            externalId = 1,
             missionTypes = listOf(MissionTypeEnum.SEA),
             controlUnits = listOf(),
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
@@ -140,7 +141,7 @@ class APIEnvMissionRepositoryTest {
 
         val capturedRequest = requestCaptor.value
 
-        assert(capturedRequest.uri() == URI.create("$host/api/v1/missions/${mission.id}"))
+        assert(capturedRequest.uri() == URI.create("$host/api/v1/missions/${mission.externalId}"))
         assert(capturedRequest.method() == "POST")
         assert(capturedRequest.headers().firstValue("Content-Type").orElse("") == "application/json")
     }
@@ -286,7 +287,7 @@ class APIEnvMissionRepositoryTest {
             val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
 
             val exception = assertThrows(BackendInternalException::class.java) {
-                envRepo.deleteMission(missionId = 999, source = MissionSourceEnum.MONITORENV)
+                envRepo.deleteMission(missionId = 123, source = MissionSourceEnum.MONITORENV)
             }
 
             assertTrue(exception.message.contains("404"))

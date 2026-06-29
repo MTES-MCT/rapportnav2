@@ -30,11 +30,8 @@ class GetAgentsCrewByMissionId(private val agentCrewRepository: IMissionCrewRepo
             withoutAgent.sortedBy { rolePriority.indexOf(it.role?.title) }
     }
 
-    fun execute(missionId: Int, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
-        return sortCrew(agentCrewRepository.findByMissionId(missionId = missionId))
-    }
-
-    fun execute(missionIdUUID: UUID, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
-        return sortCrew(agentCrewRepository.findByMissionIdUUID(missionIdUUID = missionIdUUID))
+    fun execute(missionId: UUID): List<MissionCrewEntity> {
+        val crew = agentCrewRepository.findByMissionId(missionId = missionId)
+        return sortCrew(crew)
     }
 }

@@ -42,7 +42,6 @@ class JPAMissionCrewRepositoryTest {
     private val missionCrewModel = MissionCrewModel(
         id = 1,
         agent = agent,
-        missionId = 100,
         role = AgentRoleModel(id = 1, title = "Commander")
     )
 
@@ -53,45 +52,24 @@ class JPAMissionCrewRepositoryTest {
 
     @Test
     fun `findByMissionId should return crew list`() {
-        `when`(dbMissionCrewRepository.findByMissionId(100)).thenReturn(listOf(missionCrewModel))
+        val uuid = UUID.randomUUID()
+        `when`(dbMissionCrewRepository.findByMissionId(uuid)).thenReturn(listOf(missionCrewModel))
 
-        val result = jpaMissionCrewRepository.findByMissionId(100)
+        val result = jpaMissionCrewRepository.findByMissionId(uuid)
 
         assertThat(result).hasSize(1)
-        assertThat(result[0].missionId).isEqualTo(100)
-        verify(dbMissionCrewRepository).findByMissionId(100)
+        verify(dbMissionCrewRepository).findByMissionId(uuid)
     }
 
     @Test
     fun `findByMissionId should throw BackendInternalException on error`() {
-        `when`(dbMissionCrewRepository.findByMissionId(100)).thenThrow(RuntimeException("Database error"))
+        val uuid = UUID.randomUUID()
+        `when`(dbMissionCrewRepository.findByMissionId(uuid)).thenThrow(RuntimeException("Database error"))
 
         val exception = assertThrows<BackendInternalException> {
-            jpaMissionCrewRepository.findByMissionId(100)
+            jpaMissionCrewRepository.findByMissionId(uuid)
         }
         assertThat(exception.message).contains("findByMissionId failed")
-    }
-
-    @Test
-    fun `findByMissionIdUUID should return crew list`() {
-        val uuid = UUID.randomUUID()
-        `when`(dbMissionCrewRepository.findByMissionIdUUID(uuid)).thenReturn(listOf(missionCrewModel))
-
-        val result = jpaMissionCrewRepository.findByMissionIdUUID(uuid)
-
-        assertThat(result).hasSize(1)
-        verify(dbMissionCrewRepository).findByMissionIdUUID(uuid)
-    }
-
-    @Test
-    fun `findByMissionIdUUID should throw BackendInternalException on error`() {
-        val uuid = UUID.randomUUID()
-        `when`(dbMissionCrewRepository.findByMissionIdUUID(uuid)).thenThrow(RuntimeException("Database error"))
-
-        val exception = assertThrows<BackendInternalException> {
-            jpaMissionCrewRepository.findByMissionIdUUID(uuid)
-        }
-        assertThat(exception.message).contains("findByMissionIdUUID failed")
     }
 
     @Test

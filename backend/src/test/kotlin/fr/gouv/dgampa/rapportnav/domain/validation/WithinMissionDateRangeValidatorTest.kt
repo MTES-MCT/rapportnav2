@@ -31,7 +31,6 @@ class WithinMissionDateRangeValidatorTest {
 
     @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
     data class TestEntity(
-        val missionId: Int?,
         val ownerId: UUID? = null,
         val actionType: ActionType? = null,
         val startDateTimeUtc: Instant?,
@@ -67,7 +66,6 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(missionStart, missionEnd)
 
             val entity = TestEntity(
-                missionId = 123,
                 startDateTimeUtc = Instant.parse("2024-01-02T10:00:00Z"),
                 endDateTimeUtc = Instant.parse("2024-01-02T12:00:00Z")
             )
@@ -85,7 +83,7 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(missionStart, missionEnd)
 
             val entity = TestEntity(
-                missionId = 123,
+                ownerId = UUID.randomUUID(),
                 startDateTimeUtc = Instant.parse("2023-12-31T10:00:00Z"),
                 endDateTimeUtc = Instant.parse("2024-01-02T12:00:00Z")
             )
@@ -103,7 +101,7 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(missionStart, missionEnd)
 
             val entity = TestEntity(
-                missionId = 123,
+                ownerId = UUID.randomUUID(),
                 startDateTimeUtc = Instant.parse("2024-02-15T10:00:00Z"),
                 endDateTimeUtc = Instant.parse("2024-02-15T12:00:00Z")
             )
@@ -121,7 +119,7 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(missionStart, missionEnd)
 
             val entity = TestEntity(
-                missionId = 123,
+                ownerId = UUID.randomUUID(),
                 startDateTimeUtc = Instant.parse("2024-01-30T10:00:00Z"),
                 endDateTimeUtc = Instant.parse("2024-02-01T12:00:00Z")
             )
@@ -139,7 +137,6 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(missionStart, missionEnd)
 
             val entity = TestEntity(
-                missionId = 123,
                 startDateTimeUtc = missionStart,
                 endDateTimeUtc = missionEnd
             )
@@ -160,7 +157,6 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(null, Instant.parse("2024-01-31T23:59:59Z"))
 
             val entity = TestEntity(
-                missionId = 123,
                 startDateTimeUtc = Instant.parse("2024-01-02T10:00:00Z"),
                 endDateTimeUtc = Instant.parse("2024-01-02T12:00:00Z")
             )
@@ -176,7 +172,6 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(Instant.parse("2024-01-01T00:00:00Z"), null)
 
             val entity = TestEntity(
-                missionId = 123,
                 startDateTimeUtc = Instant.parse("2024-01-02T10:00:00Z"),
                 endDateTimeUtc = Instant.parse("2024-12-31T12:00:00Z")
             )
@@ -192,7 +187,7 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(Instant.parse("2024-01-01T00:00:00Z"), null)
 
             val entity = TestEntity(
-                missionId = 123,
+                ownerId = UUID.randomUUID(),
                 startDateTimeUtc = Instant.parse("2023-12-31T10:00:00Z"),
                 endDateTimeUtc = Instant.parse("2024-01-02T12:00:00Z")
             )
@@ -215,7 +210,6 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(missionStart, missionEnd)
 
             val entity = TestEntity(
-                missionId = 123,
                 startDateTimeUtc = null,
                 endDateTimeUtc = Instant.parse("2024-01-02T12:00:00Z")
             )
@@ -233,7 +227,6 @@ class WithinMissionDateRangeValidatorTest {
             setupMissionDates(missionStart, missionEnd)
 
             val entity = TestEntity(
-                missionId = 123,
                 startDateTimeUtc = Instant.parse("2024-01-02T10:00:00Z"),
                 endDateTimeUtc = null
             )
@@ -249,10 +242,10 @@ class WithinMissionDateRangeValidatorTest {
     inner class MissingMissionId {
 
         @Test
-        @DisplayName("should be valid when missionId is null (skip validation)")
-        fun `should be valid when missionId is null`() {
+        @DisplayName("should be valid when ownerId is null (skip validation)")
+        fun `should be valid when ownerId is null`() {
             val entity = TestEntity(
-                missionId = null,
+                ownerId = null,
                 startDateTimeUtc = Instant.parse("2023-12-31T10:00:00Z"),
                 endDateTimeUtc = Instant.parse("2024-01-02T12:00:00Z")
             )

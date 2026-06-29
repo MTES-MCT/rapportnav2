@@ -26,8 +26,8 @@ class ComputePatrolData(
     private val getInfoAboutNavAction2: GetInfoAboutNavAction2,
     private val computeInternTrainingSummary: ComputeInternTrainingSummary,
 ) {
-    fun execute(missionId: Int): PatrolDataEntity? {
-        val mission: MissionEntity = getComputeEnvMission.execute(missionId = missionId)
+    fun execute(envMissionId: Int): PatrolDataEntity? {
+        val mission: MissionEntity = getComputeEnvMission.execute(externalId = envMissionId)
 
         // section "Activité du navire"
         val activity = computeActivity(mission = mission)
@@ -45,8 +45,8 @@ class ComputePatrolData(
         val internTrainingSummary = computeInternTrainingSummary.execute(passengers = mission.generalInfos?.passengers)
 
         return PatrolDataEntity(
-            id = missionId,
-            idUUID = mission.generalInfos?.data?.missionIdUUID,
+            id = mission.id,
+            externalId = envMissionId,
             serviceId = mission.generalInfos?.data?.service?.id,
             startDateTimeUtc = mission.data?.startDateTimeUtc,
             endDateTimeUtc = mission.data?.endDateTimeUtc,

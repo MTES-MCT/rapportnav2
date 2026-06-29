@@ -6,9 +6,7 @@ import java.util.*
 
 interface IMissionCrewRepository {
 
-    fun findByMissionId(missionId: Int): List<MissionCrewEntity>
-
-    fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewEntity>
+    fun findByMissionId(missionId: UUID): List<MissionCrewEntity>
 
     fun deleteById(id: Int): Boolean
 

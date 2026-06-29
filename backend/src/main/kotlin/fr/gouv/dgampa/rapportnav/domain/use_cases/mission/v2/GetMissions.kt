@@ -23,6 +23,8 @@ class GetMissions(
 
     fun execute(startDateTimeUtc: Instant, endDateTimeUtc: Instant? = null): List<MissionEntity?> {
         val user: User? = getUserFromToken.execute()
+
+        // needed for refetch monitorenv and keep sync
         val envEntities: List<MissionEnvEntity>?  = getEnvMissions.execute(
             startedAfterDateTime = startDateTimeUtc,
             startedBeforeDateTime = endDateTimeUtc,
@@ -30,16 +32,19 @@ class GetMissions(
             pageSize = null,
             controlUnits = getControlUnitsForUser.execute()
         )
+
+        // nav missions only, from database
         val navEntities = getNavMissions.execute(
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             serviceId = user?.serviceId,
+            navMissionsOnly = true
         )
 
         val envMissions = envEntities?.map { getComputeEnvMission.execute(envMission = it) }.orEmpty()
         val navMissions = navEntities?.map { getComputeNavMission.execute(navMission = it) }.orEmpty()
 
-        return(envMissions + navMissions).sortedByDescending { it?.data?.startDateTimeUtc }
+        return(envMissions + navMissions).sortedByDescending { it.data?.startDateTimeUtc }
 
     }
 }

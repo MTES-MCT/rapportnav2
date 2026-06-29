@@ -12,7 +12,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.*
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
@@ -24,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
+import org.mockito.kotlin.any as kAny
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -72,15 +72,12 @@ class UpdateGeneralInfoTest {
     }
 
     private fun createMissionGeneralInfoEntityData(
-        missionId: Int? = null,
-        serviceId: Int?,
-        missionIdUUID: UUID? = null
+        missionId: UUID? = null,
+        serviceId: Int?
     ): MissionGeneralInfoEntity {
         val entity = MissionGeneralInfoEntityMock.create(
             id = 1,
-            missionId = missionId,
             service = ServiceEntityMock.create(id = serviceId),
-            missionIdUUID = missionIdUUID
         )
         return entity
     }
@@ -88,11 +85,10 @@ class UpdateGeneralInfoTest {
     @Test
     fun `execute should update mission service when service ID has changed`() {
         // Given
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val oldServiceId = 456
         val newServiceId = 789
         val missionGeneralInfo = MissionGeneralInfo2Mock.create(
-            missionId = missionId,
             service = Service.fromServiceEntity(ServiceEntityMock.create(id = newServiceId)),
             )
 
@@ -104,7 +100,7 @@ class UpdateGeneralInfoTest {
         `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId = missionId, generalInfo = missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
@@ -124,11 +120,10 @@ class UpdateGeneralInfoTest {
     @Test
     fun `execute should update crew and mission env when service ID remains the same`() {
         // Given
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val serviceId = 456
         val crew = listOf<MissionCrew>(MissionCrew(
             id = 3,
-            missionId = missionId,
             agent = Agent(id = 1, firstName = "", lastName = "", service = Service(
                 id = 1,
                 name = "Service1",
@@ -142,7 +137,6 @@ class UpdateGeneralInfoTest {
         val passengerEntity = MissionPassengerEntityMock.create()
 
         val missionGeneralInfo  = MissionGeneralInfo2Mock.create(
-            missionId = missionId,
             service = Service.fromServiceEntity(ServiceEntityMock.create(id = serviceId)),
             )
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
@@ -151,33 +145,23 @@ class UpdateGeneralInfoTest {
         // When
         `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
-        `when`(processMissionCrew.execute(anyInt(), anyOrNull())).thenReturn(crewEntity)
-        `when`(processMissionPassengers.execute(anyInt(), anyOrNull())).thenReturn(listOf(passengerEntity))
+        `when`(processMissionCrew.execute(kAny(), anyOrNull())).thenReturn(crewEntity)
+        `when`(processMissionPassengers.execute(kAny(), anyOrNull())).thenReturn(listOf(passengerEntity))
 
-        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId = missionId, generalInfo = missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
 
         // Verify processMissionCrew was called with the exact missionId and crew
         verify(processMissionCrew).execute(
-            anyInt(), anyOrNull()
+            kAny(), anyOrNull()
         )
-        // Verify processMissionCrew was called with the exact missionId and crew
+        // Verify processMissionPassengers was called with the exact missionId and passengers
         verify(processMissionPassengers).execute(
-            anyInt(), anyOrNull()
+            kAny(), anyOrNull()
         )
 
-        val input = MissionEnvInput(
-            isUnderJdp = null,
-            missionId = missionId,
-            startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
-            endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
-            missionTypes = missionGeneralInfo.missionTypes,
-            observationsByUnit = missionGeneralInfo.observations,
-            resources = missionGeneralInfoEntity.resources?.map { it }
-        )
-        verify(patchMissionEnv).execute(input)
         assertEquals(
             MissionGeneralInfoEntity2(
                 data = missionGeneralInfoEntity,
@@ -191,9 +175,8 @@ class UpdateGeneralInfoTest {
     @Test
     fun `execute should handle null service ID`() {
         // Given
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val missionGeneralInfo = MissionGeneralInfo2Mock.create(
-            missionId = missionId,
             service = null,
         )
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
@@ -204,22 +187,13 @@ class UpdateGeneralInfoTest {
         `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId = missionId, generalInfo = missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
         verify(processMissionCrew).execute(missionId, emptyList())
         verify(processMissionPassengers).execute(missionId, emptyList())
 
-        val input = MissionEnvInput(
-            missionId = missionId,
-            startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
-            endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
-            missionTypes = missionGeneralInfo.missionTypes,
-            observationsByUnit = missionGeneralInfo.observations,
-            resources = missionGeneralInfoEntity.resources?.map { it }
-        )
-        verify(patchMissionEnv).execute(input)
         assertEquals(
             MissionGeneralInfoEntity2(
                 data = missionGeneralInfoEntity,
@@ -233,9 +207,8 @@ class UpdateGeneralInfoTest {
     @Test
     fun `execute should propagate exception when dependency throws`() {
         // Given
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val missionGeneralInfo = MissionGeneralInfo2Mock.create(
-            missionId = missionId,
             service = null,
         )
 
@@ -243,7 +216,7 @@ class UpdateGeneralInfoTest {
         `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenThrow(RuntimeException("Test exception"))
 
         val exception = assertThrows<RuntimeException> {
-            updateGeneralInfo.execute(missionId, missionGeneralInfo)
+            updateGeneralInfo.execute(missionId = missionId, generalInfo = missionGeneralInfo)
         }
 
         // Then
@@ -257,9 +230,8 @@ class UpdateGeneralInfoTest {
     @Test
     fun `execute should throw BackendUsageException when general info not found for missionId`() {
         // Given
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val missionGeneralInfo = MissionGeneralInfo2Mock.create(
-            missionId = missionId,
             service = null,
         )
 
@@ -267,93 +239,11 @@ class UpdateGeneralInfoTest {
 
         // When/Then
         val exception = assertThrows<BackendUsageException> {
-            updateGeneralInfo.execute(missionId, missionGeneralInfo)
+            updateGeneralInfo.execute(missionId = missionId, generalInfo = missionGeneralInfo)
         }
 
         assertThat(exception.code).isEqualTo(BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION)
         assertThat(exception.message).contains("missionId=$missionId")
-    }
-
-    @Test
-    fun `execute should throw BackendUsageException when missionId mismatch`() {
-        // Given
-        val missionId = 123
-        val differentMissionId = 456
-        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
-            missionId = differentMissionId,
-            service = null,
-        )
-        val previousEntity = createMissionGeneralInfoEntityData(missionId, null)
-
-        `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
-
-        // When/Then
-        val exception = assertThrows<BackendUsageException> {
-            updateGeneralInfo.execute(missionId, missionGeneralInfo)
-        }
-
-        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION)
-    }
-
-    @Test
-    fun `execute should throw BackendUsageException when general info not found for missionIdUUID`() {
-        // Given
-        val missionIdUUID = UUID.randomUUID()
-        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
-            missionIdUUID = missionIdUUID,
-            service = null,
-        )
-
-        `when`(getMissionGeneralInfoByMissionId.execute(missionIdUUID)).thenReturn(null)
-
-        // When/Then
-        val exception = assertThrows<BackendUsageException> {
-            updateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
-        }
-
-        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION)
-        assertThat(exception.message).contains("missionIdUUID=$missionIdUUID")
-    }
-
-
-    @Test
-    fun `execute should update mission service when service ID has changed for missionId uuid`() {
-        // Given
-        val missionIdUUID = UUID.randomUUID()
-        val oldServiceId = 456
-        val newServiceId = 789
-        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
-            missionIdUUID = missionIdUUID,
-            service = Service.fromServiceEntity(ServiceEntityMock.create(id = newServiceId)),
-
-            )
-        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)
-        val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
-        val previousEntity = createMissionGeneralInfoEntityData(missionIdUUID = missionIdUUID, serviceId = oldServiceId)
-
-        // When
-        `when`(getMissionGeneralInfoByMissionId.execute(missionIdUUID)).thenReturn(previousEntity)
-        `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
-
-        val result = updateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
-
-        // Then
-        verify(generalInfoRepository).save(missionGeneralInfoEntity)
-        verify(getMissionCrew).execute(
-            missionIdUUID = missionIdUUID,
-            newServiceId = newServiceId,
-            oldServiceId = oldServiceId,
-            generalInfo = missionGeneralInfo
-        )
-
-        assertEquals(
-            MissionGeneralInfoEntity2(
-                data = missionGeneralInfoEntity,
-                crew = emptyList(),
-                passengers = emptyList(),
-            ),
-            result
-        )
     }
 
 }

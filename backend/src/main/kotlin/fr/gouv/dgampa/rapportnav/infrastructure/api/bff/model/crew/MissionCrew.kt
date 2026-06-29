@@ -8,10 +8,9 @@ import kotlin.collections.orEmpty
 data class MissionCrew(
     val id: Int? = null,
     val agent: Agent? = null,
-    val missionId: Int? = null,
+    val missionId: UUID? = null,
     val comment: String? = null,
     val role: AgentRole? = null,
-    val missionIdUUID: UUID? = null,
     val absences: List<MissionCrewAbsence>? = null,
     var fullName: String? = null,
 ) {
@@ -24,19 +23,17 @@ data class MissionCrew(
                 agent = crew.agent?.let { Agent.fromAgentEntity(it) },
                 role = crew.role?.let { AgentRole.fromAgentRoleEntity(it) },
                 comment = crew.comment,
-                missionIdUUID = crew.missionIdUUID,
                 absences = crew.absences.orEmpty().map { MissionCrewAbsence.fromMissionCrewAbsenceEntity(it) },
                 fullName = crew.fullName,
             )
         }
     }
 
-    fun toMissionCrewEntity(missionIdUUID: UUID?= null, missionId: Int? = null): MissionCrewEntity {
+    fun toMissionCrewEntity(missionId: UUID? = null): MissionCrewEntity {
         return MissionCrewEntity(
             id = if (id == 0 || id == null) null else id,
-            missionIdUUID = missionIdUUID,
-            agent = agent?.toAgentEntity(),
             missionId = missionId,
+            agent = agent?.toAgentEntity(),
             comment = comment,
             role = role?.toAgentRoleEntity(),
             absences = absences.orEmpty().map { it.toMissionCrewAbsenceEntity() },

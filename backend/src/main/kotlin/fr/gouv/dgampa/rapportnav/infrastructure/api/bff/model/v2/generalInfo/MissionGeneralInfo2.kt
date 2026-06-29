@@ -16,7 +16,7 @@ import java.util.*
 
 data class MissionGeneralInfo2(
     val id: Int? = null,
-    val missionId: Int? = null,
+    val missionId: UUID? = null,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val missionReportType: MissionReportTypeEnum? = null,
@@ -40,7 +40,6 @@ data class MissionGeneralInfo2(
     val resources: List<LegacyControlUnitResource>? = listOf(),
     val interMinisterialServices: List<InterMinisterialService>? = listOf(),
     val jdpType: JdpTypeEnum? = null,
-    val missionIdUUID: UUID? = null,
     val isDeleted: Boolean? = null,
     val isUnderJdp: Boolean? = null,
     var isResourcesNotUsed: Boolean? = null
@@ -76,14 +75,13 @@ data class MissionGeneralInfo2(
                 reinforcementType = generalInfo2?.data?.reinforcementType,
                 jdpType = generalInfo2?.data?.jdpType,
                 isUnderJdp = isUnderJdp,
-                missionIdUUID = generalInfo2?.data?.missionIdUUID,
                 isResourcesNotUsed = generalInfo2?.data?.isResourcesNotUsed
 
             )
         }
     }
 
-    fun toMissionGeneralInfoEntity(missionId: Int? = null, missionIdUUID: UUID? = null, inputService: ServiceEntity? = null): MissionGeneralInfoEntity {
+    fun toMissionGeneralInfoEntity(missionId: UUID? = null, inputService: ServiceEntity? = null): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
             id = id,
             missionId = missionId,
@@ -102,7 +100,6 @@ data class MissionGeneralInfo2(
             missionReportType = missionReportType,
             reinforcementType = reinforcementType,
             jdpType = jdpType,
-            missionIdUUID = missionIdUUID,
             isResourcesNotUsed = isResourcesNotUsed
         )
     }

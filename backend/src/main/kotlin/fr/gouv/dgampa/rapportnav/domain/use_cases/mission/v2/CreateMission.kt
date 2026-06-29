@@ -9,6 +9,8 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import java.time.Instant
+import java.util.*
 
 @UseCase
 class CreateMission(
@@ -25,17 +27,24 @@ class CreateMission(
             )
         }
 
+        // just create nav mission
         if (generalInfo2.isMissionNav()) {
             return executeNavMission(
                 service = service,
                 generalInfo2 = generalInfo2
             )
         }
+        // for env missions, create in both databases
+        else {
+            val mission = executeEnvMission(
+                generalInfo2 = generalInfo2,
+                controlUnitIds = service.controlUnits
+            )
+            createNavMission.execute(mission = mission)
+            return mission
+        }
 
-        return executeEnvMission(
-            generalInfo2 = generalInfo2,
-            controlUnitIds = service.controlUnits
-        )
+
     }
 
     private fun executeNavMission(generalInfo2: MissionGeneralInfo2, service: ServiceEntity): MissionEntity {
@@ -43,14 +52,13 @@ class CreateMission(
             generalInfo2 = generalInfo2,
             serviceId = service.id!!
         )
-        val generalInfosEntity = createGeneralInfos.execute(missionIdUUID = missionNav.id, generalInfo2 = generalInfo2, service = service)
+        val generalInfosEntity = createGeneralInfos.execute(missionId = missionNav.id, generalInfo2 = generalInfo2, service = service)
 
         return MissionEntity(
-            idUUID = missionNav.id,
+            id = missionNav.id,
             generalInfos = generalInfosEntity,
             data = MissionEnvEntity(
-                idUUID = missionNav.id,
-                startDateTimeUtc = missionNav.startDateTimeUtc,
+                startDateTimeUtc = missionNav.startDateTimeUtc ?: Instant.now(),
                 endDateTimeUtc = missionNav.endDateTimeUtc,
                 isUnderJdp = false,
                 isDeleted = missionNav.isDeleted,
@@ -64,14 +72,16 @@ class CreateMission(
 
     private fun executeEnvMission(generalInfo2: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEntity {
         val missionEnv = createEnvMission.execute(generalInfo2, controlUnitIds)
-        val generalInfosEntity = createGeneralInfos.execute(missionId = missionEnv.id, generalInfo2 = generalInfo2)
+        val missionUUID = UUID.randomUUID()
+        val generalInfosEntity = createGeneralInfos.execute(missionId = missionUUID, generalInfo2 = generalInfo2)
 
         return MissionEntity(
-            id = missionEnv.id!!,
+            id = missionUUID,
+            externalId = missionEnv.externalId?.toString(),
             actions = listOf(),
             generalInfos = generalInfosEntity,
             data = MissionEnvEntity(
-                id = missionEnv.id,
+                externalId = missionEnv.externalId,
                 missionTypes = missionEnv.missionTypes,
                 startDateTimeUtc = missionEnv.startDateTimeUtc,
                 endDateTimeUtc = missionEnv.endDateTimeUtc,

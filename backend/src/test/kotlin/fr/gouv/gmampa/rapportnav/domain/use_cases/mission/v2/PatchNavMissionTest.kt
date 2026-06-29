@@ -30,13 +30,13 @@ class PatchNavMissionTest {
 
     @Test
     fun `execute should return null when MissionEntity are equal`() {
-        val missionIdUUID = UUID.randomUUID()
+        val missionId = UUID.randomUUID()
 
         // Given
         val entity = MissionNavEntity(
             serviceId = 2,
             isDeleted = false,
-            id = missionIdUUID,
+            id = missionId,
             observationsByUnit = "observation",
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
@@ -52,10 +52,10 @@ class PatchNavMissionTest {
 
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(repository.save(anyOrNull())).thenReturn(entity.toMissionModel())
-        Mockito.`when`(getNavMissionById2.execute(id = missionIdUUID)).thenReturn(entity)
+        Mockito.`when`(getNavMissionById2.execute(id = missionId)).thenReturn(entity)
 
         // When
-        patchNavMission.execute(id = missionIdUUID, input)
+        patchNavMission.execute(id = missionId, input)
 
         // Then
         verify(repository, times(1)).save(entity.fromMissionNavInput(input))
@@ -63,13 +63,13 @@ class PatchNavMissionTest {
 
     @Test
     fun `execute should return MissionEnvEntity when MissionEntity are not equal`() {
-        val missionIdUUID = UUID.randomUUID()
+        val missionId = UUID.randomUUID()
 
         // Given
         val entity = MissionNavEntity(
             serviceId = 2,
             isDeleted = false,
-            id = missionIdUUID,
+            id = missionId,
             observationsByUnit = "observation",
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
@@ -85,10 +85,10 @@ class PatchNavMissionTest {
 
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(repository.save(anyOrNull())).thenReturn(entity.toMissionModel())
-        Mockito.`when`(getNavMissionById2.execute(id = missionIdUUID)).thenReturn(entity)
+        Mockito.`when`(getNavMissionById2.execute(id = missionId)).thenReturn(entity)
 
         // When
-        patchNavMission.execute(id = missionIdUUID, input)
+        patchNavMission.execute(id = missionId, input)
 
         // Then
         verify(repository, never()).save(entity.fromMissionNavInput(input))

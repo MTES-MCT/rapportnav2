@@ -10,17 +10,10 @@ class GetMissionPassengers(
     private val repo: IMissionPassengerRepository
 ) {
 
-    fun execute(missionId: Int?): List<MissionPassengerEntity> {
+    fun execute(missionId: UUID?): List<MissionPassengerEntity> {
         requireNotNull(missionId) { "missionId cannot be null" }
 
         return repo.findByMissionId(missionId)
-            .map { MissionPassengerEntity.fromMissionPassengerModel(it) }
-    }
-
-    fun execute(missionIdUUID: UUID?): List<MissionPassengerEntity> {
-        requireNotNull(missionIdUUID) { "missionIdUUID cannot be null" }
-
-        return repo.findByMissionIdUUID(missionIdUUID)
             .map { MissionPassengerEntity.fromMissionPassengerModel(it) }
     }
 }

@@ -13,15 +13,13 @@ class CreateGeneralInfos(
     private val generalInfosRepository: IMissionGeneralInfoRepository
 ) {
     fun execute(
-        missionId: Int? = null,
-        missionIdUUID: UUID? = null,
+        missionId: UUID? = null,
         generalInfo2: MissionGeneralInfo2,
         service: ServiceEntity? = null
     ): MissionGeneralInfoEntity2 {
         val generalInfoModel = generalInfosRepository.save(
             generalInfo2.toMissionGeneralInfoEntity(
                 missionId = missionId,
-                missionIdUUID = missionIdUUID,
                 inputService = service
             )
         )
@@ -29,7 +27,6 @@ class CreateGeneralInfos(
             data = MissionGeneralInfoEntity(
                 id = generalInfoModel.id,
                 missionId = generalInfoModel.missionId,
-                missionIdUUID = generalInfoModel.missionIdUUID,
                 missionReportType = generalInfo2.missionReportType,
                 service = service
             )

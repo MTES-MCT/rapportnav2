@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMMultipleZipped
@@ -53,7 +54,6 @@ class ExportMissionAEMMultipleZippedTest {
             generalInfos = MissionGeneralInfoEntity2(
                 data = MissionGeneralInfoEntityMock.create(
                     id = 1,
-                    missionId = missionIds.first(),
                     service = ServiceEntityMock.create(),
                     nbrOfRecognizedVessel = 3,
                     consumedFuelInLiters = 3f,
@@ -64,7 +64,7 @@ class ExportMissionAEMMultipleZippedTest {
             )
         )
 
-        `when`(getComputeEnvMission.execute(missionId = mission2.id)).thenReturn(
+        `when`(getComputeEnvMission.execute(externalId = missionIds.first())).thenReturn(
             mission2
         )
 
@@ -77,7 +77,7 @@ class ExportMissionAEMMultipleZippedTest {
     @Test
     fun `should propagate exception when underlying service throws`() {
         val missionIds = listOf(1)
-        `when`(getComputeEnvMission.execute(missionId = 1))
+        `when`(getComputeEnvMission.execute(externalId = 1))
             .thenThrow(RuntimeException("Mock exception"))
 
         assertThrows(RuntimeException::class.java) {

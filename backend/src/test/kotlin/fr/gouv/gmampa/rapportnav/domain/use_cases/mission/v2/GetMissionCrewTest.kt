@@ -54,20 +54,15 @@ class GetMissionCrewTest {
     @Test
     fun `execute get service, in general infos when new serviceId and old serviceId are the same`() {
         val serviceId = 3
-        val missionId = 761
-        val missionIdUUID = UUID.randomUUID()
+        val missionId = UUID.randomUUID()
         val crew = listOf(
             MissionCrewEntityMock.create(
                 agent = agent1,
                 role = role,
-                missionId = missionId,
-                missionIdUUID = missionIdUUID,
             ),
             MissionCrewEntityMock.create(
                 agent = agent2,
                 role = role,
-                missionId = missionId,
-                missionIdUUID = missionIdUUID
             ),
         )
         val generalInfos = MissionGeneralInfo2(
@@ -77,8 +72,6 @@ class GetMissionCrewTest {
             newServiceId = serviceId,
             oldServiceId = serviceId,
             generalInfo = generalInfos,
-            missionId = missionId,
-            missionIdUUID = missionIdUUID,
         )
 
         // Then

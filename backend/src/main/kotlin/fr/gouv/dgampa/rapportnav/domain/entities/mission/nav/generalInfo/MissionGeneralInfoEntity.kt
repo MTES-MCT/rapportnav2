@@ -12,7 +12,7 @@ import java.util.*
 
 data class MissionGeneralInfoEntity(
     var id: Int? = null,
-    var missionId: Int? = null,
+    var missionId: UUID? = null,
     @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "La distance en milles nautiques doit être positive")
     var distanceInNauticalMiles: Float? = null,
     @field:Min(value = 0L, groups = [ValidateThrowsBeforeSave::class], message = "La consommation de GO doit être positive")
@@ -36,7 +36,6 @@ data class MissionGeneralInfoEntity(
     var reinforcementType: MissionReinforcementTypeEnum? = null,
     var interMinisterialServices: List<InterMinisterialServiceEntity>? = listOf(),
     var jdpType: JdpTypeEnum? = null,
-    var missionIdUUID: UUID? = null,
     var isResourcesNotUsed: Boolean? = null
 ) {
 
@@ -59,7 +58,6 @@ data class MissionGeneralInfoEntity(
                 reinforcementType = model.reinforcementType,
                 interMinisterialServices = model.interMinisterialServices?.map { InterMinisterialServiceEntity.fromInterMinisterialServiceModel(it) }?: listOf(),
                 jdpType = model.jdpType,
-                missionIdUUID = model.missionIdUUID,
                 isResourcesNotUsed = model.isResourcesNotUsed
             )
         }
@@ -84,7 +82,6 @@ data class MissionGeneralInfoEntity(
             reinforcementType = reinforcementType,
             interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceModel() },
             jdpType = jdpType,
-            missionIdUUID = missionIdUUID,
             isResourcesNotUsed = isResourcesNotUsed
         )
     }

@@ -15,7 +15,7 @@ const useCreateMissionMutation = (): UseMutationResult<Mission2, Error, MissionG
     mutationFn: createMission,
     onSuccess: (data: Mission2) => {
       queryClient.invalidateQueries({ queryKey: missionsKeys.all() })
-      if (data.idUUID) queryClient.invalidateQueries({ queryKey: missionsKeys.byId(data.idUUID) })
+      if (data.id) queryClient.invalidateQueries({ queryKey: missionsKeys.byId(data.id) })
     },
     onError: error => {
       Sentry.captureException(error)

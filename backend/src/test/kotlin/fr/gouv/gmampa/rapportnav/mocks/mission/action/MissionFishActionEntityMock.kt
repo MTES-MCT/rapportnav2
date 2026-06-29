@@ -13,11 +13,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Specie
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
 import java.time.Instant
+import java.util.*
 
 object MissionFishActionEntityMock {
     fun create(
         id: Int? = 1,
-        missionId: Int = 1,
+        ownerId: UUID = UUID.randomUUID(),
         vesselId: Int? = null,
         vesselName: String? = null,
         internalReferenceNumber: String? = null,
@@ -74,7 +75,7 @@ object MissionFishActionEntityMock {
     ): MissionFishActionEntity {
         return MissionFishActionEntity(
             id = id,
-            missionId = missionId,
+            ownerId = ownerId,
             vesselId = vesselId,
             vesselName = vesselName,
             internalReferenceNumber = internalReferenceNumber,

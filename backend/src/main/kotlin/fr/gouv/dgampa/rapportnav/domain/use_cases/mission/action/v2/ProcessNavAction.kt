@@ -20,7 +20,7 @@ class ProcessNavAction(
         action.targets = getComputeTarget.execute(actionId = action.getActionId(), isControl = action.isControl())
 
         val missionDates = getMissionDates.execute(
-            missionId = action.missionId,
+            missionId = action.ownerId!!,
             ownerId = action.ownerId,
             inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
         )

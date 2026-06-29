@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPolicyData
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
@@ -39,7 +40,7 @@ class ComputeControlPoliciesTest {
 
     @Test
     fun `calls dependencies and aggregates results`() {
-        val mission = MissionEntity(id = 123)
+        val mission = MissionEntity(id = UUID.randomUUID())
 
         val dummyResult = ControlPolicyData()
         whenever(proFishing.computeFishingRelatedInfractions(mission)).thenReturn(dummyResult)

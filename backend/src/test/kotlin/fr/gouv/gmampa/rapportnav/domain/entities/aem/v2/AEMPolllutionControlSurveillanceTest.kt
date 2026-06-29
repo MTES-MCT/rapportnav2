@@ -54,23 +54,23 @@ class AEMPolllutionControlSurveillanceTest {
         assertThat(AEMPollutionControlSurveillance.getNbrOfInfraction(listOf(null))).isEqualTo(0.0)
         assertThat(AEMPollutionControlSurveillance.getNbrOfInfractionWithNotice(listOf(null))).isEqualTo(0.0)
         assertThat(AEMPollutionControlSurveillance.getNbrOfInfraction(listOf(
-            MissionEnvActionEntity(missionId = 761, id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, envInfractions = null)
+            MissionEnvActionEntity(id = UUID.randomUUID(), ownerId = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, envInfractions = null)
         ))).isEqualTo(0.0)
         assertThat(AEMPollutionControlSurveillance.getNbrOfInfraction(listOf(
-            MissionEnvActionEntity(missionId = 761, id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, envInfractions = listOf(
+            MissionEnvActionEntity(id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, ownerId = UUID.randomUUID(), envInfractions = listOf(
                 InfractionEnvEntity(id = "1", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT, natinf = null)
             ))
         ))).isEqualTo(0.0)
         assertThat(AEMPollutionControlSurveillance.getNbrOfInfractionWithNotice(listOf(
-            MissionEnvActionEntity(missionId = 761, id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, envInfractions = null)
+            MissionEnvActionEntity(id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL, ownerId = UUID.randomUUID(), envInfractions = null)
         ))).isEqualTo(0.0)
     }
 
     private fun extendedEnvActionEntities(): List<MissionEnvActionEntity> {
         val actions = listOf(
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 102, name = "Pollution")),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
@@ -91,16 +91,16 @@ class AEMPolllutionControlSurveillanceTest {
                 ),
             ),
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 themes = listOf(ThemeEntity(id = 19, name = "Theme 19")),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             ),
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 themes = listOf(ThemeEntity(id = 100, name = "Theme 100")),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
@@ -114,14 +114,14 @@ class AEMPolllutionControlSurveillanceTest {
         val actions = listOf(
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+            ownerId = UUID.randomUUID(),
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+            ownerId = UUID.randomUUID(),
                 actionType = ActionType.ANTI_POLLUTION,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -132,7 +132,7 @@ class AEMPolllutionControlSurveillanceTest {
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+            ownerId = UUID.randomUUID(),
                 actionType = ActionType.ANTI_POLLUTION,
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),

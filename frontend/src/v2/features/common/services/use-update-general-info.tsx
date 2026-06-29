@@ -51,9 +51,9 @@ export const offlineUpdateGeneralInfoMutationDefault = {
     cleanupMutations(missionsKeys.update(), missionId, true)
   },
   onSuccess: async (serverResponse, data, _context) => {
-    const { missionId, missionIdUUID } = serverResponse.data
+    const { missionId } = serverResponse.data
     await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(missionIdUUID ?? missionId),
+      queryKey: missionsKeys.byId(missionId),
       type: 'all'
     })
   },
@@ -76,9 +76,9 @@ export const offlineUpdateGeneralInfoMutationDefault = {
 export const onlineUpdateGeneralInfoMutationDefault = {
   mutationFn: updateGeneralInfos,
   onSuccess: async (serverResponse, data, _context) => {
-    const { missionId, missionIdUUID } = serverResponse.data
+    const { missionId } = serverResponse.data
     await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(missionIdUUID ?? missionId),
+      queryKey: missionsKeys.byId(missionId),
       type: 'all'
     })
   },

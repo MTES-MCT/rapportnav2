@@ -9,8 +9,7 @@ import java.util.UUID
 
 data class AdminGeneralInfosOutput(
     val id: Int?,
-    val missionId: Int?,
-    val missionIdUUID: UUID?,
+    val missionId: UUID?,
     val serviceId: Int?,
     val distanceInNauticalMiles: Float?,
     val consumedGOInLiters: Float?,
@@ -35,7 +34,6 @@ data class AdminGeneralInfosOutput(
             return AdminGeneralInfosOutput(
                 id = model.id,
                 missionId = model.missionId,
-                missionIdUUID = model.missionIdUUID,
                 serviceId = model.service?.id,
                 distanceInNauticalMiles = model.distanceInNauticalMiles,
                 consumedGOInLiters = model.consumedGOInLiters,

@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 import java.util.*
 
 interface INavMissionActionRepository {
-    fun findByMissionId(missionId: Int): List<MissionActionModel>
+    fun findByMissionId(missionId: UUID): List<MissionActionModel>
 
     fun findByOwnerId(ownerId: UUID): List<MissionActionModel>
 

@@ -40,7 +40,6 @@ class RequiredFieldsValidatorTest {
         fun `PAM - should be valid when all required fields are present`() {
             val entity = MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 100,
                 service = pamService,
                 distanceInNauticalMiles = 50.5f,
                 consumedGOInLiters = 100.0f,
@@ -57,7 +56,6 @@ class RequiredFieldsValidatorTest {
         fun `PAM - should be invalid when required fields are null`() {
             val entity = MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 100,
                 service = pamService,
                 distanceInNauticalMiles = null,
                 consumedGOInLiters = null,
@@ -75,7 +73,6 @@ class RequiredFieldsValidatorTest {
         fun `ULAM - should not require PAM fields`() {
             val entity = MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 100,
                 service = ulamService,
                 distanceInNauticalMiles = null,
                 consumedGOInLiters = null,
@@ -92,7 +89,6 @@ class RequiredFieldsValidatorTest {
         fun `ULAM - should require interMinisterialServices when isWithInterMinisterialService is true`() {
             val entity = MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 100,
                 service = ulamService,
                 isWithInterMinisterialService = true,
                 interMinisterialServices = listOf()
@@ -108,7 +104,6 @@ class RequiredFieldsValidatorTest {
         fun `ULAM - should be valid when isWithInterMinisterialService is true and services provided`() {
             val entity = MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 100,
                 service = ulamService,
                 isWithInterMinisterialService = true,
                 interMinisterialServices = listOf(
@@ -125,7 +120,6 @@ class RequiredFieldsValidatorTest {
         fun `ULAM - should not require interMinisterialServices when isWithInterMinisterialService is false`() {
             val entity = MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 100,
                 service = ulamService,
                 isWithInterMinisterialService = false
             )
@@ -181,7 +175,7 @@ class RequiredFieldsValidatorTest {
             establishment: EstablishmentEntity? = null
         ) = MissionNavActionEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            ownerId = UUID.randomUUID(),
             actionType = actionType,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,

@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
@@ -9,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -49,7 +51,7 @@ class ExportMissionPatrolSingleTest {
 
     @Test
     fun `execute should throw BackendUsageException if mission is not found`() {
-        val missionId = 123
+        val missionId = 999
         `when`(getMission.execute(missionId))
             .thenAnswer {
                 throw BackendUsageException(
@@ -67,7 +69,7 @@ class ExportMissionPatrolSingleTest {
     @Test
     fun `createFile should throw BackendInternalException when underlying service throws`() {
         val missionId = 123
-        val mission = MissionEntityMock.create(id = missionId)
+        val mission = MissionEntityMock.create()
         `when`(computePatrolData.execute(missionId)).thenThrow(RuntimeException("boom"))
 
         assertThrows(BackendInternalException::class.java) {
@@ -77,7 +79,7 @@ class ExportMissionPatrolSingleTest {
 
     @Test
     fun `createFile should throw BackendInternalException when mission id is null`() {
-        val mission = MissionEntityMock.create(id = null)
+        val mission = MissionEntity(id = UUID.randomUUID(), externalId = null)
 
         assertThrows(BackendInternalException::class.java) {
             exportMissionRapportPatrouille.createFile(mission)
@@ -86,7 +88,7 @@ class ExportMissionPatrolSingleTest {
 
 //    @Test
 //    fun `execute should return MissionExportEntity`() {
-//        val missionId = 123
+//        val 
 //        val output = MissionExportEntity(
 //            fileName = "rapport.odt",
 //            fileContent = "some content"

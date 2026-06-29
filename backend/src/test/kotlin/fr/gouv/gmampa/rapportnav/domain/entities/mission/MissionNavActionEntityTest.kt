@@ -36,7 +36,7 @@ class MissionNavActionEntityTest {
 
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(model.id)
-        assertThat(entity.missionId).isEqualTo(model.missionId)
+        assertThat(entity.ownerId).isEqualTo(model.ownerId)
         assertThat(entity.startDateTimeUtc).isEqualTo(model.startDateTimeUtc)
         assertThat(entity.endDateTimeUtc).isEqualTo(model.endDateTimeUtc)
         assertThat(entity.observations).isEqualTo(model.observations)
@@ -100,8 +100,8 @@ class MissionNavActionEntityTest {
     @Test
     fun `execute should retrieve action model from entity`() {
         val entity = MissionNavActionEntity(
-            missionId = 761,
             id = UUID.fromString("0000-00-00-00-000000"),
+            ownerId = UUID.randomUUID(),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",
@@ -135,7 +135,6 @@ class MissionNavActionEntityTest {
             nbAssistedVesselsReturningToShore = 50,
             reason = ActionStatusReason.ADMINISTRATION,
             status = ActionStatusType.ANCHORED,
-            ownerId = UUID.randomUUID(),
             nbrOfHours = 45,
             nbrOfControl = 34,
             sectorType = SectorType.FISHING,
@@ -154,7 +153,7 @@ class MissionNavActionEntityTest {
 
         assertThat(model).isNotNull()
         assertThat(model.id).isEqualTo(entity.id)
-        assertThat(model.missionId).isEqualTo(entity.missionId)
+        assertThat(model.ownerId).isEqualTo(entity.ownerId)
         assertThat(model.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
         assertThat(model.endDateTimeUtc).isEqualTo(entity.endDateTimeUtc)
         assertThat(model.observations).isEqualTo(entity.observations)

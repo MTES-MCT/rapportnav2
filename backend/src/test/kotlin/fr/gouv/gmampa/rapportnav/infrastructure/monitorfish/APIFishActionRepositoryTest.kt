@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorfish
 
+import java.util.*
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
@@ -99,7 +100,7 @@ class APIFishActionRepositoryTest {
                 monitorFishApiKey = apiKey
             )
 
-            val result = repository.findFishActions(missionId = 456)
+            val result = repository.findFishActions(missionId = 123)
 
             assertEquals(1, result.size)
             assertEquals(123, result[0].id)
@@ -131,11 +132,11 @@ class APIFishActionRepositoryTest {
                 monitorFishApiKey = apiKey
             )
 
-            repository.findFishActions(missionId = 456)
+            repository.findFishActions(missionId = 123)
 
             verify(httpClient).send(
                 argThat { request ->
-                    request.uri() == URI.create("$host/api/v1/mission_actions?missionId=456")
+                    request.uri() == URI.create("$host/api/v1/mission_actions?missionId=123")
                 },
                 Mockito.any<HttpResponse.BodyHandler<String>>()
             )
@@ -162,7 +163,7 @@ class APIFishActionRepositoryTest {
                 monitorFishApiKey = apiKey
             )
 
-            val result = repository.findFishActions(missionId = 456)
+            val result = repository.findFishActions(missionId = 123)
 
             assertTrue(result.isEmpty())
         }
@@ -189,7 +190,7 @@ class APIFishActionRepositoryTest {
             )
 
             val exception = assertThrows(BackendInternalException::class.java) {
-                repository.findFishActions(missionId = 456)
+                repository.findFishActions(missionId = 123)
             }
             assertTrue(exception.message.contains("404"))
         }
@@ -216,7 +217,7 @@ class APIFishActionRepositoryTest {
             )
 
             val exception = assertThrows(BackendInternalException::class.java) {
-                repository.findFishActions(missionId = 456)
+                repository.findFishActions(missionId = 123)
             }
             assertTrue(exception.message.contains("500"))
         }

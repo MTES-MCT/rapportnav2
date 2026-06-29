@@ -28,15 +28,14 @@ class GetComputeNavActionListByMissionIdTest {
 
     @MockitoBean
     private lateinit var processNavAction: ProcessNavAction
-
-
     @Test
     fun `test execute get nav action list by mission id`() {
-        val missionId = 761
+        val missionId = UUID.randomUUID()
         val actionId = UUID.randomUUID()
         val action = MissionNavActionEntity(
-            missionId = missionId,
+
             id = actionId,
+            ownerId = UUID.randomUUID(),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",
@@ -48,32 +47,29 @@ class GetComputeNavActionListByMissionIdTest {
 
         val response = MissionNavActionEntity(
             id = actionId,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         )
 
         `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
-        `when`(getNavActionListByOwnerId.execute(missionId = missionId)).thenReturn(listOf(action))
+        `when`(getNavActionListByOwnerId.execute(ownerId = missionId)).thenReturn(listOf(action))
 
-        val navActions = getNavActionList.execute(missionId = missionId)
+        val navActions = getNavActionList.execute(ownerId = missionId)
 
         assertThat(navActions).isNotNull
         assertThat(navActions.size).isEqualTo(1)
         assertThat(navActions[0].id).isEqualTo(action.id)
         assertThat(navActions[0].getActionId()).isEqualTo(actionId.toString())
     }
-
-
     @Test
     fun `test execute get nav action list by mission id UUID`() {
         val actionId = UUID.randomUUID()
-        val missionIdUUID = UUID.randomUUID()
+        val missionId = UUID.randomUUID()
         val action = MissionNavActionEntity(
             id = actionId,
-            missionId = 0,
-            ownerId = missionIdUUID,
+            ownerId = missionId,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",
@@ -85,16 +81,16 @@ class GetComputeNavActionListByMissionIdTest {
 
         val response = MissionNavActionEntity(
             id = actionId,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         )
 
         `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
-        `when`(getNavActionListByOwnerId.execute(ownerId = missionIdUUID)).thenReturn(listOf(action))
+        `when`(getNavActionListByOwnerId.execute(ownerId = missionId)).thenReturn(listOf(action))
 
-        val navActions = getNavActionList.execute(ownerId = missionIdUUID)
+        val navActions = getNavActionList.execute(ownerId = missionId)
 
         assertThat(navActions).isNotNull
         assertThat(navActions.size).isEqualTo(1)
