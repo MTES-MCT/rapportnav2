@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
 import com.neovisionaries.i18n.CountryCode
-import java.time.Instant
 
 data class SatiVesselEntity(
     val id: Int? = null,
@@ -18,7 +17,5 @@ data class SatiVesselEntity(
     val charterer: SatiPartyEntity? = null,
     val agent: SatiPartyEntity? = null,
     val master: SatiPartyEntity? = null,
-    val isMasterOwner: Boolean = false,
-    val createdAt: Instant? = null,
-    val updatedAt: Instant? = null
+    val isMasterOwner: Boolean = false
 )

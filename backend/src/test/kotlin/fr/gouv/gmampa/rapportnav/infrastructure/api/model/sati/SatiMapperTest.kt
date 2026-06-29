@@ -83,8 +83,6 @@ class SatiMapperTest {
             actionId = UUID.randomUUID().toString(),
             resource = ControlResourceEntity(id = 99, name = "Vedette A"),
             vessel = vessel,
-            createdAt = timestamp,
-            updatedAt = timestamp,
             startDatetimeUtc = timestamp,
             endDatetimeUtc = timestamp.plusSeconds(3600),
             inspectors = listOf(inspector)

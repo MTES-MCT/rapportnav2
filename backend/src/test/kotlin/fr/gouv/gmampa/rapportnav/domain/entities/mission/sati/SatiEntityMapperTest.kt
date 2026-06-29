@@ -31,9 +31,7 @@ class SatiEntityMapperTest {
             actionId = "old-action-id",
             vessel = vessel,
             resource = resource,
-            inspectors = inspectors,
-            createdAt = timestamp,
-            updatedAt = timestamp
+            inspectors = inspectors
         )
     }
 
@@ -97,15 +95,6 @@ class SatiEntityMapperTest {
             assertThat(result.actionId).isEqualTo("456")
         }
 
-        @Test
-        fun `should preserve sati timestamps`() {
-            val sati = buildSatiEntity()
-            val action = buildMissionAction()
-            val result = SatiEntityMapper.merge(sati, action)
-
-            assertThat(result.createdAt).isEqualTo(sati.createdAt)
-            assertThat(result.updatedAt).isEqualTo(sati.updatedAt)
-        }
 
         @Test
         fun `should map action datetimes to sati datetimes`() {

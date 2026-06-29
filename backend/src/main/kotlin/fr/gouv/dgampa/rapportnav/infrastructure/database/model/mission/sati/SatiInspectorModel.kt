@@ -34,7 +34,7 @@ class SatiInspectorModel(
     @Column(name = "authority_type", length = 50)
     var authorityType: String? = null,
 
-    @Column(name = "agent_id", length = 255)
+    @Column(name = "agent_id")
     var agentId: Int? = null,
 
     @Column(name = "is_out_of_unit", nullable = false)

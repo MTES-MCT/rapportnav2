@@ -10,8 +10,6 @@ object SatiEntityMapper {
             id = sati.id,
             module = sati.module,
             actionId = action.id?.toString() ?: "",
-            createdAt = sati.createdAt,
-            updatedAt = sati.updatedAt,
             vessel = SatiVesselEntity(
                 jpe = SatiJpeEntity(
                     pnoId = action.pnoReportId,
@@ -31,7 +29,6 @@ object SatiEntityMapper {
                 owner = SatiPartyEntity(
                     contact = ContactEntity(
                         id = null,
-                        createdAt = null,
                         fullName = action.proprietorName,
                         email = action.proprietorEmails?.firstOrNull(),
                         phone = action.proprietorPhones?.firstOrNull(),

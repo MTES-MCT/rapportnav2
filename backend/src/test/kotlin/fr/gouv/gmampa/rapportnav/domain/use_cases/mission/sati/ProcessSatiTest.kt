@@ -58,8 +58,7 @@ class ProcessSatiTest {
         val sati = createSati(
             id = UUID.randomUUID(),
             actionId = actionId,
-            module = SatiModuleType.M1,
-            actionTaken = "Checked"
+            module = SatiModuleType.M1
         )
         val existingInDb = createEntity(
             id = UUID.randomUUID(),
@@ -83,8 +82,7 @@ class ProcessSatiTest {
     private fun createSati(
         id: UUID? = UUID.randomUUID(),
         actionId: String,
-        module: SatiModuleType = SatiModuleType.M1,
-        actionTaken: String? = null
+        module: SatiModuleType = SatiModuleType.M1
     ): Sati {
         return Sati(
             id = id,
@@ -97,15 +95,12 @@ class ProcessSatiTest {
     private fun createEntity(
         id: UUID? = UUID.randomUUID(),
         actionId: String,
-        module: SatiModuleType = SatiModuleType.M1,
-        actionTaken: String? = null
+        module: SatiModuleType = SatiModuleType.M1
     ): SatiEntity {
         return SatiEntity(
             id = id,
             module = module,
             actionId = actionId,
-            createdAt = Instant.parse("2026-03-24T10:15:30Z"),
-            updatedAt = Instant.parse("2026-03-24T11:15:30Z"),
             startDatetimeUtc = Instant.parse("2026-03-24T09:15:30Z")
         )
     }

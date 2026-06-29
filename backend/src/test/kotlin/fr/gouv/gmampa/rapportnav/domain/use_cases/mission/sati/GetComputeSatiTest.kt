@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.EnableSati
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnvControlUnitResourceRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -100,8 +99,6 @@ class GetComputeSatiTest {
             id = UUID.randomUUID(),
             module = SatiModuleType.M1,
             actionId = actionId.toString(),
-            createdAt = Instant.parse("2026-03-24T10:15:30Z"),
-            updatedAt = Instant.parse("2026-03-24T11:15:30Z"),
             startDatetimeUtc = Instant.parse("2026-03-24T09:15:30Z")
         )
     }

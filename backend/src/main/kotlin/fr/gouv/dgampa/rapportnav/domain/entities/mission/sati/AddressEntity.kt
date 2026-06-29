@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
 import com.neovisionaries.i18n.CountryCode
-import java.time.Instant
 
 data class AddressEntity(
     val id: Int? = null,
@@ -11,7 +10,5 @@ data class AddressEntity(
     val town: String? = null,
     val country: CountryCode? = null,
     val lng: Double? = null,
-    val lat: Double? = null,
-    val createdAt: Instant? = null,
-    val updatedAt: Instant? = null
+    val lat: Double? = null
 )

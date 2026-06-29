@@ -115,9 +115,7 @@ class SatiModelMapperTest {
             town = "Paris",
             country = CountryCode.FR,
             lat = 48.856789,
-            lng = 2.345678,
-            createdAt = timestamp,
-            updatedAt = timestamp
+            lng = 2.345678
         )
         val contact = ContactEntity(
             id = 2,
@@ -127,37 +125,29 @@ class SatiModelMapperTest {
             nationality = "FRA",
             email = "john@example.com",
             phone = "+33123456789",
-            address = address,
-            createdAt = timestamp,
-            updatedAt = timestamp
+            address = address
         )
         val agentParty = SatiPartyEntity(
             id = 3,
             partyType = "AGENT",
             comments = "some comments",
             signature = true,
-            contact = contact,
-            createdAt = timestamp,
-            updatedAt = timestamp
+            contact = contact
         )
-        val masterParty = SatiPartyEntity(id = 6, partyType = "MASTER", createdAt = timestamp, updatedAt = timestamp)
+        val masterParty = SatiPartyEntity(id = 6, partyType = "MASTER")
         val vessel = SatiVesselEntity(
             id = 10,
             jpe = SatiJpeEntity(pnoType = LogbookMessagePurpose.LAN, tripNumber = "TRIP-001"),
             agent = agentParty,
             master = masterParty,
-            isMasterOwner = true,
-            createdAt = timestamp,
-            updatedAt = timestamp
+            isMasterOwner = true
         )
         val inspector = SatiInspectorEntity(
             id = 7,
             agentId = 42,
-            party = SatiPartyEntity(id = 8, partyType = "INSPECTOR", createdAt = timestamp, updatedAt = timestamp),
+            party = SatiPartyEntity(id = 8, partyType = "INSPECTOR"),
             authorityType = AuthorityType.AECP,
-            isOutOfUnit = false,
-            createdAt = timestamp,
-            updatedAt = timestamp
+            isOutOfUnit = false
         )
         return SatiEntity(
             id = UUID.randomUUID(),
@@ -165,8 +155,6 @@ class SatiModelMapperTest {
             actionId = UUID.randomUUID().toString(),
             resource = ControlResourceEntity(id = 99),
             vessel = vessel,
-            createdAt = timestamp,
-            updatedAt = timestamp,
             inspectors = listOf(inspector)
         )
     }
@@ -182,8 +170,6 @@ class SatiModelMapperTest {
             assertThat(entity.id).isEqualTo(model.id)
             assertThat(entity.actionId).isEqualTo(model.actionId)
             assertThat(entity.module).isEqualTo(SatiModuleType.M1)
-            assertThat(entity.createdAt).isEqualTo(model.createdAt)
-            assertThat(entity.updatedAt).isEqualTo(model.updatedAt)
         }
 
         @Test

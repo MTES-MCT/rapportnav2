@@ -15,8 +15,6 @@ object SatiModelMapper {
                 id = model.resourceId
             ),
             vessel = model.vessel?.toEntity(),
-            createdAt = model.createdAt,
-            updatedAt = model.updatedAt,
             inspectors = model.inspectors.map { it.toEntity() },
             module = model.module.let { SatiModuleType.valueOf(it) },
         )
@@ -41,8 +39,6 @@ object SatiModelMapper {
             town = town,
             street = street,
             zipcode = zipcode,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
             fullAddress = fullAddress,
             country = country?.let { CountryCode.getByAlpha3Code(it) }
         )
@@ -69,8 +65,6 @@ object SatiModelMapper {
             fullName = fullName,
             lastName = lastName,
             firstName = firstName,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
             nationality = nationality,
             address = address?.toEntity()
         )
@@ -95,9 +89,7 @@ object SatiModelMapper {
             partyType = partyType,
             comments = comments,
             signature = signature,
-            contact = contact?.toEntity(),
-            createdAt = createdAt,
-            updatedAt = updatedAt
+            contact = contact?.toEntity()
         )
     }
 
@@ -107,8 +99,6 @@ object SatiModelMapper {
             partyType = partyType,
             comments = comments,
             signature = signature,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
             contact = contact?.toModel()
         )
     }
@@ -120,8 +110,6 @@ object SatiModelMapper {
                 tripNumber = tripNumber,
                 pnoType = pnoType?.let { LogbookMessagePurpose.valueOf(it) }
             ),
-            createdAt = createdAt,
-            updatedAt = updatedAt,
             agent = agent?.toEntity(),
             master = master?.toEntity(),
             isMasterOwner = isMasterOwner

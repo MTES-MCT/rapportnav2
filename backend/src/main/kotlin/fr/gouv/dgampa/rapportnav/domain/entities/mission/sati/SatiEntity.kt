@@ -11,8 +11,6 @@ data class SatiEntity(
     var actionId: String,
     var resource: ControlResourceEntity? = null,
     var vessel: SatiVesselEntity? = null,
-    var createdAt: Instant? = null,
-    var updatedAt: Instant? = null,
     var startDatetimeUtc: Instant? = null,
     var endDatetimeUtc: Instant? = null,
     var inspectors: List<SatiInspectorEntity>? = emptyList(),
