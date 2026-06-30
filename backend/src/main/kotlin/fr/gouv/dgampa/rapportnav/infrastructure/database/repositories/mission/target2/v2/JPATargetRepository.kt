@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetR
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.target2.v2.IDBTargetRepository
 import org.slf4j.LoggerFactory
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -39,6 +40,13 @@ class JPATargetRepository(
             val saved = dbTargetRepository.save(target)
             logger.info("JPATargetRepository - Target saved successfully with id={}", target.id)
             saved
+        } catch (e: DataIntegrityViolationException) {
+            if (target.externalId != null) {
+                logger.warn("JPATargetRepository - duplicate external_id='{}', returning existing target", target.externalId)
+                return findByExternalId(target.externalId!!)
+                    ?: throw BackendInternalException(message = "Concurrent duplicate for external_id='${target.externalId}' but no existing row found", originalException = e)
+            }
+            throw BackendInternalException(message = "Unable to save target id='${target.id}'", originalException = e)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
