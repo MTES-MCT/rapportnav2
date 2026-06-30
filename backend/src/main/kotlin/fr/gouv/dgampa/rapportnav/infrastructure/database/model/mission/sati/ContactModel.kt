@@ -1,16 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -45,9 +35,9 @@ class ContactModel(
     @Column(name = "phone", length = 50)
     var phone: String? = null,
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, optional = true)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    var address: AddressModel? = null,
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    var addresses: MutableList<AddressModel> = mutableListOf(),
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
@@ -58,7 +48,7 @@ class ContactModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, fullName, firstName, lastName, nationality, email, phone, address)
+        return Objects.hash(id, fullName, firstName, lastName, nationality, email, phone, addresses)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -72,6 +62,6 @@ class ContactModel(
             && nationality == other.nationality
             && email == other.email
             && phone == other.phone
-            && address == other.address
+            && addresses == other.addresses
     }
 }

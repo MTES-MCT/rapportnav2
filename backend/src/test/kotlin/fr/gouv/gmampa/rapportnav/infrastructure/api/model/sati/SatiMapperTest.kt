@@ -24,7 +24,7 @@ class SatiMapperTest {
             fullAddress = "1 rue de la mer, 75000 Paris",
             zipcode = "75000",
             town = "Paris",
-            country = CountryCode.FR,
+            country = CountryCode.FR.toString(),
             lat = 48.856789,
             lng = 2.345678
         )
@@ -65,7 +65,7 @@ class SatiMapperTest {
             ircs = "FXYZ",
             owner = party,
             flagState = CountryCode.FR,
-            charterer = SatiPartyEntity(id = 4, partyType = "CHARTERER"),
+            operator = SatiPartyEntity(id = 4, partyType = "CHARTERER"),
             agent = SatiPartyEntity(id = 5, partyType = "AGENT"),
             master = SatiPartyEntity(id = 6, partyType = "MASTER"),
             isMasterOwner = true
@@ -96,7 +96,7 @@ class SatiMapperTest {
             fullAddress = "1 rue de la mer, 75000 Paris",
             zipcode = "75000",
             town = "Paris",
-            country = CountryCode.FR,
+            country = CountryCode.FR.toString(),
             lat = 48.856789,
             lng = 2.345678
         )
@@ -137,7 +137,7 @@ class SatiMapperTest {
             ircs = "FXYZ",
             owner = party,
             flagState = CountryCode.FR,
-            charterer = SatiParty(id = 4, partyType = "CHARTERER"),
+            operator = SatiParty(id = 4, partyType = "CHARTERER"),
             pnoType = "LAN",
             tripNumber = "TRIP-001",
             agent = SatiParty(id = 5, partyType = "AGENT"),
@@ -223,7 +223,7 @@ class SatiMapperTest {
             assertThat(owner?.contact?.phone).isEqualTo("+33123456789")
             assertThat(owner?.contact?.address?.street).isEqualTo("1 rue de la mer")
             assertThat(owner?.contact?.address?.town).isEqualTo("Paris")
-            assertThat(owner?.contact?.address?.country).isEqualTo(CountryCode.FR)
+            assertThat(owner?.contact?.address?.country).isEqualTo(CountryCode.FR.toString())
         }
 
         @Test
@@ -304,7 +304,7 @@ class SatiMapperTest {
             val result = SatiMapper.toEntity(sati)
 
             assertThat(result.vessel?.owner?.partyType).isEqualTo("OWNER")
-            assertThat(result.vessel?.charterer?.partyType).isEqualTo("CHARTERER")
+            assertThat(result.vessel?.operator?.partyType).isEqualTo("CHARTERER")
             assertThat(result.vessel?.agent?.partyType).isEqualTo("AGENT")
             assertThat(result.vessel?.master?.partyType).isEqualTo("MASTER")
         }
@@ -318,7 +318,7 @@ class SatiMapperTest {
             assertThat(address?.street).isEqualTo("1 rue de la mer")
             assertThat(address?.zipcode).isEqualTo("75000")
             assertThat(address?.town).isEqualTo("Paris")
-            assertThat(address?.country).isEqualTo(CountryCode.FR)
+            assertThat(address?.country).isEqualTo(CountryCode.FR.toString())
             assertThat(address?.lat).isEqualTo(48.856789)
             assertThat(address?.lng).isEqualTo(2.345678)
         }

@@ -43,9 +43,8 @@ object SatiMapper {
             lastName = lastName,
             firstName = firstName,
             nationality = nationality,
-            address = address?.toOutput(),
-
-            )
+            address = address?.toOutput()
+        )
     }
 
     private fun Contact.toEntity(): ContactEntity {
@@ -120,7 +119,7 @@ object SatiMapper {
             immat = immat,
             extRef = extRef,
             owner = owner?.toEntity(),
-            charterer = charterer?.toEntity(),
+            operator = operator?.toEntity(),
             agent = agent?.toEntity(),
             master = master?.toEntity(),
             flagState = flagState
@@ -142,7 +141,7 @@ object SatiMapper {
             immat = immat,
             extRef = extRef,
             owner = owner?.toOutput(),
-            charterer = charterer?.toOutput(),
+            operator = operator?.toOutput(),
             agent = agent?.toOutput(),
             master = master?.toOutput(),
             flagState = flagState

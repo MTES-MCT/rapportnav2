@@ -1,22 +1,20 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
-import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
 import java.util.*
 
 object SatiModelMapper {
+
     fun toEntity(model: SatiModel): SatiEntity {
         return SatiEntity(
             id = model.id,
             actionId = model.actionId,
-            resource = ControlResourceEntity(
-                id = model.resourceId
-            ),
-            vessel = model.vessel?.toEntity(),
+            resource = ControlResourceEntity(id = model.resourceId),
+            vessel = model.vessels.firstOrNull()?.toEntity(),
             inspectors = model.inspectors.map { it.toEntity() },
-            module = model.module.let { SatiModuleType.valueOf(it) },
+            module = SatiModuleType.valueOf(model.module),
         )
     }
 
@@ -25,35 +23,57 @@ object SatiModelMapper {
             id = entity.id ?: UUID.randomUUID(),
             actionId = entity.actionId,
             resourceId = entity.resource?.id,
-            vessel = entity.vessel?.toModel(),
             module = entity.module.toString(),
+            vessels = entity.vessel?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
             inspectors = entity.inspectors?.map { it.toModel() }?.toMutableList() ?: mutableListOf()
         )
     }
 
-    private fun AddressModel.toEntity(): AddressEntity {
-        return AddressEntity(
+    private fun SatiVesselModel.toEntity(): SatiVesselEntity {
+        return SatiVesselEntity(
             id = id,
-            lng = lng,
-            lat = lat,
-            town = town,
-            street = street,
-            zipcode = zipcode,
-            fullAddress = fullAddress,
-            country = country?.let { CountryCode.getByAlpha3Code(it) }
+            jpe = SatiJpeEntity(
+                tripNumber = tripNumber,
+                pnoType = pnoType?.let { LogbookMessagePurpose.valueOf(it) }
+            ),
+            agent = parties.firstOrNull { it.partyType == PartyType.VESSEL_AGENT.name }?.toEntity(),
+            master = parties.firstOrNull { it.partyType == PartyType.VESSEL_MASTER.name }?.toEntity(),
+            operator = parties.firstOrNull { it.partyType == PartyType.VESSEL_OPERATOR.name }?.toEntity(),
+            isMasterOwner = isMasterOwner
         )
     }
 
-    private fun AddressEntity.toModel(): AddressModel {
-        return AddressModel(
+    private fun SatiVesselEntity.toModel(): SatiVesselModel {
+        return SatiVesselModel(
             id = id,
-            lng = lng,
-            lat = lat,
-            town = town,
-            street = street,
-            zipcode = zipcode,
-            fullAddress = fullAddress,
-            country = country?.alpha3
+            tripNumber = jpe?.tripNumber,
+            isMasterOwner = isMasterOwner,
+            pnoType = jpe?.pnoType?.toString(),
+            parties = mutableListOf<SatiPartyModel>().apply {
+                agent?.toModel(PartyType.VESSEL_AGENT)?.let { add(it) }
+                master?.toModel(PartyType.VESSEL_MASTER)?.let { add(it) }
+                operator?.toModel(PartyType.VESSEL_OPERATOR)?.let { add(it) }
+            }
+        )
+    }
+
+    private fun SatiPartyModel.toEntity(): SatiPartyEntity {
+        return SatiPartyEntity(
+            id = id,
+            partyType = partyType,
+            comments = comments,
+            signature = signature,
+            contact = contacts.firstOrNull()?.toEntity()
+        )
+    }
+
+    private fun SatiPartyEntity.toModel(type: PartyType? = null): SatiPartyModel {
+        return SatiPartyModel(
+            id = id,
+            partyType = type?.name ?: partyType,
+            comments = comments,
+            signature = signature,
+            contacts = contact?.toModel()?.let { mutableListOf(it) } ?: mutableListOf()
         )
     }
 
@@ -66,7 +86,7 @@ object SatiModelMapper {
             lastName = lastName,
             firstName = firstName,
             nationality = nationality,
-            address = address?.toEntity()
+            address = addresses.firstOrNull()?.toEntity()
         )
     }
 
@@ -79,51 +99,21 @@ object SatiModelMapper {
             lastName = lastName,
             firstName = firstName,
             nationality = nationality,
-            address = address?.toModel()
+            addresses = address?.toModel()?.let { mutableListOf(it) } ?: mutableListOf()
         )
     }
 
-    private fun SatiPartyModel.toEntity(): SatiPartyEntity {
-        return SatiPartyEntity(
-            id = id,
-            partyType = partyType,
-            comments = comments,
-            signature = signature,
-            contact = contact?.toEntity()
+    private fun AddressModel.toEntity(): AddressEntity {
+        return AddressEntity(
+            id = id, lng = lng, lat = lat, town = town,
+            street = street, zipcode = zipcode, fullAddress = fullAddress, country = country
         )
     }
 
-    private fun SatiPartyEntity.toModel(): SatiPartyModel {
-        return SatiPartyModel(
-            id = id,
-            partyType = partyType,
-            comments = comments,
-            signature = signature,
-            contact = contact?.toModel()
-        )
-    }
-
-    private fun SatiVesselModel.toEntity(): SatiVesselEntity {
-        return SatiVesselEntity(
-            id = id,
-            jpe = SatiJpeEntity(
-                tripNumber = tripNumber,
-                pnoType = pnoType?.let { LogbookMessagePurpose.valueOf(it) }
-            ),
-            agent = agent?.toEntity(),
-            master = master?.toEntity(),
-            isMasterOwner = isMasterOwner
-        )
-    }
-
-    private fun SatiVesselEntity.toModel(): SatiVesselModel {
-        return SatiVesselModel(
-            id = id,
-            agent = agent?.toModel(),
-            master = master?.toModel(),
-            tripNumber = jpe?.tripNumber,
-            isMasterOwner = isMasterOwner,
-            pnoType = jpe?.pnoType?.toString()
+    private fun AddressEntity.toModel(): AddressModel {
+        return AddressModel(
+            id = id, lng = lng, lat = lat, town = town,
+            street = street, zipcode = zipcode, fullAddress = fullAddress, country = country
         )
     }
 
@@ -131,11 +121,11 @@ object SatiModelMapper {
         return SatiInspectorEntity(
             id = id,
             agentId = agentId,
-            party = party?.toEntity(),
+            party = parties.firstOrNull()?.toEntity(),
             isOutOfUnit = isOutOfUnit,
             createdAt = createdAt,
             updatedAt = updatedAt,
-            authorityType = authorityType?.let { AuthorityType.valueOf(it) },
+            authorityType = authorityType?.let { AuthorityType.valueOf(it) }
         )
     }
 
@@ -143,7 +133,7 @@ object SatiModelMapper {
         return SatiInspectorModel(
             id = id,
             agentId = agentId,
-            party = party?.toModel(),
+            parties = party?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
             authorityType = authorityType?.toString(),
             isOutOfUnit = isOutOfUnit,
             createdAt = createdAt,

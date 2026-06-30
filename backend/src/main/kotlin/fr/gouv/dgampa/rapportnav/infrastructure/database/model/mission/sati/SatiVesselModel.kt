@@ -5,7 +5,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import java.util.*
+import java.util.Objects
 
 @Entity
 @Table(name = "sati_vessel")
@@ -23,13 +23,9 @@ class SatiVesselModel(
     @Column(name = "trip_number", length = 50)
     var tripNumber: String? = null,
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, optional = true)
-    @JoinColumn(name = "agent_id", referencedColumnName = "id")
-    var agent: SatiPartyModel? = null,
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, optional = true)
-    @JoinColumn(name = "master_id", referencedColumnName = "id")
-    var master: SatiPartyModel? = null,
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "vessel_id", referencedColumnName = "id")
+    var parties: MutableList<SatiPartyModel> = mutableListOf(),
 
     @Column(name = "is_master_owner", nullable = false)
     var isMasterOwner: Boolean = false,
@@ -43,7 +39,7 @@ class SatiVesselModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, pnoType, tripNumber, agent, master, isMasterOwner)
+        return Objects.hash(id, pnoType, tripNumber, parties, isMasterOwner)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -53,8 +49,7 @@ class SatiVesselModel(
         return id == other.id
             && pnoType == other.pnoType
             && tripNumber == other.tripNumber
-            && agent == other.agent
-            && master == other.master
+            && parties == other.parties
             && isMasterOwner == other.isMasterOwner
     }
 }

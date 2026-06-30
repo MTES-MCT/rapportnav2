@@ -53,7 +53,8 @@ class JPASatiRepository(
     @Transactional
     override fun save(sati: SatiEntity): SatiEntity {
         return try {
-            dbRepo.save(SatiModelMapper.toModel(sati)).let { SatiModelMapper.toEntity(it) }
+            val model = SatiModelMapper.toModel(sati)
+            dbRepo.save(model).let { SatiModelMapper.toEntity(it) }
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,

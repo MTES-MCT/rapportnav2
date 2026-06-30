@@ -6,11 +6,11 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.Sati
 
 object SatiEntityMapper {
     fun merge(sati: SatiEntity, action: MissionAction): SatiEntity {
-        return SatiEntity(
-            id = sati.id,
-            module = sati.module,
+        return sati.copy(
             actionId = action.id?.toString() ?: "",
-            vessel = SatiVesselEntity(
+            startDatetimeUtc = action.actionDatetimeUtc,
+            endDatetimeUtc = action.actionEndDatetimeUtc,
+            vessel = sati.vessel?.copy(
                 jpe = SatiJpeEntity(
                     pnoId = action.pnoReportId,
                     portName = action.lastDeparturePortName,
@@ -26,6 +26,7 @@ object SatiEntityMapper {
                 length = action.vesselLength,
                 immat = action.internalReferenceNumber,
                 extRef = action.externalReferenceNumber,
+                flagState = action.flagState,
                 owner = SatiPartyEntity(
                     contact = ContactEntity(
                         id = null,
@@ -33,30 +34,29 @@ object SatiEntityMapper {
                         email = action.proprietorEmails?.firstOrNull(),
                         phone = action.proprietorPhones?.firstOrNull(),
                         nationality = action.proprietorNationality,
-                        address = AddressEntity(
-                            fullAddress = action.proprietorAddress
-                        ),
+                        address = AddressEntity(fullAddress = action.proprietorAddress)
                     )
-
                 ),
-                charterer = null,
-                agent = sati.vessel?.agent,
-                master = sati.vessel?.master,
-                flagState = action.flagState,
-            ),
-            resource = sati.resource,
-            inspectors = sati.inspectors,
-            startDatetimeUtc = action.actionDatetimeUtc,
-            endDatetimeUtc = action.actionEndDatetimeUtc
+                operator = (sati.vessel?.operator ?: SatiPartyEntity()).copy(
+                    contact = (sati.vessel?.operator?.contact ?: ContactEntity()).copy(
+                        fullName = action.operatorName,
+                        email = action.operatorEmails?.firstOrNull(),
+                        phone = action.operatorPhones?.firstOrNull(),
+                        nationality = action.operatorNationality,
+                        address = (sati.vessel?.operator?.contact?.address ?: AddressEntity()).copy(
+                            fullAddress = action.operatorAddress
+                        )
+                    )
+                )
+            )
         )
     }
 
     fun merge(sati: SatiEntity?, input: Sati): SatiEntity? {
         return sati
     }
-
-    fun isEquals(fromDb: SatiEntity?, entity: SatiEntity?): Boolean {
-        if (fromDb == null || entity == null) return false
-        return toModel(fromDb) == toModel(entity)
+    fun isEquals(fromDb: SatiEntity?, input: SatiEntity): Boolean {
+        if (fromDb == null) return false
+        return toModel(fromDb) == toModel(input)
     }
 }

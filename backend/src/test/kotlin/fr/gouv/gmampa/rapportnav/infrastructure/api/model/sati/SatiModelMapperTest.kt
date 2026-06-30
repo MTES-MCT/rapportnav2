@@ -39,7 +39,7 @@ class SatiModelMapperTest {
             nationality = "FRA",
             email = "john@example.com",
             phone = "+33123456789",
-            address = address,
+            addresses = if (address != null) mutableListOf(address) else mutableListOf(),
             createdAt = timestamp,
             updatedAt = timestamp
         )
@@ -51,7 +51,7 @@ class SatiModelMapperTest {
             partyType = type,
             comments = "some comments",
             signature = true,
-            contact = contact,
+            contacts = if (contact != null) mutableListOf(contact) else mutableListOf(),
             createdAt = timestamp,
             updatedAt = timestamp
         )
@@ -61,7 +61,7 @@ class SatiModelMapperTest {
         return SatiInspectorModel(
             id = 7,
             agentId = 42,
-            party = party,
+            parties = if (party != null) mutableListOf(party) else mutableListOf(),
             authorityType = "AECP",
             isOutOfUnit = false,
             createdAt = timestamp,
@@ -77,8 +77,7 @@ class SatiModelMapperTest {
             id = 10,
             pnoType = "LAN",
             tripNumber = "TRIP-001",
-            agent = agent,
-            master = master,
+            parties = listOfNotNull(agent, master).toMutableList(),
             isMasterOwner = true,
             createdAt = timestamp,
             updatedAt = timestamp
@@ -88,10 +87,10 @@ class SatiModelMapperTest {
     private fun buildFullModel(): SatiModel {
         val address = buildAddressModel()
         val contact = buildContactModel(address)
-        val agentParty = buildPartyModel("AGENT", contact)
-        val masterParty = buildPartyModel("MASTER")
+        val agentParty = buildPartyModel(PartyType.VESSEL_AGENT.name, contact)
+        val masterParty = buildPartyModel(PartyType.VESSEL_MASTER.name)
         val vessel = buildVesselModel(agent = agentParty, master = masterParty)
-        val inspectorParty = buildPartyModel("INSPECTOR")
+        val inspectorParty = buildPartyModel(PartyType.INSPECTOR.name)
         val inspector = buildInspectorModel(inspectorParty)
 
         return SatiModel(
@@ -99,7 +98,7 @@ class SatiModelMapperTest {
             module = "M1",
             actionId = UUID.randomUUID().toString(),
             resourceId = 99,
-            vessel = vessel,
+            vessels = mutableListOf(vessel),
             inspectors = mutableListOf(inspector),
             createdAt = timestamp,
             updatedAt = timestamp
@@ -113,7 +112,7 @@ class SatiModelMapperTest {
             fullAddress = "1 rue de la mer, 75000 Paris",
             zipcode = "75000",
             town = "Paris",
-            country = CountryCode.FR,
+            country = CountryCode.FR.toString(),
             lat = 48.856789,
             lng = 2.345678
         )
@@ -197,14 +196,14 @@ class SatiModelMapperTest {
             val entity = SatiModelMapper.toEntity(model)
 
             val agent = entity.vessel?.agent
-            assertThat(agent?.partyType).isEqualTo("AGENT")
+            assertThat(agent?.partyType).isEqualTo(PartyType.VESSEL_AGENT.name)
             assertThat(agent?.comments).isEqualTo("some comments")
             assertThat(agent?.signature).isTrue()
             assertThat(agent?.contact?.fullName).isEqualTo("John Doe")
             assertThat(agent?.contact?.email).isEqualTo("john@example.com")
             assertThat(agent?.contact?.address?.street).isEqualTo("1 rue de la mer")
             assertThat(agent?.contact?.address?.town).isEqualTo("Paris")
-            assertThat(agent?.contact?.address?.country).isEqualTo(CountryCode.FR)
+            assertThat(agent?.contact?.address?.country).isEqualTo("FRA")
         }
 
         @Test
@@ -221,11 +220,11 @@ class SatiModelMapperTest {
         }
 
         @Test
-        fun `should handle null vessel`() {
+        fun `should handle empty vessels`() {
             val model = SatiModel(
                 module = "M1",
                 actionId = "action-1",
-                vessel = null
+                vessels = mutableListOf()
             )
             val entity = SatiModelMapper.toEntity(model)
             assertThat(entity.vessel).isNull()
@@ -269,10 +268,11 @@ class SatiModelMapperTest {
             val entity = buildFullEntity()
             val model = SatiModelMapper.toModel(entity)
 
-            assertThat(model.vessel).isNotNull
-            assertThat(model.vessel?.pnoType).isEqualTo("LAN")
-            assertThat(model.vessel?.tripNumber).isEqualTo("TRIP-001")
-            assertThat(model.vessel?.isMasterOwner).isTrue()
+            val vessel = model.vessels.firstOrNull()
+            assertThat(vessel).isNotNull
+            assertThat(vessel?.pnoType).isEqualTo("LAN")
+            assertThat(vessel?.tripNumber).isEqualTo("TRIP-001")
+            assertThat(vessel?.isMasterOwner).isTrue()
         }
 
         @Test
@@ -280,15 +280,17 @@ class SatiModelMapperTest {
             val entity = buildFullEntity()
             val model = SatiModelMapper.toModel(entity)
 
-            val agent = model.vessel?.agent
-            assertThat(agent?.partyType).isEqualTo("AGENT")
+            val agent = model.vessels.firstOrNull()?.parties?.firstOrNull { it.partyType == PartyType.VESSEL_AGENT.name }
+            assertThat(agent?.partyType).isEqualTo(PartyType.VESSEL_AGENT.name)
             assertThat(agent?.comments).isEqualTo("some comments")
             assertThat(agent?.signature).isTrue()
-            assertThat(agent?.contact?.fullName).isEqualTo("John Doe")
-            assertThat(agent?.contact?.email).isEqualTo("john@example.com")
-            assertThat(agent?.contact?.address?.street).isEqualTo("1 rue de la mer")
-            assertThat(agent?.contact?.address?.town).isEqualTo("Paris")
-            assertThat(agent?.contact?.address?.country).isEqualTo("FRA")
+            val contact = agent?.contacts?.firstOrNull()
+            assertThat(contact?.fullName).isEqualTo("John Doe")
+            assertThat(contact?.email).isEqualTo("john@example.com")
+            val address = contact?.addresses?.firstOrNull()
+            assertThat(address?.street).isEqualTo("1 rue de la mer")
+            assertThat(address?.town).isEqualTo("Paris")
+            assertThat(address?.country).isEqualTo("FR")
         }
 
         @Test
@@ -312,7 +314,7 @@ class SatiModelMapperTest {
                 vessel = null
             )
             val model = SatiModelMapper.toModel(entity)
-            assertThat(model.vessel).isNull()
+            assertThat(model.vessels).isEmpty()
         }
 
         @Test

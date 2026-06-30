@@ -181,7 +181,7 @@ class SatiEntityMapperTest {
         }
 
         @Test
-        fun `should preserve sati agent and master from vessel`() {
+        fun `should preserve agent and master from sati vessel`() {
             val sati = buildSatiEntity()
             val action = buildMissionAction()
             val result = SatiEntityMapper.merge(sati, action)
@@ -191,12 +191,13 @@ class SatiEntityMapperTest {
         }
 
         @Test
-        fun `should set charterer to null`() {
+        fun `should build operator from action data`() {
             val sati = buildSatiEntity()
             val action = buildMissionAction()
             val result = SatiEntityMapper.merge(sati, action)
 
-            assertThat(result.vessel?.charterer).isNull()
+            assertThat(result.vessel?.operator).isNotNull
+            assertThat(result.vessel?.operator?.contact?.fullName).isNull()
         }
 
         @Test
@@ -243,17 +244,6 @@ class SatiEntityMapperTest {
         fun `should return false when fromDb is null`() {
             val entity = buildSatiEntity()
             assertThat(SatiEntityMapper.isEquals(null, entity)).isFalse()
-        }
-
-        @Test
-        fun `should return false when entity is null`() {
-            val entity = buildSatiEntity()
-            assertThat(SatiEntityMapper.isEquals(entity, null)).isFalse()
-        }
-
-        @Test
-        fun `should return false when both are null`() {
-            assertThat(SatiEntityMapper.isEquals(null, null)).isFalse()
         }
 
         @Test

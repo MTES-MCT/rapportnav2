@@ -14,7 +14,7 @@ data class SatiVessel(
     val ircs: String? = null,
     val owner: SatiParty? = null,
     val flagState: CountryCode? = null,
-    val charterer: SatiParty? = null,
+    val operator: SatiParty? = null,
     val pnoType: String? = null,
     val tripNumber: String? = null,
     val agent: SatiParty? = null,

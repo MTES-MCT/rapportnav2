@@ -1,16 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -36,9 +26,9 @@ class SatiPartyModel(
     @Column(name = "signature", nullable = false)
     var signature: Boolean = false,
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, optional = true)
-    @JoinColumn(name = "contact_id", referencedColumnName = "id")
-    var contact: ContactModel? = null,
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "party_id", referencedColumnName = "id")
+    var contacts: MutableList<ContactModel> = mutableListOf(),
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
@@ -49,7 +39,7 @@ class SatiPartyModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, partyType, comments, signature, contact)
+        return Objects.hash(id, partyType, comments, signature, contacts)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -60,6 +50,6 @@ class SatiPartyModel(
             && partyType == other.partyType
             && comments == other.comments
             && signature == other.signature
-            && contact == other.contact
+            && contacts == other.contacts
     }
 }

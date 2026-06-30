@@ -1,16 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -27,9 +17,9 @@ class SatiInspectorModel(
     @Column(nullable = false, updatable = false)
     var id: Int? = null,
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, optional = true)
-    @JoinColumn(name = "party_id", referencedColumnName = "id")
-    var party: SatiPartyModel? = null,
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "inspector_id", referencedColumnName = "id")
+    var parties: MutableList<SatiPartyModel> = mutableListOf(),
 
     @Column(name = "authority_type", length = 50)
     var authorityType: String? = null,
@@ -49,7 +39,7 @@ class SatiInspectorModel(
     var updatedAt: Instant? = null,
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, party, authorityType, agentId, isOutOfUnit)
+        return Objects.hash(id, parties, authorityType, agentId, isOutOfUnit)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -57,7 +47,7 @@ class SatiInspectorModel(
         if (javaClass != other?.javaClass) return false
         other as SatiInspectorModel
         return id == other.id
-            && party == other.party
+            && parties == other.parties
             && authorityType == other.authorityType
             && agentId == other.agentId
             && isOutOfUnit == other.isOutOfUnit

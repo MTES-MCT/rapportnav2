@@ -1,16 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.FetchType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToMany
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -36,21 +27,12 @@ class SatiModel(
     @Column(name = "resource_id")
     var resourceId: Int? = null,
 
-    @OneToOne(
-        fetch = FetchType.LAZY,
-        cascade = [CascadeType.ALL],
-        orphanRemoval = true,
-        optional = true
-    )
-    @JoinColumn(name = "vessel_id", referencedColumnName = "id")
-    var vessel: SatiVesselModel? = null,
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "sati_id", referencedColumnName = "id", nullable = false)
+    var vessels: MutableList<SatiVesselModel> = mutableListOf(),
 
     @JsonIgnore
-    @OneToMany(
-        fetch = FetchType.LAZY,
-        cascade = [CascadeType.ALL],
-        orphanRemoval = true
-    )
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "sati_id", referencedColumnName = "id", nullable = false)
     var inspectors: MutableList<SatiInspectorModel> = mutableListOf(),
 
@@ -63,7 +45,7 @@ class SatiModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, module, actionId, resourceId, vessel, inspectors)
+        return Objects.hash(id, module, actionId, resourceId, vessels, inspectors)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -74,7 +56,7 @@ class SatiModel(
             && module == other.module
             && actionId == other.actionId
             && resourceId == other.resourceId
-            && vessel == other.vessel
+            && vessels == other.vessels
             && inspectors == other.inspectors
     }
 }

@@ -81,5 +81,10 @@ data class MissionAction(
     val pnoPurpose: LogbookMessagePurpose? = null,
     val lastDeparturePortLocode: String? = null,
     val lastDeparturePortName: String? = null,
-    val lastDepartureDateTime: Instant? = null
+    val lastDepartureDateTime: Instant? = null,
+    val operatorName: String? = null,
+    val operatorPhones: List<String>? = listOf(),
+    val operatorEmails: List<String>? = listOf(),
+    val operatorNationality: String? = null,
+    val operatorAddress: String? = null,
 )
