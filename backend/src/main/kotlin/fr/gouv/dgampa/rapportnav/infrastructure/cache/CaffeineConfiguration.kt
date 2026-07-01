@@ -19,6 +19,7 @@ class CaffeineConfiguration {
     val vessels = "vessels"
     val ports = "ports"
     val resources = "resources"
+    val countries = "countries"
 
     // short term caches to reduce API calls
     val envMissions = "envMissions"
@@ -36,6 +37,7 @@ class CaffeineConfiguration {
         val portsCache = buildCache(ports, ticker, TimeUnit.DAYS, 7)
         val natinfsCache = buildCache(natinfs, ticker, TimeUnit.DAYS, 7)
         val resourcesCache = buildCache(resources, ticker, TimeUnit.DAYS, 1)
+        val countriesCache = buildCache(countries, ticker, TimeUnit.DAYS, 7)
 
         // short term caches for Missions and Actions
         val envMissionsCache = buildCache(envMissions, ticker, TimeUnit.MINUTES, 5)
@@ -57,6 +59,7 @@ class CaffeineConfiguration {
                 portsCache,
                 natinfsCache,
                 resourcesCache,
+                countriesCache,
 
                 // short term caches
                 envMissionsCache,

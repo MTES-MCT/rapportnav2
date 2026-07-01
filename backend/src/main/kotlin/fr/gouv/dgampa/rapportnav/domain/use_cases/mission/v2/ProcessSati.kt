@@ -7,7 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepositor
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.EnableSati
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModelMapper
 
 @UseCase
 class ProcessSati(
@@ -23,7 +22,7 @@ class ProcessSati(
         val entity = SatiMapper.toEntity(sati)
 
         val existing = satiRepo.findByActionId(actionId)
-        if(SatiEntityMapper.isEquals(existing,entity )) return entity
+        if (SatiEntityMapper.isEquals(existing, entity)) return entity
 
         val saved = satiRepo.save(entity)
         return SatiEntityMapper.merge(saved, sati)

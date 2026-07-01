@@ -30,7 +30,8 @@ class CaffeineConfigurationTest {
             caffeineConfiguration.fishActions,
             caffeineConfiguration.envActionList,
             caffeineConfiguration.fishActionList,
-            caffeineConfiguration.envMission2
+            caffeineConfiguration.envMission2,
+            caffeineConfiguration.countries
         )
 
         cacheNames.forEach { cacheName ->
@@ -41,7 +42,7 @@ class CaffeineConfigurationTest {
         }
 
         assertThat(cacheManager.cacheNames.toSet())
-            .hasSize(10)
+            .hasSize(11)
             .isEqualTo(cacheNames.toSet())
     }
 
@@ -51,6 +52,7 @@ class CaffeineConfigurationTest {
             caffeineConfiguration.vessels,
             caffeineConfiguration.ports,
             caffeineConfiguration.natinfs,
+            caffeineConfiguration.countries
         )
 
         longTermCaches.forEach { cacheName ->
