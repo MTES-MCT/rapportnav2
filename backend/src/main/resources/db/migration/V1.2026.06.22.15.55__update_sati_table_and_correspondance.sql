@@ -79,7 +79,7 @@ CREATE TABLE address
   full_address VARCHAR(400),
   zipcode      VARCHAR(20),
   town         VARCHAR(100),
-  country      VARCHAR(16),
+  country      VARCHAR(3),
   longitude    DOUBLE PRECISION,
   latitude     DOUBLE PRECISION,
   created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
