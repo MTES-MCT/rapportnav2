@@ -7,6 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.generalInfo.IDBMissionGeneralInfoRepository
+import org.slf4j.LoggerFactory
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -18,6 +20,8 @@ import java.util.*
 class JPAMissionGeneralInfoRepository(
     private val dbRepo: IDBMissionGeneralInfoRepository,
 ) : IMissionGeneralInfoRepository {
+
+    private val logger = LoggerFactory.getLogger(JPAMissionGeneralInfoRepository::class.java)
 
     override fun findAll(): List<MissionGeneralInfoModel> {
         return try {
@@ -155,6 +159,19 @@ class JPAMissionGeneralInfoRepository(
         return try {
             val generalInfoModel = info.toMissionGeneralInfoModel()
             dbRepo.save(generalInfoModel)
+        } catch (e: DataIntegrityViolationException) {
+            if (info.missionId != null) {
+                logger.warn("Duplicate mission_id='{}', returning existing record", info.missionId)
+                return dbRepo.findAllByMissionId(info.missionId!!).firstOrNull()
+                    ?: throw BackendInternalException(
+                        message = "Concurrent duplicate for mission_id='${info.missionId}' but no existing row found",
+                        originalException = e
+                    )
+            }
+            throw BackendInternalException(
+                message = "Unable to save MissionGeneralInfo='${info.id}'",
+                originalException = e
+            )
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
