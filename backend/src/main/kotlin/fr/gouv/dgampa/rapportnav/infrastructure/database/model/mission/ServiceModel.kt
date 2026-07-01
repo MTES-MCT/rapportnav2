@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import jakarta.persistence.*
+import org.hibernate.annotations.BatchSize
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -12,6 +13,7 @@ import java.time.Instant
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @Table(name = "service")
+@BatchSize(size = 20)
 class ServiceModel(
 
     @Id

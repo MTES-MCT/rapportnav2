@@ -15,6 +15,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -122,6 +123,29 @@ class JPATargetRepositoryTest {
             .thenThrow(InvalidDataAccessApiUsageException("Invalid data"))
 
         val exception = assertThrows<BackendUsageException> {
+            jpaTargetRepository.save(targetModel)
+        }
+        assertThat(exception.message).contains(targetId.toString())
+    }
+
+    @Test
+    fun `save should return existing target on duplicate external_id constraint violation`() {
+        val externalId = "ext-dup"
+        val existingTarget = TargetModel(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE, externalId = externalId)
+        val newTarget = TargetModel(id = UUID.randomUUID(), actionId = actionId, targetType = TargetType.VEHICLE, externalId = externalId)
+        `when`(dbTargetRepository.save(any<TargetModel>())).thenThrow(DataIntegrityViolationException("Unique index violation"))
+        `when`(dbTargetRepository.findByExternalId(externalId)).thenReturn(existingTarget)
+
+        val result = jpaTargetRepository.save(newTarget)
+
+        assertThat(result.id).isEqualTo(existingTarget.id)
+    }
+
+    @Test
+    fun `save should throw BackendInternalException on constraint violation without external_id`() {
+        `when`(dbTargetRepository.save(any<TargetModel>())).thenThrow(DataIntegrityViolationException("Constraint violation"))
+
+        val exception = assertThrows<BackendInternalException> {
             jpaTargetRepository.save(targetModel)
         }
         assertThat(exception.message).contains(targetId.toString())
