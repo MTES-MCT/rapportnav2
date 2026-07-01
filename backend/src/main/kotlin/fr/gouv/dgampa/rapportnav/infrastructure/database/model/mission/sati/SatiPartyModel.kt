@@ -8,36 +8,27 @@ import java.time.Instant
 import java.util.Objects
 
 @Entity
-@Table(name = "contact")
+@Table(name = "sati_party")
 @EntityListeners(AuditingEntityListener::class)
-class ContactModel(
+class SatiPartyModel(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     var id: Int? = null,
 
-    @Column(name = "full_name", length = 255)
-    var fullName: String? = null,
+    @Column(name = "party_type", length = 50)
+    var partyType: String? = null,
 
-    @Column(name = "first_name", length = 255)
-    var firstName: String? = null,
+    @Column(name = "comments")
+    var comments: String? = null,
 
-    @Column(name = "last_name", length = 255)
-    var lastName: String? = null,
-
-    @Column(name = "nationality", length = 16)
-    var nationality: String? = null,
-
-    @Column(name = "email", length = 255)
-    var email: String? = null,
-
-    @Column(name = "phone", length = 50)
-    var phone: String? = null,
+    @Column(name = "signature", nullable = false)
+    var signature: Boolean = false,
 
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
-    @JoinColumn(name = "contact_id", referencedColumnName = "id")
-    var addresses: MutableList<AddressModel> = mutableListOf(),
+    @JoinColumn(name = "party_id", referencedColumnName = "id")
+    var contacts: MutableList<ContactModel> = mutableListOf(),
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
@@ -48,20 +39,17 @@ class ContactModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, fullName, firstName, lastName, nationality, email, phone, addresses)
+        return Objects.hash(id, partyType, comments, signature, contacts)
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as ContactModel
+        other as SatiPartyModel
         return id == other.id
-            && fullName == other.fullName
-            && firstName == other.firstName
-            && lastName == other.lastName
-            && nationality == other.nationality
-            && email == other.email
-            && phone == other.phone
-            && addresses == other.addresses
+            && partyType == other.partyType
+            && comments == other.comments
+            && signature == other.signature
+            && contacts == other.contacts
     }
 }

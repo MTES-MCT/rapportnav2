@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModelMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.sati.IDBSatiRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
@@ -52,7 +53,8 @@ class JPASatiRepository(
     @Transactional
     override fun save(sati: SatiEntity): SatiEntity {
         return try {
-            dbRepo.save(SatiModelMapper.toModel(sati)).let { SatiModelMapper.toEntity(it) }
+            val model = SatiModelMapper.toModel(sati)
+            dbRepo.save(model).let { SatiModelMapper.toEntity(it) }
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,

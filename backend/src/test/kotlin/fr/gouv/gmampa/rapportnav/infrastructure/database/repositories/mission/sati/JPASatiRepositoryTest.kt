@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.sati
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModel
@@ -35,24 +36,20 @@ class JPASatiRepositoryTest {
 
     private val satiModel = SatiModel(
         id = satiId,
-        module = "T1",
-        actionId = actionId,
-        inspectionStartDatetimeUtc = now
+        module = "M1",
+        actionId = actionId
     )
 
     private val satiEntity = SatiEntity(
         id = satiId,
-        module = "T1",
-        actionId = actionId,
-        inspectionStartDatetimeUtc = now
+        module = SatiModuleType.M1,
+        actionId = actionId
     )
 
     @BeforeEach
     fun setUp() {
         jpaSatiRepository = JPASatiRepository(dbRepo)
     }
-
-    // --- findById ---
 
     @Test
     fun `findById should return entity when found`() {
@@ -84,7 +81,6 @@ class JPASatiRepositoryTest {
         assertThat(exception.message).contains("findById")
     }
 
-    // --- findByActionId ---
 
     @Test
     fun `findByActionId should return entity when found`() {
@@ -116,7 +112,6 @@ class JPASatiRepositoryTest {
         assertThat(exception.message).contains("findByOwnerId")
     }
 
-    // --- findAll ---
 
     @Test
     fun `findAll should return list of entities`() {

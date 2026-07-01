@@ -4,6 +4,7 @@ import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import java.time.Instant
 
+
 typealias FishAction = MissionAction
 
 data class MissionAction(
@@ -66,5 +67,24 @@ data class MissionAction(
     var speciesQuantitySeized: Int ? = null,
     val infractions: List<FishInfraction> = listOf(),
     val hasDivingDuringOperation: Boolean? = null,
-    val incidentDuringOperation: Boolean? = null
+    val incidentDuringOperation: Boolean? = null,
+    val vesselLength: Double? = null,
+    val vesselType: String? = null,
+    val imo: String? = null,
+    val proprietorName: String? = null,
+    val proprietorPhones: List<String>? = listOf(),
+    val proprietorEmails: List<String>? = listOf(),
+    val proprietorNationality: String? = null,
+    val proprietorAddress: String? = null,
+    val tripNumber: String? = null,
+    val pnoReportId: String? = null,
+    val pnoPurpose: LogbookMessagePurpose? = null,
+    val lastDeparturePortLocode: String? = null,
+    val lastDeparturePortName: String? = null,
+    val lastDepartureDateTime: Instant? = null,
+    val operatorName: String? = null,
+    val operatorPhones: List<String>? = listOf(),
+    val operatorEmails: List<String>? = listOf(),
+    val operatorNationality: String? = null,
+    val operatorAddress: String? = null,
 )

@@ -1,192 +1,143 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.sati
+package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
-import com.neovisionaries.i18n.CountryCode
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.ContactEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.AddressModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.ContactModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModel
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
+import java.util.*
 
 object SatiModelMapper {
 
     fun toEntity(model: SatiModel): SatiEntity {
         return SatiEntity(
             id = model.id,
-            module = model.module,
             actionId = model.actionId,
-            createdAt = model.createdAt,
-            updatedAt = model.updatedAt,
-            actionTaken = model.actionTaken,
-            agentContact = model.agentContact?.toEntity(),
-            appointingAuthority = model.appointingAuthority,
-            beneficialOwnerContact = model.beneficialOwnerContact?.toEntity(),
-            catchCertificateInfo = model.catchCertificateInfo,
-            chartererContact = model.chartererContact?.toEntity(),
-            commonMarketingStandards = model.commonMarketingStandards,
-            driverContact = model.driverContact?.toEntity(),
-            euFishingTripId = model.euFishingTripId,
-            fisheryLotLabelling = model.fisheryLotLabelling,
-            fisheryProductDocumentsInspection = model.fisheryProductDocumentsInspection,
-            fisheryProductStorageMechanismInspected = model.fisheryProductStorageMechanismInspected,
-            fisheryProductWeighedBeforeSale = model.fisheryProductWeighedBeforeSale,
-            freshnessCategories = model.freshnessCategories,
-            importerContact = model.importerContact?.toEntity(),
-            infringementsObservations = model.infringementsObservations,
-            inspectionEndDatetimeUtc = model.inspectionEndDatetimeUtc,
-            inspectionStartDatetimeUtc = model.inspectionStartDatetimeUtc,
-            inspectionLocationAddressId = model.inspectionLocationAddressId,
-            inspectorComments = model.inspectorComments,
-            inspectorNameOrId = model.inspectorNameOrId,
-            inspectorSignature = model.inspectorSignature,
-            inspectorUniqueId = model.inspectorUniqueId,
-            landingDeclarationInfo = model.landingDeclarationInfo,
-            lotIdSpeciesQuantities = model.lotIdSpeciesQuantities,
-            lotsArt58Compliance = model.lotsArt58Compliance,
-            marketOwnerContact = model.marketOwnerContact?.toEntity(),
-            marketOwnerRepresentativeContact = model.marketOwnerRepresentativeContact?.toEntity(),
-            marketPremisesAddressId = model.marketPremisesAddressId,
-            marketPremisesLocation = model.marketPremisesLocation,
-            marketPremisesName = model.marketPremisesName,
-            masterComments = model.masterComments,
-            masterContact = model.masterContact?.toEntity(),
-            newLotCompositionInfo = model.newLotCompositionInfo,
-            operatorComments = model.operatorComments,
-            operatorSignature = model.operatorSignature,
-            patrolVesselExternalMarking = model.patrolVesselExternalMarking,
-            patrolVesselRadioCallSign = model.patrolVesselRadioCallSign,
-            registeredBuyerContact = model.registeredBuyerContact?.toEntity(),
-            responsiblePersonSignature = model.responsiblePersonSignature,
-            sizeGradingCategories = model.sizeGradingCategories,
-            supplierInvoiceInfo = model.supplierInvoiceInfo,
-            takeOverDeclarationInfo = model.takeOverDeclarationInfo,
-            traceabilityRecordingSystemArt58 = model.traceabilityRecordingSystemArt58,
-            traceabilitySupplierIdentificationSystem = model.traceabilitySupplierIdentificationSystem,
-            tractorRegistrationNumber = model.tractorRegistrationNumber,
-            trailerRegistrationNumber = model.trailerRegistrationNumber,
-            transportDocumentInfo = model.transportDocumentInfo,
-            transporterComments = model.transporterComments,
-            transporterSignature = model.transporterSignature,
-            useOfUndersizedFisheryProducts = model.useOfUndersizedFisheryProducts,
-            vehicleNationality = CountryCode.getByAlpha3Code(model.vehicleNationality),
-            vehicleOwnerContact = model.vehicleOwnerContact?.toEntity(),
-            vehicleType = model.vehicleType,
-            vesselOwnerContact = model.vesselOwnerContact?.toEntity()
+            resource = ControlResourceEntity(id = model.resourceId),
+            vessel = model.vessels.firstOrNull()?.toEntity(),
+            inspectors = model.inspectors.map { it.toEntity() },
+            module = SatiModuleType.valueOf(model.module),
         )
     }
 
     fun toModel(entity: SatiEntity): SatiModel {
         return SatiModel(
-            id = entity.id,
-            module = entity.module,
+            id = entity.id ?: UUID.randomUUID(),
             actionId = entity.actionId,
-            createdAt = entity.createdAt,
-            updatedAt = entity.updatedAt,
-            actionTaken = entity.actionTaken,
-            agentContact = entity.agentContact?.toModel(),
-            appointingAuthority = entity.appointingAuthority,
-            beneficialOwnerContact = entity.beneficialOwnerContact?.toModel(),
-            catchCertificateInfo = entity.catchCertificateInfo,
-            chartererContact = entity.chartererContact?.toModel(),
-            commonMarketingStandards = entity.commonMarketingStandards,
-            driverContact = entity.driverContact?.toModel(),
-            euFishingTripId = entity.euFishingTripId,
-            fisheryLotLabelling = entity.fisheryLotLabelling,
-            fisheryProductDocumentsInspection = entity.fisheryProductDocumentsInspection,
-            fisheryProductStorageMechanismInspected = entity.fisheryProductStorageMechanismInspected,
-            fisheryProductWeighedBeforeSale = entity.fisheryProductWeighedBeforeSale,
-            freshnessCategories = entity.freshnessCategories,
-            importerContact = entity.importerContact?.toModel(),
-            infringementsObservations = entity.infringementsObservations,
-            inspectionEndDatetimeUtc = entity.inspectionEndDatetimeUtc,
-            inspectionStartDatetimeUtc = entity.inspectionStartDatetimeUtc,
-            inspectionLocationAddressId = entity.inspectionLocationAddressId,
-            inspectorComments = entity.inspectorComments,
-            inspectorNameOrId = entity.inspectorNameOrId,
-            inspectorSignature = entity.inspectorSignature,
-            inspectorUniqueId = entity.inspectorUniqueId,
-            landingDeclarationInfo = entity.landingDeclarationInfo,
-            lotIdSpeciesQuantities = entity.lotIdSpeciesQuantities,
-            lotsArt58Compliance = entity.lotsArt58Compliance,
-            marketOwnerContact = entity.marketOwnerContact?.toModel(),
-            marketOwnerRepresentativeContact = entity.marketOwnerRepresentativeContact?.toModel(),
-            marketPremisesAddressId = entity.marketPremisesAddressId,
-            marketPremisesLocation = entity.marketPremisesLocation,
-            marketPremisesName = entity.marketPremisesName,
-            masterComments = entity.masterComments,
-            masterContact = entity.masterContact?.toModel(),
-            newLotCompositionInfo = entity.newLotCompositionInfo,
-            operatorComments = entity.operatorComments,
-            operatorSignature = entity.operatorSignature,
-            patrolVesselExternalMarking = entity.patrolVesselExternalMarking,
-            patrolVesselRadioCallSign = entity.patrolVesselRadioCallSign,
-            registeredBuyerContact = entity.registeredBuyerContact?.toModel(),
-            responsiblePersonSignature = entity.responsiblePersonSignature,
-            sizeGradingCategories = entity.sizeGradingCategories,
-            supplierInvoiceInfo = entity.supplierInvoiceInfo,
-            takeOverDeclarationInfo = entity.takeOverDeclarationInfo,
-            traceabilityRecordingSystemArt58 = entity.traceabilityRecordingSystemArt58,
-            traceabilitySupplierIdentificationSystem = entity.traceabilitySupplierIdentificationSystem,
-            tractorRegistrationNumber = entity.tractorRegistrationNumber,
-            trailerRegistrationNumber = entity.trailerRegistrationNumber,
-            transportDocumentInfo = entity.transportDocumentInfo,
-            transporterComments = entity.transporterComments,
-            transporterSignature = entity.transporterSignature,
-            useOfUndersizedFisheryProducts = entity.useOfUndersizedFisheryProducts,
-            vehicleNationality = entity.vehicleNationality?.alpha3,
-            vehicleOwnerContact = entity.vehicleOwnerContact?.toModel(),
-            vehicleType = entity.vehicleType,
-            vesselOwnerContact = entity.vesselOwnerContact?.toModel()
+            resourceId = entity.resource?.id,
+            module = entity.module.toString(),
+            vessels = entity.vessel?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
+            inspectors = entity.inspectors?.map { it.toModel() }?.toMutableList() ?: mutableListOf()
+        )
+    }
+
+    private fun SatiVesselModel.toEntity(): SatiVesselEntity {
+        return SatiVesselEntity(
+            id = id,
+            jpe = SatiJpeEntity(
+                tripNumber = tripNumber,
+                pnoType = pnoType?.let { LogbookMessagePurpose.valueOf(it) }
+            ),
+            agent = parties.firstOrNull { it.partyType == PartyType.VESSEL_AGENT.name }?.toEntity(),
+            master = parties.firstOrNull { it.partyType == PartyType.VESSEL_MASTER.name }?.toEntity(),
+            operator = parties.firstOrNull { it.partyType == PartyType.VESSEL_OPERATOR.name }?.toEntity(),
+            isMasterOwner = isMasterOwner
+        )
+    }
+
+    private fun SatiVesselEntity.toModel(): SatiVesselModel {
+        return SatiVesselModel(
+            id = id,
+            tripNumber = jpe?.tripNumber,
+            isMasterOwner = isMasterOwner,
+            pnoType = jpe?.pnoType?.toString(),
+            parties = mutableListOf<SatiPartyModel>().apply {
+                agent?.toModel(PartyType.VESSEL_AGENT)?.let { add(it) }
+                master?.toModel(PartyType.VESSEL_MASTER)?.let { add(it) }
+                operator?.toModel(PartyType.VESSEL_OPERATOR)?.let { add(it) }
+            }
+        )
+    }
+
+    private fun SatiPartyModel.toEntity(): SatiPartyEntity {
+        return SatiPartyEntity(
+            id = id,
+            partyType = partyType,
+            comments = comments,
+            signature = signature,
+            contact = contacts.firstOrNull()?.toEntity()
+        )
+    }
+
+    private fun SatiPartyEntity.toModel(type: PartyType? = null): SatiPartyModel {
+        return SatiPartyModel(
+            id = id,
+            partyType = type?.name ?: partyType,
+            comments = comments,
+            signature = signature,
+            contacts = contact?.toModel()?.let { mutableListOf(it) } ?: mutableListOf()
         )
     }
 
     private fun ContactModel.toEntity(): ContactEntity {
         return ContactEntity(
             id = id,
-            fullName = fullName,
-            nationality = CountryCode.getByAlpha3Code(nationality),
             email = email,
             phone = phone,
-            address = address?.toEntity(),
-            createdAt = createdAt
+            fullName = fullName,
+            lastName = lastName,
+            firstName = firstName,
+            nationality = nationality,
+            address = addresses.firstOrNull()?.toEntity()
         )
     }
 
     private fun ContactEntity.toModel(): ContactModel {
         return ContactModel(
             id = id,
-            fullName = fullName,
-            nationality = nationality?.alpha3,
             email = email,
             phone = phone,
-            address = address?.toModel(),
-            createdAt = createdAt
+            fullName = fullName,
+            lastName = lastName,
+            firstName = firstName,
+            nationality = nationality,
+            addresses = address?.toModel()?.let { mutableListOf(it) } ?: mutableListOf()
         )
     }
 
     private fun AddressModel.toEntity(): AddressEntity {
         return AddressEntity(
-            id = id,
-            street = street,
-            zipcode = zipcode,
-            town = town,
-            lat = lat,
-            lng = lng,
-            country = CountryCode.getByAlpha3Code(country),
-            createdAt = createdAt
+            id = id, lng = lng, lat = lat, town = town,
+            street = street, zipcode = zipcode, fullAddress = fullAddress, country = country
         )
     }
 
     private fun AddressEntity.toModel(): AddressModel {
         return AddressModel(
+            id = id, lng = lng, lat = lat, town = town,
+            street = street, zipcode = zipcode, fullAddress = fullAddress, country = country
+        )
+    }
+
+    private fun SatiInspectorModel.toEntity(): SatiInspectorEntity {
+        return SatiInspectorEntity(
             id = id,
-            street = street,
-            zipcode = zipcode,
-            town = town,
-            lat = lat,
-            lng = lng,
-            country = country?.alpha3,
-            createdAt = createdAt
+            agentId = agentId,
+            party = parties.firstOrNull()?.toEntity(),
+            isOutOfUnit = isOutOfUnit,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            authorityType = authorityType?.let { AuthorityType.valueOf(it) }
+        )
+    }
+
+    private fun SatiInspectorEntity.toModel(): SatiInspectorModel {
+        return SatiInspectorModel(
+            id = id,
+            agentId = agentId,
+            parties = party?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
+            authorityType = authorityType?.toString(),
+            isOutOfUnit = isOutOfUnit,
+            createdAt = createdAt,
+            updatedAt = updatedAt
         )
     }
 }

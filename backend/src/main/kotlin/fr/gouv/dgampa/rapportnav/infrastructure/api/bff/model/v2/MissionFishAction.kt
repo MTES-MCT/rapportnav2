@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 
 
 class MissionFishAction(
@@ -97,7 +98,8 @@ class MissionFishAction(
                     targets = fishAction.targets?.map { Target.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
                     fishInfractions = fishAction.fishInfractions,
                     incidentDuringOperation = fishAction.incidentDuringOperation,
-                    hasDivingDuringOperation = fishAction.hasDivingDuringOperation
+                    hasDivingDuringOperation = fishAction.hasDivingDuringOperation,
+                    sati = SatiMapper.fromEntity(fishAction.sati)
                 )
             )
         }
