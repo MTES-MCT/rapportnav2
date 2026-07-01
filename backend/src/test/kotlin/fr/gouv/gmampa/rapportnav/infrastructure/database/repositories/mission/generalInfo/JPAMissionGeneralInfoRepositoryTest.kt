@@ -15,6 +15,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
@@ -387,5 +388,35 @@ class JPAMissionGeneralInfoRepositoryTest {
             jpaRepository.save(entity)
         }
         assertThat(exception.message).contains("Unable to prepare data before saving MissionGeneralInfo")
+    }
+
+    @Test
+    fun `save should return existing record on duplicate mission_id constraint violation`() {
+        val entity = MissionGeneralInfoEntity(
+            id = 2,
+            missionId = 100
+        )
+
+        `when`(dbRepo.save(any<MissionGeneralInfoModel>())).thenThrow(DataIntegrityViolationException("Unique index violation"))
+        `when`(dbRepo.findAllByMissionId(100)).thenReturn(listOf(generalInfoModel))
+
+        val result = jpaRepository.save(entity)
+
+        assertThat(result.id).isEqualTo(generalInfoModel.id)
+    }
+
+    @Test
+    fun `save should throw BackendInternalException on constraint violation without mission_id`() {
+        val entity = MissionGeneralInfoEntity(
+            id = 1,
+            missionId = null
+        )
+
+        `when`(dbRepo.save(any<MissionGeneralInfoModel>())).thenThrow(DataIntegrityViolationException("Constraint violation"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaRepository.save(entity)
+        }
+        assertThat(exception.message).contains("Unable to save MissionGeneralInfo")
     }
 }
