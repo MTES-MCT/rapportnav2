@@ -39,7 +39,10 @@ class TokenService(
             .issuedAt(Instant.now())
             .expiresAt(Instant.now().plus(15L, ChronoUnit.DAYS))
             .subject(user.email)
-            .claim("userId", user.id)
+            .claim("userId", user.id ?: throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_TOKEN_EXCEPTION,
+                message = "Cannot create token for user with null id"
+            ))
             // SECURITY NOTE: roles are included for FRONTEND UI/ROUTING convenience only.
             // The backend NEVER uses these claims for authorization decisions.
             // On each request, parseToken() loads the user fresh from database,

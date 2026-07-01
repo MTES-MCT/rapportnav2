@@ -109,7 +109,7 @@ class TokenServiceTests {
         fun `should call encoder with claims`() {
             val mockJwt = Jwt.withTokenValue("mock-token")
                 .header("alg", "HS256")
-                .claim("userId", user.id)
+                .claim("userId", user.id!!)
                 .build()
 
             `when`(jwtEncoder.encode(any())).thenReturn(mockJwt)
@@ -127,7 +127,7 @@ class TokenServiceTests {
         fun `should return user when token is valid`() {
             val mockJwt = Jwt.withTokenValue("valid-token")
                 .header("alg", "HS256")
-                .claim("userId", user.id)
+                .claim("userId", user.id!!)
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plus(30, ChronoUnit.DAYS))
                 .build()
@@ -197,7 +197,7 @@ class TokenServiceTests {
 
             val mockJwt = Jwt.withTokenValue("valid-token")
                 .header("alg", "HS256")
-                .claim("userId", inactiveUser.id)
+                .claim("userId", inactiveUser.id!!)
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plus(30, ChronoUnit.DAYS))
                 .build()

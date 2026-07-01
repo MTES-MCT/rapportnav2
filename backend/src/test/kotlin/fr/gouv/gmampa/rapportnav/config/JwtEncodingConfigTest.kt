@@ -50,7 +50,7 @@ class JwtEncodingConfigTest {
 
         val decodedJwt = decoder.decode(jwt.tokenValue)
         assertEquals("test-user", decodedJwt.subject)
-        assertEquals(123, decodedJwt.getClaim("userId"))
+        assertEquals(123L, decodedJwt.getClaim("userId"))
     }
 
     @Test
@@ -94,10 +94,10 @@ class JwtEncodingConfigTest {
         val decodedJwt = decoder.decode(jwt.tokenValue)
 
         assertEquals("user@example.com", decodedJwt.subject)
-        assertEquals(42, decodedJwt.getClaim("userId"))
+        assertEquals(42L, decodedJwt.getClaim("userId"))
         @Suppress("UNCHECKED_CAST")
         val roles = decodedJwt.getClaim<List<String>>("roles")
-        assertTrue(roles.contains("ADMIN"))
+        assertTrue(roles!!.contains("ADMIN"))
         assertTrue(roles.contains("USER"))
     }
 }
