@@ -1,5 +1,47 @@
 # Changelog
 
+## [2.86.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.85.2...v2.86.0) (2026-07-01)
+
+
+### Features
+
+* **backend:** Add 2 attributs to ActionFish ([5013ab9](https://github.com/MTES-MCT/rapportnav2/commit/5013ab93466ba95f4b0efcdac126c00270304ab2))
+* **backend:** countries ([98b216f](https://github.com/MTES-MCT/rapportnav2/commit/98b216f73a587508836b9a34be474b200b01f2b3))
+* **backend:** countries ([871f951](https://github.com/MTES-MCT/rapportnav2/commit/871f95159f4b8469f5d359a211e5750e3449809b))
+* **backend:** fix save issue ([939db64](https://github.com/MTES-MCT/rapportnav2/commit/939db64a18e08fa2ac751b4c74136fbdaed01c76))
+* **backend:** update Sati ([b4aaf6f](https://github.com/MTES-MCT/rapportnav2/commit/b4aaf6f4c95dc9f2678e54fe5c915124c11dcbfb))
+* **backend:** update Sati ([13a93ea](https://github.com/MTES-MCT/rapportnav2/commit/13a93ea6f9ecbc6f0e589bf3ba9111bfe76410ad))
+* **frontend:** action control fish /nav new display ([c38d470](https://github.com/MTES-MCT/rapportnav2/commit/c38d4708fc50331f8465e4261e03e8b01e44951b))
+* **frontend:** fish control with tabs ([59819bb](https://github.com/MTES-MCT/rapportnav2/commit/59819bbe80e00ff5c66a7e036674bac933fc4cfe))
+* **frontend:** fish control with tabs ([b2214ef](https://github.com/MTES-MCT/rapportnav2/commit/b2214ef105f01bfe40d75fcfdbfb298f5333bdf2))
+* **frontend:** infraction  armonising ([6ee9fde](https://github.com/MTES-MCT/rapportnav2/commit/6ee9fde5635423ad366aebd3d9f4fc1a5567a017))
+* **frontend:** review from product ([e979865](https://github.com/MTES-MCT/rapportnav2/commit/e9798659476a2486334cc713a1fdb43ac7b61855))
+* **frontend:** target refactor for sati ([d165e05](https://github.com/MTES-MCT/rapportnav2/commit/d165e0523da5731767ae76106bddd31e3f2c3009))
+
+
+### Bug Fixes
+
+* **backend:** mapping database relation ([9318a39](https://github.com/MTES-MCT/rapportnav2/commit/9318a39d6fdd2d7ee02fa2f6dbe501eae31189b3))
+* **backend:** review ([e8ed8ec](https://github.com/MTES-MCT/rapportnav2/commit/e8ed8ecb6e4754daf81330d034ea80d1fff96fb5))
+* **backend:** review changes ([2fcbcfc](https://github.com/MTES-MCT/rapportnav2/commit/2fcbcfc855810879f8e1cc9c8b7f99052366d6b4))
+* **backend:** test ([cd98bbc](https://github.com/MTES-MCT/rapportnav2/commit/cd98bbc8a3257c18247b9606205a80b22be4bbf3))
+* **backend:** test on build ([9ca723c](https://github.com/MTES-MCT/rapportnav2/commit/9ca723c3e3ee68338439e53480075858572364d2))
+* **backend:** test on save ([73bfa04](https://github.com/MTES-MCT/rapportnav2/commit/73bfa0448a22063ceaaa72deb3d1636be5c0cdf3))
+* **Fish:** fix order of MultiRadio options [#1033](https://github.com/MTES-MCT/rapportnav2/issues/1033) ([69f91d3](https://github.com/MTES-MCT/rapportnav2/commit/69f91d3327dfd521af8f576a359361b543b13586))
+* **frontend:** action control nav ([55497dd](https://github.com/MTES-MCT/rapportnav2/commit/55497ddecdf3d14d9f3aceb791a8386427845cd0))
+* **frontend:** build and test ([83a0004](https://github.com/MTES-MCT/rapportnav2/commit/83a0004a962b5785d340e2ded81603a7c5e9b5dd))
+* **frontend:** rebase issues ([770efe8](https://github.com/MTES-MCT/rapportnav2/commit/770efe8d1fadf485aaf734f124542e9f7ec538e0))
+* **frontend:** remove disabled button ([3823f30](https://github.com/MTES-MCT/rapportnav2/commit/3823f30301a5edf7c28f91b183ef0aafa151d4b0))
+* **frontend:** reviews adjustment ([e990e3b](https://github.com/MTES-MCT/rapportnav2/commit/e990e3bd05587f6a80e4b4c67805d7482a2f98a8))
+* **frontend:** value display ([e0eddfe](https://github.com/MTES-MCT/rapportnav2/commit/e0eddfea0a5603e09fa829e4597b76a3256de047))
+* **perf:** add @BatchSize on AgentModel + ServiceMo ([41fa276](https://github.com/MTES-MCT/rapportnav2/commit/41fa2767516a2dd4ec2adb369298d9e2b2714b00))
+* **perf:** batchSize on infraction and control ([7d4c806](https://github.com/MTES-MCT/rapportnav2/commit/7d4c806718b927fe09f82020d6f50dabbd5c322a))
+* **perf:** compute action status from in-memory nav actions instead of re-querying DB per action ([dba3581](https://github.com/MTES-MCT/rapportnav2/commit/dba3581d1d4a7428970f6101e44f804348e68f4a))
+* **perf:** remove useless status compute ([604f14a](https://github.com/MTES-MCT/rapportnav2/commit/604f14a1f363e3c1d9b9ceb700f20701b2c530c9))
+* prevent duplicate Targets ([514ff7e](https://github.com/MTES-MCT/rapportnav2/commit/514ff7ebcc64ff3724329d52afeffc3a6d42eca8))
+* prevent duplicates for General Infos ([3b15b83](https://github.com/MTES-MCT/rapportnav2/commit/3b15b83ff2b30c07d44ec7b9cd3ed80e13a6c123))
+* **Stubs:** add patch action env ([05e3ebb](https://github.com/MTES-MCT/rapportnav2/commit/05e3ebb1e349557a68bbdd4bb113054d3cf8b172))
+
 ## [2.85.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.85.1...v2.85.2) (2026-06-11)
 
 
