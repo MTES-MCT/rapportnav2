@@ -7,6 +7,7 @@ import { Service } from '@common/types/crew-types.ts'
  */
 export type Agent = {
   id: number
+  cardId?: string
   firstName: string
   lastName: string
   services: Service[]

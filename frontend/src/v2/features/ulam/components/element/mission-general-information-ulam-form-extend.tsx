@@ -1,5 +1,5 @@
 import { FormikCheckbox, FormikMultiRadio } from '@mtes-mct/monitor-ui'
-import { useStore } from '@tanstack/react-store'
+import { useSelector } from '@tanstack/react-store'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
@@ -7,14 +7,14 @@ import { store } from '../../../../store/index.ts'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
+import useResources from '../../../common/hooks/use-resources.tsx'
 import useAdministrationsQuery from '../../../common/services/use-administrations.tsx'
 import useAgentsQuery from '../../../common/services/use-agents.tsx'
-import useResourceByControlUnitQuery from '../../../common/services/use-resources-control-unit.tsx'
+import { MissionReportTypeEnum } from '../../../common/types/mission-types.ts'
 import MissionGeneralInformationControlUnitResource from '../../../mission-general-infos/components/mission-general-information-control-unit-resource.tsx'
 import MissionGeneralInformationCrewNoComment from '../../../mission-general-infos/components/mission-general-information-crew-no-comment.tsx'
 import MissionGeneralInformationInterService from '../../../mission-general-infos/components/mission-general-information-inter-service.tsx'
 import { MissionGeneralInfoInput } from '../../hooks/use-ulam-mission-general-information-form.tsx'
-import { MissionReportTypeEnum } from '../../../common/types/mission-types.ts'
 
 export interface MissionGeneralInformationUlamFormExtendProps {
   missionId?: string
@@ -26,11 +26,11 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
   missionId
 }) => {
   const { data: agents } = useAgentsQuery()
-  const user = useStore(store, state => state.user)
+  const { getByControlUnit } = useResources()
+  const user = useSelector(store, state => state.user)
   const { isEnvMission, jdpTypeOptions } = useMissionType()
   const isMissionFinished = useMissionFinished(missionId)
   const { data: administrations } = useAdministrationsQuery()
-  const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
 
   return (
     <Stack direction="column" spacing="1em" style={{ width: '100%' }} justifyContent="flex-start">
@@ -45,9 +45,9 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
                       <MissionGeneralInformationControlUnitResource
                         name="resources"
                         fieldFormik={field}
-                        controlUnitResources={resources}
                         disabled={values.isResourcesNotUsed}
                         isMissionFinished={isMissionFinished}
+                        controlUnitResources={getByControlUnit(user?.controlUnitId)}
                       />
                     )}
                   </Field>

@@ -4,11 +4,10 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { array, string } from 'yup'
 import { store } from '../../../../store'
-import useResourceByControlUnitQuery from '../../../common/services/use-resources-control-unit'
-import { ControlUnitResource } from '../../../common/types/control-unit-types'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
+import useResources from '../../../common/hooks/use-resources.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
-import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 export enum ResourceType {
   NAUTICAL = 'NAUTICAL',
@@ -31,7 +30,7 @@ const MissionActionItemResourceMaintenance: FC<{
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const user = useSelector(store, state => state.user)
-  const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
+  const { getResourcesOptionsByControlUnitId } = useResources()
   const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
 
   const schema = {
@@ -72,12 +71,7 @@ const MissionActionItemResourceMaintenance: FC<{
             label="Nom du moyen"
             style={{ width: '100%' }}
             isErrorMessageHidden={true}
-            options={
-              resources?.map((resource: ControlUnitResource) => ({
-                value: resource.id!,
-                label: `${resource.name}`
-              })) ?? []
-            }
+            options={getResourcesOptionsByControlUnitId(user?.controlUnitId)}
           />
         </Stack.Item>
       </Stack>
