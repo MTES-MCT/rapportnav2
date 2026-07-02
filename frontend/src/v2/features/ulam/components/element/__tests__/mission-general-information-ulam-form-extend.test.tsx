@@ -25,7 +25,8 @@ vi.mock('../../../../common/hooks/use-mission-finished.tsx', () => ({
 }))
 
 vi.mock('@tanstack/react-store', () => ({
-  useStore: () => ({ controlUnitId: 1 })
+  useStore: () => ({ controlUnitId: 1 }),
+  useSelector: vi.fn()
 }))
 
 const createMockValues = (overrides: Partial<MissionGeneralInfoInput> = {}): MissionGeneralInfoInput => ({
