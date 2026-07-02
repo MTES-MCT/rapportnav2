@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.EnableSati
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiInspector
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
 import org.assertj.core.api.Assertions.assertThat
@@ -88,6 +89,7 @@ class ProcessSatiTest {
             id = id,
             module = module,
             actionId = actionId,
+            principalInspector = SatiInspector(),
             startDatetimeUtc = Instant.parse("2026-03-24T09:15:30Z")
         )
     }

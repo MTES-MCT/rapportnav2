@@ -42,7 +42,7 @@ class GetComputeSati(
             vessel = SatiVesselEntity(),
             actionId = action.id.toString(),
             module = SatiModuleType.fromMissionActionType(action.actionType),
-            inspectors = listOf(SatiInspectorEntity(party = SatiPartyEntity()))
+            inspectors = listOf(SatiInspectorEntity(isPrincipal = true, party = SatiPartyEntity()))
         )
     }
 }

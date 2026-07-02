@@ -1,0 +1,7 @@
+DO
+$$
+BEGIN
+ALTER TABLE "sati_inspector" ADD COLUMN IF NOT EXISTS card_id VARCHAR(50) NULL;
+ALTER TABLE "sati_inspector" ADD COLUMN IF NOT EXISTS is_principal BOOLEAN NOT NULL DEFAULT false;
+END
+$$;

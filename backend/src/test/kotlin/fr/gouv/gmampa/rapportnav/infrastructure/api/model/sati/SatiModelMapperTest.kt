@@ -61,6 +61,7 @@ class SatiModelMapperTest {
         return SatiInspectorModel(
             id = 7,
             agentId = 42,
+            cardId = "FRD455643",
             parties = if (party != null) mutableListOf(party) else mutableListOf(),
             authorityType = "AECP",
             isOutOfUnit = false,
@@ -144,6 +145,7 @@ class SatiModelMapperTest {
         val inspector = SatiInspectorEntity(
             id = 7,
             agentId = 42,
+            cardId = "FRD455643",
             party = SatiPartyEntity(id = 8, partyType = "INSPECTOR"),
             authorityType = AuthorityType.AECP,
             isOutOfUnit = false
@@ -215,6 +217,7 @@ class SatiModelMapperTest {
             val inspector = entity.inspectors?.first()
             assertThat(inspector?.id).isEqualTo(7)
             assertThat(inspector?.agentId).isEqualTo(42)
+            assertThat(inspector?.cardId).isEqualTo("FRD455643")
             assertThat(inspector?.authorityType).isEqualTo(AuthorityType.AECP)
             assertThat(inspector?.isOutOfUnit).isFalse()
         }
@@ -302,6 +305,7 @@ class SatiModelMapperTest {
             val inspector = model.inspectors.first()
             assertThat(inspector.id).isEqualTo(7)
             assertThat(inspector.agentId).isEqualTo(42)
+            assertThat(inspector.cardId).isEqualTo("FRD455643")
             assertThat(inspector.authorityType).isEqualTo("AECP")
             assertThat(inspector.isOutOfUnit).isFalse()
         }

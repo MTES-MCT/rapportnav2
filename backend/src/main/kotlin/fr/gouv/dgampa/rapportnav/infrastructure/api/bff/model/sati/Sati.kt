@@ -15,5 +15,6 @@ data class Sati(
     var vessel: SatiVessel? = null,
     var startDatetimeUtc: Instant? = null,
     var endDatetimeUtc: Instant? = null,
-    var inspectors: List<SatiInspector>? = emptyList(),
+    var principalInspector: SatiInspector,
+    var otherInspectors: List<SatiInspector>? = emptyList(),
 )

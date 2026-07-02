@@ -121,10 +121,10 @@ object SatiModelMapper {
         return SatiInspectorEntity(
             id = id,
             agentId = agentId,
-            party = parties.firstOrNull()?.toEntity(),
+            cardId = cardId,
+            isPrincipal = isPrincipal,
             isOutOfUnit = isOutOfUnit,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
+            party = parties.firstOrNull()?.toEntity(),
             authorityType = authorityType?.let { AuthorityType.valueOf(it) }
         )
     }
@@ -132,12 +132,12 @@ object SatiModelMapper {
     private fun SatiInspectorEntity.toModel(): SatiInspectorModel {
         return SatiInspectorModel(
             id = id,
+            cardId = cardId,
             agentId = agentId,
+            isPrincipal = isPrincipal,
             parties = party?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
             authorityType = authorityType?.toString(),
-            isOutOfUnit = isOutOfUnit,
-            createdAt = createdAt,
-            updatedAt = updatedAt
+            isOutOfUnit = isOutOfUnit
         )
     }
 }
