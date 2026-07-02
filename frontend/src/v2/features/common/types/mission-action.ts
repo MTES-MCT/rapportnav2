@@ -1,6 +1,5 @@
 import { ActionStatusReason, ActionStatusType } from '@common/types/action-types'
 import { ControlMethod, ControlType } from '@common/types/control-types'
-import { LocationType } from './location-type'
 import { ActionTargetTypeEnum, VehicleTypeEnum, VesselSizeEnum, VesselTypeEnum } from '@common/types/env-mission-types'
 import { EnvTag } from '@common/types/env-tags.ts'
 import { EnvTheme } from '@common/types/env-themes.ts'
@@ -17,9 +16,12 @@ import { FishInfraction } from '../../mission-infraction/types/infraction-input.
 import { ActionType } from './action-type'
 import { Establishment } from './etablishment.ts'
 import { FishingGearType, LeisureType } from './leisure-fishing-gear-type.ts'
+import { LocationType } from './location-type'
 import { MissionActionData } from './mission-action-data'
 import { CompletenessForStats, MissionSourceEnum } from './mission-types.ts'
 import { NetworkSyncStatus } from './network-types.ts'
+
+import { Sati } from './sati.ts'
 import { SectorEtablishmentType, SectorType } from './sector-types.ts'
 
 export interface MissionAction {
@@ -195,6 +197,7 @@ export interface MissionFishActionData extends MissionActionData {
   fishInfractions: FishInfraction[]
   incidentDuringOperation?: boolean
   hasDivingDuringOperation?: boolean
+  sati?: Sati
 }
 
 export interface MissionFishAction extends MissionAction {

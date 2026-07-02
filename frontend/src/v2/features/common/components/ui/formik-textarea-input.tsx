@@ -9,4 +9,14 @@ export const FormikTextAreaInput = styled(({ name, ...props }: FormikTextareaPro
       <FormikTextareaInputDelay name={name} isLight={true} fieldFormik={field} isErrorMessageHidden={true} {...props} />
     )}
   </Field>
-))({})
+))(({ readOnly }) => ({
+  '& input': {
+    border: readOnly ? 'none !important' : 'inherit'
+  },
+  '& input:hover': {
+    border: readOnly ? 'none !important' : 'inherit'
+  },
+  '& input:focus': {
+    border: readOnly ? 'none !important' : 'inherit'
+  }
+}))
