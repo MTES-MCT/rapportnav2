@@ -13,14 +13,16 @@ import FishControlConclusion from '../../fish-sati/components/elements/fish-cont
 import FishControlInfos from '../../fish-sati/components/elements/fish-control-infos.tsx'
 import FishControlOthers from '../../fish-sati/components/elements/fish-control-others.tsx'
 import FishControlPolpeche from '../../fish-sati/components/elements/fish-control-polpeche.tsx'
+import { useSati } from '../../fish-sati/hooks/use-sati.tsx'
 import { ActionFishControlInput } from '../types/action-type'
 
+const SATI_ITEM: StyledTabItem = {
+  key: 'infos',
+  title: 'Infos du navire',
+  component: FishControlInfos
+}
+
 const ITEMS: StyledTabItem[] = [
-  {
-    key: 'infos',
-    title: 'Infos du navire',
-    component: FishControlInfos
-  },
   {
     key: 'polpech',
     title: 'Police des pêches',
@@ -42,6 +44,7 @@ export function useMissionActionFishControl(
   action: MissionAction,
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionFishControlInput> & { items: StyledTabItem[] } {
+  const { isSatiEnabled } = useSati()
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionFishActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
@@ -90,10 +93,15 @@ export function useMissionActionFishControl(
     [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
   )
 
+  const getItems = (): StyledTabItem[] => {
+    if (isSatiEnabled) return [SATI_ITEM, ...ITEMS]
+    return ITEMS
+  }
+
   return {
     initValue,
-    items: ITEMS,
     validationSchema,
+    items: getItems(),
     handleSubmit: handleSubmitOverride
   }
 }
