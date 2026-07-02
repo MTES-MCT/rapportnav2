@@ -103,7 +103,7 @@ const FishControlConclusion: FC<FishControlConclusionProps> = ({ values }) => {
             <FormikTextAreaInput
               isLight={false}
               name="sati.vessel.master.comments"
-              data-testid="observations-by-unit"
+              data-testid="observations-master"
               label="Observations de l’opérateur (personne contrôlée)"
             />
             <FormikCheckbox

@@ -85,4 +85,9 @@ describe('FishControlConclusion', () => {
     expect(screen.getByText('Infraction 1 : Dissimulation', { exact: false })).toBeInTheDocument()
     expect(screen.getByText('Entrave à la justice', { exact: false })).toBeInTheDocument()
   })
+
+  it('renders the observations master', () => {
+    render(<FishControlConclusion values={defaultValues} />)
+    expect(screen.getByTestId('observations-master')).toBeInTheDocument()
+  })
 })

@@ -22,7 +22,8 @@ vi.mock('../../../store', () => ({
 }))
 
 vi.mock('@tanstack/react-store', () => ({
-  useStore: vi.fn()
+  useStore: vi.fn(),
+  useSelector: vi.fn()
 }))
 
 // Mock date-fns functions

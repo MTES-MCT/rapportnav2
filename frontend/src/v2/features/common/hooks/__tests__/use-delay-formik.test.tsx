@@ -117,10 +117,10 @@ describe('useDelayFormik', () => {
     expect(result.current.value).toBe('updated-value')
   })
 
-  it('should not update value when initValue is falsy', () => {
+  it('should update value when initValue is 0', () => {
     const onSubmit = vi.fn()
     const { result } = renderHook(() => useDelayFormik(0, onSubmit))
-    expect(result.current.value).toBeUndefined()
+    expect(result.current.value).toBe(0)
   })
 
   it('should handle multiple onChange calls', () => {
