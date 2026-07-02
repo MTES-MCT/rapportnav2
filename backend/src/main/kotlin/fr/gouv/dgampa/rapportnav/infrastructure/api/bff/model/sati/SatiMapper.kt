@@ -17,7 +17,8 @@ object SatiMapper {
             endDatetimeUtc = entity?.endDatetimeUtc,
             startDatetimeUtc = entity?.startDatetimeUtc,
             module = entity?.module?: SatiModuleType.M1,
-            inspectors = entity?.inspectors?.map { it.toOutput() } ?: listOf()
+            principalInspector = entity?.inspectors?.firstOrNull { it.isPrincipal }?.toOutput() ?: SatiInspector(),
+            otherInspectors = entity?.inspectors?.filter { !it.isPrincipal }?.map { it.toOutput() } ?: listOf()
         )
     }
 
@@ -30,7 +31,9 @@ object SatiMapper {
             endDatetimeUtc = response?.endDatetimeUtc,
             startDatetimeUtc = response?.startDatetimeUtc,
             module = response?.module?: SatiModuleType.M1,
-            inspectors = response?.inspectors?.map { it.toEntity() } ?: listOf()
+            inspectors = listOfNotNull(
+                response?.principalInspector?.toEntity()?.copy(isPrincipal = true)
+            ) + (response?.otherInspectors?.map { it.toEntity() } ?: listOf())
         )
     }
 
@@ -151,6 +154,7 @@ object SatiMapper {
     private fun SatiInspector.toEntity(): SatiInspectorEntity {
         return SatiInspectorEntity(
             id = id,
+            cardId = cardId,
             agentId = agentId,
             party = party?.toEntity(),
             isOutOfUnit = isOutOfUnit,
@@ -161,6 +165,7 @@ object SatiMapper {
     private fun SatiInspectorEntity.toOutput(): SatiInspector {
         return SatiInspector(
             id = id,
+            cardId = cardId,
             agentId = agentId,
             isOutOfUnit = isOutOfUnit,
             party = party?.toOutput(),
