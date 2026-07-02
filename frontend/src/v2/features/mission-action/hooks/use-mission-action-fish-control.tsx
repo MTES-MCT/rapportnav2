@@ -9,12 +9,18 @@ import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionFishActionData } from '../../common/types/mission-action'
-import FishControlConclusion from '../components/ui/fish-control-conclusion.tsx'
-import FishControlOthers from '../components/ui/fish-control-others.tsx'
-import FishControlPolpeche from '../components/ui/fish-control-polpeche.tsx'
+import FishControlConclusion from '../../fish-sati/components/elements/fish-control-conclusion.tsx'
+import FishControlInfos from '../../fish-sati/components/elements/fish-control-infos.tsx'
+import FishControlOthers from '../../fish-sati/components/elements/fish-control-others.tsx'
+import FishControlPolpeche from '../../fish-sati/components/elements/fish-control-polpeche.tsx'
 import { ActionFishControlInput } from '../types/action-type'
 
 const ITEMS: StyledTabItem[] = [
+  {
+    key: 'infos',
+    title: 'Infos du navire',
+    component: FishControlInfos
+  },
   {
     key: 'polpech',
     title: 'Police des pêches',
