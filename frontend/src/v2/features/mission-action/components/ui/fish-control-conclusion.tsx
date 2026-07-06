@@ -34,7 +34,7 @@ const FishControlConclusion: FC<{
                   name={`targets[0]`}
                   message={
                     <Message level="WARNING">
-                      Veuillez vous assurez que l’infraction n’a pas déjà été saisie par le CNSP
+                      Veuillez vous assurez que l'infraction n'a pas déjà été saisie par le CNSP
                     </Message>
                   }
                   fieldFormik={fieldFormik}

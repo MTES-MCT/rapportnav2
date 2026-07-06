@@ -46,7 +46,7 @@ const TargetInfractionForm: FC<TargetInfractionFormProps> = ({
         >
           <InfractionNavSummary
             index={index}
-            onDelete={() => onDelete}
+            onDelete={onDelete}
             onEdit={() => setShowForm(true)}
             infraction={value?.infraction}
             controlType={value?.control?.controlType}
