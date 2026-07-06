@@ -32,7 +32,7 @@ const InfractionFishSummary: React.FC<InfractionSummaryProps> = ({ infractions }
   return (
     <Stack direction="column" spacing={'.5rem'} style={{ width: '100%' }} data-testid="infraction-fish-summary">
       {infractionsWithNatinfData.map((infraction: FishInfraction & Natinf, index) => (
-        <Stack.Item style={{ width: '100%' }}>
+        <Stack.Item style={{ width: '100%' }} key={`${infraction.natinf}-${index}`}>
           <InfractionSummary
             index={index}
             tags={

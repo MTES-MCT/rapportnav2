@@ -54,6 +54,13 @@ describe('TargetInfractionForm', () => {
     expect(mockOnSubmit).toHaveBeenCalledWith(sampleValue)
   })
 
+  it('calls onDelete when delete button is clicked', () => {
+    render(<TargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />)
+    const deleteButton = screen.getByRole('delete-infraction')
+    fireEvent.click(deleteButton)
+    expect(mockOnDelete).toHaveBeenCalledTimes(1)
+  })
+
   it('closes form if onSubmit is called with undefined', () => {
     render(<TargetInfractionForm index={0} value={sampleValue} onDelete={mockOnDelete} onSubmit={mockOnSubmit} />)
     fireEvent.click(screen.getByRole('edit-infraction'))
