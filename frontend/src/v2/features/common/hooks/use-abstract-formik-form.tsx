@@ -41,8 +41,8 @@ export function useAbstractFormik<T, M>(
     const valueToSubmit = beforeSubmit(value)
 
     if (onSubmit && valueToSubmit) {
-      await onSubmit(valueToSubmit)
       setInitValue(value)
+      await onSubmit(valueToSubmit)
     }
   }
 

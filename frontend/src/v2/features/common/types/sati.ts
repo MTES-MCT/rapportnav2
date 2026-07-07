@@ -42,8 +42,6 @@ export interface SatiVessel {
   agent?: SatiParty
   master?: SatiParty
   isMasterOwner: boolean
-  createdAt?: string
-  updatedAt?: string
 }
 
 export interface SatiParty {
@@ -52,8 +50,6 @@ export interface SatiParty {
   comments?: string
   signature: boolean
   contact?: Contact
-  createdAt?: string
-  updatedAt?: string
 }
 
 export interface Contact {
@@ -65,8 +61,6 @@ export interface Contact {
   email?: string
   phone?: string
   address?: Address
-  createdAt?: string
-  updatedAt?: string
 }
 
 export interface Address {
@@ -78,8 +72,6 @@ export interface Address {
   country?: string
   lng?: number
   lat?: number
-  createdAt?: string
-  updatedAt?: string
 }
 
 export interface SatiInspector {

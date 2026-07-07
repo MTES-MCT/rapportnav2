@@ -17,9 +17,16 @@ const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ owner, master
   const [edit, setEdit] = useState<boolean>(false)
   const [isMasterOwner, setIsMasterOwner] = useState(false)
 
+  const getContact = (checked: boolean) => {
+    const contactId = master?.contact?.id
+    const addressId = master?.contact?.address?.id
+    const baseContact = checked ? owner?.contact : emptyContact
+    return { ...baseContact, id: contactId, address: { ...baseContact?.address, id: addressId } } as Contact
+  }
+
   const handleToggle = (checked: boolean) => {
     setIsMasterOwner(checked)
-    onchange(checked ? owner?.contact : emptyContact)
+    onchange(getContact(checked))
     setEdit(false)
   }
 

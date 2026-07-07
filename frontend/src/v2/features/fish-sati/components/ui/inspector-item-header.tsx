@@ -12,7 +12,7 @@ const InspectorItemHeader: FC<InspectorItemHeaderProps> = ({ edit, onEdit, onDel
   return (
     <Stack direction="row" spacing="0.75rem" justifyContent="flex-start">
       <Stack.Item style={{ width: '50%', display: 'flex', justifyContent: 'flex-start', alignItems: 'start' }}>
-        <FormikCheckbox readOnly={!edit} label="Etablissement étranger" name="isOutOfUnit" />
+        <FormikCheckbox readOnly={!edit} label="Agent hors unité" name="isOutOfUnit" />
       </Stack.Item>
       <Stack.Item style={{ width: '50%', display: 'flex', justifyContent: 'flex-end' }}>
         {!edit && (

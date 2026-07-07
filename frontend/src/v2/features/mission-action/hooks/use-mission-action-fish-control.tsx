@@ -69,7 +69,7 @@ export function useMissionActionFishControl(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
-    ['incidentDuringOperation', 'hasDivingDuringOperation']
+    ['incidentDuringOperation', 'hasDivingDuringOperation', 'isMasterOwner', 'signature', 'isOutOfUnit']
   )
 
   const onSubmit = async (valueToSubmit?: MissionFishActionData) => {
