@@ -56,7 +56,7 @@ const InspectorItemForm: FC<InspectorItemFormProps> = ({ values, readOnly, isPri
           name="cardId"
           isLight={readOnly}
           placeholder="ex : FS7414"
-          readOnly={readOnly || isPrincipal}
+          readOnly={!values?.isOutOfUnit || isPrincipal}
           label="Identifiant unique de l’inspecteur (n° de la carte de service...)"
         />
       </Stack.Item>
