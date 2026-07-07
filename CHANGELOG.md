@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.86.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.86.0...v2.86.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **Fish:** Update MissionAction Fish [#1412](https://github.com/MTES-MCT/rapportnav2/issues/1412) ([032d484](https://github.com/MTES-MCT/rapportnav2/commit/032d484cdd5bc5d39efb00db5a7e1f5745ca12a3))
+
 ## [2.86.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.85.2...v2.86.0) (2026-07-07)
 
 
