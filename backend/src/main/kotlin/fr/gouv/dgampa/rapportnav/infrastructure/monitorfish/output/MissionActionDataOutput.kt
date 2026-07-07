@@ -138,7 +138,12 @@ data class MissionActionDataOutput(
     val pnoPurpose: LogbookMessagePurpose? = null,
     val lastDeparturePortLocode: String? = null,
     val lastDeparturePortName: String? = null,
-    val lastDepartureDateTime: ZonedDateTime? = null
+    val lastDepartureDateTime: ZonedDateTime? = null,
+    val chartererName: String? = null,
+    val chartererPhones: List<String>? = null,
+    val chartererEmail: String? = null,
+    val chartererNationality: String? = null,
+    val chartererAddress: String? = null,
 ) {
     fun toMissionAction(): MissionAction {
         return MissionAction(
@@ -228,6 +233,12 @@ data class MissionActionDataOutput(
             pnoPurpose = this.pnoPurpose,
             lastDeparturePortLocode = this.lastDeparturePortLocode,
             lastDeparturePortName = this.lastDeparturePortName,
+            lastDepartureDateTime = this.lastDepartureDateTime?.toInstant(),
+            operatorName = this.chartererName,
+            operatorPhones = this.chartererPhones,
+            operatorEmails = this.chartererEmail?.let { listOf(it) },
+            operatorNationality = this.chartererNationality,
+            operatorAddress = this.chartererAddress,
         )
     }
 }
