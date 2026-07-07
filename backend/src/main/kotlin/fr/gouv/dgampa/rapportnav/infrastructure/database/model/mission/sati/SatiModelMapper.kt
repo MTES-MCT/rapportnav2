@@ -38,7 +38,6 @@ object SatiModelMapper {
             ),
             agent = parties.firstOrNull { it.partyType == PartyType.VESSEL_AGENT.name }?.toEntity(),
             master = parties.firstOrNull { it.partyType == PartyType.VESSEL_MASTER.name }?.toEntity(),
-            operator = parties.firstOrNull { it.partyType == PartyType.VESSEL_OPERATOR.name }?.toEntity(),
             isMasterOwner = isMasterOwner
         )
     }
@@ -52,7 +51,6 @@ object SatiModelMapper {
             parties = mutableListOf<SatiPartyModel>().apply {
                 agent?.toModel(PartyType.VESSEL_AGENT)?.let { add(it) }
                 master?.toModel(PartyType.VESSEL_MASTER)?.let { add(it) }
-                operator?.toModel(PartyType.VESSEL_OPERATOR)?.let { add(it) }
             }
         )
     }
