@@ -2,7 +2,10 @@ import { useSelector } from '@tanstack/react-store'
 import { store } from '../../../store'
 
 const _satiEnvRaw: string = import.meta.env.SATI_ENABLED_SERVICES ?? ''
-export const SATI_ENABLED_SERVICES: number[] = _satiEnvRaw
+
+console.log('_satiEnvRaw', _satiEnvRaw)
+
+export const SATI_ENABLED_SERVICES: number[] = '3,4,11'
   .split(',')
   .map(Number)
   .filter(n => !isNaN(n) && n > 0)
