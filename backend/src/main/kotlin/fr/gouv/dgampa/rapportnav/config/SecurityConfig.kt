@@ -125,7 +125,7 @@ class SecurityConfig(
                     csp.policyDirectives(
                         "default-src 'self'; " +
                         "script-src 'self'; " +
-                        "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
+                        "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr https://data.enseignementsup-recherche.gouv.fr; " +
                         "frame-src $metabaseSiteUrl; " +
                         "frame-ancestors 'none'" +
                         upgradeInsecure

@@ -86,7 +86,7 @@ class FrontendRoutesController(
             "style-src 'self' 'unsafe-inline'; " +
             "img-src 'self'; " +
             "font-src 'self' data:; " +
-            "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
+            "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr https://data.enseignementsup-recherche.gouv.fr; " +
             "frame-src $metabaseSiteUrl; " +
             "base-uri 'self'; " +
             "frame-ancestors 'none'; " +
