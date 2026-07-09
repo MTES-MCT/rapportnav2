@@ -1,5 +1,6 @@
 import { FormikEffect } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
+import { isEqual } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { useAgent } from '../../../common/hooks/use-agent'
@@ -31,11 +32,7 @@ const InspectorItem: FC<InspectorItemProps> = ({
 }) => {
   const { getAgent } = useAgent()
   const [edit, setEdit] = useState<boolean>(true)
-
-  const initialValues = {
-    ...emptyInspector,
-    ...(inspector ? { ...inspector, authorityType: inspector.authorityType ?? undefined } : {})
-  }
+  const initialValues = { ...emptyInspector, ...(inspector ?? {}) }
 
   useEffect(() => {
     setEdit(!readOnly)
@@ -43,11 +40,9 @@ const InspectorItem: FC<InspectorItemProps> = ({
 
   const handleChange = (response?: SatiInspector) => {
     if (!response) return
-    if (isPrincipal) {
-      const agent = getAgent(response?.agentId)
-      response.cardId = agent?.cardId
-    }
-    if (onChange) onChange(response)
+    const next = isPrincipal ? { ...response, cardId: getAgent(response?.agentId)?.cardId } : response
+    if (isEqual(next, inspector)) return
+    if (onChange) onChange(next)
   }
 
   const handleSubmit = (response?: SatiInspector) => {

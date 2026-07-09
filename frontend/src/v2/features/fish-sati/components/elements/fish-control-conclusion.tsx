@@ -13,7 +13,7 @@ import TargetItemDefault from '../../../mission-target/components/elements/targe
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useSati } from '../../hooks/use-sati.tsx'
 import InspectorList from '../ui/inpector-list.tsx'
-import InspectorPrincipal from '../ui/inspector-item-principal.tsx'
+import InspectorItemPrincipal from '../ui/inspector-item-principal.tsx'
 import ResourceForm from '../ui/resource-form.tsx'
 
 interface FishControlConclusionProps {
@@ -38,7 +38,7 @@ const FishControlConclusion: FC<FishControlConclusionProps> = ({ values }) => {
               />
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
-              <InspectorPrincipal
+              <InspectorItemPrincipal
                 inspector={values?.sati?.principalInspector}
                 onChange={inspector => setFieldValue('sati.principalInspector', inspector)}
               />

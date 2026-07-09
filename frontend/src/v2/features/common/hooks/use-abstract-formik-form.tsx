@@ -2,6 +2,19 @@ import { isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
 import { useEffect, useState } from 'react'
 import { AbstractFormikHook } from '../types/abstract-formik-hook'
 
+const isPlainObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && value.constructor === Object
+
+//TODO: apply to every input of abstrct-formik
+export const normalizeNulls = <V,>(value: V): V => {
+  if (value === null) return undefined as unknown as V
+  if (Array.isArray(value)) return value.map(normalizeNulls) as unknown as V
+  if (isPlainObject(value)) {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, normalizeNulls(v)])) as V
+  }
+  return value
+}
+
 export function useAbstractFormik<T, M>(
   value: T,
   fromFieldValueToInput: (value: T) => M,
