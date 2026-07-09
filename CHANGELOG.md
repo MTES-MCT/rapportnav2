@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.86.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.86.1...v2.86.2) (2026-07-09)
+
+
+### Bug Fixes
+
+* validation rules ([6326cce](https://github.com/MTES-MCT/rapportnav2/commit/6326cce00e10c044f1aa3c351ef30c8e07992bcf))
+
 ## [2.86.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.86.0...v2.86.1) (2026-07-07)
 
 
