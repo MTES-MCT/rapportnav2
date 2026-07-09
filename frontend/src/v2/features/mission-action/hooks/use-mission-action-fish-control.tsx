@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { object, string } from 'yup'
 import { StyledTabItem } from '../../common/components/ui/styled-tab.tsx'
-import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
+import { normalizeNulls, useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
@@ -55,6 +55,7 @@ export function useMissionActionFishControl(
     const dates = getDateRangeForInput(data)
     return {
       ...data,
+      sati: normalizeNulls(data.sati),
       dates,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
