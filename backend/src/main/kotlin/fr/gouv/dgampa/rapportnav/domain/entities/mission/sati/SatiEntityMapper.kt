@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.Sati
 
 object SatiEntityMapper {
     fun merge(sati: SatiEntity, action: MissionAction): SatiEntity {
+
         return sati.copy(
             actionId = action.id?.toString() ?: "",
             startDatetimeUtc = action.actionDatetimeUtc,
@@ -37,15 +38,13 @@ object SatiEntityMapper {
                         address = AddressEntity(fullAddress = action.proprietorAddress)
                     )
                 ),
-                operator = (sati.vessel?.operator ?: SatiPartyEntity()).copy(
-                    contact = (sati.vessel?.operator?.contact ?: ContactEntity()).copy(
+                operator = SatiPartyEntity(
+                    contact = ContactEntity(
                         fullName = action.operatorName,
                         email = action.operatorEmails?.firstOrNull(),
                         phone = action.operatorPhones?.firstOrNull(),
                         nationality = action.operatorNationality,
-                        address = (sati.vessel?.operator?.contact?.address ?: AddressEntity()).copy(
-                            fullAddress = action.operatorAddress
-                        )
+                        address = AddressEntity(fullAddress = action.operatorAddress)
                     )
                 )
             )
@@ -58,5 +57,66 @@ object SatiEntityMapper {
     fun isEquals(fromDb: SatiEntity?, input: SatiEntity): Boolean {
         if (fromDb == null) return false
         return toModel(fromDb) == toModel(input)
+    }
+
+    fun copy(existing: SatiEntity, new: SatiEntity): SatiEntity {
+        return new.copy(
+            id = existing.id,
+            vessel = copyVessel(existing.vessel, new.vessel),
+            inspectors = copyInspectors(existing.inspectors, new.inspectors)
+        )
+    }
+
+    private fun copyVessel(existing: SatiVesselEntity?, new: SatiVesselEntity?): SatiVesselEntity? {
+        if (new == null) return null
+        if (existing == null) return new
+        return new.copy(
+            id = existing.id,
+            owner = copyParty(existing.owner, new.owner),
+            operator = copyParty(existing.operator, new.operator),
+            agent = copyParty(existing.agent, new.agent),
+            master = copyParty(existing.master, new.master)
+        )
+    }
+
+    private fun copyParty(existing: SatiPartyEntity?, new: SatiPartyEntity?): SatiPartyEntity? {
+        if (new == null) return null
+        if (existing == null) return new
+        return new.copy(
+            id = existing.id,
+            contact = copyContact(existing.contact, new.contact)
+        )
+    }
+
+    private fun copyContact(existing: ContactEntity?, new: ContactEntity?): ContactEntity? {
+        if (new == null) return null
+        if (existing == null) return new
+        return new.copy(
+            id = existing.id,
+            address = copyAddress(existing.address, new.address)
+        )
+    }
+
+    private fun copyAddress(existing: AddressEntity?, new: AddressEntity?): AddressEntity? {
+        if (new == null) return null
+        if (existing == null) return new
+        return new.copy(id = existing.id)
+    }
+
+    private fun copyInspectors(
+        existing: List<SatiInspectorEntity>?,
+        new: List<SatiInspectorEntity>?
+    ): List<SatiInspectorEntity>? {
+        if (new == null) return null
+        if (existing.isNullOrEmpty()) return new
+        return new.map { incoming ->
+            val match = existing.firstOrNull { it.agentId != null && it.agentId == incoming.agentId }
+                ?: existing.firstOrNull { it.isPrincipal && incoming.isPrincipal }
+            if (match == null) incoming
+            else incoming.copy(
+                id = match.id,
+                party = copyParty(match.party, incoming.party)
+            )
+        }
     }
 }

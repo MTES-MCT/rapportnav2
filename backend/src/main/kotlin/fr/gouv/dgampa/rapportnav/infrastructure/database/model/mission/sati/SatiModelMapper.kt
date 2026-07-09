@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
-import java.util.*
 
 object SatiModelMapper {
 
@@ -20,7 +19,7 @@ object SatiModelMapper {
 
     fun toModel(entity: SatiEntity): SatiModel {
         return SatiModel(
-            id = entity.id ?: UUID.randomUUID(),
+            id = entity.id,
             actionId = entity.actionId,
             resourceId = entity.resource?.id,
             module = entity.module.toString(),

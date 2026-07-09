@@ -70,8 +70,7 @@ class APIGetCountryRepositoryTest {
             )
 
             val repository = APIGetCountryRepository<Any>(
-                mapper = realMapper,
-                clientFactory = httpClientFactory
+                mapper = realMapper
             )
 
             val result = repository.getCountries()
@@ -89,8 +88,7 @@ class APIGetCountryRepositoryTest {
             setupHttpMock(200, "[]")
 
             val repository = APIGetCountryRepository<Any>(
-                mapper = realMapper,
-                clientFactory = httpClientFactory
+                mapper = realMapper
             )
 
             val result = repository.getCountries()
@@ -107,8 +105,7 @@ class APIGetCountryRepositoryTest {
             )
 
             val repository = APIGetCountryRepository<Any>(
-                mapper = realMapper,
-                clientFactory = httpClientFactory
+                mapper = realMapper
             )
 
             val result = repository.getCountries()
@@ -126,8 +123,7 @@ class APIGetCountryRepositoryTest {
             setupHttpMock(500, "Internal Server Error")
 
             val repository = APIGetCountryRepository<Any>(
-                mapper = realMapper,
-                clientFactory = httpClientFactory
+                mapper = realMapper
             )
 
             val exception = assertThrows(BackendInternalException::class.java) {
@@ -142,8 +138,7 @@ class APIGetCountryRepositoryTest {
             setupHttpMock(404, "Not Found")
 
             val repository = APIGetCountryRepository<Any>(
-                mapper = realMapper,
-                clientFactory = httpClientFactory
+                mapper = realMapper
             )
 
             val exception = assertThrows(BackendInternalException::class.java) {
@@ -158,8 +153,7 @@ class APIGetCountryRepositoryTest {
             setupHttpMock(401, "Unauthorized")
 
             val repository = APIGetCountryRepository<Any>(
-                mapper = realMapper,
-                clientFactory = httpClientFactory
+                mapper = realMapper
             )
 
             assertThrows(BackendInternalException::class.java) {
