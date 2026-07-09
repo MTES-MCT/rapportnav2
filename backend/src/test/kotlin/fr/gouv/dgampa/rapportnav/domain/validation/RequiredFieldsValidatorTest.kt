@@ -477,18 +477,6 @@ class RequiredFieldsValidatorTest {
         }
 
         @Test
-        fun `should resolve v2 for missions on or after v2 effective date`() {
-            val policy = ValidationPolicies.forMissionStartDate(Instant.parse("2026-07-01T00:00:00Z"))
-            assertEquals(2, policy.version)
-        }
-
-        @Test
-        fun `should resolve v2 for missions well after v2 effective date`() {
-            val policy = ValidationPolicies.forMissionStartDate(Instant.parse("2027-01-01T00:00:00Z"))
-            assertEquals(2, policy.version)
-        }
-
-        @Test
         fun `should resolve latest policy when start date is null`() {
             val policy = ValidationPolicies.forMissionStartDate(null)
             assertEquals(ValidationPolicies.latest.version, policy.version)
@@ -501,45 +489,5 @@ class RequiredFieldsValidatorTest {
         }
     }
 
-    // =========================================================================
-    // v1 vs v2 comparison tests
-    // =========================================================================
-    @Nested
-    @DisplayName("Policy versioning – v1 vs v2")
-    inner class PolicyVersioningTests {
 
-        private fun createNavAction(observations: String? = null) = MissionNavActionEntity(
-            id = UUID.randomUUID(),
-            missionId = 1,
-            actionType = ActionType.OTHER,
-            startDateTimeUtc = Instant.now(),
-            endDateTimeUtc = Instant.now().plusSeconds(3600),
-            observations = observations
-        )
-
-        @Test
-        fun `v1 should NOT require observations`() {
-            val entity = createNavAction(observations = null)
-            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
-
-            assertTrue(result.isComplete)
-        }
-
-        @Test
-        fun `v2 should require observations`() {
-            val entity = createNavAction(observations = null)
-            val result = validator.validateCompleteness(entity, ValidationPolicies.v2)
-
-            assertFalse(result.isComplete)
-            assertTrue(result.errors.any { it.field == "observations" })
-        }
-
-        @Test
-        fun `v2 should be valid when observations provided`() {
-            val entity = createNavAction(observations = "Some observation")
-            val result = validator.validateCompleteness(entity, ValidationPolicies.v2)
-
-            assertFalse(result.errors.any { it.field == "observations" })
-        }
-    }
 }

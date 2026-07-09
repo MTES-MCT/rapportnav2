@@ -229,26 +229,8 @@ object ValidationPolicies {
         )
     )
 
-    /**
-     * v2: Adds a fake "observations required" rule for MissionNavActionEntity.
-     * Demonstrates how policies build incrementally on previous versions.
-     */
-    val v2 = ValidationPolicy(
-        version = 2,
-        label = "v2 – observations required for nav actions",
-        appliesFrom = Instant.parse("2026-07-01T00:00:00Z"),
-        rules = v1.rules.toMutableMap().apply {
-            put(
-                MissionNavActionEntity::class.java,
-                v1.rules[MissionNavActionEntity::class.java]!! + listOf(
-                    Rule.always<MissionNavActionEntity>("observations", "Les observations sont requises") { it.observations }
-                )
-            )
-        }
-    )
-
     /** All policies, newest first. */
-    val all: List<ValidationPolicy> = listOf(v2, v1)
+    val all: List<ValidationPolicy> = listOf(v1)
 
     /** The most recent policy. */
     val latest: ValidationPolicy get() = all.first()
