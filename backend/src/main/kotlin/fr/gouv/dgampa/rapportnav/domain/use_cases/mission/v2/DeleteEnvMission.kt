@@ -1,17 +1,16 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 
 @UseCase
 class DeleteEnvMission(
     private val missionRepo: IEnvMissionRepository,
-    private val getEnvMissionById2: GetEnvMissionById2,
+    private val getEnvMissionById: GetEnvMissionById,
     private val getServiceByControlUnit: GetServiceByControlUnit
 ) {
     fun execute(id: Int?, serviceId: Int?) {
@@ -22,7 +21,7 @@ class DeleteEnvMission(
             )
         }
 
-        val mission = getEnvMissionById2.execute(missionId = id)
+        val mission = getEnvMissionById.execute(missionId = id)
             ?: throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
                 message = "DeleteEnvMission: mission not found for id=$id"

@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.controlUnitResource.GetControlUnitResources
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepositoryV2
@@ -13,7 +13,7 @@ import org.springframework.cache.annotation.Caching
 
 @UseCase
 class PatchMissionEnv(
-    private val getEnvMissionById2: GetEnvMissionById2,
+    private val getEnvMissionById: GetEnvMissionById,
     private val apiEnvRepo2: APIEnvMissionRepositoryV2,
     private val getControlUnitResources: GetControlUnitResources
 ) {
@@ -26,7 +26,7 @@ class PatchMissionEnv(
         ]
     )
     fun execute(input: MissionEnvInput): MissionEnvEntity? {
-        val fromEnvMission = getEnvMissionById2.execute(missionId = input.missionId) ?: return null
+        val fromEnvMission = getEnvMissionById.execute(missionId = input.missionId) ?: return null
 
         if (input.equals(
                 MissionEnvInput.fromMissionEntity(

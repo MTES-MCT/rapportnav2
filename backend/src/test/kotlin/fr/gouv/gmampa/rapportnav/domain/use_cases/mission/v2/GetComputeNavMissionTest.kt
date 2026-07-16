@@ -7,8 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeNavMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionNavEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -30,9 +30,9 @@ class GetComputeNavMissionTest {
     private lateinit var useCase: GetComputeNavMission
 
     @MockitoBean
-    private lateinit var getGeneralInfo2: GetGeneralInfo2
+    private lateinit var getGeneralInfo: GetGeneralInfo
     @MockitoBean
-    private lateinit var getNavMissionById2: GetNavMissionById2
+    private lateinit var getNavMissionById: GetNavMissionById
     @MockitoBean
     private lateinit var getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId
 
@@ -41,7 +41,7 @@ class GetComputeNavMissionTest {
         assertThrows(BackendUsageException::class.java) {
             useCase.execute(null, null)
         }
-        verifyNoInteractions(getGeneralInfo2, getNavMissionById2, getComputeNavActionListByMissionId)
+        verifyNoInteractions(getGeneralInfo, getNavMissionById, getComputeNavActionListByMissionId)
     }
 
     @Test
@@ -51,8 +51,8 @@ class GetComputeNavMissionTest {
         val generalInfo = mock<MissionGeneralInfoEntity2>()
         val actions = listOf(mock<MissionNavActionEntity>())
 
-        whenever(getNavMissionById2.execute(missionId)).thenReturn(missionNav)
-        whenever(getGeneralInfo2.execute(missionIdUUID = missionId)).thenReturn(generalInfo)
+        whenever(getNavMissionById.execute(missionId)).thenReturn(missionNav)
+        whenever(getGeneralInfo.execute(missionIdUUID = missionId)).thenReturn(generalInfo)
         whenever(getComputeNavActionListByMissionId.execute(ownerId = missionId)).thenReturn(actions)
 
         val result = useCase.execute(missionId = missionId)
@@ -62,8 +62,8 @@ class GetComputeNavMissionTest {
         assertEquals(actions, result.actions)
         assertEquals(generalInfo, result.generalInfos)
 
-        verify(getNavMissionById2).execute(missionId)
-        verify(getGeneralInfo2).execute(missionIdUUID = missionId)
+        verify(getNavMissionById).execute(missionId)
+        verify(getGeneralInfo).execute(missionIdUUID = missionId)
         verify(getComputeNavActionListByMissionId).execute(ownerId = missionId)
     }
 
@@ -74,7 +74,7 @@ class GetComputeNavMissionTest {
         val generalInfo = mock<MissionGeneralInfoEntity2>()
         val actions = listOf(mock<MissionNavActionEntity>())
 
-        whenever(getGeneralInfo2.execute(missionIdUUID = missionId, serviceId = missionNav.serviceId)).thenReturn(generalInfo)
+        whenever(getGeneralInfo.execute(missionIdUUID = missionId, serviceId = missionNav.serviceId)).thenReturn(generalInfo)
         whenever(getComputeNavActionListByMissionId.execute(ownerId = missionId)).thenReturn(actions)
 
         val result = useCase.execute(navMission = missionNav)
@@ -84,8 +84,8 @@ class GetComputeNavMissionTest {
         assertEquals(actions, result.actions)
         assertEquals(generalInfo, result.generalInfos)
 
-        verifyNoInteractions(getNavMissionById2)
-        verify(getGeneralInfo2).execute(missionIdUUID = missionId, serviceId = missionNav.serviceId)
+        verifyNoInteractions(getNavMissionById)
+        verify(getGeneralInfo).execute(missionIdUUID = missionId, serviceId = missionNav.serviceId)
         verify(getComputeNavActionListByMissionId).execute(ownerId = missionId)
     }
 
@@ -97,8 +97,8 @@ class GetComputeNavMissionTest {
         val actions = listOf(mock<MissionNavActionEntity>())
         val converted = MissionEnvEntity.fromMissionNavEntity(missionNav)
 
-        whenever(getNavMissionById2.execute(missionId)).thenReturn(missionNav)
-        whenever(getGeneralInfo2.execute(missionIdUUID = missionId)).thenReturn(generalInfo)
+        whenever(getNavMissionById.execute(missionId)).thenReturn(missionNav)
+        whenever(getGeneralInfo.execute(missionIdUUID = missionId)).thenReturn(generalInfo)
         whenever(getComputeNavActionListByMissionId.execute(ownerId = missionId)).thenReturn(actions)
 
         val result = useCase.execute(missionId)

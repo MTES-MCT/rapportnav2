@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionReposito
 import org.springframework.cache.annotation.Cacheable
 
 @UseCase
-class GetEnvMissionById2(
+class GetEnvMissionById(
     private val monitorEnvApiRepo: IEnvMissionRepository
 ) {
     @Cacheable(value = ["envMission2"], key = "#missionId")

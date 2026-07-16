@@ -1,14 +1,12 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateGeneralInfos
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.GetMissionPassengers
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
@@ -25,11 +23,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
 
-@SpringBootTest(classes = [GetGeneralInfo2::class])
-class GetGeneralInfo2Test {
+@SpringBootTest(classes = [GetGeneralInfo::class])
+class GetGeneralInfoTest {
 
     @Autowired
-    private lateinit var getGeneralInfo2: GetGeneralInfo2
+    private lateinit var getGeneralInfo: GetGeneralInfo
 
     @MockitoBean
     private lateinit var getServiceById: GetServiceById
@@ -59,7 +57,7 @@ class GetGeneralInfo2Test {
         whenever(getMissionPassengers.execute(missionId)).thenReturn(emptyList())
         whenever(getMissionGeneralInfoByMissionId.execute(missionId = missionId)).thenReturn(entity)
 
-        val result = getGeneralInfo2.execute(missionId = missionId)
+        val result = getGeneralInfo.execute(missionId = missionId)
 
         assertThat(result).isNotNull
         assertThat(result.data?.missionId).isEqualTo(missionId)
@@ -83,7 +81,7 @@ class GetGeneralInfo2Test {
             service = anyOrNull()
         )).thenReturn(fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2(data = createdEntity))
 
-        val result = getGeneralInfo2.execute(missionId = missionId)
+        val result = getGeneralInfo.execute(missionId = missionId)
 
         assertThat(result).isNotNull
         assertThat(result.data?.missionId).isEqualTo(missionId)
@@ -99,7 +97,7 @@ class GetGeneralInfo2Test {
         whenever(getMissionPassengers.execute(missionIdUUID = missionIdUUID)).thenReturn(emptyList())
         whenever(getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)).thenReturn(entity)
 
-        val result = getGeneralInfo2.execute(missionIdUUID = missionIdUUID)
+        val result = getGeneralInfo.execute(missionIdUUID = missionIdUUID)
 
         assertThat(result).isNotNull
         assertThat(result.data?.missionIdUUID).isEqualTo(missionIdUUID)
@@ -122,7 +120,7 @@ class GetGeneralInfo2Test {
         whenever(getMissionPassengers.execute(missionId)).thenReturn(emptyList())
         whenever(getMissionGeneralInfoByMissionId.execute(missionId = missionId)).thenReturn(entity)
 
-        val result = getGeneralInfo2.execute(missionId = missionId, controlUnits = controlUnits)
+        val result = getGeneralInfo.execute(missionId = missionId, controlUnits = controlUnits)
 
         assertThat(result.services).hasSize(2)
         assertThat(result.services?.get(0)?.name).isEqualTo("Service 1")
@@ -142,7 +140,7 @@ class GetGeneralInfo2Test {
         whenever(getMissionGeneralInfoByMissionId.execute(missionId = missionId)).thenAnswer { throw internalException }
 
         val exception = assertThrows<BackendInternalException> {
-            getGeneralInfo2.execute(missionId = missionId)
+            getGeneralInfo.execute(missionId = missionId)
         }
         assertThat(exception.message).isEqualTo("Dependency error")
     }

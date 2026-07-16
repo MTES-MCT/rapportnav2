@@ -9,10 +9,10 @@ import java.util.*
 @UseCase
 class PatchNavMission(
     private val repository: IMissionNavRepository,
-    private val getNavMissionById2: GetNavMissionById2
+    private val getNavMissionById: GetNavMissionById
 ) {
     fun execute(id: UUID, input: MissionNavInputEntity): MissionNavEntity? {
-        val missionFromDb = getNavMissionById2.execute(id) ?: return null
+        val missionFromDb = getNavMissionById.execute(id) ?: return null
         if (missionFromDb.hasNotChanged(input)) return missionFromDb
         val model = missionFromDb.fromMissionNavInput(input)
         return MissionNavEntity.fromMissionModel(repository.save(model))

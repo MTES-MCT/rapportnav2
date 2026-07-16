@@ -5,11 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 
 @UseCase
 class GetEnvActionById(
-    private val getEnvMissionById2: GetEnvMissionById2,
+    private val getEnvMissionById: GetEnvMissionById,
     private val processEnvAction: ProcessEnvAction
 ) {
     fun execute(missionId: Int?, actionId: String): MissionEnvActionEntity? {
@@ -25,6 +26,6 @@ class GetEnvActionById(
     }
 
     private fun getEnvAction(missionId: Int, actionId: String): EnvActionEntity? {
-        return getEnvMissionById2.execute(missionId = missionId)?.envActions?.find { it.id.toString() == actionId }
+        return getEnvMissionById.execute(missionId = missionId)?.envActions?.find { it.id.toString() == actionId }
     }
 }

@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Co
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.PatchMissionEnv
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.controlUnitResource.GetControlUnitResources
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
@@ -33,7 +33,7 @@ class PatchMissionEnvTest {
     private lateinit var repository: IMissionNavRepository
 
     @MockitoBean
-    private lateinit var getEnvMissionById2: GetEnvMissionById2
+    private lateinit var getEnvMissionById: GetEnvMissionById
 
     @MockitoBean
     private lateinit var apiEnvRepo2: APIEnvMissionRepositoryV2
@@ -57,7 +57,7 @@ class PatchMissionEnvTest {
             observationsByUnit = missionEntity.observationsByUnit,
         )
 
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
+        Mockito.`when`(getEnvMissionById.execute(missionId)).thenReturn(missionEntity)
         Mockito.`when`(apiEnvRepo2.patchMission(anyInt(), anyOrNull())).thenReturn(missionEnvEntity)
 
         // When
@@ -80,7 +80,7 @@ class PatchMissionEnvTest {
             resources = listOf(LegacyControlUnitResourceEntity(id = 1233, controlUnitId = 14))
         )
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
+        Mockito.`when`(getEnvMissionById.execute(missionId)).thenReturn(missionEntity)
         Mockito.`when`(apiEnvRepo2.patchMission(anyInt(), anyOrNull())).thenReturn(missionEnvEntity)
         Mockito.`when`(getControlUnitResources.execute()).thenReturn(
             listOf(ControlUnitResourceEnvMock.create(id = 1233, controlUnitId = 14, type = ControlUnitResourceType.CAR))
@@ -104,7 +104,7 @@ class PatchMissionEnvTest {
         )
 
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
+        Mockito.`when`(getEnvMissionById.execute(missionId)).thenReturn(missionEntity)
         Mockito.`when`(apiEnvRepo2.patchMission(anyInt(), anyOrNull())).thenReturn(missionEnvEntity)
         Mockito.`when`(getControlUnitResources.execute()).thenReturn(listOf())
 

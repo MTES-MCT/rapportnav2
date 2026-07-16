@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteMissionCrew2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.DeleteMissionCrew
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,11 +10,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 
-@SpringBootTest(classes = [DeleteMissionCrew2::class])
-class DeleteMissionCrew2Test {
+@SpringBootTest(classes = [DeleteMissionCrew::class])
+class DeleteMissionCrewTest {
 
     @Autowired
-    private lateinit var deleteMissionCrew2: DeleteMissionCrew2
+    private lateinit var deleteMissionCrew: DeleteMissionCrew
 
     @MockitoBean
     private lateinit var crewRepository: IMissionCrewRepository
@@ -26,7 +26,7 @@ class DeleteMissionCrew2Test {
         `when`(crewRepository.deleteById(crewId)).thenReturn(true)
 
         // When
-        val result = deleteMissionCrew2.execute(crewId)
+        val result = deleteMissionCrew.execute(crewId)
 
         // Then
         assertTrue(result)
@@ -39,7 +39,7 @@ class DeleteMissionCrew2Test {
         `when`(crewRepository.deleteById(crewId)).thenThrow(NoSuchElementException("Crew not found"))
 
         // When
-        val result = deleteMissionCrew2.execute(crewId)
+        val result = deleteMissionCrew.execute(crewId)
 
         // Then
         assertFalse(result)
@@ -52,7 +52,7 @@ class DeleteMissionCrew2Test {
         `when`(crewRepository.deleteById(crewId)).thenThrow(RuntimeException("Database error"))
 
         // When
-        val result = deleteMissionCrew2.execute(crewId)
+        val result = deleteMissionCrew.execute(crewId)
 
         // Then
         assertFalse(result)

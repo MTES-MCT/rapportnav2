@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavReposito
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteNavMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionNavEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -24,7 +24,7 @@ class DeleteMissionTest {
     private lateinit var deleteMission: DeleteMission
 
     @MockitoBean
-    private lateinit var getNavMissionById2: GetNavMissionById2
+    private lateinit var getNavMissionById: GetNavMissionById
 
     @MockitoBean
     private lateinit var deleteNavMission: DeleteNavMission
@@ -46,7 +46,7 @@ class DeleteMissionTest {
     @Test
     fun `should throw exception when nav mission not found`() {
         val id = UUID.randomUUID()
-        `when`(getNavMissionById2.execute(id = id)).thenReturn(null)
+        `when`(getNavMissionById.execute(id = id)).thenReturn(null)
 
         val exception = assertThrows<BackendUsageException> {
             deleteMission.execute(id = id, serviceId = 1)
@@ -62,7 +62,7 @@ class DeleteMissionTest {
         val serviceId = 5
         val navMission = MissionNavEntityMock.create(id = id, externalId = "123", serviceId = serviceId)
 
-        `when`(getNavMissionById2.execute(id = id)).thenReturn(navMission)
+        `when`(getNavMissionById.execute(id = id)).thenReturn(navMission)
 
         deleteMission.execute(id = id, serviceId = serviceId)
 
@@ -78,7 +78,7 @@ class DeleteMissionTest {
         val serviceId = 5
         val navMission = MissionNavEntityMock.create(id = id, externalId = null, serviceId = serviceId)
 
-        `when`(getNavMissionById2.execute(id = id)).thenReturn(navMission)
+        `when`(getNavMissionById.execute(id = id)).thenReturn(navMission)
 
         deleteMission.execute(id = id, serviceId = serviceId)
 
@@ -93,7 +93,7 @@ class DeleteMissionTest {
         val serviceId = 5
         val navMission = MissionNavEntityMock.create(id = id, externalId = "123", serviceId = serviceId)
 
-        `when`(getNavMissionById2.execute(id = id)).thenReturn(navMission)
+        `when`(getNavMissionById.execute(id = id)).thenReturn(navMission)
         doThrow(
             BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,

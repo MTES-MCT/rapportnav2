@@ -5,17 +5,19 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRe
 import org.slf4j.LoggerFactory
 
 @UseCase
-data class DeleteMissionCrew(private val crewRepository: IMissionCrewRepository) {
+data class DeleteMissionCrew(
+    private val crewRepository: IMissionCrewRepository
+) {
 
     private val logger = LoggerFactory.getLogger(DeleteMissionCrew::class.java)
 
     fun execute(id: Int): Boolean {
-
         return try {
             crewRepository.deleteById(id = id)
-        } catch (e: NoSuchElementException) {
-            logger.error("DeleteMissionCrew : ${e.message}")
-            return false
+        } catch (e: Exception) {
+            val errorType = if (e is NoSuchElementException) "NoSuchElementException" else "Exception"
+            logger.error("DeleteMissionCrew - $errorType: ${e.message}")
+            false
         }
     }
 }

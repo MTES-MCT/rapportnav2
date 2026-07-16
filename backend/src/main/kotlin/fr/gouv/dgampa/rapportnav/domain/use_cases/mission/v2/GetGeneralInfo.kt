@@ -17,7 +17,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.Mis
 import java.util.*
 
 @UseCase
-class GetGeneralInfo2(
+class GetGeneralInfo(
     private val getServiceById: GetServiceById,
     private val createGeneralInfos: CreateGeneralInfos,
     private val getServiceByControlUnit: GetServiceByControlUnit,

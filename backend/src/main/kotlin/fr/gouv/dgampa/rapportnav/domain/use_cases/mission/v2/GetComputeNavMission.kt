@@ -11,8 +11,8 @@ import java.util.*
 
 @UseCase
 class GetComputeNavMission(
-    private val getGeneralInfo2: GetGeneralInfo2,
-    private val getNavMissionById2: GetNavMissionById2,
+    private val getGeneralInfo: GetGeneralInfo,
+    private val getNavMissionById: GetNavMissionById,
     private val getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId
 ) {
     fun execute(missionId: UUID? = null, navMission: MissionNavEntity? = null): MissionEntity {
@@ -23,13 +23,13 @@ class GetComputeNavMission(
             )
         }
 
-        val mission = navMission ?: getNavMissionById2.execute(missionId!!)
+        val mission = navMission ?: getNavMissionById.execute(missionId!!)
             ?: throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
                 message = "Nav mission not found: $missionId"
             )
 
-        val generalInfos = getGeneralInfo2.execute(missionIdUUID = mission.id, serviceId = navMission?.serviceId)
+        val generalInfos = getGeneralInfo.execute(missionIdUUID = mission.id, serviceId = navMission?.serviceId)
         val actions = getComputeNavActionListByMissionId.execute(ownerId = mission.id)
 
         return MissionEntity(

@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
@@ -28,7 +28,7 @@ class ExportMissionAEMSingle(
     @param:Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
     @param:Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
     private val fillAEMExcelRow: FillAEMExcelRow,
-    private val getEnvMissionById2: GetEnvMissionById2,
+    private val getEnvMissionById: GetEnvMissionById,
     private val getEnvActionByMissionId: GetComputeEnvActionListByMissionId,
     private val getNavActionByMissionId: GetComputeNavActionListByMissionId,
     private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId,
@@ -99,7 +99,7 @@ class ExportMissionAEMSingle(
 
     fun getAemData(missionId: Int?): AEMTableExport?  {
         if(missionId == null) return null
-        val envMission = getEnvMissionById2.execute(missionId)
+        val envMission = getEnvMissionById.execute(missionId)
         val envActions = getEnvActionByMissionId.execute(missionId)
         val navActions = getNavActionByMissionId.execute(missionId)
         val fishActions = getFIshListActionByMissionId.execute(missionId)

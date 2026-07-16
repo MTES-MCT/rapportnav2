@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceType
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteEnvMission
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
@@ -31,7 +31,7 @@ class DeleteEnvMissionTest {
     private lateinit var missionRepo: IEnvMissionRepository
 
     @MockitoBean
-    private lateinit var getEnvMissionById2: GetEnvMissionById2
+    private lateinit var getEnvMissionById: GetEnvMissionById
 
     @MockitoBean
     private lateinit var getServiceByControlUnit: GetServiceByControlUnit
@@ -48,7 +48,7 @@ class DeleteEnvMissionTest {
     @Test
     fun `should throw exception when mission not found`() {
         val id = 1
-        `when`(getEnvMissionById2.execute(id)).thenReturn(null)
+        `when`(getEnvMissionById.execute(id)).thenReturn(null)
 
         val exception = assertThrows<BackendUsageException> {
             deleteEnvMission.execute(id = id, serviceId = 1)
@@ -67,7 +67,7 @@ class DeleteEnvMissionTest {
         )
         val mission = EnvMissionMock.create(id = id)
 
-        `when`(getEnvMissionById2.execute(id)).thenReturn(mission)
+        `when`(getEnvMissionById.execute(id)).thenReturn(mission)
         `when`(getServiceByControlUnit.execute(any())).thenReturn(listOf(service))
 
         val exception = assertThrows<BackendUsageException> {
@@ -92,7 +92,7 @@ class DeleteEnvMissionTest {
             envActions = listOf(EnvActionControlMock.create())
         )
 
-        `when`(getEnvMissionById2.execute(id)).thenReturn(mission)
+        `when`(getEnvMissionById.execute(id)).thenReturn(mission)
         `when`(getServiceByControlUnit.execute(any())).thenReturn(listOf(service))
 
         val exception = assertThrows<BackendUsageException> {
@@ -113,11 +113,11 @@ class DeleteEnvMissionTest {
         )
         val mission = EnvMissionMock.create(id = id)
 
-        `when`(getEnvMissionById2.execute(id)).thenReturn(mission)
+        `when`(getEnvMissionById.execute(id)).thenReturn(mission)
         `when`(getServiceByControlUnit.execute(any())).thenReturn(listOf(service))
 
         deleteEnvMission.execute(id = id, serviceId = service.id)
-        verify(getEnvMissionById2, times(1)).execute(id)
+        verify(getEnvMissionById, times(1)).execute(id)
         verify(missionRepo, times(1)).deleteMission(id, source = mission.missionSource)
     }
 }
