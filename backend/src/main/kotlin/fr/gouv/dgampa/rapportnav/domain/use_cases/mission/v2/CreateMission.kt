@@ -25,6 +25,7 @@ class CreateMission(
             )
         }
 
+        // just create a nav mission
         if (generalInfo2.isMissionNav()) {
             return executeNavMission(
                 service = service,
@@ -32,10 +33,13 @@ class CreateMission(
             )
         }
 
-        return executeEnvMission(
+        // for env missions, create in MonitorEnv and mirror it locally so the mission table stays in sync
+        val mission = executeEnvMission(
             generalInfo2 = generalInfo2,
             controlUnitIds = service.controlUnits
         )
+        createNavMission.execute(mission = mission)
+        return mission
     }
 
     private fun executeNavMission(generalInfo2: MissionGeneralInfo2, service: ServiceEntity): MissionEntity {
@@ -78,8 +82,8 @@ class CreateMission(
                 isUnderJdp = missionEnv.isUnderJdp!!,
                 isGeometryComputedFromControls = missionEnv.isGeometryComputedFromControls!!,
                 hasMissionOrder = missionEnv.hasMissionOrder!!,
-                missionSource = missionEnv.missionSource!!,
-                controlUnits = missionEnv.controlUnits!!,
+                missionSource = missionEnv.missionSource,
+                controlUnits = missionEnv.controlUnits,
                 isDeleted = missionEnv.isDeleted!!
             )
         )

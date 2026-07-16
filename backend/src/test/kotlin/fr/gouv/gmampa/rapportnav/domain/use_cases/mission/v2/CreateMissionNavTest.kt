@@ -1,6 +1,9 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -130,5 +133,25 @@ class CreateMissionNavTest {
 
         assertNotNull(result)
         assertEquals(null, result.endDateTimeUtc)
+    }
+
+    @Test
+    fun `execute(mission) should save a local mirror row for an env mission and return it`() {
+        val externalId = 761
+        val mission = MissionEntity(
+            id = externalId,
+            data = MissionEnvEntity(
+                id = externalId,
+                startDateTimeUtc = Instant.parse("2025-06-15T08:00:00Z"),
+                endDateTimeUtc = Instant.parse("2025-06-15T18:00:00Z"),
+                missionSource = MissionSourceEnum.MONITORENV,
+                isDeleted = false
+            )
+        )
+
+        val result = createMissionNav.execute(mission = mission)
+
+        assertEquals(mission, result)
+        Mockito.verify(repository, times(1)).save(anyOrNull())
     }
 }

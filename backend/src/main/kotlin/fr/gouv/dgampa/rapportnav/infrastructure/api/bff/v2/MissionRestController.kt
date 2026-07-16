@@ -23,8 +23,8 @@ class MissionRestController(
     private val createMission: CreateMission,
     private val getMissions: GetMissions,
     private val getComputeNavMission: GetComputeNavMission,
-    private val deleteNavMission: DeleteNavMission,
-    private val deleteEnvMission: DeleteEnvMission
+    private val deleteMission: DeleteMission,
+    private val getMissionByExternalId: GetMissionByExternalId
 ) {
 
     /**
@@ -145,10 +145,13 @@ class MissionRestController(
         @PathVariable missionId: String
     ) {
         val serviceId = getServiceForUser.execute()?.id
-        if (isValidUUID(missionId)) {
-            deleteNavMission.execute(id = UUID.fromString(missionId), serviceId = serviceId)
+        // Resolve to the local mission UUID (env missions still come in by their MonitorEnv Int id),
+        // then delete through the single DeleteMission path, which removes MonitorEnv + the local row.
+        val id = if (isValidUUID(missionId)) {
+            UUID.fromString(missionId)
         } else {
-            deleteEnvMission.execute(id = Integer.parseInt(missionId), serviceId = serviceId)
+            getMissionByExternalId.execute(missionId)?.id
         }
+        deleteMission.execute(id = id, serviceId = serviceId)
     }
 }

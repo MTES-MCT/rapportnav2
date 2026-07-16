@@ -55,6 +55,12 @@ class UpdateGeneralInfoTest {
     private lateinit var patchNavMission: PatchNavMission
 
     @MockitoBean
+    private lateinit var getMissionByExternalId: GetMissionByExternalId
+
+    @MockitoBean
+    private lateinit var getMissionExternalId: GetMissionExternalId
+
+    @MockitoBean
     private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
 
     @MockitoBean
@@ -69,6 +75,10 @@ class UpdateGeneralInfoTest {
                 errors = emptyList()
             )
         )
+        // Default: no local mission row to sync (Int-overload write-sync path)
+        `when`(getMissionByExternalId.execute(anyString())).thenReturn(null)
+        // Default: UUID maps to a nav-only mission (no MonitorEnv mirror)
+        `when`(getMissionExternalId.execute(anyOrNull())).thenReturn(null)
     }
 
     private fun createMissionGeneralInfoEntityData(
@@ -354,6 +364,39 @@ class UpdateGeneralInfoTest {
             ),
             result
         )
+    }
+
+    @Test
+    fun `execute by UUID should propagate to MonitorEnv when the mission has an external id`() {
+        // Given
+        val missionIdUUID = UUID.randomUUID()
+        val externalId = 456
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
+            missionIdUUID = missionIdUUID,
+            service = null,
+        )
+        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)
+        val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
+        val previousEntity = createMissionGeneralInfoEntityData(missionIdUUID = missionIdUUID, serviceId = null)
+
+        // When
+        `when`(getMissionGeneralInfoByMissionId.execute(missionIdUUID)).thenReturn(previousEntity)
+        `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
+        `when`(getMissionExternalId.execute(missionIdUUID)).thenReturn(externalId)
+
+        updateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
+
+        // Then
+        val input = MissionEnvInput(
+            missionId = externalId,
+            isUnderJdp = missionGeneralInfo.isUnderJdp,
+            startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
+            endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
+            missionTypes = missionGeneralInfo.missionTypes,
+            observationsByUnit = missionGeneralInfo.observations,
+            resources = missionGeneralInfoEntity.resources?.map { it }
+        )
+        verify(patchMissionEnv).execute(input)
     }
 
 }

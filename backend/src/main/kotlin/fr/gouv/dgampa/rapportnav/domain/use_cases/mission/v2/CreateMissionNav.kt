@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -30,5 +31,24 @@ class CreateMissionNav(
         val model = repository.save(entity.toMissionModel())
 
         return MissionNavEntity.fromMissionModel(model)
+    }
+
+    /**
+     * Creates the local mirror row for an env mission so the mission table is populated at creation
+     * time. In this step the mission's external (MonitorEnv) id lives in [MissionEntity.id]; it is
+     * stored as [MissionNavEntity.externalId]. Idempotent w.r.t. the unique index on external_id.
+     */
+    fun execute(mission: MissionEntity): MissionEntity {
+        val entity = MissionNavEntity(
+            id = UUID.randomUUID(),
+            externalId = mission.id?.toString(),
+            startDateTimeUtc = mission.data?.startDateTimeUtc!!,
+            endDateTimeUtc = mission.data?.endDateTimeUtc,
+            missionSource = mission.data?.missionSource,
+            isDeleted = mission.data?.isDeleted ?: false
+        )
+        repository.save(entity.toMissionModel())
+
+        return mission
     }
 }

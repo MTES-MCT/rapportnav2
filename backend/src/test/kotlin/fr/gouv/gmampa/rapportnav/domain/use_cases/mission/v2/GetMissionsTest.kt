@@ -94,7 +94,8 @@ class GetMissionsTest {
         Mockito.`when`(getNavMissions.execute(
             startDateTimeUtc = now,
             endDateTimeUtc = now,
-            serviceId = null
+            serviceId = null,
+            navMissionsOnly = true
         )).thenReturn(listOf(navEntity))
 
         Mockito.`when`(getControlUnitsForUser.execute()).thenReturn(controlUnits)
@@ -107,7 +108,7 @@ class GetMissionsTest {
         )
 
         Mockito.verify(getEnvMissions).execute(startedAfterDateTime = now, startedBeforeDateTime = now, null, null, controlUnits)
-        Mockito.verify(getNavMissions).execute(startDateTimeUtc = now, endDateTimeUtc = now)
+        Mockito.verify(getNavMissions).execute(startDateTimeUtc = now, endDateTimeUtc = now, serviceId = null, navMissionsOnly = true)
 
         Assertions.assertEquals(2, missions.size)
     }

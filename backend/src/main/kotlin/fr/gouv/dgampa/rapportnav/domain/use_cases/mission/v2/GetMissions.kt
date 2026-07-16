@@ -7,7 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
-import org.slf4j.LoggerFactory
 import java.time.Instant
 
 @UseCase
@@ -19,10 +18,10 @@ class GetMissions(
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val getUserFromToken: GetUserFromToken,
 ) {
-    private val logger = LoggerFactory.getLogger(GetMissions::class.java)
-
     fun execute(startDateTimeUtc: Instant, endDateTimeUtc: Instant? = null): List<MissionEntity?> {
         val user: User? = getUserFromToken.execute()
+
+        // needed to refetch from MonitorEnv and keep the local mission table in sync
         val envEntities: List<MissionEnvEntity>?  = getEnvMissions.execute(
             startedAfterDateTime = startDateTimeUtc,
             startedBeforeDateTime = endDateTimeUtc,
@@ -30,16 +29,20 @@ class GetMissions(
             pageSize = null,
             controlUnits = getControlUnitsForUser.execute()
         )
+
+        // nav missions only, from the database — env-mirror rows are excluded to avoid duplicating
+        // the missions already returned by MonitorEnv above.
         val navEntities = getNavMissions.execute(
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             serviceId = user?.serviceId,
+            navMissionsOnly = true
         )
 
         val envMissions = envEntities?.map { getComputeEnvMission.execute(envMission = it) }.orEmpty()
         val navMissions = navEntities?.map { getComputeNavMission.execute(navMission = it) }.orEmpty()
 
-        return(envMissions + navMissions).sortedByDescending { it?.data?.startDateTimeUtc }
+        return(envMissions + navMissions).sortedByDescending { it.data?.startDateTimeUtc }
 
     }
 }

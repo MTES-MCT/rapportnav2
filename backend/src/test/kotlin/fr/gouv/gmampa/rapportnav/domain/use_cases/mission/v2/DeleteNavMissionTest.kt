@@ -49,7 +49,7 @@ class DeleteNavMissionTest {
     @Test
     fun `should throw exception when mission not found`() {
         val id = UUID.randomUUID()
-        `when`(missionRepo.finById(id = id)).thenReturn(Optional.empty())
+        `when`(missionRepo.findById(id = id)).thenReturn(Optional.empty())
 
         val exception = assertThrows<BackendUsageException> {
             deleteNavMission.execute(id = id, serviceId = 1)
@@ -69,7 +69,7 @@ class DeleteNavMissionTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
+        `when`(missionRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
 
         val exception = assertThrows<BackendUsageException> {
             deleteNavMission.execute(id = ownerId, serviceId = 4)
@@ -92,7 +92,7 @@ class DeleteNavMissionTest {
             missionSource = missionSource
         )
 
-        `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
+        `when`(missionRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
 
         val exception = assertThrows<BackendUsageException> {
             deleteNavMission.execute(id = ownerId, serviceId = serviceId)
@@ -115,7 +115,7 @@ class DeleteNavMissionTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
+        `when`(missionRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
         `when`(getNavActionListByOwnerId.execute(ownerId = ownerId)).thenReturn(listOf(action))
 
         deleteNavMission.execute(id = ownerId, serviceId = serviceId)
@@ -135,7 +135,7 @@ class DeleteNavMissionTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
+        `when`(missionRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
         `when`(getNavActionListByOwnerId.execute(ownerId = ownerId)).thenReturn(emptyList())
 
         deleteNavMission.execute(id = ownerId, serviceId = serviceId)

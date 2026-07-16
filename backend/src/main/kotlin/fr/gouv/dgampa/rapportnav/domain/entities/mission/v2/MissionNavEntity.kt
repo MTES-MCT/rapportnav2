@@ -7,7 +7,8 @@ import java.util.*
 
 data class MissionNavEntity(
     val id: UUID,
-    val serviceId: Int,
+    var externalId: String? = null,
+    val serviceId: Int? = null,
     val openBy: String? = null,
     var completedBy: String? = null,
     var startDateTimeUtc: Instant,
@@ -20,6 +21,7 @@ data class MissionNavEntity(
         fun fromMissionModel(model: MissionModel): MissionNavEntity {
             return MissionNavEntity(
                 id = model.id,
+                externalId = model.externalId,
                 serviceId = model.serviceId,
                 openBy = model.openBy,
                 completedBy = model.completedBy,
@@ -35,6 +37,7 @@ data class MissionNavEntity(
     fun toMissionModel(): MissionModel {
         return MissionModel(
             id = id,
+            externalId = externalId,
             serviceId = serviceId,
             openBy = openBy,
             completedBy = completedBy,

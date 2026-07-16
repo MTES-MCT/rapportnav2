@@ -23,7 +23,7 @@ class DeleteNavMission(
             )
         }
 
-        val mission = missionRepo.finById(id = id).orElse(null)
+        val mission = missionRepo.findById(id = id).orElse(null)
             ?: throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
                 message = "DeleteNavMission: mission not found for id=$id"
@@ -36,7 +36,7 @@ class DeleteNavMission(
             )
         }
 
-        if (!listOf(MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.RAPPORT_NAV).contains(mission.missionSource)) {
+        if (mission.missionSource != MissionSourceEnum.RAPPORT_NAV) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
                 message = "DeleteNavMission: mission source must be RAPPORT_NAV"
@@ -47,7 +47,7 @@ class DeleteNavMission(
         missionRepo.deleteById(mission.id)
     }
 
-    private fun deleteActions(ownerId: UUID): List<Unit> {
-        return getNavActionListByOwnerId.execute(ownerId = ownerId).map { deleteNavAction.execute(id = it.id) }
+    private fun deleteActions(ownerId: UUID) {
+        getNavActionListByOwnerId.execute(ownerId = ownerId).forEach { deleteNavAction.execute(id = it.id) }
     }
 }

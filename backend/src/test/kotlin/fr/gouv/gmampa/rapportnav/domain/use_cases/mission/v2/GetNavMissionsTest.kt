@@ -79,4 +79,41 @@ class GetNavMissionsTest {
         Assertions.assertNotNull(missions)
         Assertions.assertEquals(2, missions?.size)
     }
+
+    @Test
+    fun `should exclude only missions whose externalId is an Int when navMissionsOnly is true`()
+    {
+        val envMirror = MissionModel(
+            id = UUID.randomUUID(),
+            externalId = "123", // MonitorEnv Int reference -> excluded
+            startDateTimeUtc = Instant.now(),
+            endDateTimeUtc = Instant.now(),
+            isDeleted = false,
+            missionSource = MissionSourceEnum.MONITORENV,
+            serviceId = null
+        )
+        val nonIntExternalId = MissionModel(
+            id = UUID.randomUUID(),
+            externalId = "not-an-int", // not a MonitorEnv reference -> kept
+            startDateTimeUtc = Instant.now(),
+            endDateTimeUtc = Instant.now(),
+            isDeleted = false,
+            missionSource = MissionSourceEnum.RAPPORT_NAV,
+            serviceId = null
+        )
+        Mockito.`when`(repository.findAll(
+            startBeforeDateTime = Instant.parse("2025-04-07T09:23:00.912559Z"),
+            endBeforeDateTime = Instant.parse("2025-04-07T09:23:00.912559Z")
+        )).thenReturn(listOf(mockMission, envMirror, nonIntExternalId))
+
+        val missions = getNavMissions.execute(
+            startDateTimeUtc = Instant.parse("2025-04-07T09:23:00.912559Z"),
+            endDateTimeUtc = Instant.parse("2025-04-07T09:23:00.912559Z"),
+            serviceId = null,
+            navMissionsOnly = true
+        )
+
+        Assertions.assertEquals(2, missions?.size)
+        assertThat(missions?.mapNotNull { it.externalId }).containsExactly("not-an-int")
+    }
 }
