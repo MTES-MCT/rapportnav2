@@ -3,12 +3,12 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionByExternalId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
@@ -28,16 +28,16 @@ class GetComputeEnvMissionTest {
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @MockitoBean
-    private lateinit var getGeneralInfos2: GetGeneralInfo2
+    private lateinit var getGeneralInfos2: GetGeneralInfo
 
     @MockitoBean
-    private lateinit var getEnvMissionById2: GetEnvMissionById2
+    private lateinit var getEnvMissionById: GetEnvMissionById
 
     @MockitoBean
     private lateinit var getMissionAction: GetMissionAction
 
     @MockitoBean
-    private lateinit var getNavMissionById2: GetNavMissionById2
+    private lateinit var getNavMissionById: GetNavMissionById
 
     @MockitoBean
     private lateinit var getMissionByExternalId: GetMissionByExternalId
@@ -90,7 +90,7 @@ class GetComputeEnvMissionTest {
         val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
 
         `when`(getMissionByExternalId.execute(anyString())).thenReturn(null)
-        `when`(getEnvMissionById2.execute(2)).thenReturn(mission)
+        `when`(getEnvMissionById.execute(2)).thenReturn(mission)
         `when`(getMissionAction.execute(missionId = 2)).thenReturn(actions)
         `when`(getGeneralInfos2.execute(missionId = 2, controlUnits = listOf())).thenReturn(generalInfos2)
 
@@ -107,7 +107,7 @@ class GetComputeEnvMissionTest {
     fun `should throw BackendInternalException when mission retrieved by ID has null id`() {
         val mission = EnvMissionMock.create(id = null)
 
-        `when`(getEnvMissionById2.execute(3)).thenReturn(mission)
+        `when`(getEnvMissionById.execute(3)).thenReturn(mission)
 
         assertThrows(BackendInternalException::class.java) {
             getComputeEnvMission.execute(missionId = 3)

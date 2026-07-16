@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionNoteMock
@@ -31,7 +31,7 @@ class GetComputeEnvActionListByMissionIdTest {
     private lateinit var getEnvActionListById: GetComputeEnvActionListByMissionId
 
     @MockitoBean
-    private lateinit var getEnvMissionById2: GetEnvMissionById2
+    private lateinit var getEnvMissionById: GetEnvMissionById
 
     @MockitoBean
     private lateinit var processEnvAction: ProcessEnvAction
@@ -67,10 +67,10 @@ class GetComputeEnvActionListByMissionIdTest {
         )
 
         `when`(processEnvAction.execute(anyInt(), anyOrNull())).thenReturn(response)
-        `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEnvEntity)
+        `when`(getEnvMissionById.execute(missionId)).thenReturn(missionEnvEntity)
 
         getEnvActionListById = GetComputeEnvActionListByMissionId(
-            getEnvMissionById2 = getEnvMissionById2,
+            getEnvMissionById = getEnvMissionById,
             processEnvAction = processEnvAction
         )
         val envActions = getEnvActionListById.execute(missionId = missionId)

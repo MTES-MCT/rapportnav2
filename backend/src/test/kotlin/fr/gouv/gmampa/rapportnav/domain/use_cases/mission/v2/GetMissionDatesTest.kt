@@ -6,9 +6,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.GetInquiryById
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -25,10 +25,10 @@ class GetMissionDatesTest {
     private lateinit var getMissionDates: GetMissionDates
 
     @MockitoBean
-    private lateinit var getNavMissionById2: GetNavMissionById2
+    private lateinit var getNavMissionById: GetNavMissionById
 
     @MockitoBean
-    private lateinit var getEnvMissionById2: GetEnvMissionById2
+    private lateinit var getEnvMissionById: GetEnvMissionById
 
     @MockitoBean
     private lateinit var getInquiryById: GetInquiryById
@@ -75,7 +75,7 @@ class GetMissionDatesTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        Mockito.`when`(getNavMissionById2.execute(ownerId)).thenReturn(navMission)
+        Mockito.`when`(getNavMissionById.execute(ownerId)).thenReturn(navMission)
 
         val result = getMissionDates.execute(missionId = null, ownerId = ownerId)
 
@@ -103,7 +103,7 @@ class GetMissionDatesTest {
             hasMissionOrder = false
         )
 
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(envMission)
+        Mockito.`when`(getEnvMissionById.execute(missionId)).thenReturn(envMission)
 
         val result = getMissionDates.execute(missionId = missionId, ownerId = null)
 
@@ -130,7 +130,7 @@ class GetMissionDatesTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        Mockito.`when`(getNavMissionById2.execute(ownerId)).thenReturn(navMission)
+        Mockito.`when`(getNavMissionById.execute(ownerId)).thenReturn(navMission)
 
         val result = getMissionDates.execute(missionId = null, ownerId = ownerId, inquiryId = inquiryId)
 
@@ -148,7 +148,7 @@ class GetMissionDatesTest {
         val end = Instant.parse("2024-05-02T00:00:00Z")
 
         Mockito.`when`(getInquiryById.execute(id = inquiryId)).thenReturn(null)
-        Mockito.`when`(getNavMissionById2.execute(ownerId)).thenReturn(null)
+        Mockito.`when`(getNavMissionById.execute(ownerId)).thenReturn(null)
 
         val envMission = MissionEnvEntity(
             id = missionId,
@@ -163,7 +163,7 @@ class GetMissionDatesTest {
             hasMissionOrder = false
         )
 
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(envMission)
+        Mockito.`when`(getEnvMissionById.execute(missionId)).thenReturn(envMission)
 
         val result = getMissionDates.execute(missionId = missionId, ownerId = ownerId, inquiryId = inquiryId)
 
@@ -179,8 +179,8 @@ class GetMissionDatesTest {
         val missionId = 100
 
         Mockito.`when`(getInquiryById.execute(id = inquiryId)).thenReturn(null)
-        Mockito.`when`(getNavMissionById2.execute(ownerId)).thenReturn(null)
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(null)
+        Mockito.`when`(getNavMissionById.execute(ownerId)).thenReturn(null)
+        Mockito.`when`(getEnvMissionById.execute(missionId)).thenReturn(null)
 
         val result = getMissionDates.execute(missionId = missionId, ownerId = ownerId, inquiryId = inquiryId)
 
@@ -214,13 +214,13 @@ class GetMissionDatesTest {
         )
 
         Mockito.`when`(getInquiryById.execute(id = inquiryId)).thenReturn(inquiry)
-        Mockito.`when`(getNavMissionById2.execute(ownerId)).thenReturn(navMission)
+        Mockito.`when`(getNavMissionById.execute(ownerId)).thenReturn(navMission)
 
         val result = getMissionDates.execute(missionId = missionId, ownerId = ownerId, inquiryId = inquiryId)
 
         assertEquals(inquiryStart, result?.startDateTimeUtc)
         assertEquals(inquiryEnd, result?.endDateTimeUtc)
-        Mockito.verify(getNavMissionById2, Mockito.never()).execute(ownerId)
+        Mockito.verify(getNavMissionById, Mockito.never()).execute(ownerId)
     }
 
     @Test

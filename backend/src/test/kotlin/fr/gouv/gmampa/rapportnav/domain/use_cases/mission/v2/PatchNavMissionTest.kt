@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.PatchNavMission
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -23,7 +23,7 @@ class PatchNavMissionTest {
     private lateinit var patchNavMission: PatchNavMission
 
     @MockitoBean
-    private lateinit var getNavMissionById2: GetNavMissionById2
+    private lateinit var getNavMissionById: GetNavMissionById
 
     @MockitoBean
     private lateinit var repository: IMissionNavRepository
@@ -52,7 +52,7 @@ class PatchNavMissionTest {
 
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(repository.save(anyOrNull())).thenReturn(entity.toMissionModel())
-        Mockito.`when`(getNavMissionById2.execute(id = missionIdUUID)).thenReturn(entity)
+        Mockito.`when`(getNavMissionById.execute(id = missionIdUUID)).thenReturn(entity)
 
         // When
         patchNavMission.execute(id = missionIdUUID, input)
@@ -85,7 +85,7 @@ class PatchNavMissionTest {
 
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(repository.save(anyOrNull())).thenReturn(entity.toMissionModel())
-        Mockito.`when`(getNavMissionById2.execute(id = missionIdUUID)).thenReturn(entity)
+        Mockito.`when`(getNavMissionById.execute(id = missionIdUUID)).thenReturn(entity)
 
         // When
         patchNavMission.execute(id = missionIdUUID, input)

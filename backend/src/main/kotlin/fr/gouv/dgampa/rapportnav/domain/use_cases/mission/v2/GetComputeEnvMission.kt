@@ -7,16 +7,16 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import java.util.*
 
 @UseCase
 class GetComputeEnvMission(
-    private val getGeneralInfos2: GetGeneralInfo2,
+    private val getGeneralInfos2: GetGeneralInfo,
     private val getMissionAction: GetMissionAction,
-    private val getEnvMissionById2: GetEnvMissionById2,
+    private val getEnvMissionById: GetEnvMissionById,
     private val getMissionByExternalId: GetMissionByExternalId,
     private val missionNavRepository: IMissionNavRepository
 ) {
@@ -32,7 +32,7 @@ class GetComputeEnvMission(
             )
         }
 
-        val mission = envMission ?: getEnvMissionById2.execute(missionId!!)
+        val mission = envMission ?: getEnvMissionById.execute(missionId!!)
             ?: throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
                 message = "Env mission not found: $missionId"

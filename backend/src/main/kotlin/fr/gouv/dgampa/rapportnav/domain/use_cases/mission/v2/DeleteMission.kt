@@ -8,7 +8,7 @@ import java.util.UUID
 
 @UseCase
 class DeleteMission(
-    private val getNavMissionById2: GetNavMissionById2,
+    private val getNavMissionById: GetNavMissionById,
     private val deleteNavMission: DeleteNavMission,
     private val deleteEnvMission: DeleteEnvMission,
     private val missionNavRepository: IMissionNavRepository,
@@ -21,7 +21,7 @@ class DeleteMission(
             )
         }
 
-        val navMission = getNavMissionById2.execute(id = id)
+        val navMission = getNavMissionById.execute(id = id)
             ?: throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
                 message = "DeleteMission: mission not found for id=$id"

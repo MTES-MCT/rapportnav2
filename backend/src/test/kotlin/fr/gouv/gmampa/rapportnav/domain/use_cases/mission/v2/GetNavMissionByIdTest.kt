@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionModelMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -15,10 +15,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.Optional
 import java.util.UUID
 
-@SpringBootTest(classes = [GetNavMissionById2::class])
-class GetNavMissionById2Test {
+@SpringBootTest(classes = [GetNavMissionById::class])
+class GetNavMissionByIdTest {
     @Autowired
-    private lateinit var useCase: GetNavMissionById2
+    private lateinit var useCase: GetNavMissionById
 
     @MockitoBean
     private lateinit var repository: IMissionNavRepository

@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavReposito
 import java.util.*
 
 @UseCase
-class GetNavMissionById2(
+class GetNavMissionById(
     private val repository: IMissionNavRepository
 ) {
     fun execute(id: UUID): MissionNavEntity? {

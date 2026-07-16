@@ -4,10 +4,11 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 
 @UseCase
 class GetComputeEnvActionListByMissionId(
-    private val getEnvMissionById2: GetEnvMissionById2,
+    private val getEnvMissionById: GetEnvMissionById,
     private val processEnvAction: ProcessEnvAction
 ) {
     fun execute(missionId: Int): List<MissionEnvActionEntity> {
@@ -17,6 +18,6 @@ class GetComputeEnvActionListByMissionId(
     }
 
     private fun getEnvActionList(missionId: Int): List<EnvActionEntity> {
-        return getEnvMissionById2.execute(missionId = missionId)?.envActions ?: listOf()
+        return getEnvMissionById.execute(missionId = missionId)?.envActions ?: listOf()
     }
 }

@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
@@ -33,7 +33,7 @@ class ExportMissionAEMSingleTest {
     @MockitoBean
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
     @MockitoBean
-    private lateinit var getEnvMissionById2: GetEnvMissionById2
+    private lateinit var getEnvMissionById: GetEnvMissionById
     @MockitoBean
     private lateinit var getEnvActionByMissionId: GetComputeEnvActionListByMissionId
     @MockitoBean
@@ -49,7 +49,7 @@ class ExportMissionAEMSingleTest {
     fun `createFile should throw BackendInternalException when underlying service throws`() {
         val missionId = 123
         val mission = MissionEntityMock.create(id = missionId)
-        whenever(getEnvMissionById2.execute(any()))
+        whenever(getEnvMissionById.execute(any()))
             .thenThrow(RuntimeException("boom"))
         assertThrows(BackendInternalException::class.java) {
             useCase.createFile(mission)
@@ -82,7 +82,7 @@ class ExportMissionAEMSingleTest {
     @Test
     fun `getAemData should return AEMTableExport2 when missionId is valid`() {
         val missionId = 123
-        whenever(getEnvMissionById2.execute(missionId)).thenReturn(null)
+        whenever(getEnvMissionById.execute(missionId)).thenReturn(null)
         whenever(getEnvActionByMissionId.execute(missionId)).thenReturn(emptyList())
         whenever(getNavActionByMissionId.execute(missionId)).thenReturn(emptyList())
         whenever(getFIshListActionByMissionId.execute(missionId)).thenReturn(emptyList())
