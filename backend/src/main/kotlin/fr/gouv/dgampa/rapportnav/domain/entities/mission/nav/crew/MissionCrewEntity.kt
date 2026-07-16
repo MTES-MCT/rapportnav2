@@ -15,9 +15,10 @@ data class MissionCrewEntity(
 ){
 
     fun toMissionCrewModel(commentDefaultsToString: Boolean? = false): MissionCrewModel {
-        var model =  MissionCrewModel(
+        val model =  MissionCrewModel(
             id = id,
             missionId = missionId,
+            externalMissionId = missionId?.toString(),
             agent = agent?.toAgentModel(),
             role = role?.toAgentRoleModel(),
             comment = if (comment == null && commentDefaultsToString == true) "" else comment,

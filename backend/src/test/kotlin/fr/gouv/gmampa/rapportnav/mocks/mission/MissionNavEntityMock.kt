@@ -8,6 +8,7 @@ import java.util.UUID
 object MissionNavEntityMock {
     fun create(
         id: UUID = UUID.randomUUID(),
+        externalId: String? = null,
         serviceId: Int = 1,
         openBy: String? = null,
         completedBy: String? = null,
@@ -19,6 +20,7 @@ object MissionNavEntityMock {
     ): MissionNavEntity {
         return MissionNavEntity(
             id = id,
+            externalId = externalId,
             serviceId = serviceId,
             openBy = openBy,
             completedBy = completedBy,

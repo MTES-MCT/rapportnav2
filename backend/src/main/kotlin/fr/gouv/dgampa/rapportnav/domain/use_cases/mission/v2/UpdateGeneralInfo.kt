@@ -25,6 +25,8 @@ class UpdateGeneralInfo(
     private val processMissionCrew: ProcessMissionCrew,
     private val processMissionPassengers: ProcessMissionPassengers,
     private val patchNavMission: PatchNavMission,
+    private val getMissionByExternalId: GetMissionByExternalId,
+    private val getMissionExternalId: GetMissionExternalId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getMissionCrew: GetMissionCrew,
     private val entityValidityValidator: EntityValidityValidator
@@ -75,6 +77,20 @@ class UpdateGeneralInfo(
                 resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() }
             )
         )
+
+        // Keep the local mission row in sync with the env write (MonitorEnv stays the source of truth).
+        getMissionByExternalId.execute(missionId.toString())?.let { local ->
+            patchNavMission.execute(
+                id = local.id,
+                input = MissionNavInputEntity(
+                    isDeleted = generalInfo.isDeleted ?: false,
+                    observationsByUnit = generalInfo.observations,
+                    endDateTimeUtc = generalInfo.endDateTimeUtc,
+                    startDateTimeUtc = generalInfo.startDateTimeUtc!!
+                )
+            )
+        }
+
         return getGeneralInfoEntity(
             crew = crew,
             passengers = passengers,
@@ -121,6 +137,23 @@ class UpdateGeneralInfo(
                 startDateTimeUtc = generalInfo.startDateTimeUtc!!
             )
         )
+
+        // If this UUID actually maps to a MonitorEnv mirror (has an external id), propagate the
+        // change to MonitorEnv too — otherwise overrideFromEnv would overwrite it on the next read.
+        val externalId = getMissionExternalId.execute(missionIdUUID)
+        if (externalId != null) {
+            patchMissionEnv.execute(
+                input = MissionEnvInput(
+                    missionId = externalId,
+                    isUnderJdp = generalInfo.isUnderJdp,
+                    startDateTimeUtc = generalInfo.startDateTimeUtc,
+                    endDateTimeUtc = generalInfo.endDateTimeUtc,
+                    missionTypes = generalInfo.missionTypes,
+                    observationsByUnit = generalInfo.observations,
+                    resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() }
+                )
+            )
+        }
 
         return getGeneralInfoEntity(
             crew = crew,

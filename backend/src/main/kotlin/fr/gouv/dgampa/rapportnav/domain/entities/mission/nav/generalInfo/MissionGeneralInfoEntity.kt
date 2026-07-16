@@ -70,6 +70,7 @@ data class MissionGeneralInfoEntity(
         return MissionGeneralInfoModel(
             id = id,
             missionId = missionId,
+            externalMissionId = missionId?.toString(),
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,
             consumedFuelInLiters = consumedFuelInLiters,

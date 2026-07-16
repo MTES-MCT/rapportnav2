@@ -26,6 +26,9 @@ class MissionGeneralInfoModel(
     @Column(name = "mission_id", nullable = true)
     var missionId: Int? = 0,
 
+    @Column(name = "external_mission_id", nullable = true)
+    var externalMissionId: String? = null,
+
     @Column(name = "distance_in_nautical_miles", nullable = true)
     var distanceInNauticalMiles: Float? = null,
 
