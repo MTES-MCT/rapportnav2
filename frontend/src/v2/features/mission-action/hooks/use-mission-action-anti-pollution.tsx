@@ -1,15 +1,25 @@
+import { useMemo } from 'react'
+import { object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionAntiPollutionInput } from '../types/action-type'
-import { object } from 'yup'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
-import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
-import { useMemo } from 'react'
-import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
-import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+
+const BOOLEAN_KEYS = [
+  'detectedPollution',
+  'diversionCarriedOut',
+  'isAntiPolDeviceDeployed',
+  'isSimpleBrewingOperationDone',
+  'pollutionObservedByAuthorizedAgent',
+  'incidentDuringOperation',
+  'hasDivingDuringOperation'
+]
 
 export function useMissionActionAntiPollution(
   action: MissionAction,
@@ -41,13 +51,7 @@ export function useMissionActionAntiPollution(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
-    [
-      'detectedPollution',
-      'diversionCarriedOut',
-      'isAntiPolDeviceDeployed',
-      'isSimpleBrewingOperationDone',
-      'pollutionObservedByAuthorizedAgent'
-    ]
+    BOOLEAN_KEYS
   )
 
   const onSubmit = async (valueToSubmit?: MissionNavActionData) => {

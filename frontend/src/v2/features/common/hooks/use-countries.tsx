@@ -32,8 +32,8 @@ export function useCountry(): CountryHook {
   const getCountries = (value?: string): { label: string; value: string }[] => {
     return (
       countries?.map(country => ({
-        value: value?.length === 2 ? country?.iso2 : country.iso3,
-        label: ` ${country.iso3} - ${country?.name}`
+        value: value?.length === 2 ? country?.iso2 : country?.iso3,
+        label: ` ${country?.iso3} - ${country?.name}`
       })) ?? []
     )
   }
