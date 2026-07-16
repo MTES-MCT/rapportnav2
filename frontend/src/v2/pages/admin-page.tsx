@@ -9,6 +9,7 @@ import AdminAgentRoleItem from '../features/admin/components/elements/admin-agen
 import AdminApikeyItem from '../features/admin/components/elements/admin-apikey-item.tsx'
 import AdminFishAuctionItem from '../features/admin/components/elements/admin-fish-auction-item.tsx'
 import AdminGeneralInfosItem from '../features/admin/components/elements/admin-general-infos-item.tsx'
+import AdminMissionItem from '../features/admin/components/elements/admin-mission-item.tsx'
 import AdminServiceItem from '../features/admin/components/elements/admin-service-item.tsx'
 import AdminApiKeyLoggingItem from '../features/admin/components/elements/admin-user-apikey-logging-item.tsx'
 import AdminUserAuthLoggingItem from '../features/admin/components/elements/admin-user-auth-logging-item.tsx'
@@ -90,22 +91,25 @@ const AdminPage: React.FC = () => {
                       <AdminUserItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="5" title="General Infos">
+                    <Tabs.Tab eventKey="5" title="Missions">
+                      <AdminMissionItem />
+                    </Tabs.Tab>
+                    <Tabs.Tab eventKey="6" title="General Infos">
                       <AdminGeneralInfosItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="6" title="Criées">
+                    <Tabs.Tab eventKey="7" title="Criées">
                       <AdminFishAuctionItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="7" title="API Keys">
+                    <Tabs.Tab eventKey="8" title="API Keys">
                       <AdminApikeyItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="8" title="User Auth logs">
+                    <Tabs.Tab eventKey="9" title="User Auth logs">
                       <AdminUserAuthLoggingItem />
                     </Tabs.Tab>
-                    <Tabs.Tab eventKey="9" title="API Keys logs">
+                    <Tabs.Tab eventKey="10" title="API Keys logs">
                       <AdminApiKeyLoggingItem />
                     </Tabs.Tab>
                   </Tabs>

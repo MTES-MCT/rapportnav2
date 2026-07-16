@@ -7,6 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavReposito
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.IDBMissionRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
@@ -58,6 +60,17 @@ class JPAMissionNavRepository(
         }
     }
 
+    override fun findAllPaginated(page: Int, size: Int): Page<MissionModel> {
+        return try {
+            dbRepository.findAllByOrderByStartDateTimeUtcDesc(PageRequest.of(page, size))
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionNav",
+                originalException = e
+            )
+        }
+    }
+
     @Transactional
     override fun deleteById(id: UUID) {
         try {
@@ -71,6 +84,33 @@ class JPAMissionNavRepository(
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to delete MissionNav with id='$id'",
+                originalException = e
+            )
+        }
+    }
+
+    @Transactional
+    override fun softDeleteById(id: UUID) {
+        try {
+            val model = dbRepository.findById(id).orElseThrow {
+                BackendUsageException(
+                    code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+                    message = "Unable to soft-delete MissionNav='$id': not found",
+                )
+            }
+            model.isDeleted = true
+            dbRepository.save(model)
+        } catch (e: BackendUsageException) {
+            throw e
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+                message = "Unable to soft-delete MissionNav='$id'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to soft-delete MissionNav with id='$id'",
                 originalException = e
             )
         }
