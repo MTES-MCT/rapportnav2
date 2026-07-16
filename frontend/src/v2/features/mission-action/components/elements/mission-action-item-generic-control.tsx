@@ -4,7 +4,9 @@ import { FieldArray, FieldArrayRenderProps, Formik, FormikProps } from 'formik'
 import React, { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
 import { ObjectShape } from 'yup'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action.ts'
 import MissionTargetNew from '../../../mission-target/components/elements/mission-target-new.tsx'
@@ -14,9 +16,7 @@ import { useMissionActionGenericControl } from '../../hooks/use-mission-action-g
 import { ActionControlInput } from '../../types/action-type.ts'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
-import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 import MissionActionLocationPicker from '../ui/mission-action-location-picker.tsx'
-import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 
 export type MissionActionItemGenericControlProps = {
   action: MissionAction
@@ -65,7 +65,10 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
         >
           {formik => (
             <>
-              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionControlInput)} onError={onFormError} />
+              <FormikEffect
+                onChange={async nextValues => handleSubmit(nextValues as ActionControlInput)}
+                onError={onFormError}
+              />
               <Stack
                 direction="column"
                 spacing="1rem"

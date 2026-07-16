@@ -87,3 +87,38 @@ it('formatInquiryName returns correct string', () => {
   expect(result.current.formatInquiryName('2024-09-13T15:24:00Z')).toBe('Contrôle croisé n°2024-09-13')
   expect(result.current.formatInquiryName(undefined)).toBe('Contrôle croisé n°--/--/----')
 })
+
+describe('getDateRangeForInput / getDateRangeFromInput round trip', () => {
+  it('round-trips a millisecond-less ISO string unchanged', () => {
+    const { result } = renderHook(() => useDate())
+    const { getDateRangeForInput, getDateRangeFromInput } = result.current
+
+    const raw = { startDateTimeUtc: '2026-05-13T16:00:00Z', endDateTimeUtc: '2026-05-13T18:00:00Z' }
+
+    const dates = getDateRangeForInput(raw)
+    expect(dates[0]).toBe(raw.startDateTimeUtc)
+    expect(typeof dates[0]).toBe('string')
+
+    const roundTripped = getDateRangeFromInput(dates)
+    expect(roundTripped.startDateTimeUtc).toBe(raw.startDateTimeUtc)
+    expect(roundTripped.endDateTimeUtc).toBe(raw.endDateTimeUtc)
+  })
+
+  it('strips padding-only ".000" milliseconds added by toISOString', () => {
+    const { result } = renderHook(() => useDate())
+    const { getDateRangeFromInput } = result.current
+
+    const roundTripped = getDateRangeFromInput([new Date('2026-05-13T16:00:00.000Z'), undefined])
+    expect(roundTripped.startDateTimeUtc).toBe('2026-05-13T16:00:00Z')
+  })
+
+  it('preserves a genuine non-zero millisecond value instead of stripping it as padding', () => {
+    const { result } = renderHook(() => useDate())
+    const { getDateRangeForInput, getDateRangeFromInput } = result.current
+
+    const raw = { startDateTimeUtc: '2025-07-28T07:43:46.297Z', endDateTimeUtc: null }
+    const dates = getDateRangeForInput(raw)
+    const roundTripped = getDateRangeFromInput(dates)
+    expect(roundTripped.startDateTimeUtc).toBe('2025-07-28T07:43:46.297Z')
+  })
+})
