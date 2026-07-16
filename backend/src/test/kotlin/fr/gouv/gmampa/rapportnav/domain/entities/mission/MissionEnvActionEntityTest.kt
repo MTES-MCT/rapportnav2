@@ -30,7 +30,7 @@ class MissionEnvActionEntityTest {
     @Test
     fun `execute should retrieve entity from Env action`() {
         val envAction = getEnvAction()
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(ownerId = UUID.randomUUID(), action = envAction)
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(envAction.id)
         assertThat(entity.startDateTimeUtc).isEqualTo(envAction.actionStartDateTimeUtc)
@@ -59,7 +59,7 @@ class MissionEnvActionEntityTest {
     @Test
     fun `execute should be complete for stats env `() {
         val envAction = getEnvAction()
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(ownerId = UUID.randomUUID(), action = envAction)
         entity.computeValidity(validator, ValidationPolicies.v1)
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
@@ -73,7 +73,7 @@ class MissionEnvActionEntityTest {
         val controls = ControlEntityMock.createList()
             .filter { !listOf(ControlType.SECURITY, ControlType.ADMINISTRATIVE).contains(it.controlType) }
         val targetMock = TargetEntityMock.create(controls = controls)
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(ownerId = UUID.randomUUID(), action = envAction)
         entity.targets = listOf(targetMock)
         entity.computeValidity(validator, ValidationPolicies.v1)
         assertThat(entity.controlsToComplete).isEqualTo(listOf( ControlType.SECURITY))
@@ -92,7 +92,7 @@ class MissionEnvActionEntityTest {
         val envAction = getEnvAction(
             completion = ActionCompletionEnum.COMPLETED
         )
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(ownerId = UUID.randomUUID(), action = envAction)
         entity.computeValidity(validator, ValidationPolicies.v1)
         assertThat(entity.isCompleteForStats).isEqualTo(true)
 
@@ -129,7 +129,7 @@ class MissionEnvActionEntityTest {
                 hasBeenDone = true
             )
         )
-        val entity = MissionEnvActionEntity.fromEnvAction(761, model)
+        val entity = MissionEnvActionEntity.fromEnvAction(ownerId = UUID.randomUUID(), action = model)
         entity.targets = listOf(TargetEntityMock.create(controls = controls))
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(3)
@@ -141,7 +141,7 @@ class MissionEnvActionEntityTest {
             completion = ActionCompletionEnum.COMPLETED,
 
         )
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(ownerId = UUID.randomUUID(), action = envAction)
         entity.targets = listOf(TargetEntityMock.create())
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(2)
@@ -170,7 +170,7 @@ class MissionEnvActionEntityTest {
 
         val entity = MissionEnvActionEntity(
             id = UUID.randomUUID(),
-            missionId = 123,
+            ownerId = UUID.randomUUID(),
             envActionType = ActionTypeEnum.CONTROL,
             envInfractions = infractions
         )
@@ -189,7 +189,7 @@ class MissionEnvActionEntityTest {
     fun `computeSummaryTags should merge env and nav tags`() {
         val entity = MissionEnvActionEntity(
             id = UUID.randomUUID(),
-            missionId = 123,
+            ownerId = UUID.randomUUID(),
             envActionType = ActionTypeEnum.CONTROL,
             targets = listOf<TargetEntity>(
                 TargetEntity(

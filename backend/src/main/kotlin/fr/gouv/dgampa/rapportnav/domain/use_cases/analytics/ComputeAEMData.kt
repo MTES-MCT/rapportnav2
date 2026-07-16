@@ -14,9 +14,9 @@ class ComputeAEMData(
     private val exportMissionAEMSingle: ExportMissionAEMSingle,
 ) {
 
-    fun execute(missionId: Int): ApiAnalyticsAEMDataOutput? {
-        val mission = getComputeEnvMission.execute(missionId)
-        val data = exportMissionAEMSingle.getAemData(missionId) ?: return null
+    fun execute(envMissionId: Int): ApiAnalyticsAEMDataOutput? {
+        val mission = getComputeEnvMission.execute(externalId = envMissionId)
+        val data = exportMissionAEMSingle.getAemData(missionId = mission.id) ?: return null
 
         val formattedOutput = METRIC_DEFINITIONS.map { def ->
             AEMMetricOutput(
@@ -27,8 +27,8 @@ class ComputeAEMData(
         }
 
         return ApiAnalyticsAEMDataOutput(
-            id = missionId,
-            idUUID = mission.generalInfos?.data?.missionIdUUID,
+            id = mission.id,
+            externalId = envMissionId,
             serviceId = mission.generalInfos?.data?.service?.id,
             startDateTimeUtc = mission.data?.startDateTimeUtc,
             endDateTimeUtc = mission.data?.endDateTimeUtc,

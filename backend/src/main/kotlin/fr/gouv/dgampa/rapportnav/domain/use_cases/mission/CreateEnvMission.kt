@@ -22,7 +22,7 @@ class CreateEnvMission(
         val controlUnits = getControlUnits(controlUnitIds = controlUnitIds ?: emptyList())
 
         val missionEnv = MissionEnv(
-            id = missionGeneralInfo.missionId,
+            id = null,
             missionTypes = missionGeneralInfo.missionTypes,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,

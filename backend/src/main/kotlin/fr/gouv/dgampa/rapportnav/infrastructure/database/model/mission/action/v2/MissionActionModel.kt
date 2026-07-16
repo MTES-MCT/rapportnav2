@@ -22,8 +22,8 @@ data class MissionActionModel(
     @Column(name = "id")
     var id: UUID,
 
-    @Column(name = "mission_id", nullable = true)
-    var missionId: Int? = null,
+    @Column(name = "owner_id", nullable = false, columnDefinition = "ID of the parent, whether it's a mission, an inquiry...")
+    var ownerId: UUID,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", nullable = false)
@@ -130,9 +130,6 @@ data class MissionActionModel(
 
     @Column(name = "reason", nullable = true)
     var reason: String? = null,
-
-    @Column(name = "owner_id", nullable = true)
-    var ownerId: UUID? = null,
 
     @Column(name = "nbr_of_hours", nullable = true)
     var nbrOfHours: Int? = null,

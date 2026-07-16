@@ -32,11 +32,10 @@ class JPAMissionGeneralInfoRepositoryTest {
 
     private lateinit var jpaRepository: JPAMissionGeneralInfoRepository
 
-    private val missionIdUUID = UUID.randomUUID()
+    private val missionId = UUID.randomUUID()
     private val generalInfoModel = MissionGeneralInfoModel(
         id = 1,
-        missionId = 100,
-        missionIdUUID = missionIdUUID,
+        missionId = missionId,
         distanceInNauticalMiles = 50.5f,
         consumedGOInLiters = 100.0f
     )
@@ -53,7 +52,7 @@ class JPAMissionGeneralInfoRepositoryTest {
         val result = jpaRepository.findAll()
 
         assertThat(result).hasSize(1)
-        assertThat(result[0].missionId).isEqualTo(100)
+        assertThat(result[0].missionId).isEqualTo(missionId)
         verify(dbRepo).findAll()
     }
 
@@ -86,7 +85,7 @@ class JPAMissionGeneralInfoRepositoryTest {
         val result = jpaRepository.findAllPaginated(0, 10)
 
         assertThat(result.content).hasSize(1)
-        assertThat(result.content[0].missionId).isEqualTo(100)
+        assertThat(result.content[0].missionId).isEqualTo(missionId)
         assertThat(result.totalElements).isEqualTo(1)
         verify(dbRepo).findAllByOrderByMissionIdDesc(pageable)
     }
@@ -119,140 +118,65 @@ class JPAMissionGeneralInfoRepositoryTest {
     fun `findByMissionIdPaginated should return page of general info`() {
         val pageable = PageRequest.of(0, 10)
         val page = PageImpl(listOf(generalInfoModel), pageable, 1)
-        `when`(dbRepo.findByMissionIdOrderByMissionIdDesc(100, pageable)).thenReturn(page)
+        `when`(dbRepo.findByMissionIdOrderByMissionIdDesc(missionId, pageable)).thenReturn(page)
 
-        val result = jpaRepository.findByMissionIdPaginated(100, 0, 10)
+        val result = jpaRepository.findByMissionIdPaginated(missionId, 0, 10)
 
         assertThat(result.content).hasSize(1)
-        assertThat(result.content[0].missionId).isEqualTo(100)
-        verify(dbRepo).findByMissionIdOrderByMissionIdDesc(100, pageable)
+        assertThat(result.content[0].missionId).isEqualTo(missionId)
+        verify(dbRepo).findByMissionIdOrderByMissionIdDesc(missionId, pageable)
     }
 
     @Test
     fun `findByMissionIdPaginated should throw BackendInternalException on error`() {
         val pageable = PageRequest.of(0, 10)
-        `when`(dbRepo.findByMissionIdOrderByMissionIdDesc(100, pageable)).thenThrow(RuntimeException("Database error"))
+        `when`(dbRepo.findByMissionIdOrderByMissionIdDesc(missionId, pageable)).thenThrow(RuntimeException("Database error"))
 
         val exception = assertThrows<BackendInternalException> {
-            jpaRepository.findByMissionIdPaginated(100, 0, 10)
+            jpaRepository.findByMissionIdPaginated(missionId, 0, 10)
         }
         assertThat(exception.message).contains("Failed to find paginated MissionGeneralInfo by missionId")
     }
 
     @Test
-    fun `findByMissionIdUUIDPaginated should return page of general info`() {
-        val pageable = PageRequest.of(0, 10)
-        val page = PageImpl(listOf(generalInfoModel), pageable, 1)
-        `when`(dbRepo.findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID, pageable)).thenReturn(page)
-
-        val result = jpaRepository.findByMissionIdUUIDPaginated(missionIdUUID, 0, 10)
-
-        assertThat(result.content).hasSize(1)
-        assertThat(result.content[0].missionIdUUID).isEqualTo(missionIdUUID)
-        verify(dbRepo).findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID, pageable)
-    }
-
-    @Test
-    fun `findByMissionIdUUIDPaginated should throw BackendInternalException on error`() {
-        val pageable = PageRequest.of(0, 10)
-        `when`(dbRepo.findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID, pageable)).thenThrow(RuntimeException("Database error"))
-
-        val exception = assertThrows<BackendInternalException> {
-            jpaRepository.findByMissionIdUUIDPaginated(missionIdUUID, 0, 10)
-        }
-        assertThat(exception.message).contains("Failed to find paginated MissionGeneralInfo by missionIdUUID")
-    }
-
-    @Test
     fun `findByMissionId should return general info when found`() {
-        `when`(dbRepo.findByMissionId(100)).thenReturn(Optional.of(generalInfoModel))
+        `when`(dbRepo.findByMissionId(missionId)).thenReturn(Optional.of(generalInfoModel))
 
-        val result = jpaRepository.findByMissionId(100)
+        val result = jpaRepository.findByMissionId(missionId)
 
         assertThat(result).isPresent
-        assertThat(result.get().missionId).isEqualTo(100)
-        verify(dbRepo).findByMissionId(100)
-    }
-
-    @Test
-    fun `findByMissionId should return empty optional when not found`() {
-        `when`(dbRepo.findByMissionId(999)).thenReturn(Optional.empty())
-
-        val result = jpaRepository.findByMissionId(999)
-
-        assertThat(result).isEmpty
-        verify(dbRepo).findByMissionId(999)
+        assertThat(result.get().missionId).isEqualTo(missionId)
+        verify(dbRepo).findByMissionId(missionId)
     }
 
     @Test
     fun `findByMissionId should throw BackendInternalException on error`() {
-        `when`(dbRepo.findByMissionId(100)).thenThrow(RuntimeException("Database error"))
+        `when`(dbRepo.findByMissionId(missionId)).thenThrow(RuntimeException("Database error"))
 
         val exception = assertThrows<BackendInternalException> {
-            jpaRepository.findByMissionId(100)
+            jpaRepository.findByMissionId(missionId)
         }
         assertThat(exception.message).contains("Failed to find MissionGeneralInfo for missionId")
     }
 
     @Test
     fun `findAllByMissionId should return list of general info`() {
-        `when`(dbRepo.findAllByMissionId(100)).thenReturn(listOf(generalInfoModel))
+        `when`(dbRepo.findAllByMissionId(missionId)).thenReturn(listOf(generalInfoModel))
 
-        val result = jpaRepository.findAllByMissionId(100)
+        val result = jpaRepository.findAllByMissionId(missionId)
 
         assertThat(result).hasSize(1)
-        verify(dbRepo).findAllByMissionId(100)
+        verify(dbRepo).findAllByMissionId(missionId)
     }
 
     @Test
     fun `findAllByMissionId should throw BackendInternalException on error`() {
-        `when`(dbRepo.findAllByMissionId(100)).thenThrow(RuntimeException("Database error"))
+        `when`(dbRepo.findAllByMissionId(missionId)).thenThrow(RuntimeException("Database error"))
 
         val exception = assertThrows<BackendInternalException> {
-            jpaRepository.findAllByMissionId(100)
+            jpaRepository.findAllByMissionId(missionId)
         }
         assertThat(exception.message).contains("Failed to find all MissionGeneralInfo for missionId")
-    }
-
-    @Test
-    fun `findByMissionIdUUID should return general info when found`() {
-        `when`(dbRepo.findByMissionIdUUID(missionIdUUID)).thenReturn(Optional.of(generalInfoModel))
-
-        val result = jpaRepository.findByMissionIdUUID(missionIdUUID)
-
-        assertThat(result).isPresent
-        assertThat(result.get().missionIdUUID).isEqualTo(missionIdUUID)
-        verify(dbRepo).findByMissionIdUUID(missionIdUUID)
-    }
-
-    @Test
-    fun `findByMissionIdUUID should throw BackendInternalException on error`() {
-        `when`(dbRepo.findByMissionIdUUID(missionIdUUID)).thenThrow(RuntimeException("Database error"))
-
-        val exception = assertThrows<BackendInternalException> {
-            jpaRepository.findByMissionIdUUID(missionIdUUID)
-        }
-        assertThat(exception.message).contains("Failed to find MissionGeneralInfo for missionIdUUID")
-    }
-
-    @Test
-    fun `findAllByMissionIdUUID should return list of general info`() {
-        `when`(dbRepo.findAllByMissionIdUUID(missionIdUUID)).thenReturn(listOf(generalInfoModel))
-
-        val result = jpaRepository.findAllByMissionIdUUID(missionIdUUID)
-
-        assertThat(result).hasSize(1)
-        verify(dbRepo).findAllByMissionIdUUID(missionIdUUID)
-    }
-
-    @Test
-    fun `findAllByMissionIdUUID should throw BackendInternalException on error`() {
-        `when`(dbRepo.findAllByMissionIdUUID(missionIdUUID)).thenThrow(RuntimeException("Database error"))
-
-        val exception = assertThrows<BackendInternalException> {
-            jpaRepository.findAllByMissionIdUUID(missionIdUUID)
-        }
-        assertThat(exception.message).contains("Failed to find all MissionGeneralInfo for missionIdUUID")
     }
 
     @Test
@@ -347,7 +271,6 @@ class JPAMissionGeneralInfoRepositoryTest {
     fun `save should return saved model`() {
         val entity = MissionGeneralInfoEntity(
             id = 1,
-            missionId = 100,
             distanceInNauticalMiles = 50.5f
         )
 
@@ -356,7 +279,7 @@ class JPAMissionGeneralInfoRepositoryTest {
         val result = jpaRepository.save(entity)
 
         assertThat(result).isNotNull
-        assertThat(result.missionId).isEqualTo(100)
+        assertThat(result.missionId).isEqualTo(missionId)
         verify(dbRepo).save(any<MissionGeneralInfoModel>())
     }
 
@@ -364,7 +287,6 @@ class JPAMissionGeneralInfoRepositoryTest {
     fun `save should throw BackendUsageException on invalid data`() {
         val entity = MissionGeneralInfoEntity(
             id = 1,
-            missionId = 100
         )
 
         `when`(dbRepo.save(any<MissionGeneralInfoModel>())).thenThrow(InvalidDataAccessApiUsageException("Invalid data"))
@@ -379,7 +301,6 @@ class JPAMissionGeneralInfoRepositoryTest {
     fun `save should throw BackendInternalException on database error`() {
         val entity = MissionGeneralInfoEntity(
             id = 1,
-            missionId = 100
         )
 
         `when`(dbRepo.save(any<MissionGeneralInfoModel>())).thenThrow(RuntimeException("Database error"))
@@ -392,13 +313,14 @@ class JPAMissionGeneralInfoRepositoryTest {
 
     @Test
     fun `save should return existing record on duplicate mission_id constraint violation`() {
+        val dupeUUID = UUID.randomUUID()
         val entity = MissionGeneralInfoEntity(
             id = 2,
-            missionId = 100
+            missionId = dupeUUID
         )
 
         `when`(dbRepo.save(any<MissionGeneralInfoModel>())).thenThrow(DataIntegrityViolationException("Unique index violation"))
-        `when`(dbRepo.findAllByMissionId(100)).thenReturn(listOf(generalInfoModel))
+        `when`(dbRepo.findAllByMissionId(dupeUUID)).thenReturn(listOf(generalInfoModel))
 
         val result = jpaRepository.save(entity)
 

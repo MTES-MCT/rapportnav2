@@ -46,7 +46,7 @@ class JPAMissionGeneralInfoRepository(
         }
     }
 
-    override fun findByMissionIdPaginated(missionId: Int, page: Int, size: Int): Page<MissionGeneralInfoModel> {
+    override fun findByMissionIdPaginated(missionId: UUID, page: Int, size: Int): Page<MissionGeneralInfoModel> {
         return try {
             val pageable = PageRequest.of(page, size)
             dbRepo.findByMissionIdOrderByMissionIdDesc(missionId, pageable)
@@ -58,19 +58,7 @@ class JPAMissionGeneralInfoRepository(
         }
     }
 
-    override fun findByMissionIdUUIDPaginated(missionIdUUID: UUID, page: Int, size: Int): Page<MissionGeneralInfoModel> {
-        return try {
-            val pageable = PageRequest.of(page, size)
-            dbRepo.findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID, pageable)
-        } catch (e: Exception) {
-            throw BackendInternalException(
-                message = "Failed to find paginated MissionGeneralInfo by missionIdUUID='$missionIdUUID'",
-                originalException = e
-            )
-        }
-    }
-
-    override fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel> {
+    override fun findByMissionId(missionId: UUID): Optional<MissionGeneralInfoModel> {
         return try {
             dbRepo.findByMissionId(missionId)
         } catch (e: Exception) {
@@ -81,34 +69,12 @@ class JPAMissionGeneralInfoRepository(
         }
     }
 
-    override fun findAllByMissionId(missionId: Int): List<MissionGeneralInfoModel> {
+    override fun findAllByMissionId(missionId: UUID): List<MissionGeneralInfoModel> {
         return try {
             dbRepo.findAllByMissionId(missionId)
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to find all MissionGeneralInfo for missionId='$missionId'",
-                originalException = e
-            )
-        }
-    }
-
-    override fun findByMissionIdUUID(missionIdUUID: UUID): Optional<MissionGeneralInfoModel> {
-        return try {
-            dbRepo.findByMissionIdUUID(missionIdUUID)
-        } catch (e: Exception) {
-            throw BackendInternalException(
-                message = "Failed to find MissionGeneralInfo for missionIdUUID='$missionIdUUID'",
-                originalException = e
-            )
-        }
-    }
-
-    override fun findAllByMissionIdUUID(missionIdUUID: UUID): List<MissionGeneralInfoModel> {
-        return try {
-            dbRepo.findAllByMissionIdUUID(missionIdUUID)
-        } catch (e: Exception) {
-            throw BackendInternalException(
-                message = "Failed to find all MissionGeneralInfo for missionIdUUID='$missionIdUUID'",
                 originalException = e
             )
         }

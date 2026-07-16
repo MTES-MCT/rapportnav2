@@ -31,7 +31,7 @@ class UpdateGeneralInfoAdminTest {
 
     @Test
     fun `should update general info by missionId`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val serviceId = 10
         val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
         val model = entity.toMissionGeneralInfoModel()
@@ -56,36 +56,20 @@ class UpdateGeneralInfoAdminTest {
     }
 
     @Test
-    fun `should update general info by missionIdUUID`() {
-        val missionIdUUID = UUID.randomUUID()
-        val serviceId = 10
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionIdUUID = missionIdUUID)
-        val model = entity.toMissionGeneralInfoModel()
-        val service = ServiceEntityMock.create(id = serviceId, name = "Updated Service")
-        val updatedEntity = entity.copy(service = service)
-        val updatedModel = updatedEntity.toMissionGeneralInfoModel()
-
+    fun `should update general info without explicit missionId`() {
         val input = AdminGeneralInfosUpdateInput(
-            missionIdUUID = missionIdUUID,
-            serviceId = serviceId
+            serviceId = 10
         )
-
-        whenever(repository.findByMissionIdUUID(missionIdUUID)).thenReturn(Optional.of(model))
-        whenever(getServiceById.execute(serviceId)).thenReturn(service)
-        whenever(repository.save(any())).thenReturn(updatedModel)
 
         val result = updateGeneralInfoAdmin.execute(input)
 
-        assertThat(result).isNotNull
-        assertThat(result?.missionIdUUID).isEqualTo(missionIdUUID)
-        assertThat(result?.service?.id).isEqualTo(serviceId)
+        assertThat(result).isNull()
     }
 
     @Test
-    fun `should return null when no missionId or missionIdUUID provided`() {
+    fun `should return null when no missionId or missionId provided`() {
         val input = AdminGeneralInfosUpdateInput(
             missionId = null,
-            missionIdUUID = null
         )
 
         val result = updateGeneralInfoAdmin.execute(input)
@@ -95,7 +79,7 @@ class UpdateGeneralInfoAdminTest {
 
     @Test
     fun `should update without service when serviceId is null`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
         val model = entity.toMissionGeneralInfoModel()
 
@@ -116,7 +100,7 @@ class UpdateGeneralInfoAdminTest {
 
     @Test
     fun `should propagate BackendInternalException from repository findByMissionId`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val internalException = BackendInternalException(
             message = "Repository error",
             originalException = RuntimeException("Database error")
@@ -136,7 +120,7 @@ class UpdateGeneralInfoAdminTest {
 
     @Test
     fun `should propagate BackendInternalException from repository save`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
         val model = entity.toMissionGeneralInfoModel()
         val internalException = BackendInternalException(

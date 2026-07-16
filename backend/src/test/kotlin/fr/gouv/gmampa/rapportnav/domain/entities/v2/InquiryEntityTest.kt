@@ -18,6 +18,7 @@ class InquiryEntityTest {
 
         assertThat(response).isNotNull()
         assertThat(response.id).isEqualTo(inquiryEntity.id)
+        assertThat(response.missionId).isEqualTo(inquiryEntity.missionId)
         assertThat(response.type).isEqualTo(inquiryEntity.type)
         assertThat(response.origin).isEqualTo(inquiryEntity.origin?.toString())
         assertThat(response.agentId).isEqualTo(inquiryEntity.agentId.toString())
@@ -56,8 +57,6 @@ class InquiryEntityTest {
             origin = InquiryOriginType.FOLLOW_UP_CONTROL,
             status = InquiryStatusType.IN_PROGRESS,
             conclusion = InquiryConclusionType.NO_FOLLOW_UP,
-            missionId = 4,
-            missionIdUUID = UUID.randomUUID(),
             isSignedByInspector = true,
             establishment = EstablishmentEntity(
                 id = 2,

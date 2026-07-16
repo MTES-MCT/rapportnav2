@@ -24,8 +24,7 @@ class JPAMissionPassengerRepositoryTest {
 
     private val sampleEntity = MissionPassengerEntityMock.create(
         id = 1,
-        missionId = 1,
-        missionIdUUID = UUID.randomUUID(),
+        missionId = UUID.randomUUID(),
     )
     private val sampleModel = sampleEntity.toMissionPassengerModel()
 
@@ -41,15 +40,6 @@ class JPAMissionPassengerRepositoryTest {
             .thenReturn(listOf<MissionPassengerModel>(sampleModel))
 
         val result = jpaRepo.findByMissionId(sampleEntity.missionId)
-        assertEquals(listOf(sampleModel), result)
-    }
-
-    @Test
-    fun `findByMissionIdUUID should delegate to repository`() {
-        whenever(dbRepo.findByMissionIdUUID(sampleEntity.missionIdUUID!!))
-            .thenReturn(listOf<MissionPassengerModel>(sampleModel))
-
-        val result = jpaRepo.findByMissionIdUUID(sampleEntity.missionIdUUID)
         assertEquals(listOf(sampleModel), result)
     }
 

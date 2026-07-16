@@ -27,18 +27,15 @@ class GetNavActionListByOwnerIdTest {
     @Test
     fun `should return empty list if input is null`() {
         assertThat(getNavActionListByOwnerId.execute(ownerId = null)).isEmpty()
-        assertThat(getNavActionListByOwnerId.execute(missionId = null)).isEmpty()
     }
 
     @Test
-    fun `test execute with invalid actionId returns null`() {
-        val missionId = 761
+    fun `test execute with valid ownerId returns actions`() {
         val ownerId = UUID.randomUUID()
 
         val action = MissionActionModel(
             id = UUID.randomUUID(),
             ownerId = ownerId,
-            missionId = missionId,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",
@@ -49,13 +46,8 @@ class GetNavActionListByOwnerIdTest {
         )
 
         `when`(navMissionActionRepository.findByOwnerId(ownerId = ownerId)).thenReturn(listOf(action))
-        `when`(navMissionActionRepository.findByMissionId(missionId = missionId)).thenReturn(listOf(action))
-
 
         getNavActionListByOwnerId.execute(ownerId = ownerId)
         verify(navMissionActionRepository, times(1)).findByOwnerId(ownerId = ownerId)
-
-        getNavActionListByOwnerId.execute(missionId = missionId)
-        verify(navMissionActionRepository, times(1)).findByMissionId(missionId = missionId)
     }
 }

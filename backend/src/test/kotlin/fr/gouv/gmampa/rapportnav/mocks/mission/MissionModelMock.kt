@@ -9,6 +9,7 @@ import java.util.UUID
 object MissionModelMock {
     fun create(
         id: UUID = UUID.randomUUID(),
+        externalId: String? = null,
         serviceId: Int = 1,
         openBy: String? = null,
         completedBy: String? = null,
@@ -20,6 +21,7 @@ object MissionModelMock {
     ): MissionModel {
         return MissionModel(
             id = id,
+            externalId = externalId,
             serviceId = serviceId,
             openBy = openBy,
             completedBy = completedBy,

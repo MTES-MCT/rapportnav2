@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
@@ -11,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNa
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionExternalId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
@@ -34,11 +36,12 @@ class ExportMissionAEMSingle(
     private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getComputeEnvMission: GetComputeEnvMission,
+    private val getMissionExternalId: GetMissionExternalId,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEMSingle::class.java)
 
     fun execute(missionId: Int): MissionExportEntity {
-        val mission = getComputeEnvMission.execute(missionId = missionId)
+        val mission = getComputeEnvMission.execute(externalId = missionId)
 
         return createFile(mission)
             ?: throw BackendInternalException(
@@ -49,14 +52,9 @@ class ExportMissionAEMSingle(
 
     fun createFile(mission: MissionEntity): MissionExportEntity? {
         try {
-            val missionId = mission.id
+            val tableExport = getAemData(missionId = mission.id)
                 ?: throw BackendInternalException(
-                    message = "Mission id is null",
-                    originalException = null
-                )
-            val tableExport = getAemData(missionId)
-                ?: throw BackendInternalException(
-                    message = "Failed to compute AEM data for mission $missionId",
+                    message = "Failed to compute AEM data for mission ${mission.id}",
                     originalException = null
                 )
 
@@ -97,19 +95,22 @@ class ExportMissionAEMSingle(
         }
     }
 
-    fun getAemData(missionId: Int?): AEMTableExport?  {
-        if(missionId == null) return null
-        val envMission = getEnvMissionById2.execute(missionId)
-        val envActions = getEnvActionByMissionId.execute(missionId)
-        val navActions = getNavActionByMissionId.execute(missionId)
-        val fishActions = getFIshListActionByMissionId.execute(missionId)
-        val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
+    fun getAemData(missionId: java.util.UUID, generalInfo: MissionGeneralInfoEntity? = null): AEMTableExport?  {
+        // Fall back to fetching the general info when the caller doesn't supply it, otherwise
+        // nbrOfRecognizedVessel ("nombre de navires reconnus") is silently dropped from the export.
+        val resolvedGeneralInfo = generalInfo ?: getMissionGeneralInfoByMissionId.execute(missionId = missionId)
+        // Resolve the external id once and reuse it for the env/fish actions and the env mission.
+        val externalId = getMissionExternalId.execute(missionId)
+        val envActions = getEnvActionByMissionId.execute(missionId = missionId, externalId = externalId)
+        val navActions = getNavActionByMissionId.execute(ownerId = missionId)
+        val fishActions = getFIshListActionByMissionId.execute(missionId = missionId, externalId = externalId)
+        val envMission = externalId?.let { getEnvMissionById2.execute(it) }
         return AEMTableExport.fromMissionAction(
             navActions = navActions,
             envActions = envActions,
             fishActions = fishActions,
             missionEndDateTimeUtc = envMission?.endDateTimeUtc,
-            nbrOfRecognizedVessel = generalInfo?.nbrOfRecognizedVessel?.toDouble()
+            nbrOfRecognizedVessel = resolvedGeneralInfo?.nbrOfRecognizedVessel?.toDouble()
         )
     }
 

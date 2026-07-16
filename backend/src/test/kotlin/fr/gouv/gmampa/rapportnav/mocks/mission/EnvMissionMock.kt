@@ -11,8 +11,7 @@ import java.util.*
 
 object EnvMissionMock {
     fun create(
-        id: Int? = 1,
-        idUUID: UUID? = null,
+        externalId: Int? = 1,
         missionTypes: List<MissionTypeEnum> = listOf(),
         controlUnits: List<LegacyControlUnitEntity> = listOf(),
         openBy: String? = null,
@@ -32,8 +31,7 @@ object EnvMissionMock {
         observationsByUnit: String? = null
     ): MissionEnvEntity {
         return MissionEnvEntity(
-            id = id,
-            idUUID = idUUID,
+            externalId = externalId,
             missionTypes = missionTypes,
             controlUnits = controlUnits,
             openBy = openBy,

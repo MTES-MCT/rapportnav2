@@ -21,7 +21,7 @@ import java.util.*
 @WithinMissionDateRange(groups = [ValidateThrowsBeforeSave::class])
 data class MissionEnvActionEntity(
     override val id: UUID,
-    override val missionId: Int,
+    override val ownerId: UUID,
     override val envActionType: ActionTypeEnum,
     override val completedBy: String? = null,
     override val completion: ActionCompletionEnum? = null,
@@ -50,7 +50,6 @@ data class MissionEnvActionEntity(
     override var hasDivingDuringOperation: Boolean? = null,
     override var incidentDuringOperation: Boolean? = null
     ) : MissionActionEntity(
-    missionId = missionId,
     isCompleteForStats = false,
     source = MissionSourceEnum.MONITORENV,
     startDateTimeUtc = startDateTimeUtc,
@@ -164,9 +163,9 @@ data class MissionEnvActionEntity(
     }
 
     companion object {
-        fun fromEnvAction(missionId: Int, action: EnvActionEntity) = MissionEnvActionEntity(
+        fun fromEnvAction(ownerId: UUID, action: EnvActionEntity) = MissionEnvActionEntity(
             id = action.id,
-            missionId = missionId,
+            ownerId = ownerId,
             envActionType = action.actionType,
             startDateTimeUtc = action.actionStartDateTimeUtc,
             endDateTimeUtc = action.actionEndDateTimeUtc,

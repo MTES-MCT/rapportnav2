@@ -10,10 +10,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
+import java.util.*
 
 object MissionEntityMock {
     fun create(
-        id: Int? = 1,
+        id: UUID = UUID.randomUUID(),
         missionTypes: List<MissionTypeEnum> = listOf(),
         controlUnits: List<LegacyControlUnitEntity> = listOf(),
         openBy: String? = null,
@@ -30,7 +31,7 @@ object MissionEntityMock {
         hasMissionOrder: Boolean = false,
         isUnderJdp: Boolean = false,
         actions: List<MissionActionEntity> = listOf(),
-        generalInfos: MissionGeneralInfoEntity2? = MissionGeneralInfoEntity2(data = MissionGeneralInfoEntity(missionId = 1, id = 1)),
+        generalInfos: MissionGeneralInfoEntity2? = MissionGeneralInfoEntity2(data = MissionGeneralInfoEntity(id = 1)),
     ): MissionEntity {
         return MissionEntity(
             id = id,

@@ -53,7 +53,7 @@ class GetMissionDatesTest {
 
         Mockito.`when`(getInquiryById.execute(id = inquiryId)).thenReturn(inquiry)
 
-        val result = getMissionDates.execute(missionId = 1, ownerId = UUID.randomUUID(), inquiryId = inquiryId)
+        val result = getMissionDates.execute(missionId = null, ownerId = UUID.randomUUID(), inquiryId = inquiryId)
 
         assertNotNull(result)
         assertEquals(start, result?.startDateTimeUtc)
@@ -85,25 +85,19 @@ class GetMissionDatesTest {
     }
 
     @Test
-    fun `should fallback to env mission when inquiryId and ownerId are null`() {
-        val missionId = 42
+    fun `should fallback to mission lookup when inquiryId and ownerId are null`() {
+        val missionId = UUID.randomUUID()
         val start = Instant.parse("2024-03-01T00:00:00Z")
         val end = Instant.parse("2024-03-02T00:00:00Z")
 
-        val envMission = MissionEnvEntity(
+        val navMission = MissionNavEntity(
             id = missionId,
+            serviceId = 1,
             startDateTimeUtc = start,
-            endDateTimeUtc = end,
-            isDeleted = false,
-            isUnderJdp = false,
-            isGeometryComputedFromControls = false,
-            missionSource = MissionSourceEnum.RAPPORT_NAV,
-            controlUnits = listOf(),
-            missionTypes = listOf(MissionTypeEnum.SEA),
-            hasMissionOrder = false
+            endDateTimeUtc = end
         )
 
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(envMission)
+        Mockito.`when`(getNavMissionById2.execute(missionId)).thenReturn(navMission)
 
         val result = getMissionDates.execute(missionId = missionId, ownerId = null)
 
@@ -140,32 +134,19 @@ class GetMissionDatesTest {
     }
 
     @Test
-    fun `should fallback to env mission when inquiry and nav mission are not found`() {
+    fun `should fallback to mission lookup when inquiry and ownerId nav mission are not found`() {
         val inquiryId = UUID.randomUUID()
         val ownerId = UUID.randomUUID()
-        val missionId = 99
+        val missionId = UUID.randomUUID()
         val start = Instant.parse("2024-05-01T00:00:00Z")
         val end = Instant.parse("2024-05-02T00:00:00Z")
 
         Mockito.`when`(getInquiryById.execute(id = inquiryId)).thenReturn(null)
-        Mockito.`when`(getNavMissionById2.execute(ownerId)).thenReturn(null)
-
-        val envMission = MissionEnvEntity(
-            id = missionId,
-            startDateTimeUtc = start,
-            endDateTimeUtc = end,
-            isDeleted = false,
-            isUnderJdp = false,
-            isGeometryComputedFromControls = false,
-            missionSource = MissionSourceEnum.RAPPORT_NAV,
-            controlUnits = listOf(),
-            missionTypes = listOf(MissionTypeEnum.SEA),
-            hasMissionOrder = false
+        Mockito.`when`(getNavMissionById2.execute(missionId)).thenReturn(
+            MissionNavEntity(id = missionId, serviceId = 1, startDateTimeUtc = start, endDateTimeUtc = end)
         )
 
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(envMission)
-
-        val result = getMissionDates.execute(missionId = missionId, ownerId = ownerId, inquiryId = inquiryId)
+        val result = getMissionDates.execute(ownerId = ownerId, missionId = missionId, inquiryId = inquiryId)
 
         assertNotNull(result)
         assertEquals(start, result?.startDateTimeUtc)
@@ -176,13 +157,13 @@ class GetMissionDatesTest {
     fun `should return null when all sources return null`() {
         val inquiryId = UUID.randomUUID()
         val ownerId = UUID.randomUUID()
-        val missionId = 100
+        val missionId = UUID.randomUUID()
 
         Mockito.`when`(getInquiryById.execute(id = inquiryId)).thenReturn(null)
+        Mockito.`when`(getNavMissionById2.execute(missionId)).thenReturn(null)
         Mockito.`when`(getNavMissionById2.execute(ownerId)).thenReturn(null)
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(null)
 
-        val result = getMissionDates.execute(missionId = missionId, ownerId = ownerId, inquiryId = inquiryId)
+        val result = getMissionDates.execute(ownerId = ownerId, missionId = missionId, inquiryId = inquiryId)
 
         assertNull(result)
     }
@@ -191,7 +172,7 @@ class GetMissionDatesTest {
     fun `should prioritize inquiry over nav and env missions`() {
         val inquiryId = UUID.randomUUID()
         val ownerId = UUID.randomUUID()
-        val missionId = 50
+        val missionId = UUID.randomUUID()
 
         val inquiryStart = Instant.parse("2024-01-01T00:00:00Z")
         val inquiryEnd = Instant.parse("2024-01-02T00:00:00Z")
@@ -216,7 +197,7 @@ class GetMissionDatesTest {
         Mockito.`when`(getInquiryById.execute(id = inquiryId)).thenReturn(inquiry)
         Mockito.`when`(getNavMissionById2.execute(ownerId)).thenReturn(navMission)
 
-        val result = getMissionDates.execute(missionId = missionId, ownerId = ownerId, inquiryId = inquiryId)
+        val result = getMissionDates.execute(missionId = null, ownerId = ownerId, inquiryId = inquiryId)
 
         assertEquals(inquiryStart, result?.startDateTimeUtc)
         assertEquals(inquiryEnd, result?.endDateTimeUtc)

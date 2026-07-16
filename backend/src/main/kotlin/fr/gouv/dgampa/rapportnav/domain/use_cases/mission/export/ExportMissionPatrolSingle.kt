@@ -48,7 +48,7 @@ class ExportMissionPatrolSingle(
      * @return a MissionExportEntity with file name and content
      */
     fun execute(missionId: Int): MissionExportEntity {
-        val mission = getComputeEnvMission.execute(missionId = missionId)
+        val mission = getComputeEnvMission.execute(externalId = missionId)
 
         return createFile(mission)
             ?: throw BackendInternalException(
@@ -60,7 +60,9 @@ class ExportMissionPatrolSingle(
     fun createFile(mission: MissionEntity): MissionExportEntity? {
         try {
 
-            val patrolData = computePatrolData.execute(missionId = mission.id!!)
+            val externalId = mission.externalId
+                ?: throw BackendInternalException(message = "Cannot export patrol for a mission without externalId (nav-only mission)")
+            val patrolData = computePatrolData.execute(envMissionId = externalId.toInt())
             val allActions = mission.actions
 
             val generalInfo: MissionGeneralInfoEntity2? = patrolData?.generalInfos

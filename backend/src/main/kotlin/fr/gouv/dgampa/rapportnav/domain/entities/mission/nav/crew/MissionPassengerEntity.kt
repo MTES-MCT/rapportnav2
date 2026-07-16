@@ -19,8 +19,7 @@ import java.util.*
 )
 data class MissionPassengerEntity(
     val id: Int? = null,
-    val missionId: Int? = null,
-    val missionIdUUID: UUID? = null,
+    val missionId: UUID? = null,
     val fullName: String,
     val organization: MissionPassengerOrganization? = null,
     val isIntern: Boolean? = null,
@@ -32,7 +31,6 @@ data class MissionPassengerEntity(
         return MissionPassengerModel(
             id = id,
             missionId = missionId,
-            missionIdUUID = missionIdUUID,
             fullName = fullName,
             organization = organization.toString(),
             isIntern = isIntern,
@@ -46,7 +44,6 @@ data class MissionPassengerEntity(
             return MissionPassengerEntity(
                 id = passenger.id,
                 missionId = passenger.missionId,
-                missionIdUUID = passenger.missionIdUUID,
                 fullName = passenger.fullName,
                 organization = mapStringToMissionPassengerOrganization(passenger.organization),
                 isIntern = passenger.isIntern,

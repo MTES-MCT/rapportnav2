@@ -26,10 +26,7 @@ class MissionCrewModel(
     var fullName: String? = null,
 
     @Column(name = "mission_id", nullable = true)
-    var missionId: Int? = null,
-
-    @Column(name = "mission_id_uuid", nullable = true)
-    var missionIdUUID: UUID? = null,
+    var missionId: UUID? = null,
 
     @Column(name = "comment", nullable = true)
     var comment: String? = null,

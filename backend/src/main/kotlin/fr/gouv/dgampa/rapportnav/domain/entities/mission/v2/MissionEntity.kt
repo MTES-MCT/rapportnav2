@@ -11,8 +11,8 @@ import java.time.format.DateTimeParseException
 import java.util.*
 
 data class MissionEntity(
-    val id: Int? = null,
-    val idUUID: UUID? = null,
+    val id: UUID,
+    val externalId: String? = null,
     val data: MissionEnvEntity? = null,
     val actions: List<MissionActionEntity>? = listOf(),
     val generalInfos: MissionGeneralInfoEntity2? = null
@@ -77,8 +77,8 @@ data class MissionEntity(
     }
 
     private fun isEnvDataCompleteForStats(): Boolean? {
-        // don't validate for NavMissions (i.e. when IdUUID)
-        if (data?.idUUID != null) return true
+        // don't validate for NavMissions (i.e. when no externalId = local mission)
+        if (externalId == null) return true
         return data?.isCompleteForStats(
             serviceTypeEnum = generalInfos?.serviceType,
             isResourcesNotUsed = generalInfos?.data?.isResourcesNotUsed

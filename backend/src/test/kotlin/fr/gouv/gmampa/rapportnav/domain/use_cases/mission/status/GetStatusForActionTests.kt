@@ -19,7 +19,7 @@ import java.util.*
 @SpringBootTest(classes = [GetStatusForAction::class])
 class GetStatusForActionTests {
 
-    private var missionId: Int = 1
+    private var missionId: UUID = UUID.randomUUID()
 
     @MockitoBean
     private lateinit var missionActionsRepository: IDBMissionActionRepository
@@ -29,8 +29,8 @@ class GetStatusForActionTests {
 
     @Test
     fun `execute Should return Unknown when action is empty list for a mission`() {
-        given(this.missionActionsRepository.findAllByMissionId(missionId = 1)).willReturn(listOf())
-        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = null)
+        given(this.missionActionsRepository.findAllByOwnerId(ownerId = missionId)).willReturn(listOf())
+        val statusForAction = getStatusForAction.execute(ownerId = missionId, actionStartDateTimeUtc = null)
         assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN)
     }
 
@@ -39,14 +39,14 @@ class GetStatusForActionTests {
         val startDatetime = Instant.parse("2022-01-01T11:00:00Z")
         val startingAction = MissionActionModel(
             id = UUID.randomUUID(),
-            missionId = missionId,
             startDateTimeUtc = startDatetime,
             status = UNAVAILABLE_STATUS_AS_STRING,
             actionType = ActionType.STATUS,
+            ownerId = missionId,
         )
         val actions = listOf(startingAction)
-        given(this.missionActionsRepository.findAllByMissionId(missionId = 1)).willReturn(actions)
-        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = startDatetime)
+        given(this.missionActionsRepository.findAllByOwnerId(ownerId = missionId)).willReturn(actions)
+        val statusForAction = getStatusForAction.execute(ownerId = missionId, actionStartDateTimeUtc = startDatetime)
         assertThat(statusForAction).isEqualTo(ActionStatusType.UNAVAILABLE)
     }
 
@@ -55,20 +55,20 @@ class GetStatusForActionTests {
         val startDatetime = Instant.parse("2022-01-01T11:00:00Z")
         val startingAction = MissionActionModel(
             id = UUID.randomUUID(),
-            missionId = missionId,
             startDateTimeUtc = startDatetime,
             status = UNAVAILABLE_STATUS_AS_STRING,
             actionType = ActionType.STATUS,
+            ownerId = missionId,
         )
         val lastAction = MissionActionModel(
             id = UUID.randomUUID(),
-            missionId = missionId,
             startDateTimeUtc = startDatetime.plusSeconds(1),
             actionType = ActionType.NOTE,
+            ownerId = missionId,
         )
         val actions = listOf(startingAction, lastAction)
-        given(this.missionActionsRepository.findAllByMissionId(missionId = 1)).willReturn(actions)
-        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = startDatetime)
+        given(this.missionActionsRepository.findAllByOwnerId(ownerId = missionId)).willReturn(actions)
+        val statusForAction = getStatusForAction.execute(ownerId = missionId, actionStartDateTimeUtc = startDatetime)
         assertThat(statusForAction).isEqualTo(ActionStatusType.UNAVAILABLE)
     }
 }

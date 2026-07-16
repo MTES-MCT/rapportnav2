@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMCombined
@@ -45,7 +46,6 @@ class ExportMissionAEMCombinedTest {
             generalInfos = MissionGeneralInfoEntity2(
                 data = MissionGeneralInfoEntity(
                     id = 1,
-                    missionId = missionIds.first(),
                     nbrOfRecognizedVessel = 3,
                     consumedFuelInLiters = 3f,
                     consumedGOInLiters = 3f,
@@ -55,7 +55,7 @@ class ExportMissionAEMCombinedTest {
             )
         )
 
-        Mockito.`when`(getComputeEnvMission.execute(missionId = mission2.id)).thenReturn(
+        Mockito.`when`(getComputeEnvMission.execute(externalId = missionIds.first())).thenReturn(
             mission2
         )
 
@@ -68,7 +68,7 @@ class ExportMissionAEMCombinedTest {
     @Test
     fun `should propagate exception when underlying service throws`() {
         val missionIds = listOf(1)
-        Mockito.`when`(getComputeEnvMission.execute(missionId = 1))
+        Mockito.`when`(getComputeEnvMission.execute(externalId = 1))
             .thenThrow(RuntimeException("Mock exception"))
 
         assertThrows(RuntimeException::class.java) {

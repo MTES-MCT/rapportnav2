@@ -10,8 +10,8 @@ import java.time.Instant
 import java.util.UUID
 
 data class PatrolDataEntity(
-    val id: Int? = null,
-    val idUUID: UUID? = null,
+    val id: UUID? = null,
+    val externalId: Int? = null,
     val serviceId: Int? = null,
     val missionTypes: List<MissionTypeEnum>? = listOf(),
     val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
@@ -28,7 +28,10 @@ data class PatrolDataEntity(
     val controlPolicies: ControlPoliciesEntity? = null, // contrôles par politique publique
     val otherActionsSummary: Map<String, NavActionInfoEntity?>? = null, // Autres missions
     val internTrainingSummary: Map<String, Int>? = null, // Soutien à la politique de formation
-)
+) {
+    // Backward-compat alias for [externalId]; kept so existing API consumers still receive missionId.
+    val missionId: Int? get() = externalId
+}
 
 data class OperationalSummaryEntity(
     val proFishingSeaSummary: LinkedHashMap<String, Map<String, Int?>>, // pêche - contrôles en mer

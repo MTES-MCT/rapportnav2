@@ -7,11 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEnti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentRoleEntityMock
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -34,8 +29,7 @@ class GetAgentsCrewByMissionIdTest {
     @Test
     fun `execute should return sorted list of crew members by role priority`() {
 
-        val missionId = 1
-        val missionIdUUID = UUID.randomUUID()
+        val missionId = UUID.randomUUID()
 
         val johnDoe = AgentEntity(
             firstName = "John",
@@ -102,30 +96,30 @@ class GetAgentsCrewByMissionIdTest {
         )
 
         val crewMembers = listOf(
-            MissionCrewEntity(role = chefMecano, agent = janeDoe, missionId = missionId, id = 1, missionIdUUID = missionIdUUID),
-            MissionCrewEntity(role = secondCapitaine, agent = johnDoe, missionId = missionId, id = 2, missionIdUUID = missionIdUUID),
-            MissionCrewEntity(role = cuisinier, agent = alfredDeMusset, missionId = missionId, id = 3, missionIdUUID = missionIdUUID),
-            MissionCrewEntity(role = commandant, agent = guyDeMaupassant, missionId = missionId, id = 4, missionIdUUID = missionIdUUID),
+            MissionCrewEntity(role = chefMecano, agent = janeDoe, id = 1),
+            MissionCrewEntity(role = secondCapitaine, agent = johnDoe, id = 2),
+            MissionCrewEntity(role = cuisinier, agent = alfredDeMusset, id = 3),
+            MissionCrewEntity(role = commandant, agent = guyDeMaupassant, id = 4),
         )
 
         `when`(agentCrewRepository.findByMissionId(missionId)).thenReturn(crewMembers)
 
 
-        val sortedCrew = getAgentsCrewByMissionId.execute(missionId, commentDefaultsToString = false)
+        val sortedCrew = getAgentsCrewByMissionId.execute(missionId)
 
         // Assert
         val expectedRoles = listOf("Commandant", "Second capitaine", "Chef mécanicien", "Cuisinier")
         Assertions.assertEquals(expectedRoles, sortedCrew.map { it.role?.title })
 
-        `when`(agentCrewRepository.findByMissionIdUUID(missionIdUUID)).thenReturn(crewMembers)
-        val sortedCrewUUID = getAgentsCrewByMissionId.execute(missionIdUUID, commentDefaultsToString = false)
+        `when`(agentCrewRepository.findByMissionId(missionId)).thenReturn(crewMembers)
+        val sortedCrewUUID = getAgentsCrewByMissionId.execute(missionId)
         Assertions.assertEquals(expectedRoles, sortedCrewUUID.map { it.role?.title })
 
     }
 
     @Test
     fun `execute should sort crew with agents before crew with only fullName`() {
-        val missionId = 1
+        val missionId = UUID.randomUUID()
 
         val agent = AgentEntity(
             firstName = "John",
@@ -151,7 +145,7 @@ class GetAgentsCrewByMissionIdTest {
 
         `when`(agentCrewRepository.findByMissionId(missionId)).thenReturn(crewMembers)
 
-        val sortedCrew = getAgentsCrewByMissionId.execute(missionId, commentDefaultsToString = false)
+        val sortedCrew = getAgentsCrewByMissionId.execute(missionId)
 
         // Crew with agents should come first, sorted by role priority
         Assertions.assertEquals(3, sortedCrew[0].id) // agent + Second capitaine

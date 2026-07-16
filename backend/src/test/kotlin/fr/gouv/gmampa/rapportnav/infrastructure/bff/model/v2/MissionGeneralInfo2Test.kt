@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
@@ -32,7 +33,6 @@ class MissionGeneralInfo2Test {
         val generalInfoEntity = MissionGeneralInfoEntity2(
             data = MissionGeneralInfoEntityMock.create(
                 id = 1,
-                missionId = 1,
                 service = ServiceEntityMock.create(id = 3),
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
@@ -63,7 +63,6 @@ class MissionGeneralInfo2Test {
         val generalInfoEntity = MissionGeneralInfoEntity2(
             data = MissionGeneralInfoEntityMock.create(
                 id = 1,
-                missionId = 1
             )
         )
         val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(generalInfoEntity)
@@ -74,7 +73,7 @@ class MissionGeneralInfo2Test {
 
     @Test
     fun `execute should retrieve mission general info entity`() {
-        val missionId = 1
+        val missionId = UUID.randomUUID()
         val generalInfoEntity =
             MissionGeneralInfoEntityMock.create(
                 id = 1,

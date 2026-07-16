@@ -43,12 +43,12 @@ const MissionListPamPage: FC = () => {
 
   const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
-  const [selectedMissionIds, setSelectedMissionIds] = useState<number[]>([])
+  const [selectedMissionIds, setSelectedMissionIds] = useState<string[]>([])
 
   const [dialogVariant, setDialogVariant] = useState<ExportReportType | undefined>(undefined)
   const [showExportDialog, setShowExportDialog] = useState<boolean>(false)
 
-  function filterBySelectedIndices(missions: Mission2[] = [], selectedIndices: number[] = []): Mission2[] {
+  function filterBySelectedIndices(missions: Mission2[] = [], selectedIndices: string[] = []): Mission2[] {
     return missions.filter((m: Mission2) => selectedIndices.indexOf(m.id) !== -1)
   }
 
@@ -67,7 +67,7 @@ const MissionListPamPage: FC = () => {
     setSelectedMissionIds(!isChecked ? [] : (missions ?? []).map((m: Mission2) => m.id))
   }
 
-  const toggleOne = (missionId: number, isChecked?: boolean) => {
+  const toggleOne = (missionId: string, isChecked?: boolean) => {
     setSelectedMissionIds(
       prevSelected =>
         isChecked

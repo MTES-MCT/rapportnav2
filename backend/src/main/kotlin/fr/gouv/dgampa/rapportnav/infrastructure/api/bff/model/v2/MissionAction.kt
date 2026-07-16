@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import java.util.UUID
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -25,8 +26,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 )
 abstract class MissionAction(
     open val id: String? = null,
-    open val missionId: Int,
-    open val ownerId: String? = null,
+    open val ownerId: UUID,
     open val actionType: ActionType,
     open val source: MissionSourceEnum,
     open var status: ActionStatusType? = null,

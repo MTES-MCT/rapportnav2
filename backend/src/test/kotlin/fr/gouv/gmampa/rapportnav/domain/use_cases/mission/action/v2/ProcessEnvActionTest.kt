@@ -46,7 +46,7 @@ class ProcessEnvActionTest {
 
     @Test
     fun `test execute get Env action by id`() {
-        val missionId = 761
+        val missionId = 123
         val actionId = UUID.randomUUID()
         val action = EnvActionControlMock.create(
             id = actionId,
@@ -66,7 +66,7 @@ class ProcessEnvActionTest {
             getMissionDates = getMissionDates,
             entityValidityValidator = realValidator
         )
-        val entity = processEnvAction.execute(missionId = missionId, envAction = action)
+        val entity = processEnvAction.execute(ownerId = UUID.randomUUID(), envAction = action)
         val infractionIds = entity.getAllInfractions().map { it.id }.toSet()
         val mockInfractionIds = mockTarget.controls?.flatMap { it.infractions!! }?.map { it.id }?.toSet()
         assertThat(entity).isNotNull

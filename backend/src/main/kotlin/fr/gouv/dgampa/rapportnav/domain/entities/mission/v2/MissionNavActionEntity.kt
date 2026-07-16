@@ -25,9 +25,7 @@ import java.util.*
 class MissionNavActionEntity(
     override var id: UUID,
 
-    override var missionId: Int,
-
-    override var ownerId: UUID? = null,
+    override var ownerId: UUID,
 
     override var actionType: ActionType,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
@@ -116,7 +114,6 @@ class MissionNavActionEntity(
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
-    missionId = missionId,
     isCompleteForStats = false,
     endDateTimeUtc = endDateTimeUtc,
     startDateTimeUtc = startDateTimeUtc,
@@ -142,7 +139,6 @@ class MissionNavActionEntity(
 
     fun toMissionActionModel() = MissionActionModel(
         id = id,
-        missionId = missionId,
         actionType = actionType,
         isCompleteForStats = isCompleteForStats,
         startDateTimeUtc = startDateTimeUtc ?: Instant.now(),
@@ -215,7 +211,6 @@ class MissionNavActionEntity(
         fun fromMissionActionModel(model: MissionActionModel): MissionNavActionEntity {
             return MissionNavActionEntity(
                 id = model.id,
-                missionId = model.missionId ?: 0,
                 actionType = model.actionType,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,

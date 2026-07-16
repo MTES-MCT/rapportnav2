@@ -17,7 +17,7 @@ import Text from '@common/components/ui/text.tsx'
 
 interface MissionGeneralInformationCrewNoCommentProps {
   name: string
-  missionId?: number
+  missionId?: string
   agents: Agent[]
   fieldArray: FieldArrayRenderProps
   isMissionFinished: boolean

@@ -1,4 +1,4 @@
-import { IconProps, isNumeric } from '@mtes-mct/monitor-ui'
+import { IconProps } from '@mtes-mct/monitor-ui'
 import { FunctionComponent } from 'react'
 import { TimelineAction } from '../../mission-timeline/types/mission-timeline-output'
 import { ActionType } from '../types/action-type'
@@ -66,8 +66,7 @@ export function useTimelineAction<T>(id: string, type: 'mission' | 'inquiry' = '
         startDateTimeUtc: getActionStartDate(missionDates), // use today if within mission range, otherwise mission end date
         isWithinDepartment: true
       },
-      ownerId: !isNumeric(id) ? id : undefined,
-      missionId: isNumeric(id) ? Number(id) : undefined
+      ownerId: id
     } as MissionNavAction
 
     return input

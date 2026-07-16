@@ -6,8 +6,7 @@ import java.util.*
 
 class InquiryEntity(
     val id: UUID? = null,
-    val missionId: Int? = null,
-    val missionIdUUID: UUID? = null,
+    val missionId: UUID? = null,
     val type: String? = null,
     val agentId: Int? = null,
     val serviceId: Int? = null,
@@ -28,7 +27,6 @@ class InquiryEntity(
                 id = model.id,
                 type = model.type,
                 missionId = model.missionId,
-                missionIdUUID = model.missionIdUUID,
                 serviceId = model.serviceId,
                 agentId = model.agentId?.toInt(),
                 endDateTimeUtc = model.endDateTimeUtc,
@@ -56,7 +54,6 @@ class InquiryEntity(
             startDateTimeUtc = startDateTimeUtc!!,
             conclusion = conclusion?.toString(),
             missionId = missionId,
-            missionIdUUID = missionIdUUID,
             isSignedByInspector = isSignedByInspector,
             establishment = establishment?.toEstablishmentModel()
         )

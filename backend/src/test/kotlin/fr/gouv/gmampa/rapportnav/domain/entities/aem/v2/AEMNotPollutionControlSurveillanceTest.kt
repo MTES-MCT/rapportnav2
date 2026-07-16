@@ -35,31 +35,31 @@ class AEMNotPollutionControlSurveillanceTest {
         val actions = listOf(
             null, // null action -> 0
             MissionEnvActionEntity( // CONTROL with null actionNumberOfControls -> 0
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 actionNumberOfControls = null
             ),
             MissionEnvActionEntity( // CONTROL with 5 controls -> 5
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 actionNumberOfControls = 5
             ),
             MissionEnvActionEntity( // CONTROL with 3 controls -> 3
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 actionNumberOfControls = 3
             ),
             MissionEnvActionEntity( // SURVEILLANCE -> counts as 1
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE
             ),
             MissionEnvActionEntity( // SURVEILLANCE -> counts as 1
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE
             )
         )
@@ -79,22 +79,22 @@ class AEMNotPollutionControlSurveillanceTest {
         val actions = listOf(
             null, // null action -> 0
             MissionEnvActionEntity( // null envInfractions and null targets -> 0
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 envInfractions = null,
                 targets = null
             ),
             MissionEnvActionEntity( // empty envInfractions and empty targets -> 0
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 envInfractions = emptyList(),
                 targets = emptyList()
             ),
             MissionEnvActionEntity( // 2 from envInfractions + 1 from targets = 3
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 envInfractions = listOf(
                     InfractionEnvEntity(id = "1", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT, natinf = listOf("natinf-1")), // counts
@@ -155,20 +155,20 @@ class AEMNotPollutionControlSurveillanceTest {
         val actions = listOf(
             null, // null action -> 0
             MissionEnvActionEntity( // null envInfractions -> 0
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 envInfractions = null
             ),
             MissionEnvActionEntity( // empty envInfractions -> 0
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 envInfractions = emptyList()
             ),
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 envInfractions = listOf(
                     InfractionEnvEntity(id = "1", formalNotice = FormalNoticeEnum.NO, infractionType = InfractionTypeEnum.WITH_REPORT), // counts
@@ -187,38 +187,38 @@ class AEMNotPollutionControlSurveillanceTest {
         val actions = listOf(
             null, // filtered out
             MissionEnvActionEntity( // filtered out - null themes
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = null
             ),
             MissionEnvActionEntity( // filtered out - pollution theme 19
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 19, name = "Illicit Rejects"))
             ),
             MissionEnvActionEntity( // filtered out - pollution theme 102
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 102, name = "Pollution"))
             ),
             MissionEnvActionEntity( // filtered out - mixed themes containing pollution
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 101, name = "Other"), ThemeEntity(id = 19, name = "Pollution"))
             ),
             MissionEnvActionEntity( // included - empty themes (intersect is empty)
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = emptyList()
             ),
             MissionEnvActionEntity( // included - non-pollution theme
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 101, name = "Other Theme"))
             )
@@ -231,8 +231,8 @@ class AEMNotPollutionControlSurveillanceTest {
         val actionId = UUID.randomUUID().toString()
         return listOf(
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 actionNumberOfControls = 4,
                 themes = listOf(ThemeEntity(id = 101, name = "Theme 101")),
@@ -292,16 +292,16 @@ class AEMNotPollutionControlSurveillanceTest {
                 )
             ),
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 themes = listOf(ThemeEntity(id = 19, name = "Theme 19")),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             ),
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 themes = listOf(ThemeEntity(id = 102, name = "Pollution")),
                 startDateTimeUtc = Instant.parse("2019-09-09T12:00:00.000+01:00"),

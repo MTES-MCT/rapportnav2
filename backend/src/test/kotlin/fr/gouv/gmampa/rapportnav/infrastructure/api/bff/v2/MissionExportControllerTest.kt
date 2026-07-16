@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import tools.jackson.databind.json.JsonMapper
+import java.util.UUID
 
 @WebMvcTest(MissionExportController::class)
 @ContextConfiguration(classes = [MissionExportController::class, JacksonConfig::class, ControllersExceptionHandler::class])
@@ -40,7 +41,7 @@ class MissionExportControllerTest {
 
     @Test
     fun `should return 200 and export entity for single AEM mission`() {
-        val missionIds = listOf(123)
+        val missionIds = listOf(UUID.randomUUID())
         val exportMode = ExportModeEnum.INDIVIDUAL_MISSION
         val reportType = ExportReportTypeEnum.AEM
 
@@ -68,7 +69,7 @@ class MissionExportControllerTest {
 
     @Test
     fun `should return 200 and export entity for single patrol mission`() {
-        val missionIds = listOf(456)
+        val missionIds = listOf(UUID.randomUUID())
         val exportMode = ExportModeEnum.INDIVIDUAL_MISSION
         val reportType = ExportReportTypeEnum.PATROL
 
@@ -95,7 +96,7 @@ class MissionExportControllerTest {
 
     @Test
     fun `should return 200 for combined export mode`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID())
         val exportMode = ExportModeEnum.COMBINED_MISSIONS_IN_ONE
         val reportType = ExportReportTypeEnum.AEM
 
@@ -122,7 +123,7 @@ class MissionExportControllerTest {
 
     @Test
     fun `should return 200 for zipped export mode`() {
-        val missionIds = listOf(1, 2)
+        val missionIds = listOf(UUID.randomUUID(), UUID.randomUUID())
         val exportMode = ExportModeEnum.MULTIPLE_MISSIONS_ZIPPED
         val reportType = ExportReportTypeEnum.PATROL
 
@@ -149,8 +150,11 @@ class MissionExportControllerTest {
 
     @Test
     fun `should deduplicate mission IDs`() {
-        val missionIds = listOf(1, 1, 2, 2, 3)
-        val expectedDistinctIds = listOf(1, 2, 3)
+        val id1 = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        val id3 = UUID.randomUUID()
+        val missionIds = listOf(id1, id1, id2, id2, id3)
+        val expectedDistinctIds = listOf(id1, id2, id3)
         val exportMode = ExportModeEnum.COMBINED_MISSIONS_IN_ONE
         val reportType = ExportReportTypeEnum.AEM
 
@@ -176,7 +180,7 @@ class MissionExportControllerTest {
 
    @Test
     fun `should return 500 when unexpected exception is thrown`() {
-        val missionIds = listOf(123)
+        val missionIds = listOf(UUID.randomUUID())
         val exportMode = ExportModeEnum.INDIVIDUAL_MISSION
         val reportType = ExportReportTypeEnum.AEM
 
@@ -219,7 +223,7 @@ class MissionExportControllerTest {
     fun `should return 400 when exportMode is wrong`() {
         val json = """
             {
-                "missionIds": [1],
+                "missionIds": ["11111111-1111-1111-1111-111111111111"],
                 "exportMode": "WRONG",
                 "reportType": "AEM"
             }
@@ -238,7 +242,7 @@ class MissionExportControllerTest {
     fun `should return 400 when reportType is wrong`() {
         val json = """
             {
-                "missionIds": [1],
+                "missionIds": ["11111111-1111-1111-1111-111111111111"],
                 "exportMode": "INDIVIDUAL_MISSION",
                 "reportType": "WRONG"
             }

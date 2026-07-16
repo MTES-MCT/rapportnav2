@@ -144,31 +144,29 @@ export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   isMissionArmed?: boolean
   isWithInterMinisterialService?: boolean
   isAllAgentsParticipating?: boolean
-  missionId?: number
+  missionId?: string
   startDateTimeUtc?: string
   endDateTimeUtc?: string
   observations?: string
   resources?: ControlUnitResource[]
   interMinisterialServices?: InterMinisterialService[]
-  missionIdUUID?: string
   isUnderJdp?: boolean
   jdpType?: JdpTypeEnum
   isResourcesNotUsed?: boolean
 }
 
 export type Mission2 = {
-  id: number
+  id: string
   data: MissionData
   isCompleteForStats: boolean
   status: MissionStatusEnum
   generalInfos: MissionGeneralInfo2
   completenessForStats?: CompletenessForStats
   actions: MissionAction[]
-  idUUID?: string
 }
 
 export type MissionListItem = {
-  id: number
+  id: string
   openBy?: string
   exportLabel?: string
   status?: MissionStatusEnum
@@ -186,7 +184,6 @@ export type MissionListItem = {
   controlUnits?: ControlUnit[]
   resources?: ControlUnitResource[]
   missionReportType?: MissionReportTypeEnum
-  idUUID?: string
   isUnderJdp?: boolean
   jdpType?: JdpTypeEnum
   isResourcesNotUsed?: boolean

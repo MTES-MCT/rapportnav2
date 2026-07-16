@@ -15,9 +15,9 @@ import java.util.*
 class JPAMissionActionRepository(
     private val dbMissionActionRepository: IDBMissionActionRepository,
 ) : INavMissionActionRepository {
-    override fun findByMissionId(missionId: Int): List<MissionActionModel> {
+    override fun findByMissionId(missionId: UUID): List<MissionActionModel> {
         return try {
-            dbMissionActionRepository.findAllByMissionId(missionId)
+            dbMissionActionRepository.findAllByOwnerId(missionId)
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to find MissionActions for missionId='$missionId'",

@@ -7,8 +7,7 @@ import java.util.UUID
 
 data class AdminGeneralInfosUpdateInput(
     val id: Int? = null,
-    val missionId: Int? = null,
-    val missionIdUUID: UUID? = null,
+    val missionId: UUID? = null,
     val serviceId: Int? = null,
     val distanceInNauticalMiles: Float? = null,
     val consumedGOInLiters: Float? = null,

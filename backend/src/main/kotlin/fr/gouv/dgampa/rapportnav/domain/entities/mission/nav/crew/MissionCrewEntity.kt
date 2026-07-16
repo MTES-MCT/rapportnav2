@@ -5,11 +5,10 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.Miss
 
 data class MissionCrewEntity(
     val id: Int? = null,
+    val missionId: UUID? = null,
     val agent: AgentEntity? = null,
     val comment: String? = null,
     val role: AgentRoleEntity? = null,
-    val missionId: Int? = null,
-    val missionIdUUID: UUID? = null,
     val fullName: String? = null,
     val absences: List<MissionCrewAbsenceEntity>? = null
 ){
@@ -21,7 +20,6 @@ data class MissionCrewEntity(
             agent = agent?.toAgentModel(),
             role = role?.toAgentRoleModel(),
             comment = if (comment == null && commentDefaultsToString == true) "" else comment,
-            missionIdUUID = missionIdUUID,
             fullName = fullName,
         )
         model.absences = absences?.map { it.toMissionCrewAbsenceModel(model) }?.toMutableList() ?: mutableListOf()
@@ -34,7 +32,6 @@ data class MissionCrewEntity(
                 id = crew.id,
                 missionId = crew.missionId,
                 comment = crew.comment,
-                missionIdUUID = crew.missionIdUUID,
                 agent = crew.agent?.let { AgentEntity.fromAgentModel(it) },
                 role = crew.role?.let { AgentRoleEntity.fromAgentRoleModel(it) },
                 absences = crew.absences.map { MissionCrewAbsenceEntity.fromMissionCrewAbsenceModel(it) }.sortedBy { it.id },

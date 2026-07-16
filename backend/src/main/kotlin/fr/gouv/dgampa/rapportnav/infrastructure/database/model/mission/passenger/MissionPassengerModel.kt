@@ -26,10 +26,7 @@ class MissionPassengerModel(
     var id: Int?,
 
     @Column(name = "mission_id", nullable = true)
-    var missionId: Int? = null,
-
-    @Column(name = "mission_id_uuid", nullable = true)
-    var missionIdUUID: UUID? = null,
+    var missionId: UUID? = null,
 
     @Column(name = "full_name")
     var fullName: String,

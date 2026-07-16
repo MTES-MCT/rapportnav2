@@ -30,7 +30,6 @@ export function useMissionList(): MissionListHook {
     return {
       id: mission.id,
       status: mission.status,
-      idUUID: mission.idUUID,
       openBy: mission.data.openBy,
       crew: mission.generalInfos.crew,
       crewNumber: getCrewNumber(mission),

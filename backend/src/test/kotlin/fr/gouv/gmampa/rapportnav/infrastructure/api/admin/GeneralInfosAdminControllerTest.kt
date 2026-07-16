@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.api.admin
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteGeneralInfos
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetAllGeneralInfos
@@ -45,7 +46,7 @@ class GeneralInfosAdminControllerTest {
 
     @Test
     fun `getAll should return paginated general infos`() {
-        val model = MissionGeneralInfoModel(id = 1, missionId = 100)
+        val model = MissionGeneralInfoModel(id = 1, )
         val page = PageImpl(listOf(model), PageRequest.of(0, 10), 1)
         `when`(getAllGeneralInfos.execute(0, 10, null)).thenReturn(page)
 
@@ -81,10 +82,11 @@ class GeneralInfosAdminControllerTest {
 
     @Test
     fun `update should return updated general info`() {
-        val entity = MissionGeneralInfoEntity(id = 1, missionId = 100, distanceInNauticalMiles = 42.5f)
+        val missionId = UUID.randomUUID()
+        val entity = MissionGeneralInfoEntity(id = 1, distanceInNauticalMiles = 42.5f)
         `when`(updateGeneralInfo.execute(any())).thenReturn(entity)
 
-        val body = mapOf("id" to 1, "missionId" to 100, "distanceInNauticalMiles" to 42.5)
+        val body = mapOf("id" to 1, "missionId" to missionId.toString(), "distanceInNauticalMiles" to 42.5)
 
         mockMvc.perform(
             put("/api/v2/admin/general-infos")
@@ -100,7 +102,7 @@ class GeneralInfosAdminControllerTest {
     fun `update should return null when not found`() {
         `when`(updateGeneralInfo.execute(any())).thenReturn(null)
 
-        val body = mapOf("id" to 999, "missionId" to 100)
+        val body = mapOf("id" to 999, "missionId" to UUID.randomUUID().toString())
 
         mockMvc.perform(
             put("/api/v2/admin/general-infos")

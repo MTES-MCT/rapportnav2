@@ -51,7 +51,7 @@ class GetGeneralInfo2Test {
 
     @Test
     fun `should return general info for missionId when exists`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
 
         whenever(getServiceByControlUnit.execute(anyOrNull())).thenReturn(emptyList())
@@ -67,7 +67,7 @@ class GetGeneralInfo2Test {
 
     @Test
     fun `should create general info for missionId when not exists`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val service = ServiceEntityMock.create(id = 10)
         val createdEntity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId, service = service)
 
@@ -78,7 +78,6 @@ class GetGeneralInfo2Test {
         whenever(getServiceById.execute(10)).thenReturn(service)
         whenever(createGeneralInfos.execute(
             missionId = eq(missionId),
-            missionIdUUID = anyOrNull(),
             generalInfo2 = any(),
             service = anyOrNull()
         )).thenReturn(fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2(data = createdEntity))
@@ -90,24 +89,23 @@ class GetGeneralInfo2Test {
     }
 
     @Test
-    fun `should return general info for missionIdUUID when exists`() {
-        val missionIdUUID = UUID.randomUUID()
-        val entity = MissionGeneralInfoEntityMock.create(id = 1, missionIdUUID = missionIdUUID)
+    fun `should return general info for missionIdUUID when entity has no missionId`() {
+        val missionId = UUID.randomUUID()
+        val entity = MissionGeneralInfoEntityMock.create(id = 1)
 
         whenever(getServiceByControlUnit.execute(anyOrNull())).thenReturn(emptyList())
-        whenever(getAgentsCrewByMissionId.execute(missionIdUUID = missionIdUUID)).thenReturn(emptyList())
-        whenever(getMissionPassengers.execute(missionIdUUID = missionIdUUID)).thenReturn(emptyList())
-        whenever(getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)).thenReturn(entity)
+        whenever(getAgentsCrewByMissionId.execute(missionId = missionId)).thenReturn(emptyList())
+        whenever(getMissionPassengers.execute(missionId = missionId)).thenReturn(emptyList())
+        whenever(getMissionGeneralInfoByMissionId.execute(missionId = missionId)).thenReturn(entity)
 
-        val result = getGeneralInfo2.execute(missionIdUUID = missionIdUUID)
+        val result = getGeneralInfo2.execute(missionId = missionId)
 
         assertThat(result).isNotNull
-        assertThat(result.data?.missionIdUUID).isEqualTo(missionIdUUID)
     }
 
     @Test
     fun `should include services from control units`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val entity = MissionGeneralInfoEntityMock.create(id = 1, missionId = missionId)
         val services = listOf(
             ServiceEntityMock.create(id = 10, name = "Service 1"),
@@ -130,7 +128,7 @@ class GetGeneralInfo2Test {
 
     @Test
     fun `should propagate BackendInternalException from dependencies`() {
-        val missionId = 123
+        val missionId = UUID.randomUUID()
         val internalException = BackendInternalException(
             message = "Dependency error",
             originalException = RuntimeException("Error")

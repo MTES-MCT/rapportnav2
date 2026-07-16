@@ -17,7 +17,7 @@ class MissionEnvActionDataTest {
     @Test
     fun `execute should retrieve output from mission action env Entity`() {
        val envAction = getEnvAction();
-        val entity =  MissionEnvActionEntity.fromEnvAction(761, envAction)
+        val entity =  MissionEnvActionEntity.fromEnvAction(ownerId = UUID.randomUUID(), action = envAction)
         val output = MissionEnvAction.fromMissionActionEntity(entity)
         val entity2 = MissionEnvActionData.toMissionEnvActionEntity(output)
         assertThat(output).isNotNull()

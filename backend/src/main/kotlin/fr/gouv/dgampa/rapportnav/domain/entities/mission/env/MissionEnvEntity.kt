@@ -10,8 +10,7 @@ import java.time.Instant
 import java.util.*
 
 data class MissionEnvEntity(
-    val id: Int? = null,
-    val idUUID: UUID? = null,
+    val externalId: Int? = null,
     val missionTypes: List<MissionTypeEnum>? = listOf(),
     var controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,
@@ -45,7 +44,6 @@ data class MissionEnvEntity(
     companion object {
         fun fromMissionNavEntity(entity: MissionNavEntity): MissionEnvEntity {
             return MissionEnvEntity(
-                idUUID = entity.id,
                 missionTypes = listOf(),
                 openBy = entity.openBy,
                 completedBy = entity.completedBy,

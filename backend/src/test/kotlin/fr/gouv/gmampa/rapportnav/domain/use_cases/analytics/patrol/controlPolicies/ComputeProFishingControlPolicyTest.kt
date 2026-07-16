@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
@@ -45,7 +46,7 @@ class ComputeProFishingControlPolicyTest {
 
     @Test
     fun `returns empty ControlPolicyData when no fish control actions`() {
-        val mission = MissionEntity(id = 123, actions = emptyList())
+        val mission = MissionEntity(id = UUID.randomUUID(), actions = emptyList())
 
         val result = useCase.computeFishingRelatedInfractions(mission)
 
@@ -60,7 +61,7 @@ class ComputeProFishingControlPolicyTest {
 
     @Test
     fun `returns empty ControlPolicyData when no fish control actions for other infractions`() {
-        val mission = MissionEntity(id = 123, actions = emptyList())
+        val mission = MissionEntity(id = UUID.randomUUID(), actions = emptyList())
 
         val result = useCase.computeOtherInfractions(mission)
 
@@ -96,7 +97,7 @@ class ComputeProFishingControlPolicyTest {
                 FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)
             ),
         )
-        val mission = MissionEntity(id = 123, actions = listOf(seaAction, landAction, airAction))
+        val mission = MissionEntity(id = UUID.randomUUID(), actions = listOf(seaAction, landAction, airAction))
 
 
         val result = useCase.computeFishingRelatedInfractions(mission)

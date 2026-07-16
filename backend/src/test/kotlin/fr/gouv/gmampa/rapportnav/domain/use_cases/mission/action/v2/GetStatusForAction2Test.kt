@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
+import java.util.*
 
 @SpringBootTest(classes = [GetStatusForAction::class])
 class GetStatusForAction2Test {
@@ -21,11 +22,16 @@ class GetStatusForAction2Test {
     @MockitoBean
     private lateinit var repository: IDBMissionActionRepository
 
+    private val missionId1 = UUID.randomUUID()
+    private val missionId2 = UUID.randomUUID()
+    private val missionId3 = UUID.randomUUID()
+    private val missionId4 = UUID.randomUUID()
+
     @Test
     fun `returns UNKNOWN when no actions`() {
-        whenever(repository.findAllByMissionId(10)).thenReturn(emptyList())
+        whenever(repository.findAllByOwnerId(missionId1)).thenReturn(emptyList())
 
-        val result = useCase.execute(10)
+        val result = useCase.execute(missionId1)
 
         assertEquals(ActionStatusType.UNKNOWN, result)
     }
@@ -35,9 +41,9 @@ class GetStatusForAction2Test {
     fun `returns UNKNOWN when no STATUS actions`() {
         val model = MissionActionModelMock.create()
 
-        whenever(repository.findAllByMissionId(10)).thenReturn(listOf(model))
+        whenever(repository.findAllByOwnerId(missionId1)).thenReturn(listOf(model))
 
-        val result = useCase.execute(10)
+        val result = useCase.execute(missionId1)
 
         assertEquals(ActionStatusType.UNKNOWN, result)
     }
@@ -46,10 +52,10 @@ class GetStatusForAction2Test {
     fun `returns UNKNOWN if no STATUS before reference time`() {
         val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED, startDateTimeUtc =  Instant.parse("2020-01-02T00:00:00Z"))
 
-        whenever(repository.findAllByMissionId(9)).thenReturn(listOf(t1))
+        whenever(repository.findAllByOwnerId(missionId2)).thenReturn(listOf(t1))
 
         val ref = Instant.parse("2020-01-01T00:00:00Z")
-        val result = useCase.execute(9, ref)
+        val result = useCase.execute(missionId2, ref)
 
         assertEquals(ActionStatusType.UNKNOWN, result)
     }
@@ -59,9 +65,9 @@ class GetStatusForAction2Test {
         val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED, startDateTimeUtc =  Instant.parse("2020-01-01T00:00:00Z"))
         val t2 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING, startDateTimeUtc = Instant.parse("2020-02-01T00:00:00Z"))
 
-        whenever(repository.findAllByMissionId(1)).thenReturn(listOf(t1, t2))
+        whenever(repository.findAllByOwnerId(missionId3)).thenReturn(listOf(t1, t2))
 
-        val result = useCase.execute(1, null)
+        val result = useCase.execute(missionId3, null)
 
         assertEquals(ActionStatusType.NAVIGATING, result)
     }
@@ -71,12 +77,12 @@ class GetStatusForAction2Test {
         val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED, startDateTimeUtc =  Instant.parse("2020-01-01T00:00:00Z"))
         val t2 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING, startDateTimeUtc =  Instant.parse("2020-01-02T00:00:00Z"))
 
-        whenever(repository.findAllByMissionId(5)).thenReturn(
+        whenever(repository.findAllByOwnerId(missionId4)).thenReturn(
             listOf(t1, t2)
         )
 
         val ref = Instant.parse("2020-01-04T00:00:00Z")
-        val result = useCase.execute(5, ref)
+        val result = useCase.execute(missionId4, ref)
 
         assertEquals(ActionStatusType.NAVIGATING, result)
     }

@@ -28,7 +28,7 @@ class AEMSovereignProtectTest {
         val navActions = listOf(
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+            ownerId = UUID.randomUUID(),
                 actionType = ActionType.STATUS,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 status = ActionStatusType.NAVIGATING
@@ -47,7 +47,7 @@ class AEMSovereignProtectTest {
         val navActions = listOf(
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+            ownerId = UUID.randomUUID(),
                 actionType = ActionType.CONTROL,
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 controlMethod = ControlMethod.SEA
@@ -63,15 +63,21 @@ class AEMSovereignProtectTest {
         val target = { id: String -> TargetEntity(id = UUID.randomUUID(), actionId = id, targetType = TargetType.VEHICLE) }
 
         fun navAction(targets: List<TargetEntity>? = null) = MissionNavActionEntity(
-            id = UUID.randomUUID(), missionId = 761, actionType = ActionType.CONTROL,
+            id = UUID.randomUUID(),
+            ownerId = UUID.randomUUID(),
+            actionType = ActionType.CONTROL,
             startDateTimeUtc = timestamp, controlMethod = ControlMethod.SEA, targets = targets
         )
         fun envAction(actionNumberOfControls: Int? = null) = MissionEnvActionEntity(
-            missionId = 761, id = UUID.randomUUID(), envActionType = ActionTypeEnum.CONTROL,
+            id = UUID.randomUUID(),
+            ownerId = UUID.randomUUID(),
+            envActionType = ActionTypeEnum.CONTROL,
             startDateTimeUtc = timestamp, vehicleType = VehicleTypeEnum.VESSEL, actionNumberOfControls = actionNumberOfControls
         )
         fun fishAction(targets: List<TargetEntity>? = null) = MissionFishActionEntity(
-            missionId = 761, id = 1, fishActionType = MissionActionType.SEA_CONTROL,
+            id = null,
+            ownerId = UUID.randomUUID(),
+            fishActionType = MissionActionType.SEA_CONTROL,
             actionDatetimeUtc = timestamp, targets = targets
         )
 
@@ -110,8 +116,8 @@ class AEMSovereignProtectTest {
     fun `Should count controlled vessels from fish targets`() {
         val fishActions = listOf(
             MissionFishActionEntity(
-                missionId = 761,
                 id = 1,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 targets = listOf(
@@ -120,8 +126,8 @@ class AEMSovereignProtectTest {
                 )
             ),
             MissionFishActionEntity(
-                missionId = 761,
                 id = 2,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.LAND_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 targets = listOf(
@@ -138,7 +144,7 @@ class AEMSovereignProtectTest {
         val navActions = listOf(
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.CONTROL,
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 controlMethod = ControlMethod.SEA,
@@ -150,7 +156,7 @@ class AEMSovereignProtectTest {
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.STATUS,
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 status = ActionStatusType.NAVIGATING
@@ -164,23 +170,23 @@ class AEMSovereignProtectTest {
     fun `Should count controlled vessels from env actions with VESSEL type, splitting CONTROL and SURVEILLANCE`() {
         val envActions = listOf(
             MissionEnvActionEntity( // VESSEL + CONTROL with actionNumberOfControls = 5 -> 5
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 vehicleType = VehicleTypeEnum.VESSEL,
                 actionNumberOfControls = 5
             ),
             MissionEnvActionEntity( // VESSEL + SURVEILLANCE -> counts as 1
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 vehicleType = VehicleTypeEnum.VESSEL
             ),
             MissionEnvActionEntity( // VEHICLE_LAND + CONTROL -> filtered out (not VESSEL)
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 vehicleType = VehicleTypeEnum.VEHICLE_LAND,
@@ -214,7 +220,7 @@ class AEMSovereignProtectTest {
         val actions = listOf(
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.CONTROL,
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
@@ -225,7 +231,7 @@ class AEMSovereignProtectTest {
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.STATUS,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -233,7 +239,7 @@ class AEMSovereignProtectTest {
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.STATUS,
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
@@ -246,8 +252,8 @@ class AEMSovereignProtectTest {
     private fun getEnvActions(): List<MissionEnvActionEntity> {
         val actions = listOf(
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 102, name = "Pollution")),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
@@ -256,8 +262,8 @@ class AEMSovereignProtectTest {
                 actionNumberOfControls = 1
             ),
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 102, name = "Pollution")),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
@@ -277,8 +283,8 @@ class AEMSovereignProtectTest {
     private fun getFishActions(): List<MissionFishActionEntity> {
         val actions = listOf(
             MissionFishActionEntity(
-                missionId = 761,
                 id = 234,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
@@ -287,8 +293,8 @@ class AEMSovereignProtectTest {
                 )
             ),
             MissionFishActionEntity(
-                missionId = 761,
                 id = 234,
+                ownerId = UUID.randomUUID(),
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),

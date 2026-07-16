@@ -6,13 +6,15 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionModelMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,9 +37,12 @@ class GetEnvActionByIdTest {
     @MockitoBean
     private lateinit var processEnvAction: ProcessEnvAction
 
+    @MockitoBean
+    private lateinit var missionNavRepository: IMissionNavRepository
+
     @Test
     fun `test execute get Env action by id`() {
-        val missionId = 761
+        val missionId = 123
         val actionId = UUID.randomUUID()
         val action = EnvActionControlMock.create(
             id = actionId,
@@ -55,19 +60,23 @@ class GetEnvActionByIdTest {
         )
         val response = MissionEnvActionEntity(
             id = actionId,
-            missionId = missionId,
+            ownerId = UUID.randomUUID(),
             envActionType = ActionTypeEnum.CONTROL,
             startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             themes = listOf(ThemeEntity(id = 104, name = "Theme 104", subThemes = listOf(ThemeEntity(id = 143, name = "SubTheme 143"))))
         )
 
-        `when`(processEnvAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        val missionUUID = UUID.randomUUID()
+        val missionModel = MissionModelMock.create(id = missionUUID)
+        `when`(missionNavRepository.findByExternalId(missionId.toString())).thenReturn(Optional.of(missionModel))
+        `when`(processEnvAction.execute(anyOrNull(), anyOrNull())).thenReturn(response)
         `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEnvEntity)
 
         getEnvActionById = GetEnvActionById(
             processEnvAction = processEnvAction,
-            getEnvMissionById2 = getEnvMissionById2
+            getEnvMissionById2 = getEnvMissionById2,
+            missionNavRepository = missionNavRepository
         )
         val missionEnvAction = getEnvActionById.execute(missionId = missionId, actionId = actionId.toString())
 

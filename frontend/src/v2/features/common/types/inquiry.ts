@@ -36,8 +36,7 @@ export interface Inquiry {
   status?: InquiryStatusType
   conclusion?: InquiryConclusionType
   isSignedByInspector?: boolean
-  missionId?: number
-  missionIdUUID?: string
+  missionId?: string
   actions?: MissionAction[]
   vessel?: Vessel
   establishment?: Establishment

@@ -13,7 +13,7 @@ import MissionTimelineItemPam from './mission-timeline-pam-item.tsx'
 import { useGlobalSyncStatus } from '../../../../common/hooks/use-global-sync-status.tsx'
 
 interface MissionTimelinePamBodyProps {
-  missionId: number
+  missionId: string
   isLoading: boolean
   isError: Error | null
   actions: MissionTimelineAction[]

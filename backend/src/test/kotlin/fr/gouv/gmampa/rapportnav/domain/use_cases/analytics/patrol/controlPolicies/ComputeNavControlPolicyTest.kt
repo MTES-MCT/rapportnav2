@@ -53,7 +53,7 @@ class ComputeNavControlPolicyTest {
 
     @Test
     fun `returns null ControlPolicyData when mission has no actions`() {
-        val mission = MissionEntity(id = 123, actions = emptyList())
+        val mission = MissionEntity(id = UUID.randomUUID(), actions = emptyList())
         val result = useCase.execute(mission, ControlType.NAVIGATION)
         assertEquals(result?.nbControls ?: 0, 0)
         assertEquals(result?.nbControlsSea ?: 0, 0)
@@ -106,7 +106,7 @@ class ComputeNavControlPolicyTest {
         )
 
         val mission = MissionEntity(
-            id = 123,
+            id = UUID.randomUUID(),
             actions = listOf(navAction1, navAction2)
         )
 
@@ -200,7 +200,7 @@ class ComputeNavControlPolicyTest {
         )
 
         val mission = MissionEntity(
-            id = 123,
+            id = UUID.randomUUID(),
             actions = listOf(validFishAction, invalidFishAction, unrelatedFishAction)
         )
 
@@ -227,13 +227,13 @@ class ComputeNavControlPolicyTest {
 
         val envAction = MissionEnvActionEntity(
             id = UUID.randomUUID(),
-            missionId = 123,
+            ownerId = UUID.randomUUID(),
             envActionType = ActionTypeEnum.CONTROL,
             targets = listOf(target)
         )
 
         val mission = MissionEntity(
-            id = 123,
+            id = UUID.randomUUID(),
             actions = listOf(envAction)
         )
 

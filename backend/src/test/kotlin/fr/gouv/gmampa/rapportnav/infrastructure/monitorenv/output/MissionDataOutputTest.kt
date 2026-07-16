@@ -37,7 +37,7 @@ class MissionDataOutputTest {
 
             val result = output.toMissionEnvEntity()
 
-            assertEquals(123, result.id)
+            assertEquals(123, result.externalId)
             assertEquals(listOf(MissionTypeEnum.SEA), result.missionTypes)
             assertEquals(startDateTime.toInstant(), result.startDateTimeUtc)
             assertEquals(endDateTime.toInstant(), result.endDateTimeUtc)
@@ -159,7 +159,7 @@ class MissionDataOutputTest {
 
             val result = output.toMissionEnvEntity()
 
-            assertEquals(123, result.id)
+            assertEquals(123, result.externalId)
             assertEquals(listOf(MissionTypeEnum.SEA), result.missionTypes)
             assertEquals(startDateTime.toInstant(), result.startDateTimeUtc)
             assertEquals(MissionSourceEnum.MONITORENV, result.missionSource)

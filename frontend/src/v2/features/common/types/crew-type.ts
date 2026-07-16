@@ -66,5 +66,5 @@ export type AddOrUpdateMissionCrewInput = {
   fullName?: string
   comment?: string
   role?: AgentRole
-  missionId: number
+  missionId?: string
 }

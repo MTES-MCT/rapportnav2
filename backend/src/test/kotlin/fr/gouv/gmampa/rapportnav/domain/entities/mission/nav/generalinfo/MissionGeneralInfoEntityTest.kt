@@ -17,46 +17,43 @@ class MissionGeneralInfoEntityTest {
 
     @Test
     fun `execute should retrieve mission general info entity`() {
-        val missionIdUUID = UUID.randomUUID()
+        val missionId = UUID.randomUUID()
         val generalInfoEntity = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(
             MissionGeneralInfoModel(
                 id = 1,
-                missionId = 1,
+                missionId = missionId,
                 service = ServiceEntityMock.create(id = 3).toServiceModel(),
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
                 distanceInNauticalMiles = 1.9f,
                 nbrOfRecognizedVessel = 9,
                 jdpType = JdpTypeEnum.DOCKED,
-                missionIdUUID = missionIdUUID
             )
         )
 
         assertThat(generalInfoEntity).isNotNull();
         assertThat(generalInfoEntity.id).isEqualTo(1);
-        assertThat(generalInfoEntity.missionId).isEqualTo(1);
+        assertThat(generalInfoEntity.missionId).isEqualTo(missionId);
         assertThat(generalInfoEntity.service?.id).isEqualTo(3);
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
         assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
         assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9);
         assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.DOCKED);
-        assertThat(generalInfoEntity.missionIdUUID).isEqualTo(missionIdUUID);
     }
 
     @Test
     fun `execute should retrieve mission general modal from entity`() {
-        val missionIdUUID = UUID.randomUUID()
+        val missionId = UUID.randomUUID()
         val generalInfoEntity = MissionGeneralInfoEntity(
             id = 1,
-            missionId = 1,
+            missionId = missionId,
             service = ServiceEntityMock.create(id = 3),
             consumedGOInLiters = 2.5f,
             consumedFuelInLiters = 2.7f,
             distanceInNauticalMiles = 1.9f,
             nbrOfRecognizedVessel = 9,
             jdpType = JdpTypeEnum.DOCKED,
-            missionIdUUID = missionIdUUID
         );
         val generalInfoModel = generalInfoEntity.toMissionGeneralInfoModel()
         assertThat(generalInfoModel).isNotNull();
@@ -68,6 +65,6 @@ class MissionGeneralInfoEntityTest {
         assertThat(generalInfoModel.distanceInNauticalMiles).isEqualTo(generalInfoEntity.distanceInNauticalMiles);
         assertThat(generalInfoModel.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.nbrOfRecognizedVessel);
         assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.DOCKED);
-        assertThat(generalInfoEntity.missionIdUUID).isEqualTo(missionIdUUID);
+        assertThat(generalInfoEntity.missionId).isEqualTo(missionId);
     }
 }

@@ -11,7 +11,7 @@ class GetNavMissions(
     private val repository: IMissionNavRepository
 ) {
 
-    fun execute(startDateTimeUtc: Instant, endDateTimeUtc: Instant? = null, serviceId: Int? = null): List<MissionNavEntity>? {
+    fun execute(startDateTimeUtc: Instant, endDateTimeUtc: Instant? = null, serviceId: Int? = null, navMissionsOnly: Boolean? = false): List<MissionNavEntity>? {
         val missionModelList = repository.findAll(
             startBeforeDateTime = startDateTimeUtc,
             endBeforeDateTime = endDateTimeUtc ?: Instant.now()
@@ -22,11 +22,14 @@ class GetNavMissions(
         )
             .filterNotNull()
             .let { missions ->
+                var result = missions
                 if (serviceId != null) {
-                    missions.filter { it.serviceId == serviceId }
-                } else {
-                    missions
+                    result = result.filter { it.serviceId == serviceId }
                 }
+                if (navMissionsOnly == true) {
+                    result = result.filter { it.externalId == null }
+                }
+                result
             }
         return missionModelList.map { MissionNavEntity.fromMissionModel(it) }
     }

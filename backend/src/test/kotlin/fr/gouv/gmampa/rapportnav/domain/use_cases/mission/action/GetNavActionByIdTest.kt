@@ -52,11 +52,11 @@ class GetNavActionByIdTest {
 
     @Test
     fun `test execute get nav action by id`() {
-        val missionId = 761
+        val missionId = UUID.randomUUID()
         val actionId = UUID.randomUUID()
         val action = MissionActionModel(
             id = actionId,
-            missionId = missionId,
+            ownerId = UUID.randomUUID(),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",
@@ -68,7 +68,7 @@ class GetNavActionByIdTest {
 
         val response = MissionNavActionEntity(
             id = actionId,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")

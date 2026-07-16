@@ -10,7 +10,7 @@ import java.util.*
 
 interface BaseMissionEnvAction {
     val id: UUID
-    val missionId: Int
+    val ownerId: UUID
     val envActionType: ActionTypeEnum
     val completedBy: String?
     val completion: ActionCompletionEnum?

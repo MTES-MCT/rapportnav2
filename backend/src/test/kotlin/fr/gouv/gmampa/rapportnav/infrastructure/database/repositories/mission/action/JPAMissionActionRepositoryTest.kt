@@ -32,19 +32,19 @@ class JPAMissionActionRepositoryTest {
     private val missionActions: List<MissionActionModel> = listOf(
         MissionActionModel(
             id = id1,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             actionType = ActionType.CONTROL,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
         MissionActionModel(
             id = UUID.randomUUID(),
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
         MissionActionModel(
             id = id2,
-            missionId = 761,
+            ownerId = UUID.randomUUID(),
             actionType = ActionType.SURVEILLANCE,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         )
@@ -52,9 +52,10 @@ class JPAMissionActionRepositoryTest {
 
     @Test
     fun `execute should retrieve action by mission id`() {
-        Mockito.`when`(dbServiceRepository.findAllByMissionId(761)).thenReturn(missionActions)
+        val missionId = UUID.randomUUID()
+        Mockito.`when`(dbServiceRepository.findAllByOwnerId(missionId)).thenReturn(missionActions)
         val jPAMissionActionRepository = JPAMissionActionRepository(dbServiceRepository)
-        val responses = jPAMissionActionRepository.findByMissionId(missionId = 761)
+        val responses = jPAMissionActionRepository.findByMissionId(missionId = missionId)
         assertThat(responses).isNotNull()
         assertThat(responses.size).isEqualTo(3)
         assertThat(responses.map { action -> action.id }).containsAll(listOf(id1, id2))
@@ -87,9 +88,10 @@ class JPAMissionActionRepositoryTest {
 
     @Test
     fun `findByMissionId should throw BackendInternalException on error`() {
-        Mockito.`when`(dbServiceRepository.findAllByMissionId(761)).thenThrow(RuntimeException("DB error"))
+        val missionId = UUID.randomUUID()
+        Mockito.`when`(dbServiceRepository.findAllByOwnerId(missionId)).thenThrow(RuntimeException("DB error"))
         val repo = JPAMissionActionRepository(dbServiceRepository)
-        val ex = assertThrows<BackendInternalException> { repo.findByMissionId(761) }
+        val ex = assertThrows<BackendInternalException> { repo.findByMissionId(missionId) }
         assertThat(ex.message).contains("Failed to find MissionActions")
     }
 

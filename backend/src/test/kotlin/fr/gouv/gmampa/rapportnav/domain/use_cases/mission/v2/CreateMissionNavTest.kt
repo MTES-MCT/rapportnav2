@@ -131,4 +131,72 @@ class CreateMissionNavTest {
         assertNotNull(result)
         assertEquals(null, result.endDateTimeUtc)
     }
+
+    @Test
+    fun `should create nav mission from MissionEntity with externalId`() {
+        val missionId = UUID.randomUUID()
+        val externalId = "21916"
+        val startDate = Instant.parse("2025-08-01T09:00:00Z")
+        val endDate = Instant.parse("2025-08-01T17:00:00Z")
+
+        val mission = fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity(
+            id = missionId,
+            externalId = externalId,
+            data = fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity(
+                externalId = 21916,
+                startDateTimeUtc = startDate,
+                endDateTimeUtc = endDate,
+                missionSource = fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum.MONITORENV,
+                isDeleted = false
+            )
+        )
+
+        val expectedModel = MissionNavEntity(
+            id = missionId,
+            externalId = externalId,
+            startDateTimeUtc = startDate,
+            endDateTimeUtc = endDate,
+            missionSource = fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum.MONITORENV,
+            isDeleted = false
+        ).toMissionModel()
+
+        Mockito.`when`(repository.save(anyOrNull())).thenReturn(expectedModel)
+
+        val result = createMissionNav.execute(mission = mission)
+
+        assertNotNull(result)
+        assertEquals(missionId, result.id)
+        assertEquals(externalId, result.externalId)
+        Mockito.verify(repository, times(1)).save(anyOrNull())
+    }
+
+    @Test
+    fun `should create nav mission from MissionEntity without externalId`() {
+        val missionId = UUID.randomUUID()
+        val startDate = Instant.parse("2025-08-01T09:00:00Z")
+
+        val mission = fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity(
+            id = missionId,
+            data = fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity(
+                startDateTimeUtc = startDate,
+                missionSource = fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum.RAPPORT_NAV,
+                isDeleted = false
+            )
+        )
+
+        val expectedModel = MissionNavEntity(
+            id = missionId,
+            startDateTimeUtc = startDate,
+            isDeleted = false
+        ).toMissionModel()
+
+        Mockito.`when`(repository.save(anyOrNull())).thenReturn(expectedModel)
+
+        val result = createMissionNav.execute(mission = mission)
+
+        assertNotNull(result)
+        assertEquals(missionId, result.id)
+        assertEquals(null, result.externalId)
+        Mockito.verify(repository, times(1)).save(anyOrNull())
+    }
 }

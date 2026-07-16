@@ -17,7 +17,7 @@ import java.util.UUID
 object MissionEnvActionEntityMock {
     fun create(
         id: UUID = UUID.randomUUID(),
-        missionId: Int = 1,
+        ownerId: UUID = UUID.randomUUID(),
         envActionType: ActionTypeEnum = ActionTypeEnum.CONTROL,
         completedBy: String? = null,
         completion: ActionCompletionEnum? = null,
@@ -46,7 +46,7 @@ object MissionEnvActionEntityMock {
     ): MissionEnvActionEntity {
         return MissionEnvActionEntity(
             id = id,
-            missionId = missionId,
+            ownerId = ownerId,
             envActionType = envActionType,
             completedBy = completedBy,
             completion = completion,

@@ -8,11 +8,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
+import java.util.UUID
 
 
 class MissionFishAction(
     override val id: String,
-    override val missionId: Int,
+    override val ownerId: UUID,
     override val actionType: ActionType,
     override val source: MissionSourceEnum,
     override val isCompleteForStats: Boolean? = null,
@@ -24,7 +25,7 @@ class MissionFishAction(
     override val data: MissionFishActionData
 ) : MissionAction(
     id = id,
-    missionId = missionId,
+    ownerId = ownerId,
     status = status,
     actionType = actionType,
     summaryTags = summaryTags,
@@ -37,9 +38,9 @@ class MissionFishAction(
             val fishAction = action as MissionFishActionEntity
             return MissionFishAction(
                 id = fishAction.id.toString(),
+                ownerId = fishAction.ownerId,
                 source = fishAction.source,
                 status = fishAction.status,
-                missionId = fishAction.missionId,
                 actionType = fishAction.actionType,
                 summaryTags = fishAction.summaryTags,
                 isCompleteForStats = fishAction.isCompleteForStats,

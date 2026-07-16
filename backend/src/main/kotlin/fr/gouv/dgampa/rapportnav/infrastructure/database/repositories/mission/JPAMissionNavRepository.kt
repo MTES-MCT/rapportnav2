@@ -33,7 +33,7 @@ class JPAMissionNavRepository(
         }
     }
 
-    override fun finById(id: UUID): Optional<MissionModel> {
+    override fun findById(id: UUID): Optional<MissionModel> {
         return try {
             dbRepository.findById(id)
         } catch (e: Exception) {
@@ -53,6 +53,17 @@ class JPAMissionNavRepository(
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to find MissionNav between dates",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findByExternalId(externalId: String): Optional<MissionModel> {
+        return try {
+            dbRepository.findByExternalId(externalId)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionNav with externalId='$externalId'",
                 originalException = e
             )
         }

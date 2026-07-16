@@ -10,8 +10,7 @@ import java.util.UUID
 
 object MissionGeneralInfo2Mock {
     fun create(
-        missionId: Int? = 0,
-        missionIdUUID: UUID? = null,
+        missionId: UUID? = UUID.randomUUID(),
         startDateTimeUtc: Instant = Instant.now(),
         endDateTimeUtc: Instant? = null,
         missionReportType: MissionReportTypeEnum = MissionReportTypeEnum.FIELD_REPORT,
@@ -21,14 +20,13 @@ object MissionGeneralInfo2Mock {
         service: Service? = null,
     ): MissionGeneralInfo2 {
         return MissionGeneralInfo2(
+            missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             missionReportType = missionReportType,
             missionTypes = missionTypes,
             reinforcementType = reinforcementType,
             nbHourAtSea = nbHourAtSea,
-            missionId = missionId,
-            missionIdUUID = missionIdUUID,
             service = service,
         )
     }

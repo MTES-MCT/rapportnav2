@@ -22,49 +22,26 @@ class GetMissionGeneralInfoByMissionIdTest {
 
     @Test
     fun `execute with missionId should return entity when found`() {
-        val model = MissionGeneralInfoModel(id = 1, missionId = 100, distanceInNauticalMiles = 50f)
-        `when`(infoRepo.findByMissionId(100)).thenReturn(Optional.of(model))
+        val uuid = UUID.randomUUID()
+        val model = MissionGeneralInfoModel(id = 1, missionId = uuid, distanceInNauticalMiles = 50f)
+        `when`(infoRepo.findByMissionId(uuid)).thenReturn(Optional.of(model))
 
         val useCase = GetMissionGeneralInfoByMissionId(infoRepo)
-        val result = useCase.execute(missionId = 100)
+        val result = useCase.execute(missionId = uuid)
 
         assertThat(result).isNotNull
-        assertThat(result?.missionId).isEqualTo(100)
+        assertThat(result?.missionId).isEqualTo(uuid)
         assertThat(result?.distanceInNauticalMiles).isEqualTo(50f)
-        verify(infoRepo).findByMissionId(100)
+        verify(infoRepo).findByMissionId(uuid)
     }
 
     @Test
     fun `execute with missionId should return null when not found`() {
-        `when`(infoRepo.findByMissionId(999)).thenReturn(Optional.empty())
-
-        val useCase = GetMissionGeneralInfoByMissionId(infoRepo)
-        val result = useCase.execute(missionId = 999)
-
-        assertThat(result).isNull()
-    }
-
-    @Test
-    fun `execute with missionIdUUID should return entity when found`() {
         val uuid = UUID.randomUUID()
-        val model = MissionGeneralInfoModel(id = 2, missionId = 200)
-        `when`(infoRepo.findByMissionIdUUID(uuid)).thenReturn(Optional.of(model))
+        `when`(infoRepo.findByMissionId(uuid)).thenReturn(Optional.empty())
 
         val useCase = GetMissionGeneralInfoByMissionId(infoRepo)
-        val result = useCase.execute(missionIdUUID = uuid)
-
-        assertThat(result).isNotNull
-        assertThat(result?.missionId).isEqualTo(200)
-        verify(infoRepo).findByMissionIdUUID(uuid)
-    }
-
-    @Test
-    fun `execute with missionIdUUID should return null when not found`() {
-        val uuid = UUID.randomUUID()
-        `when`(infoRepo.findByMissionIdUUID(uuid)).thenReturn(Optional.empty())
-
-        val useCase = GetMissionGeneralInfoByMissionId(infoRepo)
-        val result = useCase.execute(missionIdUUID = uuid)
+        val result = useCase.execute(missionId = uuid)
 
         assertThat(result).isNull()
     }

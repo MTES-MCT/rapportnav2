@@ -39,7 +39,7 @@ data class MissionEnvInput(
 
         fun fromMissionEntity(entity: MissionEnvEntity, controlUnitId: Int? = null): MissionEnvInput {
             return MissionEnvInput(
-                missionId = entity.id!!,
+                missionId = entity.externalId!!,
                 controlUnitId = controlUnitId,
                 isUnderJdp = entity.isUnderJdp,
                 missionTypes = entity.missionTypes,

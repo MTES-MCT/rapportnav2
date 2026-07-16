@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -30,5 +31,19 @@ class CreateMissionNav(
         val model = repository.save(entity.toMissionModel())
 
         return MissionNavEntity.fromMissionModel(model)
+    }
+
+    fun execute(mission: MissionEntity): MissionEntity {
+        val entity = MissionNavEntity(
+            id = mission.id,
+            externalId = mission.externalId,
+            startDateTimeUtc = mission.data?.startDateTimeUtc!!,
+            endDateTimeUtc = mission.data?.endDateTimeUtc,
+            missionSource = mission.data?.missionSource,
+            isDeleted = mission.data?.isDeleted ?: false
+        )
+        repository.save(entity.toMissionModel())
+
+        return mission
     }
 }

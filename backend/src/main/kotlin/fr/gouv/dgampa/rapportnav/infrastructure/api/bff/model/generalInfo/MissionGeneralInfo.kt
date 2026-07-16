@@ -3,10 +3,11 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Service
+import java.util.*
 
 data class MissionGeneralInfo(
     var id: Int?,
-    var missionId: Int,
+    var missionId: UUID?,
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,
@@ -35,7 +36,7 @@ data class MissionGeneralInfo(
         fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity?) = info?.let { missionGeneralInfoEntity ->
             MissionGeneralInfo(
                 id = missionGeneralInfoEntity.id,
-                missionId = missionGeneralInfoEntity.missionId ?: 0, // TODO TO CHECK AS SOON AS POSSIBLE (STEP3 REFACTO)
+                missionId = missionGeneralInfoEntity.missionId,
                 distanceInNauticalMiles = missionGeneralInfoEntity.distanceInNauticalMiles,
                 consumedGOInLiters = missionGeneralInfoEntity.consumedGOInLiters,
                 consumedFuelInLiters = missionGeneralInfoEntity.consumedFuelInLiters,

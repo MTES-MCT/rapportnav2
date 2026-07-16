@@ -86,7 +86,7 @@ class APIEnvMissionRepositoryTest {
             val envRepo = APIEnvMissionRepository(mapper = mapper, clientFactory = httpClientFactory, host = host)
             try {
                 envRepo.patchMission(
-                    missionId = 761,
+                    missionId = 123,
                     PatchMissionInput(
                         observationsByUnit = "MyObservations",
                         startDateTimeUtc = Instant.parse("2022-03-15T04:50:09Z"),
@@ -97,7 +97,7 @@ class APIEnvMissionRepositoryTest {
                 // toMissionEnvEntity() may fail in test context; we only verify the HTTP call
             }
             verify(httpClient).send(
-                argThat { request -> request.uri().equals(URI.create("$host/api/v2/missions/761")) },
+                argThat { request -> request.uri().equals(URI.create("$host/api/v2/missions/123")) },
                 Mockito.any<HttpResponse.BodyHandler<String>>()
             )
         }
@@ -310,7 +310,7 @@ class APIEnvMissionRepositoryTest {
             )
 
             assertEquals(1, result!!.size)
-            assertEquals(1, result[0].id)
+            assertEquals(1, result[0].externalId)
         }
 
     }
@@ -360,7 +360,7 @@ class APIEnvMissionRepositoryTest {
             val result = envRepo.findMissionById(missionId = 123)
 
             assertNotNull(result)
-            assertEquals(123, result?.id)
+            assertEquals(123, result?.externalId)
         }
 
         @Test
@@ -396,11 +396,11 @@ class APIEnvMissionRepositoryTest {
 
             val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
 
-            envRepo.findMissionById(missionId = 456)
+            envRepo.findMissionById(missionId = 123)
 
             verify(httpClient).send(
                 argThat { request ->
-                    request.uri() == URI.create("$host/api/v1/missions/456")
+                    request.uri() == URI.create("$host/api/v1/missions/123")
                 },
                 Mockito.any<HttpResponse.BodyHandler<String>>()
             )
@@ -428,7 +428,7 @@ class APIEnvMissionRepositoryTest {
 
             val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
 
-            val result = envRepo.findMissionById(missionId = 999)
+            val result = envRepo.findMissionById(missionId = 123)
 
             assertNull(result)
         }

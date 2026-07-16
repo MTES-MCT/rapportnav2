@@ -23,7 +23,7 @@ class GetMissionGeneralInfoByMissionIdTest {
 
     @Test
     fun `execute should generalInfo by missionId`() {
-        val missionId = 761
+        val missionId = UUID.randomUUID()
         val model = getMissionGeneralInfoModel(missionId = missionId)
         `when`(infoRepo.findByMissionId(missionId)).thenReturn(Optional.of(model))
         getMissionGeneralInfoByMissionId = GetMissionGeneralInfoByMissionId(infoRepo = infoRepo)
@@ -37,26 +37,24 @@ class GetMissionGeneralInfoByMissionIdTest {
 
     @Test
     fun `execute should return general info by uuid`() {
-        val missionIdUUID = UUID.randomUUID()
-        val model = getMissionGeneralInfoModel(missionIdUUID = missionIdUUID)
+        val missionId = UUID.randomUUID()
+        val model = getMissionGeneralInfoModel(missionId = missionId)
 
         // When
-        getMissionGeneralInfoByMissionId.execute(missionIdUUID)
+        getMissionGeneralInfoByMissionId.execute(missionId)
 
         // Then
-        verify(infoRepo, times(1)).findByMissionIdUUID(missionIdUUID)
+        verify(infoRepo, times(1)).findByMissionId(missionId)
     }
 
-    private fun getMissionGeneralInfoModel(missionId: Int? = null, missionIdUUID: UUID? = null): MissionGeneralInfoModel {
+    private fun getMissionGeneralInfoModel(missionId: UUID? = null): MissionGeneralInfoModel {
         val model = MissionGeneralInfoEntityMock.create(
             id = 1,
-            missionId = missionId,
             consumedGOInLiters = 2.5f,
             consumedFuelInLiters = 2.7f,
             distanceInNauticalMiles = 1.9f,
             nbrOfRecognizedVessel = 9,
             jdpType = JdpTypeEnum.DOCKED,
-            missionIdUUID = missionIdUUID
         ).toMissionGeneralInfoModel()
         return model
     }

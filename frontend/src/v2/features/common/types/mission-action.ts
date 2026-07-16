@@ -24,7 +24,6 @@ import { SectorEtablishmentType, SectorType } from './sector-types.ts'
 
 export interface MissionAction {
   id?: string
-  missionId?: string
   ownerId?: string
   actionType: ActionType
   source: MissionSourceEnum

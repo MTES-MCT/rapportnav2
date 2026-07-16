@@ -2,15 +2,13 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.passenger
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerOrganization
-import java.time.Instant
 import java.time.LocalDate
 import java.util.UUID
 
 object MissionPassengerEntityMock {
     fun create(
         id: Int? = null,
-        missionId: Int? = null,
-        missionIdUUID: UUID? = null,
+        missionId: UUID? = null,
         fullName: String = "Bob Random",
         organization: MissionPassengerOrganization? = null,
         isIntern: Boolean? = null,
@@ -20,7 +18,6 @@ object MissionPassengerEntityMock {
         return MissionPassengerEntity(
             id = id,
             missionId = missionId,
-            missionIdUUID = missionIdUUID,
             fullName = fullName,
             organization = organization,
             isIntern = isIntern,

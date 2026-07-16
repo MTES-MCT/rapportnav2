@@ -14,9 +14,9 @@ import { NetworkSyncStatus } from '../../types/network-types.ts'
 vi.mock('../../../../../query-client/axios.ts')
 const mockedAxios = vi.mocked(axios)
 
-const setupMissionQuery = async (queryClient: QueryClient, missionId: string, data: Mission2) => {
+const setupMissionQuery = async (queryClient: QueryClient, ownerId: string, data: Mission2) => {
   await queryClient.prefetchQuery({
-    queryKey: missionsKeys.byId(missionId),
+    queryKey: missionsKeys.byId(ownerId),
     queryFn: () => Promise.resolve(data),
     staleTime: Infinity
   })
@@ -30,17 +30,16 @@ const setupMissionActionQuery = async (queryClient: QueryClient, actionId: strin
 }
 
 describe('Hook useUpdateMissionAction', () => {
-  const missionId = 'mission-1'
+  const ownerId = 'mission-1'
   const actionId = 'action-1'
-  const action = { id: actionId }
+  const action = { id: actionId, ownerId }
   const mockAction: MissionAction = {
     id: actionId,
-    missionId: missionId,
-    ownerId: missionId,
+    ownerId: ownerId,
     data: { startDateTimeUtc: '2024-01-01T10:00:00Z' }
   }
   const mockMission: Mission2 = {
-    id: missionId,
+    id: ownerId,
     actions: [
       { id: actionId, data: { startDateTimeUtc: '2024-01-01T09:30:00Z' } } as any as MissionAction,
       { id: 'action-2', data: { startDateTimeUtc: '2024-01-01T09:00:00Z' } } as any as MissionAction
@@ -89,7 +88,7 @@ describe('Hook useUpdateMissionAction', () => {
 
       const { result } = renderHook(() => useUpdateMissionAction(), { wrapper })
 
-      result.current.mutate({ ownerId: missionId, action })
+      result.current.mutate({ ownerId: ownerId, action })
 
       await waitFor(() => {
         expect(mockedAxios.put).toHaveBeenCalledWith('owners/mission-1/actions/action-1', action)
@@ -101,7 +100,7 @@ describe('Hook useUpdateMissionAction', () => {
 
       const { result } = renderHook(() => useUpdateMissionAction(), { wrapper })
 
-      result.current.mutate({ ownerId: missionId, action })
+      result.current.mutate({ ownerId: ownerId, action })
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBe(true)
@@ -115,7 +114,7 @@ describe('Hook useUpdateMissionAction', () => {
 
       const { result } = renderHook(() => useUpdateMissionAction(), { wrapper })
 
-      result.current.mutate({ ownerId: missionId, action })
+      result.current.mutate({ ownerId: ownerId, action })
 
       await waitFor(() => {
         expect(result.current.isError).toBe(true)
@@ -127,7 +126,7 @@ describe('Hook useUpdateMissionAction', () => {
   describe('offline mutation defaults', () => {
     beforeEach(async () => {
       queryClient.setMutationDefaults(actionsKeys.update(), offlineUpdateActionDefaults)
-      await setupMissionQuery(queryClient, missionId, mockMission)
+      await setupMissionQuery(queryClient, ownerId, mockMission)
       await setupMissionActionQuery(queryClient, actionId, mockAction)
     })
 
@@ -135,17 +134,17 @@ describe('Hook useUpdateMissionAction', () => {
       it('should create optimistic action when online', async () => {
         mockedAxios.put.mockImplementation(() => new Promise(() => {})) // Never resolves
 
-        const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
+        const { result } = renderHook(() => useUpdateMissionAction(ownerId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ ownerId: missionId, action: mockAction })
+          result.current.mutate({ ownerId: ownerId, action: mockAction })
           await new Promise(resolve => setTimeout(resolve, 0))
         })
 
         await waitFor(() => {
           const updatedAction = queryClient.getQueryData<MissionAction>(actionsKeys.byId(actionId))
           expect(updatedAction?.data?.startDateTimeUtc).toBe(mockAction.data.startDateTimeUtc)
-          const updatedMission = queryClient.getQueryData<Mission2>(missionsKeys.byId(missionId))
+          const updatedMission = queryClient.getQueryData<Mission2>(missionsKeys.byId(ownerId))
           const updatedActionInMission = updatedMission?.actions.find(a => a.id === actionId)
           expect(updatedActionInMission?.data?.startDateTimeUtc).toBe(mockAction.data.startDateTimeUtc)
           expect(updatedActionInMission?.networkSyncStatus).toBe(NetworkSyncStatus.SYNC)
@@ -156,17 +155,17 @@ describe('Hook useUpdateMissionAction', () => {
         const isOnlineSpy = vi.spyOn(onlineManager, 'isOnline').mockReturnValue(false)
         mockedAxios.put.mockImplementation(() => new Promise(() => {})) // Never resolves
 
-        const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
+        const { result } = renderHook(() => useUpdateMissionAction(ownerId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ ownerId: missionId, action: mockAction })
+          result.current.mutate({ ownerId: ownerId, action: mockAction })
           await new Promise(resolve => setTimeout(resolve, 0))
         })
 
         await waitFor(() => {
           const updatedAction = queryClient.getQueryData<MissionAction>(actionsKeys.byId(actionId))
           expect(updatedAction?.data?.startDateTimeUtc).toBe(mockAction.data.startDateTimeUtc)
-          const updatedMission = queryClient.getQueryData<Mission2>(missionsKeys.byId(missionId))
+          const updatedMission = queryClient.getQueryData<Mission2>(missionsKeys.byId(ownerId))
           const updatedActionInMission = updatedMission?.actions.find(a => a.id === actionId)
           expect(updatedActionInMission?.data?.startDateTimeUtc).toBe(mockAction.data.startDateTimeUtc)
           expect(updatedActionInMission?.networkSyncStatus).toBe(NetworkSyncStatus.UNSYNC)
@@ -178,9 +177,9 @@ describe('Hook useUpdateMissionAction', () => {
       it('should set individual action query data', async () => {
         mockedAxios.put.mockImplementation(() => new Promise(() => {}))
 
-        const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
+        const { result } = renderHook(() => useUpdateMissionAction(ownerId, actionId), { wrapper })
 
-        result.current.mutate({ ownerId: missionId, action: mockAction })
+        result.current.mutate({ ownerId: ownerId, action: mockAction })
 
         await waitFor(() => {
           const actionData = queryClient.getQueryData(actionsKeys.byId(actionId))
@@ -190,7 +189,7 @@ describe('Hook useUpdateMissionAction', () => {
       })
 
       it('should cancel pending create mutations with same action id', async () => {
-        await setupMissionQuery(queryClient, missionId, mockMission)
+        await setupMissionQuery(queryClient, ownerId, mockMission)
 
         // Create a mock pending create mutation
         const mutationCache = queryClient.getMutationCache()
@@ -208,10 +207,10 @@ describe('Hook useUpdateMissionAction', () => {
 
         mockedAxios.put.mockImplementation(() => new Promise(() => {}))
 
-        const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
+        const { result } = renderHook(() => useUpdateMissionAction(ownerId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ ownerId: missionId, action: mockAction })
+          result.current.mutate({ ownerId: ownerId, action: mockAction })
           await new Promise(resolve => setTimeout(resolve, 0))
         })
 
@@ -243,10 +242,10 @@ describe('Hook useUpdateMissionAction', () => {
       it('should invalidate action and mission queries on success', async () => {
         mockedAxios.put.mockResolvedValue({ data: mockAction })
 
-        const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
+        const { result } = renderHook(() => useUpdateMissionAction(ownerId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ ownerId: missionId, action: mockAction })
+          result.current.mutate({ ownerId: ownerId, action: mockAction })
         })
 
         await waitFor(() => {
@@ -259,7 +258,7 @@ describe('Hook useUpdateMissionAction', () => {
             queryKey: actionsKeys.byId(actionId)
           })
           expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-            queryKey: missionsKeys.byId(missionId),
+            queryKey: missionsKeys.byId(ownerId),
             type: 'all'
           })
         })

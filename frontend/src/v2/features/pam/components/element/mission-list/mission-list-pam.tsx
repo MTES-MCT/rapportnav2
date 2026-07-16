@@ -9,8 +9,8 @@ import MissionListItemPam from './mission-list-item-pam.tsx'
 
 interface MissionListPamProps {
   missions?: MissionListItem[]
-  selectedMissionIds: number[]
-  toggleOne: (missionId: number, isChecked?: boolean) => void
+  selectedMissionIds: string[]
+  toggleOne: (missionId: string, isChecked?: boolean) => void
 }
 
 const groupMissionsByMonth = (missions: MissionListItem[]) => {

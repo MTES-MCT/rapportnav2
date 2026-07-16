@@ -23,6 +23,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -79,17 +80,16 @@ class ComputeAEMDataTest {
     @Test
     fun `Should return the correct result`() {
         val missionId = 123
-        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+        `when`(getComputeEnvMission.execute(externalId = missionId)).thenReturn(
             MissionEntityMock.create(
-                id = missionId,
                 startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
                 endDateTimeUtc = Instant.parse("2022-01-02T13:00:00Z"),
             )
         )
-        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
+        `when`(exportMissionAEMSingle.getAemData(any(), anyOrNull())).thenReturn(mockTableExport)
 
-        val actual = computeAEMData.execute(missionId = missionId)
-        assertThat(actual?.id).isEqualTo(missionId)
+        val actual = computeAEMData.execute(envMissionId = missionId)
+        assertThat(actual?.externalId).isEqualTo(123)
         assertThat(actual?.startDateTimeUtc).isEqualTo(Instant.parse("2022-01-02T12:00:00Z"))
         assertThat(actual?.endDateTimeUtc).isEqualTo(Instant.parse("2022-01-02T13:00:00Z"))
         assertThat(actual?.facade).isEqualTo(null)
@@ -116,9 +116,9 @@ class ComputeAEMDataTest {
     @Test
     fun `Should return null when no AEM data found`() {
         `when`(getComputeEnvMission.execute(999)).thenReturn(
-            MissionEntityMock.create(id = 999)
+            MissionEntityMock.create()
         )
-        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(null)
+        `when`(exportMissionAEMSingle.getAemData(any(), anyOrNull())).thenReturn(null)
 
         val result = computeAEMData.execute(999)
         assertThat(result).isNull()
@@ -126,11 +126,11 @@ class ComputeAEMDataTest {
 
     @Test
     fun `Should handle null metrics and fill zeros`() {
-        val missionId = 1
-        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
-            MissionEntityMock.create(id = missionId)
+        val missionId = 124
+        `when`(getComputeEnvMission.execute(externalId = missionId)).thenReturn(
+            MissionEntityMock.create()
         )
-        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(
+        `when`(exportMissionAEMSingle.getAemData(any(), anyOrNull())).thenReturn(
             AEMTableExport(
                 outOfMigrationRescue = null,
                 migrationRescue = null,
@@ -153,20 +153,17 @@ class ComputeAEMDataTest {
 
     @Test
     fun `Should include general info fields when present`() {
-        val missionId = 123
+        val missionId = 125
         val generalInfo = MissionGeneralInfoEntityMock.create(
-            missionId = missionId,
-            missionIdUUID = UUID.fromString("135689d8-3163-426c-aa26-e20eb9eb5f2e"),
             service = ServiceEntityMock.create(id = 42)
         )
 
-        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+        `when`(getComputeEnvMission.execute(externalId = missionId)).thenReturn(
             MissionEntityMock.create(
-                id = missionId,
                 generalInfos = MissionGeneralInfoEntity2(data = generalInfo)
             )
         )
-        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(
+        `when`(exportMissionAEMSingle.getAemData(any(), anyOrNull())).thenReturn(
             AEMTableExport(
                 outOfMigrationRescue = null,
                 migrationRescue = null,
@@ -184,22 +181,21 @@ class ComputeAEMDataTest {
 
         val result = computeAEMData.execute(missionId)
 
-        assertThat(result?.idUUID).isEqualTo(UUID.fromString("135689d8-3163-426c-aa26-e20eb9eb5f2e"))
+        assertThat(result?.externalId).isEqualTo(125)
         assertThat(result?.serviceId).isEqualTo(42)
     }
 
     @Test
     fun `Should return isMissionFinished false when endDateTimeUtc is in the future`() {
-        val missionId = 123
+        val missionId = 126
         val futureDate = Instant.now().plusSeconds(86400) // tomorrow
 
-        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+        `when`(getComputeEnvMission.execute(externalId = missionId)).thenReturn(
             MissionEntityMock.create(
-                id = missionId,
                 endDateTimeUtc = futureDate,
             )
         )
-        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
+        `when`(exportMissionAEMSingle.getAemData(any(), anyOrNull())).thenReturn(mockTableExport)
 
         val result = computeAEMData.execute(missionId)
 
@@ -208,16 +204,15 @@ class ComputeAEMDataTest {
 
     @Test
     fun `Should return isMissionFinished true when endDateTimeUtc is in the past`() {
-        val missionId = 123
+        val missionId = 127
         val pastDate = Instant.parse("2022-01-02T13:00:00Z")
 
-        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
+        `when`(getComputeEnvMission.execute(externalId = missionId)).thenReturn(
             MissionEntityMock.create(
-                id = missionId,
                 endDateTimeUtc = pastDate,
             )
         )
-        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
+        `when`(exportMissionAEMSingle.getAemData(any(), anyOrNull())).thenReturn(mockTableExport)
 
         val result = computeAEMData.execute(missionId)
 
@@ -226,12 +221,12 @@ class ComputeAEMDataTest {
 
     @Test
     fun `Should return completenessForStats from mission`() {
-        val missionId = 123
+        val missionId = 128
 
-        `when`(getComputeEnvMission.execute(missionId)).thenReturn(
-            MissionEntityMock.create(id = missionId)
+        `when`(getComputeEnvMission.execute(externalId = missionId)).thenReturn(
+            MissionEntityMock.create()
         )
-        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
+        `when`(exportMissionAEMSingle.getAemData(any(), anyOrNull())).thenReturn(mockTableExport)
 
         val result = computeAEMData.execute(missionId)
 

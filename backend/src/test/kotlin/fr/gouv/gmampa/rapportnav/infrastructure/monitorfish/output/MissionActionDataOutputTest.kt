@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorfish.output
 
+import java.util.*
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.MissionActionDataOutput
@@ -21,7 +22,7 @@ class MissionActionDataOutputTest {
 
             val output = MissionActionDataOutput(
                 id = 123,
-                missionId = 456,
+                missionId = 123,
                 flagState = CountryCode.FR,
                 actionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = actionDatetime,
@@ -36,7 +37,7 @@ class MissionActionDataOutputTest {
             val result = output.toMissionAction()
 
             assertEquals(123, result.id)
-            assertEquals(456, result.missionId)
+            assertEquals(123, result.missionId)
             assertEquals(CountryCode.FR, result.flagState)
             assertEquals(MissionActionType.SEA_CONTROL, result.actionType)
             assertEquals(actionDatetime.toInstant(), result.actionDatetimeUtc)
@@ -54,7 +55,7 @@ class MissionActionDataOutputTest {
 
             val output = MissionActionDataOutput(
                 id = 1,
-                missionId = 100,
+                missionId = 123,
                 flagState = CountryCode.FR,
                 actionType = MissionActionType.LAND_CONTROL,
                 actionDatetimeUtc = actionDatetime,
@@ -77,7 +78,7 @@ class MissionActionDataOutputTest {
         fun `should handle null optional fields`() {
             val output = MissionActionDataOutput(
                 id = null,
-                missionId = 100,
+                missionId = 123,
                 vesselId = null,
                 vesselName = null,
                 internalReferenceNumber = null,
@@ -112,7 +113,7 @@ class MissionActionDataOutputTest {
         fun `should map vessel identification fields`() {
             val output = MissionActionDataOutput(
                 id = 1,
-                missionId = 100,
+                missionId = 123,
                 vesselId = 789,
                 vesselName = "Le Pecheur",
                 internalReferenceNumber = "FRA000123456",
@@ -144,7 +145,7 @@ class MissionActionDataOutputTest {
         fun `should map control check fields`() {
             val output = MissionActionDataOutput(
                 id = 1,
-                missionId = 100,
+                missionId = 123,
                 flagState = CountryCode.FR,
                 actionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = ZonedDateTime.now(),
@@ -176,7 +177,7 @@ class MissionActionDataOutputTest {
         fun `should map location fields`() {
             val output = MissionActionDataOutput(
                 id = 1,
-                missionId = 100,
+                missionId = 123,
                 flagState = CountryCode.FR,
                 actionType = MissionActionType.LAND_CONTROL,
                 actionDatetimeUtc = ZonedDateTime.now(),
@@ -206,7 +207,7 @@ class MissionActionDataOutputTest {
         fun `should map boolean control flags`() {
             val output = MissionActionDataOutput(
                 id = 1,
-                missionId = 100,
+                missionId = 123,
                 flagState = CountryCode.FR,
                 actionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = ZonedDateTime.now(),
@@ -244,7 +245,7 @@ class MissionActionDataOutputTest {
         fun `should map comment fields`() {
             val output = MissionActionDataOutput(
                 id = 1,
-                missionId = 100,
+                missionId = 123,
                 flagState = CountryCode.FR,
                 actionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = ZonedDateTime.now(),
@@ -276,7 +277,7 @@ class MissionActionDataOutputTest {
         fun `should map list fields with default empty lists`() {
             val output = MissionActionDataOutput(
                 id = 1,
-                missionId = 100,
+                missionId = 123,
                 flagState = CountryCode.FR,
                 actionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = ZonedDateTime.now(),
@@ -302,7 +303,7 @@ class MissionActionDataOutputTest {
         fun `should map fao areas list`() {
             val output = MissionActionDataOutput(
                 id = 1,
-                missionId = 100,
+                missionId = 123,
                 flagState = CountryCode.FR,
                 actionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = ZonedDateTime.now(),
@@ -335,7 +336,7 @@ class MissionActionDataOutputTest {
             actionTypes.forEach { actionType ->
                 val output = MissionActionDataOutput(
                     id = 1,
-                    missionId = 100,
+                    missionId = 123,
                     flagState = CountryCode.FR,
                     actionType = actionType,
                     actionDatetimeUtc = ZonedDateTime.now(),

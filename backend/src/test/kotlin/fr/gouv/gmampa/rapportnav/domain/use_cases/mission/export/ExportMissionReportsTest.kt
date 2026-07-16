@@ -13,6 +13,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionRe
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.*
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionExternalId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -23,6 +24,7 @@ import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
+import java.util.UUID
 
 @SpringBootTest(classes = [ExportMissionReports::class])
 class ExportMissionReportsTest {
@@ -48,8 +50,14 @@ class ExportMissionReportsTest {
     @MockitoBean
     private lateinit var exportMissionAEMMultipleZipped: ExportMissionAEMMultipleZipped
 
+    @MockitoBean
+    private lateinit var getMissionExternalId: GetMissionExternalId
+
     @BeforeEach
     fun setUp() {
+        // Every local mission id (UUID) resolves to a MonitorEnv externalId
+        Mockito.`when`(getMissionExternalId.execute(any())).thenReturn(1)
+
         Mockito.`when`(exportMissionPatrolSingle.execute(Mockito.anyInt())).thenReturn(
             MissionExportEntity(
                 fileName = "exportMissionPatrolSingle.odt",
@@ -109,7 +117,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export Patrol single mission`() {
-        val missionIds = listOf(1)
+        val missionIds = listOf(UUID.randomUUID())
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.INDIVIDUAL_MISSION,
@@ -122,7 +130,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export AEM single mission`() {
-        val missionIds = listOf(1)
+        val missionIds = listOf(UUID.randomUUID())
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.INDIVIDUAL_MISSION,
@@ -135,7 +143,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export Patrol combined missions`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID())
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.COMBINED_MISSIONS_IN_ONE,
@@ -148,7 +156,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export AEM combined missions`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID())
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.COMBINED_MISSIONS_IN_ONE,
@@ -161,7 +169,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export Patrol multiple missions zipped`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID())
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.MULTIPLE_MISSIONS_ZIPPED,
@@ -174,7 +182,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export AEM multiple missions zipped`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID())
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.MULTIPLE_MISSIONS_ZIPPED,
@@ -192,7 +200,7 @@ class ExportMissionReportsTest {
     fun `should throw BackendInternalException for ALL report type`() {
         val exception = assertThrows(BackendInternalException::class.java) {
             exportMissionReports.execute(
-                listOf(1),
+                listOf(UUID.randomUUID()),
                 ExportModeEnum.INDIVIDUAL_MISSION,
                 ExportReportTypeEnum.ALL
             )

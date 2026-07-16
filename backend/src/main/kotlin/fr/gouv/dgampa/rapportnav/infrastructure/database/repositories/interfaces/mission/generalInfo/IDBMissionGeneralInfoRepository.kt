@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface IDBMissionGeneralInfoRepository : JpaRepository<MissionGeneralInfoModel, UUID> {
-    fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel>
-
-    fun findByMissionIdUUID(missionIdUUID: UUID): Optional<MissionGeneralInfoModel>
+    fun findByMissionId(missionId: UUID): Optional<MissionGeneralInfoModel>
 
     fun findById(id: Int): Optional<MissionGeneralInfoModel>
 
@@ -18,17 +16,13 @@ interface IDBMissionGeneralInfoRepository : JpaRepository<MissionGeneralInfoMode
 
     fun save(info: MissionGeneralInfoEntity): MissionGeneralInfoModel
 
-    fun findAllByMissionId(missionId: Int): List<MissionGeneralInfoModel>
-
-    fun findAllByMissionIdUUID(missionIdUUID: UUID): List<MissionGeneralInfoModel>
+    fun findAllByMissionId(missionId: UUID): List<MissionGeneralInfoModel>
 
     override fun findAll(): List<MissionGeneralInfoModel>
 
     fun findAllByOrderByMissionIdDesc(pageable: Pageable): Page<MissionGeneralInfoModel>
 
-    fun findByMissionIdOrderByMissionIdDesc(missionId: Int, pageable: Pageable): Page<MissionGeneralInfoModel>
-
-    fun findByMissionIdUUIDOrderByMissionIdDesc(missionIdUUID: UUID, pageable: Pageable): Page<MissionGeneralInfoModel>
+    fun findByMissionIdOrderByMissionIdDesc(missionId: UUID, pageable: Pageable): Page<MissionGeneralInfoModel>
 
     fun deleteById(id: Int)
 }

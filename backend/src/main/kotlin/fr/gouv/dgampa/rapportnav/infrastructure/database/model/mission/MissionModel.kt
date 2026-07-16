@@ -18,14 +18,17 @@ data class MissionModel(
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID,
 
-    @Column(name = "service_id", nullable = false)
-    var serviceId: Int,
+    @Column(name = "service_id", nullable = true)
+    var serviceId: Int? = null,
 
     @Column(name = "open_by", nullable = true)
     var openBy: String? = null,
 
     @Column(name = "completed_by", nullable = true)
     var completedBy: String? = null,
+
+    @Column(name = "external_id", nullable = true)
+    var externalId: String? = null,
 
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: Instant,

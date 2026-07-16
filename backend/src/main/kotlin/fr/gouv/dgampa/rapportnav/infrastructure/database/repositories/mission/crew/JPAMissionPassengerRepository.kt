@@ -16,12 +16,8 @@ import java.util.*
 class JPAMissionPassengerRepository(
     private val repo: IDBMissionPassengerRepository,
 ) : IMissionPassengerRepository {
-    override fun findByMissionId(missionId: Int): List<MissionPassengerModel> {
+    override fun findByMissionId(missionId: UUID): List<MissionPassengerModel> {
         return repo.findByMissionId(missionId)
-    }
-
-    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionPassengerModel> {
-        return repo.findByMissionIdUUID(missionIdUUID)
     }
 
     @Transactional

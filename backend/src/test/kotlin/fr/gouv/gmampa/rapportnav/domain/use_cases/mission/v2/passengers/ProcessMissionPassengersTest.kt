@@ -34,9 +34,9 @@ class ProcessMissionPassengersTest {
     lateinit var processMissionPassengers: ProcessMissionPassengers
 
     @Test
-    fun `test execute process crew`() {
-        val missionId = 761
-        val (missionCrews, dbMissionCrews) = getMissionPassengers(missionId = missionId)
+    fun `test execute process passengers`() {
+        val missionId = UUID.randomUUID()
+        val (missionCrews, dbMissionCrews) = getMissionPassengers()
 
         //Mock
         `when`(getMissionPassengers.execute(missionId)).thenReturn(dbMissionCrews)
@@ -51,43 +51,18 @@ class ProcessMissionPassengersTest {
             )
         )
 
-        val crews = processMissionPassengers.execute(761, missionCrews)
+        val crews = processMissionPassengers.execute(missionId, missionCrews)
 
         //Then
         assertThat(crews).isNotNull
         assertThat(crews.size).isEqualTo(3)
     }
 
-    @Test
-    fun `test execute process crew uuid`() {
-        val missionIdUUID = UUID.randomUUID()
-        val (missionCrews, dbMissionCrews) = getMissionPassengers(missionIdUUID = missionIdUUID)
-
-        //Mock
-        `when`(getMissionPassengers.execute(missionIdUUID)).thenReturn(dbMissionCrews)
-        `when`(updateMissionPassenger.execute(anyOrNull())).thenReturn(dbMissionCrews.get(0))
-
-        //When
-        processMissionPassengers = Mockito.spy(
-            ProcessMissionPassengers(
-                deleteMissionPassenger = deleteMissionPassenger,
-                updateMissionPassenger = updateMissionPassenger,
-                getMissionPassengers = getMissionPassengers
-            )
-        )
-
-        val crews = processMissionPassengers.execute(missionIdUUID, missionCrews)
-
-        //Then
-        assertThat(crews).isNotNull
-        assertThat(crews.size).isEqualTo(3)
-    }
-
-    private fun getMissionPassengers(missionId: Int? = null, missionIdUUID: UUID? = null): Pair<List<MissionPassengerEntity>, List<MissionPassengerEntity>> {
-        val passenger1 = MissionPassengerEntityMock.create(id = 1, missionId = missionId, missionIdUUID = missionIdUUID)
-        val passenger2 = MissionPassengerEntityMock.create(id = 2, missionId = missionId, missionIdUUID = missionIdUUID)
-        val passenger3 = MissionPassengerEntityMock.create(id = 3, missionId = missionId, missionIdUUID = missionIdUUID)
-        val passenger4 = MissionPassengerEntityMock.create(id = 4, missionId = missionId, missionIdUUID = missionIdUUID)
+    private fun getMissionPassengers(): Pair<List<MissionPassengerEntity>, List<MissionPassengerEntity>> {
+        val passenger1 = MissionPassengerEntityMock.create(id = 1, )
+        val passenger2 = MissionPassengerEntityMock.create(id = 2, )
+        val passenger3 = MissionPassengerEntityMock.create(id = 3, )
+        val passenger4 = MissionPassengerEntityMock.create(id = 4, )
 
         val passengers = listOf(passenger1, passenger2)
         val dbPassengers = listOf(passenger1, passenger3, passenger4)

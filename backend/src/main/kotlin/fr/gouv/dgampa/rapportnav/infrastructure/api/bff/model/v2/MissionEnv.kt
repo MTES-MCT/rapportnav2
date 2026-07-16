@@ -29,7 +29,7 @@ data class MissionEnv(
     companion object {
         fun fromMissionEnvEntity(mission: MissionEnvEntity): MissionEnv {
             return MissionEnv(
-                id = mission.id,
+                id = mission.externalId,
                 missionSource = mission.missionSource ?: MissionSourceEnum.RAPPORT_NAV,
                 startDateTimeUtc = mission.startDateTimeUtc,
                 endDateTimeUtc = mission.endDateTimeUtc,
@@ -43,7 +43,7 @@ data class MissionEnv(
 
         fun fromMissionEntity(mission: MissionEnvEntity): MissionEnv {
             return MissionEnv(
-                id = mission.id,
+                id = mission.externalId,
                 missionTypes = mission.missionTypes ?: listOf(),
                 controlUnits = mission.controlUnits,
                 openBy = mission.openBy,

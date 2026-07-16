@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
@@ -24,7 +25,7 @@ class GetEnvMissionById2Test {
 
     @Test
     fun `execute should return extended mission from inputEnvMission`() {
-        val missionId = 761
+        val missionId = 123
         // Given
         val missionEnvEntity = MissionEnvEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),

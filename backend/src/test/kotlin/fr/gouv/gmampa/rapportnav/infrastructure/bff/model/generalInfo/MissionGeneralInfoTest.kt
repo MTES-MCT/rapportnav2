@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.generalInfo
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.MissionGeneralInfo
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
@@ -13,10 +14,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 class MissionGeneralInfoTest {
     @Test
     fun `execute should retrieve mission general info entity`() {
+        val missionId = UUID.randomUUID()
         val generalInfoEntity =
             MissionGeneralInfoEntityMock.create(
                 id = 1,
-                missionId = 1,
+                missionId = missionId,
                 service = ServiceEntityMock.create(id = 3),
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
@@ -26,7 +28,7 @@ class MissionGeneralInfoTest {
 
         assertThat(generalInfoEntity).isNotNull();
         assertThat(generalInfoEntity.id).isEqualTo(1);
-        assertThat(generalInfoEntity.missionId).isEqualTo(1);
+        assertThat(generalInfoEntity.missionId).isEqualTo(missionId);
         assertThat(generalInfoEntity.service?.id).isEqualTo(3);
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
@@ -38,7 +40,6 @@ class MissionGeneralInfoTest {
     fun `execute should retrieve mission general from entity`() {
         val generalInfoEntity = MissionGeneralInfoEntityMock.create(
             id = 1,
-            missionId = 1,
             service = ServiceEntityMock.create(id = 3),
             consumedGOInLiters = 2.5f,
             consumedFuelInLiters = 2.7f,

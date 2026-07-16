@@ -5,7 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.DeleteNavAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteNavMission
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
@@ -49,7 +50,7 @@ class DeleteNavMissionTest {
     @Test
     fun `should throw exception when mission not found`() {
         val id = UUID.randomUUID()
-        `when`(missionRepo.finById(id = id)).thenReturn(Optional.empty())
+        `when`(missionRepo.findById(id = id)).thenReturn(Optional.empty())
 
         val exception = assertThrows<BackendUsageException> {
             deleteNavMission.execute(id = id, serviceId = 1)
@@ -69,7 +70,7 @@ class DeleteNavMissionTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
+        `when`(missionRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
 
         val exception = assertThrows<BackendUsageException> {
             deleteNavMission.execute(id = ownerId, serviceId = 4)
@@ -92,7 +93,7 @@ class DeleteNavMissionTest {
             missionSource = missionSource
         )
 
-        `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
+        `when`(missionRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
 
         val exception = assertThrows<BackendUsageException> {
             deleteNavMission.execute(id = ownerId, serviceId = serviceId)
@@ -115,7 +116,7 @@ class DeleteNavMissionTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
+        `when`(missionRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
         `when`(getNavActionListByOwnerId.execute(ownerId = ownerId)).thenReturn(listOf(action))
 
         deleteNavMission.execute(id = ownerId, serviceId = serviceId)
@@ -135,7 +136,7 @@ class DeleteNavMissionTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-        `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
+        `when`(missionRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
         `when`(getNavActionListByOwnerId.execute(ownerId = ownerId)).thenReturn(emptyList())
 
         deleteNavMission.execute(id = ownerId, serviceId = serviceId)

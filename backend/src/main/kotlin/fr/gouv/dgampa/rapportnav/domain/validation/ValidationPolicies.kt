@@ -75,7 +75,7 @@ object ValidationPolicies {
     private val navActionRules: List<Rule<MissionNavActionEntity>> = listOf(
         // Always required
         Rule.always("id", "L'identifiant est requis") { it.id },
-        Rule.always("missionId", "L'identifiant de mission est requis") { it.missionId },
+        Rule.always("ownerId", "L'identifiant du propriétaire est requis") { it.ownerId },
         Rule.always("actionType", "Le type d'action est requis") { it.actionType },
         Rule.always("startDateTimeUtc", MSG_START_DATE_REQUIRED) { it.startDateTimeUtc },
 

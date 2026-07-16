@@ -6,9 +6,7 @@ import org.springframework.data.domain.Page
 import java.util.*
 
 interface IMissionGeneralInfoRepository {
-    fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel>
-
-    fun findByMissionIdUUID(missionIdUUID: UUID): Optional<MissionGeneralInfoModel>
+    fun findByMissionId(missionId: UUID): Optional<MissionGeneralInfoModel>
 
     fun findById(id: Int): Optional<MissionGeneralInfoModel>
 
@@ -16,18 +14,13 @@ interface IMissionGeneralInfoRepository {
 
     fun findAllPaginated(page: Int, size: Int): Page<MissionGeneralInfoModel>
 
-    fun findByMissionIdPaginated(missionId: Int, page: Int, size: Int): Page<MissionGeneralInfoModel>
-
-    fun findByMissionIdUUIDPaginated(missionIdUUID: UUID, page: Int, size: Int): Page<MissionGeneralInfoModel>
+    fun findByMissionIdPaginated(missionId: UUID, page: Int, size: Int): Page<MissionGeneralInfoModel>
 
     fun existsById(id: Int): Boolean
 
     fun save(info: MissionGeneralInfoEntity): MissionGeneralInfoModel
 
-    fun findAllByMissionId(missionId: Int): List<MissionGeneralInfoModel>
-
-    fun findAllByMissionIdUUID(missionIdUUID: UUID): List<MissionGeneralInfoModel>
+    fun findAllByMissionId(missionId: UUID): List<MissionGeneralInfoModel>
 
     fun deleteById(id: Int)
-
 }

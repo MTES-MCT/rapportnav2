@@ -99,8 +99,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
   }
 
   const goToMission = (mission: MissionListItem) => {
-    const id = mission?.id ?? mission.idUUID
-    if (id) navigate(`${getUrl(OwnerType.MISSION)}/${mission?.id ?? mission.idUUID}`)
+    if (mission?.id) navigate(`${getUrl(OwnerType.MISSION)}/${mission.id}`)
   }
 
   return (

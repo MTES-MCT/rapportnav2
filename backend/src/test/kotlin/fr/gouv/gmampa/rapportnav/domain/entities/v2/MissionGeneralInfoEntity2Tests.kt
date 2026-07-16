@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.v2
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.InterMinisterialServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
@@ -126,7 +127,6 @@ class MissionGeneralInfoEntity2Tests {
         private fun createCompleteDataPam(): MissionGeneralInfoEntity {
             return MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 1,
                 consumedFuelInLiters = 100f,
                 consumedGOInLiters = 50f,
                 distanceInNauticalMiles = 200f,
@@ -240,7 +240,6 @@ class MissionGeneralInfoEntity2Tests {
     private fun createCompleteDataUlam(): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
             id = 1,
-            missionId = 1,
             service = ServiceEntityMock.create(serviceType = ServiceTypeEnum.ULAM),
         )
     }

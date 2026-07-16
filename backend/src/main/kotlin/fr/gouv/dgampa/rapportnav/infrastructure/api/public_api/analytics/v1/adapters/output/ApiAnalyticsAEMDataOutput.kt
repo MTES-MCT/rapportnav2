@@ -14,8 +14,8 @@ data class AEMMetricOutput(
 )
 
 data class ApiAnalyticsAEMDataOutput(
-    val id: Int? = null,
-    val idUUID: UUID? = null,
+    val id: UUID? = null,
+    val externalId: Int? = null,
     val serviceId: Int? = null,
     val missionTypes: List<MissionTypeEnum>? = listOf(),
     val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
@@ -28,4 +28,7 @@ data class ApiAnalyticsAEMDataOutput(
     val isMissionFinished: Boolean? = null,
     val data: List<AEMMetricOutput> = listOf(),
 
-)
+) {
+    // Backward-compat alias for [externalId]; kept so existing API consumers still receive missionId.
+    val missionId: Int? get() = externalId
+}

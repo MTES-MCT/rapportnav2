@@ -30,17 +30,15 @@ class UpdateGeneralInfo(
     private val entityValidityValidator: EntityValidityValidator
 ) {
     fun execute(
-        missionId: Int,
+        missionId: UUID,
         generalInfo: MissionGeneralInfo2,
         controlUnitId: Int? = null
     ): MissionGeneralInfoEntity2 {
-        val fromDb = getMissionGeneralInfoByMissionId.execute(missionId = missionId)
-        if (fromDb == null || generalInfo.missionId != missionId) {
-            throw BackendUsageException(
-                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
-                message = "UpdateGeneralInfo: general info not found or missionId mismatch for missionId=$missionId"
-            )
-        }
+
+        val fromDb = getMissionGeneralInfoByMissionId.execute(missionId = missionId) ?: throw BackendUsageException(
+            code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+            message = "UpdateGeneralInfo: general info not found for missionId=$missionId"
+        )
 
         // Validate before save
         val entity = generalInfo.toMissionGeneralInfoEntity(missionId = missionId)
@@ -63,57 +61,8 @@ class UpdateGeneralInfo(
             }
         )
 
-        patchMissionEnv.execute(
-            input = MissionEnvInput(
-                missionId = missionId,
-                controlUnitId = controlUnitId,
-                isUnderJdp = generalInfo.isUnderJdp,
-                startDateTimeUtc = generalInfo.startDateTimeUtc,
-                endDateTimeUtc = generalInfo.endDateTimeUtc,
-                missionTypes = generalInfo.missionTypes,
-                observationsByUnit = generalInfo.observations,
-                resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() }
-            )
-        )
-        return getGeneralInfoEntity(
-            crew = crew,
-            passengers = passengers,
-            generalInfoModel = model
-        )
-    }
-
-    fun execute(missionIdUUID: UUID, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
-        val fromDb = getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
-        if (fromDb == null || fromDb.missionIdUUID != missionIdUUID) {
-            throw BackendUsageException(
-                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
-                message = "UpdateGeneralInfo: general info not found or missionIdUUID mismatch for missionIdUUID=$missionIdUUID"
-            )
-        }
-
-        // Validate before save
-        val entity = generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)
-        entityValidityValidator.validateAndThrow(entity, ValidateThrowsBeforeSave::class.java)
-
-        val model = repository.save(entity)
-        val crew = processMissionCrew.execute(
-            missionId = missionIdUUID,
-            items = getMissionCrew.execute(
-                generalInfo = generalInfo,
-                missionIdUUID = missionIdUUID,
-                newServiceId = generalInfo.service?.id,
-                oldServiceId = fromDb.service?.id,
-            )
-        )
-        val passengers = processMissionPassengers.execute(
-            missionId = missionIdUUID,
-            items = generalInfo.passengers.orEmpty().map {
-                it.toMissionPassengerEntity(missionIdUUID = missionIdUUID)
-            }
-        )
-
-        patchNavMission.execute(
-            id = missionIdUUID,
+        val navMission = patchNavMission.execute(
+            id = missionId,
             input = MissionNavInputEntity(
                 isDeleted = generalInfo.isDeleted ?: false,
                 observationsByUnit = generalInfo.observations,
@@ -122,22 +71,29 @@ class UpdateGeneralInfo(
             )
         )
 
-        return getGeneralInfoEntity(
-            crew = crew,
-            passengers = passengers,
-            generalInfoModel = model
-        )
-    }
+        val externalId = navMission?.externalId?.toIntOrNull()
+        if (externalId != null) {
+            patchMissionEnv.execute(
+                input = MissionEnvInput(
+                    missionId = externalId,
+                    controlUnitId = controlUnitId,
+                    isUnderJdp = generalInfo.isUnderJdp,
+                    startDateTimeUtc = generalInfo.startDateTimeUtc,
+                    endDateTimeUtc = generalInfo.endDateTimeUtc,
+                    missionTypes = generalInfo.missionTypes,
+                    observationsByUnit = generalInfo.observations,
+                    resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() }
+                )
+            )
+        }
 
-    private fun getGeneralInfoEntity(
-        crew: List<MissionCrewEntity>,
-        passengers: List<MissionPassengerEntity>,
-        generalInfoModel: MissionGeneralInfoModel
-    ): MissionGeneralInfoEntity2 {
         return MissionGeneralInfoEntity2(
             crew = crew,
             passengers = passengers,
-            data = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(generalInfoModel)
+            data = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(model = model)
         )
+
     }
+
+
 }

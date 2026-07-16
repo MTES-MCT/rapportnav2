@@ -23,8 +23,8 @@ class AEMTableExportTest {
         val nbrOfRecognizedVessel = 9;
         val envActions = listOf(
             MissionEnvActionEntity(
-                missionId = 761,
                 id = UUID.randomUUID(),
+                ownerId = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 themes = listOf(ThemeEntity(id = 101, name = "Theme 101")),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
@@ -34,15 +34,15 @@ class AEMTableExportTest {
         val navActions = listOf(
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                ownerId = UUID.randomUUID(),
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             )
         )
         val fishActions = listOf(MissionFishActionEntity(
-            missionId = 761,
             id = 234,
+            ownerId = UUID.randomUUID(),
             fishActionType = MissionActionType.SEA_CONTROL,
             actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),

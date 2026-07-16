@@ -13,21 +13,16 @@ class UpdateGeneralInfoAdmin(
 
 ) {
     fun execute(generalInfo: AdminGeneralInfosUpdateInput): MissionGeneralInfoEntity? {
-        val current: MissionGeneralInfoEntity? = if (generalInfo.missionId != null) {
-            MissionGeneralInfoEntity.fromMissionGeneralInfoModel(repository.findByMissionId(generalInfo.missionId).get())
-        }
-        else if (generalInfo.missionIdUUID != null) {
-            MissionGeneralInfoEntity.fromMissionGeneralInfoModel(repository.findByMissionIdUUID(generalInfo.missionIdUUID).get())
-        }
-        else null
+        val missionId = generalInfo.missionId ?: return null
+        val current: MissionGeneralInfoEntity? =
+            MissionGeneralInfoEntity.fromMissionGeneralInfoModel(repository.findByMissionId(missionId).get())
 
         if (current == null) return null
 
         val service = getServiceById.execute(id = generalInfo.serviceId)
 
         val merged = current.copy(
-            missionId = generalInfo.missionId ?: current.missionId,
-            missionIdUUID = generalInfo.missionIdUUID ?: current.missionIdUUID,
+            missionId = missionId,
             service = service ?: current.service,
             distanceInNauticalMiles = generalInfo.distanceInNauticalMiles ?: current.distanceInNauticalMiles,
             consumedGOInLiters = generalInfo.consumedGOInLiters ?: current.consumedGOInLiters,

@@ -11,6 +11,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.util.*
 
 @ExtendWith(SpringExtension::class)
 class MissionActionTest {
@@ -18,7 +19,7 @@ class MissionActionTest {
     @Test
     fun `execute should retrieve output from mission action fish from fishEntity`() {
         val fishAction = FishActionControlMock.create()
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        val entity = MissionFishActionEntity.fromFishAction(ownerId = UUID.randomUUID(), action = fishAction)
         val output = MissionAction.fromMissionActionEntity(entity)
         assertThat(output).isInstanceOf(MissionFishAction::class.java)
     }
@@ -26,7 +27,7 @@ class MissionActionTest {
     @Test
     fun `execute should retrieve output from mission action env from envEntity`() {
         val envAction = EnvActionControlMock.create();
-        val entity =  MissionEnvActionEntity.fromEnvAction(761, envAction)
+        val entity =  MissionEnvActionEntity.fromEnvAction(ownerId = UUID.randomUUID(), action = envAction)
         val output = MissionAction.fromMissionActionEntity(entity)
         assertThat(output).isInstanceOf(MissionEnvAction::class.java)
     }

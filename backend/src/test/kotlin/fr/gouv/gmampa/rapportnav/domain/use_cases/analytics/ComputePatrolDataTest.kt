@@ -60,26 +60,25 @@ class ComputePatrolDataTest {
 
     @Test
     fun `Should return correct mission id`() {
-        val missionId = 999
-        val missionMock = MissionEntityMock.create(id = missionId)
+        val missionId = 100
+        val missionMock = MissionEntityMock.create()
         `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
 
         val result = computePatrolData.execute(missionId)
-        assertThat(result?.id).isEqualTo(missionId)
+        assertThat(result?.externalId).isEqualTo(missionId)
     }
 
     @Test
     fun `Should return the correct fields from envMission`() {
-        val missionId = 123
+        val missionId = 100
         val missionMock = MissionEntityMock.create(
-            id = missionId,
             startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
             endDateTimeUtc = Instant.parse("2022-01-02T13:00:00Z"),
         )
         `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
 
-        val actual = computePatrolData.execute(missionId = 123)
-        assertThat(actual?.id).isEqualTo(123)
+        val actual = computePatrolData.execute(envMissionId = missionId)
+        assertThat(actual?.externalId).isEqualTo(missionId)
         assertThat(actual?.startDateTimeUtc).isEqualTo(Instant.parse("2022-01-02T12:00:00Z"))
         assertThat(actual?.endDateTimeUtc).isEqualTo(Instant.parse("2022-01-02T13:00:00Z"))
         assertThat(actual?.facade).isEqualTo(null)
@@ -94,7 +93,7 @@ class ComputePatrolDataTest {
 
     @Test
     fun `Should return the activity fields `() {
-        val missionId = 123
+        val missionId = 100
         val actions = listOf<MissionActionEntity>(
             MissionNavActionEntityMock.create(
                 actionType = ActionType.STATUS,
@@ -150,7 +149,6 @@ class ComputePatrolDataTest {
             ),
         )
         val missionMock = MissionEntityMock.create(
-            id = missionId,
             startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
             endDateTimeUtc = Instant.parse("2022-01-03T13:00:00Z"),
             actions = actions
@@ -188,49 +186,47 @@ class ComputePatrolDataTest {
         `when`(mapStatusDurations.execute(anyList<MissionNavActionEntity>(), anyList<MissionActionEntity>(), any(), any()))
             .thenReturn(expected)
 
-        val actual = computePatrolData.execute(missionId = 123)
+        val actual = computePatrolData.execute(envMissionId = missionId)
         assertThat(actual?.activity).isEqualTo(expected)
     }
 
     @Test
     fun `Should return isMissionFinished false when endDateTimeUtc is in the future`() {
-        val missionId = 123
+        val missionId = 100
         val futureDate = Instant.now().plusSeconds(86400) // tomorrow
         val missionMock = MissionEntityMock.create(
-            id = missionId,
             startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
             endDateTimeUtc = futureDate,
         )
         `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
 
-        val actual = computePatrolData.execute(missionId = missionId)
+        val actual = computePatrolData.execute(envMissionId = missionId)
 
         assertThat(actual?.isMissionFinished).isFalse()
     }
 
     @Test
     fun `Should return isMissionFinished true when endDateTimeUtc is in the past`() {
-        val missionId = 123
+        val missionId = 100
         val pastDate = Instant.parse("2022-01-02T13:00:00Z")
         val missionMock = MissionEntityMock.create(
-            id = missionId,
             startDateTimeUtc = Instant.parse("2022-01-02T12:00:00Z"),
             endDateTimeUtc = pastDate,
         )
         `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
 
-        val actual = computePatrolData.execute(missionId = missionId)
+        val actual = computePatrolData.execute(envMissionId = missionId)
 
         assertThat(actual?.isMissionFinished).isTrue()
     }
 
     @Test
     fun `Should return completenessForStats from mission`() {
-        val missionId = 123
-        val missionMock = MissionEntityMock.create(id = missionId)
+        val missionId = 100
+        val missionMock = MissionEntityMock.create()
         `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
 
-        val actual = computePatrolData.execute(missionId = missionId)
+        val actual = computePatrolData.execute(envMissionId = missionId)
 
         assertThat(actual?.completenessForStats).isNotNull()
         assertThat(actual?.completenessForStats?.status).isIn(

@@ -27,14 +27,14 @@ class MissionEntityTest {
 
     @Test
     fun `calculateMissionStatus should return UNAVAILABLE if endDateTime is null`() {
-        val mission = MissionEntity()
+        val mission = MissionEntity(id = UUID.randomUUID())
         val result = mission.calculateMissionStatus(startDateTimeUtc = Instant.now(), endDateTimeUtc = null)
         assertEquals(MissionStatusEnum.UNAVAILABLE, result)
     }
 
     @Test
     fun `calculateMissionStatus should return IN_PROGRESS when endDateTime is after now`() {
-        val mission = MissionEntity()
+        val mission = MissionEntity(id = UUID.randomUUID())
         val result = mission.calculateMissionStatus(
             startDateTimeUtc = Instant.now().minusSeconds(3600),
             endDateTimeUtc = Instant.now().plusSeconds(3600)
@@ -44,7 +44,7 @@ class MissionEntityTest {
 
     @Test
     fun `calculateMissionStatus should return ENDED when endDateTime is before now`() {
-        val mission = MissionEntity()
+        val mission = MissionEntity(id = UUID.randomUUID())
         val result = mission.calculateMissionStatus(
             startDateTimeUtc = Instant.now().minusSeconds(7200),
             endDateTimeUtc = Instant.now().minusSeconds(3600)
@@ -54,7 +54,7 @@ class MissionEntityTest {
 
     @Test
     fun `calculateMissionStatus should return UPCOMING when startDateTime is after now`() {
-        val mission = MissionEntity()
+        val mission = MissionEntity(id = UUID.randomUUID())
         val future = Instant.now().plusSeconds(3600)
         val result = mission.calculateMissionStatus(
             startDateTimeUtc = future,
@@ -79,6 +79,7 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
             actions = listOf(action),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(observationsByUnit = "bla")
@@ -105,6 +106,7 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
             actions = listOf(action),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(observationsByUnit = "bla")
@@ -120,6 +122,7 @@ class MissionEntityTest {
     fun `isCompleteForStats should return COMPLETE when observationsByUnit is null`() {
         val generalInfo = MissionGeneralInfoEntity2Mock.create()
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
             actions = listOf(),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(observationsByUnit = null)
@@ -146,6 +149,7 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
             actions = listOf(action),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
@@ -175,6 +179,8 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
+            externalId = "1",
             actions = listOf(),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
@@ -200,6 +206,7 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
             actions = listOf(),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
@@ -224,6 +231,7 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
             actions = listOf(),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
@@ -252,6 +260,8 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
+            externalId = "1",
             actions = listOf(),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
@@ -277,6 +287,8 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
+            externalId = "1",
             actions = listOf(),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
@@ -302,6 +314,8 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
+            externalId = "1",
             actions = listOf(),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
@@ -327,10 +341,10 @@ class MissionEntityTest {
             crew = listOf(MissionCrewEntityMock.create())
         )
         val mission = MissionEntity(
+            id = UUID.randomUUID(),
             actions = listOf(),
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
-                idUUID = UUID.randomUUID(),
                 observationsByUnit = null,
                 controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf()))
             )

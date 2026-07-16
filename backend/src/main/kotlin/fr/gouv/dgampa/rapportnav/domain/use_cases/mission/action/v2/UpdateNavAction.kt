@@ -39,8 +39,7 @@ class UpdateNavAction(
         )
 
         val missionDates = getMissionDates.execute(
-            missionId = action.missionId,
-            ownerId = action.ownerId,
+            missionId = action.ownerId,
             inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
         )
         val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)

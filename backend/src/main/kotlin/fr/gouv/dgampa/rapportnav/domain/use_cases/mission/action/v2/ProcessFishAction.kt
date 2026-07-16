@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
+import java.util.*
 
 
 @UseCase
@@ -18,15 +19,15 @@ class ProcessFishAction(
     private val entityValidityValidator: EntityValidityValidator
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(missionId: Int, action: MissionAction): MissionFishActionEntity {
-        val entity = MissionFishActionEntity.fromFishAction(action)
+    fun execute(ownerId: UUID, action: MissionAction): MissionFishActionEntity {
+        val entity = MissionFishActionEntity.fromFishAction(ownerId = ownerId, action = action)
         val sati = getComputeSati.execute(action = action)
         val targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
 
         entity.sati = sati
         entity.targets = targets
 
-        val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
+        val missionDates = getMissionDates.execute(missionId = ownerId)
         val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
 
         entity.computeValidity(validator = entityValidityValidator, policy = policy)

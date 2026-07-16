@@ -12,8 +12,7 @@ class ProcessMissionCrew(
     addOrUpdateMissionCrew: AddOrUpdateMissionCrew,
     deleteMissionCrew: DeleteMissionCrew,
 ) : BaseMissionListProcessor<MissionCrewEntity, Int>(
-    loadByInt = { getAgentsCrewByMissionId.execute(missionId = it) },
-    loadByUUID = { getAgentsCrewByMissionId.execute(missionIdUUID = it) },
+    loadById = { getAgentsCrewByMissionId.execute(missionId = it) },
     saveItem = { addOrUpdateMissionCrew.addOrUpdateMissionCrew(it) },
     deleteItem = { deleteMissionCrew.execute(it) },
     getId = { it.id }

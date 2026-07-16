@@ -46,10 +46,7 @@ class InquiryModel(
     var conclusion: String? = null,
 
     @Column(name = "mission_id", nullable = true)
-    var missionId: Int? = null,
-
-    @Column(name = "mission_id_uuid", nullable = true)
-    var missionIdUUID: UUID? = null,
+    var missionId: UUID? = null,
 
     @Column(name = "is_signed_by_inspector", nullable = true)
     var isSignedByInspector: Boolean? = null,

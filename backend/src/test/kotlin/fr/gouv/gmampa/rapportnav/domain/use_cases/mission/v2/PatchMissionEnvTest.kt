@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import java.util.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
@@ -45,11 +46,11 @@ class PatchMissionEnvTest {
     @Test
     fun `execute should return null when MissionEntity are equal`() {
         val missionId = 123
-        val missionEntity = getMockMissionEntity(missionId = missionId, controlUnitId = 12)
-        val missionEnvEntity = getMissionEnvEntity(missionId = missionId, controlUnitId = 12)
+        val missionEntity = getMockMissionEntity(controlUnitId = 12)
+        val missionEnvEntity = getMissionEnvEntity(controlUnitId = 12)
         val input = MissionEnvInput(
-            isUnderJdp = false,
             missionId = missionId,
+            isUnderJdp = false,
             resources = listOf(),
             missionTypes = listOf(MissionTypeEnum.SEA),
             endDateTimeUtc = missionEntity.endDateTimeUtc,
@@ -72,8 +73,8 @@ class PatchMissionEnvTest {
         val missionId = 123
 
         // Given
-        val missionEntity = getMockMissionEntity(missionId = missionId, controlUnitId = 12)
-        val missionEnvEntity = getMissionEnvEntity(missionId = missionId, controlUnitId = 12)
+        val missionEntity = getMockMissionEntity(controlUnitId = 12)
+        val missionEnvEntity = getMissionEnvEntity(controlUnitId = 12)
         val input = MissionEnvInput(
             missionId = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
@@ -95,8 +96,8 @@ class PatchMissionEnvTest {
     @Test
     fun `execute should not throw Exception when resources are empty`() {
         val missionId = 123
-        val missionEnvEntity = getMissionEnvEntity(missionId = missionId, controlUnitId = 12)
-        val missionEntity = getMockMissionEntity(missionId = missionId, controlUnitId = 12, withoutResource = true)
+        val missionEnvEntity = getMissionEnvEntity(controlUnitId = 12)
+        val missionEntity = getMockMissionEntity(controlUnitId = 12, withoutResource = true)
         val input = MissionEnvInput(
             missionId = missionId,
             resources = listOf(),
@@ -116,8 +117,8 @@ class PatchMissionEnvTest {
 
 
     private fun getMockMissionEntity(
-        missionId: Int,
-        controlUnitId: Int,
+        missionId: Int = 123,
+        controlUnitId: Int = 1,
         withoutResource: Boolean? = null
     ): MissionEnvEntity {
         return MissionEnvEntity(
@@ -129,7 +130,7 @@ class PatchMissionEnvTest {
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
-            id = missionId,
+            externalId = missionId,
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             controlUnits = listOf(
@@ -150,7 +151,7 @@ class PatchMissionEnvTest {
         )
     }
 
-    private fun getMissionEnvEntity(missionId: Int, controlUnitId: Int): MissionEnvEntity {
+    private fun getMissionEnvEntity(missionId: Int = 123, controlUnitId: Int = 1): MissionEnvEntity {
         return MissionEnvEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
@@ -160,7 +161,7 @@ class PatchMissionEnvTest {
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
-            id = missionId,
+            externalId = missionId,
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             controlUnits = listOf(

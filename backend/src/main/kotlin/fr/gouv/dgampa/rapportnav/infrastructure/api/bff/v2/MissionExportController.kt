@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 /**
  * Controller responsible for exporting mission reports.
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController
 
 data class ExportBodyRequest(
     @field:NotEmpty(message = "missionIds cannot be empty")
-    val missionIds: List<Int>,
+    val missionIds: List<UUID>,
     @field:NotNull(message = "exportMode cannot be null")
     var exportMode: ExportModeEnum,
     @field:NotNull(message = "reportType cannot be null")

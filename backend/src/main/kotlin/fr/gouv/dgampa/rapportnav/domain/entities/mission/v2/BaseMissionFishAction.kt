@@ -5,10 +5,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import java.time.Instant
+import java.util.*
 
 interface BaseMissionFishAction {
     val id: Int?
-    val missionId: Int
+    val ownerId: UUID
     val vesselId: Int?
     val vesselName: String?
     val internalReferenceNumber: String?
