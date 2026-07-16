@@ -54,9 +54,9 @@ dependencyManagement {
   dependencies {
     // force any dependency like following :
        dependency("org.apache.commons:commons-lang3:3.20.0")
-       dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.22")
-       dependency("org.apache.tomcat.embed:tomcat-embed-el:11.0.22")
-       dependency("org.apache.tomcat.embed:tomcat-embed-websocket:11.0.22")
+       dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.24")
+       dependency("org.apache.tomcat.embed:tomcat-embed-el:11.0.24")
+       dependency("org.apache.tomcat.embed:tomcat-embed-websocket:11.0.24")
   }
 }
 
@@ -75,7 +75,7 @@ dependencies {
   }
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-  implementation("org.postgresql:postgresql:42.7.11")
+  implementation("org.postgresql:postgresql:42.7.13")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-data-rest")
   implementation("org.springframework.boot:spring-boot-starter-web")
