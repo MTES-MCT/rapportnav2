@@ -224,6 +224,8 @@ class CreateMissionTest {
             .execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(), generalInfo2 = anyOrNull(), service = anyOrNull())
         Mockito.verify(createMissionNav, Mockito.never()).execute(generalInfo2, serviceId = serviceId)
         Mockito.verify(createEnvMission, Mockito.times(1)).execute(generalInfo2, controlUnitIds = listOf(1, 2))
+        // env missions are mirrored locally to keep the mission table in sync
+        Mockito.verify(createMissionNav, Mockito.times(1)).execute(mission = anyOrNull())
     }
 
     @Test

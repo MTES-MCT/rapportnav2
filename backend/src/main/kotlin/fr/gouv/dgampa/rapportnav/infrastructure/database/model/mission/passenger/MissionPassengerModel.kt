@@ -28,6 +28,9 @@ class MissionPassengerModel(
     @Column(name = "mission_id", nullable = true)
     var missionId: Int? = null,
 
+    @Column(name = "external_mission_id", nullable = true)
+    var externalMissionId: String? = null,
+
     @Column(name = "mission_id_uuid", nullable = true)
     var missionIdUUID: UUID? = null,
 

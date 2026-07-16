@@ -32,6 +32,7 @@ data class MissionPassengerEntity(
         return MissionPassengerModel(
             id = id,
             missionId = missionId,
+            externalMissionId = missionId?.toString(),
             missionIdUUID = missionIdUUID,
             fullName = fullName,
             organization = organization.toString(),
