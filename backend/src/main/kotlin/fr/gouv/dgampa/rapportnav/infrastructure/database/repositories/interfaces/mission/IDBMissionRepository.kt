@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission
 
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -10,6 +12,8 @@ import java.util.*
 interface IDBMissionRepository: JpaRepository<MissionModel, UUID> {
 
     fun save(entity: MissionModel): MissionModel
+
+    fun findAllByOrderByStartDateTimeUtcDesc(pageable: Pageable): Page<MissionModel>
 
     @Query("""
     SELECT m FROM MissionModel m

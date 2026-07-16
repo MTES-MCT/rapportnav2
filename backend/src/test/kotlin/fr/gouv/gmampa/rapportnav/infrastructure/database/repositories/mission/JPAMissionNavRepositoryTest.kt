@@ -13,8 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.Instant
@@ -170,5 +174,62 @@ class JPAMissionNavRepositoryTest {
             jpaMissionNavRepository.deleteById(missionId)
         }
         assertThat(exception.message).contains("Failed to delete MissionNav")
+    }
+
+    @Test
+    fun `findAllPaginated should return paginated missions ordered by start date desc`() {
+        val page = PageImpl(listOf(missionModel), PageRequest.of(0, 10), 1)
+        `when`(dbRepository.findAllByOrderByStartDateTimeUtcDesc(any<Pageable>())).thenReturn(page)
+
+        val result = jpaMissionNavRepository.findAllPaginated(0, 10)
+
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].id).isEqualTo(missionId)
+        assertThat(result.totalElements).isEqualTo(1)
+        verify(dbRepository).findAllByOrderByStartDateTimeUtcDesc(PageRequest.of(0, 10))
+    }
+
+    @Test
+    fun `findAllPaginated should throw BackendInternalException on error`() {
+        `when`(dbRepository.findAllByOrderByStartDateTimeUtcDesc(any<Pageable>()))
+            .thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaMissionNavRepository.findAllPaginated(0, 10)
+        }
+        assertThat(exception.message).contains("Failed to find paginated MissionNav")
+    }
+
+    @Test
+    fun `softDeleteById should set isDeleted to true and save`() {
+        val model = MissionModel(id = missionId, serviceId = 1, startDateTimeUtc = Instant.now())
+        `when`(dbRepository.findById(missionId)).thenReturn(Optional.of(model))
+        `when`(dbRepository.save(any<MissionModel>())).thenReturn(model)
+
+        jpaMissionNavRepository.softDeleteById(missionId)
+
+        verify(dbRepository).save(argThat { isDeleted })
+        assertThat(model.isDeleted).isTrue()
+    }
+
+    @Test
+    fun `softDeleteById should throw BackendUsageException when mission not found`() {
+        `when`(dbRepository.findById(missionId)).thenReturn(Optional.empty())
+
+        val exception = assertThrows<BackendUsageException> {
+            jpaMissionNavRepository.softDeleteById(missionId)
+        }
+        assertThat(exception.message).contains("not found")
+        verify(dbRepository, org.mockito.Mockito.never()).save(any<MissionModel>())
+    }
+
+    @Test
+    fun `softDeleteById should throw BackendInternalException on database error`() {
+        `when`(dbRepository.findById(missionId)).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaMissionNavRepository.softDeleteById(missionId)
+        }
+        assertThat(exception.message).contains("Failed to soft-delete MissionNav")
     }
 }
