@@ -25,7 +25,7 @@ data class AdminMissionOutput(
                 serviceId = model.serviceId,
                 openBy = model.openBy,
                 completedBy = model.completedBy,
-                externalId = model.externalId,
+                externalId = null,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,
                 missionSource = model.missionSource,
