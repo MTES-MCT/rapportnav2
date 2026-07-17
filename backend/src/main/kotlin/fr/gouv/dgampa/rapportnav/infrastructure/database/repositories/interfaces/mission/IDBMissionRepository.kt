@@ -15,6 +15,10 @@ interface IDBMissionRepository: JpaRepository<MissionModel, UUID> {
 
     fun findAllByOrderByStartDateTimeUtcDesc(pageable: Pageable): Page<MissionModel>
 
+    fun findByIdOrderByStartDateTimeUtcDesc(id: UUID, pageable: Pageable): Page<MissionModel>
+
+    fun findByExternalIdOrderByStartDateTimeUtcDesc(externalId: String, pageable: Pageable): Page<MissionModel>
+
     @Query("""
     SELECT m FROM MissionModel m
     WHERE m.startDateTimeUtc >= :startBeforeDateTime

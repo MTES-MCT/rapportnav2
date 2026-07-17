@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionMo
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -70,5 +71,76 @@ class GetAllMissionsTest {
             getAllMissions.execute(0, 10)
         }
         assertThat(exception.message).isEqualTo("Repository error")
+    }
+
+    @Test
+    fun `should return all when search is null`() {
+        val page = PageImpl(listOf(mission(Instant.parse("2025-01-01T00:00:00Z"))), PageRequest.of(0, 10), 1)
+        whenever(repository.findAllPaginated(0, 10)).thenReturn(page)
+
+        val result = getAllMissions.execute(0, 10, null)
+
+        assertThat(result.content).hasSize(1)
+        verify(repository).findAllPaginated(0, 10)
+    }
+
+    @Test
+    fun `should return all when search is blank`() {
+        val page = PageImpl(listOf(mission(Instant.parse("2025-01-01T00:00:00Z"))), PageRequest.of(0, 10), 1)
+        whenever(repository.findAllPaginated(0, 10)).thenReturn(page)
+
+        val result = getAllMissions.execute(0, 10, "   ")
+
+        assertThat(result.content).hasSize(1)
+        verify(repository).findAllPaginated(0, 10)
+    }
+
+    @Test
+    fun `should search by id when search is a UUID`() {
+        val id = UUID.randomUUID()
+        val model = MissionModel(id = id, serviceId = 1, startDateTimeUtc = Instant.parse("2025-01-01T00:00:00Z"))
+        val page = PageImpl(listOf(model), PageRequest.of(0, 10), 1)
+        whenever(repository.findByIdPaginated(id, 0, 10)).thenReturn(page)
+
+        val result = getAllMissions.execute(0, 10, id.toString())
+
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].id).isEqualTo(id)
+        verify(repository).findByIdPaginated(id, 0, 10)
+    }
+
+    @Test
+    fun `should search by externalId when search is not a UUID`() {
+        val model = MissionModel(
+            id = UUID.randomUUID(),
+            serviceId = 1,
+            externalId = "12345",
+            startDateTimeUtc = Instant.parse("2025-01-01T00:00:00Z")
+        )
+        val page = PageImpl(listOf(model), PageRequest.of(0, 10), 1)
+        whenever(repository.findByExternalIdPaginated("12345", 0, 10)).thenReturn(page)
+
+        val result = getAllMissions.execute(0, 10, "12345")
+
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].externalId).isEqualTo("12345")
+        verify(repository).findByExternalIdPaginated("12345", 0, 10)
+    }
+
+    @Test
+    fun `should trim search before matching`() {
+        val model = MissionModel(
+            id = UUID.randomUUID(),
+            serviceId = 1,
+            externalId = "678",
+            startDateTimeUtc = Instant.parse("2025-01-01T00:00:00Z")
+        )
+        val page = PageImpl(listOf(model), PageRequest.of(0, 10), 1)
+        whenever(repository.findByExternalIdPaginated("678", 0, 10)).thenReturn(page)
+
+        val result = getAllMissions.execute(0, 10, "  678  ")
+
+        assertThat(result.content).hasSize(1)
+        verify(repository).findByExternalIdPaginated("678", 0, 10)
     }
 }

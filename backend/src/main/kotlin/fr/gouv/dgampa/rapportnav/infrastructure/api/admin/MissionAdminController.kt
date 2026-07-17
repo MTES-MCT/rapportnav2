@@ -34,9 +34,10 @@ class MissionAdminController(
     )
     fun getAll(
         @RequestParam(defaultValue = "0") page: Int,
-        @RequestParam(defaultValue = "10") size: Int
+        @RequestParam(defaultValue = "10") size: Int,
+        @RequestParam(required = false) searchId: String?
     ): AdminPaginatedMissionOutput {
-        val result = getAllMissions.execute(page, size)
+        val result = getAllMissions.execute(page, size, searchId)
         return AdminPaginatedMissionOutput.fromPage(result)
     }
 

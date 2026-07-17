@@ -43,7 +43,7 @@ class MissionAdminControllerTest {
             startDateTimeUtc = Instant.parse("2025-01-02T00:00:00Z")
         )
         val page = PageImpl(listOf(model), PageRequest.of(0, 10), 1)
-        `when`(getAllMissions.execute(0, 10)).thenReturn(page)
+        `when`(getAllMissions.execute(0, 10, null)).thenReturn(page)
 
         mockMvc.perform(get("/api/v2/admin/missions?page=0&size=10"))
             .andExpect(status().isOk)
@@ -56,13 +56,24 @@ class MissionAdminControllerTest {
     @Test
     fun `getAll should return empty page when no results`() {
         val emptyPage = PageImpl<MissionModel>(emptyList(), PageRequest.of(0, 10), 0)
-        `when`(getAllMissions.execute(0, 10)).thenReturn(emptyPage)
+        `when`(getAllMissions.execute(0, 10, null)).thenReturn(emptyPage)
 
         mockMvc.perform(get("/api/v2/admin/missions?page=0&size=10"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.totalItems").value(0))
             .andExpect(jsonPath("$.items").isArray)
             .andExpect(jsonPath("$.items.length()").value(0))
+    }
+
+    @Test
+    fun `getAll should pass search parameter through`() {
+        val emptyPage = PageImpl<MissionModel>(emptyList(), PageRequest.of(0, 10), 0)
+        `when`(getAllMissions.execute(0, 10, "12345")).thenReturn(emptyPage)
+
+        mockMvc.perform(get("/api/v2/admin/missions?page=0&size=10&searchId=12345"))
+            .andExpect(status().isOk)
+
+        verify(getAllMissions).execute(0, 10, "12345")
     }
 
     @Test

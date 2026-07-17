@@ -1,6 +1,6 @@
 import Text from '@common/components/ui/text'
-import { Icon, THEME } from '@mtes-mct/monitor-ui'
-import React, { useState } from 'react'
+import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import React, { useEffect, useState } from 'react'
 import { Pagination, Stack } from 'rsuite'
 import { BasicAction, AdminActionType } from '../../../common/types/basic-action.ts'
 import useAdminDeleteMissionMutation from '../../services/use-admin-delete-mission.tsx'
@@ -37,8 +37,20 @@ type AdminMissionProps = {}
 const AdminMissionItem: React.FC<AdminMissionProps> = () => {
   const [page, setPage] = useState(0)
   const [pageSize, setPageSize] = useState(10)
+  const [searchId, setSearchId] = useState<string>('')
+  const [debouncedSearch, setDebouncedSearch] = useState<string>('')
 
-  const { data } = useMissionsListQuery(page, pageSize)
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchId)
+      setPage(0) // Reset to first page when search changes
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [searchId])
+
+  const { data } = useMissionsListQuery(page, pageSize, debouncedSearch || undefined)
   const deleteMutation = useAdminDeleteMissionMutation()
 
   const handleSubmit = async (action: AdminActionType, value: AdminMission) => {
@@ -54,17 +66,34 @@ const AdminMissionItem: React.FC<AdminMissionProps> = () => {
     setPage(0)
   }
 
+  const handleSearchIdChange = (value: string | undefined) => {
+    setSearchId(value || '')
+  }
+
   return (
     <Stack direction="column" spacing="1rem" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
-        <Text as="h1" size={30}>
-          Missions
-        </Text>
+        <Stack direction="row" spacing="1rem" alignItems="flex-end" justifyContent="flex-start">
+          <Stack.Item>
+            <Text as="h1" size={30}>
+              Missions
+            </Text>
+          </Stack.Item>
+          <Stack.Item style={{ width: '40%' }}>
+            <TextInput
+              name="searchId"
+              value={searchId}
+              label="Rechercher par id (UUID) ou external id"
+              placeholder="ex: 550e8400-e29b-41d4-a716-446655440000 ou 12345"
+              onChange={handleSearchIdChange}
+            />
+          </Stack.Item>
+        </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <AdminBasicItemGeneric
           cells={CELLS}
-          title={'Tout'}
+          title={debouncedSearch ? 'Résultats' : 'Tout'}
           actions={ACTIONS}
           onSubmit={handleSubmit}
           data={data?.items}
