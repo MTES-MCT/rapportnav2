@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.87.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.86.2...v2.87.0) (2026-07-17)
+
+
+### Features
+
+* **admin:** Missions into admin panel ([7053f0d](https://github.com/MTES-MCT/rapportnav2/commit/7053f0d92a2ad553d0d553ad5e5d669e0fff06f7))
+* **admin:** Missions into admin panel ([a971a7e](https://github.com/MTES-MCT/rapportnav2/commit/a971a7eac9d029ac67db051ca1c86a04c1830cee))
+
+
+### Bug Fixes
+
+* dependencies ([6192d94](https://github.com/MTES-MCT/rapportnav2/commit/6192d94e87a64c87ea08b367c0e80a4d9d35dc62))
+
 ## [2.86.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.86.1...v2.86.2) (2026-07-09)
 
 
