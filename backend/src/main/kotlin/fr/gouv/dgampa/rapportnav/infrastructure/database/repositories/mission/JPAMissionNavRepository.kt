@@ -82,6 +82,28 @@ class JPAMissionNavRepository(
         }
     }
 
+    override fun findByIdPaginated(id: UUID, page: Int, size: Int): Page<MissionModel> {
+        return try {
+            dbRepository.findByIdOrderByStartDateTimeUtcDesc(id, PageRequest.of(page, size))
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionNav by id='$id'",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findByExternalIdPaginated(externalId: String, page: Int, size: Int): Page<MissionModel> {
+        return try {
+            dbRepository.findByExternalIdOrderByStartDateTimeUtcDesc(externalId, PageRequest.of(page, size))
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionNav by externalId='$externalId'",
+                originalException = e
+            )
+        }
+    }
+
     @Transactional
     override fun deleteById(id: UUID) {
         try {

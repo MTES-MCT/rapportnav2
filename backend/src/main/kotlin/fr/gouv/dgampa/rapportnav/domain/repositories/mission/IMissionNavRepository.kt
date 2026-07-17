@@ -16,6 +16,10 @@ interface IMissionNavRepository {
 
     fun findAllPaginated(page: Int, size: Int): Page<MissionModel>
 
+    fun findByIdPaginated(id: UUID, page: Int, size: Int): Page<MissionModel>
+
+    fun findByExternalIdPaginated(externalId: String, page: Int, size: Int): Page<MissionModel>
+
     fun deleteById(id: UUID)
 
     fun softDeleteById(id: UUID)

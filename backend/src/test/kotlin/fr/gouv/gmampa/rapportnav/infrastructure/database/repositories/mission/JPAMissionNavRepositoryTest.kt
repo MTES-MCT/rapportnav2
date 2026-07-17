@@ -201,6 +201,51 @@ class JPAMissionNavRepositoryTest {
     }
 
     @Test
+    fun `findByIdPaginated should return paginated missions matching the id`() {
+        val page = PageImpl(listOf(missionModel), PageRequest.of(0, 10), 1)
+        `when`(dbRepository.findByIdOrderByStartDateTimeUtcDesc(any<UUID>(), any<Pageable>())).thenReturn(page)
+
+        val result = jpaMissionNavRepository.findByIdPaginated(missionId, 0, 10)
+
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].id).isEqualTo(missionId)
+        verify(dbRepository).findByIdOrderByStartDateTimeUtcDesc(missionId, PageRequest.of(0, 10))
+    }
+
+    @Test
+    fun `findByIdPaginated should throw BackendInternalException on error`() {
+        `when`(dbRepository.findByIdOrderByStartDateTimeUtcDesc(any<UUID>(), any<Pageable>()))
+            .thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaMissionNavRepository.findByIdPaginated(missionId, 0, 10)
+        }
+        assertThat(exception.message).contains("Failed to find paginated MissionNav by id")
+    }
+
+    @Test
+    fun `findByExternalIdPaginated should return paginated missions matching the external id`() {
+        val page = PageImpl(listOf(missionModel), PageRequest.of(0, 10), 1)
+        `when`(dbRepository.findByExternalIdOrderByStartDateTimeUtcDesc(any<String>(), any<Pageable>())).thenReturn(page)
+
+        val result = jpaMissionNavRepository.findByExternalIdPaginated("12345", 0, 10)
+
+        assertThat(result.content).hasSize(1)
+        verify(dbRepository).findByExternalIdOrderByStartDateTimeUtcDesc("12345", PageRequest.of(0, 10))
+    }
+
+    @Test
+    fun `findByExternalIdPaginated should throw BackendInternalException on error`() {
+        `when`(dbRepository.findByExternalIdOrderByStartDateTimeUtcDesc(any<String>(), any<Pageable>()))
+            .thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaMissionNavRepository.findByExternalIdPaginated("12345", 0, 10)
+        }
+        assertThat(exception.message).contains("Failed to find paginated MissionNav by externalId")
+    }
+
+    @Test
     fun `softDeleteById should set isDeleted to true and save`() {
         val model = MissionModel(id = missionId, serviceId = 1, startDateTimeUtc = Instant.now())
         `when`(dbRepository.findById(missionId)).thenReturn(Optional.of(model))
