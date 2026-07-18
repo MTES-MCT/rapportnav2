@@ -21,11 +21,9 @@ class ProcessSati(
 
         val existing = satiRepo.findByActionId(actionId)
         val incoming = SatiMapper.toEntity(sati)
-        val entity = existing?.let { SatiEntityMapper.copy(it, incoming) } ?: incoming
+        if (SatiEntityMapper.isEquals(existing, incoming)) return incoming
 
-        if (SatiEntityMapper.isEquals(existing, entity)) return entity
-
-        val saved = satiRepo.save(entity)
+        val saved = satiRepo.save(incoming)
         return SatiEntityMapper.merge(saved, sati)
     }
 }
