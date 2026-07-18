@@ -19,6 +19,7 @@ interface InspectorItemProps {
   inspector?: SatiInspector
   onChange?: (value?: SatiInspector) => void
   onSubmit?: (value?: SatiInspector) => void
+  excludedAgentIds?: number[]
 }
 
 const InspectorItem: FC<InspectorItemProps> = ({
@@ -28,7 +29,8 @@ const InspectorItem: FC<InspectorItemProps> = ({
   onClose,
   onSubmit,
   inspector,
-  isPrincipal
+  isPrincipal,
+  excludedAgentIds
 }) => {
   const { getAgent } = useAgent()
   const [edit, setEdit] = useState<boolean>(true)
@@ -47,10 +49,12 @@ const InspectorItem: FC<InspectorItemProps> = ({
 
   const handleSubmit = (response?: SatiInspector) => {
     if (!response) return
-    if (response.isOutOfUnit) {
-      response.agentId = undefined
-    }
-    if (onSubmit) onSubmit(response)
+
+    if (onSubmit)
+      onSubmit({
+        ...response,
+        agentId: response.isOutOfUnit ? undefined : response.agentId
+      })
     handleClose()
   }
 
@@ -90,7 +94,12 @@ const InspectorItem: FC<InspectorItemProps> = ({
             </Stack.Item>
           )}
           <Stack.Item style={{ width: '100%' }}>
-            <InspectorItemForm readOnly={!edit} isPrincipal={isPrincipal} values={values} />
+            <InspectorItemForm
+              readOnly={!edit}
+              isPrincipal={isPrincipal}
+              values={values}
+              excludedAgentIds={excludedAgentIds}
+            />
           </Stack.Item>
           {!isPrincipal && edit && (
             <Stack.Item style={{ width: '100%' }}>

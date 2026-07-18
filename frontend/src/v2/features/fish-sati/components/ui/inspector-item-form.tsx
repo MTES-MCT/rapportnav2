@@ -11,11 +11,16 @@ interface InspectorItemFormProps {
   readOnly?: boolean
   isPrincipal?: boolean
   values?: SatiInspector
+  excludedAgentIds?: number[]
 }
 
-const InspectorItemForm: FC<InspectorItemFormProps> = ({ values, readOnly, isPrincipal }) => {
+const InspectorItemForm: FC<InspectorItemFormProps> = ({ values, readOnly, isPrincipal, excludedAgentIds }) => {
   const { agents } = useAgent()
   const { authorityTypeOptions } = useAuthority()
+  const agentOptions = agents.map(agent => ({
+    ...agent,
+    isDisabled: agent.value !== values?.agentId && excludedAgentIds?.includes(agent.value)
+  }))
 
   return (
     <Stack direction="column" spacing=".8rem" alignItems="flex-start" style={{ width: '100%' }}>
@@ -43,10 +48,10 @@ const InspectorItemForm: FC<InspectorItemFormProps> = ({ values, readOnly, isPri
           <FormikSelectInput
             isRequired
             name="agentId"
-            options={agents}
             isLight={readOnly}
             readOnly={readOnly}
             isErrorMessageHidden
+            options={agentOptions}
             label="Agent en charge du contrôle"
           />
         )}

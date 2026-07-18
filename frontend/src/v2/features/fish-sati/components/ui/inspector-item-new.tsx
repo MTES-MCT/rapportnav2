@@ -6,9 +6,10 @@ import InspectorItem from './inspector-item.tsx'
 
 interface InspectorItemNewProps {
   onSubmit: (inspector?: SatiInspector) => void
+  excludedAgentIds?: number[]
 }
 
-const InspectorItemNew: FC<InspectorItemNewProps> = ({ onSubmit }) => {
+const InspectorItemNew: FC<InspectorItemNewProps> = ({ onSubmit, excludedAgentIds }) => {
   const [showForm, setShowForm] = useState<boolean>(false)
 
   const handleSubmit = (inspector?: SatiInspector) => {
@@ -26,6 +27,7 @@ const InspectorItemNew: FC<InspectorItemNewProps> = ({ onSubmit }) => {
             isPrincipal={false}
             onSubmit={handleSubmit}
             onClose={() => setShowForm(false)}
+            excludedAgentIds={excludedAgentIds}
           />
         }
       />

@@ -9,9 +9,10 @@ interface InspectorItemOtherProps {
   onDelete?: () => void
   inspector?: SatiInspector
   onChange: (response?: SatiInspector) => void
+  excludedAgentIds?: number[]
 }
 
-const InspectorItemOther: FC<InspectorItemOtherProps> = ({ index, inspector, onDelete, onChange }) => {
+const InspectorItemOther: FC<InspectorItemOtherProps> = ({ index, inspector, onDelete, onChange, excludedAgentIds }) => {
   const handleSubmit = (response?: SatiInspector) => {
     onChange(response)
   }
@@ -30,6 +31,7 @@ const InspectorItemOther: FC<InspectorItemOtherProps> = ({ index, inspector, onD
           onSubmit={handleSubmit}
           onDelete={handleDelete}
           readOnly={!!inspector?.id}
+          excludedAgentIds={excludedAgentIds}
         />
       }
     />
