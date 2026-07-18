@@ -6,9 +6,10 @@ import InspectorItem from './inspector-item.tsx'
 interface InspectorItemPrincipalProps {
   inspector?: SatiInspector
   onChange: (response?: SatiInspector) => void
+  excludedAgentIds?: number[]
 }
 
-const InspectorItemPrincipal: FC<InspectorItemPrincipalProps> = ({ inspector, onChange }) => {
+const InspectorItemPrincipal: FC<InspectorItemPrincipalProps> = ({ inspector, onChange, excludedAgentIds }) => {
   const handleChange = (response?: SatiInspector) => {
     onChange(response)
   }
@@ -16,7 +17,13 @@ const InspectorItemPrincipal: FC<InspectorItemPrincipalProps> = ({ inspector, on
     <InspectorItemLayout
       title={`Inspecteur 1`}
       inspectorItem={
-        <InspectorItem readOnly={false} isPrincipal={true} inspector={inspector} onChange={handleChange} />
+        <InspectorItem
+          readOnly={false}
+          isPrincipal={true}
+          inspector={inspector}
+          onChange={handleChange}
+          excludedAgentIds={excludedAgentIds}
+        />
       }
     />
   )

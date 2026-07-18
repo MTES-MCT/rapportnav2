@@ -26,6 +26,11 @@ const FishControlConclusion: FC<FishControlConclusionProps> = ({ values }) => {
   const { defaultControlTypes } = useTarget()
   const { setFieldValue } = useFormikContext<ActionFishControlInput>()
 
+  const usedAgentIds = [
+    values?.sati?.principalInspector?.agentId,
+    ...(values?.sati?.otherInspectors?.map(inspector => inspector.agentId) ?? [])
+  ].filter((agentId): agentId is number => agentId != null)
+
   return (
     <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -41,13 +46,18 @@ const FishControlConclusion: FC<FishControlConclusionProps> = ({ values }) => {
               <InspectorItemPrincipal
                 inspector={values?.sati?.principalInspector}
                 onChange={inspector => setFieldValue('sati.principalInspector', inspector)}
+                excludedAgentIds={usedAgentIds}
               />
             </Stack.Item>
 
             <Stack.Item style={{ width: '100%' }}>
               <FieldArray name="sati.otherInspectors">
                 {(fieldArray: FieldArrayRenderProps) => (
-                  <InspectorList fieldArray={fieldArray} inspectors={values?.sati?.otherInspectors} />
+                  <InspectorList
+                    fieldArray={fieldArray}
+                    inspectors={values?.sati?.otherInspectors}
+                    excludedAgentIds={usedAgentIds}
+                  />
                 )}
               </FieldArray>
             </Stack.Item>

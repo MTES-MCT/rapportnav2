@@ -8,9 +8,10 @@ import InspectorFormOther from './inspector-item-other.tsx'
 interface InspectorListProps {
   inspectors?: SatiInspector[]
   fieldArray: FieldArrayRenderProps
+  excludedAgentIds?: number[]
 }
 
-const InspectorList: FC<InspectorListProps> = ({ fieldArray, inspectors }) => {
+const InspectorList: FC<InspectorListProps> = ({ fieldArray, inspectors, excludedAgentIds }) => {
   const handleDelete = (index: number) => {
     fieldArray.remove(index)
   }
@@ -30,13 +31,15 @@ const InspectorList: FC<InspectorListProps> = ({ fieldArray, inspectors }) => {
           <InspectorFormOther
             index={index + 2}
             inspector={inspector}
+            key={`inspector-${index}`}
             onDelete={() => handleDelete(index)}
             onChange={v => handleSubmit(index, v)}
+            excludedAgentIds={excludedAgentIds}
           />
         ))}
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <InspectorItemNew onSubmit={handleAdd} />
+        <InspectorItemNew onSubmit={handleAdd} excludedAgentIds={excludedAgentIds} />
       </Stack.Item>
     </Stack>
   )
