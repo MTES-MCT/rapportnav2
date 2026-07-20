@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.89.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.88.0...v2.89.0) (2026-07-20)
+
+
+### Features
+
+* **actions:** backfill ownerId ([9bf853d](https://github.com/MTES-MCT/rapportnav2/commit/9bf853d1264790fc89017453e64897cbde804b2b))
+* **admin:** add actions to admin panel ([e17e324](https://github.com/MTES-MCT/rapportnav2/commit/e17e32479b42974caafa8b7fb58cb6eb47b6fb88))
+
 ## [2.88.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.87.0...v2.88.0) (2026-07-20)
 
 
