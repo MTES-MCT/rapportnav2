@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.88.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.87.0...v2.88.0) (2026-07-20)
+
+
+### Features
+
+* **admin:** search by id and internalId ([89fe42e](https://github.com/MTES-MCT/rapportnav2/commit/89fe42e49aac48d2be6bc20c5e08b5e3e5c9e3ea))
+* **ID:** prefill mission table and sync with Env data ([5c898f0](https://github.com/MTES-MCT/rapportnav2/commit/5c898f0f80fc648427dc4aeb7f23f9584cfb7712))
+
 ## [2.87.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.86.2...v2.87.0) (2026-07-17)
 
 
