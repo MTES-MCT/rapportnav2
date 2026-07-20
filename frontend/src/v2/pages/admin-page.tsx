@@ -9,6 +9,7 @@ import AdminAgentRoleItem from '../features/admin/components/elements/admin-agen
 import AdminApikeyItem from '../features/admin/components/elements/admin-apikey-item.tsx'
 import AdminFishAuctionItem from '../features/admin/components/elements/admin-fish-auction-item.tsx'
 import AdminGeneralInfosItem from '../features/admin/components/elements/admin-general-infos-item.tsx'
+import AdminMissionActionItem from '../features/admin/components/elements/admin-mission-action-item.tsx'
 import AdminMissionItem from '../features/admin/components/elements/admin-mission-item.tsx'
 import AdminServiceItem from '../features/admin/components/elements/admin-service-item.tsx'
 import AdminApiKeyLoggingItem from '../features/admin/components/elements/admin-user-apikey-logging-item.tsx'
@@ -93,6 +94,9 @@ const AdminPage: React.FC = () => {
                     __
                     <Tabs.Tab eventKey="5" title="Missions">
                       <AdminMissionItem />
+                    </Tabs.Tab>
+                    <Tabs.Tab eventKey="11" title="Mission Actions">
+                      <AdminMissionActionItem />
                     </Tabs.Tab>
                     <Tabs.Tab eventKey="6" title="General Infos">
                       <AdminGeneralInfosItem />

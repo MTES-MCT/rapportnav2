@@ -27,7 +27,8 @@ const BasicItemTable: React.FC<BasicItemTableProps> = ({ data, cells, actions, o
           <Cell>
             {rowData => {
               const value = get(rowData, cell.key) as any
-              return !DATE_LABELS.includes(cell.key) ? value : formatDateTimeForFrenchHumans(value)
+              const isDateTime = DATE_LABELS.includes(cell.key) || cell.type?.format === 'datetime'
+              return isDateTime ? formatDateTimeForFrenchHumans(value) : value
             }}
           </Cell>
         </Column>
