@@ -15,6 +15,9 @@ import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.Instant
@@ -186,5 +189,77 @@ class JPAMissionActionRepositoryTest {
         val repo = JPAMissionActionRepository(dbServiceRepository)
         val ex = assertThrows<BackendInternalException> { repo.existsById(id1) }
         assertThat(ex.message).contains("Failed to check existence")
+    }
+
+    @Test
+    fun `findAllPaginated should return paginated actions ordered by start date desc`() {
+        val page = PageImpl(missionActions, PageRequest.of(0, 10), missionActions.size.toLong())
+        Mockito.`when`(dbServiceRepository.findAllByOrderByStartDateTimeUtcDesc(any<Pageable>())).thenReturn(page)
+        val repo = JPAMissionActionRepository(dbServiceRepository)
+
+        val result = repo.findAllPaginated(0, 10)
+
+        assertThat(result.content).hasSize(3)
+        assertThat(result.totalElements).isEqualTo(3)
+        verify(dbServiceRepository).findAllByOrderByStartDateTimeUtcDesc(PageRequest.of(0, 10))
+    }
+
+    @Test
+    fun `findAllPaginated should throw BackendInternalException on error`() {
+        Mockito.`when`(dbServiceRepository.findAllByOrderByStartDateTimeUtcDesc(any<Pageable>()))
+            .thenThrow(RuntimeException("DB error"))
+        val repo = JPAMissionActionRepository(dbServiceRepository)
+
+        val ex = assertThrows<BackendInternalException> { repo.findAllPaginated(0, 10) }
+        assertThat(ex.message).contains("Failed to find paginated MissionAction")
+    }
+
+    @Test
+    fun `findByIdPaginated should return paginated actions matching the id`() {
+        val page = PageImpl(listOf(missionActions[0]), PageRequest.of(0, 10), 1)
+        Mockito.`when`(dbServiceRepository.findByIdOrderByStartDateTimeUtcDesc(any<UUID>(), any<Pageable>()))
+            .thenReturn(page)
+        val repo = JPAMissionActionRepository(dbServiceRepository)
+
+        val result = repo.findByIdPaginated(id1, 0, 10)
+
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].id).isEqualTo(id1)
+        verify(dbServiceRepository).findByIdOrderByStartDateTimeUtcDesc(id1, PageRequest.of(0, 10))
+    }
+
+    @Test
+    fun `findByIdPaginated should throw BackendInternalException on error`() {
+        Mockito.`when`(dbServiceRepository.findByIdOrderByStartDateTimeUtcDesc(any<UUID>(), any<Pageable>()))
+            .thenThrow(RuntimeException("DB error"))
+        val repo = JPAMissionActionRepository(dbServiceRepository)
+
+        val ex = assertThrows<BackendInternalException> { repo.findByIdPaginated(id1, 0, 10) }
+        assertThat(ex.message).contains("Failed to find paginated MissionAction by id")
+    }
+
+    @Test
+    fun `findByOwnerIdPaginated should return paginated actions matching the owner id`() {
+        val ownerId = UUID.randomUUID()
+        val page = PageImpl(missionActions, PageRequest.of(0, 10), missionActions.size.toLong())
+        Mockito.`when`(dbServiceRepository.findByOwnerIdOrderByStartDateTimeUtcDesc(any<UUID>(), any<Pageable>()))
+            .thenReturn(page)
+        val repo = JPAMissionActionRepository(dbServiceRepository)
+
+        val result = repo.findByOwnerIdPaginated(ownerId, 0, 10)
+
+        assertThat(result.content).hasSize(3)
+        verify(dbServiceRepository).findByOwnerIdOrderByStartDateTimeUtcDesc(ownerId, PageRequest.of(0, 10))
+    }
+
+    @Test
+    fun `findByOwnerIdPaginated should throw BackendInternalException on error`() {
+        val ownerId = UUID.randomUUID()
+        Mockito.`when`(dbServiceRepository.findByOwnerIdOrderByStartDateTimeUtcDesc(any<UUID>(), any<Pageable>()))
+            .thenThrow(RuntimeException("DB error"))
+        val repo = JPAMissionActionRepository(dbServiceRepository)
+
+        val ex = assertThrows<BackendInternalException> { repo.findByOwnerIdPaginated(ownerId, 0, 10) }
+        assertThat(ex.message).contains("Failed to find paginated MissionAction by ownerId")
     }
 }

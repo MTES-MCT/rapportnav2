@@ -7,6 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionA
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -43,6 +45,39 @@ class JPAMissionActionRepository(
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to find MissionAction with id='$id'",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findAllPaginated(page: Int, size: Int): Page<MissionActionModel> {
+        return try {
+            dbMissionActionRepository.findAllByOrderByStartDateTimeUtcDesc(PageRequest.of(page, size))
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionAction",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findByIdPaginated(id: UUID, page: Int, size: Int): Page<MissionActionModel> {
+        return try {
+            dbMissionActionRepository.findByIdOrderByStartDateTimeUtcDesc(id, PageRequest.of(page, size))
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionAction by id='$id'",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findByOwnerIdPaginated(ownerId: UUID, page: Int, size: Int): Page<MissionActionModel> {
+        return try {
+            dbMissionActionRepository.findByOwnerIdOrderByStartDateTimeUtcDesc(ownerId, PageRequest.of(page, size))
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find paginated MissionAction by ownerId='$ownerId'",
                 originalException = e
             )
         }
