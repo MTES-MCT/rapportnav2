@@ -123,7 +123,7 @@ class ActionRestController(
         @PathVariable(name = "ownerId") ownerId: String,
         @RequestBody body: MissionNavAction
     ): MissionAction? {
-        createNavAction.execute(body)
+        createNavAction.execute(input = body, ownerId = ownerId)
         return MissionAction.fromMissionActionEntity(getNavActionById.execute(actionId = body.id))
     }
 
@@ -148,7 +148,7 @@ class ActionRestController(
         @RequestBody body: MissionAction
     ): MissionAction? {
         val response = when (body.source) {
-            MissionSourceEnum.RAPPORT_NAV -> updateNavAction.execute(actionId, body as MissionNavAction)
+            MissionSourceEnum.RAPPORT_NAV -> updateNavAction.execute(actionId, body as MissionNavAction, ownerId)
             MissionSourceEnum.MONITORENV -> updateEnvAction.execute(actionId, body as MissionEnvAction)
             MissionSourceEnum.MONITORFISH -> updateFishAction.execute(actionId, body as MissionFishAction)
             else -> throw BackendUsageException(

@@ -48,7 +48,7 @@ data class Mission(
                 MissionNavActionEntity(
                     id = UUID.fromString(a.id),
                     missionId = a.missionId,
-                    ownerId = it.ownerId?.let { UUID.fromString(it) },
+                    ownerId = a.ownerId?.let { UUID.fromString(it) },
                     actionType = it.actionType,
                     status = it.status,
                     sourcesOfMissingDataForStats = it.sourcesOfMissingDataForStats,
