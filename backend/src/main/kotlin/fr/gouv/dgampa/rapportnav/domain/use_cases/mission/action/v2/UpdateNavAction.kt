@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.ResolveActionOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
@@ -19,9 +20,10 @@ class UpdateNavAction(
     private val missionActionRepository: INavMissionActionRepository,
     private val processMissionActionTarget: ProcessMissionActionTarget,
     private val entityValidityValidator: EntityValidityValidator,
-    private val getMissionDates: GetMissionDates
+    private val getMissionDates: GetMissionDates,
+    private val resolveActionOwnerId: ResolveActionOwnerId
 ) {
-    fun execute(id: String, input: MissionNavAction): MissionNavActionEntity {
+    fun execute(id: String, input: MissionNavAction, ownerId: String? = null): MissionNavActionEntity {
         val action = MissionNavActionData.toMissionNavActionEntity(input)
         if (id != input.id) {
             throw BackendUsageException(
@@ -29,6 +31,9 @@ class UpdateNavAction(
                 message = "UpdateNavAction: action id mismatch"
             )
         }
+
+        // Stamp the owner from the authoritative URL owner so an update never clears/omits ownerId.
+        resolveActionOwnerId.execute(ownerId)?.let { action.ownerId = it }
 
         entityValidityValidator.validateAndThrow(action, ValidateThrowsBeforeSave::class.java)
 

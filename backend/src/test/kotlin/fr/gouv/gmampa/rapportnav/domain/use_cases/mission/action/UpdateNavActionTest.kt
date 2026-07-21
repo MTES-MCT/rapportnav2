@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.ResolveActionOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
@@ -27,7 +28,10 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.argThat
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -50,6 +54,9 @@ class UpdateNavActionTest {
     @MockitoBean
     private lateinit var getMissionDates: GetMissionDates
 
+    @MockitoBean
+    private lateinit var resolveActionOwnerId: ResolveActionOwnerId
+
     private val validResult = CompletenessForStatsEntity(
         status = CompletenessForStatsStatusEnum.VALID,
         errors = emptyList()
@@ -61,6 +68,7 @@ class UpdateNavActionTest {
         val input = MissionNavAction(
             id = actionId,
             missionId = 761,
+            ownerId = UUID.randomUUID().toString(),
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORT_NAV,
             data = getNavActionDataInput(),
@@ -85,11 +93,48 @@ class UpdateNavActionTest {
             missionActionRepository = missionActionRepository,
             processMissionActionTarget = processMissionActionTarget,
             entityValidityValidator = entityValidityValidator,
-            getMissionDates = getMissionDates
+            getMissionDates = getMissionDates,
+            resolveActionOwnerId = resolveActionOwnerId
         )
 
         val response = updateNavAction.execute(actionId, input)
         assertThat(response).isNotNull
+    }
+
+    @Test
+    fun `stamps ownerId resolved from the path owner before saving`() {
+        val actionId = UUID.randomUUID().toString()
+        val ownerUuid = UUID.randomUUID()
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            ownerId = UUID.randomUUID().toString(),
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORT_NAV,
+            data = getNavActionDataInput(),
+        )
+        whenever(resolveActionOwnerId.execute("761")).thenReturn(ownerUuid)
+        `when`(entityValidityValidator.validate(any(), eq(ValidateThrowsBeforeSave::class.java))).thenReturn(validResult)
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(MissionActionModelMock.create())
+        `when`(processMissionActionTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
+            MissionDatesOutput(
+                startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
+                endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
+            )
+        )
+
+        val updateNavAction = UpdateNavAction(
+            missionActionRepository = missionActionRepository,
+            processMissionActionTarget = processMissionActionTarget,
+            entityValidityValidator = entityValidityValidator,
+            getMissionDates = getMissionDates,
+            resolveActionOwnerId = resolveActionOwnerId
+        )
+
+        updateNavAction.execute(actionId, input, ownerId = "761")
+
+        verify(missionActionRepository).save(argThat { this.ownerId == ownerUuid })
     }
 
 
@@ -99,6 +144,7 @@ class UpdateNavActionTest {
         val input = MissionNavAction(
             id = UUID.randomUUID().toString(),
             missionId = 761,
+            ownerId = UUID.randomUUID().toString(),
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORT_NAV,
             data = getNavActionDataInput(),
@@ -108,7 +154,8 @@ class UpdateNavActionTest {
             missionActionRepository = missionActionRepository,
             processMissionActionTarget = processMissionActionTarget,
             entityValidityValidator = entityValidityValidator,
-            getMissionDates = getMissionDates
+            getMissionDates = getMissionDates,
+            resolveActionOwnerId = resolveActionOwnerId
         )
 
         val exception = assertThrows<BackendUsageException> {
