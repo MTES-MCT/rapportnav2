@@ -9,13 +9,13 @@ class GetComputeNavActionListByMissionId(
     private val processNavAction: ProcessNavAction,
     private val getNavActionListByOwnerId: GetNavActionListByOwnerId
 ) {
-    fun execute(missionId: Int): List<MissionNavActionEntity> {
+    fun execute(missionId: Int, bypassValidation: Boolean = false): List<MissionNavActionEntity> {
         val actions = getNavActionListByOwnerId.execute(missionId = missionId)
-        return actions.map { processNavAction.execute(action = it) }
+        return actions.map { processNavAction.execute(action = it, bypassValidation = bypassValidation) }
     }
 
-    fun execute(ownerId: UUID): List<MissionNavActionEntity> {
+    fun execute(ownerId: UUID, bypassValidation: Boolean = false): List<MissionNavActionEntity> {
         val actions = getNavActionListByOwnerId.execute(ownerId = ownerId)
-        return actions.map { processNavAction.execute(action = it) }
+        return actions.map { processNavAction.execute(action = it, bypassValidation = bypassValidation) }
     }
 }

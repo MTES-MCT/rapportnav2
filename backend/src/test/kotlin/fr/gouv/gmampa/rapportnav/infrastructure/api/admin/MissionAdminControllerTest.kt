@@ -36,11 +36,13 @@ class MissionAdminControllerTest {
     private lateinit var softDeleteMission: SoftDeleteMission
 
     @Test
-    fun `getAll should return paginated missions`() {
+    fun `getAll should return paginated missions with validation columns`() {
         val model = MissionModel(
             id = UUID.randomUUID(),
             serviceId = 1,
-            startDateTimeUtc = Instant.parse("2025-01-02T00:00:00Z")
+            startDateTimeUtc = Instant.parse("2025-01-02T00:00:00Z"),
+            isCompleteForStats = false,
+            sourcesOfMissingData = "RAPPORT_NAV,MONITORENV"
         )
         val page = PageImpl(listOf(model), PageRequest.of(0, 10), 1)
         `when`(getAllMissions.execute(0, 10, null)).thenReturn(page)
@@ -51,6 +53,8 @@ class MissionAdminControllerTest {
             .andExpect(jsonPath("$.items").isArray)
             .andExpect(jsonPath("$.items.length()").value(1))
             .andExpect(jsonPath("$.items[0].isDeleted").value(false))
+            .andExpect(jsonPath("$.items[0].isCompleteForStats").value(false))
+            .andExpect(jsonPath("$.items[0].sourcesOfMissingData").value("RAPPORT_NAV,MONITORENV"))
     }
 
     @Test

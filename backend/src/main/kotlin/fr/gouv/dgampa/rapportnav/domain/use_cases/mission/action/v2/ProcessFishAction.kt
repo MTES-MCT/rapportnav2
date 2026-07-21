@@ -18,7 +18,7 @@ class ProcessFishAction(
     private val entityValidityValidator: EntityValidityValidator
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(missionId: Int, action: MissionAction): MissionFishActionEntity {
+    fun execute(missionId: Int, action: MissionAction, bypassValidation: Boolean = false): MissionFishActionEntity {
         val entity = MissionFishActionEntity.fromFishAction(action)
         val sati = getComputeSati.execute(action = action)
         val targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
@@ -26,10 +26,14 @@ class ProcessFishAction(
         entity.sati = sati
         entity.targets = targets
 
-        val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
-        val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
+        if (bypassValidation) {
+            entity.markCompleteForStats()
+        } else {
+            val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
+            val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
+            entity.computeValidity(validator = entityValidityValidator, policy = policy)
+        }
 
-        entity.computeValidity(validator = entityValidityValidator, policy = policy)
         return entity
     }
 }

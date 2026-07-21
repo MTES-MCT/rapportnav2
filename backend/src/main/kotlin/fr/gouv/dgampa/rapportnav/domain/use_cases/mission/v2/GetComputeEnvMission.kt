@@ -18,11 +18,18 @@ class GetComputeEnvMission(
     private val getMissionAction: GetMissionAction,
     private val getEnvMissionById: GetEnvMissionById,
     private val getMissionByExternalId: GetMissionByExternalId,
-    private val missionNavRepository: IMissionNavRepository
+    private val missionNavRepository: IMissionNavRepository,
+    private val syncMissionValidation: SyncMissionValidation
 ) {
+    /**
+     * @param forceComputeValidation set by the write/recompute path to always compute action validity for real. Read
+     * callers omit it and get the shortcut: when the mission row's stored completeness is already VALID,
+     * actions are marked complete without re-running the per-field validation.
+     */
     fun execute(
         missionId: Int? = null,
-        envMission: MissionEnvEntity? = null
+        envMission: MissionEnvEntity? = null,
+        forceComputeValidation: Boolean = false
     ): MissionEntity {
 
         if (missionId == null && envMission == null) {
@@ -42,43 +49,51 @@ class GetComputeEnvMission(
             ?: throw BackendInternalException(message = "Mission has no id")
 
         // Prepopulate & keep the local mission row in sync with MonitorEnv (the source of truth).
-        // Side-effect only: children are still read by the Int id below (no type switch in this step).
-        syncLocalMission(externalId = id, env = mission)
+        val localMission = syncLocalMission(externalId = id, env = mission)
+        // NOTE: for now we only COLLECT the mission validation (persisted below via SyncMissionValidation),
+        // we do not yet consume the stored status to short-circuit reads — validation runs every time, as
+        // before. Re-enable the read shortcut by restoring the line below once the collected data is trusted.
+        // val bypassValidation = !forceComputeValidation && localMission.isCompleteForStats == true
+        val bypassValidation = false
 
-        val actions = getMissionAction.execute(missionId = id)
+        val actions = getMissionAction.execute(missionId = id, bypassValidation = bypassValidation)
         val generalInfos = getGeneralInfos2.execute(missionId = id, controlUnits = mission.controlUnits)
 
-        return MissionEntity(
+        val missionEntity = MissionEntity(
             id = id,
             data = mission,
             actions = actions,
             generalInfos = generalInfos
         )
+
+        // Transition: persist the mission-level validation onto the (now-synced) mission row.
+        syncMissionValidation.execute(missionEntity)
+
+        return missionEntity
     }
 
     /**
      * Looks up or creates the local mission row keyed by [externalId] (the MonitorEnv Int id),
-     * reconciling the common fields from MonitorEnv.
+     * reconciling the common fields from MonitorEnv. Returns the resolved row (with its stored validation).
      */
-    private fun syncLocalMission(externalId: Int, env: MissionEnvEntity) {
+    private fun syncLocalMission(externalId: Int, env: MissionEnvEntity): MissionModel {
         val existing = getMissionByExternalId.execute(externalId.toString())
         if (existing != null) {
-            overrideFromEnv(existing, env)
-        } else {
-            missionNavRepository.save(
-                MissionModel(
-                    id = UUID.randomUUID(),
-                    externalId = externalId.toString(),
-                    startDateTimeUtc = env.startDateTimeUtc,
-                    endDateTimeUtc = env.endDateTimeUtc,
-                    missionSource = env.missionSource,
-                    isDeleted = env.isDeleted ?: false,
-                    observationsByUnit = env.observationsByUnit,
-                    openBy = env.openBy,
-                    completedBy = env.completedBy
-                )
-            )
+            return overrideFromEnv(existing, env)
         }
+        return missionNavRepository.save(
+            MissionModel(
+                id = UUID.randomUUID(),
+                externalId = externalId.toString(),
+                startDateTimeUtc = env.startDateTimeUtc,
+                endDateTimeUtc = env.endDateTimeUtc,
+                missionSource = env.missionSource,
+                isDeleted = env.isDeleted ?: false,
+                observationsByUnit = env.observationsByUnit,
+                openBy = env.openBy,
+                completedBy = env.completedBy
+            )
+        )
     }
 
     /**

@@ -56,6 +56,24 @@ abstract class MissionActionEntity(
         this.isCompleteForStats = this.completenessForStats?.isComplete == true && this.controlsToComplete.isNullOrEmpty()
     }
 
+    /**
+     * Read-path shortcut: mark this action complete for stats WITHOUT running the (expensive) per-field
+     * completeness validation. Used only when the parent mission's stored completeness is already known to
+     * be VALID (mission-complete ⇒ all actions complete). The display-only derivations (controlsToComplete,
+     * summaryTags) still run so the UI is unaffected.
+     *
+     * Note: env/fish completeness normally merges the live MonitorEnv/MonitorFish completion; here we trust
+     * the stored mission flag instead of re-reading it. It is re-established on the next action write via
+     * RecomputeMissionValidation (which forces a full compute).
+     */
+    open fun markCompleteForStats() {
+        this.completenessForStats = CompletenessForStatsEntity.valid()
+        this.isCompleteForStats = true
+        this.sourcesOfMissingDataForStats = emptyList()
+        this.computeControlsToComplete()
+        this.computeSummaryTags()
+    }
+
     fun isControl(): Boolean {
         return listOf(
             ActionType.CONTROL,

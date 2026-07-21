@@ -1,27 +1,22 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchEnvAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ComputeActionValidityAndRecomputeMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateEnvAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
-import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvActionData
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
-import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.eq
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.isNull
+import org.mockito.kotlin.verify
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -42,9 +37,7 @@ class UpdateEnvActionTest {
     private lateinit var entityValidityValidator: EntityValidityValidator
 
     @MockitoBean
-    private lateinit var getMissionDates: GetMissionDates
-
-    private val realValidator: EntityValidityValidator = EntityValidityValidator.createDefault()
+    private lateinit var computeActionValidityAndRecomputeMission: ComputeActionValidityAndRecomputeMission
 
     @Test
     fun `test execute update env action`() {
@@ -58,28 +51,20 @@ class UpdateEnvActionTest {
         )
 
         `when`(patchEnvAction.execute(anyOrNull())).thenReturn(null)
-        `when`(
-            processMissionActionTarget.execute(
-                anyOrNull(),
-                anyOrNull()
-            )
-        ).thenReturn(listOf(TargetEntityMock.create()))
-        `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
-            MissionDatesOutput(
-                startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
-                endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
-            )
-        )
+        `when`(processMissionActionTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
 
         val updateEnvAction = UpdateEnvAction(
             patchEnvAction = patchEnvAction,
             processMissionActionTarget = processMissionActionTarget,
-            entityValidityValidator = realValidator,
-            getMissionDates = getMissionDates
+            entityValidityValidator = entityValidityValidator,
+            computeActionValidityAndRecomputeMission = computeActionValidityAndRecomputeMission
         )
 
         val response = updateEnvAction.execute(actionId, input)
         assertThat(response).isNotNull
+
+        // Validation persistence (snapshot + conditional mission recompute) is delegated for the env action.
+        verify(computeActionValidityAndRecomputeMission).execute(argThat { this.getActionId() == actionId }, isNull(), anyOrNull())
     }
 
     private fun getEnvActionData() = MissionEnvActionData(

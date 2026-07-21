@@ -12,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.ResolveActionOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.CreateNavAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ComputeActionValidityAndRecomputeMission
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
@@ -26,6 +27,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
@@ -43,6 +45,9 @@ class CreateNavActionTest {
 
     @MockitoBean
     private lateinit var entityValidityValidator: EntityValidityValidator
+
+    @MockitoBean
+    private lateinit var computeActionValidityAndRecomputeMission: ComputeActionValidityAndRecomputeMission
 
     @MockitoBean
     private lateinit var resolveActionOwnerId: ResolveActionOwnerId
@@ -70,10 +75,41 @@ class CreateNavActionTest {
         val createNavAction = CreateNavAction(
             missionActionRepository = missionActionRepository,
             entityValidityValidator = entityValidityValidator,
+            computeActionValidityAndRecomputeMission = computeActionValidityAndRecomputeMission,
             resolveActionOwnerId = resolveActionOwnerId
         )
         val response = createNavAction.execute(input)
         assertThat(response).isNotNull
+    }
+
+    @Test
+    fun `delegates validation persistence to ComputeActionValidityAndRecomputeMission for the created action`() {
+        val actionId = UUID.randomUUID().toString()
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            ownerId = UUID.randomUUID().toString(),
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORT_NAV,
+            data = getNavActionDataInput(),
+        )
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(MissionActionModelMock.create())
+
+        val createNavAction = CreateNavAction(
+            missionActionRepository = missionActionRepository,
+            entityValidityValidator = entityValidityValidator,
+            computeActionValidityAndRecomputeMission = computeActionValidityAndRecomputeMission,
+            resolveActionOwnerId = resolveActionOwnerId
+        )
+        createNavAction.execute(input)
+
+        // Validity is computed on the action, and the mission is recomputed only AFTER the row is saved
+        // (otherwise the aggregate would re-read the not-yet-persisted action).
+        verify(computeActionValidityAndRecomputeMission).computeActionValidity(argThat { this.getActionId() == actionId }, anyOrNull(), anyOrNull())
+        inOrder(missionActionRepository, computeActionValidityAndRecomputeMission).apply {
+            verify(missionActionRepository).save(anyOrNull())
+            verify(computeActionValidityAndRecomputeMission).recomputeMission(argThat { this.getActionId() == actionId }, anyOrNull())
+        }
     }
 
     @Test
@@ -93,6 +129,7 @@ class CreateNavActionTest {
         val createNavAction = CreateNavAction(
             missionActionRepository = missionActionRepository,
             entityValidityValidator = entityValidityValidator,
+            computeActionValidityAndRecomputeMission = computeActionValidityAndRecomputeMission,
             resolveActionOwnerId = resolveActionOwnerId
         )
         createNavAction.execute(input = input, ownerId = "761")
@@ -119,6 +156,7 @@ class CreateNavActionTest {
         val createNavAction = CreateNavAction(
             missionActionRepository = missionActionRepository,
             entityValidityValidator = entityValidityValidator,
+            computeActionValidityAndRecomputeMission = computeActionValidityAndRecomputeMission,
             resolveActionOwnerId = resolveActionOwnerId
         )
 
@@ -148,6 +186,7 @@ class CreateNavActionTest {
         val createNavAction = CreateNavAction(
             missionActionRepository = missionActionRepository,
             entityValidityValidator = entityValidityValidator,
+            computeActionValidityAndRecomputeMission = computeActionValidityAndRecomputeMission,
             resolveActionOwnerId = resolveActionOwnerId
         )
 

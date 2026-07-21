@@ -16,16 +16,25 @@ class ProcessNavAction(
     private val entityValidityValidator: EntityValidityValidator
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(action: MissionNavActionEntity): MissionNavActionEntity {
+    /**
+     * @param bypassValidation when true, skip the per-field completeness computation and mark the action
+     * valid (the parent mission is already known complete — see [MissionActionEntity.markCompleteForStats]).
+     * When false, run the full validation.
+     */
+    fun execute(action: MissionNavActionEntity, bypassValidation: Boolean = false): MissionNavActionEntity {
         action.targets = getComputeTarget.execute(actionId = action.getActionId(), isControl = action.isControl())
 
-        val missionDates = getMissionDates.execute(
-            missionId = action.missionId,
-            ownerId = action.ownerId,
-            inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
-        )
-        val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
-        action.computeValidity(validator = entityValidityValidator, policy = policy)
+        if (bypassValidation) {
+            action.markCompleteForStats()
+        } else {
+            val missionDates = getMissionDates.execute(
+                missionId = action.missionId,
+                ownerId = action.ownerId,
+                inquiryId = if (action.actionType == ActionType.INQUIRY) action.ownerId else null
+            )
+            val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
+            action.computeValidity(validator = entityValidityValidator, policy = policy)
+        }
 
         return action
     }
