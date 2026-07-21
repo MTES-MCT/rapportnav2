@@ -182,6 +182,7 @@ class RequiredFieldsValidatorTest {
         ) = MissionNavActionEntity(
             id = UUID.randomUUID(),
             missionId = 1,
+            ownerId = UUID.randomUUID(),
             actionType = actionType,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,

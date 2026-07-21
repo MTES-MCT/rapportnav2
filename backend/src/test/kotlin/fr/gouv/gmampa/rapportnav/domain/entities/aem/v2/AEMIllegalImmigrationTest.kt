@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMIllegalImmigration
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -30,14 +31,14 @@ class AEMIllegalImmigrationTest {
 
     private fun navActionEntities(): List<MissionNavActionEntity> {
         val actions = listOf(
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.RESCUE,
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
             ),
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
@@ -47,7 +48,7 @@ class AEMIllegalImmigrationTest {
                 nbOfInterceptedMigrants = 5,
                 nbOfSuspectedSmugglers = 0,
             ),
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ILLEGAL_IMMIGRATION,

@@ -22,7 +22,7 @@ object MissionNavActionEntityMock {
     fun create(
         missionId: Int? = null,
         id: UUID? = null,
-        ownerId: UUID? = null,
+        ownerId: UUID = UUID.randomUUID(),
         startDateTimeUtc: Instant? = DEFAULT_START_DATE,
         endDateTimeUtc: Instant? = null,
         observations: String? = null,

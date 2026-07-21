@@ -1,11 +1,11 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAction
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -54,9 +54,10 @@ class GetNavActionByIdTest {
     fun `test execute get nav action by id`() {
         val missionId = 761
         val actionId = UUID.randomUUID()
-        val action = MissionActionModel(
+        val action = MissionActionModelMock.create(
             id = actionId,
             missionId = missionId,
+            ownerId = UUID.randomUUID(),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",
@@ -66,7 +67,7 @@ class GetNavActionByIdTest {
             actionType = ActionType.CONTROL,
         )
 
-        val response = MissionNavActionEntity(
+        val response = MissionNavActionEntityMock.create(
             id = actionId,
             missionId = 761,
             actionType = ActionType.ILLEGAL_IMMIGRATION,

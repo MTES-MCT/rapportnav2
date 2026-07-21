@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action.JPAMissionActionRepository
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -33,19 +34,19 @@ class JPAMissionActionRepositoryTest {
     final val id1 = UUID.randomUUID()
     final val id2 = UUID.randomUUID()
     private val missionActions: List<MissionActionModel> = listOf(
-        MissionActionModel(
+        MissionActionModelMock.create(
             id = id1,
             missionId = 761,
             actionType = ActionType.CONTROL,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
-        MissionActionModel(
+        MissionActionModelMock.create(
             id = UUID.randomUUID(),
             missionId = 761,
             actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
-        MissionActionModel(
+        MissionActionModelMock.create(
             id = id2,
             missionId = 761,
             actionType = ActionType.SURVEILLANCE,
