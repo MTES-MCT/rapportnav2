@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
@@ -37,7 +38,7 @@ class GetStatusForActionTests {
     @Test
     fun `execute Should return the last action status if the last action is a starting status`() {
         val startDatetime = Instant.parse("2022-01-01T11:00:00Z")
-        val startingAction = MissionActionModel(
+        val startingAction = MissionActionModelMock.create(
             id = UUID.randomUUID(),
             missionId = missionId,
             startDateTimeUtc = startDatetime,
@@ -53,14 +54,14 @@ class GetStatusForActionTests {
     @Test
     fun `execute Should return the last action status `() {
         val startDatetime = Instant.parse("2022-01-01T11:00:00Z")
-        val startingAction = MissionActionModel(
+        val startingAction = MissionActionModelMock.create(
             id = UUID.randomUUID(),
             missionId = missionId,
             startDateTimeUtc = startDatetime,
             status = UNAVAILABLE_STATUS_AS_STRING,
             actionType = ActionType.STATUS,
         )
-        val lastAction = MissionActionModel(
+        val lastAction = MissionActionModelMock.create(
             id = UUID.randomUUID(),
             missionId = missionId,
             startDateTimeUtc = startDatetime.plusSeconds(1),

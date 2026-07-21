@@ -28,7 +28,7 @@ class GetAllMissionActionsTest {
     @MockitoBean
     private lateinit var repository: INavMissionActionRepository
 
-    private fun action(id: UUID = UUID.randomUUID(), ownerId: UUID? = null, start: Instant = Instant.parse("2025-01-01T00:00:00Z")): MissionActionModel =
+    private fun action(id: UUID = UUID.randomUUID(), ownerId: UUID = UUID.randomUUID(), start: Instant = Instant.parse("2025-01-01T00:00:00Z")): MissionActionModel =
         MissionActionModel(id = id, ownerId = ownerId, actionType = ActionType.CONTROL, startDateTimeUtc = start)
 
     @Test

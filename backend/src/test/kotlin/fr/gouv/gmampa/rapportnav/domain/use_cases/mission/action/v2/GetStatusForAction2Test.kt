@@ -44,7 +44,7 @@ class GetStatusForAction2Test {
 
     @Test
     fun `returns UNKNOWN if no STATUS before reference time`() {
-        val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED, startDateTimeUtc =  Instant.parse("2020-01-02T00:00:00Z"))
+        val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED.toString(), startDateTimeUtc =  Instant.parse("2020-01-02T00:00:00Z"))
 
         whenever(repository.findAllByMissionId(9)).thenReturn(listOf(t1))
 
@@ -56,8 +56,8 @@ class GetStatusForAction2Test {
 
     @Test
     fun `returns latest STATUS when no actionStartDateTimeUtc provided`() {
-        val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED, startDateTimeUtc =  Instant.parse("2020-01-01T00:00:00Z"))
-        val t2 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING, startDateTimeUtc = Instant.parse("2020-02-01T00:00:00Z"))
+        val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED.toString(), startDateTimeUtc =  Instant.parse("2020-01-01T00:00:00Z"))
+        val t2 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING.toString(), startDateTimeUtc = Instant.parse("2020-02-01T00:00:00Z"))
 
         whenever(repository.findAllByMissionId(1)).thenReturn(listOf(t1, t2))
 
@@ -68,8 +68,8 @@ class GetStatusForAction2Test {
 
     @Test
     fun `returns last STATUS before reference time`() {
-        val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED, startDateTimeUtc =  Instant.parse("2020-01-01T00:00:00Z"))
-        val t2 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING, startDateTimeUtc =  Instant.parse("2020-01-02T00:00:00Z"))
+        val t1 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.ANCHORED.toString(), startDateTimeUtc =  Instant.parse("2020-01-01T00:00:00Z"))
+        val t2 = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING.toString(), startDateTimeUtc =  Instant.parse("2020-01-02T00:00:00Z"))
 
         whenever(repository.findAllByMissionId(5)).thenReturn(
             listOf(t1, t2)

@@ -32,7 +32,7 @@ class MissionActionAdminControllerTest {
     @MockitoBean
     private lateinit var getAllMissionActions: GetAllMissionActions
 
-    private fun action(id: UUID = UUID.randomUUID(), ownerId: UUID? = null): MissionActionModel =
+    private fun action(id: UUID = UUID.randomUUID(), ownerId: UUID = UUID.randomUUID()): MissionActionModel =
         MissionActionModel(
             id = id,
             ownerId = ownerId,

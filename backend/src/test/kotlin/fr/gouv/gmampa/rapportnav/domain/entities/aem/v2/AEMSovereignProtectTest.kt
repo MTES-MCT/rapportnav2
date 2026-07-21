@@ -13,6 +13,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEnti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -26,7 +27,7 @@ class AEMSovereignProtectTest {
     @Test
     fun `Should set last status action endDateTimeUtc to missionEndDateTime`() {
         val navActions = listOf(
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.STATUS,
@@ -45,7 +46,7 @@ class AEMSovereignProtectTest {
     @Test
     fun `Should return 0 for getNbrHourAtSea when no status actions`() {
         val navActions = listOf(
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.CONTROL,
@@ -62,8 +63,8 @@ class AEMSovereignProtectTest {
         val timestamp = Instant.parse("2019-09-09T02:00:00.000+01:00")
         val target = { id: String -> TargetEntity(id = UUID.randomUUID(), actionId = id, targetType = TargetType.VEHICLE) }
 
-        fun navAction(targets: List<TargetEntity>? = null) = MissionNavActionEntity(
-            id = UUID.randomUUID(), missionId = 761, actionType = ActionType.CONTROL,
+        fun navAction(targets: List<TargetEntity>? = null) = MissionNavActionEntityMock.create(
+            id = UUID.randomUUID(), missionId = 761, ownerId = UUID.randomUUID(), actionType = ActionType.CONTROL,
             startDateTimeUtc = timestamp, controlMethod = ControlMethod.SEA, targets = targets
         )
         fun envAction(actionNumberOfControls: Int? = null) = MissionEnvActionEntity(
@@ -136,7 +137,7 @@ class AEMSovereignProtectTest {
     @Test
     fun `Should count controlled vessels from nav targets`() {
         val navActions = listOf(
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.CONTROL,
@@ -148,7 +149,7 @@ class AEMSovereignProtectTest {
                     TargetEntity(id = UUID.randomUUID(), actionId = "n1", targetType = TargetType.VEHICLE)
                 )
             ),
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.STATUS,
@@ -212,7 +213,7 @@ class AEMSovereignProtectTest {
 
     private fun getNavActions(): List<MissionNavActionEntity> {
         val actions = listOf(
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.CONTROL,
@@ -223,7 +224,7 @@ class AEMSovereignProtectTest {
                     TargetEntity(id = UUID.randomUUID(), actionId = "nav-1", targetType = TargetType.VEHICLE)
                 )
             ),
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.STATUS,
@@ -231,7 +232,7 @@ class AEMSovereignProtectTest {
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 status = ActionStatusType.ANCHORED
             ),
-            MissionNavActionEntity(
+            MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.STATUS,

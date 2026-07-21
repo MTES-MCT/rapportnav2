@@ -3,12 +3,12 @@ package fr.gouv.dgampa.rapportnav.domain.utils
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
 import fr.gouv.dgampa.rapportnav.domain.validation.WithinMissionDateRange
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -79,7 +79,7 @@ class EntityValidityValidatorTest {
         @Test
         @DisplayName("should be valid when all required fields present")
         fun `should be valid when all required fields present`() {
-            val entity = MissionNavActionEntity(
+            val entity = MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 1,
                 actionType = ActionType.OTHER,
@@ -96,7 +96,7 @@ class EntityValidityValidatorTest {
         @Test
         @DisplayName("should be incomplete when required field is missing")
         fun `should be incomplete when required field is missing`() {
-            val entity = MissionNavActionEntity(
+            val entity = MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 1,
                 actionType = ActionType.OTHER,
@@ -117,7 +117,7 @@ class EntityValidityValidatorTest {
         @Test
         @DisplayName("should include source in result when incomplete")
         fun `should include source in result when incomplete`() {
-            val entity = MissionNavActionEntity(
+            val entity = MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 1,
                 actionType = ActionType.OTHER,
@@ -137,7 +137,7 @@ class EntityValidityValidatorTest {
         @Test
         @DisplayName("should not include source when valid")
         fun `should not include source when valid`() {
-            val entity = MissionNavActionEntity(
+            val entity = MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 1,
                 actionType = ActionType.OTHER,
@@ -163,7 +163,7 @@ class EntityValidityValidatorTest {
         @Test
         @DisplayName("should merge multiple incomplete results")
         fun `should merge multiple incomplete results`() {
-            val entity = MissionNavActionEntity(
+            val entity = MissionNavActionEntityMock.create(
                 id = UUID.randomUUID(),
                 missionId = 1,
                 actionType = ActionType.OTHER,

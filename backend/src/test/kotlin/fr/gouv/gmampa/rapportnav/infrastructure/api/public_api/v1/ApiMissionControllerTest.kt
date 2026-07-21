@@ -1,10 +1,10 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.api.public_api.v1
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.infrastructure.api.ControllersExceptionHandler
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.ApiMissionController
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
@@ -34,7 +34,7 @@ class ApiMissionControllerTest {
     @Test
     fun `should return mission with containsActionsAddedByUnit true when nav actions exist`() {
         val missionId = 42
-        val action = MissionNavActionEntity(
+        val action = MissionNavActionEntityMock.create(
             id = UUID.randomUUID(),
             missionId = missionId,
             actionType = ActionType.CONTROL,

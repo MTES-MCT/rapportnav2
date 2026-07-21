@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.mockito.kotlin.anyOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -43,7 +44,7 @@ class ProcessNavActionTest {
     fun `test execute get nav action by id`() {
         val missionId = 761
         val actionId = UUID.randomUUID()
-        val action = MissionNavActionEntity(
+        val action = MissionNavActionEntityMock.create(
             id = actionId,
             missionId = missionId,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),

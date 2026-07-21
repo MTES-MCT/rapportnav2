@@ -95,7 +95,7 @@ class MissionNavActionDataTest {
         @Test
         fun `execute should use input status when is Status Action`() {
             val model =
-                MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
+                MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING.toString())
             val input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
@@ -105,7 +105,7 @@ class MissionNavActionDataTest {
         @Test
         fun `execute should use action data status when is Status Action and input status is null`() {
             val model =
-                MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
+                MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING.toString())
             var input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
@@ -115,7 +115,7 @@ class MissionNavActionDataTest {
         @Test
         fun `execute should use action data status otherwise`() {
             val model =
-                MissionActionModelMock.create(actionType = ActionType.CONTROL, status = ActionStatusType.NAVIGATING)
+                MissionActionModelMock.create(actionType = ActionType.CONTROL, status = ActionStatusType.NAVIGATING.toString())
             val input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
