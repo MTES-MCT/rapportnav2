@@ -15,10 +15,10 @@ class GetMissionAction(
     private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId,
     private val getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId,
 ) {
-    fun execute(missionId: Int): List<MissionActionEntity> {
-        val envActions = getEnvActionByMissionId.execute(missionId = missionId)
-        val navActions = getNavActionByMissionId.execute(missionId = missionId)
-        val fishActions = getFIshListActionByMissionId.execute(missionId = missionId)
+    fun execute(missionId: Int, bypassValidation: Boolean = false): List<MissionActionEntity> {
+        val envActions = getEnvActionByMissionId.execute(missionId = missionId, bypassValidation = bypassValidation)
+        val navActions = getNavActionByMissionId.execute(missionId = missionId, bypassValidation = bypassValidation)
+        val fishActions = getFIshListActionByMissionId.execute(missionId = missionId, bypassValidation = bypassValidation)
 
         // extract STATUS actions from already-fetched nav actions to avoid re-querying the DB per action
         val statusActions = navActions

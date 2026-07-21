@@ -11,10 +11,10 @@ class GetComputeEnvActionListByMissionId(
     private val getEnvMissionById: GetEnvMissionById,
     private val processEnvAction: ProcessEnvAction
 ) {
-    fun execute(missionId: Int): List<MissionEnvActionEntity> {
+    fun execute(missionId: Int, bypassValidation: Boolean = false): List<MissionEnvActionEntity> {
         val actions = getEnvActionList(missionId = missionId)
         return actions.filter { it.actionType !== ActionTypeEnum.NOTE }
-            .map { processEnvAction.execute(missionId = missionId, envAction = it) }
+            .map { processEnvAction.execute(missionId = missionId, envAction = it, bypassValidation = bypassValidation) }
     }
 
     private fun getEnvActionList(missionId: Int): List<EnvActionEntity> {

@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.verifyNoInteractions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -64,12 +65,6 @@ class ProcessNavActionTest {
                 endDateTimeUtc = Instant.parse("2019-09-10T00:00:00Z")
             )
         )
-        processNavAction = ProcessNavAction(
-            getComputeTarget = getComputeTarget,
-            getStatusForAction = getStatusForAction,
-            getMissionDates = getMissionDates,
-            entityValidityValidator = entityValidityValidator
-        )
 
         val entity = processNavAction.execute(action = action)
         val infractionIds = entity.getAllInfractions().map { it.id }.toSet()
@@ -77,5 +72,23 @@ class ProcessNavActionTest {
         assertThat(entity).isNotNull
         assertThat(entity.id).isEqualTo(actionId)
         assertThat(infractionIds).isEqualTo(mockInfractionIds)
+    }
+
+    @Test
+    fun `bypassValidation short-circuits per-field validation and marks the action complete`() {
+        val actionId = UUID.randomUUID()
+        val action = MissionNavActionEntityMock.create(id = actionId, actionType = ActionType.CONTROL)
+        `when`(getComputeTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+
+        val entity = processNavAction.execute(action = action, bypassValidation = true)
+
+        assertThat(entity.isCompleteForStats).isTrue()
+        assertThat(entity.completenessForStats?.isComplete).isTrue()
+        assertThat(entity.sourcesOfMissingDataForStats).isEmpty()
+        // display-only bits still computed
+        assertThat(entity.summaryTags).isNotNull
+        assertThat(entity.controlsToComplete).isNotNull
+        // the completeness validator is never consulted on the shortcut path
+        verifyNoInteractions(entityValidityValidator, getMissionDates)
     }
 }

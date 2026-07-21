@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.RecomputeMissionValidation
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -24,13 +25,17 @@ class DeleteNavActionTest {
     @MockitoBean
     private lateinit var missionActionRepository: INavMissionActionRepository
 
+    @MockitoBean
+    private lateinit var recomputeMissionValidation: RecomputeMissionValidation
+
     @Test
     fun `test execute get nav action by id`() {
         val actionId = UUID.randomUUID()
+        val ownerId = UUID.randomUUID()
         val action = MissionActionModel(
             id = actionId,
             missionId = 761,
-            ownerId = UUID.randomUUID(),
+            ownerId = ownerId,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",
@@ -44,7 +49,8 @@ class DeleteNavActionTest {
 
         val deleteNavAction = DeleteNavAction(
             deleteTarget = deleteTarget,
-            missionActionRepository = missionActionRepository
+            missionActionRepository = missionActionRepository,
+            recomputeMissionValidation = recomputeMissionValidation
         )
 
         deleteNavAction.execute(id = actionId)
@@ -55,5 +61,7 @@ class DeleteNavActionTest {
         }, eq(ActionType.CONTROL))
 
         verify(missionActionRepository, times(1)).deleteById(actionId)
+        // removing an action recomputes the mission validity
+        verify(recomputeMissionValidation, times(1)).forNavMission(ownerId)
     }
 }

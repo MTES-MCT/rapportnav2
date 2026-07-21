@@ -15,6 +15,8 @@ data class AdminMissionOutput(
     val endDateTimeUtc: Instant?,
     val missionSource: MissionSourceEnum?,
     val isDeleted: Boolean,
+    val isCompleteForStats: Boolean?,
+    val sourcesOfMissingData: String?,
     val createdAt: Instant?,
     val updatedAt: Instant?
 ) {
@@ -30,6 +32,8 @@ data class AdminMissionOutput(
                 endDateTimeUtc = model.endDateTimeUtc,
                 missionSource = model.missionSource,
                 isDeleted = model.isDeleted,
+                isCompleteForStats = model.isCompleteForStats,
+                sourcesOfMissingData = model.sourcesOfMissingData,
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt
             )

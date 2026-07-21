@@ -46,6 +46,14 @@ data class MissionModel(
     @Column(name = "observations_by_unit", nullable = true)
     var observationsByUnit: String? = null,
 
+    // Mission-level validation aggregated from actions + env data + general info.
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
+
+    // comma-joined MissionSourceEnum names
+    @Column(name = "sources_of_missing_data", nullable = true)
+    var sourcesOfMissingData: String? = null,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,

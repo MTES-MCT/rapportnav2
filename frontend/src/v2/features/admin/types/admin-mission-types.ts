@@ -8,6 +8,8 @@ export type AdminMission = {
   endDateTimeUtc?: string
   missionSource?: string
   isDeleted: boolean
+  isCompleteForStats?: boolean
+  sourcesOfMissingData?: string
   createdAt?: string
   updatedAt?: string
 }

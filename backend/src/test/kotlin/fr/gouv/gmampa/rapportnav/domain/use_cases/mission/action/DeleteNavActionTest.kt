@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionA
 import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.DeleteInquiry
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.DeleteNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.DeleteTarget
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.RecomputeMissionValidation
 import org.assertj.core.api.Assertions.assertThatNoException
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doNothing
@@ -25,6 +26,9 @@ class DeleteNavActionTest {
     @MockitoBean
     private lateinit var  deleteInquiry: DeleteInquiry
 
+    @MockitoBean
+    private lateinit var recomputeMissionValidation: RecomputeMissionValidation
+
     @Test
     fun `test execute delete nav action`() {
         val actionId = UUID.randomUUID()
@@ -32,7 +36,8 @@ class DeleteNavActionTest {
 
         val deleteNavAction = DeleteNavAction(
             deleteTarget = deleteTarget,
-            missionActionRepository = missionActionRepository
+            missionActionRepository = missionActionRepository,
+            recomputeMissionValidation = recomputeMissionValidation
         )
         deleteNavAction.execute(actionId)
         assertThatNoException()

@@ -70,6 +70,11 @@ data class MissionEnvActionEntity(
         return id.toString()
     }
 
+    override fun markCompleteForStats() {
+        super.markCompleteForStats()
+        this.computeAvailableControlTypesForInfraction()
+    }
+
     override fun computeSummaryTags() {
         val nav = this.getNavSummaryTags()
         val env = this.getEnvSummaryTags()

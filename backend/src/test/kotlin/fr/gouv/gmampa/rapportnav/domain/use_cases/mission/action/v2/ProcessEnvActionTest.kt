@@ -9,13 +9,11 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import java.time.Instant
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.verifyNoInteractions
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
@@ -72,5 +70,20 @@ class ProcessEnvActionTest {
         assertThat(entity).isNotNull
         assertThat(entity.id).isEqualTo(actionId)
         assertThat(infractionIds).isEqualTo(mockInfractionIds)
+    }
+
+    @Test
+    fun `bypassValidation short-circuits per-field validation and marks the env action complete`() {
+        val action = EnvActionControlMock.create(id = UUID.randomUUID())
+        `when`(getComputeEnvTarget.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+
+        val entity = processEnvAction.execute(missionId = 761, envAction = action, bypassValidation = true)
+
+        assertThat(entity.isCompleteForStats).isTrue()
+        assertThat(entity.completenessForStats?.isComplete).isTrue()
+        assertThat(entity.sourcesOfMissingDataForStats).isEmpty()
+        assertThat(entity.summaryTags).isNotNull
+        // no per-field validation nor mission-date resolution on the shortcut path
+        verifyNoInteractions(entityValidityValidator, getMissionDates)
     }
 }

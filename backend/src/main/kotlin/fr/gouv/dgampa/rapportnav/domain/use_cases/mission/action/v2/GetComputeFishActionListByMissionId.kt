@@ -10,9 +10,9 @@ class GetComputeFishActionListByMissionId(
     private val processFishAction: ProcessFishAction,
     private val getFishActionListByMissionId: GetFishActionListByMissionId
 ) {
-    fun execute(missionId: Int): List<MissionFishActionEntity> {
+    fun execute(missionId: Int, bypassValidation: Boolean = false): List<MissionFishActionEntity> {
         val actions = getFishActionList(missionId = missionId)
-        return actions.map { processFishAction.execute(missionId = missionId, action = it) }
+        return actions.map { processFishAction.execute(missionId = missionId, action = it, bypassValidation = bypassValidation) }
     }
 
     private fun getFishActionList(missionId: Int): List<MissionAction> {

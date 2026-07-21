@@ -17,7 +17,7 @@ class ProcessEnvAction(
     private val entityValidityValidator: EntityValidityValidator
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(missionId: Int, envAction: EnvActionEntity): MissionEnvActionEntity {
+    fun execute(missionId: Int, envAction: EnvActionEntity, bypassValidation: Boolean = false): MissionEnvActionEntity {
         val action = MissionEnvActionEntity.fromEnvAction(missionId = missionId, action = envAction)
         val targets = getComputeEnvTarget.execute(
             actionId = action.getActionId(),
@@ -27,10 +27,14 @@ class ProcessEnvAction(
 
         action.targets = targets
 
-        val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
-        val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
+        if (bypassValidation) {
+            action.markCompleteForStats()
+        } else {
+            val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
+            val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
+            action.computeValidity(validator = entityValidityValidator, policy = policy)
+        }
 
-        action.computeValidity(validator = entityValidityValidator, policy = policy)
         return action
     }
 }

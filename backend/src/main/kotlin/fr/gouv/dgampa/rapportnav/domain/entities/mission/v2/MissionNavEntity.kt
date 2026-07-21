@@ -15,7 +15,10 @@ data class MissionNavEntity(
     var endDateTimeUtc: Instant? = null,
     var isDeleted: Boolean = false,
     val missionSource: MissionSourceEnum? = MissionSourceEnum.RAPPORT_NAV,
-    var observationsByUnit: String? = null
+    var observationsByUnit: String? = null,
+    // Mission-level validation, mirrored 1:1 from MissionModel
+    var isCompleteForStats: Boolean? = null,
+    var sourcesOfMissingData: String? = null
 ) {
     companion object {
         fun fromMissionModel(model: MissionModel): MissionNavEntity {
@@ -29,7 +32,9 @@ data class MissionNavEntity(
                 endDateTimeUtc = model.endDateTimeUtc,
                 isDeleted = model.isDeleted,
                 missionSource = model.missionSource,
-                observationsByUnit = model.observationsByUnit
+                observationsByUnit = model.observationsByUnit,
+                isCompleteForStats = model.isCompleteForStats,
+                sourcesOfMissingData = model.sourcesOfMissingData
             )
         }
     }
@@ -45,7 +50,9 @@ data class MissionNavEntity(
             endDateTimeUtc = endDateTimeUtc,
             isDeleted = isDeleted,
             missionSource = missionSource,
-            observationsByUnit = observationsByUnit
+            observationsByUnit = observationsByUnit,
+            isCompleteForStats = isCompleteForStats,
+            sourcesOfMissingData = sourcesOfMissingData
         )
     }
 
