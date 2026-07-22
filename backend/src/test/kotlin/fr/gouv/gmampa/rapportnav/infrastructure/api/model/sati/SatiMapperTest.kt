@@ -40,7 +40,7 @@ class SatiMapperTest {
         )
         val party = SatiPartyEntity(
             id = 3,
-            partyType = "OWNER",
+            partyType = SatiPartyType.VESSEL_OWNER,
             comments = "some comments",
             signature = true,
             contact = contact
@@ -65,9 +65,9 @@ class SatiMapperTest {
             ircs = "FXYZ",
             owner = party,
             flagState = CountryCode.FR,
-            operator = SatiPartyEntity(id = 4, partyType = "CHARTERER"),
-            agent = SatiPartyEntity(id = 5, partyType = "AGENT"),
-            master = SatiPartyEntity(id = 6, partyType = "MASTER"),
+            operator = SatiPartyEntity(id = 4, partyType = SatiPartyType.VESSEL_OPERATOR),
+            agent = SatiPartyEntity(id = 5, partyType = SatiPartyType.VESSEL_AGENT),
+            master = SatiPartyEntity(id = 6, partyType = SatiPartyType.VESSEL_MASTER),
             isMasterOwner = true
         )
         val inspector = SatiInspectorEntity(
@@ -75,7 +75,7 @@ class SatiMapperTest {
             agentId = 42,
             cardId = "FRD45322",
             isPrincipal = true,
-            party = SatiPartyEntity(id = 8, partyType = "INSPECTOR"),
+            party = SatiPartyEntity(id = 8, partyType = SatiPartyType.INSPECTOR),
             authorityType = AuthorityType.AECP,
             isOutOfUnit = false
         )
@@ -114,7 +114,7 @@ class SatiMapperTest {
         )
         val party = SatiParty(
             id = 3,
-            partyType = "OWNER",
+            partyType = SatiPartyType.VESSEL_OWNER,
             comments = "some comments",
             signature = true,
             contact = contact
@@ -139,18 +139,18 @@ class SatiMapperTest {
             ircs = "FXYZ",
             owner = party,
             flagState = CountryCode.FR,
-            operator = SatiParty(id = 4, partyType = "CHARTERER"),
+            operator = SatiParty(id = 4, partyType = SatiPartyType.VESSEL_OPERATOR),
             pnoType = "LAN",
             tripNumber = "TRIP-001",
-            agent = SatiParty(id = 5, partyType = "AGENT"),
-            master = SatiParty(id = 6, partyType = "MASTER"),
+            agent = SatiParty(id = 5, partyType = SatiPartyType.VESSEL_AGENT),
+            master = SatiParty(id = 6, partyType = SatiPartyType.VESSEL_MASTER),
             isMasterOwner = true
         )
         val inspector = SatiInspector(
             id = 7,
             agentId = 42,
             cardId = "FRD45322",
-            party = SatiParty(id = 8, partyType = "INSPECTOR"),
+            party = SatiParty(id = 8, partyType = SatiPartyType.INSPECTOR),
             authorityType = AuthorityType.AECP,
             isOutOfUnit = false
         )
@@ -219,7 +219,7 @@ class SatiMapperTest {
             val result = SatiMapper.fromEntity(entity)
 
             val owner = result.vessel?.owner
-            assertThat(owner?.partyType).isEqualTo("OWNER")
+            assertThat(owner?.partyType).isEqualTo(SatiPartyType.VESSEL_OWNER)
             assertThat(owner?.comments).isEqualTo("some comments")
             assertThat(owner?.signature).isTrue()
             assertThat(owner?.contact?.fullName).isEqualTo("John Doe")
@@ -309,10 +309,10 @@ class SatiMapperTest {
             val sati = buildFullSati()
             val result = SatiMapper.toEntity(sati)
 
-            assertThat(result.vessel?.owner?.partyType).isEqualTo("OWNER")
-            assertThat(result.vessel?.operator?.partyType).isEqualTo("CHARTERER")
-            assertThat(result.vessel?.agent?.partyType).isEqualTo("AGENT")
-            assertThat(result.vessel?.master?.partyType).isEqualTo("MASTER")
+            assertThat(result.vessel?.owner?.partyType).isEqualTo(SatiPartyType.VESSEL_OWNER)
+            assertThat(result.vessel?.operator?.partyType).isEqualTo(SatiPartyType.VESSEL_OPERATOR)
+            assertThat(result.vessel?.agent?.partyType).isEqualTo(SatiPartyType.VESSEL_AGENT)
+            assertThat(result.vessel?.master?.partyType).isEqualTo(SatiPartyType.VESSEL_MASTER)
         }
 
         @Test

@@ -1,9 +1,10 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
-enum class PartyType {
+enum class SatiPartyType {
     VESSEL_AGENT,
     VESSEL_MASTER,
     VESSEL_OWNER,
     VESSEL_OPERATOR,
-    INSPECTOR
+    INSPECTOR,
+    VESSEL_BENEFICIARY
 }
