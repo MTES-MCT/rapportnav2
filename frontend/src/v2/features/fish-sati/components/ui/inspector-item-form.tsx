@@ -2,7 +2,7 @@ import { FormikMultiRadio } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikSelectInput } from '../../../common/components/ui/formik-select-input.tsx'
-import { FormikTextInput } from '../../../common/components/ui/formik-text-input.tsx'
+import { StyledFormikTextInput } from '../../../common/components/ui/formik-text-input.tsx'
 import { useAgent } from '../../../common/hooks/use-agent.tsx'
 import { useAuthority } from '../../../common/hooks/use-authority.tsx'
 import { SatiInspector } from '../../../common/types/sati.ts'
@@ -38,10 +38,15 @@ const InspectorItemForm: FC<InspectorItemFormProps> = ({ values, readOnly, isPri
         {values?.isOutOfUnit ? (
           <Stack direction="row" spacing=".5rem" justifyContent={'flex-start'} style={{ width: '100%' }}>
             <Stack.Item style={{ flex: 1 }}>
-              <FormikTextInput label="Nom" isLight={readOnly} readOnly={readOnly} name="party.contact.lastName" />
+              <StyledFormikTextInput label="Nom" isLight={readOnly} readOnly={readOnly} name="party.contact.lastName" />
             </Stack.Item>
             <Stack.Item style={{ flex: 1 }}>
-              <FormikTextInput label="Prénom" isLight={readOnly} readOnly={readOnly} name="party.contact.firstName" />
+              <StyledFormikTextInput
+                label="Prénom"
+                isLight={readOnly}
+                readOnly={readOnly}
+                name="party.contact.firstName"
+              />
             </Stack.Item>
           </Stack>
         ) : (
@@ -57,7 +62,7 @@ const InspectorItemForm: FC<InspectorItemFormProps> = ({ values, readOnly, isPri
         )}
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <FormikTextInput
+        <StyledFormikTextInput
           name="cardId"
           isLight={readOnly}
           placeholder="ex : FS7414"

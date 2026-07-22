@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikSelectInput } from '../../../common/components/ui/formik-select-input.tsx'
-import { FormikTextInput } from '../../../common/components/ui/formik-text-input.tsx'
+import { StyledFormikTextInputDelay } from '../../../common/components/ui/formik-text-input.tsx'
 import { usePno } from '../../../common/hooks/use-pno.tsx'
 
 interface JpeFormProps {
@@ -13,10 +13,10 @@ const JpeForm: FC<JpeFormProps> = ({ name }) => {
   return (
     <Stack direction="row" spacing=".5rem" justifyContent={'flex-start'} style={{ width: '100%' }}>
       <Stack.Item style={{ flex: 1 }}>
-        <FormikTextInput
-          isRequired
+        <StyledFormikTextInputDelay
           label="N° de marée"
           isLight={false}
+          isRequired
           isErrorMessageHidden
           name={`${name}.jpe.tripNumber`}
         />

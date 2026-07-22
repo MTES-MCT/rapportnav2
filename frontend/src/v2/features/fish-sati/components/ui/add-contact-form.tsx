@@ -18,6 +18,7 @@ const AddContactForm: FC<AddContactFormProps> = ({ contact, title, onChange, onD
   const [showForm, setShowForm] = useState(false)
 
   const handleAdd = () => {
+    setEdit(true)
     setShowForm(true)
   }
 
@@ -56,7 +57,7 @@ const AddContactForm: FC<AddContactFormProps> = ({ contact, title, onChange, onD
   }
 
   return (
-    <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
+    <Stack direction="column" spacing="0.2rem" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" style={{ width: '100%' }}>
           <Stack.Item>

@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { string } from 'yup'
-import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
+import { StyledFormikTextInputDelay } from '../../../common/components/ui/formik-text-input'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
-import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 const MissionActionItemTraining: FC<{
   action: MissionAction
@@ -22,7 +22,7 @@ const MissionActionItemTraining: FC<{
       data-testid={'action-unit-mangement-form'}
     >
       <Stack.Item style={{ width: '100%' }}>
-        <FormikTextInput name="trainingType" label="Nature de la formation (Nom)" />
+        <StyledFormikTextInputDelay name="trainingType" label="Nature de la formation (Nom)" />
       </Stack.Item>
     </MissionActionItemGenericDateObservation>
   )

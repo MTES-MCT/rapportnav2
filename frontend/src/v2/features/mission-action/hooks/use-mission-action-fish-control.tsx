@@ -39,7 +39,6 @@ const BOOLEAN_KEYS = [
   'isSeafarersControl',
   'isINNControl',
   'isGangwayDeployed',
-  'isMasterOwner',
   'signature',
   'isOutOfUnit'
 ]

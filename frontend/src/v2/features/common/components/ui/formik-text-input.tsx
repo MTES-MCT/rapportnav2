@@ -1,4 +1,4 @@
-import { FormikTextInputProps, TextInput, TextInputProps } from '@mtes-mct/monitor-ui'
+import { FormikTextInput, FormikTextInputProps, TextInput, TextInputProps } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps } from 'formik'
 import styled from 'styled-components'
 import { FormikTextInputDelay } from './formik-text-input-delay'
@@ -15,7 +15,7 @@ const readOnlyStyle = {
   }
 }
 
-export const FormikTextInput = styled(({ name, ...props }: FormikTextInputProps) => (
+export const StyledFormikTextInputDelay = styled(({ name, ...props }: FormikTextInputProps) => (
   <Field name={name}>
     {(field: FieldProps<string>) => (
       <FormikTextInputDelay
@@ -28,6 +28,10 @@ export const FormikTextInput = styled(({ name, ...props }: FormikTextInputProps)
       />
     )}
   </Field>
+))(({ readOnly }) => (readOnly ? readOnlyStyle : {}))
+
+export const StyledFormikTextInput = styled(({ name, ...props }: TextInputProps) => (
+  <FormikTextInput name={name} isLight={true} isRequired={true} isErrorMessageHidden={true} {...props} />
 ))(({ readOnly }) => (readOnly ? readOnlyStyle : {}))
 
 export const StyledTextInput = styled(({ name, ...props }: TextInputProps) => (
