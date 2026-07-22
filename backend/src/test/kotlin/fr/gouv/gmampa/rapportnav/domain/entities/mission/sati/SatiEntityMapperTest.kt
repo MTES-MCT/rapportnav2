@@ -18,9 +18,9 @@ class SatiEntityMapperTest {
     private fun buildSatiEntity(
         vessel: SatiVesselEntity? = SatiVesselEntity(
             id = 10,
-            agent = SatiPartyEntity(id = 5, partyType = "AGENT"),
-            master = SatiPartyEntity(id = 6, partyType = "MASTER"),
-            jpe = SatiJpeEntity(tripNumber = "EXISTING-TRIP")
+            agent = SatiPartyEntity(id = 5, partyType = SatiPartyType.VESSEL_AGENT),
+        master = SatiPartyEntity(id = 6, partyType = SatiPartyType.VESSEL_MASTER),
+        jpe = SatiJpeEntity(tripNumber = "EXISTING-TRIP")
         ),
         inspectors: List<SatiInspectorEntity> = listOf(
             SatiInspectorEntity(id = 7, agentId = 42, authorityType = AuthorityType.AECP)

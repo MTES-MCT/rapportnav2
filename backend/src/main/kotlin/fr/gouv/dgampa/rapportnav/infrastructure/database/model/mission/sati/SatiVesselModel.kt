@@ -27,8 +27,8 @@ class SatiVesselModel(
     @JoinColumn(name = "vessel_id", referencedColumnName = "id")
     var parties: MutableList<SatiPartyModel> = mutableListOf(),
 
-    @Column(name = "is_master_owner", nullable = false)
-    var isMasterOwner: Boolean = false,
+    @Column(name = "is_master_owner", nullable = true)
+    var isMasterOwner: Boolean? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)

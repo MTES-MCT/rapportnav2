@@ -92,10 +92,10 @@ object SatiMapper {
     private fun SatiParty.toEntity(): SatiPartyEntity {
         return SatiPartyEntity(
             id = id,
-            partyType = partyType,
             comments = comments,
+            partyType = partyType,
             signature = signature,
-            contact = contact?.toEntity(),
+            contact = contact?.toEntity()
         )
     }
 
@@ -105,7 +105,7 @@ object SatiMapper {
             partyType = partyType,
             comments = comments,
             signature = signature,
-            contact = contact?.toOutput()
+            contact = contact?.toOutput(),
         )
     }
 
@@ -125,6 +125,7 @@ object SatiMapper {
             operator = operator?.toEntity(),
             agent = agent?.toEntity(),
             master = master?.toEntity(),
+            beneficiary = beneficiary?.toEntity(),
             flagState = flagState
         )
     }
@@ -147,6 +148,7 @@ object SatiMapper {
             operator = operator?.toOutput(),
             agent = agent?.toOutput(),
             master = master?.toOutput(),
+            beneficiary = beneficiary?.toOutput(),
             flagState = flagState
         )
     }
