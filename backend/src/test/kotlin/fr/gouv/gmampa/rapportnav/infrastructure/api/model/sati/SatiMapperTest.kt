@@ -250,7 +250,7 @@ class SatiMapperTest {
             assertThat(inspector.cardId).isEqualTo("FRD45322")
             assertThat(inspector.authorityType).isEqualTo(AuthorityType.AECP)
             assertThat(inspector.isOutOfUnit).isFalse()
-            assertThat(inspector.party?.partyType).isEqualTo("INSPECTOR")
+            assertThat(inspector.party?.partyType).isEqualTo(SatiPartyType.INSPECTOR)
             assertThat(result.otherInspectors).isEmpty()
         }
 
