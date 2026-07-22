@@ -11,6 +11,12 @@ const readOnlyStyle = {
   },
   '&&& [role="combobox"]:focus': {
     border: 'none !important'
+  },
+  '&&& .rs-picker-toggle-placeholder': {
+    display: 'none'
+  },
+  '&&& .rs-picker-toggle-indicator': {
+    display: 'none'
   }
 }
 

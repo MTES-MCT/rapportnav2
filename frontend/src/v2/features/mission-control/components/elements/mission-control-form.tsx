@@ -3,11 +3,11 @@ import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Panel, Stack } from 'rsuite'
+import BannerYesNo from '../../../common/components/ui/banner-yes-no'
 import { Control } from '../../../common/types/target-types'
 import { ControlInput, useControl } from '../../hooks/use-control'
 import MissionActionControlFormikMultiRadio from '../ui/mission-control-fomik-multi-radio'
 import { MissionControlTitle } from '../ui/mission-control-title'
-import MissionControlUnitConfirm from '../ui/mission-control-unit-confirm'
 
 type MissionControlModelFormProps = {
   name: string
@@ -43,8 +43,10 @@ const MissionControlForm: FC<MissionControlModelFormProps> = ({
               />
               <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionControlUnitConfirm
+                  <BannerYesNo
+                    title={`Validation de l'unité`}
                     value={formik.values.hasBeenDone}
+                    message={`Le contrôle a-t-il été éffectué?`}
                     onSubmit={value => formik.setFieldValue('hasBeenDone', value)}
                   />
                 </Stack.Item>

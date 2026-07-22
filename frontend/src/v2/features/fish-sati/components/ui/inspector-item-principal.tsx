@@ -15,7 +15,7 @@ const InspectorItemPrincipal: FC<InspectorItemPrincipalProps> = ({ inspector, on
   }
   return (
     <InspectorItemLayout
-      title={`Inspecteur 1`}
+      title={`Inspecteur en charge`}
       inspectorItem={
         <InspectorItem
           readOnly={false}

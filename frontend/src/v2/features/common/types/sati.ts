@@ -1,8 +1,25 @@
 import { PnoType } from './pno-type'
 
+export enum SatiPartyType {
+  VESSEL_AGENT = 'VESSEL_AGENT',
+  VESSEL_MASTER = 'VESSEL_MASTER',
+  VESSEL_OWNER = 'VESSEL_OWNER',
+  VESSEL_OPERATOR = 'VESSEL_OPERATOR',
+  INSPECTOR = 'INSPECTOR',
+  VESSEL_BENEFICIARY = 'VESSEL_BENEFICIARY'
+}
+
+export enum SatiModuleType {
+  M1 = 'M1',
+  M3 = 'M3',
+  M5 = 'M5',
+  M6 = 'M6',
+  M7 = 'M7'
+}
+
 export interface Sati {
   id?: string
-  module: string
+  module: SatiModuleType
   actionId: string
   jpe?: SatiJpe
   resource?: ControlResource
@@ -41,14 +58,15 @@ export interface SatiVessel {
   tripNumber?: string
   agent?: SatiParty
   master?: SatiParty
-  isMasterOwner: boolean
+  beneficiary?: SatiParty
+  isMasterOwner?: boolean
 }
 
 export interface SatiParty {
   id?: number
   partyType?: string
   comments?: string
-  signature: boolean
+  signature?: boolean
   contact?: Contact
 }
 
@@ -92,9 +110,9 @@ export interface ControlResource {
 }
 
 export enum AuthorityType {
+  MEMBER_FR = 'MEMBER_FR',
   AECP = 'AECP',
-  OTHERS = 'OTHERS',
-  MEMBER_FR = 'MEMBER_FR'
+  OTHERS = 'OTHERS'
 }
 
 export enum ControlUnitResourceType {

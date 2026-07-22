@@ -11,7 +11,7 @@ interface PartyFormProps {
 
 const PartyForm: FC<PartyFormProps> = ({ title, party }) => {
   return (
-    <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
+    <Stack direction="column" spacing="0.2rem" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" style={{ width: '100%' }}>
           <Stack.Item>

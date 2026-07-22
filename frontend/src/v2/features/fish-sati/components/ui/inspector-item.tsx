@@ -49,7 +49,6 @@ const InspectorItem: FC<InspectorItemProps> = ({
 
   const handleSubmit = (response?: SatiInspector) => {
     if (!response) return
-
     if (onSubmit)
       onSubmit({
         ...response,
@@ -96,8 +95,8 @@ const InspectorItem: FC<InspectorItemProps> = ({
           <Stack.Item style={{ width: '100%' }}>
             <InspectorItemForm
               readOnly={!edit}
-              isPrincipal={isPrincipal}
               values={values}
+              isPrincipal={isPrincipal}
               excludedAgentIds={excludedAgentIds}
             />
           </Stack.Item>

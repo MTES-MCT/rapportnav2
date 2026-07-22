@@ -1,59 +1,47 @@
-import { Label, Toggle } from '@mtes-mct/monitor-ui'
+import { Accent, Icon, IconButton, Label, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useEffect, useState } from 'react'
-import { Stack } from 'rsuite'
-import { IconBadgeEdit } from '../../../common/components/ui/icon-badge-edit.tsx'
-import { Address, Contact, SatiParty } from '../../../common/types/sati.ts'
+import { Divider, Stack } from 'rsuite'
+import BannerYesNo from '../../../common/components/ui/banner-yes-no.tsx'
+import { Address, Contact, SatiVessel } from '../../../common/types/sati.ts'
 import ContactFormItem from '../ui/contact-form-item.tsx'
 
 const emptyContact: Contact = { address: {} as Address } as Contact
 
 interface FishControlInfosMasterProps {
-  owner?: SatiParty
-  master?: SatiParty
-  onchange: (value?: Contact) => void
+  vessel?: SatiVessel
+  onchange: (value?: SatiVessel) => void
 }
 
-const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ owner, master, onchange }) => {
-  const [edit, setEdit] = useState<boolean>(false)
-  const [isMasterOwner, setIsMasterOwner] = useState(false)
+const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ vessel, onchange }) => {
+  const [edit, setEdit] = useState<boolean>(true)
 
   const getContact = (checked: boolean) => {
-    const contactId = master?.contact?.id
-    const addressId = master?.contact?.address?.id
-    const baseContact = checked ? owner?.contact : emptyContact
+    const contactId = vessel?.master?.contact?.id
+    const addressId = vessel?.master?.contact?.address?.id
+    const baseContact = checked ? vessel?.owner?.contact : emptyContact
     return { ...baseContact, id: contactId, address: { ...baseContact?.address, id: addressId } } as Contact
   }
 
   const handleToggle = (checked: boolean) => {
-    setIsMasterOwner(checked)
-    onchange(getContact(checked))
-    setEdit(false)
+    const master = { ...vessel?.master, contact: getContact(checked) }
+    onchange({ ...vessel, isMasterOwner: checked, master })
+    setEdit(true)
   }
 
   const handleSubmit = (value: Contact) => {
-    onchange(value)
+    const master = { ...vessel?.master, contact: value }
+    onchange({ ...vessel, master })
     setEdit(false)
   }
 
   useEffect(() => {
-    setIsMasterOwner(owner?.contact?.fullName === master?.contact?.fullName)
-  }, [owner?.contact?.fullName, master?.contact?.fullName])
+    setEdit(!vessel?.master?.contact?.email)
+  }, [vessel?.master?.contact])
 
   return (
-    <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
+    <Stack direction="column" spacing="0.2rem" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" style={{ width: '100%' }}>
-          <Stack.Item>
-            <Label>Informations sur le capitaine du navire contrôlé</Label>
-          </Stack.Item>
-          {!edit && (
-            <Stack.Item>
-              <div role="button" tabIndex={0} style={{ cursor: 'pointer' }} onClick={() => setEdit(!edit)}>
-                <IconBadgeEdit />
-              </div>
-            </Stack.Item>
-          )}
-        </Stack>
+        <Label>Informations sur le capitaine du navire contrôlé</Label>
       </Stack.Item>
 
       <Stack.Item style={{ width: '100%' }}>
@@ -62,34 +50,46 @@ const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ owner, master
             width: '100%',
             padding: '16px',
             backgroundColor: 'white',
-            border: edit && !isMasterOwner ? '1px dashed #5697D2' : '1px solid transparent'
+            border: '1px solid transparent'
           }}
         >
           <Stack direction="column" spacing="1rem" style={{ width: '100%' }}>
             <Stack.Item style={{ width: '100%' }}>
-              <Stack direction="row" spacing="0.75rem" justifyContent="flex-start">
-                <Stack.Item>
-                  <Toggle
-                    label=""
-                    isLabelHidden
-                    checked={isMasterOwner}
-                    onChange={handleToggle}
-                    name="master-same-as-owner"
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <span style={{ fontSize: '13px' }}>
-                    Informations identiques à celle du propriétaire (Saisie auto)
-                  </span>
-                </Stack.Item>
-              </Stack>
+              <BannerYesNo
+                onSubmit={handleToggle}
+                value={vessel?.isMasterOwner}
+                title={`Saisie des informations`}
+                message={`Les informations du capitaine sont-ellesidentiques à celle du propriétaire `}
+              />
             </Stack.Item>
+            {!edit && (
+              <Stack.Item style={{ width: '100%' }}>
+                <Stack direction="row" spacing="0.75rem" justifyContent="flex-end">
+                  <Stack.Item>
+                    <IconButton
+                      title="Editer"
+                      size={Size.NORMAL}
+                      accent={Accent.SECONDARY}
+                      Icon={Icon.EditUnbordered}
+                      color={THEME.color.charcoal}
+                      onClick={() => setEdit(!edit)}
+                    />
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+            )}
+            {!edit && (
+              <Stack.Item style={{ width: '100%' }}>
+                <Divider style={{ margin: 8 }} />
+              </Stack.Item>
+            )}
             <Stack.Item style={{ width: '100%' }}>
               <ContactFormItem
                 readOnly={!edit}
                 onSubmit={handleSubmit}
-                contact={master?.contact}
                 onClose={() => setEdit(false)}
+                contact={vessel?.master?.contact}
+                disabled={vessel?.isMasterOwner === undefined}
               />
             </Stack.Item>
           </Stack>
