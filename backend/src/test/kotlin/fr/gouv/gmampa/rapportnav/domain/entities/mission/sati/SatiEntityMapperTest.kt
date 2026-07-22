@@ -187,8 +187,8 @@ class SatiEntityMapperTest {
             val action = buildMissionAction()
             val result = SatiEntityMapper.merge(sati, action)
 
-            assertThat(result.vessel?.agent?.partyType).isEqualTo("AGENT")
-            assertThat(result.vessel?.master?.partyType).isEqualTo("MASTER")
+            assertThat(result.vessel?.agent?.partyType).isEqualTo(SatiPartyType.VESSEL_AGENT)
+            assertThat(result.vessel?.master?.partyType).isEqualTo(SatiPartyType.VESSEL_MASTER)
         }
 
         @Test
