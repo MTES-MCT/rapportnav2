@@ -67,7 +67,7 @@ class GetComputeEnvActionListByMissionIdTest {
             themes = listOf(ThemeEntity(id = 104, name = "Theme 104", subThemes = listOf(ThemeEntity(id = 143, name = "SubTheme 143"))))
         )
 
-        `when`(processEnvAction.execute(anyInt(), anyOrNull(), any())).thenReturn(response)
+        `when`(processEnvAction.execute(anyInt(), anyOrNull(), any(), anyOrNull())).thenReturn(response)
         `when`(getEnvMissionById.execute(missionId)).thenReturn(missionEnvEntity)
 
         getEnvActionListById = GetComputeEnvActionListByMissionId(

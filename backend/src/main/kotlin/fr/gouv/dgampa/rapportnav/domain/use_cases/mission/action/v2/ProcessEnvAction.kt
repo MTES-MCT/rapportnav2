@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicy
 
 
 @UseCase
@@ -17,7 +18,16 @@ class ProcessEnvAction(
     private val entityValidityValidator: EntityValidityValidator
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(missionId: Int, envAction: EnvActionEntity, bypassValidation: Boolean = false): MissionEnvActionEntity {
+    /**
+     * @param policy the pre-resolved validation policy. Callers processing a whole mission resolve it once and
+     * pass it in to avoid an N+1 mission-dates lookup. When null, it is resolved from the mission's own dates.
+     */
+    fun execute(
+        missionId: Int,
+        envAction: EnvActionEntity,
+        bypassValidation: Boolean = false,
+        policy: ValidationPolicy? = null
+    ): MissionEnvActionEntity {
         val action = MissionEnvActionEntity.fromEnvAction(missionId = missionId, action = envAction)
         val targets = getComputeEnvTarget.execute(
             actionId = action.getActionId(),
@@ -30,9 +40,10 @@ class ProcessEnvAction(
         if (bypassValidation) {
             action.markCompleteForStats()
         } else {
-            val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
-            val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
-            action.computeValidity(validator = entityValidityValidator, policy = policy)
+            val resolvedPolicy = policy ?: ValidationPolicies.forMissionStartDate(
+                getMissionDates.execute(missionId = missionId, ownerId = null)?.startDateTimeUtc
+            )
+            action.computeValidity(validator = entityValidityValidator, policy = resolvedPolicy)
         }
 
         return action
