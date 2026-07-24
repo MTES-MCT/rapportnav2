@@ -50,7 +50,7 @@ class GetFishActionByIdTest {
             speciesQuantitySeized = 4
         )
 
-        `when`(processFishAction.execute(anyInt(), anyOrNull(), any())).thenReturn(response)
+        `when`(processFishAction.execute(anyInt(), anyOrNull(), any(), anyOrNull())).thenReturn(response)
         `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
 
         getFishActionById = GetFishActionById(

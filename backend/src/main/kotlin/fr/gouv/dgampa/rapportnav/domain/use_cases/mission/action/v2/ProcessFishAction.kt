@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicy
 
 
 @UseCase
@@ -18,7 +19,16 @@ class ProcessFishAction(
     private val entityValidityValidator: EntityValidityValidator
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(missionId: Int, action: MissionAction, bypassValidation: Boolean = false): MissionFishActionEntity {
+    /**
+     * @param policy the pre-resolved validation policy. Callers processing a whole mission resolve it once and
+     * pass it in to avoid an N+1 mission-dates lookup. When null, it is resolved from the mission's own dates.
+     */
+    fun execute(
+        missionId: Int,
+        action: MissionAction,
+        bypassValidation: Boolean = false,
+        policy: ValidationPolicy? = null
+    ): MissionFishActionEntity {
         val entity = MissionFishActionEntity.fromFishAction(action)
         val sati = getComputeSati.execute(action = action)
         val targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
@@ -29,9 +39,10 @@ class ProcessFishAction(
         if (bypassValidation) {
             entity.markCompleteForStats()
         } else {
-            val missionDates = getMissionDates.execute(missionId = missionId, ownerId = null)
-            val policy = ValidationPolicies.forMissionStartDate(missionDates?.startDateTimeUtc)
-            entity.computeValidity(validator = entityValidityValidator, policy = policy)
+            val resolvedPolicy = policy ?: ValidationPolicies.forMissionStartDate(
+                getMissionDates.execute(missionId = missionId, ownerId = null)?.startDateTimeUtc
+            )
+            entity.computeValidity(validator = entityValidityValidator, policy = resolvedPolicy)
         }
 
         return entity
