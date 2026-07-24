@@ -17,14 +17,13 @@ class ProcessSati(
     fun execute(actionId: String, sati: Sati?): SatiEntity? {
         if (sati == null) return null
         if (!enableSati.execute()) return null
-
-        sati.actionId = actionId
-        val entity = SatiMapper.toEntity(sati)
+        if (sati.actionId != actionId) throw IllegalArgumentException("Sati actionId does not match actionId: ${sati.actionId} != $actionId")
 
         val existing = satiRepo.findByActionId(actionId)
-        if (SatiEntityMapper.isEquals(existing, entity)) return entity
+        val incoming = SatiMapper.toEntity(sati)
+        if (SatiEntityMapper.isEquals(existing, incoming)) return incoming
 
-        val saved = satiRepo.save(entity)
+        val saved = satiRepo.save(incoming)
         return SatiEntityMapper.merge(saved, sati)
     }
 }

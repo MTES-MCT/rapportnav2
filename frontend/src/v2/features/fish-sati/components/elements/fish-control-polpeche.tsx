@@ -1,16 +1,18 @@
 import { Label, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
+import { ActionFishControlInput } from '../../../mission-action/types/action-type.ts'
 import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/fish-control-administrative-section.tsx'
 import FishControlEnginesSection from '../../../mission-control/components/ui/fish-control-engines-section.tsx'
 import FishControlOtherObservationsSection from '../../../mission-control/components/ui/fish-control-other-observation-section.tsx'
 import FishControlSpeciesSection from '../../../mission-control/components/ui/fish-control-species-section.tsx'
 import FishControlFleetSegmentSection from '../../../mission-control/components/ui/mission-control-fish-fleet-segment-section.tsx'
-import { ActionFishControlInput } from '../../types/action-type.ts'
 
-const FishControlPolpeche: FC<{
+interface FishControlPolpecheProps {
   values: ActionFishControlInput
-}> = ({ values }) => {
+}
+
+const FishControlPolpeche: FC<FishControlPolpecheProps> = ({ values }) => {
   return (
     <div style={{ width: '100%' }}>
       <Stack

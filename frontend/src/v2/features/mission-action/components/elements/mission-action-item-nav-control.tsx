@@ -1,19 +1,17 @@
 import { FormikEffect } from '@mtes-mct/monitor-ui'
-import { FieldArray, FieldArrayRenderProps, Formik } from 'formik'
+import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
-import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
+import { StyledFormikTextInputDelay } from '../../../common/components/ui/formik-text-input'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
 import { ActionNavControlInput } from '../../types/action-type'
 import MissionActionLocationPicker from '../ui/mission-action-location-picker'
 import MissionActionNavControlWarning from '../ui/mission-action-nav-control-warning'
-import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
-import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
-import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
-import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 import NavControlConclusion from '../ui/nav-control-conclusion'
 
 const MissionActionItemNavControl: FC<{
@@ -66,14 +64,14 @@ const MissionActionItemNavControl: FC<{
                       <FormikSelectVesselSize name="vesselSize" label="Taille du navire" data-testid={'vesselSize'} />
                     </Stack.Item>
                     <Stack.Item grow={1} basis={'25%'}>
-                      <FormikTextInput
+                      <StyledFormikTextInputDelay
                         name="vesselIdentifier"
                         label="Immatriculation"
                         data-testid={'vesselIdentifier'}
                       />
                     </Stack.Item>
                     <Stack.Item grow={2} basis={'50%'}>
-                      <FormikTextInput
+                      <StyledFormikTextInputDelay
                         label="Identité de la personne contrôlée"
                         name="identityControlledPerson"
                         data-testid={'identityControlledPerson'}

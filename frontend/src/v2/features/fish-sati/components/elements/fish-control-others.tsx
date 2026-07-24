@@ -3,13 +3,15 @@ import { FieldArray, FieldArrayRenderProps } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag.tsx'
+import { ActionFishControlInput } from '../../../mission-action/types/action-type.ts'
 import MissionTargetControlNav from '../../../mission-target/components/elements/mission-target-control-nav.tsx'
-import { ActionFishControlInput } from '../../types/action-type.ts'
 
-const FishControlOthers: FC<{
+interface FishControlOthersProps {
   values: ActionFishControlInput
   controlsToComplete: ControlType[]
-}> = ({ controlsToComplete }) => {
+}
+
+const FishControlOthers: FC<FishControlOthersProps> = ({ controlsToComplete }) => {
   return (
     <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%', paddingTop: '2rem' }}>
       {(controlsToComplete?.length ?? 0) > 0 && (

@@ -18,7 +18,7 @@ class GetComputeSati(
         if (action.id == null) throw IllegalArgumentException()
         if (!action.actionType.toString().endsWith("_CONTROL")) return null
         var sati = satiRepo.findByActionId(actionId = action.id.toString())
-        if (sati == null) sati = satiRepo.save(getNewSati(action = action))
+        if (sati == null) sati = satiRepo.save(sati = getNewSati(action = action))
 
         sati.resource = getControlResource(sati.resource?.id)
         return SatiEntityMapper.merge(sati = sati, action = action)
@@ -42,7 +42,7 @@ class GetComputeSati(
             vessel = SatiVesselEntity(),
             actionId = action.id.toString(),
             module = SatiModuleType.fromMissionActionType(action.actionType),
-            inspectors = listOf(SatiInspectorEntity(party = SatiPartyEntity()))
+            inspectors = listOf(SatiInspectorEntity(isPrincipal = true, party = SatiPartyEntity()))
         )
     }
 }

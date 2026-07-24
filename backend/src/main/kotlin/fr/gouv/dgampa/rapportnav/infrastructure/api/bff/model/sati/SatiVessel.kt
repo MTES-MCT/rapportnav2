@@ -19,5 +19,6 @@ data class SatiVessel(
     val tripNumber: String? = null,
     val agent: SatiParty? = null,
     val master: SatiParty? = null,
-    val isMasterOwner: Boolean = false
+    val beneficiary: SatiParty? = null,
+    val isMasterOwner: Boolean? = null
 )

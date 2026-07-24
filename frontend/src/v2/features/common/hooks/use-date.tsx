@@ -131,11 +131,13 @@ export function useDate(): DateHook {
     return [startDate, endDate]
   }
 
+  const stripMilliseconds = (value?: string): string | undefined => value?.replace(/\.000(Z|[+-]\d{2}:?\d{2})$/, '$1')
+
   const getDateRangeFromInput = (
     dates: [Date?, Date?]
   ): { startDateTimeUtc: string | undefined; endDateTimeUtc: string | undefined } => ({
-    startDateTimeUtc: dates[0] && postprocessDateFromPicker(dates[0]),
-    endDateTimeUtc: dates[1] && postprocessDateFromPicker(dates[1])
+    startDateTimeUtc: dates[0] ? stripMilliseconds(postprocessDateFromPicker(dates[0])) : undefined,
+    endDateTimeUtc: dates[1] ? stripMilliseconds(postprocessDateFromPicker(dates[1])) : undefined
   })
 
   return {

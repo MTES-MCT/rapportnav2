@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
-import java.util.*
 
 object SatiModelMapper {
 
@@ -20,7 +19,7 @@ object SatiModelMapper {
 
     fun toModel(entity: SatiEntity): SatiModel {
         return SatiModel(
-            id = entity.id ?: UUID.randomUUID(),
+            id = entity.id,
             actionId = entity.actionId,
             resourceId = entity.resource?.id,
             module = entity.module.toString(),
@@ -36,9 +35,9 @@ object SatiModelMapper {
                 tripNumber = tripNumber,
                 pnoType = pnoType?.let { LogbookMessagePurpose.valueOf(it) }
             ),
-            agent = parties.firstOrNull { it.partyType == PartyType.VESSEL_AGENT.name }?.toEntity(),
-            master = parties.firstOrNull { it.partyType == PartyType.VESSEL_MASTER.name }?.toEntity(),
-            operator = parties.firstOrNull { it.partyType == PartyType.VESSEL_OPERATOR.name }?.toEntity(),
+            agent = parties.firstOrNull { it.partyType == SatiPartyType.VESSEL_AGENT.name }?.toEntity(),
+            master = parties.firstOrNull { it.partyType == SatiPartyType.VESSEL_MASTER.name }?.toEntity(),
+            beneficiary = parties.firstOrNull { it.partyType == SatiPartyType.VESSEL_BENEFICIARY.name }?.toEntity(),
             isMasterOwner = isMasterOwner
         )
     }
@@ -50,9 +49,8 @@ object SatiModelMapper {
             isMasterOwner = isMasterOwner,
             pnoType = jpe?.pnoType?.toString(),
             parties = mutableListOf<SatiPartyModel>().apply {
-                agent?.toModel(PartyType.VESSEL_AGENT)?.let { add(it) }
-                master?.toModel(PartyType.VESSEL_MASTER)?.let { add(it) }
-                operator?.toModel(PartyType.VESSEL_OPERATOR)?.let { add(it) }
+                agent?.toModel(SatiPartyType.VESSEL_AGENT)?.let { add(it) }
+                master?.toModel(SatiPartyType.VESSEL_MASTER)?.let { add(it) }
             }
         )
     }
@@ -60,19 +58,19 @@ object SatiModelMapper {
     private fun SatiPartyModel.toEntity(): SatiPartyEntity {
         return SatiPartyEntity(
             id = id,
-            partyType = partyType,
             comments = comments,
             signature = signature,
-            contact = contacts.firstOrNull()?.toEntity()
+            contact = contacts.firstOrNull()?.toEntity(),
+            partyType = partyType?.let { SatiPartyType.valueOf(it) }
         )
     }
 
-    private fun SatiPartyEntity.toModel(type: PartyType? = null): SatiPartyModel {
+    private fun SatiPartyEntity.toModel(type: SatiPartyType? = null): SatiPartyModel {
         return SatiPartyModel(
             id = id,
-            partyType = type?.name ?: partyType,
             comments = comments,
             signature = signature,
+            partyType = type?.name ?: partyType?.name,
             contacts = contact?.toModel()?.let { mutableListOf(it) } ?: mutableListOf()
         )
     }
@@ -121,10 +119,10 @@ object SatiModelMapper {
         return SatiInspectorEntity(
             id = id,
             agentId = agentId,
-            party = parties.firstOrNull()?.toEntity(),
+            cardId = cardId,
+            isPrincipal = isPrincipal,
             isOutOfUnit = isOutOfUnit,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
+            party = parties.firstOrNull()?.toEntity(),
             authorityType = authorityType?.let { AuthorityType.valueOf(it) }
         )
     }
@@ -132,12 +130,12 @@ object SatiModelMapper {
     private fun SatiInspectorEntity.toModel(): SatiInspectorModel {
         return SatiInspectorModel(
             id = id,
+            cardId = cardId,
             agentId = agentId,
+            isPrincipal = isPrincipal,
             parties = party?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
             authorityType = authorityType?.toString(),
-            isOutOfUnit = isOutOfUnit,
-            createdAt = createdAt,
-            updatedAt = updatedAt
+            isOutOfUnit = isOutOfUnit
         )
     }
 }

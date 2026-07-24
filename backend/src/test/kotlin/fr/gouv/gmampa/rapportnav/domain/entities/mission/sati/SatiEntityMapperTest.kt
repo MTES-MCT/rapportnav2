@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiInspector
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -16,9 +18,9 @@ class SatiEntityMapperTest {
     private fun buildSatiEntity(
         vessel: SatiVesselEntity? = SatiVesselEntity(
             id = 10,
-            agent = SatiPartyEntity(id = 5, partyType = "AGENT"),
-            master = SatiPartyEntity(id = 6, partyType = "MASTER"),
-            jpe = SatiJpeEntity(tripNumber = "EXISTING-TRIP")
+            agent = SatiPartyEntity(id = 5, partyType = SatiPartyType.VESSEL_AGENT),
+        master = SatiPartyEntity(id = 6, partyType = SatiPartyType.VESSEL_MASTER),
+        jpe = SatiJpeEntity(tripNumber = "EXISTING-TRIP")
         ),
         inspectors: List<SatiInspectorEntity> = listOf(
             SatiInspectorEntity(id = 7, agentId = 42, authorityType = AuthorityType.AECP)
@@ -185,8 +187,8 @@ class SatiEntityMapperTest {
             val action = buildMissionAction()
             val result = SatiEntityMapper.merge(sati, action)
 
-            assertThat(result.vessel?.agent?.partyType).isEqualTo("AGENT")
-            assertThat(result.vessel?.master?.partyType).isEqualTo("MASTER")
+            assertThat(result.vessel?.agent?.partyType).isEqualTo(SatiPartyType.VESSEL_AGENT)
+            assertThat(result.vessel?.master?.partyType).isEqualTo(SatiPartyType.VESSEL_MASTER)
         }
 
         @Test
@@ -259,9 +261,10 @@ class SatiEntityMapperTest {
         @Test
         fun `should return existing sati unchanged`() {
             val sati = buildSatiEntity()
-            val input = fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati(
+            val input = Sati(
                 actionId = "new-action",
-                module = SatiModuleType.M3
+                module = SatiModuleType.M3,
+                principalInspector = SatiInspector()
             )
             val result = SatiEntityMapper.merge(sati, input)
             assertThat(result).isEqualTo(sati)
@@ -269,9 +272,10 @@ class SatiEntityMapperTest {
 
         @Test
         fun `should return null when sati is null`() {
-            val input = fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati(
+            val input = Sati(
                 actionId = "new-action",
-                module = SatiModuleType.M3
+                module = SatiModuleType.M3,
+                principalInspector = SatiInspector()
             )
             val result = SatiEntityMapper.merge(null, input)
             assertThat(result).isNull()

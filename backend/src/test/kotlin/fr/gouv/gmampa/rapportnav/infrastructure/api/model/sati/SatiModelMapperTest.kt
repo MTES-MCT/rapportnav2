@@ -61,6 +61,7 @@ class SatiModelMapperTest {
         return SatiInspectorModel(
             id = 7,
             agentId = 42,
+            cardId = "FRD455643",
             parties = if (party != null) mutableListOf(party) else mutableListOf(),
             authorityType = "AECP",
             isOutOfUnit = false,
@@ -87,10 +88,10 @@ class SatiModelMapperTest {
     private fun buildFullModel(): SatiModel {
         val address = buildAddressModel()
         val contact = buildContactModel(address)
-        val agentParty = buildPartyModel(PartyType.VESSEL_AGENT.name, contact)
-        val masterParty = buildPartyModel(PartyType.VESSEL_MASTER.name)
+        val agentParty = buildPartyModel(SatiPartyType.VESSEL_AGENT.name, contact)
+        val masterParty = buildPartyModel(SatiPartyType.VESSEL_MASTER.name)
         val vessel = buildVesselModel(agent = agentParty, master = masterParty)
-        val inspectorParty = buildPartyModel(PartyType.INSPECTOR.name)
+        val inspectorParty = buildPartyModel(SatiPartyType.INSPECTOR.name)
         val inspector = buildInspectorModel(inspectorParty)
 
         return SatiModel(
@@ -128,12 +129,12 @@ class SatiModelMapperTest {
         )
         val agentParty = SatiPartyEntity(
             id = 3,
-            partyType = "AGENT",
+            partyType = SatiPartyType.VESSEL_AGENT,
             comments = "some comments",
             signature = true,
             contact = contact
         )
-        val masterParty = SatiPartyEntity(id = 6, partyType = "MASTER")
+        val masterParty = SatiPartyEntity(id = 6, partyType = SatiPartyType.VESSEL_MASTER)
         val vessel = SatiVesselEntity(
             id = 10,
             jpe = SatiJpeEntity(pnoType = LogbookMessagePurpose.LAN, tripNumber = "TRIP-001"),
@@ -144,7 +145,8 @@ class SatiModelMapperTest {
         val inspector = SatiInspectorEntity(
             id = 7,
             agentId = 42,
-            party = SatiPartyEntity(id = 8, partyType = "INSPECTOR"),
+            cardId = "FRD455643",
+            party = SatiPartyEntity(id = 8, partyType = SatiPartyType.INSPECTOR),
             authorityType = AuthorityType.AECP,
             isOutOfUnit = false
         )
@@ -196,7 +198,7 @@ class SatiModelMapperTest {
             val entity = SatiModelMapper.toEntity(model)
 
             val agent = entity.vessel?.agent
-            assertThat(agent?.partyType).isEqualTo(PartyType.VESSEL_AGENT.name)
+            assertThat(agent?.partyType).isEqualTo(SatiPartyType.VESSEL_AGENT)
             assertThat(agent?.comments).isEqualTo("some comments")
             assertThat(agent?.signature).isTrue()
             assertThat(agent?.contact?.fullName).isEqualTo("John Doe")
@@ -215,6 +217,7 @@ class SatiModelMapperTest {
             val inspector = entity.inspectors?.first()
             assertThat(inspector?.id).isEqualTo(7)
             assertThat(inspector?.agentId).isEqualTo(42)
+            assertThat(inspector?.cardId).isEqualTo("FRD455643")
             assertThat(inspector?.authorityType).isEqualTo(AuthorityType.AECP)
             assertThat(inspector?.isOutOfUnit).isFalse()
         }
@@ -280,8 +283,8 @@ class SatiModelMapperTest {
             val entity = buildFullEntity()
             val model = SatiModelMapper.toModel(entity)
 
-            val agent = model.vessels.firstOrNull()?.parties?.firstOrNull { it.partyType == PartyType.VESSEL_AGENT.name }
-            assertThat(agent?.partyType).isEqualTo(PartyType.VESSEL_AGENT.name)
+            val agent = model.vessels.firstOrNull()?.parties?.firstOrNull { it.partyType == SatiPartyType.VESSEL_AGENT.name }
+            assertThat(agent?.partyType).isEqualTo(SatiPartyType.VESSEL_AGENT.name)
             assertThat(agent?.comments).isEqualTo("some comments")
             assertThat(agent?.signature).isTrue()
             val contact = agent?.contacts?.firstOrNull()
@@ -302,6 +305,7 @@ class SatiModelMapperTest {
             val inspector = model.inspectors.first()
             assertThat(inspector.id).isEqualTo(7)
             assertThat(inspector.agentId).isEqualTo(42)
+            assertThat(inspector.cardId).isEqualTo("FRD455643")
             assertThat(inspector.authorityType).isEqualTo("AECP")
             assertThat(inspector.isOutOfUnit).isFalse()
         }

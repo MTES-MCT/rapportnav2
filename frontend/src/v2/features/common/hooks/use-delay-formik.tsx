@@ -22,7 +22,7 @@ export function useDelayFormik(
   }
 
   useEffect(() => {
-    if (!initValue) return
+    if (initValue === undefined) return
     setValue(initValue)
   }, [initValue])
 

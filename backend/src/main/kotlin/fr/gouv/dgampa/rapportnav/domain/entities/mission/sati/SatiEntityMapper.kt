@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.Sati
 
 object SatiEntityMapper {
     fun merge(sati: SatiEntity, action: MissionAction): SatiEntity {
+
         return sati.copy(
             actionId = action.id?.toString() ?: "",
             startDatetimeUtc = action.actionDatetimeUtc,
@@ -37,15 +38,13 @@ object SatiEntityMapper {
                         address = AddressEntity(fullAddress = action.proprietorAddress)
                     )
                 ),
-                operator = (sati.vessel?.operator ?: SatiPartyEntity()).copy(
-                    contact = (sati.vessel?.operator?.contact ?: ContactEntity()).copy(
+                operator = SatiPartyEntity(
+                    contact = ContactEntity(
                         fullName = action.operatorName,
                         email = action.operatorEmails?.firstOrNull(),
                         phone = action.operatorPhones?.firstOrNull(),
                         nationality = action.operatorNationality,
-                        address = (sati.vessel?.operator?.contact?.address ?: AddressEntity()).copy(
-                            fullAddress = action.operatorAddress
-                        )
+                        address = AddressEntity(fullAddress = action.operatorAddress)
                     )
                 )
             )
