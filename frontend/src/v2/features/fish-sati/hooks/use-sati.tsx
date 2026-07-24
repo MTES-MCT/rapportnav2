@@ -5,7 +5,7 @@ const _satiEnvRaw: string = import.meta.env.SATI_ENABLED_SERVICES ?? ''
 
 console.log('_satiEnvRaw', _satiEnvRaw)
 
-export const SATI_ENABLED_SERVICES: number[] = '3,4,11'
+export const SATI_ENABLED_SERVICES: number[] = _satiEnvRaw
   .split(',')
   .map(Number)
   .filter(n => !isNaN(n) && n > 0)
