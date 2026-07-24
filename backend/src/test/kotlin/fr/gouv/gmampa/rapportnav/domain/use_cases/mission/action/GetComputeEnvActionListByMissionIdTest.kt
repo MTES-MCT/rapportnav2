@@ -15,6 +15,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -66,7 +67,7 @@ class GetComputeEnvActionListByMissionIdTest {
             themes = listOf(ThemeEntity(id = 104, name = "Theme 104", subThemes = listOf(ThemeEntity(id = 143, name = "SubTheme 143"))))
         )
 
-        `when`(processEnvAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        `when`(processEnvAction.execute(anyInt(), anyOrNull(), any(), anyOrNull())).thenReturn(response)
         `when`(getEnvMissionById.execute(missionId)).thenReturn(missionEnvEntity)
 
         getEnvActionListById = GetComputeEnvActionListByMissionId(

@@ -9,17 +9,25 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionByExternalId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.SyncMissionValidation
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
+import java.time.Instant
+import java.util.UUID
 
 @SpringBootTest(classes = [GetComputeEnvMission::class])
 class GetComputeEnvMissionTest {
@@ -44,6 +52,15 @@ class GetComputeEnvMissionTest {
 
     @MockitoBean
     private lateinit var missionNavRepository: IMissionNavRepository
+
+    @MockitoBean
+    private lateinit var syncMissionValidation: SyncMissionValidation
+
+    @BeforeEach
+    fun setup() {
+        // syncLocalMission now returns the resolved row; a freshly-created mirror has null completeness.
+        whenever(missionNavRepository.save(any())).thenAnswer { it.arguments[0] as MissionModel }
+    }
 
     @Test
     fun `should throw BackendUsageException when both missionId and envMission are null`() {
@@ -79,6 +96,9 @@ class GetComputeEnvMissionTest {
         assertEquals(envMission, result.data)
         assertEquals(actions, result.actions)
         assertEquals(generalInfos2, result.generalInfos)
+        // no local mirror existed yet, so one is created, and the mission-level validation is synced
+        verify(missionNavRepository).save(any())
+        verify(syncMissionValidation).execute(result)
     }
 
     @Test
@@ -101,6 +121,30 @@ class GetComputeEnvMissionTest {
         assertEquals(mission, result.data)
         assertEquals(actions, result.actions)
         assertEquals(generalInfos2, result.generalInfos)
+        verify(syncMissionValidation).execute(result)
+    }
+
+    @Test
+    fun `does not use the stored validation shortcut even when the local mirror is stored-complete`() {
+        // For this PR we only COLLECT the mission validation; the read shortcut is disabled, so validation
+        // must run every time (bypassValidation = false) regardless of the stored is_complete_for_stats.
+        val envMission = EnvMissionMock.create(id = 5)
+        val storedComplete = MissionModel(
+            id = UUID.randomUUID(),
+            externalId = "5",
+            startDateTimeUtc = Instant.parse("2025-01-02T00:00:00Z"),
+            isCompleteForStats = true
+        )
+        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 5)
+        val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
+
+        `when`(getMissionByExternalId.execute(anyString())).thenReturn(storedComplete)
+        `when`(getMissionAction.execute(missionId = 5, bypassValidation = false)).thenReturn(emptyList())
+        `when`(getGeneralInfos2.execute(missionId = 5, controlUnits = listOf())).thenReturn(generalInfos2)
+
+        getComputeEnvMission.execute(envMission = envMission)
+
+        verify(getMissionAction).execute(missionId = 5, bypassValidation = false)
     }
 
     @Test

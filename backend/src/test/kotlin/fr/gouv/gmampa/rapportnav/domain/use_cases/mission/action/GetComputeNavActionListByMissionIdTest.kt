@@ -4,10 +4,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -28,6 +30,9 @@ class GetComputeNavActionListByMissionIdTest {
 
     @MockitoBean
     private lateinit var processNavAction: ProcessNavAction
+
+    @MockitoBean
+    private lateinit var getMissionDates: GetMissionDates
 
 
     @Test
@@ -54,7 +59,7 @@ class GetComputeNavActionListByMissionIdTest {
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         )
 
-        `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
+        `when`(processNavAction.execute(anyOrNull(), any(), anyOrNull())).thenReturn(response)
         `when`(getNavActionListByOwnerId.execute(missionId = missionId)).thenReturn(listOf(action))
 
         val navActions = getNavActionList.execute(missionId = missionId)
@@ -92,7 +97,7 @@ class GetComputeNavActionListByMissionIdTest {
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         )
 
-        `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
+        `when`(processNavAction.execute(anyOrNull(), any(), anyOrNull())).thenReturn(response)
         `when`(getNavActionListByOwnerId.execute(ownerId = missionIdUUID)).thenReturn(listOf(action))
 
         val navActions = getNavActionList.execute(ownerId = missionIdUUID)

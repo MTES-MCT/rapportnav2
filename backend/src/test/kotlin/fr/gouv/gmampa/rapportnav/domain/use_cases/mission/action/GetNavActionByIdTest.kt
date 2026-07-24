@@ -9,6 +9,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -75,7 +76,7 @@ class GetNavActionByIdTest {
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         )
 
-        `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
+        `when`(processNavAction.execute(anyOrNull(), any(), anyOrNull())).thenReturn(response)
         `when`(missionActionRepository.findById(actionId)).thenReturn(Optional.of(action))
 
         getNavActionById = GetNavActionById(

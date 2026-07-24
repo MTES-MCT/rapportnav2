@@ -5,11 +5,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEnt
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -31,6 +33,9 @@ class GetComputeFishActionListByMissionIdTest {
     @MockitoBean
     private lateinit var processFishAction: ProcessFishAction
 
+    @MockitoBean
+    private lateinit var getMissionDates: GetMissionDates
+
     @Test
     fun `test execute get Fish action list  by mission id`() {
 
@@ -49,12 +54,13 @@ class GetComputeFishActionListByMissionIdTest {
             speciesQuantitySeized = 4
         )
 
-        `when`(processFishAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        `when`(processFishAction.execute(anyInt(), anyOrNull(), any(), anyOrNull())).thenReturn(response)
         `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
 
         getFishActionList = GetComputeFishActionListByMissionId(
             processFishAction = processFishAction,
             getFishActionListByMissionId = getFishActionListByMissionId,
+            getMissionDates = getMissionDates,
         )
         val fishActions = getFishActionList.execute(missionId = missionId)
 

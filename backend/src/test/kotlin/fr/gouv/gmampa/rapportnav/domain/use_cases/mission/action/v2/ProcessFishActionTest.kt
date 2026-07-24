@@ -8,11 +8,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishA
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import org.mockito.kotlin.anyOrNull
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.verifyNoInteractions
 import java.time.Instant
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
@@ -78,5 +75,19 @@ class ProcessFishActionTest {
         assertThat(entity).isNotNull
         assertThat(entity.id).isEqualTo(actionId.hashCode())
         assertThat(infractionIds).isEqualTo(mockInfractionIds)
+    }
+
+    @Test
+    fun `bypassValidation short-circuits per-field validation and marks the fish action complete`() {
+        val action = FishActionControlMock.create(id = 54566)
+        `when`(getComputeTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+
+        val entity = processFishAction.execute(missionId = 761, action = action, bypassValidation = true)
+
+        assertThat(entity.isCompleteForStats).isTrue()
+        assertThat(entity.completenessForStats?.isComplete).isTrue()
+        assertThat(entity.sourcesOfMissingDataForStats).isEmpty()
+        assertThat(entity.summaryTags).isNotNull
+        verifyNoInteractions(entityValidityValidator, getMissionDates)
     }
 }

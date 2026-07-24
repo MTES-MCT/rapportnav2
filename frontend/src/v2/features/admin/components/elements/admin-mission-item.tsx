@@ -18,6 +18,8 @@ const CELLS = [
   { key: 'openBy', label: 'Ouverte par', width: 110 },
   { key: 'completedBy', label: 'Complétée par', width: 110 },
   { key: 'isDeleted', label: 'Supprimée', width: 90 },
+  { key: 'isCompleteForStats', label: 'Complétude stats', width: 130 },
+  { key: 'sourcesOfMissingData', label: 'Sources données manquantes', width: 200 },
   { key: 'createdAt', label: 'Création', width: 170 },
   { key: 'updatedAt', label: 'Mise à jour', width: 170 }
 ]

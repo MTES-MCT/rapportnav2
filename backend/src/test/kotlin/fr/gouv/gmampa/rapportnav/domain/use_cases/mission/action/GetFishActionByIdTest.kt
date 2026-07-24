@@ -10,6 +10,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -49,7 +50,7 @@ class GetFishActionByIdTest {
             speciesQuantitySeized = 4
         )
 
-        `when`(processFishAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        `when`(processFishAction.execute(anyInt(), anyOrNull(), any(), anyOrNull())).thenReturn(response)
         `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
 
         getFishActionById = GetFishActionById(
