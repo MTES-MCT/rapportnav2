@@ -9,10 +9,39 @@ import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionFishActionData } from '../../common/types/mission-action'
-import FishControlConclusion from '../components/ui/fish-control-conclusion.tsx'
-import FishControlOthers from '../components/ui/fish-control-others.tsx'
-import FishControlPolpeche from '../components/ui/fish-control-polpeche.tsx'
+import FishControlConclusion from '../../fish-sati/components/elements/fish-control-conclusion.tsx'
+import FishControlInfos from '../../fish-sati/components/elements/fish-control-infos.tsx'
+import FishControlOthers from '../../fish-sati/components/elements/fish-control-others.tsx'
+import FishControlPolpeche from '../../fish-sati/components/elements/fish-control-polpeche.tsx'
+import { useSati } from '../../fish-sati/hooks/use-sati.tsx'
 import { ActionFishControlInput } from '../types/action-type'
+
+const SATI_ITEM: StyledTabItem = {
+  key: 'infos',
+  title: 'Infos du navire',
+  component: FishControlInfos
+}
+
+const BOOLEAN_KEYS = [
+  'incidentDuringOperation',
+  'hasDivingDuringOperation',
+  'seizureAndDiversion',
+  'unitWithoutOmegaGauge',
+  'feedbackSheetRequired',
+  'isFromPoseidon',
+  'isDeleted',
+  'hasSomeGearsSeized',
+  'hasSomeSpeciesSeized',
+  'isLastHaul',
+  'isAdministrativeControl',
+  'isComplianceWithWaterRegulationsControl',
+  'isSafetyEquipmentAndStandardsComplianceControl',
+  'isSeafarersControl',
+  'isINNControl',
+  'isGangwayDeployed',
+  'signature',
+  'isOutOfUnit'
+]
 
 const ITEMS: StyledTabItem[] = [
   {
@@ -36,6 +65,7 @@ export function useMissionActionFishControl(
   action: MissionAction,
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionFishControlInput> & { items: StyledTabItem[] } {
+  const { isSatiEnabled } = useSati()
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionFishActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
@@ -60,7 +90,7 @@ export function useMissionActionFishControl(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
-    ['incidentDuringOperation', 'hasDivingDuringOperation']
+    BOOLEAN_KEYS
   )
 
   const onSubmit = async (valueToSubmit?: MissionFishActionData) => {
@@ -84,10 +114,15 @@ export function useMissionActionFishControl(
     [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
   )
 
+  const getItems = (): StyledTabItem[] => {
+    if (isSatiEnabled) return [SATI_ITEM, ...ITEMS]
+    return ITEMS
+  }
+
   return {
     initValue,
-    items: ITEMS,
     validationSchema,
+    items: getItems(),
     handleSubmit: handleSubmitOverride
   }
 }

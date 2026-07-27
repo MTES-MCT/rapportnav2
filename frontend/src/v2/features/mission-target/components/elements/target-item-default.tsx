@@ -52,22 +52,6 @@ const TargetItemDefault: React.FC<TargetItemProps> = ({
       }}
       data-testid="target-item"
     >
-      <Stack.Item style={{ width: '100%' }}>
-        {!editInfraction && (
-          <Button
-            Icon={Icon.Plus}
-            isFullWidth={true}
-            size={Size.NORMAL}
-            role="show-target"
-            data-testid="show-target"
-            accent={Accent.SECONDARY}
-            onClick={handleAddInfraction}
-            title={'Infraction pour cette cible'}
-          >
-            {buttonLabel ?? `Ajouter une infraction`}
-          </Button>
-        )}
-      </Stack.Item>
       {editInfraction && (
         <Stack.Item style={{ width: '100%' }} data-testid={'mission-target-form'}>
           <Stack.Item style={{ width: '100%' }}>
@@ -95,6 +79,22 @@ const TargetItemDefault: React.FC<TargetItemProps> = ({
           fieldFormik={fieldFormik}
           availableControlTypes={getAvailableControlTypes(target, availableControlTypes)}
         />
+      </Stack.Item>
+      <Stack.Item style={{ width: '100%' }}>
+        {!editInfraction && (
+          <Button
+            Icon={Icon.Plus}
+            isFullWidth={true}
+            size={Size.NORMAL}
+            role="show-target"
+            data-testid="show-target"
+            accent={Accent.SECONDARY}
+            onClick={handleAddInfraction}
+            title={'Infraction pour cette cible'}
+          >
+            {buttonLabel ?? `Ajouter une infraction`}
+          </Button>
+        )}
       </Stack.Item>
     </Stack>
   )

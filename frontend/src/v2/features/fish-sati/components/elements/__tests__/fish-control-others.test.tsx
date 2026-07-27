@@ -1,7 +1,7 @@
 import { ControlType } from '@common/types/control-types'
 import { describe, expect, it } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
-import { ActionFishControlInput } from '../../../types/action-type'
+import { ActionFishControlInput } from '../../../../mission-action/types/action-type'
 import FishControlOthers from '../fish-control-others'
 
 const defaultValues = {

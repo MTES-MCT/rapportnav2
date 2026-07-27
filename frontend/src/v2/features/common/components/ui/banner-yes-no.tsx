@@ -1,20 +1,18 @@
 import Text from '@common/components/ui/text'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
-import { setDebounceTime } from '../../../../store/slices/delay-query-reducer'
-import YesNoToogle from '../../../common/components/ui/yes-no-toogle'
+import YesNoToogle from './yes-no-toogle'
 
-type MissionControlUnitConfirmProps = {
+type BannerYesNoProps = {
   title?: string
   message?: string
   value?: boolean
   onSubmit: (response: boolean) => void
 }
 
-const MissionControlUnitConfirm: React.FC<MissionControlUnitConfirmProps> = ({ value, onSubmit }) => {
+const BannerYesNo: React.FC<BannerYesNoProps> = ({ title, value, message, onSubmit }) => {
   const handleSubmit = (response: boolean) => {
     onSubmit(response)
-    setDebounceTime(0)
   }
   return (
     <Stack direction={'row'} style={{ padding: 16, backgroundColor: THEME.color.blueGray25 }}>
@@ -22,12 +20,12 @@ const MissionControlUnitConfirm: React.FC<MissionControlUnitConfirmProps> = ({ v
         <Stack direction={'column'} style={{ alignItems: 'start' }}>
           <Stack.Item>
             <Text as="h3" color={THEME.color.blueGray} weight="bold">
-              Validation de l'unité
+              {title}
             </Text>
           </Stack.Item>
           <Stack.Item>
             <Text as="h3" color={THEME.color.charcoal} weight="normal">
-              Le contrôle a-t-il été éffectué?
+              {message}
             </Text>
           </Stack.Item>
         </Stack>
@@ -41,4 +39,4 @@ const MissionControlUnitConfirm: React.FC<MissionControlUnitConfirmProps> = ({ v
   )
 }
 
-export default MissionControlUnitConfirm
+export default BannerYesNo

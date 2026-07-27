@@ -5,7 +5,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import java.util.Objects
+import java.util.*
 
 @Entity
 @Table(name = "sati_inspector")
@@ -30,13 +30,19 @@ class SatiInspectorModel(
     @Column(name = "is_out_of_unit", nullable = false)
     var isOutOfUnit: Boolean = false,
 
+    @Column(name = "card_id", length = 50)
+    var cardId: String? = null,
+
+    @Column(name = "is_principal")
+    var isPrincipal: Boolean = false,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,
 
     @LastModifiedDate
     @Column(name = "updated_at", nullable = true)
-    var updatedAt: Instant? = null,
+    var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
         return Objects.hash(id, parties, authorityType, agentId, isOutOfUnit)
@@ -47,9 +53,11 @@ class SatiInspectorModel(
         if (javaClass != other?.javaClass) return false
         other as SatiInspectorModel
         return id == other.id
-            && parties == other.parties
-            && authorityType == other.authorityType
+            && cardId == other.cardId
             && agentId == other.agentId
+            && parties == other.parties
+            && isPrincipal == other.isPrincipal
+            && authorityType == other.authorityType
             && isOutOfUnit == other.isOutOfUnit
     }
 }

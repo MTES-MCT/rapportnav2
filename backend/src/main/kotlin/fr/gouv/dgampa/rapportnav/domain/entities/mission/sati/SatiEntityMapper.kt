@@ -14,10 +14,11 @@ object SatiEntityMapper {
                 jpe = SatiJpeEntity(
                     pnoId = action.pnoReportId,
                     portName = action.lastDeparturePortName,
-                    portId = action.lastDeparturePortLocode,
-                    lastStopDate = action.lastDepartureDateTime,
-                    tripNumber = action.tripNumber ?: sati.vessel?.jpe?.tripNumber,
+                    lastPortIsNotSame = sati.vessel?.jpe?.lastPortIsNotSame,
                     pnoType = action.pnoPurpose ?: sati.vessel?.jpe?.pnoType,
+                    tripNumber = action.tripNumber ?: sati.vessel?.jpe?.tripNumber,
+                    portId = action.lastDeparturePortLocode ?: sati.vessel?.jpe?.portId,
+                    lastStopDate = action.lastDepartureDateTime ?: sati.vessel?.jpe?.lastStopDate,
                 ),
                 ircs = action.ircs,
                 imo = action.imo,
@@ -37,15 +38,13 @@ object SatiEntityMapper {
                         address = AddressEntity(fullAddress = action.proprietorAddress)
                     )
                 ),
-                operator = (sati.vessel?.operator ?: SatiPartyEntity()).copy(
-                    contact = (sati.vessel?.operator?.contact ?: ContactEntity()).copy(
+                operator = SatiPartyEntity(
+                    contact = ContactEntity(
                         fullName = action.operatorName,
                         email = action.operatorEmails?.firstOrNull(),
                         phone = action.operatorPhones?.firstOrNull(),
                         nationality = action.operatorNationality,
-                        address = (sati.vessel?.operator?.contact?.address ?: AddressEntity()).copy(
-                            fullAddress = action.operatorAddress
-                        )
+                        address = AddressEntity(fullAddress = action.operatorAddress)
                     )
                 )
             )

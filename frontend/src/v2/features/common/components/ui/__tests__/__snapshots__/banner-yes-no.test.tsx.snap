@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
+exports[`BannerYesNo > should match the snapshot 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
@@ -25,9 +25,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                 color="#5697D2"
                 font-size="13"
                 weight="bold"
-              >
-                Validation de l'unité
-              </p>
+              />
             </div>
             <div
               class="rs-stack-item"
@@ -37,9 +35,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                 color="#3B4559"
                 font-size="13"
                 weight="normal"
-              >
-                Le contrôle a-t-il été éffectué?
-              </p>
+              />
             </div>
           </div>
         </div>
@@ -196,9 +192,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
               color="#5697D2"
               font-size="13"
               weight="bold"
-            >
-              Validation de l'unité
-            </p>
+            />
           </div>
           <div
             class="rs-stack-item"
@@ -208,9 +202,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
               color="#3B4559"
               font-size="13"
               weight="normal"
-            >
-              Le contrôle a-t-il été éffectué?
-            </p>
+            />
           </div>
         </div>
       </div>

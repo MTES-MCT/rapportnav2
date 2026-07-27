@@ -4,17 +4,17 @@ import { FormikCheckbox, FormikEffect, FormikMultiRadio, FormikToggle, THEME } f
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
+import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 import { FormikNumberInput } from '../../../common/components/ui/formik-number-input'
-import { FormikTextInput } from '../../../common/components/ui/formik-text-input'
+import { StyledFormikTextInputDelay } from '../../../common/components/ui/formik-text-input'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input'
+import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 import { MissionAction } from '../../../common/types/mission-action'
 import { RescueType } from '../../../common/types/rescue-type'
 import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
 import { ActionRescueInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
-import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
 
 const RESCUE_TYPE_OPTIONS = [
   {
@@ -47,7 +47,10 @@ const MissionActionItemRescue: FC<{
         >
           {() => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionRescueInput)} onError={onFormError} />
+              <FormikEffect
+                onChange={nextValue => handleSubmit(nextValue as ActionRescueInput)}
+                onError={onFormError}
+              />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
@@ -67,7 +70,7 @@ const MissionActionItemRescue: FC<{
                   </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextInput
+                  <StyledFormikTextInputDelay
                     name="locationDescription"
                     isRequired={false}
                     label="Précision concernant la localisation"

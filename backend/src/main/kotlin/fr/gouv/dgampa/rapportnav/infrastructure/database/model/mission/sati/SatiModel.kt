@@ -15,8 +15,9 @@ import java.util.UUID
 class SatiModel(
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
-    var id: UUID = UUID.randomUUID(),
+    var id: UUID? = null,
 
     @Column(name = "module", nullable = false, length = 50)
     var module: String,

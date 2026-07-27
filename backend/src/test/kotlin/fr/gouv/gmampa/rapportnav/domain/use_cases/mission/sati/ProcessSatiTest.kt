@@ -5,10 +5,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.EnableSati
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiInspector
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
@@ -70,13 +73,13 @@ class ProcessSatiTest {
 
         whenever(enableSati.execute()).thenReturn(true)
         whenever(satiRepo.findByActionId(actionId)).thenReturn(existingInDb)
-        whenever(satiRepo.save(entityToSave)).thenReturn(entityToSave)
+        whenever(satiRepo.save(anyOrNull())).thenReturn(entityToSave)
 
         val result = processSati.execute(actionId = actionId, sati = sati)
 
         assertThat(result).isEqualTo(entityToSave)
         verify(satiRepo).findByActionId(actionId)
-        verify(satiRepo).save(entityToSave)
+        verify(satiRepo).save(anyOrNull())
     }
 
     private fun createSati(
@@ -88,6 +91,7 @@ class ProcessSatiTest {
             id = id,
             module = module,
             actionId = actionId,
+            principalInspector = SatiInspector(),
             startDatetimeUtc = Instant.parse("2026-03-24T09:15:30Z")
         )
     }

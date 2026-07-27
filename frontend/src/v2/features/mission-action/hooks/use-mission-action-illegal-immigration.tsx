@@ -1,16 +1,16 @@
+import { useMemo } from 'react'
 import { number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionIllegalImmigrationInput } from '../types/action-type'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
-import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
-import { useMemo } from 'react'
-import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
-import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
-import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 
 export function useMissionActionIllegalImmigration(
   action: MissionAction,
@@ -41,7 +41,8 @@ export function useMissionActionIllegalImmigration(
   const { initValue, handleSubmit } = useAbstractFormik<MissionNavActionData, ActionIllegalImmigrationInput>(
     value,
     fromFieldValueToInput,
-    fromInputToFieldValue
+    fromInputToFieldValue,
+    ['incidentDuringOperation', 'hasDivingDuringOperation']
   )
 
   const onSubmit = async (valueToSubmit?: MissionNavActionData) => {

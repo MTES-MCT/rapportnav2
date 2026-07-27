@@ -2,7 +2,7 @@ import { Icon, Label, Link, Message } from '@mtes-mct/monitor-ui'
 import { useSelector } from '@tanstack/react-store'
 import { Stack } from 'rsuite'
 import { store } from '../../../../store'
-import useResourceByControlUnitQuery from '../../../common/services/use-resources-control-unit'
+import useResources from '../../../common/hooks/use-resources'
 import { AdminActionType, BasicAction } from '../../../common/types/basic-action'
 import { ResourceInput } from '../../../common/types/control-unit-types'
 import { User } from '../../../common/types/user'
@@ -34,8 +34,8 @@ type ManageResourceItemProps = {
 }
 
 const ManageResourceItem: React.FC<ManageResourceItemProps> = () => {
+  const { getByControlUnit } = useResources()
   const user = useSelector(store, state => state.user)
-  const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
   const upsertResource = useManageUpsertResourceMutation(user?.serviceId)
 
   const handleSubmit = async (action: AdminActionType, value: ResourceInput) => {
@@ -68,7 +68,12 @@ const ManageResourceItem: React.FC<ManageResourceItemProps> = () => {
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <ManageBasicItemGeneric cells={CELLS} data={resources} actions={ACTIONS} onSubmit={handleSubmit} />
+        <ManageBasicItemGeneric
+          cells={CELLS}
+          actions={ACTIONS}
+          onSubmit={handleSubmit}
+          data={getByControlUnit(user?.controlUnitId)}
+        />
       </Stack.Item>
     </Stack>
   )

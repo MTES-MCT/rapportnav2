@@ -17,5 +17,6 @@ data class SatiVesselEntity(
     val operator: SatiPartyEntity? = null,
     val agent: SatiPartyEntity? = null,
     val master: SatiPartyEntity? = null,
-    val isMasterOwner: Boolean = false
+    val beneficiary: SatiPartyEntity? = null,
+    val isMasterOwner: Boolean? = null
 )

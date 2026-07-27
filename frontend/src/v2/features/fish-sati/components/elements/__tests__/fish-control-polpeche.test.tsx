@@ -1,7 +1,7 @@
 import { Infraction } from '@common/types/fish-mission-types'
 import { describe, expect, it } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
-import { ActionFishControlInput } from '../../../types/action-type'
+import { ActionFishControlInput } from '../../../../mission-action/types/action-type'
 import FishControlPolpeche from '../fish-control-polpeche'
 
 const defaultValues = {

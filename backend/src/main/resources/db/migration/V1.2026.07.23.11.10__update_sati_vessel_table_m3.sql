@@ -1,0 +1,8 @@
+DO
+$$
+BEGIN
+ALTER TABLE "sati_vessel" ADD COLUMN IF NOT EXISTS port_id VARCHAR (16) NULL;
+ALTER TABLE "sati_vessel" ADD COLUMN IF NOT EXISTS last_stop_date TIMESTAMPTZ NULL;
+ALTER TABLE "sati_vessel" ADD COLUMN IF NOT EXISTS last_port_is_not_same BOOLEAN NULL;
+END
+$$;

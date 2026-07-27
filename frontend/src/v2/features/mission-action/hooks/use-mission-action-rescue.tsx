@@ -1,17 +1,29 @@
+import { useMemo } from 'react'
 import { boolean, mixed, number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { RescueType } from '../../common/types/rescue-type'
 import { ActionRescueInput } from '../types/action-type'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
-import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
-import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
-import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
-import { useMemo } from 'react'
-import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
+
+const BOOLEAN_KEYS = [
+  'isVesselRescue',
+  'isVesselTowed',
+  'isPersonRescue',
+  'isVesselNoticed',
+  'isMigrationRescue',
+  'operationFollowsDEFREP',
+  'isInSRRorFollowedByCROSSMRCC',
+  'incidentDuringOperation',
+  'hasDivingDuringOperation'
+]
 
 export function useMissionActionRescue(
   action: MissionAction,
@@ -54,15 +66,7 @@ export function useMissionActionRescue(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
-    [
-      'isVesselRescue',
-      'isVesselTowed',
-      'isPersonRescue',
-      'isVesselNoticed',
-      'isMigrationRescue',
-      'operationFollowsDEFREP',
-      'isInSRRorFollowedByCROSSMRCC'
-    ]
+    BOOLEAN_KEYS
   )
 
   const onSubmit = async (valueToSubmit?: MissionNavActionData) => {

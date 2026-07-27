@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
-import { ActionFishControlInput } from '../../../types/action-type'
+import { ActionFishControlInput } from '../../../../mission-action/types/action-type'
 import FishControlConclusion from '../fish-control-conclusion'
 
 vi.mock('../mission-action-incident-download', () => ({
