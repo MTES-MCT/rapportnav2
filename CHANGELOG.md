@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.91.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.90.0...v2.91.0) (2026-07-27)
+
+
+### Features
+
+* **mission:** store validation status ([f2b56d7](https://github.com/MTES-MCT/rapportnav2/commit/f2b56d7d91e8515b38a2a852ba2af80447b1de44))
+
+
+### Bug Fixes
+
+* perf improvement by not refetching mission dates for each action ([6ea3dc1](https://github.com/MTES-MCT/rapportnav2/commit/6ea3dc186848ac00ce0c5c31bc8d4c663c4af32e))
+
 ## [2.90.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.89.0...v2.90.0) (2026-07-21)
 
 
