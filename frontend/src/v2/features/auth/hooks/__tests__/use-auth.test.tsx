@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { act, renderHook } from '@testing-library/react'
 import { jwtDecode } from 'jwt-decode'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { RoleType } from '../../../common/types/role-type'
 import useAuth, { setGlobalLogout, triggerGlobalLogout } from '../use-auth'
@@ -9,7 +9,7 @@ import useAuth, { setGlobalLogout, triggerGlobalLogout } from '../use-auth'
 // Mocks
 vi.mock('@features/auth/utils/token')
 vi.mock('@tanstack/react-query')
-vi.mock('react-router-dom', () => ({ useNavigate: vi.fn() }))
+vi.mock('react-router', () => ({ useNavigate: vi.fn() }))
 vi.mock('jwt-decode')
 
 describe('useAuth hook', () => {

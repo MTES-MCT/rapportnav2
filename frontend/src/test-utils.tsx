@@ -2,7 +2,7 @@
 import '@testing-library/jest-dom'
 import { render, renderHook, RenderOptions } from '@testing-library/react'
 import React, { ReactElement } from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FormikContext, FormikContextType } from 'formik'

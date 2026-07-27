@@ -1,6 +1,6 @@
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import PageWrapper from '../features/common/components/layout/page-wrapper.tsx'
 import MissionPageFooter from '../features/common/components/ui/mission-page-footer.tsx'
 import { OwnerType } from '../features/common/types/owner-type.ts'

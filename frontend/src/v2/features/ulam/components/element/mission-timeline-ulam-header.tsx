@@ -1,6 +1,6 @@
 import { useGlobalRoutes } from '@router/use-global-routes'
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import MissionTimelineHeaderWrapper from '../../../../features/mission-timeline/components/layout/mission-timeline-Header-wrapper'
 import { MissionReportTypeEnum } from '../../../common/types/mission-types'
 import { ModuleType } from '../../../common/types/module-type'

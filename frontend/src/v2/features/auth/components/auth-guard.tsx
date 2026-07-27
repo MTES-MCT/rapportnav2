@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 import * as Sentry from '@sentry/react'
 import { setUser } from '../../../store/slices/user-reducer'
 import useGetUserQuery from '../../common/services/use-user'

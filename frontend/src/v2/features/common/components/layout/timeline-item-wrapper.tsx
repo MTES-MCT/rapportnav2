@@ -1,6 +1,6 @@
 import { THEME } from '@mtes-mct/monitor-ui'
 import { DetailedHTMLProps, FC, JSX } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'

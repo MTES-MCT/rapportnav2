@@ -1,6 +1,6 @@
 import { useGlobalRoutes } from '@router/use-global-routes'
 import { FC, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 const HomePage: FC = () => {
   const navigate = useNavigate()

@@ -1,6 +1,6 @@
 import { LOGIN_PATH, ROOT_PATH, SIGNUP_PATH } from '@router/routes.tsx'
 import { wrapCreateBrowserRouterV6 } from '@sentry/react'
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router'
 import AuthGuard from '../v2/features/auth/components/auth-guard.tsx'
 import RoleGuard from '../v2/features/auth/components/role-guard.tsx'
 import { RoleType } from '../v2/features/common/types/role-type.ts'

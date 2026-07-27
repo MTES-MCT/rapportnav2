@@ -3,7 +3,7 @@ import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { useStore } from '@tanstack/react-store'
 import React, { useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router'
 import { Stack } from 'rsuite'
 import ItemListDateRangeNavigator from '../features/common/components/elements/item-list-daterange-navigator.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
@@ -17,7 +17,7 @@ import { OwnerType } from '../features/common/types/owner-type.ts'
 import InquiryList from '../features/inquiry/components/elements/inquiry-list.tsx'
 import useCreateInquiryMutation from '../features/inquiry/services/use-create-inquiry.tsx'
 import useInquiriesQuery from '../features/inquiry/services/use-inquiries.tsx'
-import { store } from '../store/index.ts'
+import { store } from '../store'
 
 const InquiryListPage: React.FC = () => {
   const navigate = useNavigate()

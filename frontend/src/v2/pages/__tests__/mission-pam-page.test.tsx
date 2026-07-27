@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { startOfYear, endOfYear } from 'date-fns'
 import { UTCDate } from '@date-fns/utc'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
@@ -9,7 +9,7 @@ import { OwnerType } from '../../features/common/types/owner-type.ts'
 import useAuth from '../../features/auth/hooks/use-auth.tsx'
 
 // Mock all the dependencies
-vi.mock('react-router-dom', () => ({
+vi.mock('react-router', () => ({
   useParams: vi.fn()
 }))
 

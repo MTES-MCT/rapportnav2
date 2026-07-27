@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import PageWrapper from '@common/components/ui/page-wrapper.tsx'
 import AuthToken from '@features/auth/utils/token.ts'
 import { FlexboxGrid, Stack } from 'rsuite'

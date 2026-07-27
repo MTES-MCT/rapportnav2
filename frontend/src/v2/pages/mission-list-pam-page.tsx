@@ -1,7 +1,7 @@
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { useSelector } from '@tanstack/react-store'
 import { FC, useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { Stack } from 'rsuite'
 import ItemListDateRangeNavigator from '../features/common/components/elements/item-list-daterange-navigator.tsx'
 import OnlineToggle from '../features/common/components/elements/online-toggle.tsx'
