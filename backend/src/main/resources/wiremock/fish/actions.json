@@ -20,7 +20,7 @@
     "emitsAis": "NOT_APPLICABLE",
     "vmsEmissionControlBeforeArrival": "YES",
     "portEntranceAndLandingAuthorized": "YES",
-    "logbookFilledPriorToControl": "NO",
+    "logbookOpenedPriorToControl": "NO",
     "logbookMatchesActivity": "YES",
     "licencesMatchActivity": "YES",
     "speciesWeightControlled": "YES",
