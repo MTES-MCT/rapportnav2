@@ -160,6 +160,7 @@ fun BackendUsageErrorCode.toTitle(): String = when (this) {
     BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION -> "User Not Allowed To Perform"
     BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION -> "Dates outside mission range"
     BackendUsageErrorCode.MONITORENV_VALIDATION_EXCEPTION -> "MonitorEnv Validation Error"
+    BackendUsageErrorCode.DOES_NOT_MATCH_EXCEPTION -> "id doesn't match payload id"
 }
 
 /**
@@ -181,6 +182,7 @@ fun BackendUsageErrorCode.defaultMessage(): String = when (this) {
     BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION -> "The user is not allowed to Perform this action"
     BackendUsageErrorCode.DATES_OUTSIDE_MISSION_RANGE_EXCEPTION -> "Les dates doivent être comprises entre les dates de la mission"
     BackendUsageErrorCode.MONITORENV_VALIDATION_EXCEPTION -> "Erreur de validation, veuillez vérifier les données saisies."
+    BackendUsageErrorCode.DOES_NOT_MATCH_EXCEPTION -> "L'id en paramètre ne correspond pas à celui du body"
 }
 
 /**

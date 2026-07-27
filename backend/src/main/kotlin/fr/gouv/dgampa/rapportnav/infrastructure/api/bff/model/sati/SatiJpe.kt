@@ -9,5 +9,6 @@ class SatiJpe(
     val portName: String? = null,
     val tripNumber: String? = null,
     val lastStopDate: Instant? = null,
+    val lastPortIsNotSame : Boolean? = null,
     val pnoType: LogbookMessagePurpose? = null
 )

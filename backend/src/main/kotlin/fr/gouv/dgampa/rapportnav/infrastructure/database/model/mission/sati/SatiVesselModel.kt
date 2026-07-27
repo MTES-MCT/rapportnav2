@@ -30,6 +30,15 @@ class SatiVesselModel(
     @Column(name = "is_master_owner", nullable = true)
     var isMasterOwner: Boolean? = null,
 
+    @Column(name = "port_id", nullable = true)
+    var portId: String? = null,
+
+    @Column(name = "last_stop_date", nullable = true)
+    var lastStopDate: Instant? = null,
+
+    @Column(name = "last_port_is_not_same", nullable = true)
+    var lastPortIsNotSame: Boolean? = null,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,
@@ -39,7 +48,7 @@ class SatiVesselModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, pnoType, tripNumber, parties, isMasterOwner)
+        return Objects.hash(id, pnoType, tripNumber, parties, isMasterOwner, portId, lastStopDate)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -50,6 +59,9 @@ class SatiVesselModel(
             && pnoType == other.pnoType
             && tripNumber == other.tripNumber
             && parties == other.parties
+            && portId == other.portId
+            && lastStopDate == other.lastStopDate
             && isMasterOwner == other.isMasterOwner
+            && lastPortIsNotSame == other.lastPortIsNotSame
     }
 }

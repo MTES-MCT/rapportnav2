@@ -51,4 +51,6 @@ enum class BackendUsageErrorCode {
     //------------------------
     // External API validation errors
     MONITORENV_VALIDATION_EXCEPTION,
+
+    DOES_NOT_MATCH_EXCEPTION
 }

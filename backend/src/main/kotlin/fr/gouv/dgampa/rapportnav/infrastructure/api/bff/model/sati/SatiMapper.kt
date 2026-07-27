@@ -182,7 +182,8 @@ object SatiMapper {
             pnoType = pnoType,
             portName = portName,
             tripNumber = tripNumber,
-            lastStopDate = lastStopDate
+            lastStopDate = lastStopDate,
+            lastPortIsNotSame = lastPortIsNotSame
         )
     }
 
@@ -193,7 +194,8 @@ object SatiMapper {
             pnoType = pnoType,
             portName = portName,
             tripNumber = tripNumber,
-            lastStopDate = lastStopDate
+            lastStopDate = lastStopDate,
+            lastPortIsNotSame = lastPortIsNotSame
         )
     }
 

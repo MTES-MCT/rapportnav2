@@ -6,7 +6,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.Sati
 
 object SatiEntityMapper {
     fun merge(sati: SatiEntity, action: MissionAction): SatiEntity {
-
         return sati.copy(
             actionId = action.id?.toString() ?: "",
             startDatetimeUtc = action.actionDatetimeUtc,
@@ -15,10 +14,11 @@ object SatiEntityMapper {
                 jpe = SatiJpeEntity(
                     pnoId = action.pnoReportId,
                     portName = action.lastDeparturePortName,
-                    portId = action.lastDeparturePortLocode,
-                    lastStopDate = action.lastDepartureDateTime,
-                    tripNumber = action.tripNumber ?: sati.vessel?.jpe?.tripNumber,
+                    lastPortIsNotSame = sati.vessel?.jpe?.lastPortIsNotSame,
                     pnoType = action.pnoPurpose ?: sati.vessel?.jpe?.pnoType,
+                    tripNumber = action.tripNumber ?: sati.vessel?.jpe?.tripNumber,
+                    portId = action.lastDeparturePortLocode ?: sati.vessel?.jpe?.portId,
+                    lastStopDate = action.lastDepartureDateTime ?: sati.vessel?.jpe?.lastStopDate,
                 ),
                 ircs = action.ircs,
                 imo = action.imo,

@@ -32,7 +32,10 @@ object SatiModelMapper {
         return SatiVesselEntity(
             id = id,
             jpe = SatiJpeEntity(
+                portId = portId,
                 tripNumber = tripNumber,
+                lastStopDate = lastStopDate,
+                lastPortIsNotSame = lastPortIsNotSame,
                 pnoType = pnoType?.let { LogbookMessagePurpose.valueOf(it) }
             ),
             agent = parties.firstOrNull { it.partyType == SatiPartyType.VESSEL_AGENT.name }?.toEntity(),
@@ -45,9 +48,12 @@ object SatiModelMapper {
     private fun SatiVesselEntity.toModel(): SatiVesselModel {
         return SatiVesselModel(
             id = id,
+            portId = jpe?.portId,
             tripNumber = jpe?.tripNumber,
             isMasterOwner = isMasterOwner,
+            lastStopDate = jpe?.lastStopDate,
             pnoType = jpe?.pnoType?.toString(),
+            lastPortIsNotSame = jpe?.lastPortIsNotSame,
             parties = mutableListOf<SatiPartyModel>().apply {
                 agent?.toModel(SatiPartyType.VESSEL_AGENT)?.let { add(it) }
                 master?.toModel(SatiPartyType.VESSEL_MASTER)?.let { add(it) }
