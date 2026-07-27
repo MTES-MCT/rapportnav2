@@ -31,7 +31,7 @@ data class MissionGeneralInfoEntity2(
 
     val serviceType: ServiceTypeEnum?
         get() {
-            return data?.service?.serviceType ?: services?.first()?.serviceType
+            return data?.service?.serviceType ?: services?.firstOrNull()?.serviceType
         }
 
     private fun isCrewComplete(): Boolean {

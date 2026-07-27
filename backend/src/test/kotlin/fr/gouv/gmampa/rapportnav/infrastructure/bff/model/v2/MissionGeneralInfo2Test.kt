@@ -45,16 +45,16 @@ class MissionGeneralInfo2Test {
         )
 
         val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(generalInfoEntity, isUnderJdp = true)
-        assertThat(generalInfo).isNotNull();
-        assertThat(generalInfo.isUnderJdp).isEqualTo(true);
-        assertThat(generalInfo.id).isEqualTo(generalInfoEntity.data?.id);
-        assertThat(generalInfo.missionId).isEqualTo(generalInfoEntity.data?.missionId);
-        assertThat(generalInfo.service?.id).isEqualTo(generalInfoEntity.data?.service?.id);
-        assertThat(generalInfo.consumedGOInLiters).isEqualTo(generalInfoEntity.data?.consumedGOInLiters);
-        assertThat(generalInfo.consumedFuelInLiters).isEqualTo(generalInfoEntity.data?.consumedFuelInLiters);
-        assertThat(generalInfo.distanceInNauticalMiles).isEqualTo(generalInfoEntity.data?.distanceInNauticalMiles);
-        assertThat(generalInfo.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.data?.nbrOfRecognizedVessel);
-        assertThat(generalInfo.isResourcesNotUsed).isEqualTo(generalInfoEntity.data?.isResourcesNotUsed);
+        assertThat(generalInfo).isNotNull()
+        assertThat(generalInfo.isUnderJdp).isEqualTo(true)
+        assertThat(generalInfo.id).isEqualTo(generalInfoEntity.data?.id)
+        assertThat(generalInfo.missionId).isEqualTo(generalInfoEntity.data?.missionId)
+        assertThat(generalInfo.service?.id).isEqualTo(generalInfoEntity.data?.service?.id)
+        assertThat(generalInfo.consumedGOInLiters).isEqualTo(generalInfoEntity.data?.consumedGOInLiters)
+        assertThat(generalInfo.consumedFuelInLiters).isEqualTo(generalInfoEntity.data?.consumedFuelInLiters)
+        assertThat(generalInfo.distanceInNauticalMiles).isEqualTo(generalInfoEntity.data?.distanceInNauticalMiles)
+        assertThat(generalInfo.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.data?.nbrOfRecognizedVessel)
+        assertThat(generalInfo.isResourcesNotUsed).isEqualTo(generalInfoEntity.data?.isResourcesNotUsed)
     }
 
 
@@ -67,10 +67,34 @@ class MissionGeneralInfo2Test {
             )
         )
         val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(generalInfoEntity)
-        assertThat(generalInfo).isNotNull();
-        assertThat(generalInfo.missionReportType).isEqualTo(MissionReportTypeEnum.FIELD_REPORT);
+        assertThat(generalInfo).isNotNull()
+        assertThat(generalInfo.missionReportType).isEqualTo(MissionReportTypeEnum.FIELD_REPORT)
     }
 
+
+    @Test
+    fun `serviceType returns null instead of throwing when service is absent and services is empty`() {
+        // Regression: serviceId can legitimately be null on the mission row, so data?.service is null and
+        // the services list can be empty. services?.first() threw NoSuchElementException on an empty list,
+        // which bubbled up through isCompleteForStats() and aborted the mission read / validation sync.
+        val generalInfoEntity = MissionGeneralInfoEntity2(
+            data = MissionGeneralInfoEntityMock.create(id = 1, missionId = 1), // service defaults to null
+            services = emptyList()
+        )
+
+        assertThat(generalInfoEntity.serviceType).isNull()
+    }
+
+    @Test
+    fun `serviceType falls back to the first service when data has no service`() {
+        val service = ServiceEntityMock.create(id = 1)
+        val generalInfoEntity = MissionGeneralInfoEntity2(
+            data = MissionGeneralInfoEntityMock.create(id = 1, missionId = 1), // service defaults to null
+            services = listOf(service)
+        )
+
+        assertThat(generalInfoEntity.serviceType).isEqualTo(service.serviceType)
+    }
 
     @Test
     fun `execute should retrieve mission general info entity`() {
@@ -87,13 +111,13 @@ class MissionGeneralInfo2Test {
                 missionReportType = MissionReportTypeEnum.FIELD_REPORT,
             )
 
-        assertThat(generalInfoEntity).isNotNull();
-        assertThat(generalInfoEntity.id).isEqualTo(1);
-        assertThat(generalInfoEntity.missionId).isEqualTo(missionId);
-        assertThat(generalInfoEntity.service?.id).isEqualTo(3);
-        assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
-        assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
-        assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
-        assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9);
+        assertThat(generalInfoEntity).isNotNull()
+        assertThat(generalInfoEntity.id).isEqualTo(1)
+        assertThat(generalInfoEntity.missionId).isEqualTo(missionId)
+        assertThat(generalInfoEntity.service?.id).isEqualTo(3)
+        assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f)
+        assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f)
+        assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f)
+        assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9)
     }
 }
