@@ -1,5 +1,5 @@
 import { Button, Size } from '@mtes-mct/monitor-ui'
-import { useNavigate, useRouteError } from 'react-router-dom'
+import { useNavigate, useRouteError } from 'react-router'
 import { Stack } from 'rsuite'
 import Text from '@common/components/ui/text.tsx'
 

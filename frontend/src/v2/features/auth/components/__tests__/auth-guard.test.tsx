@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, waitFor } from '../../../../../test-utils'
-import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import * as Sentry from '@sentry/react'
 import AuthGuard from '../auth-guard'
 import * as useAuthModule from '../../hooks/use-auth'

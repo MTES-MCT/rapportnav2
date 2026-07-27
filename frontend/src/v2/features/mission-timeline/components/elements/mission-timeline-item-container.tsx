@@ -1,6 +1,6 @@
 import { THEME } from '@mtes-mct/monitor-ui'
 import { DetailedHTMLProps, FC, JSX } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { ActionStyle } from '../../../common/hooks/use-timeline-action'
 

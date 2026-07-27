@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@date-fns/utc": "^2.1.1",
-    "@mtes-mct/monitor-ui": "^24.52.1",
+    "@mtes-mct/monitor-ui": "^24.56.1",
     "@sentry/react": "^10.56.0",
     "@tanstack/query-async-storage-persister": "^5.101.0",
     "@tanstack/react-query": "^5.101.0",
@@ -38,7 +38,7 @@
     "lodash": "^4.17.23",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router-dom": "^7.14.2",
+    "react-router": "^8.3.0",
     "react-toastify": "^11.0.5",
     "rsuite": "^5.83.3",
     "styled-components": "^6.4.0",
@@ -78,7 +78,9 @@
   },
   "overrides": {
     "glob": "11.1.0",
-    "serialize-javascript": "^7.0.3"
+    "serialize-javascript": "^7.0.3",
+    "brace-expansion": "^5.0.8",
+    "esbuild": "^0.28.1"
   },
   "eslintConfig": {
     "extends": [

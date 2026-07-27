@@ -1,7 +1,7 @@
 import {
   RouterProvider as ReactDomRouterProvider,
   RouterProviderProps as ReactDomRouterProviderProps
-} from 'react-router-dom'
+} from 'react-router/dom'
 
 export type RouterProviderProps = ReactDomRouterProviderProps
 

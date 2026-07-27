@@ -1,7 +1,7 @@
 import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import { useGlobalRoutes } from '@router/use-global-routes'
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useTimelineAction } from '../../../common/hooks/use-timeline-action'
 import useCreateActionMutation from '../../../common/services/use-create-action'
 import { ActionType } from '../../../common/types/action-type'

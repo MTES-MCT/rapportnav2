@@ -2,7 +2,7 @@ import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { useStore } from '@tanstack/react-store'
 import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { Stack } from 'rsuite'
 import ItemListDateRangeNavigator from '../features/common/components/elements/item-list-daterange-navigator.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
@@ -15,7 +15,7 @@ import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import MissionCreateDialog from '../features/ulam/components/element/mission-create-dialog.tsx'
 import MissionListUlam from '../features/ulam/components/element/mission-list/mission-list-ulam.tsx'
-import { store } from '../store/index.ts'
+import { store } from '../store'
 
 const MissionListUlamPage: React.FC = () => {
   const { getTodayMonthRange } = useDate()

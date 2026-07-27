@@ -1,5 +1,5 @@
 import { Accent, Button, Icon, IconButton, Size } from '@mtes-mct/monitor-ui'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import republique from '../../../../../assets/images/republique.svg'

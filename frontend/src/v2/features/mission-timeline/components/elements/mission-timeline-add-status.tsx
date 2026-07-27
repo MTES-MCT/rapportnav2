@@ -7,7 +7,7 @@ import { useTimelineAction } from '../../../common/hooks/use-timeline-action'
 import useCreateActionMutation from '../../../common/services/use-create-action'
 import { ActionType } from '../../../common/types/action-type'
 import { navigateToActionId } from '@router/routes.tsx'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { v4 as uuidv4 } from 'uuid'
 import { OwnerType } from '../../../common/types/owner-type.ts'
 

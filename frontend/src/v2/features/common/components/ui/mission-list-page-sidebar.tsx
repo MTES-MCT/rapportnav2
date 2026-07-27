@@ -1,6 +1,6 @@
 import { IconProps, SideMenu } from '@mtes-mct/monitor-ui'
 import { FunctionComponent, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { Sidebar } from 'rsuite'
 import styled from 'styled-components'
 

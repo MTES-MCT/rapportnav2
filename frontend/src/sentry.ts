@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom'
+import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router'
 import packageJson from '../package.json'
 
 const version = packageJson.version

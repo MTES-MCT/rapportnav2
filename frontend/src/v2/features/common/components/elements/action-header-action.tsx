@@ -1,6 +1,6 @@
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { useGlobalRoutes } from '@router/use-global-routes'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { Stack } from 'rsuite'
 import useDeleteActionMutation from '../../services/use-delete-action.tsx'
 import { MissionSourceEnum } from '../../types/mission-types'

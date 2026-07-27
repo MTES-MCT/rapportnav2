@@ -1,5 +1,5 @@
 import { createElement, FC, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import TimelineItemWrapper from '../../../../common/components/layout/timeline-item-wrapper.tsx'
 import { useTimeline } from '../../../../mission-timeline/hooks/use-timeline.tsx'
 import { MissionTimelineAction } from '../../../../mission-timeline/types/mission-timeline-output.ts'

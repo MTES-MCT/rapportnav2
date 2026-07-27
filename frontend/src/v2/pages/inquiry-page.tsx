@@ -1,6 +1,6 @@
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
 import PageWrapper from '../features/common/components/layout/page-wrapper.tsx'
 import { inquiriesKeys } from '../features/common/services/query-keys.ts'

@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { intersection } from 'lodash'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { RoleType } from '../../common/types/role-type'
 
 type AuthHook = {
