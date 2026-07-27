@@ -158,8 +158,7 @@ class MissionActionDataOutputTest {
                 emitsAis = ControlCheck.NO,
                 logbookMatchesActivity = ControlCheck.NOT_APPLICABLE,
                 licencesMatchActivity = ControlCheck.YES,
-                separateStowageOfPreservedSpecies = ControlCheck.NO,
-                vesselTargeted = ControlCheck.YES
+                separateStowageOfPreservedSpecies = ControlCheck.NO
             )
 
             val result = output.toMissionAction()
@@ -169,7 +168,6 @@ class MissionActionDataOutputTest {
             assertEquals(ControlCheck.NOT_APPLICABLE, result.logbookMatchesActivity)
             assertEquals(ControlCheck.YES, result.licencesMatchActivity)
             assertEquals(ControlCheck.NO, result.separateStowageOfPreservedSpecies)
-            assertEquals(ControlCheck.YES, result.vesselTargeted)
         }
 
         @Test

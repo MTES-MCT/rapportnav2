@@ -68,7 +68,6 @@ class MissionFishActionEntityTest {
         assertThat(entity.latitude).isEqualTo(fishAction.latitude)
         assertThat(entity.portLocode).isEqualTo(fishAction.portLocode)
         assertThat(entity.portName).isEqualTo(fishAction.portName)
-        assertThat(entity.vesselTargeted).isEqualTo(fishAction.vesselTargeted)
         assertThat(entity.seizureAndDiversionComments).isEqualTo(fishAction.seizureAndDiversionComments)
         assertThat(entity.otherComments).isEqualTo(fishAction.otherComments)
         assertThat(entity.gearOnboard).isEqualTo(fishAction.gearOnboard)

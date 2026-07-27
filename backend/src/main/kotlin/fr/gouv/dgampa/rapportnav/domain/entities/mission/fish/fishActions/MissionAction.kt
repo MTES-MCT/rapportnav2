@@ -2,6 +2,9 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.ActionReporting
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.VesselGroup
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.WeightControlMethod
 import java.time.Instant
 
 
@@ -25,7 +28,7 @@ data class MissionAction(
     val emitsAis: ControlCheck? = null,
     val vmsEmissionControlBeforeArrival: ControlCheck? = null,
     val portEntranceAndLandingAuthorized: ControlCheck? = null,
-    val logbookFilledPriorToControl: ControlCheck? = null,
+    val logbookOpenedPriorToControl: ControlCheck? = null,
     val flightGoals: List<FlightGoal> = listOf(),
     val logbookMatchesActivity: ControlCheck? = null,
     val licencesMatchActivity: ControlCheck? = null,
@@ -34,6 +37,8 @@ data class MissionAction(
     val separateStowageOfPreservedSpecies: ControlCheck? = null,
     val propulsionEnginePowerControl: ControlCheck? = null,
     val fishingLicencesMatchActivity: ControlCheck? = null,
+    val europeanFishingLicenceValid: ControlCheck? = null,
+    val weighingOperationsMonitoredByInspectors: ControlCheck? = null,
     val stowagePlanPresent: ControlCheck? = null,
     val onboardWeighingPermit: ControlCheck? = null,
     val weighingCertificateAndSystemsValid: ControlCheck? = null,
@@ -43,6 +48,7 @@ data class MissionAction(
     val cratesWeighingSamplingControl: ControlCheck? = null,
     val approvedWeighingOperatorInformation: ControlCheck? = null,
     val holdControlledAfterUnloading: ControlCheck? = null,
+    val weightControlMethod: WeightControlMethod? = null,
     val catchesWeighedAtLanding: ControlCheck? = null,
     val licencesAndLogbookObservations: String? = null,
     val speciesObservations: String? = null,
@@ -58,7 +64,6 @@ data class MissionAction(
     val portLocode: String? = null,
     // This field is only used when fetching missions
     var portName: String? = null,
-    val vesselTargeted: ControlCheck? = null,
     val seizureAndDiversionComments: String? = null,
     val otherComments: String? = null,
     val gearOnboard: List<GearControl> = listOf(),
@@ -70,6 +75,9 @@ data class MissionAction(
      * /!\ Do not use it to get `controlUnits` as the field will be empty be default.
      */
     var controlUnits: List<ControlUnit> = listOf(),
+    val vesselGroups: List<VesselGroup> = listOf(),
+    val tripReportings: List<ActionReporting> = listOf(),
+    val isPrioritized: Boolean = false,
     val hasSomeGearsSeized: Boolean,
     val hasSomeSpeciesSeized: Boolean,
     val completedBy: String? = null,
@@ -80,7 +88,8 @@ data class MissionAction(
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     val isSeafarersControl: Boolean? = null,
     val isINNControl: Boolean = false,
-    val isGangwayDeployed: Boolean? = null,
+    val gangwayPresentAndCompliant: ControlCheck? = null,
+    val isUnitBoarded: Boolean? = null,
     var observationsByUnit: String? = null,
     var speciesQuantitySeized: Int? = null,
     val infractions: List<FishInfraction> = listOf(),
