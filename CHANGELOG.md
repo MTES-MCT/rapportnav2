@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.91.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.91.0...v2.91.1) (2026-07-27)
+
+
+### Bug Fixes
+
+* **Mission:** service should now be treated as nullable ([7cf5fef](https://github.com/MTES-MCT/rapportnav2/commit/7cf5fef7c39c61999bddc2caaafb92010c884740))
+
 ## [2.91.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.90.0...v2.91.0) (2026-07-27)
 
 
