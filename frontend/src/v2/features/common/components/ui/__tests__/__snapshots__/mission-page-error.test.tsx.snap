@@ -17,13 +17,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             style="max-width: 33%;"
           >
             <p
-              class="sc-kmYGLm sc-dkeMNg SyRXt dwcQyJ"
+              class="sc-iXaBKZ sc-hKyxtL jmgVTz fsUBIF"
               font-size="16"
             >
               Une erreur est survenue
             </p>
             <p
-              class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
+              class="sc-iXaBKZ sc-exaRUo jmgVTz jfhiLi"
               font-size="13"
             >
               this is and error
@@ -33,11 +33,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <button
-              class="sc-hiunUN sc-cBEgGa jBInpu bvdigo Element-Button"
+              class="sc-iBjNZB sc-cTZdpT ewjmxA bQaCao Element-Button"
               type="button"
             >
               <span
-                class="sc-gXvOjn hKdQEj"
+                class="sc-efsgwo gIViWm"
               >
                 Retourner à l'accueil
               </span>
@@ -82,13 +82,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           style="max-width: 33%;"
         >
           <p
-            class="sc-kmYGLm sc-dkeMNg SyRXt dwcQyJ"
+            class="sc-iXaBKZ sc-hKyxtL jmgVTz fsUBIF"
             font-size="16"
           >
             Une erreur est survenue
           </p>
           <p
-            class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
+            class="sc-iXaBKZ sc-exaRUo jmgVTz jfhiLi"
             font-size="13"
           >
             this is and error
@@ -98,11 +98,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-hiunUN sc-cBEgGa jBInpu bvdigo Element-Button"
+            class="sc-iBjNZB sc-cTZdpT ewjmxA bQaCao Element-Button"
             type="button"
           >
             <span
-              class="sc-gXvOjn hKdQEj"
+              class="sc-efsgwo gIViWm"
             >
               Retourner à l'accueil
             </span>

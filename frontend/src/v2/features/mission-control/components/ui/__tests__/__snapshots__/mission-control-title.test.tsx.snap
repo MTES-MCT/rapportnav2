@@ -9,7 +9,7 @@ exports[`MissionControlTitle > should match the snapshot 1`] = `
         style="width: 100%; display: flex; flex-direction: row;"
       >
         <p
-          class="sc-kmYGLm sc-gJaedx ifTrSG eAwdXP"
+          class="sc-iXaBKZ sc-exaRUo bhCbUs jfhiLi"
           color="#282F3E"
           font-size="13"
           weight="bold"
@@ -83,7 +83,7 @@ exports[`MissionControlTitle > should match the snapshot 1`] = `
       style="width: 100%; display: flex; flex-direction: row;"
     >
       <p
-        class="sc-kmYGLm sc-gJaedx ifTrSG eAwdXP"
+        class="sc-iXaBKZ sc-exaRUo bhCbUs jfhiLi"
         color="#282F3E"
         font-size="13"
         weight="bold"

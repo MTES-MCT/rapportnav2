@@ -6,7 +6,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-bqqMSY kYQrcM Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
+        class="sc-krVzYl ddfnAJ Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
       >
         <button
           aria-controls="menu-_r_1_"
@@ -69,7 +69,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
         </button>
         <ul
           aria-labelledby="menubutton-_r_0_"
-          class="sc-bqqMSY kYQrcM Component-Dropdow rs-dropdown-menu"
+          class="sc-krVzYl ddfnAJ Component-Dropdow rs-dropdown-menu"
           hidden=""
           id="menu-_r_1_"
           role="menu"
@@ -78,7 +78,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
           <div>
             <li
               aria-disabled="false"
-              class="sc-dYjPD fUXBNA rs-dropdown-item rs-dropdown-item-with-icon"
+              class="sc-bqqMSY ktqSvS rs-dropdown-item rs-dropdown-item-with-icon"
               data-event-key="CONTROL_GROUP"
               id="menuitem-_r_2_"
               role="menuitem"
@@ -206,7 +206,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-bqqMSY kYQrcM Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
+      class="sc-krVzYl ddfnAJ Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
     >
       <button
         aria-controls="menu-_r_1_"
@@ -269,7 +269,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
       </button>
       <ul
         aria-labelledby="menubutton-_r_0_"
-        class="sc-bqqMSY kYQrcM Component-Dropdow rs-dropdown-menu"
+        class="sc-krVzYl ddfnAJ Component-Dropdow rs-dropdown-menu"
         hidden=""
         id="menu-_r_1_"
         role="menu"
@@ -278,7 +278,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
         <div>
           <li
             aria-disabled="false"
-            class="sc-dYjPD fUXBNA rs-dropdown-item rs-dropdown-item-with-icon"
+            class="sc-bqqMSY ktqSvS rs-dropdown-item rs-dropdown-item-with-icon"
             data-event-key="CONTROL_GROUP"
             id="menuitem-_r_2_"
             role="menuitem"

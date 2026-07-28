@@ -10,14 +10,14 @@ exports[`MissionListPageSidebar > should match the snapshot 1`] = `
         style="flex: 0 1 0%; width: 64px;"
       >
         <div
-          class="sc-kmYGLm kylZkH"
+          class="sc-iXaBKZ dRmHAR"
         >
           <div
-            class="sc-bjLslk gieSPc"
+            class="sc-ieCSdj iFJiUC"
             role="menu"
           >
             <button
-              class="sc-hKVpXn sc-gKkgUA eOayP hSPMoF Element-IconButton sc-fFCZOx dwUAHS"
+              class="sc-hKVpXn sc-iCECmn eOayP fAqUOm Element-IconButton sc-bjLslk eXpVCE"
               role="menuitem"
               title="mission"
               type="button"
@@ -93,14 +93,14 @@ exports[`MissionListPageSidebar > should match the snapshot 1`] = `
       style="flex: 0 1 0%; width: 64px;"
     >
       <div
-        class="sc-kmYGLm kylZkH"
+        class="sc-iXaBKZ dRmHAR"
       >
         <div
-          class="sc-bjLslk gieSPc"
+          class="sc-ieCSdj iFJiUC"
           role="menu"
         >
           <button
-            class="sc-hKVpXn sc-gKkgUA eOayP hSPMoF Element-IconButton sc-fFCZOx dwUAHS"
+            class="sc-hKVpXn sc-iCECmn eOayP fAqUOm Element-IconButton sc-bjLslk eXpVCE"
             role="menuitem"
             title="mission"
             type="button"

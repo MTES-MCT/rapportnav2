@@ -33,7 +33,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
       class="rs-flex-box-grid-item rs-flex-box-grid-item-7"
     >
       <p
-        class="sc-kmYGLm sc-gJaedx iCUgCu eAwdXP sc-dSDPUr fWcvaR"
+        class="sc-iXaBKZ sc-exaRUo fZbsrQ jfhiLi sc-gXJrbp ggwiws"
         data-testid="crew-member-agent"
         font-size="13"
         style="padding-left: 4px;"
@@ -45,7 +45,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
       class="rs-flex-box-grid-item rs-flex-box-grid-item-6"
     >
       <p
-        class="sc-kmYGLm sc-gJaedx iCUgCu eAwdXP"
+        class="sc-iXaBKZ sc-exaRUo fZbsrQ jfhiLi"
         data-testid="crew-member-role"
         font-size="13"
       >
@@ -66,7 +66,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
             class="sc-dkXsAU dGQEeC Element-IconBox"
           >
             <svg
-              class="sc-jhWNli eiFQVV"
+              class="sc-Jwmfr jLXkbn"
               comment="Invité externe"
               data-testid="crew-member-comment-icon"
               height="20"
@@ -98,7 +98,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
           class="rs-flex-box-grid-item rs-flex-box-grid-item-18"
         >
           <p
-            class="sc-kmYGLm sc-gJaedx iCUgCu eAwdXP sc-hjYznJ fNVTwI"
+            class="sc-iXaBKZ sc-exaRUo fZbsrQ jfhiLi sc-gGKKzG eSUZCY"
             font-size="13"
           >
             Invité externe
@@ -117,7 +117,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
           class="rs-stack-item"
         >
           <button
-            class="sc-fuztkK fXPwON Element-IconButton sc-bUAICN jsNNYH"
+            class="sc-qdQOe fkQhXW Element-IconButton sc-kHFOMI lhaXLr"
             data-testid="edit-crew-member-icon"
             role="edit-crew"
             type="button"
@@ -149,7 +149,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
           class="rs-stack-item"
         >
           <button
-            class="sc-fuztkK fXPwON Element-IconButton sc-tIyEa kjmqQn"
+            class="sc-qdQOe fkQhXW Element-IconButton sc-ktgdcJ jiBiKq"
             data-testid="delete-crew-member-icon"
             role="delete-crew"
             type="button"
@@ -210,11 +210,11 @@ exports[`MissionCrewListItemPam > Standard crew member (with agent) > matches sn
       style="padding-right: 4px;"
     >
       <div
-        class="sc-efsgwo fJMgzk Element-Field Field-Checkbox"
+        class="sc-FBvLw cFKQtC Element-Field Field-Checkbox"
         style="margin-top: -10px;"
       >
         <div
-          class="sc-fbtdoJ pOrkk rs-checkbox rs-checkbox-checked"
+          class="sc-bXuqjq hsxRDI rs-checkbox rs-checkbox-checked"
         >
           <div
             class="rs-checkbox-checker"
@@ -251,7 +251,7 @@ exports[`MissionCrewListItemPam > Standard crew member (with agent) > matches sn
       style="padding-right: 4px;"
     >
       <p
-        class="sc-kmYGLm sc-gJaedx JiGUn eAwdXP"
+        class="sc-iXaBKZ sc-exaRUo cmlvYh jfhiLi"
         color="#3B4559"
         data-testid="crew-member-agent"
         font-size="13"
@@ -267,7 +267,7 @@ exports[`MissionCrewListItemPam > Standard crew member (with agent) > matches sn
       style="padding-right: 4px;"
     >
       <p
-        class="sc-kmYGLm sc-gJaedx JiGUn eAwdXP"
+        class="sc-iXaBKZ sc-exaRUo cmlvYh jfhiLi"
         color="#3B4559"
         data-testid="crew-member-role"
         font-size="13"
@@ -299,7 +299,7 @@ exports[`MissionCrewListItemPam > Standard crew member (with agent) > matches sn
           class="rs-stack-item"
         >
           <button
-            class="sc-fuztkK fXPwON Element-IconButton"
+            class="sc-qdQOe fkQhXW Element-IconButton"
             data-testid="edit-crew-member-icon"
             role="edit-crew"
             title="Renseigner des absences temporaires"

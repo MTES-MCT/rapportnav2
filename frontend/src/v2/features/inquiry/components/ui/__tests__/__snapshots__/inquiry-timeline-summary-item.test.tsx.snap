@@ -13,7 +13,7 @@ exports[`InquiryTimelineSummaryItem > render should match snapshot 1`] = `
           class="rs-stack-item"
         >
           <p
-            class="sc-kmYGLm sc-dkeMNg eozCcm dwcQyJ"
+            class="sc-iXaBKZ sc-hKyxtL cOymLQ fsUBIF"
             font-size="16"
             weight="bold"
           >
@@ -25,7 +25,7 @@ exports[`InquiryTimelineSummaryItem > render should match snapshot 1`] = `
           style="margin-left: 3px;"
         >
           <p
-            class="sc-kmYGLm sc-dkeMNg jFHKOE fvQuef"
+            class="sc-iXaBKZ sc-hKyxtL cHPIJO iwBtwz"
             font-size="16"
             font-style="italic"
             weight="normal"
@@ -67,7 +67,7 @@ exports[`InquiryTimelineSummaryItem > render should match snapshot 1`] = `
         class="rs-stack-item"
       >
         <p
-          class="sc-kmYGLm sc-dkeMNg eozCcm dwcQyJ"
+          class="sc-iXaBKZ sc-hKyxtL cOymLQ fsUBIF"
           font-size="16"
           weight="bold"
         >
@@ -79,7 +79,7 @@ exports[`InquiryTimelineSummaryItem > render should match snapshot 1`] = `
         style="margin-left: 3px;"
       >
         <p
-          class="sc-kmYGLm sc-dkeMNg jFHKOE fvQuef"
+          class="sc-iXaBKZ sc-hKyxtL cHPIJO iwBtwz"
           font-size="16"
           font-style="italic"
           weight="normal"
