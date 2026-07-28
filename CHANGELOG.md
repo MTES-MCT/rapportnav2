@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.93.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.92.0...v2.93.0) (2026-07-28)
+
+
+### Features
+
+* **router:** bump to react-router v8 ([f3cb8c0](https://github.com/MTES-MCT/rapportnav2/commit/f3cb8c080f4568e3ad900514517c25788b362998))
+
 ## [2.92.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.91.1...v2.92.0) (2026-07-28)
 
 
