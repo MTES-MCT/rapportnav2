@@ -1,4 +1,4 @@
-import { Label, THEME } from '@mtes-mct/monitor-ui'
+import { THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { ActionFishControlInput } from '../../../mission-action/types/action-type.ts'
@@ -40,17 +40,6 @@ const FishControlPolpeche: FC<FishControlPolpecheProps> = ({ values }) => {
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <FishControlFleetSegmentSection action={values} />
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Divider style={{ backgroundColor: THEME.color.charcoal, margin: 0 }} />
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Stack direction="column" alignItems="flex-start">
-            <Stack.Item>
-              <Label>Saisi par</Label>
-            </Stack.Item>
-            <Stack.Item>{values?.userTrigram ?? '--'}</Stack.Item>
-          </Stack>
         </Stack.Item>
       </Stack>
     </div>

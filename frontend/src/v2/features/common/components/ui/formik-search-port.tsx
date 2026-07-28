@@ -9,6 +9,7 @@ type FormikSearchPortProps = {
   label: string
   isLight?: boolean
   className?: string
+  disabled?: boolean
 }
 
 export const FormikSearchPort = styled(({ ...props }: FormikSearchPortProps) => {

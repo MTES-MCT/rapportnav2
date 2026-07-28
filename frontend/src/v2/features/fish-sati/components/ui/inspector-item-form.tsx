@@ -27,6 +27,7 @@ const InspectorItemForm: FC<InspectorItemFormProps> = ({ values, readOnly, isPri
       <Stack.Item style={{ width: '100%' }}>
         <FormikMultiRadio
           isInline
+          isRequired={true}
           readOnly={readOnly}
           name="authorityType"
           options={authorityTypeOptions}
@@ -66,7 +67,7 @@ const InspectorItemForm: FC<InspectorItemFormProps> = ({ values, readOnly, isPri
           name="cardId"
           isLight={readOnly}
           placeholder="ex : FS7414"
-          readOnly={!values?.isOutOfUnit || isPrincipal}
+          readOnly={!values?.isOutOfUnit || isPrincipal || readOnly}
           label="Identifiant unique de l’inspecteur (n° de la carte de service...)"
         />
       </Stack.Item>

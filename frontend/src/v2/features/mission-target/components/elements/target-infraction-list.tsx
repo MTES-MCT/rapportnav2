@@ -37,7 +37,7 @@ const TargetInfractionList: FC<TargetInfractionListProps> = ({
     <div
       style={{
         width: '100%',
-        marginTop: '1rem',
+        marginTop: '.5rem',
         marginBottom: '1rem'
       }}
     >

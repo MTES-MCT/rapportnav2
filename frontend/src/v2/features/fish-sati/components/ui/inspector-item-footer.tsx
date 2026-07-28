@@ -3,11 +3,12 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 
 interface InspectorItemFooterProps {
+  isValid?: boolean
   onClose: () => void
   onSubmit: () => void
 }
 
-const InspectorItemFooter: FC<InspectorItemFooterProps> = ({ onClose, onSubmit }) => {
+const InspectorItemFooter: FC<InspectorItemFooterProps> = ({ onClose, isValid, onSubmit }) => {
   return (
     <Stack justifyContent="flex-end" spacing={'1rem'} style={{ width: '100%' }}>
       <Stack.Item>
@@ -19,6 +20,7 @@ const InspectorItemFooter: FC<InspectorItemFooterProps> = ({ onClose, onSubmit }
         <Button
           onClick={onSubmit}
           size={Size.NORMAL}
+          disabled={!isValid}
           accent={Accent.PRIMARY}
           role="validate-infraction"
           data-testid="validate-infraction"
