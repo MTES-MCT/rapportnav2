@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.93.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.93.0...v2.93.1) (2026-07-28)
+
+
+### Bug Fixes
+
+* disable SATI in prod ([dcf9122](https://github.com/MTES-MCT/rapportnav2/commit/dcf912205d9b4bf43a8ed2ae88f365340aee8dc3))
+
 ## [2.93.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.92.0...v2.93.0) (2026-07-28)
 
 
