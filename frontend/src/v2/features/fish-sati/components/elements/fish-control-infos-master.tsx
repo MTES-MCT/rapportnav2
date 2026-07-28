@@ -1,6 +1,6 @@
-import { Accent, Icon, IconButton, Label, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Button, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useEffect, useState } from 'react'
-import { Divider, Stack } from 'rsuite'
+import { Stack } from 'rsuite'
 import BannerYesNo from '../../../common/components/ui/banner-yes-no.tsx'
 import { Address, Contact, SatiVessel } from '../../../common/types/sati.ts'
 import ContactFormItem from '../ui/contact-form-item.tsx'
@@ -9,10 +9,10 @@ const emptyContact: Contact = { address: {} as Address } as Contact
 
 interface FishControlInfosMasterProps {
   vessel?: SatiVessel
-  onchange: (value?: SatiVessel) => void
+  onChange: (value?: SatiVessel) => void
 }
 
-const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ vessel, onchange }) => {
+const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ vessel, onChange }) => {
   const [edit, setEdit] = useState<boolean>(true)
 
   const getContact = (checked: boolean) => {
@@ -24,13 +24,13 @@ const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ vessel, oncha
 
   const handleToggle = (checked: boolean) => {
     const master = { ...vessel?.master, contact: getContact(checked) }
-    onchange({ ...vessel, isMasterOwner: checked, master })
+    onChange({ ...vessel, isMasterOwner: checked, master })
     setEdit(true)
   }
 
   const handleSubmit = (value: Contact) => {
     const master = { ...vessel?.master, contact: value }
-    onchange({ ...vessel, master })
+    onChange({ ...vessel, master })
     setEdit(false)
   }
 
@@ -62,27 +62,6 @@ const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ vessel, oncha
                 message={`Les informations du capitaine sont-ellesidentiques à celle du propriétaire `}
               />
             </Stack.Item>
-            {!edit && (
-              <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="row" spacing="0.75rem" justifyContent="flex-end">
-                  <Stack.Item>
-                    <IconButton
-                      title="Editer"
-                      size={Size.NORMAL}
-                      accent={Accent.SECONDARY}
-                      Icon={Icon.EditUnbordered}
-                      color={THEME.color.charcoal}
-                      onClick={() => setEdit(!edit)}
-                    />
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-            )}
-            {!edit && (
-              <Stack.Item style={{ width: '100%' }}>
-                <Divider style={{ margin: 8 }} />
-              </Stack.Item>
-            )}
             <Stack.Item style={{ width: '100%' }}>
               <ContactFormItem
                 readOnly={!edit}
@@ -92,6 +71,24 @@ const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ vessel, oncha
                 disabled={vessel?.isMasterOwner === undefined}
               />
             </Stack.Item>
+            {!edit && (
+              <Stack.Item style={{ width: '100%' }}>
+                <Stack direction="row" spacing="0.75rem" justifyContent="flex-end">
+                  <Stack.Item>
+                    <Button
+                      title="Editer"
+                      size={Size.NORMAL}
+                      accent={Accent.PRIMARY}
+                      Icon={Icon.EditUnbordered}
+                      color={THEME.color.charcoal}
+                      onClick={() => setEdit(!edit)}
+                    >
+                      Editer
+                    </Button>
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+            )}
           </Stack>
         </div>
       </Stack.Item>

@@ -3,11 +3,35 @@ import { Formik } from 'formik'
 import { isEqual } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { Divider, Stack } from 'rsuite'
+import { mixed, object, string } from 'yup'
 import { useAgent } from '../../../common/hooks/use-agent'
-import { Contact, SatiInspector, SatiParty } from '../../../common/types/sati'
+import { AuthorityType, Contact, SatiInspector, SatiParty } from '../../../common/types/sati'
 import InspectorItemFooter from './inspector-item-footer'
 import InspectorItemForm from './inspector-item-form'
 import InspectorItemHeader from './inspector-item-header'
+
+const schema = object().shape({
+  agentId: string().when('isOutOfUnit', {
+    is: false,
+    then: schema => schema.required(),
+    otherwise: schema => schema.notRequired()
+  }),
+  authorityType: mixed<AuthorityType>().oneOf(Object.values(AuthorityType)),
+  party: object({
+    contact: object({
+      lastName: string().when('$isOutOfUnit', {
+        is: true,
+        then: schema => schema.required(),
+        otherwise: schema => schema.notRequired()
+      }),
+      firstName: string().when('$isOutOfUnit', {
+        is: true,
+        then: schema => schema.required(),
+        otherwise: schema => schema.notRequired()
+      })
+    })
+  })
+})
 
 const emptyInspector = { party: { contact: {} as Contact } as SatiParty } as SatiInspector
 
@@ -70,10 +94,13 @@ const InspectorItem: FC<InspectorItemProps> = ({
   return (
     <Formik
       enableReinitialize
+      validateOnMount
+      validateOnChange
+      validationSchema={schema}
       initialValues={initialValues}
       onSubmit={response => handleSubmit(response as SatiInspector)}
     >
-      {({ values }) => (
+      {({ values, isValid, resetForm, validateForm }) => (
         <Stack
           direction="column"
           spacing="0.5rem"
@@ -102,7 +129,15 @@ const InspectorItem: FC<InspectorItemProps> = ({
           </Stack.Item>
           {!isPrincipal && edit && (
             <Stack.Item style={{ width: '100%' }}>
-              <InspectorItemFooter onClose={handleClose} onSubmit={() => handleSubmit(values)} />
+              <InspectorItemFooter
+                isValid={isValid}
+                onClose={() => {
+                  resetForm()
+                  validateForm(initialValues)
+                  handleClose()
+                }}
+                onSubmit={() => handleSubmit(values)}
+              />
             </Stack.Item>
           )}
         </Stack>

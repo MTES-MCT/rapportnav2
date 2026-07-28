@@ -27,7 +27,6 @@ const BOOLEAN_KEYS = [
   'hasDivingDuringOperation',
   'seizureAndDiversion',
   'unitWithoutOmegaGauge',
-  'feedbackSheetRequired',
   'isFromPoseidon',
   'isDeleted',
   'hasSomeGearsSeized',
@@ -38,7 +37,7 @@ const BOOLEAN_KEYS = [
   'isSafetyEquipmentAndStandardsComplianceControl',
   'isSeafarersControl',
   'isINNControl',
-  'isGangwayDeployed',
+  'isUnitBoarded',
   'signature',
   'isOutOfUnit'
 ]

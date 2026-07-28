@@ -18,6 +18,31 @@ export enum MissionActionType {
   SEA_CONTROL = 'SEA_CONTROL'
 }
 
+export enum FlightGoal {
+  VMS_AIS_CHECK = 'VMS_AIS_CHECK',
+  UNAUTHORIZED_FISHING = 'UNAUTHORIZED_FISHING',
+  CLOSED_AREA = 'CLOSED_AREA'
+}
+
+export enum WeightControlMethod {
+  WEIGHING = 'WEIGHING',
+  CRATE_COUNT = 'CRATE_COUNT',
+  SAMPLING = 'SAMPLING',
+  NOT_APPLICABLE = 'NOT_APPLICABLE'
+}
+
+export enum GroupType {
+  DYNAMIC = 'DYNAMIC',
+  FIXED = 'FIXED',
+  HARDCODED = 'HARDCODED'
+}
+
+export enum ReportingType {
+  ALERT = 'ALERT',
+  OBSERVATION = 'OBSERVATION',
+  INFRACTION_SUSPICION = 'INFRACTION_SUSPICION'
+}
+
 export const formatMissionActionTypeForHumans = (type?: MissionActionType): string => {
   switch (type) {
     case MissionActionType.AIR_CONTROL:
@@ -86,4 +111,25 @@ export type DiscardedSpeciesControl = {
   rejectedWeight: number | undefined
   discardReason: DiscardReason | undefined
   faoZones: string[] | undefined
+}
+
+export type VesselGroup = {
+  id?: number
+  name: string
+  color: string
+  type: GroupType
+  isPriorityGroup: boolean
+}
+
+export type MissionActionReportingThreat = {
+  natinfCode?: number
+  threat?: string
+  threatCharacterization?: string
+}
+
+export type ActionReporting = {
+  id?: number
+  type: ReportingType
+  title?: string
+  threats: MissionActionReportingThreat[]
 }

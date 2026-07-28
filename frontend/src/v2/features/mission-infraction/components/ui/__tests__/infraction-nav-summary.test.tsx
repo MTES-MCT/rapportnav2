@@ -19,16 +19,11 @@ describe('InfractionNavSummary', () => {
 
   it('renders the control-type-specific title when controlType is provided', () => {
     render(<InfractionNavSummary {...defaultProps} controlType={ControlType.ADMINISTRATIVE} />)
-    expect(screen.getByText('Infrac. admin navire')).toBeInTheDocument()
+    expect(screen.getByText('Infraction admin navire')).toBeInTheDocument()
   })
 
   it('renders observations from infraction', () => {
-    render(
-      <InfractionNavSummary
-        {...defaultProps}
-        infraction={{ observations: 'Pêche illégale constatée' }}
-      />
-    )
+    render(<InfractionNavSummary {...defaultProps} infraction={{ observations: 'Pêche illégale constatée' }} />)
     expect(screen.getByText('Pêche illégale constatée')).toBeInTheDocument()
   })
 
@@ -69,6 +64,6 @@ describe('InfractionNavSummary', () => {
 
   it('renders NAVIGATION control type title', () => {
     render(<InfractionNavSummary {...defaultProps} controlType={ControlType.NAVIGATION} />)
-    expect(screen.getByText('Infrac.règles de nav')).toBeInTheDocument()
+    expect(screen.getByText('Infraction règles de nav')).toBeInTheDocument()
   })
 })

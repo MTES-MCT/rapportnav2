@@ -72,8 +72,6 @@ const FishControlConclusion: FC<FishControlConclusionProps> = ({ values }) => {
         <Stack direction="column" spacing="1rem" style={{ width: '100%', backgroundColor: 'white', padding: 16 }}>
           <Stack.Item style={{ width: '100%' }}>
             <InfractionFishSummary infractions={values?.fishInfractions ?? []} />
-          </Stack.Item>
-          <Stack.Item style={{ width: '100%' }}>
             <Field name={`targets[0]`}>
               {(fieldFormik: FieldProps<Target>) => (
                 <TargetItemDefault

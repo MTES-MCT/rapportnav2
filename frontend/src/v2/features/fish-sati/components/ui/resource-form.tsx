@@ -32,7 +32,7 @@ const ResourceForm: FC<ResourceFormProps> = ({ onChange, resource }) => {
   }, [resource])
 
   return (
-    <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
+    <Stack direction="column" spacing="0.2rem" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Label>{`Informations sur le navire d’inspection`}</Label>
       </Stack.Item>

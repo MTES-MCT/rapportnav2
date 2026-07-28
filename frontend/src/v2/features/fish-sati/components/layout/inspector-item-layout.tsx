@@ -9,7 +9,7 @@ interface InspectorItemLayoutProps {
 
 const InspectorItemLayout: FC<InspectorItemLayoutProps> = ({ title, inspectorItem }) => {
   return (
-    <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%', marginTop: '0.5rem' }}>
+    <Stack direction="column" spacing="0.2rem" alignItems="flex-start" style={{ width: '100%', marginTop: '0.5rem' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Label>{title}</Label>
       </Stack.Item>

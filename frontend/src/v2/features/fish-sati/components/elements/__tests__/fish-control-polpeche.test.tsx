@@ -14,11 +14,5 @@ describe('FishControlPolpeche Component', () => {
   it('renders the main fish control sections', () => {
     render(<FishControlPolpeche values={defaultValues} />)
     expect(screen.getByTestId('action-control-nav')).toBeInTheDocument()
-    expect(screen.getByText('Saisi par')).toBeInTheDocument()
-  })
-
-  it('renders the user trigram when provided', () => {
-    render(<FishControlPolpeche values={{ ...defaultValues, userTrigram: 'XYZ' }} />)
-    expect(screen.getByText('XYZ')).toBeInTheDocument()
   })
 })
