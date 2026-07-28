@@ -81,7 +81,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
                   class="rs-stack-item"
                 >
                   <p
-                    class="sc-kmYGLm sc-dkeMNg SyRXt dwcQyJ"
+                    class="sc-iXaBKZ sc-hKyxtL jmgVTz fsUBIF"
                     font-size="16"
                   >
                     Session de travail 1
@@ -91,7 +91,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
                   class="rs-stack-item"
                 >
                   <p
-                    class="sc-kmYGLm sc-dkeMNg SyRXt fvQuef"
+                    class="sc-iXaBKZ sc-hKyxtL jmgVTz iwBtwz"
                     font-size="16"
                     weight="normal"
                   >
@@ -166,7 +166,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
               style="align-self: baseline;"
             >
               <p
-                class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
+                class="sc-iXaBKZ sc-exaRUo jmgVTz jfhiLi"
                 color="#3B4559"
                 font-size="13"
               >
@@ -277,7 +277,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-kmYGLm sc-dkeMNg SyRXt dwcQyJ"
+                  class="sc-iXaBKZ sc-hKyxtL jmgVTz fsUBIF"
                   font-size="16"
                 >
                   Session de travail 1
@@ -287,7 +287,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-kmYGLm sc-dkeMNg SyRXt fvQuef"
+                  class="sc-iXaBKZ sc-hKyxtL jmgVTz iwBtwz"
                   font-size="16"
                   weight="normal"
                 >
@@ -362,7 +362,7 @@ exports[`InquiryActionHeader > renders with required props 1`] = `
             style="align-self: baseline;"
           >
             <p
-              class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
+              class="sc-iXaBKZ sc-exaRUo jmgVTz jfhiLi"
               color="#3B4559"
               font-size="13"
             >

@@ -17,16 +17,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-efsgwo fJMgzk Element-Field Field-TextInput sc-kmYGLm"
+              class="sc-FBvLw cFKQtC Element-Field Field-TextInput sc-iXaBKZ"
             >
               <label
-                class="sc-hUheUT bmxzbH Element-Label"
+                class="sc-gXvOjn jgvnrY Element-Label"
                 for="vesselId"
               >
                 Nom du navire contrôlée
               </label>
               <div
-                class="sc-fmtEmb sc-cbuLjy gVPMFb gLrgkb"
+                class="sc-kijJqc sc-kmYGLm fhvMPu lkBRgt"
               >
                 <input
                   class="rs-input"
@@ -117,16 +117,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
           style="width: 100%;"
         >
           <div
-            class="sc-efsgwo fJMgzk Element-Field Field-TextInput sc-kmYGLm"
+            class="sc-FBvLw cFKQtC Element-Field Field-TextInput sc-iXaBKZ"
           >
             <label
-              class="sc-hUheUT bmxzbH Element-Label"
+              class="sc-gXvOjn jgvnrY Element-Label"
               for="vesselId"
             >
               Nom du navire contrôlée
             </label>
             <div
-              class="sc-fmtEmb sc-cbuLjy gVPMFb gLrgkb"
+              class="sc-kijJqc sc-kmYGLm fhvMPu lkBRgt"
             >
               <input
                 class="rs-input"

@@ -21,7 +21,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-kmYGLm sc-gJaedx cnGblN eAwdXP"
+                class="sc-iXaBKZ sc-exaRUo fiZvgH jfhiLi"
                 color="#5697D2"
                 font-size="13"
                 weight="bold"
@@ -31,7 +31,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
+                class="sc-iXaBKZ sc-exaRUo jmgVTz jfhiLi"
                 color="#3B4559"
                 font-size="13"
                 weight="normal"
@@ -58,7 +58,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
                   class="rs-stack-item"
                 >
                   <button
-                    class="sc-hiunUN sc-cBEgGa eYxJIw bvdigo Element-Button"
+                    class="sc-iBjNZB sc-cTZdpT fDagNm bQaCao Element-Button"
                     data-testid="yes-no-toogle-yes-button"
                     style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                     type="button"
@@ -92,7 +92,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
                       </svg>
                     </span>
                     <span
-                      class="sc-gXvOjn hKdQEj"
+                      class="sc-efsgwo gIViWm"
                     >
                       Oui
                     </span>
@@ -102,7 +102,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
                   class="rs-stack-item"
                 >
                   <button
-                    class="sc-hiunUN sc-cBEgGa eYxJIw bvdigo Element-Button"
+                    class="sc-iBjNZB sc-cTZdpT fDagNm bQaCao Element-Button"
                     data-testid="yes-no-toogle-no-button"
                     style="border-left-width: medium; border-left-style: none; color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                     type="button"
@@ -136,7 +136,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
                       </svg>
                     </span>
                     <span
-                      class="sc-gXvOjn hKdQEj"
+                      class="sc-efsgwo gIViWm"
                     >
                       Non
                     </span>
@@ -188,7 +188,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <p
-              class="sc-kmYGLm sc-gJaedx cnGblN eAwdXP"
+              class="sc-iXaBKZ sc-exaRUo fiZvgH jfhiLi"
               color="#5697D2"
               font-size="13"
               weight="bold"
@@ -198,7 +198,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <p
-              class="sc-kmYGLm sc-gJaedx SyRXt eAwdXP"
+              class="sc-iXaBKZ sc-exaRUo jmgVTz jfhiLi"
               color="#3B4559"
               font-size="13"
               weight="normal"
@@ -225,7 +225,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <button
-                  class="sc-hiunUN sc-cBEgGa eYxJIw bvdigo Element-Button"
+                  class="sc-iBjNZB sc-cTZdpT fDagNm bQaCao Element-Button"
                   data-testid="yes-no-toogle-yes-button"
                   style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                   type="button"
@@ -259,7 +259,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="sc-gXvOjn hKdQEj"
+                    class="sc-efsgwo gIViWm"
                   >
                     Oui
                   </span>
@@ -269,7 +269,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <button
-                  class="sc-hiunUN sc-cBEgGa eYxJIw bvdigo Element-Button"
+                  class="sc-iBjNZB sc-cTZdpT fDagNm bQaCao Element-Button"
                   data-testid="yes-no-toogle-no-button"
                   style="border-left-width: medium; border-left-style: none; color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                   type="button"
@@ -303,7 +303,7 @@ exports[`BannerYesNo > should match the snapshot 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="sc-gXvOjn hKdQEj"
+                    class="sc-efsgwo gIViWm"
                   >
                     Non
                   </span>
