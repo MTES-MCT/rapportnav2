@@ -60,8 +60,7 @@ const AdminPage: React.FC = () => {
               style={{
                 flex: 1,
                 padding: '1rem',
-                height: '2000px',
-                overflowY: 'hidden',
+                overflowY: 'auto',
                 minHeight: 'calc(100vh - 2 * 60px)',
                 maxHeight: 'calc(100vh - 2 * 60px)'
               }}
