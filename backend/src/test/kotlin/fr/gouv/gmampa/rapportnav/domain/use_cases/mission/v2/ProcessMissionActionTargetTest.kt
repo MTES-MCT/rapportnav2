@@ -1,11 +1,17 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetModelMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
@@ -124,6 +130,30 @@ class ProcessMissionActionTargetTest {
 
         verify(repository).deleteById(UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
         verify(repository).deleteById(UUID.fromString("64b02a4c-6f7f-449d-9db5-3fb662d4969e"))
+    }
+
+    @Test
+    fun `execute throws a usage error when an infraction has no report type`() {
+        val actionId = "A123"
+        val untypedControl = ControlEntityMock.create(
+            controlType = ControlType.NAVIGATION,
+            infractions = listOf(
+                InfractionEntity(
+                    id = UUID.randomUUID(),
+                    infractionType = null,
+                    natinfs = listOf("4473"),
+                    observations = null
+                )
+            )
+        )
+        val target = TargetEntityMock.create(controls = listOf(untypedControl))
+
+        val exception = assertThrows(BackendUsageException::class.java) {
+            useCase.execute(actionId, listOf(target))
+        }
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
+        verify(repository, never()).save(any())
+        verify(repository, never()).findByActionId(any())
     }
 
     @Test

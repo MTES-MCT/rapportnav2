@@ -73,7 +73,8 @@ export function useInfractionForm(
     }
     const infractionSchema = {
       infraction: object().shape({
-        natinfs: array().min(1).required()
+        natinfs: array().min(1).required(),
+        infractionType: mixed<InfractionTypeEnum>().required()
       })
     }
 
