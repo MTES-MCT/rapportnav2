@@ -17,6 +17,7 @@ import org.mockito.kotlin.any
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.orm.ObjectOptimisticLockingFailureException
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
@@ -171,6 +172,20 @@ class JPATargetRepositoryTest {
 
     @Test
     fun `deleteById should delegate to db repository`() {
+        jpaTargetRepository.deleteById(targetId)
+
+        verify(dbTargetRepository).deleteById(targetId)
+    }
+
+    @Test
+    fun `deleteById should tolerate a stale cascade delete instead of failing`() {
+        // A concurrent/duplicate update already removed part of the target's graph, so Hibernate's cascade
+        // delete finds 0 rows where it expects 1. The desired end state is already met, so we must not fail.
+        // (persistentClassName, identifier) constructor — mirrors how Spring reports a stale-row delete
+        `when`(dbTargetRepository.deleteById(targetId))
+            .thenThrow(ObjectOptimisticLockingFailureException("control_2", targetId))
+
+        // must NOT throw
         jpaTargetRepository.deleteById(targetId)
 
         verify(dbTargetRepository).deleteById(targetId)
