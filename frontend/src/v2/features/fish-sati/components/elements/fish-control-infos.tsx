@@ -32,7 +32,7 @@ const FishControlInfos: FC<FishControlInfosProps> = () => {
           />
         </Stack.Item>
 
-        {values?.sati?.module === SatiModuleType.M3 && (
+        {values?.sati?.module === SatiModuleType.M3 && !values.sati?.vessel?.jpe?.pnoId && (
           <Stack.Item style={{ width: '100%' }}>
             <FishControlInfosPort
               name="sati.vessel.jpe"

@@ -30,7 +30,7 @@ const FishControlInfosBoat: FC<FishControlInfosProps> = ({ name, vessel, gangway
           </Stack.Item>
         </Stack>
       </Stack.Item>
-      <Stack.Item style={{ width: '100%' }}>
+      <Stack.Item style={{ width: '100%', marginTop: '-0.8rem' }}>
         <Stack direction="row" spacing={'.8rem'} wrap={true}>
           <Stack.Item>
             <LabeledValue value={vessel?.immat} label="CFR" />
