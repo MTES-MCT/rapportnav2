@@ -90,3 +90,35 @@ object RequiredFieldsValidator {
         }
     }
 }
+
+private val PRESENT: Any = Any()
+
+/**
+ * Lifts a list of child-entity rules to run against a parent entity by extracting the child.
+ * Each violation's field is prefixed with [fieldPathPrefix] (e.g. `sati.vessel.master.contact`).
+ *
+ * - If [condition] evaluates to `false` on the parent, none of the lifted rules apply.
+ * - If [condition] passes and the extracted child is `null`, every lifted rule fires
+ *   (one violation per missing child field).
+ * - If the child exists, each child rule's own `appliesTo`/`isViolated` decides.
+ */
+fun <T, C> List<RequiredFieldsValidator.Rule<C>>.forNested(
+    fieldPathPrefix: String,
+    condition: (T) -> Boolean = { true },
+    conditionDescription: String = "Toujours",
+    extractor: (T) -> C?
+): List<RequiredFieldsValidator.Rule<T>> = map { childRule ->
+    RequiredFieldsValidator.Rule.conditional(
+        "$fieldPathPrefix.${childRule.field}",
+        childRule.message,
+        conditionDescription,
+        condition
+    ) { parent: T ->
+        val child = extractor(parent)
+        when {
+            child == null -> null
+            childRule.appliesTo(child) && childRule.isViolated(child) -> null
+            else -> PRESENT
+        }
+    }
+}
