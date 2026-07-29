@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.orm.ObjectOptimisticLockingFailureException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -67,8 +68,20 @@ class JPATargetRepository(
         return dbTargetRepository.deleteByActionId(actionId)
     }
 
-    @Transactional
+    /**
+     * Deliberately NOT @Transactional: the delegate delete runs in its own (Spring Data) transaction, so a
+     * commit-time failure surfaces inside this try/catch — a @Transactional method cannot catch its own commit.
+     *
+     * A concurrent/duplicate action update can remove part of this target's cascade first, so Hibernate's orphan
+     * delete finds 0 rows where it expects 1 (ObjectOptimisticLockingFailureException). The end state we want —
+     * the target and its children gone — is already being applied by the other write, so a stale delete is not an
+     * error here: log and move on instead of failing the whole action update with a 500.
+     */
     override fun deleteById(id: UUID) {
-        return dbTargetRepository.deleteById(id)
+        try {
+            dbTargetRepository.deleteById(id)
+        } catch (_: ObjectOptimisticLockingFailureException) {
+            logger.warn("JPATargetRepository - target id={} was already (partially) removed concurrently; skipping stale delete", id)
+        }
     }
 }
