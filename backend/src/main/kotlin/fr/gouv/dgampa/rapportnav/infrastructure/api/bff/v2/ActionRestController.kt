@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.concurrency.PerActionLock
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -32,7 +33,8 @@ class ActionRestController(
     private val getNavActionById: GetNavActionById,
     private val getEnvActionById: GetEnvActionById,
     private val getFishActionById: GetFishActionById,
-    private val getStatusForAction: GetStatusForAction
+    private val getStatusForAction: GetStatusForAction,
+    private val perActionLock: PerActionLock
 ) {
     private val logger = LoggerFactory.getLogger(ActionRestController::class.java)
 
@@ -147,14 +149,19 @@ class ActionRestController(
         @PathVariable(name = "actionId") actionId: String,
         @RequestBody body: MissionAction
     ): MissionAction? {
-        val response = when (body.source) {
-            MissionSourceEnum.RAPPORT_NAV -> updateNavAction.execute(actionId, body as MissionNavAction, ownerId)
-            MissionSourceEnum.MONITORENV -> updateEnvAction.execute(actionId, body as MissionEnvAction)
-            MissionSourceEnum.MONITORFISH -> updateFishAction.execute(actionId, body as MissionFishAction)
-            else -> throw BackendUsageException(
-                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
-                message = "Unknown mission action source: ${body.source}"
-            )
+        // Serialize concurrent updates of the same action (single-instance app): overlapping updates would
+        // otherwise interleave and race on cascaded child rows (control_2, establishment, ...), which surfaces
+        // as ObjectOptimisticLockingFailureException. Different actions use different stripes and stay parallel.
+        val response = perActionLock.withLock(actionId) {
+            when (body.source) {
+                MissionSourceEnum.RAPPORT_NAV -> updateNavAction.execute(actionId, body as MissionNavAction, ownerId)
+                MissionSourceEnum.MONITORENV -> updateEnvAction.execute(actionId, body as MissionEnvAction)
+                MissionSourceEnum.MONITORFISH -> updateFishAction.execute(actionId, body as MissionFishAction)
+                else -> throw BackendUsageException(
+                    code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                    message = "Unknown mission action source: ${body.source}"
+                )
+            }
         }
         this.logger.info(body.id)
         return MissionAction.fromMissionActionEntity(response)
