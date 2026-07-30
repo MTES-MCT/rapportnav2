@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati
+package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati
 
 data class Address(
     val id: Int? = null,

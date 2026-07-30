@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.sati
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModelMapper.toModel
 
 object SatiEntityMapper {

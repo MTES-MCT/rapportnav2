@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
 
 interface BaseMissionFishActionData {
     val vesselId: Int?

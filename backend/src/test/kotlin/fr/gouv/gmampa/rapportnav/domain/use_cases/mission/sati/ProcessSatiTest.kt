@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.EnableSati
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiInspector
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any

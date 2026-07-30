@@ -3,9 +3,9 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlResource
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Address
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Contact
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Address
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Contact
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
 
 object SatiMapper {
     fun fromEntity(entity: SatiEntity?): Sati {
