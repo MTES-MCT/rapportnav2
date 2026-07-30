@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.93.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.93.2...v2.93.3) (2026-07-30)
+
+
+### Bug Fixes
+
+* **sati:** make principalInspector nullable ([1dabccb](https://github.com/MTES-MCT/rapportnav2/commit/1dabccbff17dc2bb6fafb58db234c3ed22eae451))
+
 ## [2.93.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.93.1...v2.93.2) (2026-07-30)
 
 
