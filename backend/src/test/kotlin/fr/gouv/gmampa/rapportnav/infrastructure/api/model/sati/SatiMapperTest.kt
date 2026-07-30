@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati
+package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
@@ -10,6 +10,8 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.KotlinModule
 import java.time.Instant
 import java.util.*
 
@@ -245,12 +247,12 @@ class SatiMapperTest {
             val result = SatiMapper.fromEntity(entity)
 
             val inspector = result.principalInspector
-            assertThat(inspector.id).isEqualTo(7)
-            assertThat(inspector.agentId).isEqualTo(42)
-            assertThat(inspector.cardId).isEqualTo("FRD45322")
-            assertThat(inspector.authorityType).isEqualTo(AuthorityType.AECP)
-            assertThat(inspector.isOutOfUnit).isFalse()
-            assertThat(inspector.party?.partyType).isEqualTo(SatiPartyType.INSPECTOR)
+            assertThat(inspector?.id).isEqualTo(7)
+            assertThat(inspector?.agentId).isEqualTo(42)
+            assertThat(inspector?.cardId).isEqualTo("FRD45322")
+            assertThat(inspector?.authorityType).isEqualTo(AuthorityType.AECP)
+            assertThat(inspector?.isOutOfUnit).isFalse()
+            assertThat(inspector?.party?.partyType).isEqualTo(SatiPartyType.INSPECTOR)
             assertThat(result.otherInspectors).isEmpty()
         }
 
@@ -362,6 +364,56 @@ class SatiMapperTest {
             assertThat(result.module).isEqualTo(SatiModuleType.M1)
             assertThat(result.inspectors).isEmpty()
             assertThat(result.inspectors?.none { it.isPrincipal }).isTrue()
+        }
+
+        @Test
+        fun `should map sati without a principal inspector`() {
+            val sati = Sati(
+                actionId = "a1",
+                module = SatiModuleType.M1,
+                principalInspector = null,
+                otherInspectors = emptyList()
+            )
+            val result = SatiMapper.toEntity(sati)
+
+            assertThat(result.inspectors).isEmpty()
+            assertThat(result.inspectors?.none { it.isPrincipal }).isTrue()
+        }
+    }
+
+    @Nested
+    inner class Deserialization {
+
+        // Mirrors the app's request mapper (KotlinModule); see JacksonConfig.
+        private val mapper: JsonMapper = JsonMapper.builder()
+            .addModule(KotlinModule.Builder().build())
+            .build()
+
+        @Test
+        fun `should deserialize a sati payload that omits principalInspector`() {
+            // Reproduces the prod 400 "Malformed request body: unable to parse JSON":
+            // the frontend ships a skeleton sati whose all-null principalInspector is
+            // pruned before sending, leaving the field absent.
+            val json = """{"actionId":"","module":"M1","otherInspectors":[]}"""
+
+            val sati = mapper.readValue(json, Sati::class.java)
+
+            assertThat(sati.actionId).isEmpty()
+            assertThat(sati.module).isEqualTo(SatiModuleType.M1)
+            assertThat(sati.principalInspector).isNull()
+            assertThat(sati.otherInspectors).isEmpty()
+        }
+
+        @Test
+        fun `should still deserialize a sati payload that includes principalInspector`() {
+            val json =
+                """{"actionId":"a1","module":"M1","principalInspector":{"agentId":42,"cardId":"FRD45322"},"otherInspectors":[]}"""
+
+            val sati = mapper.readValue(json, Sati::class.java)
+
+            assertThat(sati.principalInspector).isNotNull
+            assertThat(sati.principalInspector?.agentId).isEqualTo(42)
+            assertThat(sati.principalInspector?.cardId).isEqualTo("FRD45322")
         }
     }
 

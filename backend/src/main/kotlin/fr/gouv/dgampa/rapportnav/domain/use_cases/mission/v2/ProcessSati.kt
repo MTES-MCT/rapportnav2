@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.EnableSati
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.sati.Sati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
 
 @UseCase
 class ProcessSati(
