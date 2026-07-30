@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.93.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.93.1...v2.93.2) (2026-07-30)
+
+
+### Bug Fixes
+
+* **infractions:** enforce and guard around null infraction types ([c755703](https://github.com/MTES-MCT/rapportnav2/commit/c755703dff2f733c92ea5fc7209bb75de9a4e414))
+* **targets:** handle stale delete ([a237cce](https://github.com/MTES-MCT/rapportnav2/commit/a237ccec3e5de3acb0b198a757e46d86d9e842b2))
+
 ## [2.93.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.93.0...v2.93.1) (2026-07-28)
 
 
