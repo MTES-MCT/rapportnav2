@@ -1,0 +1,6 @@
+* [Retour](/)
+* [Dossier d'Architecture Technique](dat/index)
+* [Présentation fonctionnelle](dat/presentation-fonctionnelle)
+* [Stack technique](dat/stack-technique)
+* [Architecture applicative](dat/architecture-applicative)
+* [Flux de données externes](dat/flux-donnees-externes)
