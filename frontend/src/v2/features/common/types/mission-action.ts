@@ -4,12 +4,16 @@ import { ActionTargetTypeEnum, VehicleTypeEnum, VesselSizeEnum, VesselTypeEnum }
 import { EnvTag } from '@common/types/env-tags.ts'
 import { EnvTheme } from '@common/types/env-themes.ts'
 import {
+  ActionReporting,
   ControlCheck,
   DiscardedSpeciesControl,
   FleetSegment,
+  FlightGoal,
   GearControl,
   MissionActionType,
-  SpeciesControl
+  SpeciesControl,
+  VesselGroup,
+  WeightControlMethod
 } from '@common/types/fish-mission-types'
 import { InfractionByTarget } from '@common/types/infraction-types'
 import { FishInfraction } from '../../mission-infraction/types/infraction-input.tsx'
@@ -141,7 +145,8 @@ export interface MissionFishActionData extends MissionActionData {
   emitsAis?: ControlCheck
   vmsEmissionControlBeforeArrival?: ControlCheck
   portEntranceAndLandingAuthorized?: ControlCheck
-  logbookFilledPriorToControl?: ControlCheck
+  logbookOpenedPriorToControl?: ControlCheck
+  flightGoals?: FlightGoal[]
   logbookMatchesActivity?: ControlCheck
   licencesMatchActivity?: ControlCheck
   speciesWeightControlled?: ControlCheck
@@ -149,6 +154,8 @@ export interface MissionFishActionData extends MissionActionData {
   separateStowageOfPreservedSpecies?: ControlCheck
   propulsionEnginePowerControl?: ControlCheck
   fishingLicencesMatchActivity?: ControlCheck
+  europeanFishingLicenceValid?: ControlCheck
+  weighingOperationsMonitoredByInspectors?: ControlCheck
   stowagePlanPresent?: ControlCheck
   onboardWeighingPermit?: ControlCheck
   weighingCertificateAndSystemsValid?: ControlCheck
@@ -158,6 +165,7 @@ export interface MissionFishActionData extends MissionActionData {
   cratesWeighingSamplingControl?: ControlCheck
   approvedWeighingOperatorInformation?: ControlCheck
   holdControlledAfterUnloading?: ControlCheck
+  weightControlMethod?: WeightControlMethod
   catchesWeighedAtLanding?: ControlCheck
   licencesAndLogbookObservations?: string
   speciesObservations?: string
@@ -165,7 +173,6 @@ export interface MissionFishActionData extends MissionActionData {
   numberOfVesselsFlownOver?: number
   unitWithoutOmegaGauge?: boolean
   controlQualityComments?: string
-  feedbackSheetRequired?: boolean
   userTrigram: string
   segments?: FleetSegment[]
   facade?: string
@@ -173,13 +180,15 @@ export interface MissionFishActionData extends MissionActionData {
   latitude?: number
   portLocode?: string
   portName?: string
-  vesselTargeted?: ControlCheck
   seizureAndDiversionComments?: string
   otherComments?: string
   gearOnboard?: GearControl[]
   speciesOnboard?: SpeciesControl[]
   discardedSpecies?: DiscardedSpeciesControl[]
   isFromPoseidon?: boolean
+  vesselGroups?: VesselGroup[]
+  tripReportings?: ActionReporting[]
+  isPrioritized?: boolean
   isDeleted?: boolean
   hasSomeGearsSeized?: boolean
   hasSomeSpeciesSeized?: boolean
@@ -191,7 +200,8 @@ export interface MissionFishActionData extends MissionActionData {
   isSafetyEquipmentAndStandardsComplianceControl?: boolean
   isSeafarersControl?: boolean
   isINNControl?: boolean
-  isGangwayDeployed?: boolean
+  gangwayPresentAndCompliant?: ControlCheck
+  isUnitBoarded?: boolean
   observationsByUnit?: string
   speciesQuantitySeized?: number
   fishInfractions: FishInfraction[]

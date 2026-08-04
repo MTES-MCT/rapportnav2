@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { SatiParty } from 'src/v2/features/common/types/sati'
+import { SatiParty } from '../../../common/types/sati'
 import PartyForm from '../ui/party-form'
 
 interface FishControlInfosOwnerProps {

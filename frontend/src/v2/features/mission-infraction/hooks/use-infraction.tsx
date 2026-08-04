@@ -16,45 +16,45 @@ const INFRACTION_TYPE_REGISTRY: InfractionTypeRegistry = {
 type ControlTypeRegistry = { [key in ControlType]: { title: string; button: string } }
 
 const CONTROL_TYPE_REGISTRY: ControlTypeRegistry = {
-  [ControlType.ADMINISTRATIVE]: { title: 'Infrac. admin navire', button: 'Ajouter une infraction administrative' },
+  [ControlType.ADMINISTRATIVE]: { title: 'Infraction admin navire', button: 'Ajouter une infraction administrative' },
   [ControlType.NAVIGATION]: {
-    title: 'Infrac.règles de nav',
+    title: 'Infraction règles de nav',
     button: 'Ajouter une infraction règle de navigation'
   },
   [ControlType.GENS_DE_MER]: {
-    title: 'Infrac. admin GM',
+    title: 'Infraction admin GM',
     button: 'Ajouter une infraction administrative'
   },
   [ControlType.SECURITY]: {
-    title: `Infrac. equipmt & normes sécu`,
+    title: `Infraction equipmt & normes sécu`,
     button: 'Ajouter une infraction sécurité'
   },
   [ControlType.OTHER]: {
-    title: `Infrac. autres`,
+    title: `Infraction autres`,
     button: 'Ajouter une infraction sécurité'
   },
   [ControlType.LANDING_OBLIGATION]: {
-    title: `Infrac. obl. débarquement`,
+    title: `Infraction obl. débarquement`,
     button: 'Ajouter une infraction sécurité'
   },
   [ControlType.TECHNICAL_MEASURE]: {
-    title: `Infrac. tech. & conservat.`,
+    title: `Infraction tech. & conservat.`,
     button: 'Ajouter une infraction sécurité'
   },
   [ControlType.SECTOR]: {
-    title: `Infrac. Filière`,
+    title: `Infraction Filière`,
     button: 'Ajouter une infraction sécurité'
   },
   [ControlType.TRANSPORT]: {
-    title: `Infrac. Transport`,
+    title: `Infraction Transport`,
     button: 'Ajouter une infraction sécurité'
   },
   [ControlType.FISHING_REPORTING_OBLIGATION]: {
-    title: `Infrac. obl. décl. pêche`,
+    title: `Infraction obl. décl. pêche`,
     button: 'Ajouter une infraction sécurité'
   },
   [ControlType.INN_ACTIVITY]: {
-    title: `Infrac. INN`,
+    title: `Infraction INN`,
     button: 'Ajouter une infraction INN'
   }
 }

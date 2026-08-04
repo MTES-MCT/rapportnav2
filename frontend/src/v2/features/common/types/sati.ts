@@ -1,3 +1,4 @@
+import { ControlCheck } from '@common/types/fish-mission-types'
 import { PnoType } from './pno-type'
 
 export enum SatiPartyType {
@@ -30,6 +31,7 @@ export interface Sati {
   endDatetimeUtc?: string
   principalInspector: SatiInspector
   otherInspectors?: SatiInspector[]
+  gangwayPresentAndCompliant?: ControlCheck
 }
 
 export interface SatiJpe {
@@ -39,6 +41,7 @@ export interface SatiJpe {
   tripNumber?: string
   lastStopDate?: string
   pnoType?: PnoType
+  lastPortIsNotSame?: boolean
 }
 
 export interface SatiVessel {

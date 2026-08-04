@@ -1,7 +1,7 @@
 import { Label } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { SatiParty } from 'src/v2/features/common/types/sati'
+import { SatiParty } from '../../../common/types/sati'
 import ContactFormItem from './contact-form-item'
 
 interface PartyFormProps {

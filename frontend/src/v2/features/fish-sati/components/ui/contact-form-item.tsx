@@ -2,19 +2,25 @@ import { Accent, Button, Size } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
 import { FC, useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
-import { Contact } from 'src/v2/features/common/types/sati.ts'
 import { object, string } from 'yup'
 import { FormikSelectInput } from '../../../common/components/ui/formik-select-input.tsx'
 import { StyledFormikTextInput } from '../../../common/components/ui/formik-text-input.tsx'
 import { useCountry } from '../../../common/hooks/use-countries.tsx'
+import { Contact } from '../../../common/types/sati.ts'
 import { AddressForm } from './address-form.tsx'
 
+const notBlank = (value?: string) => !!value?.trim()
+
 const schema = object().shape({
-  fullName: string().required(),
-  email: string().email().required(),
-  phone: string(),
+  phone: string().required().min(6).test('not-blank', '', notBlank),
+  fullName: string().required().min(3).test('not-blank', '', notBlank),
+  nationality: string().required().min(3).test('not-blank', '', notBlank),
+  email: string().email().required().test('not-blank', '', notBlank),
   address: object({
-    country: string()
+    town: string().required().test('not-blank', '', notBlank),
+    street: string().required().test('not-blank', '', notBlank),
+    country: string().required().test('not-blank', '', notBlank),
+    zipcode: string().required().test('not-blank', '', notBlank)
   })
 })
 
@@ -54,13 +60,14 @@ const ContactFormItem: FC<ContactFormItemProps> = ({ contact, onClose, disabled,
 
   return (
     <Formik
+      validateOnMount
+      validateOnChange
       enableReinitialize
       onSubmit={handleSubmit}
       initialValues={initValue}
       validationSchema={schema}
-      validateOnChange
     >
-      {({ isValid, resetForm }) => (
+      {({ isValid, resetForm, validateForm, initialValues }) => (
         <Form>
           <Stack
             direction="column"
@@ -105,8 +112,8 @@ const ContactFormItem: FC<ContactFormItemProps> = ({ contact, onClose, disabled,
                 </Stack.Item>
                 <Stack.Item style={{ flex: 1 }}>
                   <Stack
-                    direction="column"
                     spacing=".5rem"
+                    direction="column"
                     justifyContent={'flex-start'}
                     alignItems={'flex-start'}
                     style={{ width: '100%' }}
@@ -147,6 +154,7 @@ const ContactFormItem: FC<ContactFormItemProps> = ({ contact, onClose, disabled,
                     <Button
                       onClick={() => {
                         resetForm()
+                        validateForm(initialValues)
                         handleClose()
                       }}
                       size={Size.NORMAL}

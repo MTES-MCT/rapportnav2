@@ -5,6 +5,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.ActionReporting
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.VesselGroup
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.WeightControlMethod
 import java.time.Instant
 
 class MissionFishActionData(
@@ -22,7 +25,8 @@ class MissionFishActionData(
     override val emitsAis: ControlCheck? = null,
     override val vmsEmissionControlBeforeArrival: ControlCheck? = null,
     override val portEntranceAndLandingAuthorized: ControlCheck? = null,
-    override val logbookFilledPriorToControl: ControlCheck? = null,
+    override val logbookOpenedPriorToControl: ControlCheck? = null,
+    override val flightGoals: List<FlightGoal>? = listOf(),
     override val logbookMatchesActivity: ControlCheck? = null,
     override val licencesMatchActivity: ControlCheck? = null,
     override val speciesWeightControlled: ControlCheck? = null,
@@ -30,6 +34,8 @@ class MissionFishActionData(
     override val separateStowageOfPreservedSpecies: ControlCheck? = null,
     override val propulsionEnginePowerControl: ControlCheck? = null,
     override val fishingLicencesMatchActivity: ControlCheck? = null,
+    override val europeanFishingLicenceValid: ControlCheck? = null,
+    override val weighingOperationsMonitoredByInspectors: ControlCheck? = null,
     override val stowagePlanPresent: ControlCheck? = null,
     override val onboardWeighingPermit: ControlCheck? = null,
     override val weighingCertificateAndSystemsValid: ControlCheck? = null,
@@ -39,6 +45,7 @@ class MissionFishActionData(
     override val cratesWeighingSamplingControl: ControlCheck? = null,
     override val approvedWeighingOperatorInformation: ControlCheck? = null,
     override val holdControlledAfterUnloading: ControlCheck? = null,
+    override val weightControlMethod: WeightControlMethod? = null,
     override val catchesWeighedAtLanding: ControlCheck? = null,
     override val licencesAndLogbookObservations: String? = null,
     override val speciesObservations: String? = null,
@@ -46,7 +53,6 @@ class MissionFishActionData(
     override val numberOfVesselsFlownOver: Int? = null,
     override val unitWithoutOmegaGauge: Boolean? = null,
     override val controlQualityComments: String? = null,
-    override val feedbackSheetRequired: Boolean? = null,
     override val userTrigram: String? = null,
     override val segments: List<FleetSegment> = listOf(),
     override val facade: String? = null,
@@ -55,13 +61,15 @@ class MissionFishActionData(
     override val portLocode: String? = null,
     // This field is only used when fetching missions
     override var portName: String? = null,
-    override val vesselTargeted: ControlCheck? = null,
     override val seizureAndDiversionComments: String? = null,
     override val otherComments: String? = null,
     override val gearOnboard: List<GearControl> = listOf(),
     override val speciesOnboard: List<SpeciesOnboardControl> = listOf(),
     override val discardedSpecies: List<DiscardedSpeciesControl> = listOf(),
     override val isFromPoseidon: Boolean? = null,
+    override val vesselGroups: List<VesselGroup>? = listOf(),
+    override val tripReportings: List<ActionReporting>? = listOf(),
+    override val isPrioritized: Boolean? = null,
     override val isDeleted: Boolean? = null,
     override val hasSomeGearsSeized: Boolean? = null,
     override val hasSomeSpeciesSeized: Boolean? = null,
@@ -73,7 +81,8 @@ class MissionFishActionData(
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
     override val isINNControl: Boolean? = null,
-    override val isGangwayDeployed: Boolean? = null,
+    override val gangwayPresentAndCompliant: ControlCheck? = null,
+    override val isUnitBoarded: Boolean? = null,
     override var observationsByUnit: String? = null,
     override var speciesQuantitySeized: Int? = null,
     override val targets: List<Target>? = null,

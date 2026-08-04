@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.validation
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
@@ -13,6 +12,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEnt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.validation.RequiredFieldsValidator.Rule
 import fr.gouv.dgampa.rapportnav.domain.validation.RequiredFieldsValidator.Rule.Companion.conditional
+import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicies.forMissionStartDate
+import fr.gouv.dgampa.rapportnav.domain.validation.sati.SatiValidationRules
 import java.time.Instant
 
 /**
@@ -208,10 +209,16 @@ object ValidationPolicies {
     // =========================================================================
     // MissionFishActionEntity rules
     // =========================================================================
-    private val fishActionRules: List<Rule<MissionFishActionEntity>> = listOf(
+    private val fishActionRules: List<Rule<MissionFishActionEntity>> = listOf<Rule<MissionFishActionEntity>>(
         Rule.always("startDateTimeUtc", MSG_START_DATE_REQUIRED) { it.startDateTimeUtc },
         Rule.always("endDateTimeUtc", MSG_END_DATE_REQUIRED) { it.endDateTimeUtc }
-    )
+    ) + SatiValidationRules.rules.forNested(
+        fieldPathPrefix = "sati",
+        condition = { it.sati != null },
+        conditionDescription = "sati présent"
+    ) { action: MissionFishActionEntity ->
+        action.sati
+    }
 
     // =========================================================================
     // Policies
