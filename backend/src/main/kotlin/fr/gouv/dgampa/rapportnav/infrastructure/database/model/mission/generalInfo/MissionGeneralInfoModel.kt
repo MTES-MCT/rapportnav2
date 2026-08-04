@@ -57,6 +57,9 @@ class MissionGeneralInfoModel(
     @Column(name = "is_mission_armed", nullable = true)
     var isMissionArmed: Boolean? = false,
 
+    @Column(name = "is_all_agents_participating", nullable = true)
+    var isAllAgentsParticipating: Boolean? = false,
+
     @Enumerated(EnumType.STRING)
     @Column(name = "mission_report_type", nullable = true)
     var missionReportType: MissionReportTypeEnum? = null,
