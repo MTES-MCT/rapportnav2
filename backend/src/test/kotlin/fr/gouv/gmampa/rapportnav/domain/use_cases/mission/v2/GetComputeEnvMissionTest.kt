@@ -125,29 +125,6 @@ class GetComputeEnvMissionTest {
     }
 
     @Test
-    fun `does not use the stored validation shortcut even when the local mirror is stored-complete`() {
-        // For this PR we only COLLECT the mission validation; the read shortcut is disabled, so validation
-        // must run every time (bypassValidation = false) regardless of the stored is_complete_for_stats.
-        val envMission = EnvMissionMock.create(id = 5)
-        val storedComplete = MissionModel(
-            id = UUID.randomUUID(),
-            externalId = "5",
-            startDateTimeUtc = Instant.parse("2025-01-02T00:00:00Z"),
-            isCompleteForStats = true
-        )
-        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 5)
-        val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
-
-        `when`(getMissionByExternalId.execute(anyString())).thenReturn(storedComplete)
-        `when`(getMissionAction.execute(missionId = 5, bypassValidation = false)).thenReturn(emptyList())
-        `when`(getGeneralInfos2.execute(missionId = 5, controlUnits = listOf())).thenReturn(generalInfos2)
-
-        getComputeEnvMission.execute(envMission = envMission)
-
-        verify(getMissionAction).execute(missionId = 5, bypassValidation = false)
-    }
-
-    @Test
     fun `should throw BackendInternalException when mission retrieved by ID has null id`() {
         val mission = EnvMissionMock.create(id = null)
 

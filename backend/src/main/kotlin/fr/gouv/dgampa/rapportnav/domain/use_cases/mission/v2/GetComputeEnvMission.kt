@@ -53,8 +53,8 @@ class GetComputeEnvMission(
         // NOTE: for now we only COLLECT the mission validation (persisted below via SyncMissionValidation),
         // we do not yet consume the stored status to short-circuit reads — validation runs every time, as
         // before. Re-enable the read shortcut by restoring the line below once the collected data is trusted.
-        // val bypassValidation = !forceComputeValidation && localMission.isCompleteForStats == true
-        val bypassValidation = false
+         val bypassValidation = !forceComputeValidation && localMission.isCompleteForStats == true
+//        val bypassValidation = false
 
         val actions = getMissionAction.execute(missionId = id, bypassValidation = bypassValidation)
         val generalInfos = getGeneralInfos2.execute(missionId = id, controlUnits = mission.controlUnits)
