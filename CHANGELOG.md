@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.95.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.95.0...v2.95.1) (2026-08-05)
+
+
+### Bug Fixes
+
+* refetch mission after action update ([93b4c9c](https://github.com/MTES-MCT/rapportnav2/commit/93b4c9c42bcc97ed71c62496e711ea36a34187de))
+
 ## [2.95.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.94.0...v2.95.0) (2026-08-05)
 
 
