@@ -94,23 +94,6 @@ class GetComputeNavMissionTest {
     }
 
     @Test
-    fun `does not use the stored validation shortcut even when the mission is stored-complete`() {
-        // For this PR we only COLLECT the mission validation; the read shortcut is disabled, so validation
-        // must run every time (bypassValidation = false) regardless of the stored is_complete_for_stats.
-        val missionId = UUID.randomUUID()
-        val storedComplete = MissionNavEntityMock.create(id = missionId).apply { isCompleteForStats = true }
-        val generalInfo = mock<MissionGeneralInfoEntity2>()
-
-        whenever(getGeneralInfo.execute(missionIdUUID = missionId, serviceId = storedComplete.serviceId)).thenReturn(generalInfo)
-        whenever(getComputeNavActionListByMissionId.execute(ownerId = missionId, bypassValidation = false))
-            .thenReturn(emptyList())
-
-        useCase.execute(navMission = storedComplete)
-
-        verify(getComputeNavActionListByMissionId).execute(ownerId = missionId, bypassValidation = false)
-    }
-
-    @Test
     fun `returns complete MissionEntity2`() {
         val missionId = UUID.randomUUID()
         val missionNav = MissionNavEntityMock.create(id = missionId)

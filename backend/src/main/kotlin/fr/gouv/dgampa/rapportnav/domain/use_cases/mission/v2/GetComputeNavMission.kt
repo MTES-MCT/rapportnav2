@@ -38,8 +38,8 @@ class GetComputeNavMission(
         // NOTE: for now we only COLLECT the mission validation (persisted below via SyncMissionValidation),
         // we do not yet consume the stored status to short-circuit reads — validation runs every time, as
         // before. Re-enable the read shortcut by restoring the line below once the collected data is trusted.
-        // val bypassValidation = !forceComputeValidation && mission.isCompleteForStats == true
-        val bypassValidation = false
+         val bypassValidation = !forceComputeValidation && mission.isCompleteForStats == true
+//        val bypassValidation = false
 
         val generalInfos = getGeneralInfo.execute(missionIdUUID = mission.id, serviceId = navMission?.serviceId)
         val actions = getComputeNavActionListByMissionId.execute(ownerId = mission.id, bypassValidation = bypassValidation)
