@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.never
+import org.mockito.kotlin.verify
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -25,39 +27,36 @@ class GetComputeTargetTest {
     private lateinit var getComputeTarget: GetComputeTarget
 
     @Test
-    fun `test execute process target not create new target when model exist`() {
+    fun `returns the existing target without writing`() {
         val actionId = UUID.randomUUID().toString()
         val target1 = TargetEntityMock.create(actionId = actionId)
 
-        //Mock
-        val response = listOf(target1.toTargetModel())
-        `when`(targetRepo.findByActionId(actionId)).thenReturn(response)
-        `when`(targetRepo.save(anyOrNull())).thenReturn(target1.toTargetModel())
+        `when`(targetRepo.findByActionId(actionId)).thenReturn(listOf(target1.toTargetModel()))
 
-        //When
         getComputeTarget = Mockito.spy(GetComputeTarget(targetRepo))
         val targets = getComputeTarget.execute(actionId, isControl = true)
 
-        //Then
         assertThat(targets).isNotNull
         assertThat(targets?.get(0)?.actionId).isEqualTo(actionId)
+        // read must not persist
+        verify(targetRepo, never()).save(anyOrNull())
     }
 
     @Test
-    fun `test execute process should create new target if there is not model`() {
+    fun `computes an in-memory target without writing when none exists`() {
         val actionId = UUID.randomUUID().toString()
-        val target1 = TargetEntityMock.create(actionId = actionId)
 
-        //Mock
         `when`(targetRepo.findByActionId(actionId)).thenReturn(listOf())
-        `when`(targetRepo.save(anyOrNull())).thenReturn(target1.toTargetModel())
 
-        //When
         getComputeTarget = Mockito.spy(GetComputeTarget(targetRepo))
-        val targets = getComputeTarget.execute(actionId, isControl = true)
+        val first = getComputeTarget.execute(actionId, isControl = true)
+        val second = getComputeTarget.execute(actionId, isControl = true)
 
-        //Then
-        assertThat(targets).isNotNull
-        assertThat(targets?.get(0)?.actionId).isEqualTo(actionId)
+        assertThat(first).isNotNull
+        assertThat(first?.get(0)?.actionId).isEqualTo(actionId)
+        // read must not persist — the target is materialized later, on the next update
+        verify(targetRepo, never()).save(anyOrNull())
+        // deterministic id: stable across reads so a later PUT matches instead of churning
+        assertThat(first?.get(0)?.id).isEqualTo(second?.get(0)?.id)
     }
 }
