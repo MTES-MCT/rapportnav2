@@ -32,7 +32,10 @@ const MissionActionItemAntiPollution: FC<{
         >
           {() => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionAntiPollutionInput)} onError={onFormError} />
+              <FormikEffect
+                onChange={nextValue => handleSubmit(nextValue as ActionAntiPollutionInput)}
+                onError={onFormError}
+              />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
@@ -48,10 +51,7 @@ const MissionActionItemAntiPollution: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <MissionBoundFormikDateRangePicker
-                        isLight={true}
-                        missionId={action.ownerId ?? action.missionId}
-                      />
+                      <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId} />
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>

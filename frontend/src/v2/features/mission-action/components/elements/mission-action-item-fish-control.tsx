@@ -51,7 +51,7 @@ const MissionActionItemFishControl: FC<{
                   />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId ?? action.missionId} />
+                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   {initValue?.fishActionType === MissionActionType.LAND_CONTROL ? (

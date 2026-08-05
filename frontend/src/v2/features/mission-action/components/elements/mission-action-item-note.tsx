@@ -28,7 +28,10 @@ const MissionActionItemNote: FC<{
         >
           {() => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionFreeNoteInput)} onError={onFormError} />
+              <FormikEffect
+                onChange={nextValue => handleSubmit(nextValue as ActionFreeNoteInput)}
+                onError={onFormError}
+              />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
@@ -40,7 +43,7 @@ const MissionActionItemNote: FC<{
                         isRequired={true}
                         isCompact={false}
                         label="Date et heure (utc)"
-                        missionId={action.ownerId ?? action.missionId}
+                        missionId={action.ownerId}
                       />
                     </Stack.Item>
                   </Stack>

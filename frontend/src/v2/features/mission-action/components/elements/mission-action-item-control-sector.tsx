@@ -21,7 +21,7 @@ const MissionActionItemSectorControl: FC<{
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { allControlTypes } = useTarget()
-  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId)
 
   const schema = {
     sectorType: isMissionFinished ? string().required() : string().nullable(),

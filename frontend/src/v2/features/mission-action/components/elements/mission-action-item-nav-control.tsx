@@ -52,7 +52,7 @@ const MissionActionItemNavControl: FC<{
                   <MissionControlNavSummary vesselType={values?.vesselType} controlMethod={values?.controlMethod} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId ?? action.missionId} />
+                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionActionLocationPicker />

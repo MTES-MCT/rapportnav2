@@ -10,7 +10,7 @@ const MissionActionItemTraining: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId)
   const schema = {
     trainingType: isMissionFinished ? string().required() : string().nullable()
   }
