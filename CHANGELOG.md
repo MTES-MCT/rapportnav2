@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.95.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.94.0...v2.95.0) (2026-08-05)
+
+
+### Features
+
+* enable read mission completeForStats from database instead of always computing on the fly ([ee31d57](https://github.com/MTES-MCT/rapportnav2/commit/ee31d573f56bf7ae6e27c7cf38f4f9f4b62e25a6))
+
 ## [2.94.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.93.3...v2.94.0) (2026-08-05)
 
 
