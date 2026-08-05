@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.94.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.93.3...v2.94.0) (2026-08-05)
+
+
+### Features
+
+* **backend:** adjust types fish mission action ([e463ffc](https://github.com/MTES-MCT/rapportnav2/commit/e463ffc506198f8f67c455e5168a4b722a4fc207))
+* **backend:** completenessForStats sati ([2df0d63](https://github.com/MTES-MCT/rapportnav2/commit/2df0d6345a1cf33df39adcdfe909a8c1273b7f8b))
+* enable read mission completeForStats from database instead of always computing on the fly ([a5284ff](https://github.com/MTES-MCT/rapportnav2/commit/a5284ffd75b7a751e7beb5dc8c721ed6211fcb24))
+* **frontend:** review 2 ([3936081](https://github.com/MTES-MCT/rapportnav2/commit/39360817ac390ac25fce1d338fb5321a2e38e90d))
+
+
+### Bug Fixes
+
+* **backend:** build sati ([b205362](https://github.com/MTES-MCT/rapportnav2/commit/b2053626db0e650dfd1a162ac69f5a4ca006ec66))
+* **frontend:** npm audit ([8d98c69](https://github.com/MTES-MCT/rapportnav2/commit/8d98c698f38157e5ef4a8aa71e8730be24434059))
+* **frontend:** reviews fix display css ([f9e869e](https://github.com/MTES-MCT/rapportnav2/commit/f9e869e28ed5e461c7642e7cbb392849033ed435))
+* persist isAllAgentsParticipating ([911c6d2](https://github.com/MTES-MCT/rapportnav2/commit/911c6d2838ca53cb7767e731a20aaef9b2623e36))
+
 ## [2.93.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.93.2...v2.93.3) (2026-07-30)
 
 
