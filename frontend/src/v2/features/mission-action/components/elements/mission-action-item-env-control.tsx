@@ -3,7 +3,6 @@ import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import React from 'react'
 import { Divider, Stack } from 'rsuite'
-import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionTargetControlEnv from '../../../mission-target/components/elements/mission-target-control-env.tsx'
@@ -43,7 +42,10 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
         >
           {({ values }) => (
             <>
-              <FormikEffect onChange={async nextValues => handleSubmit(nextValues as ActionEnvControlInput)} onError={onFormError} />
+              <FormikEffect
+                onChange={async nextValues => handleSubmit(nextValues as ActionEnvControlInput)}
+                onError={onFormError}
+              />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -55,7 +57,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                   <MissionActionEnvThemes themes={values?.themes} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId ?? action.missionId} />
+                  <MissionBoundFormikDateRangePicker isLight={true} missionId={action.ownerId} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Field name="geoCoords">

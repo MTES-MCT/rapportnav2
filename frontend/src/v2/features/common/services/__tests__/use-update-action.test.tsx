@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '../../../../../test-utils.tsx'
-import useUpdateMissionAction, { offlineUpdateActionDefaults } from '../use-update-action.tsx'
+import useUpdateMissionAction, { offlineUpdateActionDefaults, onlineUpdateActionDefaults } from '../use-update-action.tsx'
 import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import { afterEach, beforeEach, vi } from 'vitest'
@@ -36,6 +36,8 @@ describe('Hook useUpdateMissionAction', () => {
   const mockAction: MissionAction = {
     id: actionId,
     missionId: missionId,
+    // ownerId is the canonical id the mission is cached under (missionsKeys.byId(ownerId)), so the
+    // update response carries the same ownerId that invalidation keys off of.
     ownerId: missionId,
     data: { startDateTimeUtc: '2024-01-01T10:00:00Z' }
   }
@@ -262,6 +264,38 @@ describe('Hook useUpdateMissionAction', () => {
             queryKey: missionsKeys.byId(missionId),
             type: 'all'
           })
+        })
+      })
+    })
+  })
+
+  describe('online mutation defaults', () => {
+    beforeEach(async () => {
+      queryClient.setMutationDefaults(actionsKeys.update(), onlineUpdateActionDefaults)
+      invalidateQueriesSpy.mockClear()
+    })
+
+    it('should invalidate the action and the mission (by ownerId) on success', async () => {
+      mockedAxios.put.mockResolvedValue({ data: mockAction })
+
+      const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
+
+      await act(async () => {
+        result.current.mutate({ ownerId: missionId, action: mockAction })
+      })
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBe(true)
+      })
+
+      await waitFor(() => {
+        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+          queryKey: actionsKeys.byId(actionId),
+          type: 'all'
+        })
+        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+          queryKey: missionsKeys.byId(mockAction.ownerId),
+          type: 'all'
         })
       })
     })

@@ -80,7 +80,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                   <MissionBoundFormikDateRangePicker
                     isLight={true}
                     disabled={!isOnline}
-                    missionId={action.ownerId ?? action.missionId}
+                    missionId={action.ownerId}
                     title={
                       isOnline
                         ? ''

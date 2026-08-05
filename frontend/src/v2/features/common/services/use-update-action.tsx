@@ -82,7 +82,7 @@ export const offlineUpdateActionDefaults = {
       queryKey:
         newAction.ownerType === OwnerType.INQUIRY
           ? inquiriesKeys.byId(serverResponse.ownerId)
-          : missionsKeys.byId(serverResponse.missionId),
+          : missionsKeys.byId(serverResponse.ownerId),
       type: 'all'
     })
   },

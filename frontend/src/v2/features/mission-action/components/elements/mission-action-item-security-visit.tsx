@@ -23,7 +23,7 @@ const MissionActionItemSecurityVisit: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId)
   const schema = {
     nbrSecurityVisit: isMissionFinished ? number().required() : number().nullable(),
     securityVisitType: isMissionFinished ? string().required() : string().nullable()

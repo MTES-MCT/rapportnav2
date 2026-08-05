@@ -16,8 +16,8 @@ export function useMissionActionGenericDateObservation(
   schema?: ObjectShape
 ): AbstractFormikSubFormHook<ActionGenericDateObservationInput> {
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
-  const isMissionFinished = useMissionFinished(action.ownerId ?? action.missionId)
-  const missionDates = useMissionDates(action.ownerId ?? action.missionId)
+  const isMissionFinished = useMissionFinished(action.ownerId)
+  const missionDates = useMissionDates(action.ownerId)
 
   const fromFieldValueToInput = (data: MissionActionData): ActionGenericDateObservationInput => {
     const dates = getDateRangeForInput(data)
