@@ -2,11 +2,12 @@ import { THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { ActionFishControlInput } from '../../../mission-action/types/action-type.ts'
-import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/fish-control-administrative-section.tsx'
+import FishAdministrativeSection from '../../../mission-control/components/ui/fish-control-administrative-section.tsx'
 import FishControlEnginesSection from '../../../mission-control/components/ui/fish-control-engines-section.tsx'
+import FishControlFleetSegmentSection from '../../../mission-control/components/ui/fish-control-fleet-segment-section.tsx'
+import FishControlInnSection from '../../../mission-control/components/ui/fish-control-inn-section.tsx'
 import FishControlOtherObservationsSection from '../../../mission-control/components/ui/fish-control-other-observation-section.tsx'
 import FishControlSpeciesSection from '../../../mission-control/components/ui/fish-control-species-section.tsx'
-import FishControlFleetSegmentSection from '../../../mission-control/components/ui/mission-control-fish-fleet-segment-section.tsx'
 
 interface FishControlPolpecheProps {
   values: ActionFishControlInput
@@ -24,7 +25,7 @@ const FishControlPolpeche: FC<FishControlPolpecheProps> = ({ values }) => {
       >
         <Stack.Item grow={1}></Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <MissionControlFishAdministrativeSection action={values} />
+          <FishAdministrativeSection action={values} />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <FishControlEnginesSection action={values} />
@@ -40,6 +41,9 @@ const FishControlPolpeche: FC<FishControlPolpecheProps> = ({ values }) => {
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <FishControlFleetSegmentSection action={values} />
+        </Stack.Item>
+        <Stack.Item style={{ width: '100%' }}>
+          <FishControlInnSection action={values} />
         </Stack.Item>
       </Stack>
     </div>

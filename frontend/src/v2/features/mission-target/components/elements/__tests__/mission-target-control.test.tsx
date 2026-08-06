@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '../../../../../../test-utils'
-import MissionTargetControlNav from '../mission-target-control-nav'
 import { ControlType } from '@common/types/control-types'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { render, screen } from '../../../../../../test-utils'
+import MissionTargetControl from '../mission-target-control'
 
 const createMockFieldArray = (targets = []) => ({
   form: {
@@ -12,7 +12,7 @@ const createMockFieldArray = (targets = []) => ({
   push: vi.fn()
 })
 
-describe('MissionTargetControlNav', () => {
+describe('MissionTargetControl', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -21,7 +21,7 @@ describe('MissionTargetControlNav', () => {
     const targets = [{ controls: [] }]
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Navigation Controls" fieldArray={fieldArray} />, {
+    render(<MissionTargetControl name="targets" label="Navigation Controls" fieldArray={fieldArray} />, {
       formikValues: { targets }
     })
 
@@ -41,7 +41,7 @@ describe('MissionTargetControlNav', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Controls" fieldArray={fieldArray} />, {
+    render(<MissionTargetControl name="targets" label="Controls" fieldArray={fieldArray} />, {
       formikValues: { targets }
     })
 
@@ -61,7 +61,7 @@ describe('MissionTargetControlNav', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Controls" fieldArray={fieldArray} hideGensDeMer={true} />, {
+    render(<MissionTargetControl name="targets" label="Controls" fieldArray={fieldArray} hideGensDeMer={true} />, {
       formikValues: { targets }
     })
 
@@ -78,7 +78,7 @@ describe('MissionTargetControlNav', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Controls" fieldArray={fieldArray} hideGensDeMer={false} />, {
+    render(<MissionTargetControl name="targets" label="Controls" fieldArray={fieldArray} hideGensDeMer={false} />, {
       formikValues: { targets }
     })
 
@@ -94,7 +94,7 @@ describe('MissionTargetControlNav', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Controls" fieldArray={fieldArray} />, {
+    render(<MissionTargetControl name="targets" label="Controls" fieldArray={fieldArray} />, {
       formikValues: { targets }
     })
 
@@ -111,7 +111,7 @@ describe('MissionTargetControlNav', () => {
     const fieldArray = createMockFieldArray(targets)
 
     render(
-      <MissionTargetControlNav
+      <MissionTargetControl
         name="targets"
         label="Controls"
         fieldArray={fieldArray}
@@ -139,7 +139,7 @@ describe('MissionTargetControlNav', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Controls" fieldArray={fieldArray} />, {
+    render(<MissionTargetControl name="targets" label="Controls" fieldArray={fieldArray} />, {
       formikValues: { targets }
     })
 
@@ -151,7 +151,7 @@ describe('MissionTargetControlNav', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Controls" fieldArray={fieldArray} />, {
+    render(<MissionTargetControl name="targets" label="Controls" fieldArray={fieldArray} />, {
       formikValues: { targets }
     })
 
@@ -163,7 +163,7 @@ describe('MissionTargetControlNav', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Controls" fieldArray={fieldArray} />, {
+    render(<MissionTargetControl name="targets" label="Controls" fieldArray={fieldArray} />, {
       formikValues: { targets }
     })
 
@@ -184,7 +184,7 @@ describe('MissionTargetControlNav', () => {
 
     const fieldArray = createMockFieldArray(targets)
 
-    render(<MissionTargetControlNav name="targets" label="Controls" fieldArray={fieldArray} hideGensDeMer={true} />, {
+    render(<MissionTargetControl name="targets" label="Controls" fieldArray={fieldArray} hideGensDeMer={true} />, {
       formikValues: { targets }
     })
 
@@ -206,7 +206,7 @@ describe('MissionTargetControlNav', () => {
     const fieldArray = createMockFieldArray(targets)
 
     render(
-      <MissionTargetControlNav
+      <MissionTargetControl
         name="targets"
         label="Controls"
         fieldArray={fieldArray}
