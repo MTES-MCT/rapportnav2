@@ -1,13 +1,14 @@
 import Text from '@common/components/ui/text'
-import { SpeciesControl } from '@common/types/fish-mission-types.ts'
-import { Icon, Label, SimpleTable, THEME } from '@mtes-mct/monitor-ui'
+import { Marge, SpeciesControl } from '@common/types/fish-mission-types.ts'
+import { Accent, Icon, IconButton, Label, SimpleTable, Size, THEME } from '@mtes-mct/monitor-ui'
 import { isEmpty } from 'lodash'
-import React from 'react'
+import React, { useState } from 'react'
 import { Stack, Tooltip, Whisper } from 'rsuite'
 import styled from 'styled-components'
 import { MissionFishActionData } from '../../../common/types/mission-action'
 import { SatiModuleType } from '../../../common/types/sati'
 import { ConformityRow, ConformityTable } from './conformity-table.tsx'
+import FishControlMarge from './fish-control-marge.tsx'
 
 interface FishControlSpeciesSectionProps {
   action: MissionFishActionData
@@ -36,7 +37,15 @@ const CONFORMITY_ROWS: ConformityRow<ConformityField>[] = [
 ]
 
 const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ action }) => {
+  const [showModal, setShowModal] = useState(false)
   const isM3 = action.sati?.module === SatiModuleType.M3
+  const [currentMarge, setCurrentMarge] = useState<Marge>()
+
+  const handleUpdateMarge = (response: boolean, data?: Marge) => {
+    if (!response || !data) return
+    console.log(data)
+    setCurrentMarge(undefined)
+  }
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'} style={{ width: '100%' }}>
@@ -103,7 +112,17 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Stack.Item>--</Stack.Item>
                         <Stack.Item>
-                          <Icon.EditUnbordered color={THEME.color.slateGray} size={14} />
+                          <IconButton
+                            disabled={true}
+                            size={Size.SMALL}
+                            accent={Accent.TERTIARY}
+                            Icon={Icon.EditUnbordered}
+                            color={THEME.color.slateGray}
+                            onClick={() => {
+                              setCurrentMarge(species.marge)
+                              setShowModal(true)
+                            }}
+                          />
                         </Stack.Item>
                       </Stack>
                     </Td>
@@ -120,6 +139,15 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
                         <Icon.VesselPro color={THEME.color.lightGray} size={18} />
                       )}
                     </Td>
+                  )}
+                  {showModal && (
+                    <FishControlMarge
+                      species={species}
+                      onSubmit={handleUpdateMarge}
+                      currentMarge={currentMarge}
+                      onChangeMarge={setCurrentMarge}
+                      onClose={() => setShowModal(false)}
+                    />
                   )}
                 </SimpleTable.BodyTr>
               ))}

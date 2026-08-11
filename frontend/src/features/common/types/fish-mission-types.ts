@@ -95,6 +95,16 @@ export type Infraction = {
   comments?: string
 }
 
+export type Marge = {
+  value?: number
+  metric?: MetricType
+}
+
+export enum MetricType {
+  KG = 'KG',
+  PERCENT = 'PERCENT'
+}
+
 export type SpeciesControl = {
   speciesCode: string
   speciesName: string | undefined
@@ -106,6 +116,7 @@ export type SpeciesControl = {
   underSizedWeight: number | undefined
   presentationCodes: string[] | undefined
   faoZones: string[] | undefined
+  marge?: Marge
 }
 
 export enum DiscardReason {
