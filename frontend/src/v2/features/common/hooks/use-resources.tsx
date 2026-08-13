@@ -1,10 +1,15 @@
+import { useCallback } from 'react'
 import useResourcesQuery from '../services/use-resources.tsx'
 import { ControlUnitResource } from '../types/control-unit-types.ts'
 
 const useResources = () => {
   const { data } = useResourcesQuery()
-  const getByControlUnit = (controlUnitId?: number) =>
-    (data ?? [])?.filter((c: ControlUnitResource) => c.controlUnitId === controlUnitId)
+  // Stable across renders (only changes when the query data changes) so callers can safely use the
+  // returned list as a hook dependency without re-running effects on every render.
+  const getByControlUnit = useCallback(
+    (controlUnitId?: number) => (data ?? []).filter((c: ControlUnitResource) => c.controlUnitId === controlUnitId),
+    [data]
+  )
 
   const getResourcesOptions = (resources?: ControlUnitResource[]) =>
     (resources ?? data)?.map((resource: ControlUnitResource) => ({
