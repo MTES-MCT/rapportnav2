@@ -61,6 +61,39 @@ export type ControlUnitResource = {
   type: ControlUnitResourceType
   registrationId?: string
   radioFrequency?: string
+  // Per-resource usage value (ULAM). Only one applies, driven by `type` via getResourceUsageKind().
+  nbKms?: number
+  nbEngineHours?: number
+}
+
+export type ResourceUsageKind = 'KM' | 'ENGINE_HOURS' | 'NONE'
+
+const ENGINE_HOURS_RESOURCE_TYPES: ControlUnitResourceType[] = [
+  ControlUnitResourceType.BARGE,
+  ControlUnitResourceType.SUPPORT_SHIP,
+  ControlUnitResourceType.HYDROGRAPHIC_SHIP,
+  ControlUnitResourceType.TRAINING_SHIP,
+  ControlUnitResourceType.RIGID_HULL,
+  ControlUnitResourceType.FRIGATE,
+  ControlUnitResourceType.PATROL_BOAT,
+  ControlUnitResourceType.TUGBOAT,
+  ControlUnitResourceType.SEA_SCOOTER,
+  ControlUnitResourceType.SEMI_RIGID,
+  ControlUnitResourceType.LIGHT_FAST_BOAT,
+  ControlUnitResourceType.FAST_BOAT
+]
+
+/**
+ * Which per-resource usage value applies for a given resource type (mirrors the backend `usageKind()`):
+ * - 'KM'           → "Km parcourus"        (CAR, MOTORCYCLE)
+ * - 'ENGINE_HOURS' → "Nb d'heures moteur"  (boats)
+ * - 'NONE'         → no extra field
+ */
+export const getResourceUsageKind = (type?: ControlUnitResourceType): ResourceUsageKind => {
+  if (!type) return 'NONE'
+  if (type === ControlUnitResourceType.CAR || type === ControlUnitResourceType.MOTORCYCLE) return 'KM'
+  if (ENGINE_HOURS_RESOURCE_TYPES.includes(type)) return 'ENGINE_HOURS'
+  return 'NONE'
 }
 
 export type Station = {

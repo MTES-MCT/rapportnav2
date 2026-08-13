@@ -3,10 +3,15 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ResourceUsageKind
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.usageKind
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.ResourceUsageEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IResourceUsageRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
 
@@ -15,8 +20,9 @@ class GetComputeEnvMission(
     private val getGeneralInfos2: GetGeneralInfo,
     private val getMissionAction: GetMissionAction,
     private val getEnvMissionById: GetEnvMissionById,
+    private val syncMissionValidation: SyncMissionValidation,
+    private val resourceUsageRepository: IResourceUsageRepository,
     private val syncLocalMissionWithMonitorEnv: SyncLocalMissionWithMonitorEnv,
-    private val syncMissionValidation: SyncMissionValidation
 ) {
     /**
      * @param forceComputeValidation set by the write/recompute path to always compute action validity for real. Read
@@ -55,9 +61,14 @@ class GetComputeEnvMission(
         val actions = getMissionAction.execute(missionId = id, bypassValidation = bypassValidation)
         val generalInfos = getGeneralInfos2.execute(missionId = id, controlUnits = mission.controlUnits)
 
+        // Stitch the per-resource usage values (stored in our DB, keyed by the mission UUID) back onto the
+        // MonitorEnv resources by resourceId, so both the frontend and the completeness check see them.
+        val usages = resourceUsageRepository.findByMissionId(localMission.id)
+        val enrichedMission = enrichResourcesWithUsage(mission, usages)
+
         val baseMission = MissionEntity(
             id = id,
-            data = mission,
+            data = enrichedMission,
             actions = actions,
             generalInfos = generalInfos
         )
@@ -78,5 +89,33 @@ class GetComputeEnvMission(
         }
 
         return missionEntity
+    }
+
+    /**
+     * Joins the stored usage rows onto the currently-selected MonitorEnv resources by resourceId.
+     * Defends against MonitorEnv changing a resource's type: a stored value is only kept when it still
+     * matches the resource's current [usageKind]. Usage rows whose resource is no longer selected are
+     * simply never joined (dropped).
+     */
+    private fun enrichResourcesWithUsage(
+        mission: MissionEnvEntity,
+        usages: List<ResourceUsageEntity>?
+    ): MissionEnvEntity {
+        if (usages.isNullOrEmpty()) return mission
+        val usageByResourceId = usages.associateBy { it.resourceId }
+        return mission.copy(
+            controlUnits = mission.controlUnits.map { controlUnit ->
+                controlUnit.copy(
+                    resources = controlUnit.resources?.map { resource ->
+                        val usage = usageByResourceId[resource.id]
+                        resource.copy(
+                            nbKms = usage?.nbKms?.takeIf { resource.type?.usageKind() == ResourceUsageKind.KM },
+                            nbEngineHours = usage?.nbEngineHours
+                                ?.takeIf { resource.type?.usageKind() == ResourceUsageKind.ENGINE_HOURS }
+                        )
+                    }?.toMutableList()
+                )
+            }
+        )
     }
 }
