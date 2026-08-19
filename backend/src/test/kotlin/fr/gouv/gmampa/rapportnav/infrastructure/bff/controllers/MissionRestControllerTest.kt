@@ -6,9 +6,11 @@ import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.ControllersExceptionHandler
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListItem
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
@@ -58,7 +60,7 @@ class MissionRestControllerTest {
     private lateinit var createMission: CreateMission
 
     @MockitoBean
-    private lateinit var getMissions: GetMissions
+    private lateinit var getMissionList: GetMissionList
 
     @MockitoBean
     private lateinit var tokenService: TokenService
@@ -85,8 +87,8 @@ class MissionRestControllerTest {
     @Test
     fun `should return a list of missions`() {
         // Arrange
-        val mockMissionEntity = MissionEntityMock.create(id = 1)
-        `when`(getMissions.execute(Instant.parse("2025-04-16T09:02:58.082289Z"))).thenReturn(listOf(mockMissionEntity))
+        val mockItem = MissionListItem(id = 1, status = MissionStatusEnum.ENDED, actionCount = 3)
+        `when`(getMissionList.execute(Instant.parse("2025-04-16T09:02:58.082289Z"))).thenReturn(listOf(mockItem))
 
         // Act & Assert
         mockMvc.perform(
@@ -95,6 +97,8 @@ class MissionRestControllerTest {
         )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.length()").value(1))
+            .andExpect(jsonPath("$[0].id").value(1))
+            .andExpect(jsonPath("$[0].actionCount").value(3))
     }
 
     @Test

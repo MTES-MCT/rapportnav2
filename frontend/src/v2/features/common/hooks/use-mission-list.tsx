@@ -1,9 +1,9 @@
-import { Mission2, MissionListItem } from '../types/mission-types'
+import { MissionListData, MissionListItem } from '../types/mission-types'
 import { useDate } from './use-date'
 import { useMissionTag } from './use-mission-tag'
 
 interface MissionListHook {
-  getMissionListItem: (mission: Mission2) => MissionListItem
+  getMissionListItem: (mission: MissionListData) => MissionListItem
 }
 
 export function useMissionList(): MissionListHook {
@@ -16,40 +16,36 @@ export function useMissionList(): MissionListHook {
   const formatMissionNameUlam = (startDate?: string): string => {
     return `Mission #${formaDateMissionNameUlam(startDate)}`
   }
-  const getCrewNumber = (mission: Mission2) =>
-    !mission?.generalInfos?.service?.id
-      ? '--'
-      : ((mission?.generalInfos.service?.id as unknown as number) ?? 0) % 2 === 0
-        ? 'B'
-        : 'A'
+  const getCrewNumber = (mission: MissionListData) =>
+    !mission?.serviceId ? '--' : mission.serviceId % 2 === 0 ? 'B' : 'A'
 
-  const getExportLabel = (mission: Mission2) =>
-    `- ${formatMissionName(mission.data.startDateTimeUtc)} - ${getOpenByText(mission.data.missionSource)} - ${mission.actions?.length ?? 0} action(s)`
+  const getExportLabel = (mission: MissionListData) =>
+    `- ${formatMissionName(mission.startDateTimeUtc)} - ${getOpenByText(mission.missionSource)} - ${mission.actionCount ?? 0} action(s)`
 
-  const getMissionListItem = (mission: Mission2): MissionListItem => {
+  const getMissionListItem = (mission: MissionListData): MissionListItem => {
     return {
       id: mission.id,
       status: mission.status,
       idUUID: mission.idUUID,
-      openBy: mission.data.openBy,
-      crew: mission.generalInfos.crew,
+      openBy: mission.openBy,
+      crew: mission.crew,
       crewNumber: getCrewNumber(mission),
       exportLabel: getExportLabel(mission),
-      controlUnits: mission.data.controlUnits,
-      missionSource: mission.data.missionSource,
+      controlUnits: mission.controlUnits,
+      missionSource: mission.missionSource,
       completenessForStats: mission.completenessForStats,
-      observationsByUnit: mission.data.observationsByUnit,
-      endDateTimeUtc: mission.data.endDateTimeUtc,
-      startDateTimeUtc: mission.data.startDateTimeUtc,
-      missionNamePam: formatMissionName(mission.data.startDateTimeUtc),
-      missionNameUlam: formatMissionNameUlam(mission.data.startDateTimeUtc),
-      endDateTimeUtcText: formatDateForFrenchHumans(mission.data.endDateTimeUtc),
-      startDateTimeUtcText: formatDateForFrenchHumans(mission.data.startDateTimeUtc),
-      resources: mission.generalInfos.resources,
-      missionReportType: mission.generalInfos.missionReportType,
-      isUnderJdp: mission.data.isUnderJdp,
-      jdpType: mission.generalInfos.jdpType,
-      isResourcesNotUsed: mission.generalInfos.isResourcesNotUsed
+      observationsByUnit: mission.observationsByUnit,
+      endDateTimeUtc: mission.endDateTimeUtc,
+      startDateTimeUtc: mission.startDateTimeUtc,
+      missionNamePam: formatMissionName(mission.startDateTimeUtc),
+      missionNameUlam: formatMissionNameUlam(mission.startDateTimeUtc),
+      endDateTimeUtcText: formatDateForFrenchHumans(mission.endDateTimeUtc),
+      startDateTimeUtcText: formatDateForFrenchHumans(mission.startDateTimeUtc),
+      resources: mission.resources,
+      missionReportType: mission.missionReportType,
+      isUnderJdp: mission.isUnderJdp,
+      jdpType: mission.jdpType,
+      isResourcesNotUsed: mission.isResourcesNotUsed
     }
   }
 

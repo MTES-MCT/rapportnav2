@@ -2,13 +2,12 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionByExternalId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.SyncLocalMissionWithMonitorEnv
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.SyncMissionValidation
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
@@ -18,7 +17,6 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
@@ -48,18 +46,17 @@ class GetComputeEnvMissionTest {
     private lateinit var getNavMissionById: GetNavMissionById
 
     @MockitoBean
-    private lateinit var getMissionByExternalId: GetMissionByExternalId
-
-    @MockitoBean
-    private lateinit var missionNavRepository: IMissionNavRepository
+    private lateinit var syncLocalMissionWithMonitorEnv: SyncLocalMissionWithMonitorEnv
 
     @MockitoBean
     private lateinit var syncMissionValidation: SyncMissionValidation
 
     @BeforeEach
     fun setup() {
-        // syncLocalMission now returns the resolved row; a freshly-created mirror has null completeness.
-        whenever(missionNavRepository.save(any())).thenAnswer { it.arguments[0] as MissionModel }
+        // The env→local mirror sync now lives in SyncLocalMissionFromEnv; it returns the resolved row,
+        // and a freshly-created mirror has null completeness (so validation is not bypassed).
+        whenever(syncLocalMissionWithMonitorEnv.execute(any(), any()))
+            .thenReturn(MissionModel(id = UUID.randomUUID(), startDateTimeUtc = Instant.now()))
     }
 
     @Test
@@ -85,7 +82,6 @@ class GetComputeEnvMissionTest {
         val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 1)
         val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
 
-        `when`(getMissionByExternalId.execute(anyString())).thenReturn(null)
         `when`(getMissionAction.execute(missionId = 1)).thenReturn(actions)
         `when`(getGeneralInfos2.execute(missionId = 1, controlUnits = listOf())).thenReturn(generalInfos2)
 
@@ -96,8 +92,9 @@ class GetComputeEnvMissionTest {
         assertEquals(envMission, result.data)
         assertEquals(actions, result.actions)
         assertEquals(generalInfos2, result.generalInfos)
-        // no local mirror existed yet, so one is created, and the mission-level validation is synced
-        verify(missionNavRepository).save(any())
+        // the local mirror is synced (create/update handled by SyncLocalMissionFromEnv) and the
+        // mission-level validation is persisted
+        verify(syncLocalMissionWithMonitorEnv).execute(any(), any())
         verify(syncMissionValidation).execute(result)
     }
 
@@ -109,7 +106,6 @@ class GetComputeEnvMissionTest {
         val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 2)
         val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
 
-        `when`(getMissionByExternalId.execute(anyString())).thenReturn(null)
         `when`(getEnvMissionById.execute(2)).thenReturn(mission)
         `when`(getMissionAction.execute(missionId = 2)).thenReturn(actions)
         `when`(getGeneralInfos2.execute(missionId = 2, controlUnits = listOf())).thenReturn(generalInfos2)

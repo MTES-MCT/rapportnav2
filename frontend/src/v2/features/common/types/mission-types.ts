@@ -167,6 +167,29 @@ export type Mission2 = {
   idUUID?: string
 }
 
+// Light payload returned by `GET /missions` for the list page — mirrors the backend `MissionListItem` DTO.
+// Flat (no `data` / `generalInfos` nesting) and carries `actionCount` instead of the full `actions` list.
+export type MissionListData = {
+  id: number
+  idUUID?: string
+  status: MissionStatusEnum
+  startDateTimeUtc: string
+  endDateTimeUtc?: string
+  missionSource?: MissionSourceEnum
+  openBy?: string
+  observationsByUnit?: string
+  isUnderJdp?: boolean
+  controlUnits: ControlUnit[]
+  completenessForStats?: CompletenessForStats
+  crew?: MissionCrew[]
+  serviceId?: number
+  resources?: ControlUnitResource[]
+  missionReportType?: MissionReportTypeEnum
+  jdpType?: JdpTypeEnum
+  isResourcesNotUsed?: boolean
+  actionCount: number
+}
+
 export type MissionListItem = {
   id: number
   openBy?: string

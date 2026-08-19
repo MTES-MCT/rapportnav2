@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListItem
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
@@ -21,7 +22,7 @@ class MissionRestController(
     private val getComputeEnvMission: GetComputeEnvMission,
     private val getServiceForUser: GetServiceForUser,
     private val createMission: CreateMission,
-    private val getMissions: GetMissions,
+    private val getMissionList: GetMissionList,
     private val getComputeNavMission: GetComputeNavMission,
     private val deleteMission: DeleteMission,
     private val getMissionByExternalId: GetMissionByExternalId
@@ -46,7 +47,7 @@ class MissionRestController(
                 responseCode = "200", description = "Found missions", content = [
                     (Content(
                         mediaType = "application/json",
-                        array = (ArraySchema(schema = Schema(implementation = Mission::class)))
+                        array = (ArraySchema(schema = Schema(implementation = MissionListItem::class)))
                     ))
                 ]
             ),
@@ -56,14 +57,11 @@ class MissionRestController(
     fun getMissions(
         @RequestParam("startDateTimeUtc") startDateTimeUtc: Instant,
         @RequestParam(name = "endDateTimeUtc", required = false) endDateTimeUtc: Instant? = null
-    ) : List<Mission> {
-        val missions = getMissions.execute(
+    ) : List<MissionListItem> {
+        return getMissionList.execute(
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
         )
-
-        return (missions.filterNotNull()).map { Mission.fromMissionEntity((it)) }
-
     }
 
     /**
