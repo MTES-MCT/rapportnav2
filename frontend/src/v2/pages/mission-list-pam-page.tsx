@@ -17,11 +17,11 @@ import { useOfflineMode } from '../features/common/hooks/use-offline-mode.tsx'
 import { useOnlineManager } from '../features/common/hooks/use-online-manager.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
-import { Mission2 } from '../features/common/types/mission-types.ts'
+import { MissionListData, MissionListItem } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
-import { store } from '../store/index.ts'
+import { store } from '../store'
 
 const MissionListPamPage: FC = () => {
   const isOfflineModeEnabled = useOfflineMode()
@@ -48,11 +48,14 @@ const MissionListPamPage: FC = () => {
   const [dialogVariant, setDialogVariant] = useState<ExportReportType | undefined>(undefined)
   const [showExportDialog, setShowExportDialog] = useState<boolean>(false)
 
-  function filterBySelectedIndices(missions: Mission2[] = [], selectedIndices: number[] = []): Mission2[] {
-    return missions.filter((m: Mission2) => selectedIndices.indexOf(m.id) !== -1)
+  function filterBySelectedIndices(
+    missions: MissionListData[] = [],
+    selectedIndices: number[] = []
+  ): MissionListData[] {
+    return missions.filter((m: MissionListData) => selectedIndices.indexOf(m.id) !== -1)
   }
 
-  const triggerExport = async (selectedMissions: Mission2[], variant: ExportReportType, zip: boolean) => {
+  const triggerExport = async (selectedMissions: MissionListItem[], variant: ExportReportType, zip: boolean) => {
     await exportMissionReport({
       missionIds: selectedMissions.map(mission => mission.id),
       exportMode: zip ? ExportMode.MULTIPLE_MISSIONS_ZIPPED : ExportMode.COMBINED_MISSIONS_IN_ONE,
@@ -64,7 +67,7 @@ const MissionListPamPage: FC = () => {
   }
 
   const toggleAll = (isChecked?: boolean) => {
-    setSelectedMissionIds(!isChecked ? [] : (missions ?? []).map((m: Mission2) => m.id))
+    setSelectedMissionIds(!isChecked ? [] : (missions ?? []).map((m: MissionListData) => m.id))
   }
 
   const toggleOne = (missionId: number, isChecked?: boolean) => {
@@ -81,7 +84,11 @@ const MissionListPamPage: FC = () => {
 
     // If only 1 mission → directly export
     if (variant && selected.length === 1) {
-      await triggerExport(selected, variant, false) // zip = false for single export
+      await triggerExport(
+        selected.map(m => getMissionListItem(m)),
+        variant,
+        false
+      ) // zip = false for single export
       return
     }
 

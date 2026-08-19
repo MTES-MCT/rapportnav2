@@ -41,7 +41,7 @@ describe('useMissionsQuery', () => {
     setQueryDataSpy.mockRestore()
   })
 
-  it('fetches missions and populates each mission in cache using setQueryData', async () => {
+  it('fetches missions and returns them without prefilling per-mission caches', async () => {
     const mockMissions = [
       { id: 11, name: 'Apollo' },
       { id: 22, name: 'Gemini' }
@@ -58,11 +58,11 @@ describe('useMissionsQuery', () => {
       expect(result.current.isSuccess).toBe(true)
     })
 
-    // Should have called setQueryData for each mission
-    expect(setQueryDataSpy).toHaveBeenCalledTimes(2)
+    expect(result.current.data).toEqual(mockMissions)
 
-    expect(setQueryDataSpy).toHaveBeenCalledWith(['missions', '11'], mockMissions[0])
-    expect(setQueryDataSpy).toHaveBeenCalledWith(['missions', '22'], mockMissions[1])
+    // The list now returns a light payload, so it no longer prefills the per-mission (byId) or
+    // per-action caches from it — the detail page fetches the full mission via its own query.
+    expect(setQueryDataSpy).not.toHaveBeenCalled()
   })
 
   it('does not run query when startDateTimeUtc is empty', async () => {

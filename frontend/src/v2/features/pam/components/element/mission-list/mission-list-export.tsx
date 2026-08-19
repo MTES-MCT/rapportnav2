@@ -7,7 +7,7 @@ import { FC, useState } from 'react'
 import { Divider, Stack } from 'rsuite'
 import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
 import { ExportReportType } from '../../../../common/types/mission-export-types.ts'
-import { Mission2, MissionListItem, CompletenessForStatsStatusEnum } from '../../../../common/types/mission-types.ts'
+import { MissionListItem, CompletenessForStatsStatusEnum } from '../../../../common/types/mission-types.ts'
 
 const options = [
   {
@@ -43,7 +43,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
     exportInProgress ||
     every(
       availableMissions,
-      (m: Mission2) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
+      (m: MissionListItem) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
     )
 
   const missionOptions = availableMissions.map((mission: MissionListItem) => ({
@@ -94,7 +94,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
             {exportAsZip &&
               some(
                 availableMissions,
-                (m: Mission2) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
+                (m: MissionListItem) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.VALID
               ) && (
                 <div style={{ marginTop: '1rem' }}>
                   <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'}>
