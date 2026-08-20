@@ -1,9 +1,10 @@
 import { Dialog } from '@common/components/ui/custom-dialog.tsx'
-import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { createElement } from 'react'
-import { FlexboxGrid, Stack } from 'rsuite'
+import { Stack } from 'rsuite'
 import { BasicAction } from '../../types/basic-action'
+import BasicDialogAction from './basic-dialog-action.tsx'
+import BasicDialogTitle from './basic-dialog-title.tsx'
 
 type BasicDialogFormProps = {
   initValue: any
@@ -22,24 +23,7 @@ const BasicDialogForm: React.FC<BasicDialogFormProps> = ({ action, initValue, on
       {formik => (
         <Dialog>
           <Dialog.Title>
-            <FlexboxGrid
-              align="middle"
-              justify="space-between"
-              style={{ paddingLeft: 14, paddingRight: 24, width: '100%' }}
-            >
-              <FlexboxGrid.Item style={{ fontSize: '16px' }}>{action?.label}</FlexboxGrid.Item>
-              <FlexboxGrid.Item>
-                <IconButton
-                  Icon={Icon.Close}
-                  size={Size.NORMAL}
-                  accent={Accent.TERTIARY}
-                  color={THEME.color.gainsboro}
-                  role={'dialog-form'}
-                  data-testid="close-dialog-form"
-                  onClick={() => onSubmit(false)}
-                />
-              </FlexboxGrid.Item>
-            </FlexboxGrid>
+            <BasicDialogTitle label={action?.label} onClose={() => onSubmit(false)} />
           </Dialog.Title>
           <Dialog.Body style={{ padding: '24px 24px 0px 24px' }}>
             <Stack.Item style={{ width: '100%' }}>
@@ -47,18 +31,12 @@ const BasicDialogForm: React.FC<BasicDialogFormProps> = ({ action, initValue, on
             </Stack.Item>
           </Dialog.Body>
           <Dialog.Action style={{ display: 'flex', justifyContent: 'flex-end', padding: '32px 24px 24px 24px' }}>
-            <Button data-testid="dialog-form-cancel-button" accent={Accent.SECONDARY} onClick={() => onSubmit(false)}>
-              Annuler
-            </Button>
-            <Button
-              disabled={!formik.isValid}
-              data-testid="dialog-form-confirm-button"
-              accent={action?.accent ?? Accent.PRIMARY}
-              onClick={() => onSubmit(true, formik.values)}
-              className={[Accent.ERROR, Accent.WARNING].includes(action?.accent ?? Accent.PRIMARY) ? '_active' : ''}
-            >
-              {action?.validateButton ?? 'Confirmer'}
-            </Button>
+            <BasicDialogAction
+              isValid={formik.isValid}
+              accent={action?.accent}
+              validateButtonLabel={action?.validateButton}
+              onSubmit={response => onSubmit(response, response ? formik.values : undefined)}
+            />
           </Dialog.Action>
         </Dialog>
       )}
