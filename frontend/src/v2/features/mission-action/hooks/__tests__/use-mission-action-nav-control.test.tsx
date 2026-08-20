@@ -1,4 +1,4 @@
-import { VesselSizeEnum } from '@common/types/env-mission-types'
+import { VesselSizeEnum } from '../../../common/types/vessel-type'
 import { renderHook } from '../../../../../test-utils.tsx'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { MissionAction, MissionNavActionData } from '../../../common/types/mission-action'

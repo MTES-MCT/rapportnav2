@@ -1,22 +1,22 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
-import { MissionListData } from '../types/mission-types.ts'
+import { MissionListItemDTO } from '../types/mission-types.ts'
 import { missionsKeys } from './query-keys.ts'
 import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 
-const useMissionsQuery = (params: URLSearchParams): UseQueryResult<MissionListData[], Error> => {
+const useMissionsQuery = (params: URLSearchParams): UseQueryResult<MissionListItemDTO[], Error> => {
   const { isOnline } = useOnlineManager()
 
-  const fetchMissions = async (): Promise<MissionListData[]> => {
-    const response = await axios.get<MissionListData[]>(`missions?${params.toString()}`)
+  const fetchMissions = async (): Promise<MissionListItemDTO[]> => {
+    const response = await axios.get<MissionListItemDTO[]>(`missions?${params.toString()}`)
     return response.data
   }
 
   const endDateTimeUtc = params.get('endDateTimeUtc')
   const startDateTimeUtc = params.get('startDateTimeUtc')
 
-  return useQuery<MissionListData[], Error>({
+  return useQuery<MissionListItemDTO[], Error>({
     queryKey: missionsKeys.filter(JSON.stringify({ startDateTimeUtc, endDateTimeUtc })),
     // The list now returns a light payload (no actions, no full general info), so we no longer prefill the
     // per-mission (`missionsKeys.byId`) or per-action caches from it — the detail page fetches the full

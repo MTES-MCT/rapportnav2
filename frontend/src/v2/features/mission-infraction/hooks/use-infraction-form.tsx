@@ -1,8 +1,9 @@
-import { InfractionTypeEnum, VehicleTypeEnum, VesselSizeEnum, VesselTypeEnum } from '@common/types/env-mission-types'
+import { InfractionTypeEnum, VehicleTypeEnum } from '@common/types/env-mission-types'
 import { array, boolean, mixed, object, ObjectSchema, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { AbstractFormikHook } from '../../common/types/abstract-formik-hook'
 import { TargetInfraction, TargetInfractionInput, TargetType } from '../../common/types/target-types'
+import { VesselSizeEnum, VesselTypeEnum } from '../../common/types/vessel-type.ts'
 
 type InfractionTypeHook = { value: InfractionTypeEnum; label: string }
 

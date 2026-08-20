@@ -1,6 +1,7 @@
 import { vi } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '../../../../../../../test-utils.tsx'
 import { MissionListItem, MissionReportTypeEnum, MissionSourceEnum } from '../../../../../common/types/mission-types.ts'
+import { ControlUnitResourceType } from '../../../../../common/types/control-unit-types.ts'
 import { User } from '../../../../../common/types/user.ts'
 import MissionListItemUlam from '../mission-list-item-ulam.tsx'
 
@@ -44,7 +45,8 @@ const mission2 = {
         {
           id: 1,
           controlUnitId: 1,
-          name: 'Renault Mégane'
+          name: 'Renault Mégane',
+          type: ControlUnitResourceType.CAR
         }
       ]
     }

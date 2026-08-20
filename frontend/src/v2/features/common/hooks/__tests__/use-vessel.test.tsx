@@ -1,9 +1,8 @@
-import { VesselSizeEnum } from '@common/types/env-mission-types'
-import { VesselTypeEnum } from '@common/types/mission-types'
 import { renderHook } from '@testing-library/react'
 import { describe } from 'vitest'
 import { ModuleType } from '../../types/module-type'
 import { useVessel } from '../use-vessel'
+import { VesselSizeEnum, VesselTypeEnum } from '../../types/vessel-type'
 
 describe('useVessel', () => {
   it('should have every vessel type for ULAM module ', () => {

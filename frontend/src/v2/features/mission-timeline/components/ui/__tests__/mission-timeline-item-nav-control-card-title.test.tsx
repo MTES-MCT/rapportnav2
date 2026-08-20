@@ -1,5 +1,5 @@
 import { ControlMethod } from '@common/types/control-types'
-import { VesselTypeEnum } from '@common/types/env-mission-types'
+import { VesselTypeEnum } from '../../../../common/types/vessel-type'
 import { render, screen } from '../../../../../../test-utils'
 import { ActionType } from '../../../../common/types/action-type'
 import { SectorType } from '../../../../common/types/sector-types'

@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils.tsx'
 import MissionTargetExternalData from '../mission-target-external-data'
 import { TargetExternalData } from 'src/v2/features/common/types/target-types.ts'
-import { FormalNoticeEnum, InfractionTypeEnum, VesselSizeEnum } from '@common/types/env-mission-types.ts'
-import { VesselTypeEnum } from '@common/types/mission-types.ts'
+import { FormalNoticeEnum, InfractionTypeEnum } from '@common/types/env-mission-types.ts'
+import { VesselSizeEnum, VesselTypeEnum } from '../../../../common/types/vessel-type.ts'
 
 // Mocks
 vi.mock('../../../../common/hooks/use-vessel', () => ({

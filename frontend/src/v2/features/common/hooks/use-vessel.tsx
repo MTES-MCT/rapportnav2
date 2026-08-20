@@ -1,4 +1,3 @@
-import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types'
 import { omit } from 'lodash'
 import IconVesselCommerce from '../components/ui/icon-vessel-commerce'
 import IconVesselFishing from '../components/ui/icon-vessel-fishing'
@@ -7,6 +6,7 @@ import IconVesselSailingLeisure from '../components/ui/icon-vessel-sailing-leisu
 import IconVesselSailingPro from '../components/ui/icon-vessel-sailing-pro'
 import IconVesselServices from '../components/ui/icon-vessel-school'
 import { ModuleType } from '../types/module-type'
+import { VesselSizeEnum, VesselTypeEnum } from '../types/vessel-type'
 
 type VesselType = { label: string; icon?: JSX.Element }
 

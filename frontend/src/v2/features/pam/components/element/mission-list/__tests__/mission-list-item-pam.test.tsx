@@ -6,7 +6,7 @@ import { CompletenessForStatsStatusEnum, MissionListItem } from '../../../../../
 
 describe('MissionListItemPam', () => {
   it.skip('renders empty mission info', () => {
-    const mockMission: MissionListItem = {}
+    const mockMission: MissionListItem = { id: 0, startDateTimeUtc: '' }
     const mockOnToggle = vi.fn()
     render(<MissionListItemPam mission={mockMission} isSelected={false} onToggle={mockOnToggle} />)
 

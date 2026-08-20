@@ -1,7 +1,7 @@
 import { render, screen } from '../../../../../../test-utils'
 import MissionControlNavSummary from '../mission-control-nav-summary'
-import { VesselTypeEnum } from '@common/types/mission-types.ts'
 import { ControlMethod } from '@common/types/control-types.ts'
+import { VesselTypeEnum } from '../../../../common/types/vessel-type.ts'
 
 describe('MissionControlNavSummary', () => {
   it('should match the snapshot', () => {

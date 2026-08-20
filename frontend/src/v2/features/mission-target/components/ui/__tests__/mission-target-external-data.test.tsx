@@ -1,9 +1,9 @@
 import { VehicleTypeEnum } from '@common/types/env-mission-types'
-import { VesselTypeEnum } from '@common/types/mission-types'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
 import { TargetType } from '../../../../common/types/target-types'
 import MissionTargetTitle from '../mission-target-title'
+import { VesselTypeEnum } from '../../../../common/types/vessel-type.ts'
 
 // ---- Mock hooks ----
 const mockGetVesselTypeName = vi.fn()

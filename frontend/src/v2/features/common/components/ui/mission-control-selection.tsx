@@ -1,12 +1,12 @@
 import Text from '@common/components/ui/text'
 import { missionTypeEnum } from '@common/types/env-mission-types'
-import { VesselTypeEnum } from '@common/types/mission-types'
 import { Label, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useState } from 'react'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useVessel } from '../../hooks/use-vessel'
 import { ModuleType } from '../../types/module-type'
+import { VesselTypeEnum } from '../../types/vessel-type.ts'
 
 const StyledItem = styled.div`
   display: flex;
