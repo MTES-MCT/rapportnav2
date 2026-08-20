@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.env
 
 import fr.gouv.dgampa.rapportnav.domain.entities.Patchable
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ResourceUsageKind
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.usageKind
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
@@ -39,7 +41,18 @@ data class MissionEnvEntity(
 
     fun isCompleteForStats(serviceTypeEnum: ServiceTypeEnum? = null, isResourcesNotUsed: Boolean? = null): Boolean {
         if (serviceTypeEnum != ServiceTypeEnum.ULAM) return true
-        return isResourcesNotUsed == true || controlUnits.firstOrNull()?.resources?.isNotEmpty() == true
+        if (isResourcesNotUsed == true) return true
+        val resources = controlUnits.firstOrNull()?.resources
+        if (resources.isNullOrEmpty()) return false
+        // Every eligible resource must carry its usage value (km / engine hours).
+        // Assumes resources have already been enriched with usage values (see GetComputeEnvMission).
+        return resources.all { resource ->
+            when (resource.type?.usageKind()) {
+                ResourceUsageKind.KM -> resource.nbKms != null
+                ResourceUsageKind.ENGINE_HOURS -> resource.nbEngineHours != null
+                else -> true
+            }
+        }
     }
 
     companion object {

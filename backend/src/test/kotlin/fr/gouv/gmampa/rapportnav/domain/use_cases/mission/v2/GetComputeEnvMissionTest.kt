@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IResourceUsageRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo
@@ -55,6 +56,9 @@ class GetComputeEnvMissionTest {
 
     @MockitoBean
     private lateinit var syncMissionValidation: SyncMissionValidation
+
+    @MockitoBean
+    private lateinit var resourceUsageRepository: IResourceUsageRepository
 
     @BeforeEach
     fun setup() {

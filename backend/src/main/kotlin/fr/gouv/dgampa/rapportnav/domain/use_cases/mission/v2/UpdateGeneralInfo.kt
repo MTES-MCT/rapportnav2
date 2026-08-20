@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntit
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IResourceUsageRepository
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -29,7 +30,8 @@ class UpdateGeneralInfo(
     private val getMissionExternalId: GetMissionExternalId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getMissionCrew: GetMissionCrew,
-    private val entityValidityValidator: EntityValidityValidator
+    private val entityValidityValidator: EntityValidityValidator,
+    private val resourceUsageRepository: IResourceUsageRepository
 ) {
     fun execute(
         missionId: Int,
@@ -89,6 +91,8 @@ class UpdateGeneralInfo(
                     startDateTimeUtc = generalInfo.startDateTimeUtc!!
                 )
             )
+            // Persist the per-resource usage values keyed by the mission UUID.
+            resourceUsageRepository.replaceForMission(local.id, generalInfo.toResourceUsageEntities(local.id))
         }
 
         return getGeneralInfoEntity(
@@ -137,6 +141,9 @@ class UpdateGeneralInfo(
                 startDateTimeUtc = generalInfo.startDateTimeUtc!!
             )
         )
+
+        // Persist the per-resource usage values keyed by the mission UUID.
+        resourceUsageRepository.replaceForMission(missionIdUUID, generalInfo.toResourceUsageEntities(missionIdUUID))
 
         // If this UUID actually maps to a MonitorEnv mirror (has an external id), propagate the
         // change to MonitorEnv too — otherwise overrideFromEnv would overwrite it on the next read.

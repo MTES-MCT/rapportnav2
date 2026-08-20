@@ -1,7 +1,7 @@
 import { FormikCheckbox, FormikMultiRadio } from '@mtes-mct/monitor-ui'
 import { useSelector } from '@tanstack/react-store'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps } from 'formik'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { store } from '../../../../store/index.ts'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
@@ -28,6 +28,12 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
   const { data: agents } = useAgentsQuery()
   const { getByControlUnit } = useResources()
   const user = useSelector(store, state => state.user)
+  // Memoize the filtered resource list so its reference is stable across renders; passing a fresh array
+  // on every render would re-run the resource form's re-seed effect and wipe in-progress numeric input.
+  const controlUnitResources = useMemo(
+    () => getByControlUnit(user?.controlUnitId),
+    [getByControlUnit, user?.controlUnitId]
+  )
   const { isEnvMission, jdpTypeOptions } = useMissionType()
   const isMissionFinished = useMissionFinished(missionId)
   const { data: administrations } = useAdministrationsQuery()
@@ -47,7 +53,7 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
                         fieldFormik={field}
                         disabled={values.isResourcesNotUsed}
                         isMissionFinished={isMissionFinished}
-                        controlUnitResources={getByControlUnit(user?.controlUnitId)}
+                        controlUnitResources={controlUnitResources}
                       />
                     )}
                   </Field>
