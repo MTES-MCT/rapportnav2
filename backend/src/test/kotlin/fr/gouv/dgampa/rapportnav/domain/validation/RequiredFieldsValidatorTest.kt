@@ -178,7 +178,9 @@ class RequiredFieldsValidatorTest {
             sectorType: SectorType? = null,
             sectorEstablishmentType: SectorEstablishmentType? = null,
             fishAuction: FishAuctionEntity? = null,
-            establishment: EstablishmentEntity? = null
+            establishment: EstablishmentEntity? = null,
+            unitManagementTrainingType: String? = null,
+            agentIds: List<Int>? = null
         ) = MissionNavActionEntity(
             id = UUID.randomUUID(),
             missionId = 1,
@@ -205,7 +207,9 @@ class RequiredFieldsValidatorTest {
             sectorType = sectorType,
             sectorEstablishmentType = sectorEstablishmentType,
             fishAuction = fishAuction,
-            establishment = establishment
+            establishment = establishment,
+            unitManagementTrainingType = unitManagementTrainingType,
+            agentIds = agentIds
         )
 
         @Test
@@ -308,6 +312,54 @@ class RequiredFieldsValidatorTest {
 
             assertFalse(result.isComplete, "Should be invalid when endDateTimeUtc is null for ILLEGAL_IMMIGRATION")
             assertTrue(result.errors.any { it.field == "endDateTimeUtc" }, "Should have endDateTimeUtc error")
+        }
+
+        @Test
+        fun `should require agentIds for UNIT_MANAGEMENT_TRAINING when null`() {
+            val entity = createNavAction(
+                actionType = ActionType.UNIT_MANAGEMENT_TRAINING,
+                unitManagementTrainingType = "SHOOTING",
+                agentIds = null
+            )
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+            assertFalse(result.isComplete)
+            assertTrue(result.errors.any { it.field == "agentIds" })
+        }
+
+        @Test
+        fun `should require agentIds for UNIT_MANAGEMENT_TRAINING when empty`() {
+            val entity = createNavAction(
+                actionType = ActionType.UNIT_MANAGEMENT_TRAINING,
+                unitManagementTrainingType = "SHOOTING",
+                agentIds = emptyList()
+            )
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+            assertTrue(result.errors.any { it.field == "agentIds" })
+        }
+
+        @Test
+        fun `should not require agentIds for UNIT_MANAGEMENT_TRAINING when provided`() {
+            val entity = createNavAction(
+                actionType = ActionType.UNIT_MANAGEMENT_TRAINING,
+                unitManagementTrainingType = "SHOOTING",
+                agentIds = listOf(3, 4)
+            )
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+            assertFalse(result.errors.any { it.field == "agentIds" })
+        }
+
+        @Test
+        fun `should not require agentIds for other action types`() {
+            val entity = createNavAction(
+                actionType = ActionType.OTHER,
+                agentIds = null
+            )
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+            assertFalse(result.errors.any { it.field == "agentIds" })
         }
 
         // =====================================================================

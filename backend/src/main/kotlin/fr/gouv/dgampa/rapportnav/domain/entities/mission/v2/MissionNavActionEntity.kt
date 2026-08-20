@@ -75,6 +75,7 @@ class MissionNavActionEntity(
 
     override var reason: ActionStatusReason? = null,
     override var targets: List<TargetEntity>? = null,
+    var agentIds: List<Int>? = null,
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre d'heures doit être positif")
     override var nbrOfHours: Int? = null,
     override var trainingType: String? = null,
@@ -276,6 +277,7 @@ class MissionNavActionEntity(
                 zipCode = model.zipCode,
                 city = model.city,
                 fishAuction = model.fishAuction?.toFishAuctionEntity(),
+                agentIds = model.agents.mapNotNull { it.id },
             )
         }
     }

@@ -132,6 +132,7 @@ object ValidationPolicies {
         // TRAINING-specific
         Rule.forActionTypes("trainingType", listOf(TRAINING), "Le type de formation est requis") { it.trainingType },
         Rule.forActionTypes("unitManagementTrainingType", listOf(UNIT_MANAGEMENT_TRAINING), "Le type de formation est requis") { it.unitManagementTrainingType },
+        Rule.forActionTypes("agentIds", listOf(UNIT_MANAGEMENT_TRAINING), "Les agents participants sont requis") { it.agentIds?.ifEmpty { null } },
 
         // RESOURCES_MAINTENANCE-specific
         Rule.forActionTypes("resourceType", listOf(RESOURCES_MAINTENANCE), "Le type de ressource est requis") { it.resourceType },
