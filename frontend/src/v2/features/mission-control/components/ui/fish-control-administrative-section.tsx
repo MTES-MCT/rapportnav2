@@ -1,87 +1,62 @@
 import Text from '@common/components/ui/text.tsx'
-import { ControlCheck } from '@common/types/fish-mission-types.ts'
-import { Label, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
+import { Label, THEME } from '@mtes-mct/monitor-ui'
 import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionFishActionData } from '../../../common/types/mission-action'
+import { ConformityRow, ConformityTable } from './conformity-table.tsx'
 
 interface FishControlAdministrativeSectionProps {
   action: MissionFishActionData
 }
 
-export const controlCheckMultiRadioOptions = Object.keys(ControlCheck).map(key => {
-  let label
-  switch (key) {
-    case ControlCheck.YES:
-      label = 'Oui'
-      break
-    case ControlCheck.NO:
-      label = 'Non'
-      break
-    default:
-      label = 'Non contrôlé'
-  }
+type ConformityField =
+  | 'emitsVms'
+  | 'emitsAis'
+  | 'portEntranceAndLandingAuthorized'
+  | 'logbookOpenedPriorToControl'
+  | 'logbookMatchesActivity'
+  | 'licencesMatchActivity'
+  | 'europeanFishingLicenceValid'
+  | 'stowagePlanPresent'
+  | 'onboardWeighingPermit'
+  | 'weighingCertificateAndSystemsValid'
 
-  return {
-    label,
-    value: ControlCheck[key as keyof typeof ControlCheck]
+const CONFORMITY_ROWS: ConformityRow<ConformityField>[] = [
+  { field: 'emitsVms', label: 'Bonne émission VMS' },
+  { field: 'emitsAis', label: 'Bonne émission AIS' },
+  { field: 'portEntranceAndLandingAuthorized', label: 'Accès au port / autorisation de débarquement conformes' },
+  { field: 'logbookOpenedPriorToControl', label: 'Journal de pêche ouvert avant le contrôle' },
+  { field: 'logbookMatchesActivity', label: "Déclarations journal de pêche conformes à l'activité du navire" },
+  {
+    field: 'licencesMatchActivity',
+    label: "Autorisations de pêche (AEP, ANP, licences locales) conformes à l'activité du navire"
+  },
+  { field: 'europeanFishingLicenceValid', label: 'Licence de pêche européenne valide' },
+  { field: 'stowagePlanPresent', label: "Plan d'arrimage présent et conforme" },
+  { field: 'onboardWeighingPermit', label: 'Autorisation pour la pesée à bord', dividerBefore: true },
+  {
+    hideIfNotYes: true,
+    field: 'weighingCertificateAndSystemsValid',
+    label: 'Certificat de pesée présent et systèmes de pesée à bord valides'
   }
-})
+]
 
 const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectionProps> = ({ action }) => {
   return (
-    <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
+    <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'} style={{ width: '100%' }}>
       <Stack.Item>
-        <Label>Obligations déclaratives et autorisations de pêche</Label>
+        <Label>Conformité du navire</Label>
       </Stack.Item>
-      <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
-        <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
-          <Stack.Item>
-            <MultiRadio
-              readOnly={true}
-              isInline
-              label="Bonne émission VMS"
-              value={action?.emitsVms ?? undefined}
-              name="emitsVms"
-              onChange={function noRefCheck() {}}
-              options={controlCheckMultiRadioOptions}
-            />
-          </Stack.Item>
-          <Stack.Item>
-            <MultiRadio
-              readOnly={true}
-              isInline
-              value={action?.emitsAis ?? undefined}
-              label="Bonne émission AIS"
-              name="emitsAis"
-              onChange={function noRefCheck() {}}
-              options={controlCheckMultiRadioOptions}
-            />
-          </Stack.Item>
-          <Stack.Item>
-            <MultiRadio
-              readOnly={true}
-              isInline
-              label="Déclarations journal de pêche conformes à l'activité du navire"
-              value={action?.logbookMatchesActivity ?? undefined}
-              name="logbookMatchesActivity"
-              onChange={function noRefCheck() {}}
-              options={controlCheckMultiRadioOptions}
-            />
-          </Stack.Item>
-          <Stack.Item>
-            <MultiRadio
-              isInline
-              readOnly={true}
-              name="licencesMatchActivity"
-              onChange={function noRefCheck() {}}
-              options={controlCheckMultiRadioOptions}
-              value={action?.licencesMatchActivity ?? undefined}
-              label="Autorisations de pêche conformes à l'activité du navire (zone, engins, espèces)"
-            />
-          </Stack.Item>
-        </Stack>
+      <Stack.Item
+        style={{
+          width: '100%',
+          padding: '16px',
+          backgroundColor: THEME.color.white,
+          border: `1px solid ${THEME.color.lightGray}`
+        }}
+      >
+        <ConformityTable rows={CONFORMITY_ROWS} values={action} />
       </Stack.Item>
 
       {!isEmpty(action?.licencesAndLogbookObservations) && (

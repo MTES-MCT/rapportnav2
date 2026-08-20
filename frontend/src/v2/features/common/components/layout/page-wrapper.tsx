@@ -42,7 +42,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
           <FlexboxGrid.Item
             colspan={8}
             style={{
-              flex: 1,
+              flex: 4,
               padding: '2rem',
               height: '2000px',
               overflowY: 'hidden',
@@ -53,9 +53,9 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
             {generalInformations}
           </FlexboxGrid.Item>
           <FlexboxGrid.Item
-            colspan={8}
+            colspan={6}
             style={{
-              flex: 1,
+              flex: 3,
               padding: '2rem',
               height: '2000px',
               overflowY: 'hidden',
@@ -67,9 +67,9 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
             {timeline}
           </FlexboxGrid.Item>
           <FlexboxGrid.Item
-            colspan={8}
+            colspan={10}
             style={{
-              flex: 1,
+              flex: 5,
               padding: '2rem',
               height: '2000px',
               overflowY: 'hidden',

@@ -6,21 +6,23 @@ import { Stack } from 'rsuite'
 import { Control, Target } from '../../../common/types/target-types'
 import MissionControlForm from '../../../mission-control/components/elements/mission-control-form'
 
-type MissionTargetControlNavProps = {
+type MissionTargetControlProps = {
   name: string
   label: string
   collapsible?: boolean
   hideGensDeMer?: boolean
+  controlsToExclude?: ControlType[]
   fieldArray: FieldArrayRenderProps
   controlsToComplete?: ControlType[]
 }
 
-const MissionTargetControlNav: FC<MissionTargetControlNavProps> = ({
+const MissionTargetControl: FC<MissionTargetControlProps> = ({
   label,
   name,
   fieldArray,
   collapsible,
   hideGensDeMer,
+  controlsToExclude = [],
   controlsToComplete
 }) => {
   return (
@@ -35,8 +37,9 @@ const MissionTargetControlNav: FC<MissionTargetControlNavProps> = ({
               <FieldArray name={`${name}.controls`}>
                 {(fieldArray2: FieldArrayRenderProps) => (
                   <Stack direction="column" alignItems="flex-start" spacing={'.5rem'} style={{ width: '100%' }}>
-                    {fieldArray2.form.values.targets[targetIndex].controls?.map(
-                      (control: Control, controlIndex: number) => (
+                    {fieldArray2.form.values.targets[targetIndex].controls
+                      ?.filter((c: Control) => !controlsToExclude.includes(c.controlType))
+                      .map((control: Control, controlIndex: number) => (
                         <Stack.Item
                           style={{ width: '100%', marginBottom: '.2em' }}
                           key={`${name}-${targetIndex}-${controlIndex}`}
@@ -57,8 +60,7 @@ const MissionTargetControlNav: FC<MissionTargetControlNavProps> = ({
                             </Field>
                           )}
                         </Stack.Item>
-                      )
-                    )}
+                      ))}
                   </Stack>
                 )}
               </FieldArray>
@@ -70,4 +72,4 @@ const MissionTargetControlNav: FC<MissionTargetControlNavProps> = ({
   )
 }
 
-export default MissionTargetControlNav
+export default MissionTargetControl

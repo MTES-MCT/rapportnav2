@@ -43,6 +43,11 @@ export enum ReportingType {
   INFRACTION_SUSPICION = 'INFRACTION_SUSPICION'
 }
 
+export enum WireType {
+  SINGLE = 'SINGLE',
+  MANY = 'MANY'
+}
+
 export const formatMissionActionTypeForHumans = (type?: MissionActionType): string => {
   switch (type) {
     case MissionActionType.AIR_CONTROL:
@@ -69,13 +74,16 @@ export type FleetSegment = {
 }
 
 export type GearControl = {
+  averageWireThickness: number | undefined
   comments: string | undefined
   controlledMesh: number | undefined
   declaredMesh: number | undefined
   gearCode: string
+  gearMarkingIsCompliant: ControlCheck | undefined
   gearName: string
   gearWasControlled: boolean | undefined
   hasUncontrolledMesh: boolean
+  wireType: WireType | undefined
 }
 
 export type Infraction = {
@@ -85,6 +93,16 @@ export type Infraction = {
   threat?: string
   threatCharacterization?: string
   comments?: string
+}
+
+export type Marge = {
+  value?: number
+  metric?: MetricType
+}
+
+export enum MetricType {
+  KG = 'KG',
+  PERCENT = 'PERCENT'
 }
 
 export type SpeciesControl = {
@@ -98,6 +116,7 @@ export type SpeciesControl = {
   underSizedWeight: number | undefined
   presentationCodes: string[] | undefined
   faoZones: string[] | undefined
+  marge?: Marge
 }
 
 export enum DiscardReason {

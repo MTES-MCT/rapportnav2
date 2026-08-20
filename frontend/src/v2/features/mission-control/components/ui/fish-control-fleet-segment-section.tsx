@@ -5,11 +5,11 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionFishActionData } from '../../../common/types/mission-action'
 
-interface MissionControlFishFleetSegmentSectionProps {
+interface FishControlFleetSegmentSectionProps {
   action: MissionFishActionData
 }
 
-const MissionControlFishFleetSegmentSection: React.FC<MissionControlFishFleetSegmentSectionProps> = ({ action }) => {
+const FishControlFleetSegmentSection: React.FC<FishControlFleetSegmentSectionProps> = ({ action }) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
       <Stack.Item>
@@ -38,4 +38,4 @@ const MissionControlFishFleetSegmentSection: React.FC<MissionControlFishFleetSeg
   )
 }
 
-export default MissionControlFishFleetSegmentSection
+export default FishControlFleetSegmentSection
