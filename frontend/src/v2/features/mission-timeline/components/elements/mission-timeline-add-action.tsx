@@ -1,5 +1,4 @@
 import Text from '@common/components/ui/text'
-import { VesselTypeEnum } from '@common/types/mission-types'
 import { Dialog } from '@common/components/ui/custom-dialog.tsx'
 import { Accent, Button } from '@mtes-mct/monitor-ui'
 import { JSX, useState } from 'react'
@@ -13,6 +12,7 @@ import { ModuleType } from '../../../common/types/module-type'
 import { OwnerType } from '../../../common/types/owner-type.ts'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
+import { VesselTypeEnum } from '../../../common/types/vessel-type.ts'
 
 type MissionTimelineAddActionProps = {
   missionId: string

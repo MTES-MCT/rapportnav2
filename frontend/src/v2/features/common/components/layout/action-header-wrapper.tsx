@@ -1,4 +1,3 @@
-import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import { IconProps } from '@mtes-mct/monitor-ui'
 import { FC, FunctionComponent, JSX } from 'react'
 import { Stack } from 'rsuite'
@@ -7,6 +6,7 @@ import { NetworkSyncStatus } from '../../types/network-types.ts'
 import { OwnerType } from '../../types/owner-type.ts'
 import ActionHeaderSyncStatusBanner from '../ui/action-header-sync-status-banner.tsx'
 import ActionHeaderTitleWrapper from './action-header-title-wrapper.tsx'
+import { MissionStatusEnum } from '../../types/mission-types.ts'
 
 export type ActionHeaderWrapperProps = {
   title?: string

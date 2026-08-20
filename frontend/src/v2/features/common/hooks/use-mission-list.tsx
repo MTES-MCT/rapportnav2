@@ -1,9 +1,9 @@
-import { MissionListData, MissionListItem } from '../types/mission-types'
+import { MissionListItemDTO, MissionListItem } from '../types/mission-types'
 import { useDate } from './use-date'
 import { useMissionTag } from './use-mission-tag'
 
 interface MissionListHook {
-  getMissionListItem: (mission: MissionListData) => MissionListItem
+  getMissionListItem: (mission: MissionListItemDTO) => MissionListItem
 }
 
 export function useMissionList(): MissionListHook {
@@ -16,13 +16,13 @@ export function useMissionList(): MissionListHook {
   const formatMissionNameUlam = (startDate?: string): string => {
     return `Mission #${formaDateMissionNameUlam(startDate)}`
   }
-  const getCrewNumber = (mission: MissionListData) =>
+  const getCrewNumber = (mission: MissionListItemDTO) =>
     !mission?.serviceId ? '--' : mission.serviceId % 2 === 0 ? 'B' : 'A'
 
-  const getExportLabel = (mission: MissionListData) =>
+  const getExportLabel = (mission: MissionListItemDTO) =>
     `- ${formatMissionName(mission.startDateTimeUtc)} - ${getOpenByText(mission.missionSource)} - ${mission.actionCount ?? 0} action(s)`
 
-  const getMissionListItem = (mission: MissionListData): MissionListItem => {
+  const getMissionListItem = (mission: MissionListItemDTO): MissionListItem => {
     return {
       id: mission.id,
       status: mission.status,

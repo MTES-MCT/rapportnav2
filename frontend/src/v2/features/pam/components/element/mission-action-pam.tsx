@@ -1,9 +1,9 @@
-import { MissionStatusEnum } from '@common/types/mission-types'
 import { FC } from 'react'
 import PageSectionWrapper from '../../../common/components/layout/page-section-wrapper'
 import useGetActionQuery from '../../../common/services/use-action'
 import MissionActionPamBody from './mission-action-pam-body'
 import MissionActionPamHeader from './mission-action-pam-header'
+import { MissionStatusEnum } from '../../../common/types/mission-types.ts'
 
 interface MissionActionProps {
   actionId?: string

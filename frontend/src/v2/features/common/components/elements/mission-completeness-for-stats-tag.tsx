@@ -1,5 +1,5 @@
 import Text from '@common/components/ui/text'
-import { CompletenessForStats, MissionStatusEnum } from '@common/types/mission-types.ts'
+import { CompletenessForStats, MissionStatusEnum } from '../../types/mission-types.ts'
 import { Tag, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { useMissionCompletenessForStats } from '../../hooks/use-mission-completeness-for-stats'

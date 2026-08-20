@@ -17,7 +17,7 @@ import { useOfflineMode } from '../features/common/hooks/use-offline-mode.tsx'
 import { useOnlineManager } from '../features/common/hooks/use-online-manager.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
-import { MissionListData, MissionListItem } from '../features/common/types/mission-types.ts'
+import { MissionListItem } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
@@ -41,6 +41,10 @@ const MissionListPamPage: FC = () => {
   const { getMissionListItem } = useMissionList()
   const { isLoading, data: missions } = useMissionsQuery(searchParams)
 
+  // Project the raw `MissionListData` payload into the formatted view-model once, then reuse it
+  // for the list, the actions bar and the export flow.
+  const missionItems: MissionListItem[] = (missions ?? []).map(m => getMissionListItem(m))
+
   const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
   const [selectedMissionIds, setSelectedMissionIds] = useState<number[]>([])
@@ -49,10 +53,10 @@ const MissionListPamPage: FC = () => {
   const [showExportDialog, setShowExportDialog] = useState<boolean>(false)
 
   function filterBySelectedIndices(
-    missions: MissionListData[] = [],
+    missions: MissionListItem[] = [],
     selectedIndices: number[] = []
-  ): MissionListData[] {
-    return missions.filter((m: MissionListData) => selectedIndices.indexOf(m.id) !== -1)
+  ): MissionListItem[] {
+    return missions.filter((m: MissionListItem) => selectedIndices.indexOf(m.id) !== -1)
   }
 
   const triggerExport = async (selectedMissions: MissionListItem[], variant: ExportReportType, zip: boolean) => {
@@ -67,7 +71,7 @@ const MissionListPamPage: FC = () => {
   }
 
   const toggleAll = (isChecked?: boolean) => {
-    setSelectedMissionIds(!isChecked ? [] : (missions ?? []).map((m: MissionListData) => m.id))
+    setSelectedMissionIds(!isChecked ? [] : missionItems.map((m: MissionListItem) => m.id))
   }
 
   const toggleOne = (missionId: number, isChecked?: boolean) => {
@@ -80,15 +84,11 @@ const MissionListPamPage: FC = () => {
   }
 
   const toggleDialog = async (variant?: ExportReportType) => {
-    const selected = filterBySelectedIndices(missions, selectedMissionIds)
+    const selected = filterBySelectedIndices(missionItems, selectedMissionIds)
 
     // If only 1 mission → directly export
     if (variant && selected.length === 1) {
-      await triggerExport(
-        selected.map(m => getMissionListItem(m)),
-        variant,
-        false
-      ) // zip = false for single export
+      await triggerExport(selected, variant, false) // zip = false for single export
       return
     }
 
@@ -125,7 +125,7 @@ const MissionListPamPage: FC = () => {
         }
         actions={
           <MissionListActionsPam
-            missions={missions}
+            missions={missionItems}
             selectedMissionIds={selectedMissionIds}
             toggleDialog={toggleDialog}
             toggleAll={toggleAll}
@@ -133,7 +133,7 @@ const MissionListPamPage: FC = () => {
         }
         list={
           <MissionListPam //
-            missions={(missions || [])?.map(m => getMissionListItem(m))}
+            missions={missionItems}
             selectedMissionIds={selectedMissionIds}
             toggleOne={toggleOne}
           />
@@ -141,7 +141,7 @@ const MissionListPamPage: FC = () => {
       />
       {showExportDialog && (
         <MissionListExportDialog
-          availableMissions={filterBySelectedIndices(missions, selectedMissionIds)?.map(m => getMissionListItem(m))}
+          availableMissions={filterBySelectedIndices(missionItems, selectedMissionIds)}
           toggleDialog={toggleDialog}
           triggerExport={triggerExport}
           exportInProgress={exportIsLoading}

@@ -1,6 +1,7 @@
 import { ActionStatusReason, ActionStatusType } from '@common/types/action-types'
 import { ControlMethod, ControlType } from '@common/types/control-types'
-import { ActionTargetTypeEnum, VehicleTypeEnum, VesselSizeEnum, VesselTypeEnum } from '@common/types/env-mission-types'
+import { ActionTargetTypeEnum, VehicleTypeEnum } from '@common/types/env-mission-types'
+import { VesselSizeEnum, VesselTypeEnum } from './vessel-type.ts'
 import { EnvTag } from '@common/types/env-tags.ts'
 import { EnvTheme } from '@common/types/env-themes.ts'
 import {

@@ -1,4 +1,4 @@
-import { VesselSizeEnum } from '@common/types/env-mission-types'
+import { VesselSizeEnum } from '../../common/types/vessel-type'
 import { useMemo } from 'react'
 import { mixed, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'

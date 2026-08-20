@@ -1,4 +1,4 @@
-import { MissionExport } from '@common/types/mission-types'
+import { MissionExport } from '../types/mission-export-types.ts'
 import * as Sentry from '@sentry/react'
 
 export enum BLOBTYPE {

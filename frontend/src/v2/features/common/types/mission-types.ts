@@ -169,7 +169,7 @@ export type Mission2 = {
 
 // Light payload returned by `GET /missions` for the list page — mirrors the backend `MissionListItem` DTO.
 // Flat (no `data` / `generalInfos` nesting) and carries `actionCount` instead of the full `actions` list.
-export type MissionListData = {
+export type MissionListItemDTO = {
   id: number
   idUUID?: string
   status: MissionStatusEnum
@@ -190,30 +190,18 @@ export type MissionListData = {
   actionCount: number
 }
 
-export type MissionListItem = {
-  id: number
-  openBy?: string
-  exportLabel?: string
-  status?: MissionStatusEnum
-  missionNameUlam?: string
-  startDateTimeUtc: string
-  startDateTimeUtcText?: string
-  crew?: MissionCrew[]
-  crewNumber?: string
-  endDateTimeUtc?: string
-  endDateTimeUtcText?: string
-  missionNamePam?: string
-  observationsByUnit?: string
-  missionSource?: MissionSourceEnum
-  completenessForStats?: CompletenessForStats
-  controlUnits?: ControlUnit[]
-  resources?: ControlUnitResource[]
-  missionReportType?: MissionReportTypeEnum
-  idUUID?: string
-  isUnderJdp?: boolean
-  jdpType?: JdpTypeEnum
-  isResourcesNotUsed?: boolean
-}
+// View-model rendered by the list UI: the `MissionListItemDTO` fields (all optional here, since
+// they are re-projected) plus fields computed/formatted on the frontend by `getMissionListItem`
+// in `use-mission-list.tsx`. Only `id` and `startDateTimeUtc` are guaranteed.
+export type MissionListItem = Partial<MissionListItemDTO> &
+  Pick<MissionListItemDTO, 'id' | 'startDateTimeUtc'> & {
+    exportLabel?: string
+    crewNumber?: string
+    missionNamePam?: string
+    missionNameUlam?: string
+    startDateTimeUtcText?: string
+    endDateTimeUtcText?: string
+  }
 
 export type InterMinisterialService = {
   administrationId: number

@@ -1,6 +1,5 @@
-import { VesselTypeEnum } from '@common/types/mission-types'
+import { VesselSizeEnum, VesselTypeEnum } from '../../../../common/types/vessel-type.ts'
 import { ControlMethod } from '@common/types/control-types'
-import { VesselSizeEnum } from '@common/types/env-mission-types'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
 import MissionActionItemNavControl from '../mission-action-item-nav-control'
@@ -59,7 +58,9 @@ describe('MissionActionItemNavControl', () => {
     // diving checkbox
     expect(screen.getByText("Plongée au cours de l'opération")).toBeInTheDocument()
     // incident checkbox
-    expect(screen.getByText("L'opération à donné lieu à un incident (utilisation d'arme(s)/menottage)")).toBeInTheDocument()
+    expect(
+      screen.getByText("L'opération à donné lieu à un incident (utilisation d'arme(s)/menottage)")
+    ).toBeInTheDocument()
   })
 
   it('calls handleSubmit when FormikEffect triggers onChange', () => {

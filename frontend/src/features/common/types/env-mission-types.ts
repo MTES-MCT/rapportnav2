@@ -1,3 +1,5 @@
+import { VesselSizeEnum, VesselTypeEnum } from '../../../v2/features/common/types/vessel-type.ts'
+
 export enum ActionTypeEnum {
   CONTROL = 'CONTROL',
   NOTE = 'NOTE',
@@ -115,21 +117,6 @@ export enum VehicleTypeEnum {
   VEHICLE_AIR = 'VEHICLE_AIR',
   VEHICLE_LAND = 'VEHICLE_LAND',
   VESSEL = 'VESSEL'
-}
-
-export enum VesselTypeEnum {
-  COMMERCIAL = 'COMMERCIAL',
-  FISHING = 'FISHING',
-  MOTOR = 'MOTOR',
-  SAILING = 'SAILING',
-  SAILING_LEISURE = 'SAILING_LEISURE'
-}
-
-export enum VesselSizeEnum {
-  FROM_12_TO_24m = 'FROM_12_TO_24m',
-  FROM_24_TO_46m = 'FROM_24_TO_46m',
-  LESS_THAN_12m = 'LESS_THAN_12m',
-  MORE_THAN_46m = 'MORE_THAN_46m'
 }
 
 export enum MissionSourceEnum {

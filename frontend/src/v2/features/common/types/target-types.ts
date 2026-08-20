@@ -1,7 +1,7 @@
 import { ControlResult, ControlType } from '@common/types/control-types'
-import { FormalNoticeEnum, InfractionTypeEnum, VesselSizeEnum } from '@common/types/env-mission-types'
-import { VesselTypeEnum } from '@common/types/mission-types'
+import { FormalNoticeEnum, InfractionTypeEnum } from '@common/types/env-mission-types'
 import { MissionSourceEnum } from './mission-types'
+import { VesselSizeEnum, VesselTypeEnum } from './vessel-type.ts'
 
 export enum TargetType {
   COMPANY = 'COMPANY',

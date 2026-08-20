@@ -2,15 +2,16 @@ import { describe, it, vi, expect } from 'vitest'
 import { render, screen, fireEvent } from '../../../../../../../test-utils.tsx'
 import MissionListActionsPam from '../mission-list-actions-pam.tsx'
 import { ExportReportType } from '../../../../../common/types/mission-export-types'
+import { MissionListItem } from '../../../../../common/types/mission-types.ts'
 import { useOnlineManager } from '../../../../../common/hooks/use-online-manager.tsx'
 
 vi.mock('../../../../../common/hooks/use-online-manager.tsx', () => ({
   useOnlineManager: vi.fn()
 }))
 
-const mockMissions = [
-  { id: 1, name: 'Mission 1' },
-  { id: 2, name: 'Mission 2' }
+const mockMissions: MissionListItem[] = [
+  { id: 1, startDateTimeUtc: '2024-01-01T00:00:00Z' },
+  { id: 2, startDateTimeUtc: '2024-01-02T00:00:00Z' }
 ]
 
 const defaultProps = {

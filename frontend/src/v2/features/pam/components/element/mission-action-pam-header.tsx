@@ -1,4 +1,4 @@
-import { MissionStatusEnum } from '@common/types/mission-types.ts'
+import { MissionStatusEnum } from '../../../common/types/mission-types.ts'
 import { FC } from 'react'
 import ActionHeaderWrapper from '../../../common/components/layout/action-header-wrapper'
 import ActionHeaderCompletenessForStats from '../../../common/components/ui/action-header-completeness-for-stats'
