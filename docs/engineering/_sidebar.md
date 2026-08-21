@@ -6,6 +6,7 @@
 ** [Les rôles](engineering/concepts/roles)
 ** [Configs et variables d'environnement](engineering/concepts/env-vars)
 ** [L'objet Mission](engineering/concepts/missions-and-actions)
+** [Liste des missions : filtres et pagination](engineering/concepts/mission-list-filtering)
 ** [Complétude des missions](engineering/concepts/mission-completion)
 ** [Gestion des dates](engineering/concepts/dates)
 ** [Gestion des erreurs](engineering/concepts/error-handling)

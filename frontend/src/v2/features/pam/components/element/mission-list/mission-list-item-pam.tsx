@@ -2,7 +2,7 @@ import Text from '@common/components/ui/text.tsx'
 import { Checkbox, Icon, THEME } from '@mtes-mct/monitor-ui'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { FC } from 'react'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
@@ -25,10 +25,11 @@ const ListItem = styled.div`
 
 const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onToggle }) => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { getUrl } = useGlobalRoutes()
   const goToMission = (mission: MissionListItem) => {
     const id = mission?.id ?? mission.idUUID
-    if (id) navigate(`${getUrl(OwnerType.MISSION)}/${mission?.id}`)
+    if (id) navigate(`${getUrl(OwnerType.MISSION)}/${mission?.id}`, { state: { listSearch: location.search } })
   }
 
   return (
@@ -106,7 +107,7 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
           <Text as={'h3'} style={{ textAlign: 'center' }}></Text>
         </FlexboxGrid.Item>
 
-        <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'}>
+        <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'} style={{ textAlign: 'right' }}>
           <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} onClick={e => goToMission(mission)} />
         </FlexboxGrid.Item>
       </FlexboxGrid>
