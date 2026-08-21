@@ -1,13 +1,17 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 
 /**
- * Placeholder for the upcoming mission-list filtering. Not applied yet — it exists so [GetMissionList] and
- * the controller can accept filter criteria without a signature churn when filtering lands. The list path
- * already loads each mission's actions (unvalidated), so filtering by [actionTypes] can be done in-memory
- * here once implemented.
+ * Filter criteria for the mission **list** endpoint. Each field is optional and multi-select: a mission
+ * matches when its value is contained in the provided list (OR within a field, AND across fields). A null
+ * or empty list means that dimension is not filtered. Applied in-memory by [GetMissionList] against the
+ * already-computed [fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListItem] projection.
  */
 data class MissionListFilter(
-    val actionTypes: List<ActionType>? = null,
+    val statuses: List<MissionStatusEnum>? = null,
+    val completenessStatuses: List<CompletenessForStatsStatusEnum>? = null,
+    val reportTypes: List<MissionReportTypeEnum>? = null,
 )

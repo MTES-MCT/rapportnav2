@@ -1,5 +1,5 @@
 import { UTCDate } from '@date-fns/utc'
-import { endOfMonth, endOfYear, format, isValid, startOfMonth, startOfYear } from 'date-fns'
+import { endOfMonth, endOfWeek, endOfYear, format, isValid, startOfMonth, startOfWeek, startOfYear } from 'date-fns'
 
 const MISSION_NAME_FORMAT = 'yyyy-MM-dd'
 const FRENCH_DAY_MONTH_YEAR = 'dd/MM/yyyy'
@@ -33,6 +33,7 @@ interface DateHook {
 
   getTodayYearRange: (value?: Date) => DateRange
   getTodayMonthRange: (value?: Date) => DateRange
+  getTodayWeekRange: (value?: Date) => DateRange
 
   getDateRangeForInput: (actionDates: {
     startDateTimeUtc?: string | null
@@ -122,6 +123,15 @@ export function useDate(): DateHook {
     }
   }
 
+  const getTodayWeekRange = (date?: Date): DateRange => {
+    const today = date ?? new UTCDate()
+    // French weeks start on Monday
+    return {
+      endDateTimeUtc: endOfWeek(today, { weekStartsOn: 1 }).toISOString(),
+      startDateTimeUtc: startOfWeek(today, { weekStartsOn: 1 }).toISOString()
+    }
+  }
+
   const getDateRangeForInput = (actionDates: {
     startDateTimeUtc?: string | null
     endDateTimeUtc?: string | null
@@ -154,6 +164,7 @@ export function useDate(): DateHook {
     formatDateTimeForFrenchHumans,
     getTodayYearRange,
     getTodayMonthRange,
+    getTodayWeekRange,
     getDateRangeForInput,
     getDateRangeFromInput
   }
