@@ -23,7 +23,8 @@ vi.mock('../../features/common/hooks/use-mission-report-export.tsx', () => ({
 }))
 
 vi.mock('../../features/common/services/use-missions.tsx', () => ({
-  default: vi.fn()
+  default: vi.fn(),
+  MISSION_LIST_PAGE_SIZE: 15
 }))
 
 vi.mock('../../features/common/hooks/use-offline-mode.tsx', () => ({
@@ -50,7 +51,11 @@ describe('MissionListPamPage', () => {
 
     vi.mocked(useMissionsQuery).mockReturnValue({
       isLoading: false,
-      data: []
+      missions: [],
+      isError: false,
+      hasNextPage: false,
+      isFetchingNextPage: false,
+      fetchNextPage: vi.fn()
     })
 
     vi.mocked(useMissionReportExport).mockReturnValue({
@@ -71,7 +76,7 @@ describe('MissionListPamPage', () => {
     it('should render mission list with correct missions', () => {
       vi.mocked(useMissionsQuery).mockReturnValue({
         isLoading: false,
-        data: [
+        missions: [
           {
             id: 1,
             startDateTimeUtc: '2024-01-09T09:00Z',
@@ -113,35 +118,18 @@ describe('MissionListPamPage', () => {
     })
   })
 
-  describe('date range navigation', () => {
-    it('should update query params when date is changed with previous button', async () => {
+  describe('date range filter', () => {
+    it('should render the period dropdown (no date default)', () => {
       render(<MissionListPamPage />)
-
-      const updateDateBtn = screen.getByTestId('previous-button')
-      fireEvent.click(updateDateBtn)
-
-      // The date navigator should trigger the update
-      await waitFor(() => {
-        expect(screen.getByTestId('date-range-navigator')).toBeInTheDocument()
-      })
-    })
-    it('should update query params when date is changed with next button', async () => {
-      render(<MissionListPamPage />)
-
-      const updateDateBtn = screen.getByTestId('next-button')
-      fireEvent.click(updateDateBtn)
-
-      // The date navigator should trigger the update
-      await waitFor(() => {
-        expect(screen.getByTestId('date-range-navigator')).toBeInTheDocument()
-      })
+      // no date default anymore: the "Période" dropdown renders with no preset range selected
+      expect(screen.getByText('Période')).toBeInTheDocument()
     })
 
-    it('should initialize with current year date range', () => {
+    it('should render the status + completeness filters but not the report-type filter (hidden on PAM)', () => {
       render(<MissionListPamPage />)
-      const dateNavigator = screen.getByTestId('date-range-navigator')
-      const d = new Date()
-      expect(dateNavigator).toHaveTextContent(d.getFullYear())
+      expect(screen.getByText('Statut de la mission')).toBeInTheDocument()
+      expect(screen.getByText('État des données')).toBeInTheDocument()
+      expect(screen.queryByText('Type de rapport')).not.toBeInTheDocument()
     })
   })
 
@@ -149,7 +137,7 @@ describe('MissionListPamPage', () => {
     it('should show loading state when missions are loading', () => {
       vi.mocked(useMissionsQuery).mockReturnValue({
         isLoading: true,
-        data: undefined
+        missions: undefined
       })
       render(<MissionListPamPage />)
       expect(screen.getByTestId('mission-list-loader')).toBeInTheDocument()
@@ -158,7 +146,7 @@ describe('MissionListPamPage', () => {
     it('should not show loading state when missions are loaded', () => {
       vi.mocked(useMissionsQuery).mockReturnValue({
         isLoading: false,
-        data: []
+        missions: []
       })
       render(<MissionListPamPage />)
       expect(screen.queryByTestId('mission-list-loader')).not.toBeInTheDocument()
@@ -169,7 +157,7 @@ describe('MissionListPamPage', () => {
     it('should handle empty mission list', () => {
       vi.mocked(useMissionsQuery).mockReturnValue({
         isLoading: false,
-        data: []
+        missions: []
       })
       render(<MissionListPamPage />)
       expect(screen.queryByTestId('mission-list-item')).not.toBeInTheDocument()
@@ -180,7 +168,7 @@ describe('MissionListPamPage', () => {
       vi.mocked(useOnlineManager).mockReturnValue({ isOffline: true } as any)
       vi.mocked(useMissionsQuery).mockReturnValue({
         isLoading: false,
-        data: []
+        missions: []
       })
       render(<MissionListPamPage />)
       expect(screen.queryByTestId('mission-list-item')).not.toBeInTheDocument()
@@ -190,7 +178,7 @@ describe('MissionListPamPage', () => {
     it('should handle undefined mission list', () => {
       vi.mocked(useMissionsQuery).mockReturnValue({
         isLoading: false,
-        data: undefined
+        missions: undefined
       })
       render(<MissionListPamPage />)
       expect(screen.getByText('Aucune mission pour cette période de temps.')).toBeInTheDocument()
@@ -221,7 +209,7 @@ describe('MissionListPamPage', () => {
 
       vi.mocked(useMissionsQuery).mockReturnValue({
         isLoading: false,
-        data: [
+        missions: [
           {
             id: 1,
             startDateTimeUtc: '2024-02-09T09:00Z',

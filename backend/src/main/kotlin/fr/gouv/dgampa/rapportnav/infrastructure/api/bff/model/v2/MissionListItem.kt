@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionSummaryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
@@ -40,6 +41,7 @@ data class MissionListItem(
     val jdpType: JdpTypeEnum? = null,
     val isResourcesNotUsed: Boolean? = null,
     val actionCount: Int = 0,
+    val actionsSummary: List<MissionActionSummaryEntity> = listOf(),
 ) {
     companion object {
         /**
@@ -81,6 +83,7 @@ data class MissionListItem(
                 jdpType = generalInfos.jdpType,
                 isResourcesNotUsed = generalInfos.isResourcesNotUsed,
                 actionCount = mission.actions?.size ?: 0,
+                actionsSummary = mission.computeActionsSummary(),
             )
         }
     }
