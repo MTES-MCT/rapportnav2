@@ -3,75 +3,73 @@ import React from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import axios from '../../../../../query-client/axios'
 import { renderHook, waitFor } from '../../../../../test-utils.tsx'
-import useMissionsQuery from '../use-missions'
+import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
+import useMissionsQuery, { MISSION_LIST_PAGE_SIZE } from '../use-missions'
 
-// --- MOCK axios.get to return mission list ---
+// --- MOCK axios + online manager ---
 vi.mock('../../../../../query-client/axios', () => ({
   default: {
     get: vi.fn()
   }
 }))
 
+vi.mock('../../hooks/use-online-manager.tsx', () => ({
+  useOnlineManager: vi.fn()
+}))
+
 describe('useMissionsQuery', () => {
   let queryClient: QueryClient
   let wrapper: React.FC<{ children: React.ReactNode }>
-  let setQueryDataSpy: vi.SpyInstance
 
   beforeEach(() => {
-    // fresh QueryClient per test
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false
-        }
-      }
-    })
-
-    // Spy on queryClient.setQueryData
-    setQueryDataSpy = vi.spyOn(queryClient, 'setQueryData')
-
+    queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
     wrapper = ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-
-    // Reset mocks
     vi.clearAllMocks()
+    ;(useOnlineManager as any).mockReturnValue({ isOnline: true })
   })
 
   afterEach(() => {
     queryClient.clear()
-    setQueryDataSpy.mockRestore()
   })
 
-  it('fetches missions and returns them without prefilling per-mission caches', async () => {
-    const mockMissions = [
-      { id: 11, name: 'Apollo' },
-      { id: 22, name: 'Gemini' }
+  it('fetches the first page, flattens items and exposes paging metadata', async () => {
+    const items = [
+      { id: 11, status: 'ENDED' },
+      { id: 22, status: 'ENDED' }
     ]
+    ;(axios.get as any).mockResolvedValue({ data: { items, hasMore: true, nextOffset: 15 } })
 
-    ;(axios.get as vi.Mock).mockResolvedValue({ data: mockMissions })
-    const endDateTimeUtc = '2025-02-01T00:00:00Z'
-    const startDateTimeUtc = '2025-01-01T00:00:00Z'
-    const params = new URLSearchParams({ endDateTimeUtc, startDateTimeUtc })
+    const params = new URLSearchParams({ statuses: 'ENDED' })
     const { result } = renderHook(() => useMissionsQuery(params), { wrapper })
 
-    // Wait until the query is successful
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true)
-    })
+    await waitFor(() => expect(result.current.missions.length).toBe(2))
 
-    expect(result.current.data).toEqual(mockMissions)
-
-    // The list now returns a light payload, so it no longer prefills the per-mission (byId) or
-    // per-action caches from it — the detail page fetches the full mission via its own query.
-    expect(setQueryDataSpy).not.toHaveBeenCalled()
+    expect(result.current.missions).toEqual(items)
+    expect(result.current.hasNextPage).toBe(true)
+    // the first page is requested at offset 0 with the default page size
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('offset=0'))
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining(`limit=${MISSION_LIST_PAGE_SIZE}`))
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('statuses=ENDED'))
   })
 
-  it('does not run query when startDateTimeUtc is empty', async () => {
-    ;(axios.get as vi.Mock).mockResolvedValue({ data: [] })
-    const params = new URLSearchParams()
+  it('runs even with no date params (dates are optional now)', async () => {
+    ;(axios.get as any).mockResolvedValue({ data: { items: [], hasMore: false, nextOffset: 15 } })
 
+    const params = new URLSearchParams()
+    const { result } = renderHook(() => useMissionsQuery(params), { wrapper })
+
+    await waitFor(() => expect(axios.get).toHaveBeenCalled())
+    expect(result.current.missions).toEqual([])
+    expect(result.current.hasNextPage).toBe(false)
+  })
+
+  it('does not run when offline', async () => {
+    ;(useOnlineManager as any).mockReturnValue({ isOnline: false })
+    ;(axios.get as any).mockResolvedValue({ data: { items: [], hasMore: false, nextOffset: 15 } })
+
+    const params = new URLSearchParams()
     renderHook(() => useMissionsQuery(params), { wrapper })
 
     expect(axios.get).not.toHaveBeenCalled()
-    expect(setQueryDataSpy).not.toHaveBeenCalled()
   })
 })

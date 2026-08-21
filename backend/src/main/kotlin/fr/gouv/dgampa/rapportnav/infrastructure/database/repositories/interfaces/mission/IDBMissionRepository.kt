@@ -30,6 +30,25 @@ interface IDBMissionRepository: JpaRepository<MissionModel, UUID> {
         @Param("endBeforeDateTime") endBeforeDateTime: Instant
     ): List<MissionModel?>
 
+    /**
+     * Nav-only missions for a given service, newest first. Env-mirror rows have a null serviceId, so scoping by
+     * serviceId naturally excludes them. Date bounds are always provided (callers substitute wide defaults when
+     * no date filter is active) to keep the JPQL free of nullable-parameter handling.
+     */
+    @Query("""
+    SELECT m FROM MissionModel m
+    WHERE m.serviceId = :serviceId
+    AND m.isDeleted = false
+    AND m.startDateTimeUtc >= :startedAfter
+    AND m.startDateTimeUtc <= :startedBefore
+    ORDER BY m.startDateTimeUtc DESC
+    """)
+    fun findNavMissionsForService(
+        @Param("serviceId") serviceId: Int,
+        @Param("startedAfter") startedAfter: Instant,
+        @Param("startedBefore") startedBefore: Instant
+    ): List<MissionModel>
+
     override fun findById(id: UUID): Optional<MissionModel>
 
     fun findByExternalId(externalId: String): Optional<MissionModel>
