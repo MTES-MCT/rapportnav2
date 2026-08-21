@@ -1,16 +1,24 @@
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { useSelector } from '@tanstack/react-store'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import { Stack } from 'rsuite'
-import ItemListDateRangeNavigator from '../features/common/components/elements/item-list-daterange-navigator.tsx'
+import MissionListEmptyFiltered from '../features/common/components/elements/mission-list-empty-filtered.tsx'
+import {
+  clearMissionListFilters,
+  hasActiveMissionListFilters
+} from '../features/common/components/elements/mission-list-filter-utils.ts'
+import MissionListFilters, {
+  DateMode,
+  DATE_MODE_LABELS
+} from '../features/common/components/elements/mission-list-filters.tsx'
+import MissionListLoadMore from '../features/common/components/elements/mission-list-load-more.tsx'
 import OnlineToggle from '../features/common/components/elements/online-toggle.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
-import { useDate } from '../features/common/hooks/use-date.tsx'
 import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import { useOfflineMode } from '../features/common/hooks/use-offline-mode.tsx'
@@ -23,27 +31,29 @@ import MissionListExportDialog from '../features/pam/components/element/mission-
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
 import { store } from '../store'
 
+// PAM date-range options: current month, current year, specific period (no default → newest first)
+const DATE_MODE_OPTIONS = [DateMode.CURRENT_MONTH, DateMode.CURRENT_YEAR, DateMode.CUSTOM].map(value => ({
+  value,
+  label: DATE_MODE_LABELS[value]
+}))
+
 const MissionListPamPage: FC = () => {
   const isOfflineModeEnabled = useOfflineMode()
   const { isOffline } = useOnlineManager()
   const user = useSelector(store, state => state.user)
 
-  const { getTodayYearRange } = useDate()
   const { getSidebarItems } = useGlobalRoutes()
   const [searchParams, setSearchParams] = useSearchParams()
 
-  useEffect(() => {
-    if (searchParams.get('endDateTimeUtc') && searchParams.get('startDateTimeUtc')) return
-    setSearchParams(getTodayYearRange())
-    return () => {}
-  }, [searchParams, setSearchParams, getTodayYearRange])
-
   const { getMissionListItem } = useMissionList()
-  const { isLoading, data: missions } = useMissionsQuery(searchParams)
+  const { isLoading, missions, hasNextPage, isFetchingNextPage, fetchNextPage } = useMissionsQuery(searchParams)
 
   // Project the raw `MissionListData` payload into the formatted view-model once, then reuse it
   // for the list, the actions bar and the export flow.
   const missionItems: MissionListItem[] = (missions ?? []).map(m => getMissionListItem(m))
+
+  const filtersActive = hasActiveMissionListFilters(searchParams)
+  const resetFilters = () => setSearchParams(clearMissionListFilters(searchParams))
 
   const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
@@ -97,10 +107,6 @@ const MissionListPamPage: FC = () => {
     setShowExportDialog(!showExportDialog)
   }
 
-  const handleUpdateDateTime = (currentDate: Date) => {
-    setSearchParams(getTodayYearRange(currentDate))
-  }
-
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle user={user} />} />}
@@ -117,10 +123,11 @@ const MissionListPamPage: FC = () => {
         isOffline={isOffline}
         title={'Mes rapports'}
         filters={
-          <ItemListDateRangeNavigator
-            startDateTimeUtc={searchParams.get('startDateTimeUtc')}
-            onUpdateCurrentDate={handleUpdateDateTime}
-            timeframe={'year'}
+          <MissionListFilters
+            searchParams={searchParams}
+            onChange={setSearchParams}
+            dateModeOptions={DATE_MODE_OPTIONS}
+            showReportTypeFilter={false}
           />
         }
         actions={
@@ -131,11 +138,19 @@ const MissionListPamPage: FC = () => {
             toggleAll={toggleAll}
           />
         }
+        emptyState={filtersActive ? <MissionListEmptyFiltered onReset={resetFilters} /> : undefined}
         list={
           <MissionListPam //
             missions={missionItems}
             selectedMissionIds={selectedMissionIds}
             toggleOne={toggleOne}
+            loadMore={
+              <MissionListLoadMore
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+                onLoadMore={fetchNextPage}
+              />
+            }
           />
         }
       />

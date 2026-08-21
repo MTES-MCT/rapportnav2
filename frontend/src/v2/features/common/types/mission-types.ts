@@ -190,6 +190,15 @@ export type MissionListItemDTO = {
   actionCount: number
 }
 
+// One "load more" page returned by GET /api/v2/missions. `nextOffset` is the offset to request for the
+// next page; `hasMore` tells the infinite query whether to keep paginating (reliable even when filters
+// shrink a page below the requested limit).
+export type MissionListPageDTO = {
+  items: MissionListItemDTO[]
+  hasMore: boolean
+  nextOffset: number
+}
+
 // View-model rendered by the list UI: the `MissionListItemDTO` fields (all optional here, since
 // they are re-projected) plus fields computed/formatted on the frontend by `getMissionListItem`
 // in `use-mission-list.tsx`. Only `id` and `startDateTimeUtc` are guaranteed.
