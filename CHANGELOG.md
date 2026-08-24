@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.96.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.95.1...v2.96.0) (2026-08-24)
+
+
+### Features
+
+* **backend:** update Gearcontrol and wiretype ([77e0311](https://github.com/MTES-MCT/rapportnav2/commit/77e031117a0c33715b3d5c3a2fd4f5ca92e8637b))
+* create light MissionListDTO to reduce mission payload ([48c89ce](https://github.com/MTES-MCT/rapportnav2/commit/48c89ce1d833d36ef515a4c90acafad43e84cd2f))
+* **frontend:** add marge to species+ dialog ([e31d859](https://github.com/MTES-MCT/rapportnav2/commit/e31d859ec516e6642a769cb1dd7e7930e28d7ff3))
+* **frontend:** update polpeche display ([f62e7ef](https://github.com/MTES-MCT/rapportnav2/commit/f62e7ef5c92e3597f2045e233a483ced304f77fa))
+* update training action + add table mission_action_agent [#1388](https://github.com/MTES-MCT/rapportnav2/issues/1388) ([8b4e4da](https://github.com/MTES-MCT/rapportnav2/commit/8b4e4da7ad143f506c3696e9e7de707e1f3c372c))
+
+
+### Bug Fixes
+
+* **frontend:** build ([2622791](https://github.com/MTES-MCT/rapportnav2/commit/26227919304d6d4056ba6458c7ac9ed495327502))
+
 ## [2.95.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.95.0...v2.95.1) (2026-08-05)
 
 
