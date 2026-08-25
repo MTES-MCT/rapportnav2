@@ -43,7 +43,7 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
 
   const handleUpdateMarge = (response: boolean, data?: Marge) => {
     if (!response || !data) return
-    console.log(data)
+    console.log(data) //TODO: Remove and set formik value
     setCurrentMarge(undefined)
   }
 
@@ -108,12 +108,10 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
                   </Td>
                   {isM3 && (
                     <Td>
-                      {/* Marge: not backed by any data yet, displayed as a placeholder until the field is defined. */}
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Stack.Item>--</Stack.Item>
                         <Stack.Item>
                           <IconButton
-                            disabled={true}
                             size={Size.SMALL}
                             accent={Accent.TERTIARY}
                             Icon={Icon.EditUnbordered}
@@ -143,8 +141,8 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
                   {showModal && (
                     <FishControlMarge
                       species={species}
-                      onSubmit={handleUpdateMarge}
                       currentMarge={currentMarge}
+                      onSubmit={handleUpdateMarge}
                       onChangeMarge={setCurrentMarge}
                       onClose={() => setShowModal(false)}
                     />
