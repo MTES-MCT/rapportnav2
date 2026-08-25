@@ -1,12 +1,11 @@
 import { Dialog } from '@common/components/ui/custom-dialog.tsx'
 import { Marge, MetricType, SpeciesControl } from '@common/types/fish-mission-types.ts'
-import { Option } from '@mtes-mct/monitor-ui'
+import { NumberInput, Option } from '@mtes-mct/monitor-ui'
 import { Dispatch, SetStateAction } from 'react'
 import { Stack } from 'rsuite'
 import BasicDialogAction from '../../../common/components/ui/basic-dialog-action.tsx'
 import BasicDialogTitle from '../../../common/components/ui/basic-dialog-title.tsx'
 import { SelectInput } from '../../../common/components/ui/formik-select-input.tsx'
-import { StyledTextInput } from '../../../common/components/ui/formik-text-input.tsx'
 
 const METRIC_TYPE_OPTIONS: Option<MetricType>[] = [
   { label: 'Kg', value: MetricType.KG },
@@ -14,10 +13,10 @@ const METRIC_TYPE_OPTIONS: Option<MetricType>[] = [
 ]
 
 type FishControlMargeProps = {
-  species: SpeciesControl
-  currentMarge?: Marge
-  onChangeMarge: Dispatch<SetStateAction<Marge | undefined>>
   onClose: () => void
+  currentMarge?: Marge
+  species: SpeciesControl
+  onChangeMarge: Dispatch<SetStateAction<Marge | undefined>>
   onSubmit: (response: boolean, data?: Marge) => void
 }
 
@@ -39,11 +38,11 @@ const FishControlMarge: React.FC<FishControlMargeProps> = ({
       <Dialog.Body style={{ padding: '24px 24px 0px 24px' }}>
         <Stack direction="row" spacing=".2rem" style={{ width: '100%' }}>
           <Stack.Item style={{ width: '50%' }}>
-            <StyledTextInput
+            <NumberInput
               name="value"
               label="Marge"
               isLight={false}
-              value={currentMarge?.value?.toString()}
+              value={currentMarge?.value}
               onChange={value => onChangeMarge(prev => ({ ...prev, value: value ? Number(value) : undefined }))}
             />
           </Stack.Item>
@@ -61,7 +60,7 @@ const FishControlMarge: React.FC<FishControlMargeProps> = ({
       </Dialog.Body>
       <Dialog.Action style={{ display: 'flex', justifyContent: 'flex-end', padding: '32px 24px 24px 24px' }}>
         <BasicDialogAction
-          isValid={false}
+          isValid={!!currentMarge?.metric && !!currentMarge?.value}
           onSubmit={response => onSubmit(response, response ? currentMarge : undefined)}
         />
       </Dialog.Action>
