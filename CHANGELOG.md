@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.97.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.96.0...v2.97.0) (2026-08-26)
+
+
+### Features
+
+* **frontend:** enable marge modal without sending back the data ([6ec1c89](https://github.com/MTES-MCT/rapportnav2/commit/6ec1c89a794cc9b805b857b9c7a6a6db0e1461b7))
+
 ## [2.96.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.95.1...v2.96.0) (2026-08-24)
 
 
