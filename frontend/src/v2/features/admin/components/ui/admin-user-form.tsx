@@ -1,8 +1,9 @@
-import { FormikMultiSelect, FormikNumberInput, FormikTextInput } from '@mtes-mct/monitor-ui'
+import { FormikMultiSelect, FormikSelect, FormikTextInput } from '@mtes-mct/monitor-ui'
 import { FormikProps } from 'formik'
 import { Stack } from 'rsuite'
 import useAuth from '../../../auth/hooks/use-auth.tsx'
 import { AdminActionType } from '../../../common/types/basic-action.ts'
+import useAdminServiceListQuery from '../../services/use-admin-services-service.tsx'
 import AdminUserPasswordForm from './admin-user-password-form.tsx'
 
 interface AdminUserProps {
@@ -12,6 +13,7 @@ interface AdminUserProps {
 
 const AdminUserForm: React.FC<AdminUserProps> = ({ formik, type }) => {
   const { roleOptions } = useAuth()
+  const { data: services } = useAdminServiceListQuery()
   return (
     <Stack.Item style={{ width: '100%' }}>
       <Stack direction="row" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
@@ -26,11 +28,16 @@ const AdminUserForm: React.FC<AdminUserProps> = ({ formik, type }) => {
         <Stack.Item style={{ width: '50%' }}>
           <FormikTextInput name="email" label="Email" itemType="email" placeholder="mail@gouv.fr" required />
         </Stack.Item>
-        <Stack.Item style={{ width: '40%' }}>
+        <Stack.Item style={{ width: '25%' }}>
           <FormikMultiSelect name="roles" label="Roles" options={roleOptions} required />
         </Stack.Item>
-        <Stack.Item style={{ width: '10%' }}>
-          <FormikNumberInput name="serviceId" label="Service" itemType="text" required />
+        <Stack.Item style={{ width: '25%' }}>
+          <FormikSelect
+            name="serviceId"
+            label="Service"
+            isRequired={true}
+            options={services?.filter(s => !s.deletedAt).map(({ id, name }) => ({ value: id, label: name })) ?? []}
+          />
         </Stack.Item>
       </Stack>
       {type === AdminActionType.CREATE_USER && <AdminUserPasswordForm formik={formik} />}
