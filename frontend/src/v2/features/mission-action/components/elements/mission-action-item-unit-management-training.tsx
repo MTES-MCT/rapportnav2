@@ -14,7 +14,7 @@ const trainingTypeLabel = {
   [UnitManagementTrainingType.SHOOTING]: `Tir`,
   [UnitManagementTrainingType.DIVING]: `Plongée`,
   [UnitManagementTrainingType.MAN_OVERBOARD_RECOVERY]: `Récupération d'homme à la mer`,
-  [UnitManagementTrainingType.INTERVENTION_TACTICS]: `Techniques d'interventions`
+  [UnitManagementTrainingType.INTERVENTION_TACTICS]: `Techniques d'interventions (menottage...)`
 }
 
 const MissionActionItemUnitManagementTraining: FC<{
