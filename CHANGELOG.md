@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.97.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.97.0...v2.97.1) (2026-08-27)
+
+
+### Bug Fixes
+
+* rema techniqiue d'intervention ([47b7cbc](https://github.com/MTES-MCT/rapportnav2/commit/47b7cbcd4dd3f3bc7bd34a8adcc17401610171f8))
+
 ## [2.97.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.96.0...v2.97.0) (2026-08-26)
 
 
