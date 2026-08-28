@@ -56,6 +56,7 @@ export const usePassengerForm = (missionId?: string) => {
         isIntern: boolean(),
         ...getDateRangeSchema({
           isMissionFinished,
+          allowEqualDates: true,
           missionStartDate: missionDates.startDateTimeUtc
             ? startOfDay(missionDates.startDateTimeUtc).toISOString()
             : undefined,
