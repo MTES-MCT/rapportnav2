@@ -4,6 +4,7 @@ export type DateRangeSchemaOptions = {
   isMissionFinished?: boolean
   missionStartDate?: string
   missionEndDate?: string
+  allowEqualDates?: boolean
 }
 
 export const DateRangeDefaultSchema = {
@@ -14,7 +15,7 @@ const getDateRangeSchema = (options?: DateRangeSchemaOptions | boolean) => {
   // Handle backward compatibility: if boolean passed, convert to options object
   const opts: DateRangeSchemaOptions = typeof options === 'boolean' ? { isMissionFinished: options } : (options ?? {})
 
-  const { isMissionFinished, missionStartDate, missionEndDate } = opts
+  const { isMissionFinished, missionStartDate, missionEndDate, allowEqualDates } = opts
 
   const baseSchema = isMissionFinished
     ? array()
@@ -23,9 +24,11 @@ const getDateRangeSchema = (options?: DateRangeSchemaOptions | boolean) => {
         .test('end-date-defined', `La date et l'heure de fin doit être renseignée`, function (value) {
           return !!value[1]
         })
-        .test('is-after-start', `La date et l'heure de fin doit être antérieure à la date de début`, function (value) {
+        .test('is-after-start', `La date et l'heure de fin doit être postérieure à la date de début`, function (value) {
           if (!value[0] || !value[1]) return true
-          return value && value[0] && new Date(value[1]) >= new Date(value[0])
+          return allowEqualDates
+            ? new Date(value[1]) >= new Date(value[0])
+            : new Date(value[1]) > new Date(value[0])
         })
     : array().of(date()).nullable()
 
