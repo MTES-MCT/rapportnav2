@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.97.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.97.1...v2.97.2) (2026-08-31)
+
+
+### Bug Fixes
+
+* date validation on allowSameDate ([69f7950](https://github.com/MTES-MCT/rapportnav2/commit/69f7950f9fa35da25f14f6ddad2d6ede6d931aea))
+* date validation on allowSameDate ([633607e](https://github.com/MTES-MCT/rapportnav2/commit/633607ec5846a09f2f64b842decd9a3e989ce9db))
+
 ## [2.97.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.97.0...v2.97.1) (2026-08-27)
 
 
