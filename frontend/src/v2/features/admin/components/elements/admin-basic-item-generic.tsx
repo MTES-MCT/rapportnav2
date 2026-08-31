@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Stack } from 'rsuite'
 import AdminSectionWrapper from '../../../common/components/layout/admin-section-wrapper'
-import DialogForm from '../../../common/components/ui/basic-dialog-form'
+import BasicDialogForm from '../../../common/components/ui/basic-dialog-form'
 import AdminBasicItemTable from '../../../common/components/ui/basic-item-table'
 import useAdminBasicItem from '../../../common/hooks/use-table-basic-item'
 import { AdminActionType, BasicAction, BasicCell } from '../../../common/types/basic-action'
@@ -36,7 +36,7 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, defaultData,
           <AdminBasicItemTable data={data} cells={cells} actions={listActions} onAction={handleAction} />
         </Stack.Item>
         {showDialogForm && currentAction && (
-          <DialogForm
+          <BasicDialogForm
             action={currentAction}
             initValue={currentData ?? {}}
             onSubmit={(response, value) => handleSubmit(response, value)}

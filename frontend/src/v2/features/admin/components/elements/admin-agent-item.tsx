@@ -1,5 +1,5 @@
 import Text from '@common/components/ui/text'
-import { Checkbox, Icon, Select, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Checkbox, Icon, Select, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { orderBy } from 'lodash'
 import React, { useMemo, useState } from 'react'
 import { Stack } from 'rsuite'
@@ -61,18 +61,20 @@ const ACTIONS: BasicAction[] = [
   {
     icon: Icon.Archive,
     title: 'Désactiver',
+    accent: Accent.ERROR,
     label: `Désativer cet agent sur ce service?`,
     key: AdminActionType.DISABLE_AGENT,
-    form: () => <>Voulez-vous vraiment desactiver cet agent?</>,
-    disabled: (rowData: unknown) => !!(rowData as AdminAgent).disabledAt
+    disabled: (rowData: unknown) => !!(rowData as AdminAgent).disabledAt,
+    form: ({ formik }) => <>{`Voulez-vous vraiment desactiver ${formik.values.name}?`}</>
   },
   {
     icon: Icon.Delete,
     title: 'Supprimer',
+    accent: Accent.ERROR,
     key: AdminActionType.DELETE,
     color: THEME.color.maximumRed,
     label: `Supprimer cet agent sur ce service?`,
-    form: () => <>Voulez-vous vraiment supprimer définitivement cet agent?</>
+    form: ({ formik }) => <>{`Voulez-vous vraiment supprimer définitivement ${formik.values.name}?`}</>
   }
 ]
 

@@ -37,7 +37,7 @@ const BasicItemTable: React.FC<BasicItemTableProps> = ({ data, cells, actions, o
           </Cell>
         </Column>
       ))}
-      <Column width={actions.length > 3 ? 200 : 100} align="end" fixed="right">
+      <Column width={actions.length >= 3 ? 200 : 100} align="end" fixed="right">
         <HeaderCell>Actions</HeaderCell>
         <Cell>
           {rowData => (

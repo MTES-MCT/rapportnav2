@@ -54,4 +54,5 @@ export interface AdminUser {
   serviceId: number
   createdAt?: Date
   updatedAt?: Date
+  disabledAt?: Date
 }

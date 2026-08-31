@@ -1,15 +1,16 @@
 import Text from '@common/components/ui/text'
-import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { orderBy } from 'lodash'
 import React, { useMemo, useState } from 'react'
 import { Stack } from 'rsuite'
-import { BasicAction, AdminActionType } from '../../../common/types/basic-action'
+import { AdminActionType, BasicAction } from '../../../common/types/basic-action'
 import { User } from '../../../common/types/user'
 import useAdminCreateOrUpdateUserMutation from '../../services/use-admin-create-update-user-service'
 import useAdminDisableUserMutation from '../../services/use-admin-disable-user'
 import useAdminUserPasswordMutation from '../../services/use-admin-update-user-password-service'
 import useUserListQuery from '../../services/use-admin-user-service'
-import { AdminUser } from '../../types/admin-agent-types'
+import { AdminAgent, AdminUser } from '../../types/admin-agent-types'
+import AdminUserDeleteForm from '../ui/admin-user-delete-form'
 import AdminUserForm from '../ui/admin-user-form'
 import AdminUserPasswordForm from '../ui/admin-user-password-form'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
@@ -21,9 +22,9 @@ const CELLS = [
   { key: 'lastName', label: 'nom', width: 120 },
   { key: 'roles', label: 'Rôles', width: 200 },
   { key: 'serviceId', label: 'Service', width: 60 },
-  { key: 'createdAt', label: 'Date de Creation', width: 200 },
-  { key: 'updatedAt', label: 'Dernière mise à jour', width: 200 },
-  { key: 'disabledAt', label: 'Dernière de désactivation', width: 200 }
+  { key: 'createdAt', label: 'Date de Creation', width: 150 },
+  { key: 'updatedAt', label: 'Dernière mise à jour', width: 150 },
+  { key: 'disabledAt', label: 'Dernière de désactivation', width: 120 }
 ]
 
 const ACTIONS: BasicAction[] = [
@@ -33,6 +34,7 @@ const ACTIONS: BasicAction[] = [
     key: AdminActionType.CREATE_USER,
     form: AdminUserForm
   },
+
   {
     label: `Mise à jour d'un agent`,
     key: AdminActionType.UPDATE,
@@ -46,11 +48,21 @@ const ACTIONS: BasicAction[] = [
     icon: Icon.Hide
   },
   {
-    label: `Désactiver un utilisateur`,
+    label: `Reactivate user`,
+    icon: Icon.Load,
+    key: AdminActionType.REACTIVATE_USER,
+    disabled: (rowData: unknown) => !(rowData as AdminAgent).disabledAt,
+    form: ({ formik }) => <>{`Voulze-vous reactiver ${formik?.values?.firstName}, ${formik?.values?.lastName}?`}</>
+  },
+  {
+    icon: Icon.Delete,
+    accent: Accent.ERROR,
+    title: 'Supprimer',
+    form: AdminUserDeleteForm,
     color: THEME.color.maximumRed,
     key: AdminActionType.DISABLE_USER,
-    form: () => <>{`Voulez-vous vraiment désactiver cet utilisateur?`}</>,
-    icon: Icon.Delete
+    validateButton: `Désactiver l'utilisateur`,
+    label: `Désactiver un utilisateur`
   }
 ]
 
@@ -72,6 +84,9 @@ const AdminUserItem: React.FC<AdminUserProps> = () => {
     if (action === AdminActionType.DISABLE_USER) {
       await disableUserMutation.mutateAsync(value.id)
       return
+    }
+    if (action === AdminActionType.REACTIVATE_USER) {
+      value.disabledAt = undefined
     }
     await createOrUpdateMutation.mutateAsync(value)
   }
