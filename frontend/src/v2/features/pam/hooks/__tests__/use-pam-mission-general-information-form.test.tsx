@@ -89,5 +89,18 @@ describe('usePamMissionGeneralInformationForm', () => {
       })
       expect(valid).toBe(true)
     })
+
+    // Regression: the schema must make `dates` required when the mission is finished, so the
+    // date range picker highlights red. A wrong option key (`required` instead of `isMissionFinished`)
+    // previously silenced this and the missing-date highlight disappeared.
+    it('should require the date range when mission is finished', async () => {
+      const schema = renderWithStates(true, false)
+      await expect(schema.validateAt('dates', { dates: [undefined, undefined] })).rejects.toThrow()
+    })
+
+    it('should not require the date range when mission is not finished', async () => {
+      const schema = renderWithStates(false, false)
+      await expect(schema.validateAt('dates', { dates: [undefined, undefined] })).resolves.toBeDefined()
+    })
   })
 })
