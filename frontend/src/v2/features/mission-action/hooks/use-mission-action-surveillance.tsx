@@ -3,6 +3,11 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionEnvActionData } from '../../common/types/mission-action'
 import { ActionSurveillanceInput } from '../types/action-type'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import { object, string } from 'yup'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import { useMemo } from 'react'
 
 export function useMissionActionSurveillance(
   action: MissionAction,
@@ -10,6 +15,8 @@ export function useMissionActionSurveillance(
 ): AbstractFormikSubFormHook<ActionSurveillanceInput> {
   const value = action?.data as unknown as MissionEnvActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
+  const isMissionFinished = useMissionFinished(action.ownerId)
+  const missionDates = useMissionDates(action.ownerId)
 
   const fromFieldValueToInput = (data: MissionEnvActionData): ActionSurveillanceInput => {
     const dates = getDateRangeForInput(data)
@@ -36,8 +43,21 @@ export function useMissionActionSurveillance(
     handleSubmit(value, onSubmit)
   }
 
+  const createValidationSchema = (isMissionFinished: boolean, missionStartDate?: string, missionEndDate?: string) => {
+    return object().shape({
+      ...getDateRangeSchema({ isMissionFinished, missionStartDate, missionEndDate }),
+      observationsByUnit: string().nullable()
+    })
+  }
+
+  const validationSchema = useMemo(
+    () => createValidationSchema(isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc),
+    [isMissionFinished, missionDates.startDateTimeUtc, missionDates.endDateTimeUtc]
+  )
+
   return {
     initValue,
+    validationSchema,
     handleSubmit: handleSubmitOverride
   }
 }

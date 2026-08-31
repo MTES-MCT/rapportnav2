@@ -71,6 +71,7 @@ export const useCrewAbsenceForm = (name?: string, fieldFormik?: FieldProps<Missi
     return object().shape({
       ...getDateRangeSchema({
         isMissionFinished,
+        allowEqualDates: true,
         missionStartDate: missionDates.startDateTimeUtc
           ? startOfDay(new UTCDate(missionDates.startDateTimeUtc)).toISOString()
           : undefined,

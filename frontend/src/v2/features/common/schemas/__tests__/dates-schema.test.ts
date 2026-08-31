@@ -59,7 +59,19 @@ describe('getDateRangeSchema', () => {
     it('requires end date to be after start date', async () => {
       const schema = object().shape(getDateRangeSchema({ isMissionFinished: true }))
       const invalidData = { dates: [new Date('2024-01-16'), new Date('2024-01-15')] }
-      await expect(schema.validate(invalidData)).rejects.toThrow("La date et l'heure de fin doit être antérieure à la date de début")
+      await expect(schema.validate(invalidData)).rejects.toThrow("La date et l'heure de fin doit être postérieure à la date de début")
+    })
+
+    it('rejects equal start and end dates by default', async () => {
+      const schema = object().shape(getDateRangeSchema({ isMissionFinished: true }))
+      const invalidData = { dates: [new Date('2024-01-15'), new Date('2024-01-15')] }
+      await expect(schema.validate(invalidData)).rejects.toThrow("La date et l'heure de fin doit être postérieure à la date de début")
+    })
+
+    it('accepts equal start and end dates when allowEqualDates is true', async () => {
+      const schema = object().shape(getDateRangeSchema({ isMissionFinished: true, allowEqualDates: true }))
+      const validData = { dates: [new Date('2024-01-15'), new Date('2024-01-15')] }
+      await expect(schema.validate(validData)).resolves.toBeDefined()
     })
 
     it('accepts valid dates where end is after start', async () => {
@@ -73,7 +85,7 @@ describe('getDateRangeSchema', () => {
       const data = { dates: [null, new Date('2024-01-16')] }
       // Should not throw is-after-start error, but may fail other validations
       const result = schema.validate(data).catch(e => e.message)
-      await expect(result).resolves.not.toContain("La date et l'heure de fin doit être antérieure à la date de début")
+      await expect(result).resolves.not.toContain("La date et l'heure de fin doit être postérieure à la date de début")
     })
   })
 

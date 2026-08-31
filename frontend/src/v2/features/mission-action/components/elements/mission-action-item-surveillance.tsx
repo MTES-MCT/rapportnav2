@@ -15,12 +15,19 @@ const MissionActionItemSurveillance: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const { initValue, handleSubmit } = useMissionActionSurveillance(action, onChange)
+  const { initValue, handleSubmit, validationSchema } = useMissionActionSurveillance(action, onChange)
   const { onFormError } = useFormValidationReporter()
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize={true}>
+        <Formik
+          initialValues={initValue}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+          validateOnChange={true}
+          validateOnMount={true}
+          enableReinitialize={true}
+        >
           {({ values }) => (
             <>
               <FormikEffect
