@@ -1,5 +1,5 @@
 import useAuth from '../../../auth/hooks/use-auth.tsx'
-import republique from '../../../../assets/images/republique.svg'
+import logo from '../../../../assets/images/logo.png'
 import styled from 'styled-components'
 import { FlexboxGrid } from 'rsuite'
 import { Accent, Button } from '@mtes-mct/monitor-ui'
@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = () => {
         <FlexboxGrid.Item>
           <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
             <FlexboxGrid.Item>
-              <img src={republique} alt="marianne logo" height={80} />
+              <img src={logo} alt="logo" height={80} />
             </FlexboxGrid.Item>
             <FlexboxGrid.Item style={{ marginLeft: '1rem' }}>
               <h3>Rapport Nav</h3>

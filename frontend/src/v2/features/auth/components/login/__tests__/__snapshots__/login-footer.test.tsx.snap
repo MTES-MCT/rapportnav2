@@ -1,0 +1,306 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LoginFooter > should match the snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <footer
+        class="fr-footer"
+        id="footer"
+        role="contentinfo"
+        tabindex="-1"
+      >
+        <div
+          class="fr-container"
+        >
+          <div
+            class="fr-footer__body"
+          >
+            <div
+              class="fr-footer__brand"
+            >
+              <img
+                alt="RapportNav"
+                class="fr-responsive-img"
+                src="/src/assets/images/logo.png"
+                style="max-width: 12rem;"
+              />
+            </div>
+            <div
+              class="fr-footer__content"
+            >
+              <p
+                class="fr-footer__content-desc"
+              >
+                RapportNav est l'outil de rapportage des missions des agents de contrôle des affaires maritimes.
+              </p>
+              <ul
+                class="fr-footer__content-list"
+              >
+                <li
+                  class="fr-footer__content-item"
+                >
+                  <a
+                    class="fr-footer__content-link"
+                    href="https://info.gouv.fr"
+                    rel="noopener external noreferrer"
+                    target="_blank"
+                    title="info.gouv.fr - nouvelle fenêtre"
+                  >
+                    info.gouv.fr
+                  </a>
+                </li>
+                <li
+                  class="fr-footer__content-item"
+                >
+                  <a
+                    class="fr-footer__content-link"
+                    href="https://service-public.fr"
+                    rel="noopener external noreferrer"
+                    target="_blank"
+                    title="service-public.fr - nouvelle fenêtre"
+                  >
+                    service-public.fr
+                  </a>
+                </li>
+                <li
+                  class="fr-footer__content-item"
+                >
+                  <a
+                    class="fr-footer__content-link"
+                    href="https://legifrance.gouv.fr"
+                    rel="noopener external noreferrer"
+                    target="_blank"
+                    title="legifrance.gouv.fr - nouvelle fenêtre"
+                  >
+                    legifrance.gouv.fr
+                  </a>
+                </li>
+                <li
+                  class="fr-footer__content-item"
+                >
+                  <a
+                    class="fr-footer__content-link"
+                    href="https://data.gouv.fr"
+                    rel="noopener external noreferrer"
+                    target="_blank"
+                    title="data.gouv.fr - nouvelle fenêtre"
+                  >
+                    data.gouv.fr
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="fr-footer__bottom"
+          >
+            <div
+              class="fr-footer__bottom-copy"
+            >
+              <p>
+                Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous
+                 
+                <a
+                  href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+                  rel="noopener external noreferrer"
+                  target="_blank"
+                  title="Licence etalab-2.0 - nouvelle fenêtre"
+                >
+                  licence etalab-2.0
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <div
+      class="rs-toast-provider"
+    >
+      <div
+        class="rs-toast-container rs-toast-container-top-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-end"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-end"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <footer
+      class="fr-footer"
+      id="footer"
+      role="contentinfo"
+      tabindex="-1"
+    >
+      <div
+        class="fr-container"
+      >
+        <div
+          class="fr-footer__body"
+        >
+          <div
+            class="fr-footer__brand"
+          >
+            <img
+              alt="RapportNav"
+              class="fr-responsive-img"
+              src="/src/assets/images/logo.png"
+              style="max-width: 12rem;"
+            />
+          </div>
+          <div
+            class="fr-footer__content"
+          >
+            <p
+              class="fr-footer__content-desc"
+            >
+              RapportNav est l'outil de rapportage des missions des agents de contrôle des affaires maritimes.
+            </p>
+            <ul
+              class="fr-footer__content-list"
+            >
+              <li
+                class="fr-footer__content-item"
+              >
+                <a
+                  class="fr-footer__content-link"
+                  href="https://info.gouv.fr"
+                  rel="noopener external noreferrer"
+                  target="_blank"
+                  title="info.gouv.fr - nouvelle fenêtre"
+                >
+                  info.gouv.fr
+                </a>
+              </li>
+              <li
+                class="fr-footer__content-item"
+              >
+                <a
+                  class="fr-footer__content-link"
+                  href="https://service-public.fr"
+                  rel="noopener external noreferrer"
+                  target="_blank"
+                  title="service-public.fr - nouvelle fenêtre"
+                >
+                  service-public.fr
+                </a>
+              </li>
+              <li
+                class="fr-footer__content-item"
+              >
+                <a
+                  class="fr-footer__content-link"
+                  href="https://legifrance.gouv.fr"
+                  rel="noopener external noreferrer"
+                  target="_blank"
+                  title="legifrance.gouv.fr - nouvelle fenêtre"
+                >
+                  legifrance.gouv.fr
+                </a>
+              </li>
+              <li
+                class="fr-footer__content-item"
+              >
+                <a
+                  class="fr-footer__content-link"
+                  href="https://data.gouv.fr"
+                  rel="noopener external noreferrer"
+                  target="_blank"
+                  title="data.gouv.fr - nouvelle fenêtre"
+                >
+                  data.gouv.fr
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="fr-footer__bottom"
+        >
+          <div
+            class="fr-footer__bottom-copy"
+          >
+            <p>
+              Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous
+               
+              <a
+                href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+                rel="noopener external noreferrer"
+                target="_blank"
+                title="Licence etalab-2.0 - nouvelle fenêtre"
+              >
+                licence etalab-2.0
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

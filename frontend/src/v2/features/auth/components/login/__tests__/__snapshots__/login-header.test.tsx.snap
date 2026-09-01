@@ -1,46 +1,59 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MissionListPageHeaderWrapper > should match the snapshot 1`] = `
+exports[`LoginHeader > should match the snapshot 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div
-        class="sc-iXaBKZ jUNnoP"
+      <header
+        class="fr-header"
+        role="banner"
       >
         <div
-          class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
-          style="height: 100%; padding-left: 16px; padding-right: 16px;"
+          class="fr-header__body"
         >
           <div
-            class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
+            class="fr-container"
           >
             <div
-              class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
-              style="height: 100%;"
+              class="fr-header__body-row"
             >
               <div
-                class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
+                class="fr-header__brand fr-enlarge-link"
               >
-                <img
-                  alt="logo"
-                  height="80"
-                  src="/src/assets/images/logo.png"
-                />
-              </div>
-              <div
-                class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
-                style="margin-left: 1rem;"
-              >
-                Title
+                <div
+                  class="fr-header__brand-top"
+                >
+                  <div
+                    class="fr-header__operator"
+                  >
+                    <img
+                      alt="RapportNav"
+                      class="fr-responsive-img"
+                      src="/src/assets/images/logo.png"
+                      style="max-width: 12rem;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="fr-header__service"
+                >
+                  <p
+                    class="fr-header__service-title"
+                  >
+                    RapportNav
+                  </p>
+                  <p
+                    class="fr-header__service-tagline"
+                  >
+                    Rapports de mission en mer
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          <div
-            class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
-          />
         </div>
-      </div>
+      </header>
     </div>
     <div
       class="rs-toast-provider"
@@ -66,42 +79,55 @@ exports[`MissionListPageHeaderWrapper > should match the snapshot 1`] = `
     </div>
   </body>,
   "container": <div>
-    <div
-      class="sc-iXaBKZ jUNnoP"
+    <header
+      class="fr-header"
+      role="banner"
     >
       <div
-        class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
-        style="height: 100%; padding-left: 16px; padding-right: 16px;"
+        class="fr-header__body"
       >
         <div
-          class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
+          class="fr-container"
         >
           <div
-            class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
-            style="height: 100%;"
+            class="fr-header__body-row"
           >
             <div
-              class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
+              class="fr-header__brand fr-enlarge-link"
             >
-              <img
-                alt="logo"
-                height="80"
-                src="/src/assets/images/logo.png"
-              />
-            </div>
-            <div
-              class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
-              style="margin-left: 1rem;"
-            >
-              Title
+              <div
+                class="fr-header__brand-top"
+              >
+                <div
+                  class="fr-header__operator"
+                >
+                  <img
+                    alt="RapportNav"
+                    class="fr-responsive-img"
+                    src="/src/assets/images/logo.png"
+                    style="max-width: 12rem;"
+                  />
+                </div>
+              </div>
+              <div
+                class="fr-header__service"
+              >
+                <p
+                  class="fr-header__service-title"
+                >
+                  RapportNav
+                </p>
+                <p
+                  class="fr-header__service-tagline"
+                >
+                  Rapports de mission en mer
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        <div
-          class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
-        />
       </div>
-    </div>
+    </header>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

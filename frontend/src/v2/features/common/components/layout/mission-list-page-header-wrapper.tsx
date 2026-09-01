@@ -2,7 +2,7 @@ import { Accent, Button, Icon, IconButton, Size } from '@mtes-mct/monitor-ui'
 import { useNavigate } from 'react-router'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
-import republique from '../../../../../assets/images/republique.svg'
+import logo from '../../../../../assets/images/logo.png'
 import useAuth from '../../../../features/auth/hooks/use-auth'
 import { RoleType } from '../../types/role-type'
 
@@ -33,7 +33,7 @@ export const MissionListPageHeaderWrapper: React.FC<MissionListHeaderWrapperProp
         <FlexboxGrid.Item>
           <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
             <FlexboxGrid.Item>
-              <img src={republique} alt="marianne logo" height={80} />
+              <img src={logo} alt="logo" height={80} />
             </FlexboxGrid.Item>
             <FlexboxGrid.Item style={{ marginLeft: '1rem' }}>{title}</FlexboxGrid.Item>
           </FlexboxGrid>

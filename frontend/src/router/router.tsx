@@ -1,6 +1,8 @@
 import { LOGIN_PATH, ROOT_PATH, SIGNUP_PATH } from '@router/routes.tsx'
 import { wrapCreateBrowserRouterV6 } from '@sentry/react'
+import { Suspense, lazy } from 'react'
 import { createBrowserRouter } from 'react-router'
+import ActionLoader from '../v2/features/common/components/ui/action-loader.tsx'
 import AuthGuard from '../v2/features/auth/components/auth-guard.tsx'
 import RoleGuard from '../v2/features/auth/components/role-guard.tsx'
 import { RoleType } from '../v2/features/common/types/role-type.ts'
@@ -10,13 +12,16 @@ import MetabasePage from '../v2/pages/metabase-page.tsx'
 import HomePage from '../v2/pages/home-page.tsx'
 import InquiryListPage from '../v2/pages/inquiry-list-page.tsx'
 import InquiryPage from '../v2/pages/inquiry-page.tsx'
-import LoginPage from '../v2/pages/login-page.tsx'
 import ManagePage from '../v2/pages/manage-page.tsx'
 import MissionListPamPage from '../v2/pages/mission-list-pam-page.tsx'
 import MissionListUlamPage from '../v2/pages/mission-list-ulam-page.tsx'
 import MissionPamPage from '../v2/pages/mission-pam-page.tsx'
 import MissionUlamPage from '../v2/pages/mission-ulam-page.tsx'
 import SignupPage from '../v2/pages/signup-page.tsx'
+
+// Lazy-loaded so the DSFR design system (imported only by this page) is split
+// into its own async chunk and fetched solely when /login is visited.
+const LoginPage = lazy(() => import('../v2/pages/login-page.tsx'))
 
 const sentryCreateBrowserRouter = wrapCreateBrowserRouterV6(createBrowserRouter)
 
@@ -30,7 +35,11 @@ export const router = sentryCreateBrowserRouter([
   // Auth routes
   {
     path: LOGIN_PATH,
-    element: <LoginPage />
+    element: (
+      <Suspense fallback={<ActionLoader />}>
+        <LoginPage />
+      </Suspense>
+    )
   },
   {
     path: SIGNUP_PATH,
