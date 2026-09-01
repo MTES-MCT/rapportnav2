@@ -1,0 +1,6 @@
+# DSFR (@gouvfr/dsfr) license consent.
+# The package's preinstall script (node_modules/@gouvfr/dsfr/scripts/preinstall.js)
+# requires this file so `npm install` / `npm ci` do not fail on the license gate.
+# `accept-license` must match the CGU version shipped by the installed @gouvfr/dsfr.
+# Bump this when upgrading @gouvfr/dsfr if the install errors with an [UPDATE-...] message.
+accept-license: 1.0.1

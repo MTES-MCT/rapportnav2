@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '../../../test-utils.tsx'
 import userEvent from '@testing-library/user-event'
 import LoginPage from '../login-page.tsx'
 import { loginFailedHandler, loginServer, loginSuccessHandler } from './test-server.ts'
-import { afterAll, afterEach, beforeAll, describe, it } from 'vitest'
+import { afterAll, afterEach, beforeAll, describe, it, vi } from 'vitest'
 
 const server = loginServer()
 
@@ -21,7 +21,7 @@ describe('Login Component', () => {
     render(<LoginPage />)
 
     // Fill in the email and password fields
-    await userEvent.type(screen.getByLabelText('Email'), 'invalid-email')
+    await userEvent.type(screen.getByLabelText(/Email/), 'invalid-email')
     await userEvent.type(screen.getByLabelText('Mot de passe'), 'password')
 
     // Click on the submit button inside the act function
@@ -33,28 +33,35 @@ describe('Login Component', () => {
     })
   })
 
-  it('should set token in local storage and go to root path on successful form submission', async () => {
+  it('should set token in local storage and redirect to root path on successful form submission', async () => {
     server.use(loginSuccessHandler[0])
-    // set router to a different route to correctly test the redirection - avoiding false positives
-    window.history.pushState({}, '', '/login')
-    expect(window.location.pathname).toEqual('/login')
+    // Login now triggers a full page reload (window.location.assign) to drop the
+    // DSFR chunk/CSS. jsdom does not implement navigation and window.location is
+    // non-configurable, so we swap in a stub (keeping origin, used by the fetch).
+    const assignMock = vi.fn()
+    const originalLocation = window.location
+    const locationStub = new URL(originalLocation.href)
+    ;(locationStub as unknown as { assign: typeof assignMock }).assign = assignMock
+    Object.defineProperty(window, 'location', { configurable: true, value: locationStub })
 
     render(<LoginPage />)
 
     const submitButton = screen.getByText('Se connecter')
 
     // Act
-    await userEvent.type(screen.getByLabelText('Email'), 'test@example.com')
+    await userEvent.type(screen.getByLabelText(/Email/), 'test@example.com')
     await userEvent.type(screen.getByLabelText('Mot de passe'), 'password')
     await userEvent.click(submitButton)
 
     // Assert
     await waitFor(() => {
-      expect(window.location.pathname).toEqual('/')
-    })
-    await waitFor(() => {
       expect(localStorage.getItem('jwt')).toEqual('jwt')
     })
+    await waitFor(() => {
+      expect(assignMock).toHaveBeenCalledWith('/')
+    })
+
+    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation })
   })
 
   it('should display error message when API call fails', async () => {
@@ -64,7 +71,7 @@ describe('Login Component', () => {
     render(<LoginPage />)
 
     // Fill in the email and password fields
-    await userEvent.type(screen.getByLabelText('Email'), 'test@example.com')
+    await userEvent.type(screen.getByLabelText(/Email/), 'test@example.com')
     await userEvent.type(screen.getByLabelText('Mot de passe'), 'password')
 
     // Click on the submit button

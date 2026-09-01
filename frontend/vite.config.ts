@@ -24,6 +24,17 @@ export default defineConfig({
       output: {
         format: 'es',
         manualChunks(id) {
+          // Keep the login page (and the DSFR design system it imports) in a
+          // dedicated async chunk loaded only on /login. Must come before the
+          // node_modules and src/v2 branches below, otherwise the login module
+          // and @gouvfr/dsfr would be folded into the eager vendor/v2 chunks.
+          if (
+            id.includes('src/v2/pages/login-page') ||
+            id.includes('src/v2/features/auth/components/login') ||
+            id.includes('@gouvfr/dsfr')
+          ) {
+            return 'login'
+          }
           // Separate third-party dependencies into a common chunk
           // UI libraries
           if (id.includes('rsuite') || id.includes('@mtes-mct/monitor-ui')) {

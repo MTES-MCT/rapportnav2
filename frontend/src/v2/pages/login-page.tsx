@@ -1,151 +1,55 @@
 import { FC } from 'react'
-import { useNavigate } from 'react-router'
-import PageWrapper from '@common/components/ui/page-wrapper.tsx'
-import AuthToken from '@features/auth/utils/token.ts'
-import { FlexboxGrid, Stack } from 'rsuite'
-import { Accent, Button, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
-import { Form, Formik, FormikHelpers } from 'formik'
-import { validate } from 'email-validator'
-import { csrfToken } from '@features/auth/utils/csrf.ts'
-import { trim } from 'lodash'
+import LoginHeader from '../features/auth/components/login/login-header.tsx'
+import LoginFooter from '../features/auth/components/login/login-footer.tsx'
+import LoginForm from '../features/auth/components/login/login-form.tsx'
+import '@gouvfr/dsfr/dist/dsfr.min.css'
+// Color/background utility classes (e.g. fr-background-alt--grey) live in a
+// separate utility bundle; the core dsfr.min.css does not include them.
+import '@gouvfr/dsfr/dist/utility/colors/colors.min.css'
 
-export const LOGIN_ENDPOINT = '/api/v1/auth/login'
+// Re-exported for the auth API mock in tests (see __tests__/test-server.ts).
+export { LOGIN_ENDPOINT } from '../features/auth/components/login/login-form.tsx'
 
-interface LoginResponse {
-  token: string
-}
+const LoginPage: FC = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="fr-skiplinks">
+      <nav className="fr-container" role="navigation" aria-label="Accès rapide">
+        <ul className="fr-skiplinks__list">
+          <li>
+            <a className="fr-link" href="#content">
+              Contenu
+            </a>
+          </li>
+          <li>
+            <a className="fr-link" href="#footer">
+              Pied de page
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
-interface LoginFormValues {
-  email: string
-  password: string
-}
+    <LoginHeader />
 
-const initialValues: LoginFormValues = {
-  email: '',
-  password: ''
-}
+    <main className="fr-pt-md-14v" role="main" id="content" tabIndex={-1} style={{ flex: '1 0 auto' }}>
+      <div className="fr-container fr-container--fluid fr-mb-md-14v">
+        <div className="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+          <div className="fr-col-12 fr-col-md-8 fr-col-lg-8">
+            <div className="fr-container fr-background-alt--grey fr-px-md-0 fr-py-10v fr-py-md-14v">
+              <div className="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+                <div className="fr-col-12 fr-col-md-9 fr-col-lg-8">
+                  <h1>Connexion à RapportNav</h1>
+                  <LoginForm />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 
-const authToken = new AuthToken()
-
-const LoginPage: FC = () => {
-  const navigate = useNavigate()
-
-  const handleSubmit = async (
-    { email, password }: LoginFormValues,
-    { setStatus, setSubmitting }: FormikHelpers<LoginFormValues>
-  ) => {
-    try {
-      const response = await fetch(`${window.location.origin}${LOGIN_ENDPOINT}`, {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-XSRF-TOKEN': csrfToken() ?? ''
-        },
-        body: JSON.stringify({
-          email: trim(email).toLowerCase(),
-          password
-        })
-      })
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.status} - ${response.statusText}`)
-      }
-
-      const content: LoginResponse = await response.json()
-      if (content) {
-        authToken.set(content.token)
-        navigate('/', { replace: true })
-      }
-    } catch (error) {
-      setStatus('La connexion a échoué. Veuillez vérifier vos identifiants.')
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
-  const validateForm = (values: LoginFormValues) => {
-    const errors: Partial<LoginFormValues> = {}
-
-    if (!values.email) {
-      errors.email = "L'adresse email est requise"
-    } else if (!validate(values.email)) {
-      errors.email = "L'adresse email n'est pas une adresse valide"
-    }
-
-    if (!values.password) {
-      errors.password = 'Le mot de passe est requis' // NOSONAR not a hard-coded password
-    }
-
-    return errors
-  }
-
-  return (
-    <PageWrapper>
-      <FlexboxGrid justify="center" align="middle" style={{ width: '100%' }}>
-        <FlexboxGrid.Item colspan={5}>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validate={validateForm}
-            validateOnChange={false}
-          >
-            {({ isSubmitting, status }) => (
-              <Form>
-                <Stack direction="column" alignItems="flex-start">
-                  <Stack.Item style={{ marginTop: '1rem', marginBottom: '1rem' }}>
-                    <h4>Connexion</h4>
-                  </Stack.Item>
-                  <Stack.Item style={{ marginTop: '1rem', width: '100%' }}>
-                    <FormikTextInput
-                      name="email"
-                      label="Email"
-                      itemType="email"
-                      placeholder="mail@gouv.fr"
-                      required
-                      size={Size.LARGE}
-                    />
-                  </Stack.Item>
-                  <Stack.Item style={{ marginTop: '1rem', width: '100%' }}>
-                    <FormikTextInput
-                      name="password"
-                      label="Mot de passe"
-                      type="password"
-                      placeholder="************"
-                      required
-                      size={Size.LARGE}
-                    />
-                  </Stack.Item>
-                  <Stack.Item style={{ marginTop: '2rem', width: '100%' }} alignSelf="flex-end">
-                    <Button
-                      accent={Accent.PRIMARY}
-                      type="submit"
-                      size={Size.LARGE}
-                      isFullWidth={true}
-                      disabled={isSubmitting}
-                    >
-                      Se connecter
-                    </Button>
-                  </Stack.Item>
-                  {status && !isSubmitting && (
-                    <Stack.Item
-                      style={{
-                        marginTop: '1rem',
-                        width: '100%',
-                        color: 'red',
-                        fontSize: '12px'
-                      }}
-                    >
-                      <p>{status}</p>
-                    </Stack.Item>
-                  )}
-                </Stack>
-              </Form>
-            )}
-          </Formik>
-        </FlexboxGrid.Item>
-      </FlexboxGrid>
-    </PageWrapper>
-  )
-}
+    <LoginFooter />
+  </div>
+)
 
 export default LoginPage
