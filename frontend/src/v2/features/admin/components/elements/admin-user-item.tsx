@@ -8,6 +8,7 @@ import { User } from '../../../common/types/user'
 import useAdminCreateOrUpdateUserMutation from '../../services/use-admin-create-update-user-service'
 import useAdminDisableUserMutation from '../../services/use-admin-disable-user'
 import useAdminUserPasswordMutation from '../../services/use-admin-update-user-password-service'
+import useAdminServiceListQuery from '../../services/use-admin-services-service'
 import useUserListQuery from '../../services/use-admin-user-service'
 import { AdminAgent, AdminUser } from '../../types/admin-agent-types'
 import AdminUserDeleteForm from '../ui/admin-user-delete-form'
@@ -21,7 +22,7 @@ const CELLS = [
   { key: 'firstName', label: 'prénom', width: 120 },
   { key: 'lastName', label: 'nom', width: 120 },
   { key: 'roles', label: 'Rôles', width: 200 },
-  { key: 'serviceId', label: 'Service', width: 60 },
+  { key: 'service', label: 'Service', width: 150 },
   { key: 'createdAt', label: 'Date de Creation', width: 150 },
   { key: 'updatedAt', label: 'Dernière mise à jour', width: 150 },
   { key: 'disabledAt', label: 'Dernière de désactivation', width: 120 }
@@ -70,7 +71,10 @@ type AdminUserProps = {}
 
 const AdminUserItem: React.FC<AdminUserProps> = () => {
   const { data: users } = useUserListQuery()
+  const { data: services } = useAdminServiceListQuery()
   const [search, setSearch] = useState<string>()
+
+  const serviceNameById = useMemo(() => new Map(services?.map(s => [s.id, s.name])), [services])
 
   const updatePasswordMutation = useAdminUserPasswordMutation()
   const createOrUpdateMutation = useAdminCreateOrUpdateUserMutation()
@@ -101,8 +105,13 @@ const AdminUserItem: React.FC<AdminUserProps> = () => {
     })
 
   const filteredUsers = useMemo(() => {
-    return orderBy(search?.trim() ? filterUsers(search, users) : users, [obj => new Date(obj.updatedAt ?? 0)], ['desc'])
-  }, [users, search])
+    const filtered = search?.trim() ? filterUsers(search, users) : users
+    const enriched = filtered?.map(user => ({
+      ...user,
+      service: user.serviceId != null ? (serviceNameById.get(user.serviceId) ?? '') : ''
+    }))
+    return orderBy(enriched, [obj => new Date(obj.updatedAt ?? 0)], ['desc'])
+  }, [users, search, serviceNameById])
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%', height: '100%' }}>
