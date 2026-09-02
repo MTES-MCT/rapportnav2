@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.98.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.97.2...v2.98.0) (2026-09-02)
+
+
+### Features
+
+* **frontend:** admin user reactivate ([168ed73](https://github.com/MTES-MCT/rapportnav2/commit/168ed73496a3ff5df19549b4972352ec59c74693))
+
+
+### Bug Fixes
+
+* bump dependencies / fix CI ([3f7b6e0](https://github.com/MTES-MCT/rapportnav2/commit/3f7b6e0433a9e76b6d5a0819b3e0c505ead78665))
+
 ## [2.97.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.97.1...v2.97.2) (2026-08-31)
 
 
