@@ -10,7 +10,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("2.3.21")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("4.0.6")
+val springVersion by extra("4.1.1")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("12.5.0")
 
@@ -20,7 +20,7 @@ plugins {
   kotlin("jvm") version "2.3.21"
   kotlin("plugin.spring") version "2.3.21"
   kotlin("plugin.jpa") version "2.3.21"
-  id("org.springframework.boot") version "4.1.0"
+  id("org.springframework.boot") version "4.1.1"
   id("io.spring.dependency-management") version "1.1.7"
   id("org.owasp.dependencycheck") version "12.2.2"
   jacoco
@@ -164,7 +164,7 @@ tasks.register<Copy>("getDependencies") {
 }
 
 jacoco {
-  toolVersion = "0.8.14"
+  toolVersion = "0.8.15"
   reportsDirectory = layout.buildDirectory.dir("reports/jacoco")
 }
 
