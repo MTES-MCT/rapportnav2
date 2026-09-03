@@ -1,5 +1,5 @@
 import Text from '@common/components/ui/text'
-import { Marge, SpeciesControl } from '@common/types/fish-mission-types.ts'
+import { DiscardedSpeciesControl, Marge, SpeciesControl } from '@common/types/fish-mission-types.ts'
 import { Accent, Icon, IconButton, Label, SimpleTable, Size, THEME } from '@mtes-mct/monitor-ui'
 import { isEmpty } from 'lodash'
 import React, { useState } from 'react'
@@ -7,14 +7,14 @@ import { Stack, Tooltip, Whisper } from 'rsuite'
 import styled from 'styled-components'
 import { MissionFishActionData } from '../../../common/types/mission-action'
 import { SatiModuleType } from '../../../common/types/sati'
-import { ConformityRow, ConformityTable } from './conformity-table.tsx'
+import { ConformitySection, ConformityTable } from './conformity-table.tsx'
 import FishControlMarge from './fish-control-marge.tsx'
 
 interface FishControlSpeciesSectionProps {
   action: MissionFishActionData
 }
 
-const Th = styled(SimpleTable.Th)({ boxSizing: 'border-box' })
+const Th = styled(SimpleTable.Th)({ boxSizing: 'border-box', textAlign: 'left' })
 const Td = styled(SimpleTable.Td)({ boxSizing: 'border-box' })
 
 type ConformityField =
@@ -23,16 +23,46 @@ type ConformityField =
   | 'holdControlledAfterUnloading'
   | 'weighingOperationsMonitoredByInspectors'
   | 'underSizedSeparateRecording'
+  | 'separateStowageOfPreservedSpecies'
+  | 'underSizedSeparateStowage'
 
-const CONFORMITY_ROWS: ConformityRow<ConformityField>[] = [
-  { field: 'speciesSizeControlled', label: 'Taille des espèces vérifiée', sectionLabel: 'Pour les espèces débarquées' },
-  { field: 'speciesWeightControlled', label: 'Poids des espèces vérifié' },
-  { field: 'holdControlledAfterUnloading', label: 'Cale contrôlée après déchargement' },
-  { field: 'weighingOperationsMonitoredByInspectors', label: 'Suivi des opérations de pesée par les inspecteurs' },
+const CONFORMITY_ROWS: ConformitySection<ConformityField>[] = [
   {
-    field: 'underSizedSeparateRecording',
-    label: "Enregistrement séparé des poissons n'ayant pas la taille requise",
-    sectionLabel: 'Pour les espèces non débarquées'
+    title: 'Pour les espèces débarquées',
+    rows: [
+      { field: 'speciesSizeControlled', label: 'Taille des espèces vérifiée' },
+      { field: 'speciesWeightControlled', label: 'Poids des espèces vérifié' },
+      {
+        field: 'holdControlledAfterUnloading',
+        label: 'Cale contrôlée après déchargement',
+        hide: action => (action as MissionFishActionData)?.sati?.module !== SatiModuleType.M3
+      },
+      {
+        field: 'weighingOperationsMonitoredByInspectors',
+        label: 'Suivi des opérations de pesée par les inspecteurs',
+        hide: action => (action as MissionFishActionData)?.sati?.module !== SatiModuleType.M3
+      },
+
+      {
+        field: 'separateStowageOfPreservedSpecies',
+        label: 'Arrimage séparé des espèces soumises à plan',
+        hide: action => (action as MissionFishActionData)?.sati?.module !== SatiModuleType.M1
+      },
+      {
+        field: 'underSizedSeparateStowage',
+        label: 'Arrimage séparé des poissons n’ayant pas la taille requise',
+        hide: action => (action as MissionFishActionData)?.sati?.module !== SatiModuleType.M1
+      }
+    ]
+  },
+  {
+    title: 'Pour les espèces non débarquées',
+    rows: [
+      {
+        field: 'underSizedSeparateRecording',
+        label: "Enregistrement séparé des poissons n'ayant pas la taille requise"
+      }
+    ]
   }
 ]
 
@@ -40,11 +70,15 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
   const [showModal, setShowModal] = useState(false)
   const isM3 = action.sati?.module === SatiModuleType.M3
   const [currentMarge, setCurrentMarge] = useState<Marge>()
+  const [currentSpecies, setCurrentSpecies] = useState<SpeciesControl>()
 
   const handleUpdateMarge = (response: boolean, data?: Marge) => {
-    if (!response || !data) return
-    console.log(data) //TODO: Remove and set formik value
+    if (response && data) {
+      console.log(data) //TODO: Remove and set formik value
+    }
+    setShowModal(false)
     setCurrentMarge(undefined)
+    setCurrentSpecies(undefined)
   }
 
   return (
@@ -61,7 +95,7 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
           border: `1px solid ${THEME.color.lightGray}`
         }}
       >
-        <ConformityTable rows={CONFORMITY_ROWS} values={action} />
+        <ConformityTable values={action} rows={isM3 ? CONFORMITY_ROWS : CONFORMITY_ROWS.map(c => ({ rows: c.rows }))} />
       </Stack.Item>
 
       {!isEmpty(action?.speciesOnboard) && (
@@ -71,7 +105,7 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
               <tr>
                 <Th>Espèce(s)</Th>
                 <Th $width={70}>Déclaré</Th>
-                <Th $width={60}>Pesé</Th>
+                <Th $width={60}>{isM3 ? 'Pesé' : 'Estimé'}</Th>
                 <Th $width={70}>Ss-taille</Th>
                 <Th $width={110}>Présentation</Th>
                 <Th $width={100}>Zone</Th>
@@ -109,16 +143,23 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
                   {isM3 && (
                     <Td>
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Stack.Item>--</Stack.Item>
+                        <Stack.Item>-</Stack.Item>
                         <Stack.Item>
                           <IconButton
+                            color="white"
                             size={Size.SMALL}
-                            accent={Accent.TERTIARY}
+                            accent={Accent.SECONDARY}
                             Icon={Icon.EditUnbordered}
-                            color={THEME.color.slateGray}
                             onClick={() => {
                               setCurrentMarge(species.marge)
+                              setCurrentSpecies(species)
                               setShowModal(true)
+                            }}
+                            style={{
+                              color: 'white',
+                              borderColor: THEME.color.blueGray,
+                              backgroundColor: THEME.color.blueGray,
+                              borderRadius: '50%'
                             }}
                           />
                         </Stack.Item>
@@ -138,19 +179,62 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
                       )}
                     </Td>
                   )}
-                  {showModal && (
-                    <FishControlMarge
-                      species={species}
-                      currentMarge={currentMarge}
-                      onSubmit={handleUpdateMarge}
-                      onChangeMarge={setCurrentMarge}
-                      onClose={() => setShowModal(false)}
-                    />
-                  )}
                 </SimpleTable.BodyTr>
               ))}
             </tbody>
           </SimpleTable.Table>
+        </Stack.Item>
+      )}
+      {showModal && currentSpecies && (
+        <FishControlMarge
+          species={currentSpecies}
+          currentMarge={currentMarge}
+          onSubmit={handleUpdateMarge}
+          onChangeMarge={setCurrentMarge}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+      {!isM3 && !isEmpty(action?.discardedSpecies) && (
+        <Stack.Item>
+          <Stack direction="column" alignItems="flex-start" spacing={'0.1rem'} style={{ width: '100%' }}>
+            <Stack.Item>
+              <Label>Rejets</Label>
+            </Stack.Item>
+
+            <Stack.Item
+              style={{
+                width: '100%',
+                padding: '16px',
+                backgroundColor: THEME.color.white,
+                border: `1px solid ${THEME.color.lightGray}`
+              }}
+            >
+              <SimpleTable.Table style={{ width: '100%', tableLayout: 'fixed' }}>
+                <SimpleTable.Head>
+                  <tr>
+                    <Th style={{ textAlign: 'left' }}>Espèce(s) rejétées</Th>
+                    <Th $width={70}>Qté</Th>
+                    <Th $width={130}>Nature rejet</Th>
+                    <Th $width={100}>Zone</Th>
+                  </tr>
+                </SimpleTable.Head>
+                <tbody>
+                  {action?.discardedSpecies?.map((species: DiscardedSpeciesControl, index: number) => (
+                    <SimpleTable.BodyTr key={`${species.speciesCode}${index}`}>
+                      <Td>{`${species.speciesCode}`}</Td>
+                      <Td>{`${species.rejectedWeight} kg`}</Td>
+                      <Td>{`${species.discardReason}`}</Td>
+                      <Td>
+                        <Text as="h3" weight="normal" truncate>
+                          {species.faoZones?.join(', ')}
+                        </Text>
+                      </Td>
+                    </SimpleTable.BodyTr>
+                  ))}
+                </tbody>
+              </SimpleTable.Table>
+            </Stack.Item>
+          </Stack>
         </Stack.Item>
       )}
 
