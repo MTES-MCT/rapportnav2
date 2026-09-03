@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.Sati
 object SatiEntityMapper {
     fun merge(sati: SatiEntity, action: MissionAction): SatiEntity {
         return sati.copy(
+            missionId = action.missionId,
             actionId = action.id?.toString() ?: "",
             startDatetimeUtc = action.actionDatetimeUtc,
             endDatetimeUtc = action.actionEndDatetimeUtc,
