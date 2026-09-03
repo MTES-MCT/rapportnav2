@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.99.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.98.0...v2.99.0) (2026-09-03)
+
+
+### Features
+
+* adapt loin page to DSFR ([9ff5c0f](https://github.com/MTES-MCT/rapportnav2/commit/9ff5c0fbebb436122387b20e5fea011d547b9675))
+
 ## [2.98.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.97.2...v2.98.0) (2026-09-02)
 
 
