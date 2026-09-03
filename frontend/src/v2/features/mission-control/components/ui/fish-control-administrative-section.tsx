@@ -1,10 +1,12 @@
 import Text from '@common/components/ui/text.tsx'
+import { ControlCheck } from '@common/types/fish-mission-types.ts'
 import { Label, THEME } from '@mtes-mct/monitor-ui'
 import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionFishActionData } from '../../../common/types/mission-action'
-import { ConformityRow, ConformityTable } from './conformity-table.tsx'
+import { SatiModuleType } from '../../../common/types/sati.ts'
+import { ConformitySection, ConformityTable } from './conformity-table.tsx'
 
 interface FishControlAdministrativeSectionProps {
   action: MissionFishActionData
@@ -21,24 +23,42 @@ type ConformityField =
   | 'stowagePlanPresent'
   | 'onboardWeighingPermit'
   | 'weighingCertificateAndSystemsValid'
+  | 'gangwayPresentAndCompliant'
 
-const CONFORMITY_ROWS: ConformityRow<ConformityField>[] = [
-  { field: 'emitsVms', label: 'Bonne émission VMS' },
-  { field: 'emitsAis', label: 'Bonne émission AIS' },
-  { field: 'portEntranceAndLandingAuthorized', label: 'Accès au port / autorisation de débarquement conformes' },
-  { field: 'logbookOpenedPriorToControl', label: 'Journal de pêche ouvert avant le contrôle' },
-  { field: 'logbookMatchesActivity', label: "Déclarations journal de pêche conformes à l'activité du navire" },
+const CONFORMITY_SECTIONS: ConformitySection<ConformityField>[] = [
   {
-    field: 'licencesMatchActivity',
-    label: "Autorisations de pêche (AEP, ANP, licences locales) conformes à l'activité du navire"
+    rows: [
+      {
+        field: 'gangwayPresentAndCompliant',
+        label: 'Echelle de coupée présente et conforme',
+        hide: values => (values as MissionFishActionData)?.sati?.module !== SatiModuleType.M1
+      },
+      { field: 'emitsVms', label: 'Bonne émission VMS' },
+      { field: 'emitsAis', label: 'Bonne émission AIS' },
+      {
+        field: 'portEntranceAndLandingAuthorized',
+        label: 'Accès au port / autorisation de débarquement conformes',
+        hide: values => (values as MissionFishActionData)?.sati?.module !== SatiModuleType.M3
+      },
+      { field: 'logbookOpenedPriorToControl', label: 'Journal de pêche ouvert avant le contrôle' },
+      { field: 'logbookMatchesActivity', label: "Déclarations journal de pêche conformes à l'activité du navire" },
+      {
+        field: 'licencesMatchActivity',
+        label: "Autorisations de pêche (AEP, ANP, licences locales) conformes à l'activité du navire"
+      },
+      { field: 'europeanFishingLicenceValid', label: 'Licence de pêche européenne valide' },
+      { field: 'stowagePlanPresent', label: "Plan d'arrimage présent et conforme" }
+    ]
   },
-  { field: 'europeanFishingLicenceValid', label: 'Licence de pêche européenne valide' },
-  { field: 'stowagePlanPresent', label: "Plan d'arrimage présent et conforme" },
-  { field: 'onboardWeighingPermit', label: 'Autorisation pour la pesée à bord', dividerBefore: true },
   {
-    hideIfNotYes: true,
-    field: 'weighingCertificateAndSystemsValid',
-    label: 'Certificat de pesée présent et systèmes de pesée à bord valides'
+    rows: [
+      { field: 'onboardWeighingPermit', label: 'Autorisation pour la pesée à bord' },
+      {
+        hide: values => values['onboardWeighingPermit'] !== ControlCheck.YES,
+        field: 'weighingCertificateAndSystemsValid',
+        label: 'Certificat de pesée présent et systèmes de pesée à bord valides'
+      }
+    ]
   }
 ]
 
@@ -56,7 +76,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
           border: `1px solid ${THEME.color.lightGray}`
         }}
       >
-        <ConformityTable rows={CONFORMITY_ROWS} values={action} />
+        <ConformityTable values={action} rows={CONFORMITY_SECTIONS} />
       </Stack.Item>
 
       {!isEmpty(action?.licencesAndLogbookObservations) && (
