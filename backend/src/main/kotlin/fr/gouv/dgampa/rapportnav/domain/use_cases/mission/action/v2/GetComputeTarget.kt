@@ -14,14 +14,18 @@ import java.util.*
 
 @UseCase
 class GetComputeTarget(
+    private val enableSati: EnableSati,
     private val targetRepo: ITargetRepository
 ) {
-    fun execute(actionId: String, isControl: Boolean?): List<TargetEntity>? {
+    fun execute(actionId: String, isControl: Boolean?, source: MissionSourceEnum? = null): List<TargetEntity>? {
         if (isControl != true) return null
         var targets = targetRepo.findByActionId(actionId)
         if (targets.isEmpty()) {
-            val target = save(getNewTarget(actionId = actionId))
+            val target = save(getNewTarget(actionId = actionId, source = source))
             targets = listOf(target)
+        }
+        if (enableSati.isRnipEnabled()) {
+            targets = updateSource(targets, source)
         }
         return targets.map { TargetEntity.fromTargetModel(it) }
     }
@@ -30,7 +34,7 @@ class GetComputeTarget(
         return targetRepo.save(target)
     }
 
-    private fun getNewTarget(actionId: String): TargetModel {
+    private fun getNewTarget(actionId: String, source: MissionSourceEnum?): TargetModel {
         return TargetModel(
             actionId = actionId,
             id = UUID.randomUUID(),
@@ -38,7 +42,7 @@ class GetComputeTarget(
             targetType = TargetType.DEFAULT,
             startDateTimeUtc = Instant.now(),
             status = TargetStatusType.IN_PROCESS.toString(),
-            source = MissionSourceEnum.RAPPORT_NAV.toString()
+            source = (source ?: MissionSourceEnum.RAPPORT_NAV).toString()
         )
     }
 
@@ -55,6 +59,15 @@ class GetComputeTarget(
                 id = UUID.randomUUID(),
                 amountOfControls = 0
             )
+        }
+    }
+
+    private fun updateSource(targets: List<TargetModel>, source: MissionSourceEnum?): List<TargetModel> {
+        return targets.map {
+            if (it.targetType != TargetType.DEFAULT || it.source == source?.toString())
+                it
+            else
+                targetRepo.save(it.copy(source = source.toString()))
         }
     }
 }
