@@ -26,44 +26,37 @@ class GetComputeEnvTarget(
     }
 
     fun getNavTargets(actionId: String): List<TargetEntity> {
-        var targets = targetRepo.findByActionId(actionId)
+        val targets = targetRepo.findByActionId(actionId)
             .filter { it.externalId == null }
-
-        if (targets.isEmpty()) {
-            val target = save(
+        // Do NOT persist on read: compute an in-memory scaffold when missing (see GetComputeTarget).
+        val models = targets.ifEmpty {
+            listOf(
                 getNewTarget(
                     actionId = actionId,
                     targetType = TargetType.DEFAULT,
                     source = MissionSourceEnum.RAPPORT_NAV
                 )
             )
-            targets = listOf(target)
         }
-        return targets.map { TargetEntity.fromTargetModel(it) }
+        return models.map { TargetEntity.fromTargetModel(it) }
     }
 
     fun getEnvTargets(actionId: String, envInfractions: List<InfractionEnvEntity>?): List<TargetEntity> {
         return envInfractions?.map {
-            var target = targetRepo.findByExternalId(it.id)
-            if (target == null) {
-                target = save(
-                    getNewTarget(
-                        actionId = actionId,
-                        externalId = it.id,
-                        targetType = getTargetType(it),
-                        source = MissionSourceEnum.MONITORENV
-                    )
+            // Reuse the persisted target when it already exists; otherwise compute it in memory (no write on
+            // read). Its deterministic id (from the MonitorEnv externalId) stays stable until the next update
+            // persists it via ProcessMissionActionTarget.
+            val target = targetRepo.findByExternalId(it.id)
+                ?: getNewTarget(
+                    actionId = actionId,
+                    externalId = it.id,
+                    targetType = getTargetType(it),
+                    source = MissionSourceEnum.MONITORENV
                 )
-            }
             val entity = TargetEntity.fromTargetModel(target)
             entity.externalData = getExternalData(it)
             entity
-        }?: listOf()
-    }
-
-
-    fun save(target: TargetModel):TargetModel {
-        return targetRepo.save(target)
+        } ?: listOf()
     }
 
     private fun getNewTarget(
@@ -72,20 +65,20 @@ class GetComputeEnvTarget(
         targetType: TargetType,
         externalId: String? = null
     ): TargetModel {
+        val id = deterministicId(externalId ?: actionId)
         return TargetModel(
             actionId = actionId,
-            id = UUID.randomUUID(),
+            id = id,
             targetType = targetType,
             externalId = externalId,
             source = source.toString(),
-            controls = getNewControls(),
+            controls = getNewControls(id),
             startDateTimeUtc = Instant.now(),
             status = TargetStatusType.IN_PROCESS.toString()
-
         )
     }
 
-    private fun getNewControls(): List<ControlModel> {
+    private fun getNewControls(targetId: UUID): List<ControlModel> {
         val controlTypes = listOf(
             ControlType.SECURITY,
             ControlType.NAVIGATION,
@@ -96,10 +89,13 @@ class GetComputeEnvTarget(
             ControlModel(
                 controlType = it,
                 amountOfControls = 0,
-                id = UUID.randomUUID()
+                id = deterministicId("$targetId:$it")
             )
         }
     }
+
+    /** Stable id derived from a seed so an unpersisted scaffold keeps the same id across reads. */
+    private fun deterministicId(seed: String): UUID = UUID.nameUUIDFromBytes(seed.toByteArray())
 
     private fun getExternalData(envInfraction: InfractionEnvEntity): TargetExternalDataEntity {
         return TargetExternalDataEntity(
@@ -119,9 +115,9 @@ class GetComputeEnvTarget(
     }
 
     private fun getTargetType(envInfraction: InfractionEnvEntity): TargetType {
-        if(envInfraction.companyName != null) return TargetType.COMPANY
-        if(envInfraction.registrationNumber != null) return TargetType.VEHICLE
-        if(envInfraction.controlledPersonIdentity != null) return TargetType.INDIVIDUAL
+        if (envInfraction.companyName != null) return TargetType.COMPANY
+        if (envInfraction.registrationNumber != null) return TargetType.VEHICLE
+        if (envInfraction.controlledPersonIdentity != null) return TargetType.INDIVIDUAL
         return TargetType.DEFAULT
     }
 }
