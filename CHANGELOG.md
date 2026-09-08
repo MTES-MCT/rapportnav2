@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.100.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.99.0...v2.100.0) (2026-09-08)
+
+
+### Features
+
+* **frontend:** feedbacks M1/M3 ([3ce6ec0](https://github.com/MTES-MCT/rapportnav2/commit/3ce6ec085ab68025ba12a007f253038dcee777fc))
+* **frontend:** feedbacks M1/M3 ([27da862](https://github.com/MTES-MCT/rapportnav2/commit/27da86290e463fb82b1473b1e88dcd467e587e07))
+
 ## [2.99.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.98.0...v2.99.0) (2026-09-03)
 
 
