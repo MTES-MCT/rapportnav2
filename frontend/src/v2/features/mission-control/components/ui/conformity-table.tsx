@@ -95,14 +95,14 @@ export function ConformityTable<Field extends string>({ rows, values }: Conformi
         <div style={{ borderTop: `1px solid ${THEME.color.lightGray}` }} />
       </Stack.Item>
 
-      {rows.map((section, index) => {
-        const visibleRows = section.rows.filter(row => !(row.hide && row.hide(values)))
+      {rows?.map((section, index) => {
+        const visibleRows = section.rows?.filter(row => !(row.hide && row.hide(values)))
         if (visibleRows.length === 0) return null
 
         return (
           <React.Fragment key={section.title ?? `section-${index}`}>
             {section.title && renderTitle(section, index)}
-            {visibleRows.map(row => renderRow(row))}
+            {visibleRows?.map(row => renderRow(row))}
           </React.Fragment>
         )
       })}

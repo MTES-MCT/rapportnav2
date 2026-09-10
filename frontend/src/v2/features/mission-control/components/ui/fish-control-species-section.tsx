@@ -3,8 +3,9 @@ import { DiscardedSpeciesControl, Marge, SpeciesControl } from '@common/types/fi
 import { Accent, Icon, IconButton, Label, SimpleTable, Size, THEME } from '@mtes-mct/monitor-ui'
 import { isEmpty } from 'lodash'
 import React, { useState } from 'react'
-import { Stack, Tooltip, Whisper } from 'rsuite'
+import { Stack } from 'rsuite'
 import styled from 'styled-components'
+import HoverTooltip from '../../../common/components/ui/hover-tooltip.tsx'
 import { MissionFishActionData } from '../../../common/types/mission-action'
 import { SatiModuleType } from '../../../common/types/sati'
 import { ConformitySection, ConformityTable } from './conformity-table.tsx'
@@ -105,7 +106,7 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
               <tr>
                 <Th>Espèce(s)</Th>
                 <Th $width={70}>Déclaré</Th>
-                <Th $width={60}>{isM3 ? 'Pesé' : 'Estimé'}</Th>
+                <Th $width={70}>{isM3 ? 'Pesé' : 'Estimé'}</Th>
                 <Th $width={70}>Ss-taille</Th>
                 <Th $width={110}>Présentation</Th>
                 <Th $width={100}>Zone</Th>
@@ -117,33 +118,37 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
               {action?.speciesOnboard?.map((species: SpeciesControl, index: number) => (
                 <SimpleTable.BodyTr key={`${species.speciesCode}${index}`}>
                   <Td>
-                    <Whisper
-                      placement="top"
-                      trigger="hover"
-                      speaker={<Tooltip>{`${species.speciesCode} – ${species.speciesName}`}</Tooltip>}
-                    >
-                      <Text as="h3" truncate weight="bold" fontStyle={species.isNotLanded ? 'italic' : 'normal'}>
-                        {`${species.speciesCode} – ${species.speciesName}`}
-                      </Text>
-                    </Whisper>
-                  </Td>
-                  <Td>{species.declaredWeight !== undefined ? `${species.declaredWeight} kg` : '--'}</Td>
-                  <Td>{species.controlledWeight !== undefined ? `${species.controlledWeight} kg` : '--'}</Td>
-                  <Td>{species.underSizedWeight !== undefined ? `${species.underSizedWeight} kg` : '- kg'}</Td>
-                  <Td>
-                    <Text as="h3" weight="normal" truncate>
-                      {species.presentationCodes?.join(', ')}
-                    </Text>
+                    <HoverTooltip
+                      weight="bold"
+                      text={`${species.speciesCode} – ${species.speciesName}`}
+                      fontStyle={species.isNotLanded ? 'italic' : 'normal'}
+                    />
                   </Td>
                   <Td>
-                    <Text as="h3" weight="normal" truncate>
-                      {species.faoZones?.join(', ')}
-                    </Text>
+                    <HoverTooltip text={species.declaredWeight !== undefined ? `${species.declaredWeight} kg` : '--'} />
+                  </Td>
+                  <Td>
+                    <HoverTooltip
+                      text={species.controlledWeight !== undefined ? `${species.controlledWeight} kg` : '--'}
+                    />
+                  </Td>
+                  <Td>
+                    <HoverTooltip
+                      text={species.underSizedWeight !== undefined ? `${species.underSizedWeight} kg` : '- kg'}
+                    />
+                  </Td>
+                  <Td>
+                    <HoverTooltip text={species.presentationCodes?.join(', ')} />
+                  </Td>
+                  <Td>
+                    <HoverTooltip text={species.faoZones?.join(', ')} />
                   </Td>
                   {isM3 && (
                     <Td>
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Stack.Item>-</Stack.Item>
+                        <Stack.Item>
+                          <HoverTooltip text={'-'} />
+                        </Stack.Item>
                         <Stack.Item>
                           <IconButton
                             color="white"
@@ -169,11 +174,9 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
                   {isM3 && (
                     <Td $isCenter>
                       {species.isNotLanded ? (
-                        <Whisper placement="top" trigger="hover" speaker={<Tooltip>Espèce non débarquée</Tooltip>}>
-                          <span>
-                            <Icon.VesselPro color={THEME.color.slateGray} size={18} />
-                          </span>
-                        </Whisper>
+                        <HoverTooltip text="Espèce non débarquée">
+                          <Icon.VesselPro color={THEME.color.slateGray} size={18} />
+                        </HoverTooltip>
                       ) : (
                         <Icon.VesselPro color={THEME.color.lightGray} size={18} />
                       )}
@@ -195,7 +198,7 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
         />
       )}
       {!isM3 && !isEmpty(action?.discardedSpecies) && (
-        <Stack.Item>
+        <Stack.Item style={{ width: '100%', marginTop: '16px' }}>
           <Stack direction="column" alignItems="flex-start" spacing={'0.1rem'} style={{ width: '100%' }}>
             <Stack.Item>
               <Label>Rejets</Label>
@@ -221,13 +224,17 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
                 <tbody>
                   {action?.discardedSpecies?.map((species: DiscardedSpeciesControl, index: number) => (
                     <SimpleTable.BodyTr key={`${species.speciesCode}${index}`}>
-                      <Td>{`${species.speciesCode}`}</Td>
-                      <Td>{`${species.rejectedWeight} kg`}</Td>
-                      <Td>{`${species.discardReason}`}</Td>
                       <Td>
-                        <Text as="h3" weight="normal" truncate>
-                          {species.faoZones?.join(', ')}
-                        </Text>
+                        <HoverTooltip text={`${species.speciesCode}`} />
+                      </Td>
+                      <Td>
+                        <HoverTooltip text={`${species.rejectedWeight} kg`} />
+                      </Td>
+                      <Td>
+                        <HoverTooltip text={`${species.discardReason}`} />
+                      </Td>
+                      <Td>
+                        <HoverTooltip text={`${species.faoZones?.join(', ')}`} />
                       </Td>
                     </SimpleTable.BodyTr>
                   ))}

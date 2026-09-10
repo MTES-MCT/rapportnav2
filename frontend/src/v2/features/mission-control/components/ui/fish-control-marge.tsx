@@ -62,10 +62,10 @@ const FishControlMarge: React.FC<FishControlMargeProps> = ({
           <Stack.Item style={{ width: '100%' }}>
             <Message level="WARNING" Icon={Icon.AttentionFilled}>
               <span style={{ fontWeight: 'bold' }}>
-                Ce qui est à renseigner ici est
+                Ce qui est à renseigner ici est{' '}
                 <span style={{ textDecoration: 'underline' }}>la marge de tolérance en % ou en kg</span>
                 <br />
-                (en fonction dela réglementation applicable),
+                (en fonction dela réglementation applicable),{' '}
                 <span style={{ textDecoration: 'underline' }}>si celle-ci est non conforme </span>
               </span>
               <span style={{ fontStyle: 'italic' }}>
@@ -101,7 +101,7 @@ const FishControlMarge: React.FC<FishControlMargeProps> = ({
       </Dialog.Body>
       <Dialog.Action style={{ display: 'flex', justifyContent: 'flex-end', padding: '32px 24px 24px 24px' }}>
         <BasicDialogAction
-          isValid={!!currentMarge?.metric && !!currentMarge?.value}
+          isValid={false && !!currentMarge?.metric && !!currentMarge?.value} //TODO: remove false when Monitor is ready
           onSubmit={response => onSubmit(response, response ? currentMarge : undefined)}
         />
       </Dialog.Action>
