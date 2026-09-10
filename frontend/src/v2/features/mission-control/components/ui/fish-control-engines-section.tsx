@@ -73,19 +73,19 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
                 <Stack.Item>
                   <Label>Maillage déclaré</Label>
                   <Text as="h3" weight="medium">
-                    {`${gearControl.declaredMesh ?? ''} mm`}
+                    {`${gearControl.declaredMesh ?? '--'} mm`}
                   </Text>
                 </Stack.Item>
                 <Stack.Item>
                   <Label>Maillage mesuré</Label>
                   <Text as="h3" weight="medium">
-                    {`${gearControl.controlledMesh ?? ''} mm`}
+                    {`${gearControl.controlledMesh ?? '--'} mm`}
                   </Text>
                 </Stack.Item>
                 <Stack.Item>
                   <Label>Ep. moyenne de fil</Label>
                   <Text as="h3" weight="medium">
-                    {`${gearControl.averageWireThickness ?? ''} mm`}
+                    {`${gearControl.averageWireThickness ?? '--'} mm`}
                   </Text>
                 </Stack.Item>
                 <Stack.Item>

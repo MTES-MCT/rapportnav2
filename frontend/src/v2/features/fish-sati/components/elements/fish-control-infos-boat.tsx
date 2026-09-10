@@ -1,9 +1,8 @@
 import Text from '@common/components/ui/text.tsx'
-import { ControlCheck } from '@common/types/fish-mission-types.ts'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { useCountry } from '../../../common/hooks/use-countries.tsx'
-import { SatiVessel } from '../../../common/types/sati.ts'
+import { SatiModuleType, SatiVessel } from '../../../common/types/sati.ts'
 import GangwayPresent from '../ui/gangway-present.tsx'
 import JpeForm from '../ui/jpe-form.tsx'
 import JpeSummary from '../ui/jpe-summary.tsx'
@@ -12,10 +11,11 @@ import LabeledValue from '../ui/labeled-value.tsx'
 interface FishControlInfosProps {
   name?: string
   vessel?: SatiVessel
-  gangwayPresent?: ControlCheck
+  module?: SatiModuleType
+  isUnitBoarded?: boolean
 }
 
-const FishControlInfosBoat: FC<FishControlInfosProps> = ({ name, vessel, gangwayPresent }) => {
+const FishControlInfosBoat: FC<FishControlInfosProps> = ({ name, vessel, module, isUnitBoarded }) => {
   const { getCountryFlag } = useCountry()
 
   return (
@@ -56,7 +56,7 @@ const FishControlInfosBoat: FC<FishControlInfosProps> = ({ name, vessel, gangway
         {!!vessel?.jpe?.pnoId ? <JpeSummary name={name} /> : <JpeForm name={name} />}
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <GangwayPresent withGangWay={gangwayPresent === ControlCheck.YES} />
+        {module === SatiModuleType.M1 && <GangwayPresent isUnitBoarded={isUnitBoarded} />}
       </Stack.Item>
     </Stack>
   )
