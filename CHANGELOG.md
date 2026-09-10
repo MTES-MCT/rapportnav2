@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.100.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.0...v2.100.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* **frontend:** review M1/M3 ([215678e](https://github.com/MTES-MCT/rapportnav2/commit/215678e3409faa4a552fc0d11ea71d59a4ab446b))
+* **frontend:** review M1/M3 ([53117f6](https://github.com/MTES-MCT/rapportnav2/commit/53117f6f2ec1b4ad8da9fee8133975e3a813c84e))
+
 ## [2.100.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.99.0...v2.100.0) (2026-09-08)
 
 
