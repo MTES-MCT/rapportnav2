@@ -25,7 +25,7 @@ export function useMissionActionAntiPollution(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionAntiPollutionInput> {
-  const { getCoords } = useCoordinate()
+  const { getCoordRounded } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId)
@@ -36,7 +36,7 @@ export function useMissionActionAntiPollution(
     return {
       ...data,
       dates,
-      geoCoords: getCoords(data.latitude, data.longitude)
+      geoCoords: getCoordRounded(data.latitude, data.longitude)
     }
   }
 
