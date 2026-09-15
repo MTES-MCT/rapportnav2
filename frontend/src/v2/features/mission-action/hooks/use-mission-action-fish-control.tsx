@@ -65,7 +65,7 @@ export function useMissionActionFishControl(
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionFishControlInput> & { items: StyledTabItem[] } {
   const { isSatiEnabled } = useSati()
-  const { getCoords } = useCoordinate()
+  const { getCoordRounded } = useCoordinate()
   const value = action?.data as MissionFishActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId)
@@ -76,7 +76,7 @@ export function useMissionActionFishControl(
     return {
       ...data,
       dates,
-      geoCoords: getCoords(data.latitude, data.longitude)
+      geoCoords: getCoordRounded(data.latitude, data.longitude)
     }
   }
 

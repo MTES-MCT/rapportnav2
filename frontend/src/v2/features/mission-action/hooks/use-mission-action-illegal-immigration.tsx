@@ -16,7 +16,7 @@ export function useMissionActionIllegalImmigration(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionIllegalImmigrationInput> {
-  const { getCoords } = useCoordinate()
+  const { getCoordRounded } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId)
@@ -27,7 +27,7 @@ export function useMissionActionIllegalImmigration(
     return {
       ...data,
       dates,
-      geoCoords: getCoords(data.latitude, data.longitude)
+      geoCoords: getCoordRounded(data.latitude, data.longitude)
     }
   }
 
