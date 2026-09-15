@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.100.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.0...v2.100.1) (2026-09-15)
+
+
+### Bug Fixes
+
+* **frontend:** hotfix  coords triggered endless put ([eecc8cb](https://github.com/MTES-MCT/rapportnav2/commit/eecc8cb67d1cdf4bd7a1bcb22c2c5ab4b4385351))
+* **frontend:** login page ([ee9efca](https://github.com/MTES-MCT/rapportnav2/commit/ee9efca291b802dee686a634dd497453813fc1c3))
+* **frontend:** login page ([c5b1625](https://github.com/MTES-MCT/rapportnav2/commit/c5b1625e8ef4ffccecf769bccf5b596bd6482e18))
+* **frontend:** review M1/M3 ([215678e](https://github.com/MTES-MCT/rapportnav2/commit/215678e3409faa4a552fc0d11ea71d59a4ab446b))
+* **frontend:** review M1/M3 ([53117f6](https://github.com/MTES-MCT/rapportnav2/commit/53117f6f2ec1b4ad8da9fee8133975e3a813c84e))
+
 ## [2.100.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.99.0...v2.100.0) (2026-09-08)
 
 
