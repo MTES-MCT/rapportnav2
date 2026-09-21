@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.100.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.1...v2.100.2) (2026-09-21)
+
+
+### Bug Fixes
+
+* update postgres:15.19 ([421556a](https://github.com/MTES-MCT/rapportnav2/commit/421556a861154cefdb506533f30479e0b65545b1))
+
 ## [2.100.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.0...v2.100.1) (2026-09-15)
 
 
