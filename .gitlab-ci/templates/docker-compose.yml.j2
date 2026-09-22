@@ -4,6 +4,8 @@ services:
   app:
     image: "{{ docker_image_path_1 }}"
     container_name: rapportnav_backend
+    labels:
+      io.portainer.accesscontrol.teams: "monitorfish"
     env_file: ".env"
     environment:
       # profile is 'prod', 'int' or 'local'
