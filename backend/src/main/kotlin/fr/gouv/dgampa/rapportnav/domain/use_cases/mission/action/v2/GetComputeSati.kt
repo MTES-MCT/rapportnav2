@@ -1,17 +1,15 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnvControlUnitResourceRepository
 
 @UseCase
 class GetComputeSati(
     private val enableSati: EnableSati,
     private val satiRepo: ISatiRepository,
-    private val controlResourceRepo: IEnvControlUnitResourceRepository
+    private val computeSati: ComputeSati
 ) {
     fun execute(action: MissionAction): SatiEntity? {
         if (!enableSati.execute()) return null
@@ -20,21 +18,7 @@ class GetComputeSati(
         var sati = satiRepo.findByActionId(actionId = action.id.toString())
         if (sati == null) sati = satiRepo.save(sati = getNewSati(action = action))
 
-        sati.resource = getControlResource(sati.resource?.id)
-        return SatiEntityMapper.merge(sati = sati, action = action)
-    }
-
-    private fun getControlResource(resourceId: Int?): ControlResourceEntity? {
-        return controlResourceRepo.findAll().find { it.id == resourceId }
-            ?.let {
-                ControlResourceEntity(
-                    id = it.id,
-                    name = it.name,
-                    type = it.type,
-                    registrationId = it.registrationId,
-                    radioFrequency = it.radioFrequency
-                )
-            }
+        return computeSati.execute(sati = sati, action = action)
     }
 
     private fun getNewSati(action: MissionAction): SatiEntity {
