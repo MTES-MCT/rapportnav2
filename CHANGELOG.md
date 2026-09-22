@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.100.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.2...v2.100.3) (2026-09-22)
+
+
+### Bug Fixes
+
+* delay textarea in env control ([d25d774](https://github.com/MTES-MCT/rapportnav2/commit/d25d77483d3fb0a301c1e999b408966c07cbed35))
+* disable ULAM 34 from tests ([290056c](https://github.com/MTES-MCT/rapportnav2/commit/290056cc7f604a0430f6068f6712396ef96d0abc))
+
 ## [2.100.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.1...v2.100.2) (2026-09-21)
 
 
