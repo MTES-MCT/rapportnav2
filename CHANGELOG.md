@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.100.4](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.3...v2.100.4) (2026-09-22)
+
+
+### Bug Fixes
+
+* add compose label ([19566f2](https://github.com/MTES-MCT/rapportnav2/commit/19566f20b3b919e78dad098aee85870dff3a5f71))
+* env var frontend sati ([c24d4ce](https://github.com/MTES-MCT/rapportnav2/commit/c24d4ce44a626962c7f1203c887b95ad7aec485b))
+
 ## [2.100.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.2...v2.100.3) (2026-09-22)
 
 
