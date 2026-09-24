@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.100.5](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.4...v2.100.5) (2026-09-24)
+
+
+### Bug Fixes
+
+* SATI enable ULAM 971 ([729cb15](https://github.com/MTES-MCT/rapportnav2/commit/729cb1588511ceee2b9b4a2f3e6ad3b2e1bbf969))
+
 ## [2.100.4](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.3...v2.100.4) (2026-09-22)
 
 
