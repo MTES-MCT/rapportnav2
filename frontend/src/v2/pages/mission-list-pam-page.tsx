@@ -1,13 +1,8 @@
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { useSelector } from '@tanstack/react-store'
 import { FC, useState } from 'react'
-import { useSearchParams } from 'react-router'
 import { Stack } from 'rsuite'
 import MissionListEmptyFiltered from '../features/common/components/elements/mission-list-empty-filtered.tsx'
-import {
-  clearMissionListFilters,
-  hasActiveMissionListFilters
-} from '../features/common/components/elements/mission-list-filter-utils.ts'
 import MissionListFilters, {
   DateMode,
   DATE_MODE_LABELS
@@ -20,6 +15,7 @@ import MissionListPageWrapper from '../features/common/components/layout/mission
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
 import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
+import { useMissionListFilters } from '../features/common/hooks/use-mission-list-filters.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import { useOfflineMode } from '../features/common/hooks/use-offline-mode.tsx'
 import { useOnlineManager } from '../features/common/hooks/use-online-manager.tsx'
@@ -43,7 +39,7 @@ const MissionListPamPage: FC = () => {
   const user = useSelector(store, state => state.user)
 
   const { getSidebarItems } = useGlobalRoutes()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const { searchParams, setSearchParams, filtersActive, resetFilters } = useMissionListFilters()
 
   const { getMissionListItem } = useMissionList()
   const { isLoading, missions, hasNextPage, isFetchingNextPage, fetchNextPage } = useMissionsQuery(searchParams)
@@ -51,9 +47,6 @@ const MissionListPamPage: FC = () => {
   // Project the raw `MissionListData` payload into the formatted view-model once, then reuse it
   // for the list, the actions bar and the export flow.
   const missionItems: MissionListItem[] = (missions ?? []).map(m => getMissionListItem(m))
-
-  const filtersActive = hasActiveMissionListFilters(searchParams)
-  const resetFilters = () => setSearchParams(clearMissionListFilters(searchParams))
 
   const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
@@ -128,6 +121,7 @@ const MissionListPamPage: FC = () => {
             onChange={setSearchParams}
             dateModeOptions={DATE_MODE_OPTIONS}
             showReportTypeFilter={false}
+            onReset={resetFilters}
           />
         }
         actions={

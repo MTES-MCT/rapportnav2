@@ -57,4 +57,22 @@ describe('MissionListFilters', () => {
     expect(next.getAll('statuses')).toEqual([])
     expect(next.get('dateMode')).toBeNull()
   })
+
+  test('delegates the reset to onReset when provided, without touching onChange', () => {
+    const onChange = vi.fn()
+    const onReset = vi.fn()
+    render(
+      <MissionListFilters
+        searchParams={new URLSearchParams('statuses=ENDED')}
+        onChange={onChange}
+        onReset={onReset}
+        dateModeOptions={DATE_MODE_OPTIONS}
+      />
+    )
+
+    fireEvent.click(screen.getByText('Réinitialiser les filtres'))
+
+    expect(onReset).toHaveBeenCalledTimes(1)
+    expect(onChange).not.toHaveBeenCalled()
+  })
 })
