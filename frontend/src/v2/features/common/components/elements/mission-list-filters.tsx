@@ -39,6 +39,8 @@ interface MissionListFiltersProps {
   dateModeOptions: { value: DateMode; label: string }[]
   // whether to show the "Type de rapport" filter (hidden on PAM, which has a single report type)
   showReportTypeFilter?: boolean
+  // reset handler owned by the page (clears the params + refreshes the list); falls back to a plain clear
+  onReset?: () => void
 }
 
 /**
@@ -54,7 +56,8 @@ const MissionListFilters: FC<MissionListFiltersProps> = ({
   searchParams,
   onChange,
   dateModeOptions,
-  showReportTypeFilter = true
+  showReportTypeFilter = true,
+  onReset
 }) => {
   const { reportTypeOptions } = useMissionType()
   const { getTodayWeekRange, getTodayMonthRange, getTodayYearRange } = useDate()
@@ -111,6 +114,7 @@ const MissionListFilters: FC<MissionListFiltersProps> = ({
   }
 
   const handleReset = () => {
+    if (onReset) return onReset()
     onChange(clearMissionListFilters(searchParams))
   }
 
