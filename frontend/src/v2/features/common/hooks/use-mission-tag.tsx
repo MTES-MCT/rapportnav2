@@ -1,16 +1,18 @@
-import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { MissionSourceEnum } from '../types/mission-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 
 interface MissionTagHook {
   getTagTextColor: () => string
   getTagBorderColor: () => string
   getTagTextContent: () => string
+  getSourceColor: () => string
   getTagBackgroundColor: () => string
   getOpenByText: (missionSource?: MissionSourceEnum) => string
 }
 
 export function useMissionTag(missionSource?: MissionSourceEnum): MissionTagHook {
-  const getTagBackgroundColor = (): string => {
+  // Source palette shared by the mission-source tag (as background) and the action-recap tags (as border/text).
+  const getSourceColor = (): string => {
     switch (missionSource) {
       case MissionSourceEnum.MONITORENV:
       case MissionSourceEnum.POSEIDON_CACEM:
@@ -22,6 +24,8 @@ export function useMissionTag(missionSource?: MissionSourceEnum): MissionTagHook
         return THEME.color.gunMetal
     }
   }
+
+  const getTagBackgroundColor = (): string => getSourceColor()
 
   const getTagTextColor = (): string => THEME.color.white
 
@@ -46,5 +50,12 @@ export function useMissionTag(missionSource?: MissionSourceEnum): MissionTagHook
 
   const getTagTextContent = (): string => getOpenByText(missionSource)
 
-  return { getOpenByText, getTagTextColor, getTagBorderColor, getTagTextContent, getTagBackgroundColor }
+  return {
+    getOpenByText,
+    getTagTextColor,
+    getTagBorderColor,
+    getTagTextContent,
+    getSourceColor,
+    getTagBackgroundColor
+  }
 }

@@ -1,5 +1,5 @@
 import Text from '@common/components/ui/text'
-import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { MissionSourceEnum } from '../../types/mission-types'
 import { Tag } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { useMissionTag } from '../../hooks/use-mission-tag'

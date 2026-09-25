@@ -1,24 +1,38 @@
 import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { useStore } from '@tanstack/react-store'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useSearchParams } from 'react-router'
 import { Stack } from 'rsuite'
-import ItemListDateRangeNavigator from '../features/common/components/elements/item-list-daterange-navigator.tsx'
+import MissionListCountTag from '../features/common/components/elements/mission-list-count-tag.tsx'
+import MissionListEmptyFiltered from '../features/common/components/elements/mission-list-empty-filtered.tsx'
+import {
+  clearMissionListFilters,
+  hasActiveMissionListFilters
+} from '../features/common/components/elements/mission-list-filter-utils.ts'
+import MissionListFilters, {
+  DateMode,
+  DATE_MODE_LABELS
+} from '../features/common/components/elements/mission-list-filters.tsx'
+import MissionListLoadMore from '../features/common/components/elements/mission-list-load-more.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
-import { useDate } from '../features/common/hooks/use-date.tsx'
 import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import MissionCreateDialog from '../features/ulam/components/element/mission-create-dialog.tsx'
 import MissionListUlam from '../features/ulam/components/element/mission-list/mission-list-ulam.tsx'
 import { store } from '../store'
 
+// ULAM date-range options: current week, current month, specific period (no default → newest first)
+const DATE_MODE_OPTIONS = [DateMode.CURRENT_WEEK, DateMode.CURRENT_MONTH, DateMode.CUSTOM].map(value => ({
+  value,
+  label: DATE_MODE_LABELS[value]
+}))
+
 const MissionListUlamPage: React.FC = () => {
-  const { getTodayMonthRange } = useDate()
   const { getSidebarItems } = useGlobalRoutes()
   const user = useStore(store, state => state.user)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -28,18 +42,11 @@ const MissionListUlamPage: React.FC = () => {
     setIsDialogOpen(false)
   }
 
-  useEffect(() => {
-    if (searchParams.get('endDateTimeUtc') && searchParams.get('startDateTimeUtc')) return
-    setSearchParams(getTodayMonthRange())
-    return () => {}
-  }, [searchParams, setSearchParams, getTodayMonthRange])
-
   const { getMissionListItem } = useMissionList()
-  const { isLoading, data: missions } = useMissionsQuery(searchParams)
+  const { isLoading, missions, hasNextPage, isFetchingNextPage, fetchNextPage } = useMissionsQuery(searchParams)
 
-  const handleUpdateDateTime = (currentDate: Date) => {
-    setSearchParams(getTodayMonthRange(currentDate))
-  }
+  const filtersActive = hasActiveMissionListFilters(searchParams)
+  const resetFilters = () => setSearchParams(clearMissionListFilters(searchParams))
 
   return (
     <MissionListPageWrapper
@@ -64,16 +71,36 @@ const MissionListUlamPage: React.FC = () => {
                 </Stack>
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
-                <ItemListDateRangeNavigator
-                  timeframe={'month'}
-                  onUpdateCurrentDate={handleUpdateDateTime}
-                  startDateTimeUtc={searchParams.get('startDateTimeUtc')}
+                <MissionListFilters
+                  searchParams={searchParams}
+                  onChange={setSearchParams}
+                  dateModeOptions={DATE_MODE_OPTIONS}
                 />
               </Stack.Item>
             </Stack>
           </>
         }
-        list={<MissionListUlam missions={missions?.map(m => getMissionListItem(m))} user={user} />}
+        emptyState={filtersActive ? <MissionListEmptyFiltered onReset={resetFilters} /> : undefined}
+        list={
+          <Stack direction="column" spacing="1rem" style={{ width: '100%' }}>
+            <Stack.Item alignSelf={'flex-end'} style={{ width: '100%' }}>
+              <MissionListCountTag count={missions.length} />
+            </Stack.Item>
+            <Stack.Item style={{ width: '100%' }}>
+              <MissionListUlam
+                missions={missions?.map(m => getMissionListItem(m))}
+                user={user}
+                loadMore={
+                  <MissionListLoadMore
+                    hasNextPage={hasNextPage}
+                    isFetchingNextPage={isFetchingNextPage}
+                    onLoadMore={fetchNextPage}
+                  />
+                }
+              />
+            </Stack.Item>
+          </Stack>
+        }
       />
       <MissionCreateDialog isOpen={isDialogOpen} onClose={handleCloseDialog} />
     </MissionListPageWrapper>

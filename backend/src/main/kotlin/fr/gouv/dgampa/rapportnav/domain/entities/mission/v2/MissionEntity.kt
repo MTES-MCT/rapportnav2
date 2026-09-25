@@ -5,6 +5,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import org.slf4j.LoggerFactory
 import java.time.Instant
 import java.time.format.DateTimeParseException
@@ -102,5 +105,76 @@ data class MissionEntity(
             .distinct()
             .take(2)     // stops early if more than 1 distinct value
             .count() == 2
+
+    /**
+     * Per-source recap of the mission's actions for the ULAM list expanded row.
+     * Counts 1 per action (env's `actionNumberOfControls` is intentionally ignored) and emits one
+     * [MissionActionSummaryEntity] per source that has at least one action.
+     *
+     * Classification:
+     *  - RAPPORT_NAV: controls via [MissionActionEntity.isControl] (includes INQUIRY), surveillances via
+     *    [NAV_SURVEILLANCE_TYPES], everything else -> other.
+     *  - MONITORENV: by `envActionType` (CONTROL / SURVEILLANCE / NOTE -> other).
+     *  - MONITORFISH: by `fishActionType` (SEA/LAND/AIR_CONTROL -> control, AIR_SURVEILLANCE -> surveillance,
+     *    OBSERVATION -> other).
+     */
+    fun computeActionsSummary(): List<MissionActionSummaryEntity> {
+        val summaries = mutableListOf<MissionActionSummaryEntity>()
+
+        actions?.filterIsInstance<MissionNavActionEntity>()?.takeIf { it.isNotEmpty() }?.let { navActions ->
+            summaries.add(
+                MissionActionSummaryEntity(
+                    source = MissionSourceEnum.RAPPORT_NAV,
+                    nbControls = navActions.count { it.isControl() },
+                    nbSurveillances = navActions.count { NAV_SURVEILLANCE_TYPES.contains(it.actionType) },
+                    nbOtherActions = navActions.count {
+                        !it.isControl() && !NAV_SURVEILLANCE_TYPES.contains(it.actionType)
+                    },
+                )
+            )
+        }
+
+        actions?.filterIsInstance<MissionEnvActionEntity>()?.takeIf { it.isNotEmpty() }?.let { envActions ->
+            summaries.add(
+                MissionActionSummaryEntity(
+                    source = MissionSourceEnum.MONITORENV,
+                    nbControls = envActions.count { it.envActionType == ActionTypeEnum.CONTROL },
+                    nbSurveillances = envActions.count { it.envActionType == ActionTypeEnum.SURVEILLANCE },
+                    nbOtherActions = envActions.count {
+                        it.envActionType != ActionTypeEnum.CONTROL && it.envActionType != ActionTypeEnum.SURVEILLANCE
+                    },
+                )
+            )
+        }
+
+        actions?.filterIsInstance<MissionFishActionEntity>()?.takeIf { it.isNotEmpty() }?.let { fishActions ->
+            summaries.add(
+                MissionActionSummaryEntity(
+                    source = MissionSourceEnum.MONITORFISH,
+                    nbControls = fishActions.count { FISH_CONTROL_TYPES.contains(it.fishActionType) },
+                    nbSurveillances = fishActions.count { it.fishActionType == MissionActionType.AIR_SURVEILLANCE },
+                    nbOtherActions = fishActions.count { it.fishActionType == MissionActionType.OBSERVATION },
+                )
+            )
+        }
+
+        return summaries
+    }
+
+    companion object {
+        // ULAM timeline surveillance group (see use-ulam-timeline-registry.tsx). Nav controls are classified
+        // via MissionActionEntity.isControl() instead of a set here.
+        private val NAV_SURVEILLANCE_TYPES = setOf(
+            ActionType.NAUTICAL_EVENT,
+            ActionType.LAND_SURVEILLANCE,
+            ActionType.MARITIME_SURVEILLANCE,
+        )
+
+        private val FISH_CONTROL_TYPES = setOf(
+            MissionActionType.SEA_CONTROL,
+            MissionActionType.LAND_CONTROL,
+            MissionActionType.AIR_CONTROL,
+        )
+    }
 }
 
