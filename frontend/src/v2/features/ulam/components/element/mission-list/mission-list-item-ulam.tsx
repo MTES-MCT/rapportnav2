@@ -14,6 +14,7 @@ import { User } from '../../../../common/types/user.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
+import MissionActionRecapTags from '../../ui/mission-action-recap-tags.tsx'
 
 interface MissionListItemProps {
   mission: MissionListItem
@@ -176,19 +177,13 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
                 backgroundColor: THEME.color.charcoal
               }}
             />
-            <FlexboxGrid justify="space-between" style={{ width: '100%', marginBottom: '1rem' }}>
-              <FlexboxGrid.Item style={{ maxWidth: '60%', overflowWrap: 'break-word' }}>
-                <p
-                  style={{
-                    color: THEME.color.gunMetal,
-                    fontSize: '13px',
-                    paddingBottom: '15px'
-                  }}
-                >
-                  {mission.observationsByUnit}
-                </p>
+            <FlexboxGrid justify="start" style={{ width: '100%', marginBottom: '1rem' }}>
+              <FlexboxGrid.Item colspan={9} style={{ overflowWrap: 'break-word' }}>
+                <Text as={'h3'}>{mission.observationsByUnit}</Text>
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item></FlexboxGrid.Item>
+              <FlexboxGrid.Item>
+                <MissionActionRecapTags actionsSummary={mission.actionsSummary} />
+              </FlexboxGrid.Item>
             </FlexboxGrid>
           </FlexboxGrid.Item>
         )}

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { useMissionTag } from '../use-mission-tag.tsx'
-import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { MissionSourceEnum } from '../../types/mission-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 
 describe('useMissionTag with RAPPORT_NAV as MissionSource', () => {
