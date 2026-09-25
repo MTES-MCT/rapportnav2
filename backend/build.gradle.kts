@@ -8,7 +8,7 @@ version = "2.100.5"
 // x-release-please-end
 description = "RapportNav"
 
-val kotlinVersion by extra("2.3.21")
+val kotlinVersion by extra("2.4.20")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("4.1.1")
 val testcontainersVersion by extra("1.19.3")
@@ -17,9 +17,9 @@ val flywayVersion by extra("12.5.0")
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "2.3.21"
-  kotlin("plugin.spring") version "2.3.21"
-  kotlin("plugin.jpa") version "2.3.21"
+  kotlin("jvm") version "2.4.20"
+  kotlin("plugin.spring") version "2.4.20"
+  kotlin("plugin.jpa") version "2.4.20"
   id("org.springframework.boot") version "4.1.1"
   id("io.spring.dependency-management") version "1.1.7"
   id("org.owasp.dependencycheck") version "12.2.2"
@@ -106,7 +106,7 @@ dependencies {
   implementation("org.jodconverter:jodconverter-local-lo:4.4.11")
   implementation("com.neovisionaries:nv-i18n:1.29")
   implementation("org.wiremock:wiremock-standalone:4.0.0-beta.32")
-  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.1")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
   testImplementation("org.springframework.boot:spring-boot-starter-jackson-test")
