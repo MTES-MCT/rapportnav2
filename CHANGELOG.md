@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.100.6](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.5...v2.100.6) (2026-09-25)
+
+
+### Bug Fixes
+
+* hotfix for control f57bcadf-34de-49f5-8167-2511802bb0a4 ([2a3a6a9](https://github.com/MTES-MCT/rapportnav2/commit/2a3a6a9b367718b1b46922c1a4ec568c4820fddf))
+* **secu:** bump spring-boot and kotlin ([8c1d504](https://github.com/MTES-MCT/rapportnav2/commit/8c1d504885ea4315764c9b78f2cf3902cfbb34e7))
+
 ## [2.100.5](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.4...v2.100.5) (2026-09-24)
 
 
