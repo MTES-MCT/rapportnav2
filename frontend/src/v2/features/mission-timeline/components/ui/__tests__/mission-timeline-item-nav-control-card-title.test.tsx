@@ -2,7 +2,6 @@ import { ControlMethod } from '@common/types/control-types'
 import { VesselTypeEnum } from '../../../../common/types/vessel-type'
 import { render, screen } from '../../../../../../test-utils'
 import { ActionType } from '../../../../common/types/action-type'
-import { SectorType } from '../../../../common/types/sector-types'
 import { MissionTimelineAction } from '../../../types/mission-timeline-output'
 import MissionTimelineItemNavControlCardTitle from '../mission-timeline-item-nav-control-card-title'
 
@@ -101,34 +100,46 @@ describe('MissionTimelineItemNavControlCardTitle', () => {
     })
   })
 
-  describe('ActionType.CONTROL_SECTOR', () => {
-    it('should render fishing sector type', () => {
+  describe('ActionType.CONTROL_SECTOR_FISHING', () => {
+    it('should render "Contrôles d\'établissement - filière pêche"', () => {
       const action: MissionTimelineAction = {
-        type: ActionType.CONTROL_SECTOR,
-        sectorType: SectorType.FISHING
+        type: ActionType.CONTROL_SECTOR_FISHING
       } as MissionTimelineAction
       render(<MissionTimelineItemNavControlCardTitle action={action} />)
       expect(screen.getByText('Contrôles')).toBeInTheDocument()
       expect(screen.getByText("d'établissement - filière pêche")).toBeInTheDocument()
     })
+  })
 
-    it('should render pleasure sector type', () => {
+  describe('ActionType.CONTROL_SECTOR_PLAISANCE', () => {
+    it('should render "Contrôles d\'établissement - filière plaisance"', () => {
       const action: MissionTimelineAction = {
-        type: ActionType.CONTROL_SECTOR,
-        sectorType: SectorType.PLEASURE
+        type: ActionType.CONTROL_SECTOR_PLAISANCE
       } as MissionTimelineAction
       render(<MissionTimelineItemNavControlCardTitle action={action} />)
       expect(screen.getByText('Contrôles')).toBeInTheDocument()
       expect(screen.getByText("d'établissement - filière plaisance")).toBeInTheDocument()
     })
+  })
 
-    it('should handle missing sector type', () => {
+  describe('ActionType.CONTROL_ROADSIDE', () => {
+    it('should render "Contrôles routier"', () => {
       const action: MissionTimelineAction = {
-        type: ActionType.CONTROL_SECTOR
+        type: ActionType.CONTROL_ROADSIDE
       } as MissionTimelineAction
       render(<MissionTimelineItemNavControlCardTitle action={action} />)
       expect(screen.getByText('Contrôles')).toBeInTheDocument()
-      expect(screen.getByText("d'établissement - filière")).toBeInTheDocument()
+      expect(screen.getByText('routier')).toBeInTheDocument()
+    })
+  })
+
+  describe('legacy ActionType.CONTROL_SECTOR', () => {
+    it('should render nothing: it was split and is no longer in the registry', () => {
+      const action: MissionTimelineAction = {
+        type: ActionType.CONTROL_SECTOR
+      } as MissionTimelineAction
+      const { container } = render(<MissionTimelineItemNavControlCardTitle action={action} />)
+      expect(container.firstChild).toBeNull()
     })
   })
 })

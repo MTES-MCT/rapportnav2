@@ -66,7 +66,6 @@ const realAction = {
     resourceIds: [],
     nbrOfControl: null,
     controlType: null,
-    sectorType: null,
     nbrOfControlAmp: null,
     nbrOfControl300m: null,
     leisureType: null,
