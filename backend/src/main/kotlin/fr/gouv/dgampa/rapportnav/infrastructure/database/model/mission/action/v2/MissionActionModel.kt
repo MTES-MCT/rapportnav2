@@ -194,9 +194,6 @@ data class MissionActionModel(
     @Column(name = "fishing_gear_type", nullable = true)
     var fishingGearType: String? = null,
 
-    @Column(name = "sector_type", nullable = true)
-    val sectorType: String? = null, //SectorType
-
     @Column(name = "nbr_of_control_amp", nullable = true)
     var nbrOfControlAmp: Int? = null,
 

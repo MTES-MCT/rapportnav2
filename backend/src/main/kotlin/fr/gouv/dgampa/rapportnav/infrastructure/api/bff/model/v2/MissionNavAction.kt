@@ -89,7 +89,6 @@ class MissionNavAction(
                     resourceIds = navAction.resourceIds,
                     resourceType = navAction.resourceType,
                     nbrOfControl = navAction.nbrOfControl,
-                    sectorType = navAction.sectorType,
                     nbrOfControlAmp = navAction.nbrOfControlAmp,
                     nbrOfControl300m = navAction.nbrOfControl300m,
                     isControlDuringSecurityDay = navAction.isControlDuringSecurityDay,

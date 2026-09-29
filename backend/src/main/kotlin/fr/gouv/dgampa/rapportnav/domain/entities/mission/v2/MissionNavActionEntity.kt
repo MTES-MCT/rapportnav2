@@ -100,7 +100,6 @@ class MissionNavActionEntity(
 
     override var fishAuction: FishAuctionEntity? = null,
 
-    override val sectorType: SectorType? = null,
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de contrôles doit être positif")
     override var nbrOfControlAmp: Int? = null,
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de contrôles doit être positif")
@@ -188,7 +187,6 @@ class MissionNavActionEntity(
         resourceType = resourceType,
         resourceIds = resourceIds ?: emptyList(),
         nbrOfControl = nbrOfControl,
-        sectorType = sectorType?.toString(),
         nbrOfControlAmp = nbrOfControlAmp,
         nbrOfControl300m = nbrOfControl300m,
         isControlDuringSecurityDay = isControlDuringSecurityDay,
@@ -261,12 +259,11 @@ class MissionNavActionEntity(
                 resourceType = model.resourceType,
                 resourceIds = model.resourceIds,
                 nbrOfControl = model.nbrOfControl,
-                sectorType = model.sectorType?.let { SectorType.valueOf(it) },
                 nbrOfControlAmp = model.nbrOfControlAmp,
                 nbrOfControl300m = model.nbrOfControl300m,
                 isControlDuringSecurityDay = model.isControlDuringSecurityDay,
                 isSeizureSleepingFishingGear = model.isSeizureSleepingFishingGear,
-                sectorEstablishmentType = model.sectorEstablishmentType?.let { SectorEstablishmentType.valueOf(it) },
+                sectorEstablishmentType = SectorEstablishmentType.entries.firstOrNull { it.name == model.sectorEstablishmentType },
                 leisureType = model.leisureType?.let { LeisureType.valueOf(it) },
                 fishingGearType = model.fishingGearType?.let { FishingGearType.valueOf(it) },
                 controlType = model.controlType,

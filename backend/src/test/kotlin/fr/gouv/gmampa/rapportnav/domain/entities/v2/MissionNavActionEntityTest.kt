@@ -9,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FacadeTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishAuctionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
@@ -301,10 +300,20 @@ class MissionNavActionEntityTest {
     }
 
     @Test
-    fun `CONTROL_SECTOR with FISHING and LANDING_SITE should require portLocode`() {
+    fun `isControl is true for the sector and roadside control types`() {
+        listOf(
+            ActionType.CONTROL_SECTOR_FISHING,
+            ActionType.CONTROL_SECTOR_PLAISANCE,
+            ActionType.CONTROL_ROADSIDE
+        ).forEach {
+            Assertions.assertThat(MissionNavActionEntityMock.create(actionType = it).isControl()).isTrue()
+        }
+    }
+
+    @Test
+    fun `CONTROL_SECTOR_FISHING with LANDING_SITE should require portLocode`() {
         val entity = MissionNavActionEntityMock.create(
-            actionType = ActionType.CONTROL_SECTOR,
-            sectorType = SectorType.FISHING,
+            actionType = ActionType.CONTROL_SECTOR_FISHING,
             sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
             establishment = null
         )
@@ -321,10 +330,9 @@ class MissionNavActionEntityTest {
     }
 
     @Test
-    fun `CONTROL_SECTOR with FISHING and FISH_AUCTION should require fishAuction`() {
+    fun `CONTROL_SECTOR_FISHING with FISH_AUCTION should require fishAuction`() {
         val entity = MissionNavActionEntityMock.create(
-            actionType = ActionType.CONTROL_SECTOR,
-            sectorType = SectorType.FISHING,
+            actionType = ActionType.CONTROL_SECTOR_FISHING,
             sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION,
             establishment = null
         )
@@ -341,10 +349,9 @@ class MissionNavActionEntityTest {
     }
 
     @Test
-    fun `CONTROL_SECTOR with FISHING and GMS should require establishment`() {
+    fun `CONTROL_SECTOR_FISHING with GMS should require establishment`() {
         val entity = MissionNavActionEntityMock.create(
-            actionType = ActionType.CONTROL_SECTOR,
-            sectorType = SectorType.FISHING,
+            actionType = ActionType.CONTROL_SECTOR_FISHING,
             sectorEstablishmentType = SectorEstablishmentType.GMS,
             establishment = null,
             locationDescription = null
@@ -362,10 +369,9 @@ class MissionNavActionEntityTest {
     }
 
     @Test
-    fun `CONTROL_SECTOR with PLEASURE should require establishment`() {
+    fun `CONTROL_SECTOR_PLAISANCE should require establishment`() {
         val entity = MissionNavActionEntityMock.create(
-            actionType = ActionType.CONTROL_SECTOR,
-            sectorType = SectorType.PLEASURE,
+            actionType = ActionType.CONTROL_SECTOR_PLAISANCE,
             sectorEstablishmentType = SectorEstablishmentType.PLEASURE_MARKET,
             establishment = null,
             locationDescription = null
