@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
@@ -94,6 +96,39 @@ class GetComputeNavMissionTest {
     }
 
     @Test
+    fun `does not re-validate or persist when the mission is already complete for stats (sticky)`() {
+        val missionId = UUID.randomUUID()
+        val missionNav = MissionNavEntityMock.create(id = missionId).copy(isCompleteForStats = true)
+        val generalInfo = mock<MissionGeneralInfoEntity2>()
+        val actions = listOf(mock<MissionNavActionEntity>())
+
+        whenever(getGeneralInfo.execute(missionIdUUID = missionId, serviceId = missionNav.serviceId)).thenReturn(generalInfo)
+        whenever(getComputeNavActionListByMissionId.execute(ownerId = missionId, bypassValidation = true)).thenReturn(actions)
+
+        useCase.execute(navMission = missionNav)
+
+        // actions fetched with the validation shortcut, and the stored completeness is left untouched.
+        verify(getComputeNavActionListByMissionId).execute(ownerId = missionId, bypassValidation = true)
+        verify(syncMissionValidation, never()).execute(any())
+    }
+
+    @Test
+    fun `re-validates and persists on the force path even when already complete`() {
+        val missionId = UUID.randomUUID()
+        val missionNav = MissionNavEntityMock.create(id = missionId).copy(isCompleteForStats = true)
+        val generalInfo = mock<MissionGeneralInfoEntity2>()
+        val actions = listOf(mock<MissionNavActionEntity>())
+
+        whenever(getGeneralInfo.execute(missionIdUUID = missionId, serviceId = missionNav.serviceId)).thenReturn(generalInfo)
+        whenever(getComputeNavActionListByMissionId.execute(ownerId = missionId, bypassValidation = false)).thenReturn(actions)
+
+        val result = useCase.execute(navMission = missionNav, forceComputeValidation = true)
+
+        verify(getComputeNavActionListByMissionId).execute(ownerId = missionId, bypassValidation = false)
+        verify(syncMissionValidation).execute(result)
+    }
+
+    @Test
     fun `returns complete MissionEntity2`() {
         val missionId = UUID.randomUUID()
         val missionNav = MissionNavEntityMock.create(id = missionId)
@@ -111,7 +146,9 @@ class GetComputeNavMissionTest {
             idUUID = missionId,
             generalInfos = generalInfo,
             actions = actions,
-            data = converted
+            data = converted,
+            // resolved by the use case (fresh compute here, since this mission is not stored-complete)
+            completenessForStats = result.completenessForStats
         ), result)
     }
 }
