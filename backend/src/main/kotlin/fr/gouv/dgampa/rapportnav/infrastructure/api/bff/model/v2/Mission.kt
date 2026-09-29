@@ -125,7 +125,7 @@ data class Mission(
 
     companion object {
         fun fromMissionEntity(mission: MissionEntity): Mission {
-            val completenessForStats = mission.isCompleteForStats()
+            val completenessForStats = mission.resolvedCompleteness()
             val status = mission.calculateMissionStatus(
                 endDateTimeUtc = mission.data?.endDateTimeUtc,
                 startDateTimeUtc = mission.data?.startDateTimeUtc!!

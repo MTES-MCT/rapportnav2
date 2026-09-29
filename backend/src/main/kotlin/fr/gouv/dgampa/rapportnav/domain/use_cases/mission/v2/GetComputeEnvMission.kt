@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
@@ -46,23 +47,35 @@ class GetComputeEnvMission(
 
         // Prepopulate & keep the local mission row in sync with MonitorEnv (the source of truth).
         val localMission = syncLocalMissionWithMonitorEnv.execute(externalId = id, env = mission)
-        // NOTE: for now we only COLLECT the mission validation (persisted below via SyncMissionValidation),
-        // we do not yet consume the stored status to short-circuit reads — validation runs every time, as
-        // before. Re-enable the read shortcut by restoring the line below once the collected data is trusted.
+        // Sticky read: a mission already known-complete is not re-validated on reads. When set, this both
+        // marks the actions complete without per-field validation AND skips the mission-level persist below —
+        // so an old complete mission is never retroactively downgraded (e.g. by newer validation rules).
         val bypassValidation = !forceComputeValidation && localMission.isCompleteForStats == true
 
         val actions = getMissionAction.execute(missionId = id, bypassValidation = bypassValidation)
         val generalInfos = getGeneralInfos2.execute(missionId = id, controlUnits = mission.controlUnits)
 
-        val missionEntity = MissionEntity(
+        val baseMission = MissionEntity(
             id = id,
             data = mission,
             actions = actions,
             generalInfos = generalInfos
         )
+        // Sticky read: an already-complete mission (bypassValidation) stays complete without re-validation;
+        // otherwise expose the freshly-computed status. Resolved here (not in the mappers) so every read
+        // surface sees the same value.
+        val missionEntity = baseMission.copy(
+            completenessForStats = if (bypassValidation) CompletenessForStatsEntity.valid()
+            else baseMission.isCompleteForStats()
+        )
 
-        // Transition: persist the mission-level validation onto the (now-synced) mission row.
-        syncMissionValidation.execute(missionEntity)
+        // Persist the mission-level validation onto the (now-synced) mission row — but only on the
+        // force/write path or when the mission is not yet known-complete. Skipping when bypassValidation is
+        // true keeps completeness sticky: an already-complete mission is never downgraded on a read.
+        // SyncMissionValidation recomputes the fresh value itself, so the resolved entity is safe to pass.
+        if (!bypassValidation) {
+            syncMissionValidation.execute(missionEntity)
+        }
 
         return missionEntity
     }

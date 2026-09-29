@@ -37,7 +37,7 @@ class ComputeAEMData(
             facade = mission.data?.facade,
             isDeleted = mission.data?.isDeleted,
             missionSource = mission.data?.missionSource,
-            completenessForStats = mission.isCompleteForStats(),
+            completenessForStats = mission.resolvedCompleteness(),
             isMissionFinished = mission.data?.endDateTimeUtc?.isBefore(Instant.now()) ?: false,
             data = formattedOutput
         )

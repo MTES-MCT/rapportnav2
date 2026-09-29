@@ -15,9 +15,22 @@ data class MissionEntity(
     val idUUID: UUID? = null,
     val data: MissionEnvEntity? = null,
     val actions: List<MissionActionEntity>? = listOf(),
-    val generalInfos: MissionGeneralInfoEntity2? = null
+    val generalInfos: MissionGeneralInfoEntity2? = null,
+    // Completeness-for-stats already resolved by the read use case, mirroring
+    // [MissionActionEntity.completenessForStats]: the use case sets the sticky/bypass value or the fresh
+    // computation, and read mappers just read it back via [resolvedCompleteness]. Null when the entity is
+    // built outside a read path (e.g. write mapping) — then [resolvedCompleteness] recomputes from parts.
+    val completenessForStats: CompletenessForStatsEntity? = null
 ) {
     private val logger = LoggerFactory.getLogger(MissionEntity::class.java)
+
+    /**
+     * Completeness to surface to API reads (list, detail, exports, analytics): the value the read use case
+     * already resolved, or a fresh computation from parts when none was set. Mappers call this instead of
+     * [isCompleteForStats] so they neither recompute nor need to know about the sticky rule — that rule
+     * lives in the read use cases (GetComputeEnvMission / GetComputeNavMission).
+     */
+    fun resolvedCompleteness(): CompletenessForStatsEntity = completenessForStats ?: isCompleteForStats()
 
     fun isCompleteForStats(): CompletenessForStatsEntity {
         val actionsCompleteForStats = this.isActionsCompleteForStats()
