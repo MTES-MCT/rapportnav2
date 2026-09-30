@@ -14,6 +14,8 @@ interface IMissionNavRepository {
 
     fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<MissionModel?>
 
+    fun findNavMissionsForService(serviceId: Int, startedAfter: Instant, startedBefore: Instant): List<MissionModel>
+
     fun findAllPaginated(page: Int, size: Int): Page<MissionModel>
 
     fun findByIdPaginated(id: UUID, page: Int, size: Int): Page<MissionModel>

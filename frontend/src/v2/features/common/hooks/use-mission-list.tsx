@@ -45,7 +45,8 @@ export function useMissionList(): MissionListHook {
       missionReportType: mission.missionReportType,
       isUnderJdp: mission.isUnderJdp,
       jdpType: mission.jdpType,
-      isResourcesNotUsed: mission.isResourcesNotUsed
+      isResourcesNotUsed: mission.isResourcesNotUsed,
+      actionsSummary: mission.actionsSummary
     }
   }
 
