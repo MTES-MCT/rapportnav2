@@ -9,7 +9,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
       class="rs-flex-box-grid-item rs-flex-box-grid-item-1"
     >
       <span
-        class="sc-dkXsAU rgiDY Element-IconBox"
+        class="sc-dkPwfY kNKClv Element-IconBox"
       >
         <svg
           height="20"
@@ -33,7 +33,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
       class="rs-flex-box-grid-item rs-flex-box-grid-item-7"
     >
       <p
-        class="sc-iXaBKZ sc-exaRUo fZbsrQ jfhiLi sc-gXJrbp ggwiws"
+        class="sc-iWBMXF sc-ewSVzs fpgmas loDfxQ sc-gXRnwl gvxmCx"
         data-testid="crew-member-agent"
         font-size="13"
         style="padding-left: 4px;"
@@ -45,7 +45,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
       class="rs-flex-box-grid-item rs-flex-box-grid-item-6"
     >
       <p
-        class="sc-iXaBKZ sc-exaRUo fZbsrQ jfhiLi"
+        class="sc-iWBMXF sc-ewSVzs fpgmas loDfxQ"
         data-testid="crew-member-role"
         font-size="13"
       >
@@ -63,10 +63,10 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
           style="margin-left: 4px;"
         >
           <span
-            class="sc-dkXsAU dGQEeC Element-IconBox"
+            class="sc-dkPwfY dKFeTN Element-IconBox"
           >
             <svg
-              class="sc-Jwmfr jLXkbn"
+              class="sc-JEiAn gdUyJg"
               comment="Invité externe"
               data-testid="crew-member-comment-icon"
               height="20"
@@ -98,7 +98,7 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
           class="rs-flex-box-grid-item rs-flex-box-grid-item-18"
         >
           <p
-            class="sc-iXaBKZ sc-exaRUo fZbsrQ jfhiLi sc-gGKKzG eSUZCY"
+            class="sc-iWBMXF sc-ewSVzs fpgmas loDfxQ sc-gHjzna iTcfBf"
             font-size="13"
           >
             Invité externe
@@ -117,13 +117,13 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
           class="rs-stack-item"
         >
           <button
-            class="sc-qdQOe fkQhXW Element-IconButton sc-kHFOMI lhaXLr"
+            class="sc-pVUti fXQZae Element-IconButton sc-kHxSrM dBslIK"
             data-testid="edit-crew-member-icon"
             role="edit-crew"
             type="button"
           >
             <span
-              class="sc-dkXsAU BVBsu Element-IconBox"
+              class="sc-dkPwfY jmuoIJ Element-IconBox"
             >
               <svg
                 height="20"
@@ -149,13 +149,13 @@ exports[`MissionCrewListItemPam > Invited crew member (without agent) > matches 
           class="rs-stack-item"
         >
           <button
-            class="sc-qdQOe fkQhXW Element-IconButton sc-ktgdcJ jiBiKq"
+            class="sc-pVUti fXQZae Element-IconButton sc-ksHopp gIHtcs"
             data-testid="delete-crew-member-icon"
             role="delete-crew"
             type="button"
           >
             <span
-              class="sc-dkXsAU BVBsu Element-IconBox"
+              class="sc-dkPwfY jmuoIJ Element-IconBox"
             >
               <svg
                 height="20"
@@ -210,11 +210,11 @@ exports[`MissionCrewListItemPam > Standard crew member (with agent) > matches sn
       style="padding-right: 4px;"
     >
       <div
-        class="sc-FBvLw cFKQtC Element-Field Field-Checkbox"
+        class="sc-GakyQ kJFJtO Element-Field Field-Checkbox"
         style="margin-top: -10px;"
       >
         <div
-          class="sc-bXuqjq hsxRDI rs-checkbox rs-checkbox-checked"
+          class="sc-bXTeWK VvdWu rs-checkbox rs-checkbox-checked"
         >
           <div
             class="rs-checkbox-checker"
@@ -251,7 +251,7 @@ exports[`MissionCrewListItemPam > Standard crew member (with agent) > matches sn
       style="padding-right: 4px;"
     >
       <p
-        class="sc-iXaBKZ sc-exaRUo cmlvYh jfhiLi"
+        class="sc-iWBMXF sc-ewSVzs JRFlN loDfxQ"
         color="#3B4559"
         data-testid="crew-member-agent"
         font-size="13"
@@ -267,7 +267,7 @@ exports[`MissionCrewListItemPam > Standard crew member (with agent) > matches sn
       style="padding-right: 4px;"
     >
       <p
-        class="sc-iXaBKZ sc-exaRUo cmlvYh jfhiLi"
+        class="sc-iWBMXF sc-ewSVzs JRFlN loDfxQ"
         color="#3B4559"
         data-testid="crew-member-role"
         font-size="13"
@@ -299,14 +299,14 @@ exports[`MissionCrewListItemPam > Standard crew member (with agent) > matches sn
           class="rs-stack-item"
         >
           <button
-            class="sc-qdQOe fkQhXW Element-IconButton"
+            class="sc-pVUti fXQZae Element-IconButton"
             data-testid="edit-crew-member-icon"
             role="edit-crew"
             title="Renseigner des absences temporaires"
             type="button"
           >
             <span
-              class="sc-dkXsAU BVBsu Element-IconBox"
+              class="sc-dkPwfY jmuoIJ Element-IconBox"
             >
               <svg
                 height="20"

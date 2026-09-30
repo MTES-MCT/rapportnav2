@@ -13,42 +13,38 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@common': path.resolve(__dirname, './src/features/common'),
-      '@features': path.resolve(__dirname, './src/features'),
-      '@pages': path.resolve(__dirname, './src/pages'),
-      '@router': path.resolve(__dirname, './src/router')
+      '@common': path.resolve(import.meta.dirname, './src/features/common'),
+      '@features': path.resolve(import.meta.dirname, './src/features'),
+      '@pages': path.resolve(import.meta.dirname, './src/pages'),
+      '@router': path.resolve(import.meta.dirname, './src/router')
     }
   },
   build: {
     rolldownOptions: {
       output: {
         format: 'es',
-        manualChunks(id) {
-          // Keep the login page (and the DSFR design system it imports) in a
-          // dedicated async chunk loaded only on /login. Must come before the
-          // node_modules and src/v2 branches below, otherwise the login module
-          // and @gouvfr/dsfr would be folded into the eager vendor/v2 chunks.
-          if (
-            id.includes('src/v2/pages/login-page') ||
-            id.includes('src/v2/features/auth/components/login') ||
-            id.includes('@gouvfr/dsfr')
-          ) {
-            return 'login'
-          }
-          // Separate third-party dependencies into a common chunk
-          // UI libraries
-          if (id.includes('rsuite') || id.includes('@mtes-mct/monitor-ui')) {
-            return 'ui-vendor'
-          }
-          if (id.includes('node_modules')) {
-            return 'vendor'
-          }
-          if (id.includes('src/features/pam')) {
-            return 'pam'
-          }
-          if (id.includes('src/v2')) {
-            return 'v2'
-          }
+        // Rolldown-native chunk splitting (replaces the deprecated
+        // manualChunks function form). Groups are processed in declaration
+        // order; once a module is captured it is removed from later groups,
+        // so this order reproduces the previous if/else precedence.
+        codeSplitting: {
+          groups: [
+            // Keep the login page (and the DSFR design system it imports) in a
+            // dedicated async chunk loaded only on /login. Must come before the
+            // node_modules and src/v2 groups below, otherwise the login module
+            // and @gouvfr/dsfr would be folded into the eager vendor/v2 chunks.
+            {
+              name: 'login',
+              test: /src[\\/]v2[\\/]pages[\\/]login-page|src[\\/]v2[\\/]features[\\/]auth[\\/]components[\\/]login|@gouvfr[\\/]dsfr/
+            },
+            // Separate third-party dependencies into common chunks
+            // UI libraries
+            { name: 'ui-vendor', test: /rsuite|@mtes-mct[\\/]monitor-ui/ },
+            { name: 'vendor', test: /node_modules/ },
+            { name: 'pam', test: /src[\\/]features[\\/]pam/ },
+            { name: 'ulam', test: /src[\\/]features[\\/]ulam/ },
+            { name: 'v2', test: /src[\\/]v2/ }
+          ]
         }
       }
     },
@@ -81,7 +77,7 @@ export default defineConfig({
         // Note: index.html is excluded because the backend injects a CSP nonce per request
         // Caching it would serve stale nonces, causing CSP violations and blank pages
         globPatterns: ['**/*.{js,css,ico,png,jpg,svg,webmanifest}'],
-        navigateFallback: null,
+        navigateFallback: null
       },
       devOptions: {
         enabled: true
