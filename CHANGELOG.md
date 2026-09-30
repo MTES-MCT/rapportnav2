@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.101.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.6...v2.101.0) (2026-09-30)
+
+
+### Features
+
+* **backend:** split control sector into fishing + plaisance ([d1fbe62](https://github.com/MTES-MCT/rapportnav2/commit/d1fbe6253dbf7b6bf3cdb96b14d9502b7c88195b))
+* **backend:** update mission action type ([4daed62](https://github.com/MTES-MCT/rapportnav2/commit/4daed628abdbd7e8b3d2cd938daad0d0f98b703c))
+* **frontend:** redeploy control sector ([2103c93](https://github.com/MTES-MCT/rapportnav2/commit/2103c93457e771d37c1f87733f01d930dde61061))
+* node26 + vite8 ([a9ef6bd](https://github.com/MTES-MCT/rapportnav2/commit/a9ef6bd1b8b8ecee89dfbe4d00a32239533c4da1))
+* switch reading completeness for stats from database ([27bff47](https://github.com/MTES-MCT/rapportnav2/commit/27bff4796510198514099337081d191d04d918f8))
+
+
+### Bug Fixes
+
+* **frontend:** dependencies issues ([a8cdb28](https://github.com/MTES-MCT/rapportnav2/commit/a8cdb28ca0a8890833b8234bbeeec1b9ee55b279))
+* merge duplicate service ULAM 971 ([7fd13aa](https://github.com/MTES-MCT/rapportnav2/commit/7fd13aae14b9b2b683f6b581a5c79df7ff39d3ba))
+
 ## [2.100.6](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.5...v2.100.6) (2026-09-25)
 
 
