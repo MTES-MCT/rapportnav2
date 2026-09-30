@@ -45,8 +45,8 @@ data class MissionListItem(
         /**
          * Builds the light list item from a fully-computed [MissionEntity] (same compute path as the detail
          * read), so:
-         *  - `completenessForStats` is computed on the fly via [MissionEntity.isCompleteForStats] — identical
-         *    to the full [Mission] response (real VALID/INVALID/INCOMPLETE status + sources),
+         *  - `completenessForStats` comes from [MissionEntity.resolvedCompleteness] — identical to the full
+         *    [Mission] response (sticky value resolved by the use case, else the real VALID/INVALID/INCOMPLETE),
          *  - `actionCount` is the size of the loaded action list.
          *
          * The mission's [MissionData] / [MissionGeneralInfo2] sub-DTOs are reused as the single source of
@@ -73,7 +73,7 @@ data class MissionListItem(
                 observationsByUnit = data?.observationsByUnit,
                 isUnderJdp = data?.isUnderJdp,
                 controlUnits = data?.controlUnits ?: listOf(),
-                completenessForStats = mission.isCompleteForStats(),
+                completenessForStats = mission.resolvedCompleteness(),
                 crew = generalInfos.crew,
                 serviceId = generalInfos.service?.id,
                 resources = generalInfos.resources,
