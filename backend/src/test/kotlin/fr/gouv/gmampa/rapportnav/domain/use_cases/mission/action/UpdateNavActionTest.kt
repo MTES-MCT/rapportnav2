@@ -31,6 +31,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
@@ -123,6 +124,30 @@ class UpdateNavActionTest {
             useCase().execute(actionId, input)
         }
         assertThat(exception.message).isEqualTo("UpdateNavAction: action id mismatch")
+    }
+    
+    @Test
+    fun `test execute updates the CONTROL_SECTOR_FISHING, CONTROL_SECTOR_PLAISANCE and CONTROL_ROADSIDE action types`() {
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(MissionActionModelMock.create())
+        `when`(processMissionActionTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+
+        listOf(
+            ActionType.CONTROL_SECTOR_FISHING,
+            ActionType.CONTROL_SECTOR_PLAISANCE,
+            ActionType.CONTROL_ROADSIDE
+        ).forEach {
+            val actionId = UUID.randomUUID().toString()
+            val input = MissionNavAction(
+                id = actionId,
+                missionId = 761,
+                ownerId = UUID.randomUUID().toString(),
+                actionType = it,
+                source = MissionSourceEnum.RAPPORT_NAV,
+                data = getNavActionDataInput(),
+            )
+
+            assertThat(useCase().execute(actionId, input).actionType).isEqualTo(it)
+        }
     }
 
     private fun navInput(id: String) = MissionNavAction(

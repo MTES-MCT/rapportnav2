@@ -76,7 +76,6 @@ class MissionNavActionDataTest {
 
         assertThat(output.data.controlType).isEqualTo(entity.controlType)
         assertThat(output.data.nbrOfControl).isEqualTo(entity.nbrOfControl)
-        assertThat(output.data.sectorType).isEqualTo(entity.sectorType)
         assertThat(output.data.nbrOfControlAmp).isEqualTo(entity.nbrOfControlAmp)
         assertThat(output.data.nbrOfControl300m).isEqualTo(entity.nbrOfControl300m)
         assertThat(output.data.isControlDuringSecurityDay).isEqualTo(entity.isControlDuringSecurityDay)

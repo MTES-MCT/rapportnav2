@@ -30,6 +30,25 @@ class MissionNavActionEntityTest {
     private val validator = EntityValidityValidator.createDefault()
 
     @Test
+    fun `fromMissionActionModel maps a known sectorEstablishmentType`() {
+        val model = MissionActionModelMock.create().copy(sectorEstablishmentType = SectorEstablishmentType.GMS.toString())
+
+        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+
+        assertThat(entity.sectorEstablishmentType).isEqualTo(SectorEstablishmentType.GMS)
+    }
+
+    @Test
+    fun `fromMissionActionModel reads a removed sectorEstablishmentType such as ROADSIDE_INSPECTION as null`() {
+        val model = MissionActionModelMock.create(actionType = ActionType.CONTROL_ROADSIDE)
+            .copy(sectorEstablishmentType = "ROADSIDE_INSPECTION")
+
+        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+
+        assertThat(entity.sectorEstablishmentType).isNull()
+    }
+
+    @Test
     fun `execute should retrieve entity  from model`() {
         val model = getActionModel()
         val entity = MissionNavActionEntity.fromMissionActionModel(model)
@@ -84,7 +103,6 @@ class MissionNavActionEntityTest {
 
         assertThat(entity.controlType).isEqualTo(model.controlType)
         assertThat(entity.nbrOfControl).isEqualTo(model.nbrOfControl)
-        assertThat(entity.sectorType.toString()).isEqualTo(model.sectorType)
         assertThat(entity.nbrOfControlAmp).isEqualTo(model.nbrOfControlAmp)
         assertThat(entity.nbrOfControl300m).isEqualTo(model.nbrOfControl300m)
         assertThat(entity.isControlDuringSecurityDay).isEqualTo(model.isControlDuringSecurityDay)
@@ -138,7 +156,6 @@ class MissionNavActionEntityTest {
             ownerId = UUID.randomUUID(),
             nbrOfHours = 45,
             nbrOfControl = 34,
-            sectorType = SectorType.FISHING,
             nbrOfControlAmp = 4,
             nbrOfControl300m = 3,
             isControlDuringSecurityDay = false,
@@ -202,7 +219,6 @@ class MissionNavActionEntityTest {
 
         assertThat(model.controlType).isEqualTo(entity.controlType)
         assertThat(model.nbrOfControl).isEqualTo(entity.nbrOfControl)
-        assertThat(model.sectorType).isEqualTo(entity.sectorType.toString())
         assertThat(model.nbrOfControlAmp).isEqualTo(entity.nbrOfControlAmp)
         assertThat(model.nbrOfControl300m).isEqualTo(entity.nbrOfControl300m)
         assertThat(model.isControlDuringSecurityDay).isEqualTo(entity.isControlDuringSecurityDay)

@@ -93,7 +93,6 @@ data class Mission(
                     resourceIds = it.data.resourceIds,
                     resourceType = it.data.resourceType,
                     nbrOfControl = it.data.nbrOfControl,
-                    sectorType = it.data.sectorType,
                     nbrOfControlAmp = it.data.nbrOfControlAmp,
                     nbrOfControl300m = it.data.nbrOfControl300m,
                     isControlDuringSecurityDay = it.data.isControlDuringSecurityDay,

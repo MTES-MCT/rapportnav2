@@ -27,7 +27,7 @@ import { CompletenessForStats, MissionSourceEnum } from './mission-types.ts'
 import { NetworkSyncStatus } from './network-types.ts'
 
 import { Sati } from './sati.ts'
-import { SectorEtablishmentType, SectorType } from './sector-types.ts'
+import { SectorEtablishmentType } from './sector-types.ts'
 
 export interface MissionAction {
   id?: string
@@ -83,7 +83,6 @@ export interface MissionNavActionData extends MissionActionData {
   agentIds?: number[]
   resourceType?: string
   nbrOfControl?: number
-  sectorType?: SectorType
   nbrOfControlAmp?: number
   nbrOfControl300m?: number
   leisureType?: LeisureType

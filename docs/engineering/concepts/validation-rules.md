@@ -4,10 +4,16 @@
 > Ne pas modifier manuellement. Lancer le generateur pour mettre a jour :
 > `./gradlew generateValidationDocs`
 >
-> Derniere generation : 2026-05-13
+> Derniere generation : 2026-09-28
 
-Ces regles sont evaluees lorsque la mission est cloturee (groupe `ValidateWhenMissionFinished`).
-Un champ en erreur apparait dans le panneau de completude.
+Ces regles sont evaluees pour la completude statistique.
+La politique applicable depend de la date de debut de la mission.
+
+---
+
+# Policy v1: Initial rules
+
+Applies from: `2025-01-01T00:00:00Z`
 
 ## MissionGeneralInfoEntity
 
@@ -27,12 +33,12 @@ Un champ en erreur apparait dans le panneau de completude.
 | `missionId` | Toujours | L'identifiant de mission est requis |
 | `actionType` | Toujours | Le type d'action est requis |
 | `startDateTimeUtc` | Toujours | La date de début est requise |
-| `endDateTimeUtc` | actionType ∈ {ANTI_POLLUTION, BAAEM_PERMANENCE, CONTROL, RESCUE, VIGIMER, REPRESENTATION, PUBLIC_ORDER, ILLEGAL_IMMIGRATION, NAUTICAL_EVENT, CONDUCT_HEARING, COMMUNICATION, TRAINING, UNIT_MANAGEMENT_PLANNING, UNIT_MANAGEMENT_TRAINING, CONTROL_SECTOR, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL, RESOURCES_MAINTENANCE, MEETING, PV_DRAFTING, HEARING_CONDUCT, LAND_SURVEILLANCE, FISHING_SURVEILLANCE, UNIT_MANAGEMENT_OTHER, OTHER, MARITIME_SURVEILLANCE} | La date de fin est requise |
+| `endDateTimeUtc` | actionType ∈ {ANTI_POLLUTION, BAAEM_PERMANENCE, CONTROL, RESCUE, VIGIMER, REPRESENTATION, PUBLIC_ORDER, ILLEGAL_IMMIGRATION, NAUTICAL_EVENT, CONDUCT_HEARING, COMMUNICATION, TRAINING, UNIT_MANAGEMENT_PLANNING, UNIT_MANAGEMENT_TRAINING, CONTROL_SECTOR_FISHING, CONTROL_SECTOR_PLAISANCE, CONTROL_ROADSIDE, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL, RESOURCES_MAINTENANCE, MEETING, PV_DRAFTING, HEARING_CONDUCT, LAND_SURVEILLANCE, FISHING_SURVEILLANCE, UNIT_MANAGEMENT_OTHER, OTHER, MARITIME_SURVEILLANCE} | La date de fin est requise |
 | `latitude` | actionType ∈ {RESCUE, ILLEGAL_IMMIGRATION, ANTI_POLLUTION} **OU** actionType ∈ {CONTROL, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL} et locationType = GPS | La latitude est requise |
 | `longitude` | actionType ∈ {RESCUE, ILLEGAL_IMMIGRATION, ANTI_POLLUTION} **OU** actionType ∈ {CONTROL, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL} et locationType = GPS | La longitude est requise |
 | `city` | actionType ∈ {CONTROL, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL} et locationType = COMMUNE | La commune est requise |
 | `zipCode` | actionType ∈ {CONTROL, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL} et locationType = COMMUNE | Le code postal est requis |
-| `portLocode` | actionType ∈ {CONTROL, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL} et locationType = PORT **OU** actionType = CONTROL_SECTOR et sectorType = FISHING et sectorEstablishmentType = LANDING_SITE | Le port est requis |
+| `portLocode` | actionType ∈ {CONTROL, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL} et locationType = PORT **OU** actionType = CONTROL_SECTOR_FISHING et sectorEstablishmentType = LANDING_SITE | Le port est requis |
 | `controlMethod` | actionType ∈ {CONTROL} | La méthode de contrôle est requise |
 | `vesselIdentifier` | actionType ∈ {CONTROL} | L'identifiant du navire est requis |
 | `vesselType` | actionType ∈ {CONTROL} | Le type de navire est requis |
@@ -46,16 +52,16 @@ Un champ en erreur apparait dans le panneau de completude.
 | `nbrOfHours` | actionType ∈ {INQUIRY} | Le nombre d'heures est requis |
 | `trainingType` | actionType ∈ {TRAINING} | Le type de formation est requis |
 | `unitManagementTrainingType` | actionType ∈ {UNIT_MANAGEMENT_TRAINING} | Le type de formation est requis |
+| `agentIds` | actionType ∈ {UNIT_MANAGEMENT_TRAINING} | Les agents participants sont requis |
 | `resourceType` | actionType ∈ {RESOURCES_MAINTENANCE} | Le type de ressource est requis |
-| `resourceId` | actionType ∈ {RESOURCES_MAINTENANCE} | L'identifiant de ressource est requis |
+| `resourceIds` | actionType ∈ {RESOURCES_MAINTENANCE} | L'identifiant de ressource est requis |
 | `nbrOfControl` | actionType ∈ {CONTROL_NAUTICAL_LEISURE} | Le nombre de contrôles est requis |
 | `nbrOfControlAmp` | actionType ∈ {CONTROL_NAUTICAL_LEISURE} | Le nombre de contrôles AMP est requis |
 | `nbrOfControl300m` | actionType ∈ {CONTROL_NAUTICAL_LEISURE} | Le nombre de contrôles 300m est requis |
 | `leisureType` | actionType ∈ {CONTROL_NAUTICAL_LEISURE} | Le type de loisir est requis |
-| `sectorType` | actionType ∈ {CONTROL_SECTOR} | Le type de secteur est requis |
-| `sectorEstablishmentType` | actionType ∈ {CONTROL_SECTOR} | Le type d'établissement est requis |
-| `establishment` | actionType = CONTROL_SECTOR et sectorType = FISHING et sectorEstablishmentType ∉ {FISH_AUCTION, LANDING_SITE} | L'établissement est requis |
-| `fishAuction` | actionType = CONTROL_SECTOR et sectorType = FISHING et sectorEstablishmentType = FISH_AUCTION | La criée est requise |
+| `sectorEstablishmentType` | actionType ∈ {CONTROL_SECTOR_FISHING, CONTROL_SECTOR_PLAISANCE} | Le type d'établissement est requis |
+| `establishment` | actionType ∈ {CONTROL_SECTOR_PLAISANCE} **OU** actionType = CONTROL_SECTOR_FISHING et sectorEstablishmentType ∉ {FISH_AUCTION, LANDING_SITE} | L'établissement est requis |
+| `fishAuction` | actionType = CONTROL_SECTOR_FISHING et sectorEstablishmentType = FISH_AUCTION | La criée est requise |
 | `fishingGearType` | actionType ∈ {CONTROL_SLEEPING_FISHING_GEAR} | Le type d'engin de pêche est requis |
 | `controlType` | actionType ∈ {OTHER_CONTROL} | Le type de contrôle est requis |
 | `securityVisitType` | actionType ∈ {SECURITY_VISIT} | Le type de visite de sécurité est requis |
@@ -65,7 +71,34 @@ Un champ en erreur apparait dans le panneau de completude.
 | `nbOfVesselsTrackedWithoutIntervention` | actionType = RESCUE et isMigrationRescue = true | Le nombre de navires suivis sans intervention est requis |
 | `nbAssistedVesselsReturningToShore` | actionType = RESCUE et isMigrationRescue = true | Le nombre de navires assistés retournant à terre est requis |
 
----
+## MissionEnvActionEntity
+
+| Champ | Condition | Message d'erreur |
+|-------|-----------|------------------|
+| `startDateTimeUtc` | Toujours | La date de début est requise |
+| `endDateTimeUtc` | Toujours | La date de fin est requise |
+
+## MissionFishActionEntity
+
+| Champ | Condition | Message d'erreur |
+|-------|-----------|------------------|
+| `startDateTimeUtc` | Toujours | La date de début est requise |
+| `endDateTimeUtc` | Toujours | La date de fin est requise |
+| `sati.resource.id` | sati présent | La resource est requise |
+| `sati.inspectors[0].agentId` | sati présent | L'inspecteur principal est requis |
+| `sati.vessel.jpe.tripNumber` | sati présent | Le numéro de marée est requis en l'absence de PNO |
+| `sati.vessel.jpe.lastStopDate` | sati présent | La date de dernière escale est requise |
+| `sati.vessel.jpe.portId` | sati présent | Le port de dernière escale est requis |
+| `sati.vessel.master.contact.id` | sati présent | L'identifiant est requis |
+| `sati.vessel.master.contact.fullName` | sati présent | Le nom complet est requis |
+| `sati.vessel.master.contact.nationality` | sati présent | La nationalité est requise |
+| `sati.vessel.master.contact.email` | sati présent | L'e-mail est requis |
+| `sati.vessel.master.contact.phone` | sati présent | Le téléphone est requis |
+| `sati.vessel.master.contact.address.town` | sati présent | La ville est requise |
+| `sati.vessel.master.contact.address.id` | sati présent | L'identifiant est requis |
+| `sati.vessel.master.contact.address.street` | sati présent | La rue est requise |
+| `sati.vessel.master.contact.address.country` | sati présent | Le pays est requis |
+| `sati.vessel.master.contact.address.zipcode` | sati présent | Le code postal est requis |
 
 ## Champs requis par type d'action
 
@@ -150,7 +183,7 @@ Un champ en erreur apparait dans le panneau de completude.
 | `nbrOfControl300m` | - |
 | `leisureType` | - |
 
-### CONTROL_SECTOR
+### CONTROL_ROADSIDE
 
 | Champ | Condition supplementaire |
 |-------|-------------------------|
@@ -159,11 +192,32 @@ Un champ en erreur apparait dans le panneau de completude.
 | `actionType` | - |
 | `startDateTimeUtc` | - |
 | `endDateTimeUtc` | - |
-| `sectorType` | - |
+
+### CONTROL_SECTOR_FISHING
+
+| Champ | Condition supplementaire |
+|-------|-------------------------|
+| `id` | - |
+| `missionId` | - |
+| `actionType` | - |
+| `startDateTimeUtc` | - |
+| `endDateTimeUtc` | - |
 | `sectorEstablishmentType` | - |
-| `establishment` | sectorType = FISHING et sectorEstablishmentType ∉ {FISH_AUCTION, LANDING_SITE} |
-| `fishAuction` | sectorType = FISHING et sectorEstablishmentType = FISH_AUCTION |
-| `portLocode` | sectorType = FISHING et sectorEstablishmentType = LANDING_SITE |
+| `establishment` | sectorEstablishmentType ∉ {FISH_AUCTION, LANDING_SITE} |
+| `fishAuction` | sectorEstablishmentType = FISH_AUCTION |
+| `portLocode` | sectorEstablishmentType = LANDING_SITE |
+
+### CONTROL_SECTOR_PLAISANCE
+
+| Champ | Condition supplementaire |
+|-------|-------------------------|
+| `id` | - |
+| `missionId` | - |
+| `actionType` | - |
+| `startDateTimeUtc` | - |
+| `endDateTimeUtc` | - |
+| `sectorEstablishmentType` | - |
+| `establishment` | - |
 
 ### CONTROL_SLEEPING_FISHING_GEAR
 
@@ -348,7 +402,7 @@ Un champ en erreur apparait dans le panneau de completude.
 | `startDateTimeUtc` | - |
 | `endDateTimeUtc` | - |
 | `resourceType` | - |
-| `resourceId` | - |
+| `resourceIds` | - |
 
 ### SECURITY_VISIT
 
@@ -413,6 +467,7 @@ Un champ en erreur apparait dans le panneau de completude.
 | `startDateTimeUtc` | - |
 | `endDateTimeUtc` | - |
 | `unitManagementTrainingType` | - |
+| `agentIds` | - |
 
 ### VIGIMER
 

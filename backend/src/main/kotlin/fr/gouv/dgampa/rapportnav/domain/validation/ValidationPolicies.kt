@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.domain.validation
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
@@ -60,10 +59,16 @@ object ValidationPolicies {
         ANTI_POLLUTION, BAAEM_PERMANENCE, CONTROL, RESCUE,
         VIGIMER, REPRESENTATION, PUBLIC_ORDER, ILLEGAL_IMMIGRATION, NAUTICAL_EVENT,
         CONDUCT_HEARING, COMMUNICATION, TRAINING, UNIT_MANAGEMENT_PLANNING, UNIT_MANAGEMENT_TRAINING,
-        CONTROL_SECTOR, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL,
+        CONTROL_SECTOR_FISHING, CONTROL_SECTOR_PLAISANCE, CONTROL_ROADSIDE,
+        CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL,
         RESOURCES_MAINTENANCE, MEETING, PV_DRAFTING, HEARING_CONDUCT, LAND_SURVEILLANCE,
         FISHING_SURVEILLANCE, UNIT_MANAGEMENT_OTHER, OTHER, MARITIME_SURVEILLANCE
     )
+
+    private val ACTION_TYPES_SECTOR_CONTROL = listOf(CONTROL_SECTOR_FISHING, CONTROL_SECTOR_PLAISANCE)
+
+    private val FISHING_SECTOR_LOCATION_ESTABLISHMENTS =
+        listOf(SectorEstablishmentType.FISH_AUCTION, SectorEstablishmentType.LANDING_SITE)
 
     private val ACTION_TYPES_REQUIRING_LOCATION = listOf(
         RESCUE, ILLEGAL_IMMIGRATION, ANTI_POLLUTION
@@ -144,28 +149,21 @@ object ValidationPolicies {
         Rule.forActionTypes("nbrOfControl300m", listOf(CONTROL_NAUTICAL_LEISURE), "Le nombre de contrôles 300m est requis") { it.nbrOfControl300m },
         Rule.forActionTypes("leisureType", listOf(CONTROL_NAUTICAL_LEISURE), "Le type de loisir est requis") { it.leisureType },
 
-        // CONTROL_SECTOR-specific
-        Rule.forActionTypes("sectorType", listOf(CONTROL_SECTOR), "Le type de secteur est requis") { it.sectorType },
-        Rule.forActionTypes("sectorEstablishmentType", listOf(CONTROL_SECTOR), "Le type d'établissement est requis") { it.sectorEstablishmentType },
+        // CONTROL_SECTOR_FISHING / CONTROL_SECTOR_PLAISANCE-specific
+        Rule.forActionTypes("sectorEstablishmentType", ACTION_TYPES_SECTOR_CONTROL, "Le type d'établissement est requis") { it.sectorEstablishmentType },
+        Rule.forActionTypes("establishment", listOf(CONTROL_SECTOR_PLAISANCE), "L'établissement est requis") { it.establishment },
         conditional("establishment", "L'établissement est requis",
-            "actionType = CONTROL_SECTOR et sectorType = FISHING et sectorEstablishmentType ∉ {FISH_AUCTION, LANDING_SITE}",
-            {
-                it.actionType == CONTROL_SECTOR
-                && (
-                    (it.sectorType == SectorType.FISHING && it.sectorEstablishmentType !in listOf(SectorEstablishmentType.FISH_AUCTION, SectorEstablishmentType.LANDING_SITE))
-                    ||
-                    (it.sectorType == SectorType.PLEASURE)
-                )
-            },
-            relatedActionTypes = listOf(CONTROL_SECTOR), extraCondition = "sectorType = FISHING et sectorEstablishmentType ∉ {FISH_AUCTION, LANDING_SITE}") { it.establishment },
+            "actionType = CONTROL_SECTOR_FISHING et sectorEstablishmentType ∉ {FISH_AUCTION, LANDING_SITE}",
+            { it.actionType == CONTROL_SECTOR_FISHING && it.sectorEstablishmentType !in FISHING_SECTOR_LOCATION_ESTABLISHMENTS },
+            relatedActionTypes = listOf(CONTROL_SECTOR_FISHING), extraCondition = "sectorEstablishmentType ∉ {FISH_AUCTION, LANDING_SITE}") { it.establishment },
         conditional("fishAuction", "La criée est requise",
-            "actionType = CONTROL_SECTOR et sectorType = FISHING et sectorEstablishmentType = FISH_AUCTION",
-            { it.actionType == CONTROL_SECTOR && it.sectorType == SectorType.FISHING && it.sectorEstablishmentType == SectorEstablishmentType.FISH_AUCTION },
-            relatedActionTypes = listOf(CONTROL_SECTOR), extraCondition = "sectorType = FISHING et sectorEstablishmentType = FISH_AUCTION") { it.fishAuction },
+            "actionType = CONTROL_SECTOR_FISHING et sectorEstablishmentType = FISH_AUCTION",
+            { it.actionType == CONTROL_SECTOR_FISHING && it.sectorEstablishmentType == SectorEstablishmentType.FISH_AUCTION },
+            relatedActionTypes = listOf(CONTROL_SECTOR_FISHING), extraCondition = "sectorEstablishmentType = FISH_AUCTION") { it.fishAuction },
         conditional("portLocode", "Le port est requis",
-            "actionType = CONTROL_SECTOR et sectorType = FISHING et sectorEstablishmentType = LANDING_SITE",
-            { it.actionType == CONTROL_SECTOR && it.sectorType == SectorType.FISHING && it.sectorEstablishmentType == SectorEstablishmentType.LANDING_SITE },
-            relatedActionTypes = listOf(CONTROL_SECTOR), extraCondition = "sectorType = FISHING et sectorEstablishmentType = LANDING_SITE") { it.portLocode },
+            "actionType = CONTROL_SECTOR_FISHING et sectorEstablishmentType = LANDING_SITE",
+            { it.actionType == CONTROL_SECTOR_FISHING && it.sectorEstablishmentType == SectorEstablishmentType.LANDING_SITE },
+            relatedActionTypes = listOf(CONTROL_SECTOR_FISHING), extraCondition = "sectorEstablishmentType = LANDING_SITE") { it.portLocode },
 
         // CONTROL_SLEEPING_FISHING_GEAR-specific
         Rule.forActionTypes("fishingGearType", listOf(CONTROL_SLEEPING_FISHING_GEAR), "Le type d'engin de pêche est requis") { it.fishingGearType },
