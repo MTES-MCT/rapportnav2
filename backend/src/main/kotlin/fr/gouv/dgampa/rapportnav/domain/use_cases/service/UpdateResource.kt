@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnvControlUnitResourceRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.ResourceInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.PatchResourceInput
 
@@ -13,7 +14,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.PatchResour
 class UpdateResource(
     private val repository: IEnvControlUnitResourceRepository
 ) {
-    fun execute(input: ResourceInput): ControlUnitResourceEnv {
+    fun execute(input: ResourceInput): ControlUnitResourceDataOutput {
         val resource = repository.findAll().find { it.id == input.id }
         if (resource?.controlUnitId != input.controlUnitId) throw BackendUsageException(
             code = BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION,
