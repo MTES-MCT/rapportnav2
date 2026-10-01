@@ -23,8 +23,20 @@ const initialValues: LoginFormValues = {
 
 const authToken = new AuthToken()
 
-const LoginForm: FC = () => {
+// Full-page navigation to Spring Security's OAuth2 authorization entry point.
+// The backend then redirects the browser to ProConnect (Authorization Code flow).
+const connectWithProConnect = () => {
+  window.location.href = '/oauth2/authorization/proconnect'
+}
+
+type LoginFormProps = {
+  // Defaults to the build-time flag; overridable in tests for deterministic rendering.
+  oidcEnabled?: boolean
+}
+
+const LoginForm: FC<LoginFormProps> = ({ oidcEnabled = import.meta.env.FRONTEND_OIDC_ENABLED === 'true' }) => {
   const [showPassword, setShowPassword] = useState(false)
+  const isOidcEnabled = oidcEnabled
 
   const handleSubmit = async (
     { email, password }: LoginFormValues,
@@ -78,7 +90,27 @@ const LoginForm: FC = () => {
   }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit} validate={validateForm} validateOnChange={false}>
+    <>
+      {isOidcEnabled && (
+        <div className="fr-mb-6v" id="proconnect">
+          <h2>Se connecter avec ProConnect</h2>
+          <button className="fr-btn fr-btn--lg" onClick={connectWithProConnect} type="button">
+            S’identifier avec ProConnect
+          </button>
+          <p className="fr-mt-2v">
+            <a
+              href="https://www.proconnect.gouv.fr/"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Qu’est-ce que ProConnect ? - nouvelle fenêtre"
+            >
+              Qu’est-ce que ProConnect ?
+            </a>
+          </p>
+        </div>
+      )}
+
+      <Formik initialValues={initialValues} onSubmit={handleSubmit} validate={validateForm} validateOnChange={false}>
       {({ values, errors, isSubmitting, status, handleChange }) => {
         // Match the original behaviour: errors only surface after a submit
         // attempt. Fields are not wired to Formik's onBlur and
@@ -193,7 +225,8 @@ const LoginForm: FC = () => {
           </Form>
         )
       }}
-    </Formik>
+      </Formik>
+    </>
   )
 }
 

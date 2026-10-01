@@ -2,20 +2,29 @@ package fr.gouv.dgampa.rapportnav.config
 
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.CustomAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ProConnectUserBridgeFilter
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.SentryUserContextFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthoritiesEnum
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.HttpStatusEntryPoint
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter
 
 /**
@@ -28,8 +37,14 @@ class SecurityConfig(
     private val customAuthenticationFilter: CustomAuthenticationFilter,
     private val apiKeyAuthFilter: ApiKeyAuthenticationFilter,
     private val sentryUserContextFilter: SentryUserContextFilter,
+    private val oidcProperties: OIDCProperties,
+    // The following ProConnect beans only exist when `rapportnav.oidc.enabled=true`.
+    private val clientRegistrationRepository: ClientRegistrationRepository?,
+    private val proConnectOidcUserService: ProConnectOidcUserService?,
+    private val proConnectUserBridgeFilter: ProConnectUserBridgeFilter?,
     @Value("\${metabase.site-url}") private val metabaseSiteUrl: String
 ) {
+    private val logger = LoggerFactory.getLogger(SecurityConfig::class.java)
 
     /**
      * Security filter for API key authenticated endpoints (backend-to-backend calls).
@@ -56,8 +71,13 @@ class SecurityConfig(
     @Order(2)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
-        // Add custom authentication filter
+        // Add custom authentication filter (legacy email/password + JWT Bearer path)
         http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+        // Bridge a ProConnect (OIDC) session principal into the domain User principal.
+        // Runs after the JWT filter so a Bearer token still takes precedence when present.
+        proConnectUserBridgeFilter?.let {
+            http.addFilterAfter(it, CustomAuthenticationFilter::class.java)
+        }
         // Add Sentry user context filter after authentication
         http.addFilterAfter(sentryUserContextFilter, CustomAuthenticationFilter::class.java)
 
@@ -65,16 +85,21 @@ class SecurityConfig(
         http.cors(Customizer.withDefaults())
 
         // session
+        // When ProConnect is enabled we need IF_REQUIRED so Spring can persist the OAuth2
+        // authorization request and the authenticated session. Bearer/password requests never
+        // touch the session, so they stay effectively stateless. When ProConnect is disabled
+        // the app remains fully STATELESS exactly as before.
         http.sessionManagement { sessionManagement ->
-            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            sessionManagement.sessionCreationPolicy(
+                if (oidcProperties.enabled) SessionCreationPolicy.IF_REQUIRED else SessionCreationPolicy.STATELESS
+            )
         }
 
         // CSRF protection is intentionally disabled for the following reasons:
-        // 1. This API uses stateless JWT Bearer token authentication
-        // 2. Tokens are sent via Authorization header, not cookies
-        // 3. Browsers don't automatically include Authorization headers in cross-origin requests
-        // 4. Session management is STATELESS (no JSESSIONID cookies)
-        // See: https://security.stackexchange.com/questions/170388/
+        // 1. The legacy path uses stateless JWT Bearer token authentication (header, not cookie)
+        // 2. Browsers don't automatically include Authorization headers in cross-origin requests
+        // 3. The ProConnect session cookie is mitigated via SameSite=Lax (see application.properties)
+        //    and mirrors MonitorEnv's configuration.
         http.csrf { csrf ->
             csrf.disable()
         }
@@ -83,6 +108,8 @@ class SecurityConfig(
         http.authorizeHttpRequests { authorize ->
             enableSwagger(authorize)
                 .requestMatchers("/api/v1/auth/login").permitAll()
+                // ProConnect (OIDC) entry, callback and logout endpoints
+                .requestMatchers("/oauth2/**", "/login/oauth2/**", "/logout").permitAll()
                 .requestMatchers("/api/v1/auth/register").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
                 .requestMatchers("/api/v2/admin/**").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
                 .requestMatchers("/api/v2/manage/**")
@@ -94,6 +121,31 @@ class SecurityConfig(
                 .requestMatchers("/api/v2/**").authenticated()
                 .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated()
+        }
+
+        // ProConnect (OIDC) login — only wired when enabled and a client registration exists.
+        if (oidcProperties.enabled && clientRegistrationRepository != null && proConnectOidcUserService != null) {
+            logger.info("✅ ProConnect (OIDC) authentication is ENABLED.")
+            http.oauth2Login { oauth2 ->
+                oauth2
+                    .loginPage("/login")
+                    .userInfoEndpoint { userInfo -> userInfo.oidcUserService(proConnectOidcUserService) }
+                    .successHandler(SimpleUrlAuthenticationSuccessHandler(oidcProperties.successUrl))
+                    .failureHandler(SimpleUrlAuthenticationFailureHandler(oidcProperties.errorUrl))
+            }
+            http.logout { logout ->
+                logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessHandler(oidcLogoutSuccessHandler(clientRegistrationRepository))
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID")
+            }
+            // Return 401 (not a redirect to ProConnect) when an XHR hits a protected /api resource
+            // unauthenticated, so the SPA can react instead of following a 302 to the IdP.
+            http.exceptionHandling { it.authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) }
+        } else {
+            logger.warn("⚠️  ProConnect (OIDC) authentication is DISABLED — email/password login only.")
         }
 
         // Add security headers
@@ -137,6 +189,28 @@ class SecurityConfig(
         http.anonymous(Customizer.withDefaults())
 
         return http.build()
+    }
+
+    /**
+     * Logs the ProConnect session out both locally and at the ProConnect IdP (end-session),
+     * then returns the browser to the SPA login page.
+     */
+    private fun oidcLogoutSuccessHandler(
+        clientRegistrationRepository: ClientRegistrationRepository,
+    ): LogoutSuccessHandler {
+        val handler = OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository)
+        handler.setPostLogoutRedirectUri(oidcProperties.postLogoutRedirectUri)
+        // Diagnostic wrapper: logs the principal present at logout. If it's not an OidcUser,
+        // the handler falls back to redirecting to "/" (never hitting ProConnect end-session),
+        // which is the "lands on http://localhost/" symptom.
+        return LogoutSuccessHandler { request, response, authentication ->
+            logger.info(
+                "OIDC logout - authentication={}, principalType={}",
+                authentication,
+                authentication?.principal?.javaClass?.name,
+            )
+            handler.onLogoutSuccess(request, response, authentication)
+        }
     }
 
     private fun enableSwagger(authorize: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry): AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry {

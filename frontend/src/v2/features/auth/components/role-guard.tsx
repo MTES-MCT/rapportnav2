@@ -14,7 +14,7 @@ export default function RoleGuard(props: RoleGuardProps): JSX.Element | null {
     return <Suspense>{props.children}</Suspense>
   }
   const denied = () => {
-    return <Navigate to={`/home`} replace />
+    return <Navigate to={`/`} replace />
   }
   return !hasRoles(props.roles) ? denied() : allow()
 }

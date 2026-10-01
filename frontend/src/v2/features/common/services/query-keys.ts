@@ -38,7 +38,8 @@ export const resourcesKeys = {
 
 export const usersKeys = {
   all: () => ['users'] as const,
-  byId: (id: number) => [...usersKeys.all(), `${id}`] as const
+  byId: (id: number) => [...usersKeys.all(), `${id}`] as const,
+  me: () => [...usersKeys.all(), 'me'] as const
 }
 
 export const inquiriesKeys = {

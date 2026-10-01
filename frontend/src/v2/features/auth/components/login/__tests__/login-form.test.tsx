@@ -5,8 +5,17 @@ import { describe, it, expect } from 'vitest'
 
 describe('LoginForm', () => {
   it('should match the snapshot', () => {
-    const wrapper = render(<LoginForm />)
+    // Pin OIDC off so the snapshot is independent of the ambient FRONTEND_OIDC_ENABLED value.
+    const wrapper = render(<LoginForm oidcEnabled={false} />)
     expect(wrapper).toMatchSnapshot()
+  })
+
+  it('shows the ProConnect button only when OIDC is enabled', () => {
+    const { rerender } = render(<LoginForm oidcEnabled={false} />)
+    expect(screen.queryByText('S’identifier avec ProConnect')).not.toBeInTheDocument()
+
+    rerender(<LoginForm oidcEnabled />)
+    expect(screen.getByText('S’identifier avec ProConnect')).toBeInTheDocument()
   })
 
   it('does not surface validation errors on blur/typing — only after a submit attempt', async () => {

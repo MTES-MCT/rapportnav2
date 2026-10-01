@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.config
 
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.CustomAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.config.OIDCProperties
 import fr.gouv.dgampa.rapportnav.config.SecurityConfig
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.SentryUserContextFilter
 import org.junit.jupiter.api.Assertions.*
@@ -45,7 +46,11 @@ class SecurityConfigTest {
         customAuthFilter = mock()
         apiKeyAuthFilter = mock()
         sentryUserContextFilter = mock()
-        securityConfig = SecurityConfig(customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter, "https://metabase.test")
+        securityConfig = SecurityConfig(
+            customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter,
+            OIDCProperties(), null, null, null,
+            "https://metabase.test"
+        )
     }
 
     @Test
@@ -78,7 +83,11 @@ class SecurityConfigTest {
 
     @Test
     fun `should be instantiable with required dependencies`() {
-        val config = SecurityConfig(customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter, "https://metabase.test")
+        val config = SecurityConfig(
+            customAuthFilter, apiKeyAuthFilter, sentryUserContextFilter,
+            OIDCProperties(), null, null, null,
+            "https://metabase.test"
+        )
         assertNotNull(config)
     }
 
@@ -108,7 +117,11 @@ class SecurityConfigTest {
         val apiKeyFilter: ApiKeyAuthenticationFilter = mock()
         val sentryFilter: SentryUserContextFilter = mock()
 
-        val config = SecurityConfig(customFilter, apiKeyFilter, sentryFilter, "https://metabase.test")
+        val config = SecurityConfig(
+            customFilter, apiKeyFilter, sentryFilter,
+            OIDCProperties(), null, null, null,
+            "https://metabase.test"
+        )
 
         assertNotNull(config)
     }
@@ -210,6 +223,11 @@ class SecurityConfigIntegrationTest {
 
         @Bean
         fun sentryUserContextFilter(): SentryUserContextFilter = mock()
+
+        // ProConnect is disabled in this test; the OIDC-conditional beans are absent
+        // (injected as null), but OIDCProperties is always required by SecurityConfig.
+        @Bean
+        fun oidcProperties(): OIDCProperties = OIDCProperties()
     }
 
     @Nested

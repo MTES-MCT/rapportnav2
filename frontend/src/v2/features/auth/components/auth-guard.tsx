@@ -2,8 +2,7 @@ import { Suspense, useEffect } from 'react'
 import { Navigate } from 'react-router'
 import * as Sentry from '@sentry/react'
 import { setUser } from '../../../store/slices/user-reducer'
-import useGetUserQuery from '../../common/services/use-user'
-import useAuth from '../hooks/use-auth'
+import { useGetCurrentUserQuery } from '../../common/services/use-user'
 import { usePrefetchStaticData } from '../../common/services/use-prefetch-static-data.tsx'
 
 type AuthGuardProps = {
@@ -11,11 +10,10 @@ type AuthGuardProps = {
 }
 
 export default function AuthGuard(props: AuthGuardProps): JSX.Element | null {
-  // check auth status
-  const { isLoggedIn, isAuthenticated } = useAuth()
-
-  // get user data
-  const { data: user } = useGetUserQuery(isLoggedIn()?.userId)
+  // Resolve the current user from `users/me`. This is the single source of truth for
+  // both auth methods: JWT/password (Bearer header) and ProConnect (session cookie).
+  const { data: user, isLoading, isError } = useGetCurrentUserQuery()
+  const isAuthenticated = !!user && !isError
 
   // prefill cache with reference data for offline use
   usePrefetchStaticData()
@@ -44,6 +42,12 @@ export default function AuthGuard(props: AuthGuardProps): JSX.Element | null {
   }
   const denied = () => {
     return <Navigate to={`/login`} replace />
+  }
+
+  // Wait for the "who am I" call to settle before deciding, otherwise a ProConnect
+  // session user (no local token) would be bounced to /login on first render.
+  if (isLoading) {
+    return null
   }
 
   return !isAuthenticated ? denied() : allow()
