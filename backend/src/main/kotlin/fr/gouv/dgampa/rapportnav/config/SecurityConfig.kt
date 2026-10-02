@@ -19,6 +19,8 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
@@ -132,6 +134,16 @@ class SecurityConfig(
                     .userInfoEndpoint { userInfo -> userInfo.oidcUserService(proConnectOidcUserService) }
                     .successHandler(SimpleUrlAuthenticationSuccessHandler(oidcProperties.successUrl))
                     .failureHandler(SimpleUrlAuthenticationFailureHandler(oidcProperties.errorUrl))
+                // When 2FA is enforced, inject the OIDC `claims` parameter so ProConnect performs
+                // (and asserts) multi-factor authentication. Left untouched otherwise.
+                if (oidcProperties.forceMfa) {
+                    logger.info("✅ ProConnect 2FA (MFA) enforcement is ENABLED.")
+                    oauth2.authorizationEndpoint { endpoint ->
+                        endpoint.authorizationRequestResolver(
+                            mfaAuthorizationRequestResolver(clientRegistrationRepository),
+                        )
+                    }
+                }
             }
             http.logout { logout ->
                 logout
@@ -170,18 +182,28 @@ class SecurityConfig(
                     // prevent xss via these APIs
                     permissions.policy("geolocation=(), camera=(), microphone=()")
                 }
-                .contentSecurityPolicy { csp ->
-                    // CSP for API responses (defense in depth)
-                    // Note: HTML responses get a more specific CSP with nonce from FrontendRoutesController
-                    val upgradeInsecure = if (System.getenv("ENV_PROFILE") == "prod") "; upgrade-insecure-requests" else ""
-                    csp.policyDirectives(
-                        "default-src 'self'; " +
-                        "script-src 'self'; " +
-                        "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
-                        "frame-src $metabaseSiteUrl; " +
-                        "frame-ancestors 'none'" +
-                        upgradeInsecure
-                    )
+                // CSP for API / non-HTML responses (defense in depth). HTML responses get a more
+                // specific CSP with a nonce from FrontendRoutesController; because Spring's CSP writer
+                // only sets the header when absent (containsHeader guard), that richer policy wins for
+                // HTML and this one applies to everything else.
+                //
+                // We emit this per-request (not via the static .contentSecurityPolicy DSL) so that
+                // `upgrade-insecure-requests` keys off request.isSecure — the SAME signal the HTML CSP
+                // uses — instead of ENV_PROFILE. This keeps the two policies aligned on every env
+                // (HTTP integration: omitted; HTTPS prod: added) with a single source of truth.
+                .addHeaderWriter { request, response ->
+                    if (!response.containsHeader("Content-Security-Policy")) {
+                        val upgradeInsecure = if (request.isSecure) "; upgrade-insecure-requests" else ""
+                        response.setHeader(
+                            "Content-Security-Policy",
+                            "default-src 'self'; " +
+                            "script-src 'self'; " +
+                            "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
+                            "frame-src $metabaseSiteUrl; " +
+                            "frame-ancestors 'none'" +
+                            upgradeInsecure
+                        )
+                    }
                 }
         }
 
@@ -189,6 +211,28 @@ class SecurityConfig(
         http.anonymous(Customizer.withDefaults())
 
         return http.build()
+    }
+
+    /**
+     * Builds an [OAuth2AuthorizationRequestResolver] that adds the OIDC `claims` parameter to the
+     * ProConnect `/authorize` request, marking `acr` as an *essential* claim with the accepted MFA
+     * levels. ProConnect requires the `claims` parameter (not `acr_values`, which is only a
+     * preference) to actually force two-factor authentication. Spring URL-encodes additional
+     * parameters when it builds the redirect URI.
+     */
+    private fun mfaAuthorizationRequestResolver(
+        clientRegistrationRepository: ClientRegistrationRepository,
+    ): OAuth2AuthorizationRequestResolver {
+        val acrValuesJson = oidcProperties.mfaAcrValues.joinToString(",") { "\"$it\"" }
+        val claimsJson = """{"id_token":{"acr":{"essential":true,"values":[$acrValuesJson]}}}"""
+        val resolver = DefaultOAuth2AuthorizationRequestResolver(
+            clientRegistrationRepository,
+            "/oauth2/authorization",
+        )
+        resolver.setAuthorizationRequestCustomizer { builder ->
+            builder.additionalParameters { params -> params["claims"] = claimsJson }
+        }
+        return resolver
     }
 
     /**

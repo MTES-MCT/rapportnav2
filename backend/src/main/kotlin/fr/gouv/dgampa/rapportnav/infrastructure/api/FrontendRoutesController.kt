@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import java.io.File
+import java.net.URI
 import java.security.SecureRandom
 import java.util.*
 
@@ -19,13 +20,23 @@ import java.util.*
 @Controller
 class FrontendRoutesController(
     @param:Value("\${STATIC_FILES_PATH:}") private val staticFilesPath: String,
-    @param:Value("\${metabase.site-url}") private val metabaseSiteUrl: String
+    @param:Value("\${metabase.site-url}") private val metabaseSiteUrl: String,
+    // ProConnect issuer URI (e.g. https://auth.agentconnect.gouv.fr/api/v2). Only its scheme+host
+    // is used, to allow the OIDC logout form POST to redirect to ProConnect's end_session endpoint.
+    @param:Value("\${rapportnav.oidc.issuer-uri:}") private val oidcIssuerUri: String
 ) {
     companion object {
         private const val NONCE_PLACEHOLDER = "__CSP_NONCE__"
         private const val NONCE_SIZE = 16 // 128 bits
         private val secureRandom = SecureRandom()
     }
+
+    // scheme://host of the ProConnect issuer, or "" when OIDC is not configured. Used in the CSP
+    // form-action directive so the cross-origin post-logout redirect is not blocked (browsers such
+    // as Firefox enforce form-action against form-submission redirect targets).
+    private val proConnectOrigin: String = runCatching {
+        oidcIssuerUri.takeIf { it.isNotBlank() }?.let { URI(it) }?.let { "${it.scheme}://${it.authority}" }
+    }.getOrNull().orEmpty()
 
     @GetMapping(
         value = [
@@ -81,6 +92,11 @@ class FrontendRoutesController(
         // setting 'upgrade-insecure-requests' on http blocks requests
         val upgradeInsecure = if (isSecure) "upgrade-insecure-requests;" else ""
 
+        // Allow the OIDC logout form POST to redirect to ProConnect's end_session endpoint.
+        // Without the ProConnect origin here, a strict 'self' form-action blocks that cross-origin
+        // redirect in browsers that re-check form-action against redirect targets (e.g. Firefox).
+        val formAction = "form-action 'self'" + (if (proConnectOrigin.isNotBlank()) " $proConnectOrigin" else "") + "; "
+
         val csp = "default-src 'self'; " +
             "script-src 'self' 'nonce-$nonce'; " +
             "style-src 'self' 'unsafe-inline'; " +
@@ -90,7 +106,7 @@ class FrontendRoutesController(
             "frame-src $metabaseSiteUrl; " +
             "base-uri 'self'; " +
             "frame-ancestors 'none'; " +
-            "form-action 'self'; " +
+            formAction +
             "object-src 'none'; " +
             upgradeInsecure
 

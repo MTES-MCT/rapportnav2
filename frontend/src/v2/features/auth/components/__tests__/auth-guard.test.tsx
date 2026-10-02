@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, waitFor } from '../../../../../test-utils'
 import * as Sentry from '@sentry/react'
+import { useIsRestoring } from '@tanstack/react-query'
 import AuthGuard from '../auth-guard'
 import * as useUserModule from '../../../common/services/use-user'
 import * as usePrefetchModule from '../../../common/services/use-prefetch-static-data'
@@ -8,6 +9,14 @@ import * as userReducer from '../../../../store/slices/user-reducer'
 
 // Mock modules
 vi.mock('@sentry/react')
+vi.mock('react-router', async importOriginal => ({
+  ...(await importOriginal<typeof import('react-router')>()),
+  Navigate: ({ to }: { to: string }) => <div>REDIRECTED:{to}</div>
+}))
+vi.mock('@tanstack/react-query', async importOriginal => ({
+  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  useIsRestoring: vi.fn(() => false)
+}))
 vi.mock('../../../common/services/use-user')
 vi.mock('../../../common/services/use-prefetch-static-data')
 vi.mock('../../../../store/slices/user-reducer')
@@ -28,6 +37,9 @@ describe('AuthGuard', () => {
 
     // Mock setUser reducer
     vi.mocked(userReducer.setUser).mockImplementation(() => {})
+
+    // Default: persisted cache already restored
+    vi.mocked(useIsRestoring).mockReturnValue(false)
   })
 
   afterEach(() => {
@@ -59,6 +71,7 @@ describe('AuthGuard', () => {
     it('should redirect to login when not authenticated', () => {
       renderWithUser(false)
       expect(screen.queryByText('Protected Content')).toBeNull()
+      expect(screen.getByText('REDIRECTED:/login')).toBeInTheDocument()
     })
 
     it('should render nothing while the who-am-I call is in flight', () => {
@@ -74,6 +87,27 @@ describe('AuthGuard', () => {
         </AuthGuard>
       )
       expect(screen.queryByText('Protected Content')).toBeNull()
+    })
+
+    it('should NOT redirect while the persisted cache is restoring (paused query: isLoading false, no user)', () => {
+      // Reproduces the "sign in twice" glitch: during cache restoration the query is paused, so
+      // isLoading is false and user is undefined. We must wait, not bounce to /login.
+      vi.mocked(useIsRestoring).mockReturnValue(true)
+      vi.mocked(useUserModule.useGetCurrentUserQuery).mockReturnValue({
+        data: undefined,
+        isLoading: false,
+        isError: false
+      } as any)
+
+      render(
+        <AuthGuard>
+          <div>Protected Content</div>
+        </AuthGuard>
+      )
+
+      // Neither granted (no user yet) nor denied (no redirect) — it renders nothing and waits.
+      expect(screen.queryByText('Protected Content')).toBeNull()
+      expect(screen.queryByText('REDIRECTED:/login')).toBeNull()
     })
   })
 

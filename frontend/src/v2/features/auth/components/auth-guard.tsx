@@ -1,6 +1,7 @@
 import { Suspense, useEffect } from 'react'
 import { Navigate } from 'react-router'
 import * as Sentry from '@sentry/react'
+import { useIsRestoring } from '@tanstack/react-query'
 import { setUser } from '../../../store/slices/user-reducer'
 import { useGetCurrentUserQuery } from '../../common/services/use-user'
 import { usePrefetchStaticData } from '../../common/services/use-prefetch-static-data.tsx'
@@ -13,6 +14,10 @@ export default function AuthGuard(props: AuthGuardProps): JSX.Element | null {
   // Resolve the current user from `users/me`. This is the single source of truth for
   // both auth methods: JWT/password (Bearer header) and ProConnect (session cookie).
   const { data: user, isLoading, isError } = useGetCurrentUserQuery()
+  // While the persisted React Query cache is being restored from localStorage, the query is
+  // PAUSED: `isLoading` is false but `user` is still undefined. Without this flag we would wrongly
+  // treat that window as "not authenticated" and bounce to /login on the first load after login.
+  const isRestoring = useIsRestoring()
   const isAuthenticated = !!user && !isError
 
   // prefill cache with reference data for offline use
@@ -45,8 +50,10 @@ export default function AuthGuard(props: AuthGuardProps): JSX.Element | null {
   }
 
   // Wait for the "who am I" call to settle before deciding, otherwise a ProConnect
-  // session user (no local token) would be bounced to /login on first render.
-  if (isLoading) {
+  // session user (no local token) would be bounced to /login on first render. This must also
+  // wait while the persisted cache is restoring (isRestoring), during which the query is paused
+  // and isLoading is false even though the user is not yet known.
+  if (isLoading || isRestoring) {
     return null
   }
 

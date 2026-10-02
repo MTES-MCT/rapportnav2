@@ -44,6 +44,7 @@ import java.util.concurrent.ConcurrentHashMap
 @ConditionalOnProperty(value = ["rapportnav.oidc.enabled"], havingValue = "true")
 class ProConnectOidcUserService(
     private val findByEmail: FindByEmail,
+    private val oidcProperties: OIDCProperties,
 ) : OidcUserService() {
     private val logger = LoggerFactory.getLogger(ProConnectOidcUserService::class.java)
     private val restTemplate = RestTemplate()
@@ -65,6 +66,17 @@ class ProConnectOidcUserService(
         if (user == null || user.disabledAt != null) {
             logger.warn("ProConnect authentication rejected for $email (unknown or disabled)")
             throw OAuth2AuthenticationException(OAuth2Error("access_denied"), "User not authorized")
+        }
+
+        // Enforce 2FA: ProConnect reports the authentication strength via the `acr` claim in the
+        // ID token (eidas1 = single factor, eidas2+/*-mfa = multi-factor). We request it as an
+        // essential claim on the authorization side (see SecurityConfig), but still verify it here.
+        if (oidcProperties.forceMfa) {
+            val acr = userRequest.idToken.getClaimAsString("acr")
+            if (acr == null || acr !in oidcProperties.mfaAcrValues) {
+                logger.warn("ProConnect 2FA required but acr='$acr' for $email")
+                throw OAuth2AuthenticationException(OAuth2Error("insufficient_acr"), "Two-factor authentication required")
+            }
         }
 
         logger.info("ProConnect authentication accepted for $email")

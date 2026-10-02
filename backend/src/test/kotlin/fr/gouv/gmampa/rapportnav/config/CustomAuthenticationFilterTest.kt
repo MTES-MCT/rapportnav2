@@ -13,6 +13,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
+import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 
 class CustomAuthenticationFilterTest {
@@ -100,7 +101,7 @@ class CustomAuthenticationFilterTest {
     }
 
     @Test
-    fun `should clear context and proceed when token parsing fails`() {
+    fun `should proceed without authentication when token parsing fails`() {
         request.addHeader("Authorization", "Bearer invalid-token")
         whenever(tokenService.parseToken("invalid-token")).thenThrow(RuntimeException("Invalid token"))
 
@@ -108,6 +109,25 @@ class CustomAuthenticationFilterTest {
 
         val auth = SecurityContextHolder.getContext().authentication
         assertNull(auth)
+        verify(filterChain).doFilter(request, response)
+    }
+
+    @Test
+    fun `should preserve an existing session authentication when the Bearer token is invalid`() {
+        // Simulates a ProConnect (OIDC) session already restored upstream, plus a stale JWT that
+        // the client still sends. The failed token must NOT wipe the valid session authentication,
+        // otherwise session-based login breaks (users/me -> 401) until a second sign-in.
+        val sessionAuth = TestingAuthenticationToken("oidc-user", "", "ROLE_USER_PAM")
+        sessionAuth.isAuthenticated = true
+        SecurityContextHolder.getContext().authentication = sessionAuth
+
+        request.addHeader("Authorization", "Bearer stale-token")
+        whenever(tokenService.parseToken("stale-token")).thenThrow(RuntimeException("Expired token"))
+
+        filter.doFilter(request, response, filterChain)
+
+        val auth = SecurityContextHolder.getContext().authentication
+        assertEquals(sessionAuth, auth)
         verify(filterChain).doFilter(request, response)
     }
 
