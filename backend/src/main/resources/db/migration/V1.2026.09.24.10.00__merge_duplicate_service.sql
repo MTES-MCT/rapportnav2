@@ -4,6 +4,14 @@ DECLARE
   keep_id INTEGER := 15;
   dup_id  INTEGER := 10;
 BEGIN
+  -- 0) Guard: abort the whole migration if either service id is missing.
+  IF NOT EXISTS (SELECT 1 FROM service WHERE id = keep_id AND deleted_at IS NULL) THEN
+    RAISE EXCEPTION 'merge aborted: keeper service id % not found (or soft-deleted)', keep_id;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM service WHERE id = dup_id) THEN
+    RAISE EXCEPTION 'merge aborted: duplicate service id % not found', dup_id;
+  END IF;
+
   -- 1) Simple re-points (no unique/composite-key risk)
   UPDATE "user"               SET service_id = keep_id WHERE service_id = dup_id;
   UPDATE mission              SET service_id = keep_id WHERE service_id = dup_id;
