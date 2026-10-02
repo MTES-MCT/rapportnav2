@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.101.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.0...v2.101.1) (2026-10-02)
+
+
+### Bug Fixes
+
+* fix migration ([19d0b41](https://github.com/MTES-MCT/rapportnav2/commit/19d0b4160b3b140aa2799acb8f36c1b5ab68a542))
+
 ## [2.101.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.6...v2.101.0) (2026-09-30)
 
 
