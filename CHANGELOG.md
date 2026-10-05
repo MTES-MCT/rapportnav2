@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.101.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.2...v2.101.3) (2026-10-05)
+
+
+### Bug Fixes
+
+* service duplication script fix ([688d340](https://github.com/MTES-MCT/rapportnav2/commit/688d340aa92e7eaeece2d417190ad7de32d06169))
+
 ## [2.101.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.1...v2.101.2) (2026-10-02)
 
 
