@@ -2,14 +2,14 @@
 
 ### 3.1 Politique de veille et d’alerte
 _(Suivi des bulletins de sécurité, flux CERT, CVE, etc.)_
-La chaine CI/CD fournie par la DAMSI St Malo effectue des analyses :
-- Analyse des dépendances via dependency-check
-- Analyse des images/containers Docker via Trivy
-- Analyse de qualité via sonarqube
+La chaine CI/CD fournie par la DAMSI St Malo effectue des analyses, exécutées dans le pipeline de déploiement vers les environnements école / intégration :
+- Analyse des dépendances via dependency-check (seuil d'échec CVSS ≥ 8)
+- Analyse des images/containers Docker via Trivy (sévérité CRITICAL)
+- Analyse de qualité via sonarqube (Quality Gate)
 
-Il est donc impossible de déployer de nouvelles versions si ces analyses échouent, cad si des criticités critiques ou majeures sont détectées.
+> ⚠️ Ces trois jobs sont aujourd'hui configurés en `allow_failure: true` : ils **détectent et signalent** les vulnérabilités/criticités mais ne **bloquent pas** automatiquement le déploiement. La mise en place d'un blocage effectif (gate bloquante) est une évolution recommandée, à arbitrer avec la DAM-SI qui est responsable de la chaîne CI.
 
-Outre ces détections en continu, des tests d'intrusions programmés permettent de faire ressortir d'autres vulnérabilités.
+Outre ces détections, des tests d'intrusions programmés permettent de faire ressortir d'autres vulnérabilités.
 
 ### 3.2 Analyse et priorisation
 
