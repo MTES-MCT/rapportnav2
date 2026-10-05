@@ -14,8 +14,7 @@ Certaines bonnes pratiques de développements sont mises en places telles que :
 - Analyses de qualité de code
 - Analyses de dépendances
 - Analyses de vulnérabilités des OS (Docker)
-
-Deux tests d'intrusion sont prévus en 2025.
+- En-têtes de sécurité HTTP : Content-Security-Policy (CSP à nonce pour les réponses HTML), `frameOptions` et autres en-têtes durcis au niveau du backend
 
 ### 5.3 Sécurité clés API
 

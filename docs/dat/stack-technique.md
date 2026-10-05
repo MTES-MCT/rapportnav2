@@ -4,12 +4,12 @@ Cette page synthétise les technologies et versions utilisées. Le détail par c
 
 ## Frontend
 
-- **React 19** avec **TypeScript** (5.9), build via **Vite 7**.
+- **React 19** avec **TypeScript** (5.9), build via **Vite 8**.
 - **React Query** (@tanstack) pour la gestion des données serveur, avec persistance client (PWA / Workbox).
 - **Formik** + **Yup** pour les formulaires et la validation.
 - **Styled Components** pour le style, **Monitor-UI** (design system @mtes-mct) et **RSuite** pour les composants.
 - **Axios** pour les appels HTTP, **date-fns** pour les dates.
-- **Node.js >= 24** requis pour le build.
+- **Node.js >= 26** requis pour le build.
 - Tests : **Vitest**, **Testing Library**, **MSW** (Mock Service Worker).
 
 ## Backend
@@ -36,7 +36,7 @@ Voir [Base de données](../engineering/stack/database) pour le détail.
 
 | Composant       | Techno                         | Version | Rôle                                    |
 |-----------------|--------------------------------|---------|-----------------------------------------|
-| Frontend        | React + TypeScript + Vite      | 19 / 5.9 / 7 | Interface web (SPA / PWA)          |
+| Frontend        | React + TypeScript + Vite      | 19 / 5.9 / 8 | Interface web (SPA / PWA)          |
 | Backend         | Kotlin + Spring Boot           | 2.x / 4 | API applicative (REST + GraphQL)        |
 | Runtime         | JVM (Liberica OpenJDK)         | 25      | Exécution du backend                    |
 | Base de données | PostgreSQL                     | 15      | Persistance des données                 |
