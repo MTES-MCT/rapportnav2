@@ -7,4 +7,5 @@
 * [🧾 Maintien en Conditions Opérationnelles (MCO)](mco/index)
 * [🔒 Maintien en Conditions de Sécurité (MCS)](mcs/index)
 * [🏛️ Dossier d'Architecture Technique (DAT)](dat/index)
+* [🧭 Architecture fonctionnelle (DAF)](daf/index)
 * [Charte de développement](charte-dev/index)
