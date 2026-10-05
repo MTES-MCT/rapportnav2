@@ -7,13 +7,14 @@ _(Principe du moindre privilège, séparation des rôles, double validation.)_
 Les accès à la plateforme RapportNav et la création de comptes et des habilitations sont entièrement gérés par l'équipe RapportNav,
 suite aux communications entre l'administration SNC3 et les équipes du DCS (PAM/ULAM).
 
-Il existe trois rôles utilisateurs :
-- PAM
-- ULAM
-- ADMIN
+Il existe les rôles applicatifs suivants :
+- `USER_PAM` / `MANAGER_PAM` (PAM, avec distinction utilisateur / manager)
+- `USER_ULAM` / `MANAGER_ULAM` (ULAM, avec distinction utilisateur / manager)
+- `ADMIN`
+- `API_USER` (rôle machine pour les accès par clé API)
 
-Ces rôles sont non exclusifs, cad qu'un utilisateur peut être tout à la fois.
-Ceci dit, le rôle ADMIN n'est utilisé que par les membres de la startup d'Etat RapportNav.
+Ces rôles sont non exclusifs, cad qu'un utilisateur peut en cumuler plusieurs.
+Ceci dit, le rôle `ADMIN` n'est utilisé que par les membres de la startup d'Etat RapportNav.
 
 Les rôles sont gérés par les administrateurs de la startup d'Etat RapportNav. Un utilisateur ne peut pas changer de rôle par lui-même.
 
@@ -29,7 +30,7 @@ entre les membres du DCS et l'équipe RapportNav.
 
 #### 4.1.3 Authentification et autorisation
 
-A terme, l'équipe RapportNav souhaite implémenter l'authentification Cerbère mais en attendant, la gestion des mots de passe est gérée par une solution custom.
+A terme, l'équipe RapportNav prévoit de migrer vers l'authentification **ProConnect** (OIDC) ainsi que la **double authentification (2FA)** ; ces évolutions sont en cours de développement (branche `pro-connect`, non encore déployées). En attendant, la gestion des mots de passe est assurée par une solution custom.
 
 Les mots de passes sont hashés et saltés, cad qu'ils ne sont pas visibles en clair dans la base de données.
 La politique de mots de passe est 16 caractères minimum avec minuscule, majuscule, chiffre et caractères spéciaux.
