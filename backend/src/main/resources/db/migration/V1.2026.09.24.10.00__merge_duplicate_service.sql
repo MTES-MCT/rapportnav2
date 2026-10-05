@@ -4,12 +4,17 @@ DECLARE
   keep_id INTEGER := 15;
   dup_id  INTEGER := 10;
 BEGIN
-  -- 0) Guard: abort the whole migration if either service id is missing.
+  -- 0) Guard: this merge targets prod-only data (keeper id 15 is created at
+  --    runtime, not seeded by migrations). In environments where either side of
+  --    the merge is absent (CI, test-containers, local, fresh DBs) there is
+  --    nothing to merge, so skip cleanly instead of aborting the whole run.
   IF NOT EXISTS (SELECT 1 FROM service WHERE id = keep_id AND deleted_at IS NULL) THEN
-    RAISE EXCEPTION 'merge aborted: keeper service id % not found (or soft-deleted)', keep_id;
+    RAISE NOTICE 'merge skipped: keeper service id % not found (or soft-deleted)', keep_id;
+    RETURN;
   END IF;
   IF NOT EXISTS (SELECT 1 FROM service WHERE id = dup_id) THEN
-    RAISE EXCEPTION 'merge aborted: duplicate service id % not found', dup_id;
+    RAISE NOTICE 'merge skipped: duplicate service id % not found', dup_id;
+    RETURN;
   END IF;
 
   -- 1) Simple re-points (no unique/composite-key risk)
