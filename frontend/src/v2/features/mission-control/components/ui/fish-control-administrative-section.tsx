@@ -25,7 +25,16 @@ type ConformityField =
   | 'weighingCertificateAndSystemsValid'
   | 'gangwayPresentAndCompliant'
 
-const CONFORMITY_SECTIONS: ConformitySection<ConformityField>[] = [
+// TODO: remove this temporary hide in january (and its skip in fish-control-administrative-section.test.tsx)
+const HIDE_UNTIL_MEP: ConformityField[] = [
+  'gangwayPresentAndCompliant',
+  'logbookOpenedPriorToControl',
+  'europeanFishingLicenceValid',
+  'stowagePlanPresent',
+  'onboardWeighingPermit'
+]
+
+const RAW_CONFORMITY_SECTIONS: ConformitySection<ConformityField>[] = [
   {
     rows: [
       {
@@ -61,6 +70,11 @@ const CONFORMITY_SECTIONS: ConformitySection<ConformityField>[] = [
     ]
   }
 ]
+
+const CONFORMITY_SECTIONS: ConformitySection<ConformityField>[] = RAW_CONFORMITY_SECTIONS.map(section => ({
+  ...section,
+  rows: section.rows.map(row => (HIDE_UNTIL_MEP.includes(row.field) ? { ...row, hide: () => true } : row))
+}))
 
 const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectionProps> = ({ action }) => {
   return (
