@@ -108,8 +108,8 @@ class SatiValidationRulesTest {
     }
 
     @Test
-    fun `M1 - missing address zipcode fires at deepest path when fullAddress is also absent`() {
-        val brokenAddress = validAddress().copy(fullAddress = null, zipcode = null)
+    fun `M1 - missing address zipcode fires at deepest path`() {
+        val brokenAddress = validAddress().copy(zipcode = null)
         val brokenContact = validContact().copy(address = brokenAddress)
         val vessel = validVessel().copy(master = SatiPartyEntity(contact = brokenContact))
         val entity = fishAction(sati = satiM1(vessel = vessel))
