@@ -4,7 +4,7 @@
 > Ne pas modifier manuellement. Lancer le generateur pour mettre a jour :
 > `./gradlew generateValidationDocs`
 >
-> Derniere generation : 2026-09-28
+> Derniere generation : 2026-10-06
 
 Ces regles sont evaluees pour la completude statistique.
 La politique applicable depend de la date de debut de la mission.
@@ -94,11 +94,12 @@ Applies from: `2025-01-01T00:00:00Z`
 | `sati.vessel.master.contact.nationality` | sati présent | La nationalité est requise |
 | `sati.vessel.master.contact.email` | sati présent | L'e-mail est requis |
 | `sati.vessel.master.contact.phone` | sati présent | Le téléphone est requis |
-| `sati.vessel.master.contact.address.town` | sati présent | La ville est requise |
 | `sati.vessel.master.contact.address.id` | sati présent | L'identifiant est requis |
-| `sati.vessel.master.contact.address.street` | sati présent | La rue est requise |
-| `sati.vessel.master.contact.address.country` | sati présent | Le pays est requis |
-| `sati.vessel.master.contact.address.zipcode` | sati présent | Le code postal est requis |
+| `sati.vessel.master.contact.address.fullAddress` | sati présent | L'adresse complète est requise en l'absence de rue, pays, code postal et ville |
+| `sati.vessel.master.contact.address.street` | sati présent | La rue est requise en l'absence d'adresse complète |
+| `sati.vessel.master.contact.address.town` | sati présent | La ville est requise en l'absence d'adresse complète |
+| `sati.vessel.master.contact.address.country` | sati présent | Le pays est requis en l'absence d'adresse complète |
+| `sati.vessel.master.contact.address.zipcode` | sati présent | Le code postal est requis en l'absence d'adresse complète |
 
 ## Champs requis par type d'action
 
