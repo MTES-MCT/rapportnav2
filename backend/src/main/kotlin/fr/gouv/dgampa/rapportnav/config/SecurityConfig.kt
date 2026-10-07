@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
@@ -67,6 +69,18 @@ class SecurityConfig(
         // session
         http.sessionManagement { sessionManagement ->
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        }
+
+        // Authentication vs. authorization status codes:
+        // - unauthenticated requests (missing / expired / invalid token) => 401 so the frontend re-logs-in,
+        // - authorization denials (insufficient privilege or object-level cloisonnement) stay 403 (handled by
+        //   the default AccessDeniedHandler and ControllersExceptionHandler).
+        http.exceptionHandling { exceptions ->
+            exceptions.authenticationEntryPoint { _, response, _ ->
+                response.status = HttpStatus.UNAUTHORIZED.value()
+                response.contentType = MediaType.APPLICATION_JSON_VALUE
+                response.writer.write("""{"error":"Unauthorized","message":"Authentication required"}""")
+            }
         }
 
         // CSRF protection is intentionally disabled for the following reasons:

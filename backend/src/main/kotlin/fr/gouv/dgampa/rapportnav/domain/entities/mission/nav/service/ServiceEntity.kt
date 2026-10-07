@@ -7,7 +7,7 @@ data class ServiceEntity(
     val id: Int? = null,
     val name: String,
     val serviceType: ServiceTypeEnum,
-    val serviceLinked: ServiceEntity? = null,
+    val serviceLinkedId: Int? = null,
     val controlUnits: List<Int>? = null,
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
@@ -19,6 +19,7 @@ data class ServiceEntity(
             name = name,
             serviceType = serviceType,
             controlUnits = controlUnits,
+            serviceLinkedId = serviceLinkedId,
             deletedAt = deletedAt,
         )
     }
@@ -29,6 +30,7 @@ data class ServiceEntity(
                 id = model.id,
                 name = model.name,
                 serviceType = model.serviceType,
+                serviceLinkedId = model.serviceLinkedId,
                 controlUnits = model.controlUnits,
                 updatedAt = model.updatedAt,
                 createdAt = model.createdAt,

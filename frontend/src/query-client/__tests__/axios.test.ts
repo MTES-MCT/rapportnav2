@@ -30,6 +30,7 @@ beforeAll(async () => {
 const server = setupServer(
   http.get('/api/v2/ok', () => HttpResponse.json({ message: 'ok' })),
   http.get('/api/v2/forbidden', () => new HttpResponse(JSON.stringify({ error: 'Forbidden' }), { status: 403 })),
+  http.get('/api/v2/unauthorized', () => new HttpResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })),
   http.get('/api/v2/not-found', () =>
     new HttpResponse(
       JSON.stringify({
@@ -78,11 +79,18 @@ describe('axiosInstance', () => {
     expect(response.data).toEqual({ message: 'ok' })
   })
 
-  it('calls global logout on 403', async () => {
+  it('calls global logout on 401 (unauthenticated / expired session)', async () => {
+    getMock.mockReturnValue('fake-token')
+
+    await expect(axiosInstance.get('/unauthorized')).rejects.toThrow()
+    expect(logoutSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('does NOT log out on 403 (authenticated but not allowed)', async () => {
     getMock.mockReturnValue('fake-token')
 
     await expect(axiosInstance.get('/forbidden')).rejects.toThrow()
-    expect(logoutSpy).toHaveBeenCalledTimes(1)
+    expect(logoutSpy).not.toHaveBeenCalled()
   })
 
   it('extracts detail from RFC 7807 ProblemDetail response', async () => {

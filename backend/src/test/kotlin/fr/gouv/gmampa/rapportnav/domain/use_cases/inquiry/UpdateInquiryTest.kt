@@ -5,9 +5,13 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.IInquiry
 import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.CreateInquiry
 import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.UpdateInquiry
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Inquiry
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.InquiryModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
@@ -88,5 +92,30 @@ class UpdateInquiryTest {
 
         updateInquiry.execute(id = id, inquiry = inquiry)
         verify(inquiryRepo, times(1)).save(model)
+    }
+
+    @Test
+    fun `keeps the existing service on update, ignoring the body serviceId`() {
+        val id = UUID.randomUUID()
+        val existing = Inquiry(
+            id = id,
+            serviceId = 10,
+            startDateTimeUtc = Instant.now(),
+            status = InquiryStatusType.IN_PROGRESS
+        ).toInquiryEntity().toInquiryModel()
+        val inquiry = Inquiry(
+            id = id,
+            serviceId = 999, // attacker tries to reparent to another service; must be ignored
+            startDateTimeUtc = Instant.now(),
+            status = InquiryStatusType.IN_PROGRESS
+        )
+        whenever(inquiryRepo.findById(id)).thenReturn(Optional.of(existing))
+        whenever(inquiryRepo.save(any())).thenAnswer { it.getArgument(0) }
+
+        updateInquiry.execute(id = id, inquiry = inquiry)
+
+        val captor = argumentCaptor<InquiryModel>()
+        verify(inquiryRepo).save(captor.capture())
+        assertThat(captor.firstValue.serviceId).isEqualTo(10)
     }
 }

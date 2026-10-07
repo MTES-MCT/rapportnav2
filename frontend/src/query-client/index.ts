@@ -3,6 +3,7 @@ import { OmitKeyof, QueryCache, QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
 import { logSoftError } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
+import { isServerError, shouldReportToSentry } from './error-classification'
 import { getOfflineMode } from '../v2/features/common/hooks/use-offline-mode.tsx'
 import { actionsKeys, missionsKeys } from '../v2/features/common/services/query-keys.ts'
 import {
@@ -40,14 +41,16 @@ export const HOURLY_TIME = 1000 * 60 * 60
 
 /**
  * Handles API errors based on HTTP status code:
- * - 400 (Usage errors): User-correctable issues - show specific message, don't report to Sentry
+ * - 400 (Usage errors) & 403 (authorization denials / object-level cloisonnement): expected,
+ *   user-correctable issues - show specific message, don't report to Sentry
  * - 500 (Server errors): Unexpected issues - report to Sentry, show generic message
+ *
+ * Note: 401 (unauthenticated / expired session) is handled upstream by the axios interceptor,
+ * which triggers a global logout; it never reaches here.
  */
 const handleApiError = (error: any, context: 'query' | 'mutation') => {
   const status = error?.status
   const problemDetail = error?.problemDetail
-  const isUsageError = status === 400
-  const isServerError = status >= 500
 
   // Skip Missing queryFn errors (React Query internal)
   if (/Error: Missing queryFn/i.test(error?.toString())) return
@@ -55,8 +58,8 @@ const handleApiError = (error: any, context: 'query' | 'mutation') => {
   // Always log to console for debugging
   console.error(error)
 
-  // Report to Sentry for server errors and request errors (not usage errors)
-  if (!isUsageError) {
+  // Report to Sentry for server errors and request errors (not expected usage errors)
+  if (shouldReportToSentry(status)) {
     Sentry.captureException(error)
   }
 
@@ -68,7 +71,7 @@ const handleApiError = (error: any, context: 'query' | 'mutation') => {
 
   const message = error.message || problemDetail?.detail || defaultMessage
 
-  const userMessage: string = isServerError ? defaultMessage : message
+  const userMessage: string = isServerError(status) ? defaultMessage : message
 
   logSoftError({
     isSideWindowError: false,

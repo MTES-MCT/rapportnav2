@@ -6,6 +6,8 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
+import fr.gouv.dgampa.rapportnav.infrastructure.api.security.CheckMissionAccess
+import fr.gouv.dgampa.rapportnav.infrastructure.api.security.MissionChildResource
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
@@ -51,6 +53,7 @@ class ActionRestController(
             ApiResponse(responseCode = "404", description = "Did not find any actions", content = [Content()])
         ]
     )
+    @CheckMissionAccess(param = "ownerId")
     fun getActions(@PathVariable(name = "ownerId") ownerId: String): List<MissionAction?> {
         val actions = if (isValidUUID(ownerId)) getMissionAction.execute(
             missionIdUUID = UUID.fromString(ownerId)
@@ -79,6 +82,8 @@ class ActionRestController(
             )
         ]
     )
+
+    @CheckMissionAccess(param = "ownerId", child = "actionId", childResource = MissionChildResource.NAV_ACTION)
     fun getActionById(
         @PathVariable(name = "ownerId") ownerId: String,
         @PathVariable(name = "actionId") actionId: String,
@@ -119,6 +124,11 @@ class ActionRestController(
             ApiResponse(responseCode = "404", description = "Did not Create an action", content = [Content()])
         ]
     )
+
+    // The owner check authorizes `ownerId`; the child check closes the reparenting IDOR where a body
+    // carries an existing *foreign* action id — save() would otherwise upsert it under this owner. A
+    // null/new id (the normal create) is allowed through by the aspect.
+    @CheckMissionAccess(param = "ownerId", child = "body.id", childResource = MissionChildResource.NAV_ACTION)
     fun createAction(
         @PathVariable(name = "ownerId") ownerId: String,
         @RequestBody body: MissionNavAction
@@ -142,6 +152,8 @@ class ActionRestController(
             ApiResponse(responseCode = "404", description = "Did not update an action", content = [Content()])
         ]
     )
+
+    @CheckMissionAccess(param = "ownerId", child = "actionId", childResource = MissionChildResource.NAV_ACTION)
     fun updateAction(
         @PathVariable(name = "ownerId") ownerId: String,
         @PathVariable(name = "actionId") actionId: String,
@@ -163,6 +175,7 @@ class ActionRestController(
     @DeleteMapping("{actionId}")
     @Operation(summary = "Delete an action")
     @ApiResponse(responseCode = "404", description = "Did not delete the action", content = [Content()])
+    @CheckMissionAccess(param = "ownerId", child = "actionId", childResource = MissionChildResource.NAV_ACTION)
     fun deleteAction(@PathVariable(name = "actionId") actionId: String, @PathVariable ownerId: String) {
         deleteNavAction.execute(UUID.fromString(actionId))
     }

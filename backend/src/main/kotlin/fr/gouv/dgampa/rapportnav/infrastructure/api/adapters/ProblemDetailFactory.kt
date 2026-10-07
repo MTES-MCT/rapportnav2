@@ -22,17 +22,19 @@ object ProblemDetailFactory {
     private const val URN_PREFIX = "urn:rapportnav:error"
 
     /**
-     * Creates a Problem Detail for usage errors (HTTP 400).
+     * Creates a Problem Detail for usage errors (HTTP 400 by default).
      *
      * Usage errors occur when a request is valid but the backend cannot process it,
-     * typically due to stale client data.
+     * typically due to stale client data. Authorization failures pass [HttpStatus.FORBIDDEN]
+     * so the problem body's `status` matches the response status.
      */
     fun forUsageError(
         code: BackendUsageErrorCode,
         message: String? = null,
-        data: Any? = null
+        data: Any? = null,
+        status: HttpStatus = HttpStatus.BAD_REQUEST
     ): ProblemDetail = buildWithCode(
-        status = HttpStatus.BAD_REQUEST,
+        status = status,
         category = "usage",
         code = code.name,
         title = code.toTitle(),
