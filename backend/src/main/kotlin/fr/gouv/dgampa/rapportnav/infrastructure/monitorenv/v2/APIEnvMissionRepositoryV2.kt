@@ -38,8 +38,8 @@ class APIEnvMissionRepositoryV2(
         try {
             val json = mapper.writeValueAsString(mission) ?: ""
 
-            logger.info("Body request for Mission env create as json : $json}")
-            logger.info("Body request for Mission env create as entity : $mission}")
+            logger.debug("Body request for Mission env create as json : $json}")
+            logger.debug("Body request for Mission env create as entity : $mission}")
 
             val request = HttpRequest
                 .newBuilder()
@@ -52,7 +52,7 @@ class APIEnvMissionRepositoryV2(
             logger.info("Response received, Status code: ${response.statusCode()}")
 
             val body = response.body()
-            logger.info("Response received, Content: $body")
+            logger.debug("Response received, Content: $body")
 
             if (response.statusCode() !in 200..299) {
                 throw BackendInternalException(
@@ -77,8 +77,8 @@ class APIEnvMissionRepositoryV2(
         logger.info("Sending POST request for Env mission update URL: $url")
         try {
             val json = mapper.writeValueAsString(mission) ?: ""
-            logger.info("Body request for Mission env update as json : $json")
-            logger.info("Body request for Mission env update as entity : $mission")
+            logger.debug("Body request for Mission env update as json : $json")
+            logger.debug("Body request for Mission env update as entity : $mission")
 
             val request = HttpRequest
                 .newBuilder()
@@ -91,7 +91,7 @@ class APIEnvMissionRepositoryV2(
             logger.info("Response received, Status code: ${response.statusCode()}")
 
             val body = response.body()
-            logger.info("Response received, Content: $body")
+            logger.debug("Response received, Content: $body")
 
             if (response.statusCode() !in 200..299) {
                 throw BackendInternalException(
@@ -116,8 +116,8 @@ class APIEnvMissionRepositoryV2(
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         try {
             val json = mapper.writeValueAsString(mission) ?: ""
-            logger.info("Body request for Mission env patch as json : $json")
-            logger.info("Body request for Mission env patch as entity : $mission")
+            logger.debug("Body request for Mission env patch as json : $json")
+            logger.debug("Body request for Mission env patch as entity : $mission")
 
             val request = HttpRequest
                 .newBuilder()
@@ -130,7 +130,7 @@ class APIEnvMissionRepositoryV2(
             logger.debug("Response received, missionId: ${missionId}, Status code: ${response.statusCode()}")
 
             val body = response.body()
-            logger.info("Response received, Content: $body")
+            logger.debug("Response received, Content: $body")
 
             if (response.statusCode() !in 200..299) {
                 if (response.statusCode() == 400) {
@@ -173,7 +173,7 @@ class APIEnvMissionRepositoryV2(
             logger.debug("Response received, missionId: ${missionId}, Status code: ${response.statusCode()}")
 
             val body = response.body()
-            logger.info("Response received, Content: $body")
+            logger.debug("Response received, Content: $body")
 
             if (response.statusCode() !in 200..299) {
                 throw BackendInternalException(
