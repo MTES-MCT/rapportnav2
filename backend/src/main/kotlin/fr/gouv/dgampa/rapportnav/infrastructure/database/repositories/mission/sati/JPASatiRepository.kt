@@ -1,13 +1,17 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.sati
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiStatusType
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.SatiListFilter
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.SatiModelMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.sati.IDBSatiRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -50,6 +54,17 @@ class JPASatiRepository(
         }
     }
 
+    override fun findAll(pageable: Pageable, filter: SatiListFilter): Page<SatiEntity> {
+        return try {
+            dbRepo.findAll(SatiSpecifications.fromFilter(filter), pageable).map { SatiModelMapper.toEntity(it) }
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPASatiRepository.findAll(pageable, filter) failed",
+                originalException = e
+            )
+        }
+    }
+
     @Transactional
     override fun save(sati: SatiEntity): SatiEntity {
         return try {
@@ -64,6 +79,26 @@ class JPASatiRepository(
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "JPASatiRepository.save failed for sati=${sati.id}",
+                originalException = e
+            )
+        }
+    }
+
+    @Transactional
+    override fun updateStatus(id: UUID, status: SatiStatusType): SatiEntity? {
+        return try {
+            val model = dbRepo.findById(id).orElse(null) ?: return null
+            model.status = status.name
+            dbRepo.save(model).let { SatiModelMapper.toEntity(it) }
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "JPASatiRepository.updateStatus: invalid data for id=$id",
+                e
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPASatiRepository.updateStatus failed for id=$id",
                 originalException = e
             )
         }
