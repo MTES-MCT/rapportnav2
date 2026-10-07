@@ -4,14 +4,14 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.101.0"
+version = "2.101.3"
 // x-release-please-end
 description = "RapportNav"
 
 val kotlinVersion by extra("2.4.20")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("4.1.1")
-val testcontainersVersion by extra("1.19.3")
+val testcontainersVersion by extra("1.21.4")
 val flywayVersion by extra("12.5.0")
 
 plugins {

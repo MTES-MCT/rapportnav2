@@ -33,11 +33,12 @@ Le backend suit une **architecture hexagonale** (clean architecture) avec une s�
 
 ## Authentification & gestion des accès
 
-- Authentification par **JWT** : jeton Bearer transmis avec les requêtes API, validité **30 jours**.
-- Mots de passe stockés hachés avec **BCrypt** (salt 10).
+- Authentification par **JWT** : jeton Bearer transmis avec les requêtes API, validité **15 jours**.
+- Mots de passe stockés hachés avec **BCrypt** (coût 10) ; les **clés API** sont hachées avec BCrypt (coût 12).
 - Endpoints d'administration et accès machine-à-machine authentifiés par **clé API**.
 - Autorisation basée sur les rôles applicatifs (voir [Présentation fonctionnelle](presentation-fonctionnelle)).
 - Les tentatives de connexion (succès / échec) sont **auditées** (IP, user-agent).
+- Évolutions à venir (branche `pro-connect`, non encore mergées) : authentification **ProConnect** (OIDC) et **double authentification (2FA)**. Voir [MCS — Gestion des accès](../mcs/4-gestion-acces/).
 
 Détails : [Gestion des utilisateurs](../engineering/concepts/auth) et [Les rôles](../engineering/concepts/roles).
 
