@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnvControlUnitResourceRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.UpdateResource
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.ResourceInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.PatchResourceInput
 import fr.gouv.gmampa.rapportnav.mocks.mission.env.ControlUnitResourceEnvMock
 import org.assertj.core.api.Assertions.assertThat
@@ -38,10 +39,15 @@ class UpdateResourceTest {
             controlUnitId = 10,
             name = "Old resource name"
         )
-        val updatedResource = ControlUnitResourceEnvMock.create(
+        val updatedResource = ControlUnitResourceDataOutput(
             id = 1,
+            type = "type",
+            stationId = 2,
+            isArchived = false,
             controlUnitId = 10,
-            name = "Old resource name"
+            name = "Old resource name",
+            registrationId = "REG-123",
+            radioFrequency = "VHF-16"
         )
         val input = ResourceInput(
             id = 1,
@@ -73,9 +79,15 @@ class UpdateResourceTest {
             id = 1,
             controlUnitId = 10
         )
-        val updatedResource = ControlUnitResourceEnvMock.create(
+        val updatedResource = ControlUnitResourceDataOutput(
             id = 1,
-            controlUnitId = 10
+            type = "type",
+            stationId = 2,
+            isArchived = false,
+            controlUnitId = 10,
+            name = "Old resource name",
+            registrationId = "REG-123",
+            radioFrequency = "VHF-16"
         )
         val input = ResourceInput(
             id = 1,
