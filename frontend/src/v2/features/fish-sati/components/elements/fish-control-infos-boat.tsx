@@ -53,7 +53,7 @@ const FishControlInfosBoat: FC<FishControlInfosProps> = ({ name, vessel, module,
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%', padding: 16, backgroundColor: 'white' }}>
-        {!!vessel?.jpe?.pnoId ? <JpeSummary name={name} /> : <JpeForm name={name} />}
+        {vessel?.length !== undefined && vessel.length <= 12 ? <JpeSummary name={name} /> : <JpeForm name={name} />}
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         {module === SatiModuleType.M1 && <GangwayPresent isUnitBoarded={isUnitBoarded} />}
