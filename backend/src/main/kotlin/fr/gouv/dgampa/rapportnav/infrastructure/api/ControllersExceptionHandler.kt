@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.ProblemDetailFactory
 import org.slf4j.Logger
@@ -49,10 +50,14 @@ class ControllersExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(BackendUsageException::class)
     fun handleBackendUsageException(e: BackendUsageException): ResponseEntity<ProblemDetail> {
         log.warn("Usage error: code=${e.code}, message=${e.message}")
-        return respond(HttpStatus.BAD_REQUEST, ProblemDetailFactory.forUsageError(
+        // Authorization failures (access segregation) map to 403 Forbidden; other usage errors stay 400.
+        val status = if (e.code == BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION)
+            HttpStatus.FORBIDDEN else HttpStatus.BAD_REQUEST
+        return respond(status, ProblemDetailFactory.forUsageError(
             code = e.code,
             message = e.message,
-            data = e.data
+            data = e.data,
+            status = status
         ))
     }
 

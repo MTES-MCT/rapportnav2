@@ -158,7 +158,7 @@ class ServiceManageControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(input)
         )
-            .andExpect(status().isBadRequest)
+            .andExpect(status().isForbidden)
     }
 
 
@@ -178,6 +178,6 @@ class ServiceManageControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(input)
         )
-            .andExpect(status().isBadRequest)
+            .andExpect(status().isForbidden)
     }
 }

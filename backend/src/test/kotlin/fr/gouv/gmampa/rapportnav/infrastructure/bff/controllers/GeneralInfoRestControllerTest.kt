@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.AssertMissionAccess
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
@@ -24,7 +25,8 @@ class GeneralInfoRestControllerTest {
 
     private val updateGeneralInfo: UpdateGeneralInfo = mock()
     private val getControlUnitsForUser: GetControlUnitsForUser = mock()
-    private val controller = GeneralInfoRestController(updateGeneralInfo, getControlUnitsForUser)
+    private val assertMissionAccess: AssertMissionAccess = mock()
+    private val controller = GeneralInfoRestController(updateGeneralInfo, getControlUnitsForUser, assertMissionAccess)
 
     @Test
     fun `update should return updated general info for integer missionId`() {

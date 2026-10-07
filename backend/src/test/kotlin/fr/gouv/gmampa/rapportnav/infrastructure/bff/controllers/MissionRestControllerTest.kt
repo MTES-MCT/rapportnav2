@@ -72,6 +72,9 @@ class MissionRestControllerTest {
     private lateinit var getMissionByExternalId: GetMissionByExternalId
 
     @MockitoBean
+    private lateinit var assertMissionAccess: AssertMissionAccess
+
+    @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
 
     /**
@@ -112,6 +115,22 @@ class MissionRestControllerTest {
         mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(missionId))
+    }
+
+    @Test
+    fun `should return 403 when the user may not access the mission`() {
+        // Arrange: ownership assertion rejects access to this mission
+        val missionId = 1
+        whenever(assertMissionAccess.execute(any())).thenAnswer {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION,
+                message = "AssertMissionAccess: env mission 1 is not in the user's control units"
+            )
+        }
+
+        // Act & Assert
+        mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))
+            .andExpect(status().isForbidden)
     }
 
     @Test

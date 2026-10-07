@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.AssertMissionAccess
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
@@ -32,7 +33,8 @@ class ActionRestController(
     private val getNavActionById: GetNavActionById,
     private val getEnvActionById: GetEnvActionById,
     private val getFishActionById: GetFishActionById,
-    private val getStatusForAction: GetStatusForAction
+    private val getStatusForAction: GetStatusForAction,
+    private val assertMissionAccess: AssertMissionAccess
 ) {
     private val logger = LoggerFactory.getLogger(ActionRestController::class.java)
 
@@ -52,6 +54,7 @@ class ActionRestController(
         ]
     )
     fun getActions(@PathVariable(name = "ownerId") ownerId: String): List<MissionAction?> {
+        assertMissionAccess.execute(ownerId)
         val actions = if (isValidUUID(ownerId)) getMissionAction.execute(
             missionIdUUID = UUID.fromString(ownerId)
         ) else getMissionAction.execute(
@@ -83,6 +86,7 @@ class ActionRestController(
         @PathVariable(name = "ownerId") ownerId: String,
         @PathVariable(name = "actionId") actionId: String,
     ): MissionAction? {
+        assertMissionAccess.execute(ownerId)
         var action: MissionAction? = null
         val navAction = getNavActionById.execute(actionId = actionId)
         if (navAction != null) action = MissionAction.fromMissionActionEntity(navAction)
@@ -123,6 +127,7 @@ class ActionRestController(
         @PathVariable(name = "ownerId") ownerId: String,
         @RequestBody body: MissionNavAction
     ): MissionAction? {
+        assertMissionAccess.execute(ownerId)
         createNavAction.execute(input = body, ownerId = ownerId)
         return MissionAction.fromMissionActionEntity(getNavActionById.execute(actionId = body.id))
     }
@@ -147,6 +152,7 @@ class ActionRestController(
         @PathVariable(name = "actionId") actionId: String,
         @RequestBody body: MissionAction
     ): MissionAction? {
+        assertMissionAccess.execute(ownerId)
         val response = when (body.source) {
             MissionSourceEnum.RAPPORT_NAV -> updateNavAction.execute(actionId, body as MissionNavAction, ownerId)
             MissionSourceEnum.MONITORENV -> updateEnvAction.execute(actionId, body as MissionEnvAction)
@@ -164,6 +170,7 @@ class ActionRestController(
     @Operation(summary = "Delete an action")
     @ApiResponse(responseCode = "404", description = "Did not delete the action", content = [Content()])
     fun deleteAction(@PathVariable(name = "actionId") actionId: String, @PathVariable ownerId: String) {
+        assertMissionAccess.execute(ownerId)
         deleteNavAction.execute(UUID.fromString(actionId))
     }
 }

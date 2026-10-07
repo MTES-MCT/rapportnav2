@@ -25,7 +25,8 @@ class MissionRestController(
     private val getMissionList: GetMissionList,
     private val getComputeNavMission: GetComputeNavMission,
     private val deleteMission: DeleteMission,
-    private val getMissionByExternalId: GetMissionByExternalId
+    private val getMissionByExternalId: GetMissionByExternalId,
+    private val assertMissionAccess: AssertMissionAccess
 ) {
 
     /**
@@ -91,6 +92,7 @@ class MissionRestController(
     fun getMissionById(
         @PathVariable(name = "missionId") missionId: String
     ): Mission {
+        assertMissionAccess.execute(missionId)
         val mission = if (isValidUUID(missionId)) {
             getComputeNavMission.execute(missionId = UUID.fromString(missionId))
         } else {
