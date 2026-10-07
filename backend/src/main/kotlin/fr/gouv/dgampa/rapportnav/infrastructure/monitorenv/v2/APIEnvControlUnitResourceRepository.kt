@@ -51,8 +51,8 @@ class APIEnvControlUnitResourceRepository(
 
         try {
             val json = mapper.writeValueAsString(resource) ?: ""
-            logger.info("Body request for Mission env patch as json : $json")
-            logger.info("Body request for resource env patch as entity : $resource")
+            logger.debug("Body request for Mission env patch as json : $json")
+            logger.debug("Body request for resource env patch as entity : $resource")
 
             val request = HttpRequest
                 .newBuilder()
