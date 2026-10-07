@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api
 
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.CheckLoginRateLimit
 import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.ProblemDetailFactory
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -54,6 +56,22 @@ class ControllersExceptionHandler : ResponseEntityExceptionHandler() {
             message = e.message,
             data = e.data
         ))
+    }
+
+    @ExceptionHandler(RateLimitException::class)
+    fun handleRateLimitException(e: RateLimitException): ResponseEntity<ProblemDetail> {
+        log.warn("Rate limit exceeded: ${e.message}")
+        val problemDetail = ProblemDetail.forStatus(HttpStatus.TOO_MANY_REQUESTS).apply {
+            type = java.net.URI.create("urn:rapportnav:error:usage:RATE_LIMIT_EXCEEDED")
+            title = "Too Many Requests"
+            detail = e.message ?: "Rate limit exceeded"
+            setProperty("code", "RATE_LIMIT_EXCEEDED")
+        }
+        return ResponseEntity
+            .status(HttpStatus.TOO_MANY_REQUESTS)
+            .header(HttpHeaders.RETRY_AFTER, CheckLoginRateLimit.WINDOW_SECONDS.toString())
+            .contentType(PROBLEM_JSON_MEDIA_TYPE)
+            .body(problemDetail)
     }
 
     // -------------------------------------------------------------------------
