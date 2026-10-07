@@ -26,7 +26,10 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   response => response,
   error => {
-    if (error.response?.status === 403) {
+    // 401 = unauthenticated (missing/expired/invalid token) => re-login.
+    // 403 = authenticated but not allowed (insufficient privilege or object-level cloisonnement):
+    // keep the session and let the error surface as a message.
+    if (error.response?.status === 401) {
       triggerGlobalLogout() // 🚀 clean + navigate
     }
 

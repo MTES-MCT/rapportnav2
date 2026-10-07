@@ -13,9 +13,11 @@ class UpdateInquiry(
 ) {
     fun execute(id: UUID? = null, inquiry: Inquiry): InquiryEntity? {
         if (id == null || inquiry.id != id) return null
-        inquiryRepo.findById(id = id).getOrNull()?: return null
-        val model = inquiryRepo.save(model = inquiry.toInquiryEntity().toInquiryModel())
-        return InquiryEntity.fromInquiryModel(model = model)
+        val existing = inquiryRepo.findById(id = id).getOrNull() ?: return null
+        // Cloisonnement: ownership is immutable through update — keep the existing row's service, ignore the body.
+        val model = inquiry.toInquiryEntity().toInquiryModel().apply { this.serviceId = existing.serviceId }
+        val saved = inquiryRepo.save(model = model)
+        return InquiryEntity.fromInquiryModel(model = saved)
     }
 }
 

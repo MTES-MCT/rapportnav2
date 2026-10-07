@@ -4,10 +4,14 @@ import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportModeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionReports
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.AssertMissionAccess
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.ExportBodyRequest
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionExportController
 import fr.gouv.dgampa.rapportnav.infrastructure.api.ControllersExceptionHandler
+import fr.gouv.gmampa.rapportnav.infrastructure.api.security.MissionAccessTestConfig
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
@@ -25,7 +29,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import tools.jackson.databind.json.JsonMapper
 
 @WebMvcTest(MissionExportController::class)
-@ContextConfiguration(classes = [MissionExportController::class, JacksonConfig::class, ControllersExceptionHandler::class])
+@ContextConfiguration(classes = [MissionExportController::class, JacksonConfig::class, ControllersExceptionHandler::class, MissionAccessTestConfig::class])
 @AutoConfigureMockMvc(addFilters = false)
 class MissionExportControllerTest {
 
@@ -37,6 +41,9 @@ class MissionExportControllerTest {
 
     @MockitoBean
     private lateinit var exportMissionReports: ExportMissionReports
+
+    @MockitoBean
+    private lateinit var assertMissionAccess: AssertMissionAccess
 
     @Test
     fun `should return 200 and export entity for single AEM mission`() {
@@ -172,6 +179,30 @@ class MissionExportControllerTest {
             .andExpect(status().isOk)
 
         verify(exportMissionReports, times(1)).execute(expectedDistinctIds, exportMode, reportType)
+    }
+
+    @Test
+    fun `should return 403 when the user may not access an exported mission`() {
+        val missionIds = listOf(123)
+        val exportMode = ExportModeEnum.INDIVIDUAL_MISSION
+        val reportType = ExportReportTypeEnum.AEM
+
+        `when`(assertMissionAccess.execute("123")).thenAnswer {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION,
+                message = "AssertMissionAccess: env mission 123 is not in the user's control units"
+            )
+        }
+
+        val body = ExportBodyRequest(missionIds, exportMode, reportType)
+        val json = objectMapper.writeValueAsString(body)
+
+        mockMvc.perform(
+            post("/api/v2/missions/export")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        )
+            .andExpect(status().isForbidden)
     }
 
    @Test

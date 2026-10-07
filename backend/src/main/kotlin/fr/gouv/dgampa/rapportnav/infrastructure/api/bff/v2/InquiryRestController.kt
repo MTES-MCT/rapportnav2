@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Inquiry
+import fr.gouv.dgampa.rapportnav.infrastructure.api.security.CheckMissionAccess
+import fr.gouv.dgampa.rapportnav.infrastructure.api.security.MissionAccessResource
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -77,6 +79,9 @@ class InquiryRestController(
             ApiResponse(responseCode = "404", description = "Did not find any inquiry", content = [Content()])
         ]
     )
+    // Cloisonnement runs in the aspect, before the method body — so a denial surfaces as 403 instead of
+    // being swallowed to null by the try/catch below.
+    @CheckMissionAccess(param = "id", resource = MissionAccessResource.INQUIRY)
     fun getInquiry(
         @PathVariable(name = "id") id: String
     ): Inquiry? {
@@ -108,8 +113,10 @@ class InquiryRestController(
     fun create(
         @RequestBody body: Inquiry
     ): Inquiry? {
+        // Cloisonnement: the new inquiry is owned by the authenticated user's service, not the body's serviceId.
+        val serviceId = getUserFromToken.execute()?.serviceId
         return try {
-            Inquiry.fromInquiryEntity(createInquiry.execute(inquiry = body))
+            Inquiry.fromInquiryEntity(createInquiry.execute(inquiry = body, serviceId = serviceId))
         } catch (e: Exception) {
             logger.error("Error while creating a new inquiry : ", e)
             return null
@@ -131,6 +138,9 @@ class InquiryRestController(
             ApiResponse(responseCode = "404", description = "Could not update  inquiry", content = [Content()])
         ]
     )
+    // Cloisonnement runs in the aspect, against the existing inquiry, before the method body — so a
+    // denial surfaces as 403 instead of being swallowed to null by the try/catch below.
+    @CheckMissionAccess(param = "inquiryId", resource = MissionAccessResource.INQUIRY)
     fun update(
         @PathVariable(name = "inquiryId") inquiryId: String,
         @RequestBody body: Inquiry
@@ -151,6 +161,7 @@ class InquiryRestController(
     @DeleteMapping("{inquiryId}")
     @Operation(summary = "Delete an inquiry")
     @ApiResponse(responseCode = "404", description = "Could not delete  inquiry", content = [Content()])
+    @CheckMissionAccess(param = "inquiryId", resource = MissionAccessResource.INQUIRY)
     fun delete(@PathVariable(name = "inquiryId") inquiryId: String) {
         return deleteInquiry.execute(id = UUID.fromString(inquiryId))
     }

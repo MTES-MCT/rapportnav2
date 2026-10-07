@@ -3,4 +3,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interface
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface IDBServiceRepository : JpaRepository<ServiceModel, Int>
+interface IDBServiceRepository : JpaRepository<ServiceModel, Int> {
+    fun findByServiceLinkedId(serviceLinkedId: Int): List<ServiceModel>
+}
