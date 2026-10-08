@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportModeEn
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionReports
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.AssertMissionAccess
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -47,6 +48,7 @@ data class ErrorResponse(
 @RequestMapping("/api/v2/missions")
 class MissionExportController(
     private val exportMissionReports: ExportMissionReports,
+    private val assertMissionAccess: AssertMissionAccess,
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionExportController::class.java)
@@ -76,6 +78,7 @@ class MissionExportController(
     fun exportMissionReports(
         @Valid @RequestBody request: ExportBodyRequest
     ): MissionExportEntity {
+        request.missionIds.distinct().forEach { assertMissionAccess.execute(it.toString()) }
         return exportMissionReports.execute(
             missionIds = request.missionIds.distinct(),
             exportMode = request.exportMode,

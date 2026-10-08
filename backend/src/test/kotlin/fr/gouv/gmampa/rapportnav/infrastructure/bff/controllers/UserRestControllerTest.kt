@@ -2,12 +2,15 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.infrastructure.api.filter.ApiKeyAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.FindById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.UserRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,12 +40,23 @@ class UserRestControllerTest {
     @MockitoBean
     private lateinit var getServiceById: GetServiceById
 
+    @MockitoBean
+    private lateinit var getUserFromToken: GetUserFromToken
+
     // Mock the TokenService that your SecurityConfig depends on
     @MockitoBean
     private lateinit var tokenService: TokenService
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
+
+    @BeforeEach
+    fun setUp() {
+        // Default caller is an admin so the existing "happy path" tests keep passing;
+        // cloisonnement-specific tests override this.
+        `when`(getUserFromToken.execute())
+            .thenReturn(UserMock.create(id = 99, roles = listOf(RoleTypeEnum.ADMIN)))
+    }
 
     @Test
     fun `getUserById should return user info when user exists`() {
@@ -94,6 +108,32 @@ class UserRestControllerTest {
             .andExpect(jsonPath("$.serviceId").value(10))
             .andExpect(jsonPath("$.serviceName").value("Test Service"))
             .andExpect(jsonPath("$.controlUnitId").doesNotExist())
+    }
+
+    @Test
+    fun `getUserById should return 403 when caller is from another service`() {
+        val target = UserMock.create(id = 1, email = "target@example.com", serviceId = 10)
+        `when`(findById.execute(1)).thenReturn(target)
+        // Caller is a regular user from a different service
+        `when`(getUserFromToken.execute())
+            .thenReturn(UserMock.create(id = 2, serviceId = 20, roles = listOf(RoleTypeEnum.USER_ULAM)))
+
+        mockMvc.perform(get("/api/v2/users/1"))
+            .andExpect(status().isForbidden)
+    }
+
+    @Test
+    fun `getUserById should return user info when caller is from the same service`() {
+        val target = UserMock.create(id = 1, email = "target@example.com", serviceId = 10)
+        val service = ServiceEntityMock.create(id = 10, name = "PAM Service", controlUnits = listOf(100))
+        `when`(findById.execute(1)).thenReturn(target)
+        `when`(getServiceById.execute(10)).thenReturn(service)
+        `when`(getUserFromToken.execute())
+            .thenReturn(UserMock.create(id = 2, serviceId = 10, roles = listOf(RoleTypeEnum.USER_ULAM)))
+
+        mockMvc.perform(get("/api/v2/users/1"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(1))
     }
 
     @Test

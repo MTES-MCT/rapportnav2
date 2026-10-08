@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.AssertMissionAccess
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
@@ -19,7 +20,8 @@ import java.util.*
 @RequestMapping("/api/v2/missions/{missionId}/general_infos")
 class GeneralInfoRestController(
     private val updateGeneralInfo: UpdateGeneralInfo,
-    private val getControlUnitsForUser: GetControlUnitsForUser
+    private val getControlUnitsForUser: GetControlUnitsForUser,
+    private val assertMissionAccess: AssertMissionAccess
 ) {
     @PutMapping
     @Operation(summary = "Update general information, by mission id")
@@ -40,6 +42,7 @@ class GeneralInfoRestController(
         @PathVariable missionId: String,
         @RequestBody generalInfo: MissionGeneralInfo2
     ): MissionGeneralInfoEntity2 {
+        assertMissionAccess.execute(missionId)
         val controlUnits = getControlUnitsForUser.execute()
         return when {
             isValidUUID(missionId) -> updateGeneralInfo.execute(

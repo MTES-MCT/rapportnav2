@@ -45,7 +45,7 @@ Il n'y a pas d'options de modification de mots de passe via l'interface, les uti
 - **JWT signé** en HMAC-SHA256 (HS256), clé fournie par variable d'environnement (`JWT_SECURITY_KEY`), validité **15 jours**.
 - **Re-validation du jeton à chaque requête** : le backend recharge l'utilisateur depuis la base à chaque appel et **n'accorde jamais de confiance aux rôles contenus dans le jeton** (ceux-ci ne servent qu'au confort d'affichage côté frontend). Les droits réels sont donc toujours à jour (un compte désactivé ou un rôle retiré prend effet immédiatement).
 - **Mots de passe** hachés avec **BCrypt** (coût 10) ; politique de complexité (≥ 16 caractères, majuscule/minuscule/chiffre/spécial) vérifiée à la création et à la modification.
-- **Autorisation en profondeur (RBAC)** : contrôle au niveau des routes (`/api/v2/admin/**` → `ROLE_ADMIN`, `/api/v2/manage/**` → managers) **et** au niveau des méthodes (`@PreAuthorize`) sur les endpoints sensibles.
+- **Autorisation en profondeur (RBAC)** : contrôle au niveau des routes (`/api/v2/admin/**` → `ROLE_ADMIN`, `/api/v2/manage/**` → managers), au niveau des méthodes (`@PreAuthorize`) sur les endpoints sensibles, **et au niveau des objets** (cloisonnement par service / unité de contrôle, voir 4.1.5).
 - **CSRF désactivé par conception** : l'API étant sans état et le jeton transmis par en-tête (jamais par cookie), la falsification de requête inter-site n'est pas applicable.
 - **Journalisation des authentifications** : chaque tentative (succès / échec, avec motif) est tracée (IP, user-agent, horodatage) dans la table `authentication_audit`.
 
@@ -56,6 +56,28 @@ Il n'est pas prévu d'accès temporaires.
 
 Certaines parties de l'application (création de comptes utilisateurs, page admin dans l'interface) ne sont autorisées que 
 pour les administrateurs, avec une double vérification effectuée dans le frontend et le backend.
+
+#### 4.1.5 Cloisonnement des données (contrôle d'accès au niveau objet)
+
+Au-delà de l'authentification et des rôles, l'application applique un **cloisonnement par service / unité de contrôle** :
+un utilisateur ne peut accéder qu'aux missions et actions rattachées à son propre service.
+
+> Ce cloisonnement répond à une observation **MAJEURE** issue de l'audit de code (« Absence de cloisonnement ») :
+> un utilisateur authentifié pouvait, en appelant directement une route par identifiant, récupérer **n'importe quelle**
+> mission ou action, quelle que soit son unité de rattachement.
+
+**Modèle de propriété :**
+
+- **Missions nav** (créées dans RapportNav, identifiant `UUID`) : accessibles si le `serviceId` de la mission correspond à celui de l'utilisateur.
+- **Missions env** (issues de MonitorEnv / MonitorFish, identifiant entier) : accessibles si l'une des **unités de contrôle** de la mission appartient aux unités de contrôle du service de l'utilisateur.
+- Les utilisateurs **`ADMIN`** (équipe RapportNav) ne sont pas soumis à ce cloisonnement.
+
+**Mise en œuvre :**
+
+- Un contrôle centralisé (`AssertMissionAccess`) est appliqué en tête de **toutes** les routes d'accès par identifiant ou par propriétaire : lecture/écriture d'une mission (`/api/v2/missions/{id}`), des actions (`/api/v2/owners/{ownerId}/actions/**`), des informations générales (`/api/v2/missions/{id}/general_infos`) et de l'export (`/api/v2/missions/export`).
+- La consultation d'un profil utilisateur (`/api/v2/users/{id}`) est restreinte au compte lui-même, à un collègue du **même service**, ou à un administrateur.
+- Les routes de **liste** (ex. `GET /api/v2/missions`) étaient déjà filtrées par service / unités de contrôle ; le cloisonnement garantit désormais la même restriction sur les accès unitaires.
+- Un accès refusé renvoie **HTTP 403 Forbidden** (code d'erreur `USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION`).
 
 ## 4.2 Accès à l'API
 
