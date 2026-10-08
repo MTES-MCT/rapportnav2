@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.102.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.3...v2.102.0) (2026-10-08)
+
+
+### Features
+
+* **backend:** display from db when vessel length is &lt; 12 ([ed8621d](https://github.com/MTES-MCT/rapportnav2/commit/ed8621d9304e6f7b8a708f72f71b174544251ee1))
+* **backend:** update patch resource response data ([8887c1b](https://github.com/MTES-MCT/rapportnav2/commit/8887c1b4102e1d072f34fa2261124bc8340a92b2))
+* **Security:** rate limit on login BRUT01 ([126173d](https://github.com/MTES-MCT/rapportnav2/commit/126173d25ec93fe68c3b584195e5281c3d3bb783))
+
+
+### Bug Fixes
+
+* **backend:** Rules completion address ([4e814e7](https://github.com/MTES-MCT/rapportnav2/commit/4e814e7c6dbaa4e120714e5ecf8c8057bf890ae8))
+* **frontend:** dependency eslint audit ([0f7c950](https://github.com/MTES-MCT/rapportnav2/commit/0f7c950eb06ad3232c3476d6b9537876b1559143))
+* **frontend:** dependency eslint audit ([be52cc2](https://github.com/MTES-MCT/rapportnav2/commit/be52cc2dd291543d86860ba28de3f7398f46950d))
+* **frontend:** hide empty line ([23bf321](https://github.com/MTES-MCT/rapportnav2/commit/23bf3213c6681d3f8c9f2ad698ad04613265a5b5))
+* **frontend:** hide empty line ([351bdac](https://github.com/MTES-MCT/rapportnav2/commit/351bdac16f419cedcc9fd4cd6adfb1b5d437dcad))
+* **frontend:** remove is require on Jpe type ([b5b255e](https://github.com/MTES-MCT/rapportnav2/commit/b5b255ed3afe75fdaaac21e8d76e12c604b344ea))
+* **global:** disabled feature flag SATI ([b411ff1](https://github.com/MTES-MCT/rapportnav2/commit/b411ff10bb216ab06c045b5c05af8976e6c49c6c))
+* **Security:** avoid log injection LOG04 ([79dc0fa](https://github.com/MTES-MCT/rapportnav2/commit/79dc0faecd877dbd678b51926bf54b54f7bfb69e))
+
 ## [2.101.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.2...v2.101.3) (2026-10-05)
 
 
