@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode.*
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.CheckLoginRateLimit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.HashService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.LogAuthenticationAudit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
@@ -15,7 +16,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthLog
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthRegisterDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.outputs.AuthLoginDataOutput
 import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
@@ -31,6 +31,7 @@ class ApiAuthController(
     private val hashService: HashService,
     private val tokenService: TokenService,
     private val logAuthenticationAudit: LogAuthenticationAudit,
+    private val checkLoginRateLimit: CheckLoginRateLimit,
 ) {
 
     @PostMapping("register")
@@ -72,13 +73,16 @@ class ApiAuthController(
     @PostMapping("login")
     fun login(
         @RequestBody body: AuthLoginDataInput,
-        request: HttpServletRequest,
-        response: HttpServletResponse
+        request: HttpServletRequest
     ): AuthLoginDataOutput {
         val ipAddress = HttpRequestUtils.getClientIp(request)
         val userAgent = HttpRequestUtils.getUserAgent(request)
         val email = body.email.trim()
         val loginFailedMessage = "Login failed"
+
+        // Brute-force / enumeration protection: temporarily block after repeated failures (BRUT01).
+        // Enforced before any other handling so malformed attempts are throttled too.
+        checkLoginRateLimit.execute(email = email, ipAddress = ipAddress)
 
         if (body.email.isEmpty() || body.password.isEmpty()) {
             logAuthenticationAudit.logLoginFailure(
