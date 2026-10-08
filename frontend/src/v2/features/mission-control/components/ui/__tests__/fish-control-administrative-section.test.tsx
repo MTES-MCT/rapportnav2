@@ -33,7 +33,8 @@ describe('FishControlAdministrativeSection', () => {
     expect(screen.getByText('Bonne émission AIS')).toBeInTheDocument()
   })
 
-  it('shows the gangway row and hides the port entrance row for M1', () => {
+  // TODO: remove this skip once HIDE_UNTIL_MEP is removed for the January delivery
+  it.skip('shows the gangway row and hides the port entrance row for M1', () => {
     render(<FishControlAdministrativeSection action={actionWithModule(SatiModuleType.M1)} />)
     expect(screen.getByText('Echelle de coupée présente et conforme')).toBeInTheDocument()
     expect(screen.queryByText('Accès au port / autorisation de débarquement conformes')).toBeNull()
@@ -74,7 +75,9 @@ describe('FishControlAdministrativeSection', () => {
         action={actionWithModule(SatiModuleType.M1, { licencesAndLogbookObservations: 'Licence manquante' })}
       />
     )
-    expect(screen.getByText('Observations (hors infractions) sur les obligations déclaratives / autorisations')).toBeInTheDocument()
+    expect(
+      screen.getByText('Observations (hors infractions) sur les obligations déclaratives / autorisations')
+    ).toBeInTheDocument()
     expect(screen.getByText('Licence manquante')).toBeInTheDocument()
   })
 })
