@@ -26,8 +26,8 @@ const FishControlInfos: FC<FishControlInfosProps> = () => {
       >
         <Stack.Item style={{ width: '100%' }}>
           <FishControlInfosBoat
-            module={values?.sati?.module}
             name="sati.vessel"
+            module={values?.sati?.module}
             vessel={values?.sati?.vessel}
             isUnitBoarded={values.isUnitBoarded}
           />

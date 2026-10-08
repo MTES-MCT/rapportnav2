@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnvControlUnitResourceRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.PatchResourceInput
 import org.slf4j.LoggerFactory
@@ -44,7 +45,7 @@ class APIEnvControlUnitResourceRepository(
         return mapper.readValue(response.body())
     }
 
-    override fun patch(id: Int, resource: PatchResourceInput): ControlUnitResourceEnv {
+    override fun patch(id: Int, resource: PatchResourceInput): ControlUnitResourceDataOutput {
         val url = "$host/api/v1/control_unit_resources/$id"
         logger.info("Sending GET request for Env control unit resources fetching URL: $url")
 
