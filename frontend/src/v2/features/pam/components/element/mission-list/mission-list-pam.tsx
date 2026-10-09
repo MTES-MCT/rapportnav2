@@ -1,7 +1,7 @@
 import Text from '@common/components/ui/text.tsx'
 import { getMonthName } from '@common/utils/dates-for-humans.ts'
 import { Accent, Tag, THEME } from '@mtes-mct/monitor-ui'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
 import MissionListHeaderPam from './mission-list-header-pam.tsx'
@@ -11,6 +11,8 @@ interface MissionListPamProps {
   missions?: MissionListItem[]
   selectedMissionIds: number[]
   toggleOne: (missionId: number, isChecked?: boolean) => void
+  // rendered at the bottom of the scrollable list (e.g. the "load more" button)
+  loadMore?: ReactNode
 }
 
 const groupMissionsByMonth = (missions: MissionListItem[]) => {
@@ -29,7 +31,7 @@ const groupMissionsByMonth = (missions: MissionListItem[]) => {
   return Object.entries(grouped).sort(([a], [b]) => b.localeCompare(a))
 }
 
-const MissionListPam: FC<MissionListPamProps> = ({ missions, toggleOne, selectedMissionIds }) => {
+const MissionListPam: FC<MissionListPamProps> = ({ missions, toggleOne, selectedMissionIds, loadMore }) => {
   return (
     <Stack direction={'column'} spacing={'0.2rem'} style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -79,6 +81,7 @@ const MissionListPam: FC<MissionListPamProps> = ({ missions, toggleOne, selected
               ))}
             </Stack.Item>
           )}
+          {loadMore && <Stack.Item style={{ width: '100%' }}>{loadMore}</Stack.Item>}
         </Stack>
       </Stack.Item>
     </Stack>
