@@ -18,23 +18,20 @@ class GetComputeTarget(
 ) {
     fun execute(actionId: String, isControl: Boolean?): List<TargetEntity>? {
         if (isControl != true) return null
-        var targets = targetRepo.findByActionId(actionId)
-        if (targets.isEmpty()) {
-            val target = save(getNewTarget(actionId = actionId))
-            targets = listOf(target)
-        }
-        return targets.map { TargetEntity.fromTargetModel(it) }
-    }
-
-    fun save(target: TargetModel): TargetModel {
-        return targetRepo.save(target)
+        val targets = targetRepo.findByActionId(actionId)
+        // Do NOT persist on read. When no target exists yet, return an in-memory scaffold with a stable
+        // (deterministic) id; it is persisted later on the next update through ProcessMissionActionTarget.
+        // This keeps GET a pure read and stops reads from racing writes on target_2/control_2.
+        val models = targets.ifEmpty { listOf(getNewTarget(actionId)) }
+        return models.map { TargetEntity.fromTargetModel(it) }
     }
 
     private fun getNewTarget(actionId: String): TargetModel {
+        val id = deterministicId(actionId)
         return TargetModel(
             actionId = actionId,
-            id = UUID.randomUUID(),
-            controls = getNewControls(),
+            id = id,
+            controls = getNewControls(id),
             targetType = TargetType.DEFAULT,
             startDateTimeUtc = Instant.now(),
             status = TargetStatusType.IN_PROCESS.toString(),
@@ -42,7 +39,7 @@ class GetComputeTarget(
         )
     }
 
-    private fun getNewControls(): List<ControlModel> {
+    private fun getNewControls(targetId: UUID): List<ControlModel> {
         val controlTypes = listOf(
             ControlType.SECURITY,
             ControlType.NAVIGATION,
@@ -52,9 +49,12 @@ class GetComputeTarget(
         return controlTypes.map {
             ControlModel(
                 controlType = it,
-                id = UUID.randomUUID(),
+                id = deterministicId("$targetId:$it"),
                 amountOfControls = 0
             )
         }
     }
+
+    /** Stable id derived from a seed so an unpersisted scaffold keeps the same id across reads. */
+    private fun deterministicId(seed: String): UUID = UUID.nameUUIDFromBytes(seed.toByteArray())
 }
