@@ -7,10 +7,15 @@ import org.springframework.beans.factory.annotation.Value
 @UseCase
 class EnableSati(
     private val getServiceForUser: GetServiceForUser,
-    @param:Value("\${sati.enabled-services}") private val serviceIds: List<Int>
+    @param:Value("\${sati.enabled-services}") private val serviceIds: List<Int>,
+    @param:Value("\${sati.enabled-rnip-filled}") private val enableRnip: Boolean
 ) {
     fun execute(): Boolean {
         val serviceId = getServiceForUser.execute()
         return (serviceIds.contains(serviceId?.id))
+    }
+
+    fun isRnipEnabled(): Boolean {
+        return enableRnip
     }
 }

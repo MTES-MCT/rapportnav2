@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
@@ -31,7 +32,11 @@ class ProcessFishAction(
     ): MissionFishActionEntity {
         val entity = MissionFishActionEntity.fromFishAction(action)
         val sati = getComputeSati.execute(action = action)
-        val targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
+        val targets = getComputeTarget.execute(
+            actionId = entity.getActionId(),
+            isControl = entity.isControl(),
+            source = MissionSourceEnum.MONITORFISH
+        )
 
         entity.sati = sati
         entity.targets = targets
