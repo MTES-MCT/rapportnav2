@@ -1,4 +1,9 @@
-import { DiscardedSpeciesControl, DiscardReason, MissionActionType, SpeciesControl } from '@common/types/fish-mission-types'
+import {
+  DiscardedSpeciesControl,
+  DiscardReason,
+  MissionActionType,
+  SpeciesControl
+} from '@common/types/fish-mission-types'
 import { fireEvent } from '@testing-library/react'
 import { render, screen } from '../../../../../../test-utils'
 import { MissionFishActionData } from '../../../../common/types/mission-action'
@@ -47,7 +52,8 @@ describe('FishControlSpeciesSection', () => {
     expect(screen.getByText('Inspection des espèces')).toBeInTheDocument()
   })
 
-  it('shows section titles and the Pesé column for M3', () => {
+  // TODO: remove this skip once HIDE_UNTIL_MEP is removed for the January delivery
+  it.skip('shows section titles and the Pesé column for M3', () => {
     render(
       <FishControlSpeciesSection
         action={{ ...actionWithModule(SatiModuleType.M3), speciesOnboard: [buildSpecies()] }}
@@ -75,7 +81,8 @@ describe('FishControlSpeciesSection', () => {
     expect(screen.queryByText('Arrimage séparé des espèces soumises à plan')).toBeNull()
   })
 
-  it('shows rows specific to M1 only for M1', () => {
+  // TODO: remove this skip once HIDE_UNTIL_MEP is removed for the January delivery
+  it.skip('shows rows specific to M1 only for M1', () => {
     render(<FishControlSpeciesSection action={actionWithModule(SatiModuleType.M1)} />)
     expect(screen.getByText('Arrimage séparé des espèces soumises à plan')).toBeInTheDocument()
     expect(screen.queryByText('Cale contrôlée après déchargement')).toBeNull()
