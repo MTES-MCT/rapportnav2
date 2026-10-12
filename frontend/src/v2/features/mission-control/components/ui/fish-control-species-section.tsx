@@ -27,7 +27,14 @@ type ConformityField =
   | 'separateStowageOfPreservedSpecies'
   | 'underSizedSeparateStowage'
 
-const CONFORMITY_ROWS: ConformitySection<ConformityField>[] = [
+// TODO: remove this temporary hide (and its skip in fish-control-species-section.test.tsx)
+const HIDE_UNTIL_MEP: ConformityField[] = [
+  'separateStowageOfPreservedSpecies',
+  'underSizedSeparateStowage',
+  'underSizedSeparateRecording'
+]
+
+const RAW_CONFORMITY_ROWS: ConformitySection<ConformityField>[] = [
   {
     title: 'Pour les espèces débarquées',
     rows: [
@@ -66,6 +73,11 @@ const CONFORMITY_ROWS: ConformitySection<ConformityField>[] = [
     ]
   }
 ]
+
+const CONFORMITY_ROWS: ConformitySection<ConformityField>[] = RAW_CONFORMITY_ROWS.map(section => ({
+  ...section,
+  rows: section.rows.map(row => (HIDE_UNTIL_MEP.includes(row.field) ? { ...row, hide: () => true } : row))
+}))
 
 const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ action }) => {
   const [showModal, setShowModal] = useState(false)
