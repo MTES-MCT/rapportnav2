@@ -4,6 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.CheckLoginRateLimit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.HashService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.LogAuthenticationAudit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
@@ -23,6 +25,8 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.never
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import java.time.Instant
@@ -43,6 +47,9 @@ class ApiAuthControllerTests {
 
     @Mock
     private lateinit var logAuthenticationAudit: LogAuthenticationAudit
+
+    @Mock
+    private lateinit var checkLoginRateLimit: CheckLoginRateLimit
 
     @InjectMocks
     private lateinit var controller: ApiAuthController
@@ -122,7 +129,7 @@ class ApiAuthControllerTests {
         val response: HttpServletResponse = mock(HttpServletResponse::class.java)
 
         val ex = assertThrows(BackendUsageException::class.java) {
-            controller.login(input, mockRequest, response)
+            controller.login(input, mockRequest)
         }
 
         assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, ex.code)
@@ -132,12 +139,10 @@ class ApiAuthControllerTests {
     fun `login throws when email not found`() {
         val input = AuthLoginDataInput("user@example.com", "password")
 
-        val response: HttpServletResponse = mock(HttpServletResponse::class.java)
-
         `when`(findByEmail.execute("user@example.com")).thenReturn(null)
 
         val ex = assertThrows(BackendUsageException::class.java) {
-            controller.login(input, mockRequest, response)
+            controller.login(input, mockRequest)
         }
 
         assertEquals(BackendUsageErrorCode.INCORRECT_USER_IDENTIFIER_EXCEPTION, ex.code)
@@ -146,7 +151,6 @@ class ApiAuthControllerTests {
     @Test
     fun `login throws when password incorrect`() {
         val input = AuthLoginDataInput("user@example.com", "wrongpassword")
-        val response: HttpServletResponse = mock(HttpServletResponse::class.java)
 
         val user = User(
             id = 1,
@@ -162,7 +166,7 @@ class ApiAuthControllerTests {
         `when`(hashService.checkBcrypt("wrongpassword", "hashed")).thenReturn(false)
 
         val ex = assertThrows(BackendUsageException::class.java) {
-            controller.login(input, mockRequest, response)
+            controller.login(input, mockRequest)
         }
 
         assertEquals(BackendUsageErrorCode.INCORRECT_USER_IDENTIFIER_EXCEPTION, ex.code)
@@ -171,7 +175,6 @@ class ApiAuthControllerTests {
     @Test
     fun `login throws when user is disabled`() {
         val input = AuthLoginDataInput("user@example.com", "StrongPassword1!!!")
-        val response: HttpServletResponse = mock(HttpServletResponse::class.java)
 
         val user = User(
             id = 1,
@@ -188,16 +191,30 @@ class ApiAuthControllerTests {
         `when`(hashService.checkBcrypt("StrongPassword1!!!", "hashed")).thenReturn(true)
 
         val ex = assertThrows(BackendUsageException::class.java) {
-            controller.login(input, mockRequest, response)
+            controller.login(input, mockRequest)
         }
 
         assertEquals(BackendUsageErrorCode.USER_ACCOUNT_DISABLED_EXCEPTION, ex.code)
     }
 
     @Test
+    fun `login throws rate limit exception when too many failed attempts`() {
+        val input = AuthLoginDataInput("user@example.com", "whatever")
+
+        `when`(checkLoginRateLimit.execute("user@example.com", "127.0.0.1"))
+            .thenThrow(RateLimitException("Too many failed login attempts. Please try again later."))
+
+        assertThrows(RateLimitException::class.java) {
+            controller.login(input, mockRequest)
+        }
+
+        // Rate limit is enforced before any credential lookup
+        verify(findByEmail, never()).execute(anyString())
+    }
+
+    @Test
     fun `login succeeds with valid credentials`() {
         val input = AuthLoginDataInput("user@example.com", "StrongPassword1!!!")
-        val response: HttpServletResponse = mock(HttpServletResponse::class.java)
 
         val user = User(
             id = 1,
@@ -213,7 +230,7 @@ class ApiAuthControllerTests {
         `when`(hashService.checkBcrypt("StrongPassword1!!!", "hashed")).thenReturn(true)
         `when`(tokenService.createToken(user)).thenReturn("jwt_token")
 
-        val result = controller.login(input, mockRequest, response)
+        val result = controller.login(input, mockRequest)
 
         assertEquals(AuthLoginDataOutput(token = "jwt_token"), result)
     }

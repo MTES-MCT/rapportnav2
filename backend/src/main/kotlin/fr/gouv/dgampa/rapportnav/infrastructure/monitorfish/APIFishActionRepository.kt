@@ -73,7 +73,7 @@ class APIFishActionRepository(
         logger.info("Sending PATCH request for Fish Action id=$actionId. URL: $url")
 
         val json = mapper.writeValueAsString(action)
-        logger.info("Body request send as json : $json")
+        logger.debug("Body request send as json : $json")
 
         val request = HttpRequest
             .newBuilder()

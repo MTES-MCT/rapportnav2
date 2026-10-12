@@ -2,8 +2,11 @@ package fr.gouv.dgampa.rapportnav.domain.validation
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.LocalDate
+
+private val logger = LoggerFactory.getLogger("ValidationRulesDocGenerator")
 
 /**
  * Generates a markdown documentation file from the validation policies.
@@ -15,7 +18,7 @@ fun main() {
     val markdown = generateValidationRulesMarkdown()
     val outputFile = File("../docs/engineering/concepts/validation-rules.md")
     outputFile.writeText(markdown)
-    println("Generated ${outputFile.absolutePath}")
+    logger.info("Generated {}", outputFile.absolutePath)
 }
 
 private data class FieldEntry(val field: String, val extraCondition: String?)
