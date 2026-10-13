@@ -11,6 +11,8 @@ interface IInquiryRepository {
 
     fun findByServiceId(serviceId: Int): List<InquiryModel>
 
+    fun findByVesselId(vesselId: Int, startDateTimeUtc: Instant): List<InquiryModel>
+
     fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<InquiryModel?>
 
     fun deleteById(id: UUID)
