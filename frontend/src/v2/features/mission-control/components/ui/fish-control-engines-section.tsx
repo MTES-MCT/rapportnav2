@@ -25,11 +25,16 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
       </Stack.Item>
       {action?.gearOnboard?.map((gearControl: GearControl, i: number) => (
         <Stack.Item
-          style={{ backgroundColor: THEME.color.white, width: '100%', border: `1px dashed ${THEME.color.lightGray}` }}
+          style={{
+            backgroundColor: THEME.color.white,
+            width: '100%',
+            border: `1px solid ${THEME.color.lightGray}`,
+            padding: '16px'
+          }}
           key={`${gearControl.gearCode}${i}`}
         >
           <Stack direction="column" alignItems="flex-start" spacing={'1rem'} style={{ width: '100%' }}>
-            <Stack.Item style={{ width: '100%', padding: '1rem 1rem 0' }}>
+            <Stack.Item style={{ width: '100%' }}>
               <div style={{ backgroundColor: THEME.color.lightGray, padding: '0.5rem 1rem', width: 'fit-content' }}>
                 <Text as="h3" weight="medium">
                   {`${gearControl.gearCode} – ${gearControl.gearName}`}
@@ -37,7 +42,7 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
               </div>
             </Stack.Item>
 
-            <Stack.Item style={{ padding: '0 1rem' }}>
+            <Stack.Item>
               <MultiRadio
                 isInline
                 isRequired
@@ -50,7 +55,7 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
               />
             </Stack.Item>
 
-            <Stack.Item style={{ padding: '0 1rem' }}>
+            <Stack.Item>
               <MultiRadio
                 isInline
                 isRequired
@@ -63,24 +68,24 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
               />
             </Stack.Item>
 
-            <Stack.Item style={{ padding: '0 1rem' }}>
+            <Stack.Item>
               <Stack direction="row" alignItems="flex-start" spacing={'2rem'}>
                 <Stack.Item>
                   <Label>Maillage déclaré</Label>
                   <Text as="h3" weight="medium">
-                    {`${gearControl.declaredMesh ?? ''} mm`}
+                    {`${gearControl.declaredMesh ?? '--'} mm`}
                   </Text>
                 </Stack.Item>
                 <Stack.Item>
                   <Label>Maillage mesuré</Label>
                   <Text as="h3" weight="medium">
-                    {`${gearControl.controlledMesh ?? ''} mm`}
+                    {`${gearControl.controlledMesh ?? '--'} mm`}
                   </Text>
                 </Stack.Item>
                 <Stack.Item>
                   <Label>Ep. moyenne de fil</Label>
                   <Text as="h3" weight="medium">
-                    {`${gearControl.averageWireThickness ?? ''} mm`}
+                    {`${gearControl.averageWireThickness ?? '--'} mm`}
                   </Text>
                 </Stack.Item>
                 <Stack.Item>
@@ -93,13 +98,13 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
             </Stack.Item>
 
             {gearControl.hasUncontrolledMesh && (
-              <Stack.Item style={{ padding: '0 1rem' }}>
+              <Stack.Item>
                 <Checkbox readOnly={true} name="hasUncontrolledMesh" label="Maillage non mesuré" checked={true} />
               </Stack.Item>
             )}
 
             {!isEmpty(gearControl?.comments) && (
-              <Stack.Item style={{ padding: '0 1rem 1rem' }}>
+              <Stack.Item>
                 <Label>{`${gearControl.gearCode} : autres mesures et dispositifs`}</Label>
                 <Text as="h3" weight="medium">
                   {gearControl.comments}

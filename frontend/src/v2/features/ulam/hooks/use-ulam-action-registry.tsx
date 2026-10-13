@@ -4,7 +4,9 @@ import { ActionType } from '../../common/types/action-type'
 import MissionActionItemCommunication from '../../mission-action/components/elements/mission-action-item-communication'
 import MissionActionItemNauticalLeisureControl from '../../mission-action/components/elements/mission-action-item-control-nautical-leisure.tsx'
 import MissionActionItemOtherControl from '../../mission-action/components/elements/mission-action-item-control-other.tsx'
-import MissionActionItemSectorControl from '../../mission-action/components/elements/mission-action-item-control-sector.tsx'
+import MissionActionItemRoadsideControl from '../../mission-action/components/elements/mission-action-item-control-roadside.tsx'
+import MissionActionItemSectorFishingControl from '../../mission-action/components/elements/mission-action-item-control-sector-fishing.tsx'
+import MissionActionItemSectorPlaisanceControl from '../../mission-action/components/elements/mission-action-item-control-sector-plaisance.tsx'
 import MissionActionItemSleepingFishingGearControl from '../../mission-action/components/elements/mission-action-item-control-sleeping-fishing-gear.tsx'
 import MissionActionItemGenericDateObservation from '../../mission-action/components/elements/mission-action-item-generic-date-observation'
 import MissionActionItemHearingConduct from '../../mission-action/components/elements/mission-action-item-hearing-conduct'
@@ -114,10 +116,20 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     icon: Icon.ControlUnit,
     component: MissionActionItemSleepingFishingGearControl
   },
-  [ActionType.CONTROL_SECTOR]: {
-    title: `Contrôle d'établissement filière`,
+  [ActionType.CONTROL_SECTOR_FISHING]: {
+    title: `Contrôle de filière pêche`,
     icon: Icon.ControlUnit,
-    component: MissionActionItemSectorControl
+    component: MissionActionItemSectorFishingControl
+  },
+  [ActionType.CONTROL_SECTOR_PLAISANCE]: {
+    title: `Contrôle de filière plaisance`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemSectorPlaisanceControl
+  },
+  [ActionType.CONTROL_ROADSIDE]: {
+    title: `Contrôle routier`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemRoadsideControl
   }
 }
 

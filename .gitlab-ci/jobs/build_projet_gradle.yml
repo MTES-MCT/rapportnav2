@@ -15,10 +15,10 @@ build_projet_gradle:
     - chmod +x gradlew
     - ./gradlew clean assemble --build-cache
   cache:
-    key: "gradle"
+    key: "gradle-v2"
     paths:
       - .gradle/
-    when: always
+    when: on_success
     policy: pull-push
   artifacts:
     name: "Gradle artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
@@ -49,7 +49,7 @@ test_projet_gradle:
     - chmod +x gradlew
     - ./gradlew test jacocoTestReport --build-cache
   cache:
-    key: "gradle"
+    key: "gradle-v2"
     paths:
       - .gradle/
     when: always

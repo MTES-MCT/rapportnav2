@@ -93,7 +93,6 @@ data class Mission(
                     resourceIds = it.data.resourceIds,
                     resourceType = it.data.resourceType,
                     nbrOfControl = it.data.nbrOfControl,
-                    sectorType = it.data.sectorType,
                     nbrOfControlAmp = it.data.nbrOfControlAmp,
                     nbrOfControl300m = it.data.nbrOfControl300m,
                     isControlDuringSecurityDay = it.data.isControlDuringSecurityDay,
@@ -125,7 +124,7 @@ data class Mission(
 
     companion object {
         fun fromMissionEntity(mission: MissionEntity): Mission {
-            val completenessForStats = mission.isCompleteForStats()
+            val completenessForStats = mission.resolvedCompleteness()
             val status = mission.calculateMissionStatus(
                 endDateTimeUtc = mission.data?.endDateTimeUtc,
                 startDateTimeUtc = mission.data?.startDateTimeUtc!!

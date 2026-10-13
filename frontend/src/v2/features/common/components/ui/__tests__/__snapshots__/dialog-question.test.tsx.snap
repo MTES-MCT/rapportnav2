@@ -6,19 +6,19 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-kEbgWM gWyDYn Component-Dialog sc-iXaBKZ fVNEWM"
+        class="sc-kDTkBQ jVSeXJ Component-Dialog sc-iWBMXF iXBSaQ"
       >
         <div
-          class="sc-iqkkDd qHfNw"
+          class="sc-iqsgXZ hSEbbG"
         />
         <div
-          class="sc-crPgjm imywdM"
+          class="sc-crHjOq htAmIg"
         >
           <div
-            class="sc-exaRUo keRJVz"
+            class="sc-ewSVzs hnNAVt"
           >
             <div
-              class="sc-jrIDTr efawDn"
+              class="sc-jrQAon iVwRaB"
             >
               <div
                 class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -34,13 +34,13 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
                   class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
                 >
                   <button
-                    class="sc-qdQOe fkQhXW Element-IconButton"
+                    class="sc-pVUti fXQZae Element-IconButton"
                     data-testid="close-dialog-question"
                     role="dialog-question"
                     type="button"
                   >
                     <span
-                      class="sc-dkXsAU iYpqeD Element-IconBox"
+                      class="sc-dkPwfY jfNqDg Element-IconBox"
                     >
                       <svg
                         height="20"
@@ -79,7 +79,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-gtcBCx sc-hYYjdK vGzJE hZAqrb"
+            class="sc-gsDMPd sc-hYQmIO dgQQbw kDvIIR"
           >
             <div
               class="rs-stack"
@@ -89,7 +89,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <span
-                  class="sc-dkXsAU BVBsu Element-IconBox"
+                  class="sc-dkPwfY jmuoIJ Element-IconBox"
                 >
                   <svg
                     height="20"
@@ -152,26 +152,26 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-bdDsCe sc-hKyxtL jBjJV"
+            class="sc-bdvwhi sc-hJZIGr kmnKGk"
           >
             <button
-              class="sc-iBjNZB sc-jNDflC fDagNm dejdjw Element-Button"
+              class="sc-iAKZmh sc-jObTYW hRnFER gbABuo Element-Button"
               data-testid="dialog-question-cancel-button"
               type="button"
             >
               <span
-                class="sc-efsgwo gIViWm"
+                class="sc-efQVjI dtyoaK"
               >
                 Annuler
               </span>
             </button>
             <button
-              class="sc-iBjNZB sc-cTZdpT fDagNm bQaCao Element-Button"
+              class="sc-iAKZmh sc-cTAoCz hRnFER iDJdFh Element-Button"
               data-testid="dialog-question-confirm-button"
               type="button"
             >
               <span
-                class="sc-efsgwo gIViWm"
+                class="sc-efQVjI dtyoaK"
               >
                 Confirmer
               </span>
@@ -205,19 +205,19 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-kEbgWM gWyDYn Component-Dialog sc-iXaBKZ fVNEWM"
+      class="sc-kDTkBQ jVSeXJ Component-Dialog sc-iWBMXF iXBSaQ"
     >
       <div
-        class="sc-iqkkDd qHfNw"
+        class="sc-iqsgXZ hSEbbG"
       />
       <div
-        class="sc-crPgjm imywdM"
+        class="sc-crHjOq htAmIg"
       >
         <div
-          class="sc-exaRUo keRJVz"
+          class="sc-ewSVzs hnNAVt"
         >
           <div
-            class="sc-jrIDTr efawDn"
+            class="sc-jrQAon iVwRaB"
           >
             <div
               class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -233,13 +233,13 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
                 class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
               >
                 <button
-                  class="sc-qdQOe fkQhXW Element-IconButton"
+                  class="sc-pVUti fXQZae Element-IconButton"
                   data-testid="close-dialog-question"
                   role="dialog-question"
                   type="button"
                 >
                   <span
-                    class="sc-dkXsAU iYpqeD Element-IconBox"
+                    class="sc-dkPwfY jfNqDg Element-IconBox"
                   >
                     <svg
                       height="20"
@@ -278,7 +278,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-gtcBCx sc-hYYjdK vGzJE hZAqrb"
+          class="sc-gsDMPd sc-hYQmIO dgQQbw kDvIIR"
         >
           <div
             class="rs-stack"
@@ -288,7 +288,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <span
-                class="sc-dkXsAU BVBsu Element-IconBox"
+                class="sc-dkPwfY jmuoIJ Element-IconBox"
               >
                 <svg
                   height="20"
@@ -351,26 +351,26 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-bdDsCe sc-hKyxtL jBjJV"
+          class="sc-bdvwhi sc-hJZIGr kmnKGk"
         >
           <button
-            class="sc-iBjNZB sc-jNDflC fDagNm dejdjw Element-Button"
+            class="sc-iAKZmh sc-jObTYW hRnFER gbABuo Element-Button"
             data-testid="dialog-question-cancel-button"
             type="button"
           >
             <span
-              class="sc-efsgwo gIViWm"
+              class="sc-efQVjI dtyoaK"
             >
               Annuler
             </span>
           </button>
           <button
-            class="sc-iBjNZB sc-cTZdpT fDagNm bQaCao Element-Button"
+            class="sc-iAKZmh sc-cTAoCz hRnFER iDJdFh Element-Button"
             data-testid="dialog-question-confirm-button"
             type="button"
           >
             <span
-              class="sc-efsgwo gIViWm"
+              class="sc-efQVjI dtyoaK"
             >
               Confirmer
             </span>

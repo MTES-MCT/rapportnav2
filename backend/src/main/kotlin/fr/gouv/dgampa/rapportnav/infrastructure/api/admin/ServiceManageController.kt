@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.ResourceInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceEnv
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceDataOutput
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -111,7 +111,7 @@ class ServiceManageController(
 
     fun updateResource(
         @PathVariable serviceId: Int, @RequestBody body: ResourceInput
-    ): ControlUnitResourceEnv? {
+    ): ControlUnitResourceDataOutput? {
         checkServiceOwnerShip(serviceId = serviceId)
         checkControlUnitOwnerShip(controlUnit = body.controlUnitId)
         return updateResource.execute(input = body)

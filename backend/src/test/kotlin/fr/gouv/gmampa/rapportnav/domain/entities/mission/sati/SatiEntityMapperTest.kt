@@ -153,12 +153,21 @@ class SatiEntityMapperTest {
         }
 
         @Test
-        fun `should fallback to sati tripNumber when action tripNumber is null`() {
+        fun `should fallback to sati tripNumber when vessel is 12 meters or under (jpe not enabled)`() {
+            val sati = buildSatiEntity()
+            val action = buildMissionAction().copy(vesselLength = 8.0)
+            val result = SatiEntityMapper.merge(sati, action)
+
+            assertThat(result.vessel?.jpe?.tripNumber).isEqualTo("EXISTING-TRIP")
+        }
+
+        @Test
+        fun `should not fallback to sati tripNumber when jpe is enabled, even if action tripNumber is null`() {
             val sati = buildSatiEntity()
             val action = buildMissionAction().copy(tripNumber = null)
             val result = SatiEntityMapper.merge(sati, action)
 
-            assertThat(result.vessel?.jpe?.tripNumber).isEqualTo("EXISTING-TRIP")
+            assertThat(result.vessel?.jpe?.tripNumber).isNull()
         }
 
         @Test
@@ -228,6 +237,34 @@ class SatiEntityMapperTest {
             assertThat(owner?.contact?.phone).isNull()
             assertThat(owner?.contact?.nationality).isNull()
             assertThat(owner?.contact?.address?.fullAddress).isNull()
+        }
+    }
+
+    @Nested
+    inner class IsJpeIsEnable {
+
+        @Test
+        fun `should return true when vesselLength is over 12 meters`() {
+            val action = buildMissionAction().copy(vesselLength = 25.5)
+            assertThat(SatiEntityMapper.isJpeIsEnable(action)).isTrue()
+        }
+
+        @Test
+        fun `should return false when vesselLength is exactly 12 meters`() {
+            val action = buildMissionAction().copy(vesselLength = 12.0)
+            assertThat(SatiEntityMapper.isJpeIsEnable(action)).isFalse()
+        }
+
+        @Test
+        fun `should return false when vesselLength is under 12 meters`() {
+            val action = buildMissionAction().copy(vesselLength = 8.0)
+            assertThat(SatiEntityMapper.isJpeIsEnable(action)).isFalse()
+        }
+
+        @Test
+        fun `should return false when vesselLength is null`() {
+            val action = buildMissionAction().copy(vesselLength = null)
+            assertThat(SatiEntityMapper.isJpeIsEnable(action)).isFalse()
         }
     }
 

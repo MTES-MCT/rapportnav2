@@ -24,6 +24,7 @@ const JpeForm: FC<JpeFormProps> = ({ name }) => {
       <Stack.Item style={{ flex: 1 }}>
         <FormikSelectInput
           isLight={false}
+          isRequired={false}
           label="Objet du PNO"
           isErrorMessageHidden
           options={pnoTypeOptions}

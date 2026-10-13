@@ -2,7 +2,7 @@
 
 exports[`Text > should render truncate text 1`] = `
 <p
-  class="sc-iXaBKZ sc-exaRUo hKAivZ jfhiLi"
+  class="sc-iWBMXF sc-ewSVzs crDfxF loDfxQ"
   data-testid="truncate-comment"
   font-size="13"
   font-style="italic"

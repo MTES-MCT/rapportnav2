@@ -46,7 +46,9 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
     dropdownText: 'Ajouter des contrôles',
     subItems: [
       { type: ActionType.CONTROL, dropdownText: 'Contrôle de navire' },
-      { type: ActionType.CONTROL_SECTOR, dropdownText: 'Contrôle de filière' },
+      { type: ActionType.CONTROL_SECTOR_FISHING, dropdownText: 'Contrôle de filière pêche' },
+      { type: ActionType.CONTROL_ROADSIDE, dropdownText: 'Contrôle routier' },
+      { type: ActionType.CONTROL_SECTOR_PLAISANCE, dropdownText: 'Contrôle de filière plaisance' },
       { type: ActionType.CONTROL_NAUTICAL_LEISURE, dropdownText: 'Contrôle de loisirs nautiques' },
       {
         type: ActionType.CONTROL_SLEEPING_FISHING_GEAR,
@@ -314,10 +316,22 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     title: `Contrôle - engin de pêche dormant`,
     component: MissionTimelineItemControlCard
   },
-  [ActionType.CONTROL_SECTOR]: {
+  [ActionType.CONTROL_SECTOR_FISHING]: {
     style: { backgroundColor: THEME.color.white, borderColor: THEME.color.lightGray },
     icon: Icon.ControlUnit,
-    title: `Contrôle - filière`,
+    title: `Contrôle de filière pêche`,
+    component: MissionTimelineItemControlCard
+  },
+  [ActionType.CONTROL_SECTOR_PLAISANCE]: {
+    style: { backgroundColor: THEME.color.white, borderColor: THEME.color.lightGray },
+    icon: Icon.ControlUnit,
+    title: `Contrôle de filière plaisance`,
+    component: MissionTimelineItemControlCard
+  },
+  [ActionType.CONTROL_ROADSIDE]: {
+    style: { backgroundColor: THEME.color.white, borderColor: THEME.color.lightGray },
+    icon: Icon.ControlUnit,
+    title: `Contrôle routier`,
     component: MissionTimelineItemControlCard
   },
   [ActionType.SECURITY_VISIT]: {

@@ -1,54 +1,68 @@
+import { useCallback, useMemo } from 'react'
+import { object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
+import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionEnvActionData } from '../../common/types/mission-action'
 import { ActionEnvControlInput } from '../types/action-type'
-import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
-import { object, string } from 'yup'
-import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
-import { useMemo } from 'react'
+
+const BOOLEAN_FIELDS = ['incidentDuringOperation', 'hasDivingDuringOperation']
 
 export function useMissionActionEnvControl(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionEnvControlInput> {
   const value = action?.data as MissionEnvActionData
-  const { extractLatLngFromMultiPoint } = useCoordinate()
+  const { extractLatLngFromMultiPointRounded } = useCoordinate()
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId)
   const missionDates = useMissionDates(action.ownerId)
 
-  const fromFieldValueToInput = (data: MissionEnvActionData): ActionEnvControlInput => {
-    const dates = getDateRangeForInput(data)
-    return {
-      ...data,
-      dates,
-      geoCoords: extractLatLngFromMultiPoint(data.geom)
-    }
-  }
+  const fromFieldValueToInput = useCallback(
+    (data: MissionEnvActionData): ActionEnvControlInput => {
+      const dates = getDateRangeForInput(data)
+      return {
+        ...data,
+        dates,
+        geoCoords: extractLatLngFromMultiPointRounded(data.geom)
+      }
+    },
+    [getDateRangeForInput, extractLatLngFromMultiPointRounded]
+  )
 
-  const fromInputToFieldValue = (value: ActionEnvControlInput): MissionEnvActionData => {
-    const { dates, geoCoords, ...newData } = value
-    return { ...newData, ...getDateRangeFromInput(dates) }
-  }
+  const fromInputToFieldValue = useCallback(
+    (value: ActionEnvControlInput): MissionEnvActionData => {
+      const { dates, geoCoords, ...newData } = value
+      return { ...newData, ...getDateRangeFromInput(dates) }
+    },
+    [getDateRangeFromInput]
+  )
 
   const { initValue, handleSubmit } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
-    ['incidentDuringOperation', 'hasDivingDuringOperation']
+    BOOLEAN_FIELDS
   )
 
-  const onSubmit = async (valueToSubmit?: MissionEnvActionData) => {
-    if (!valueToSubmit) return
-    await onChange({ ...action, data: valueToSubmit })
-  }
+  const onSubmit = useCallback(
+    async (valueToSubmit?: MissionEnvActionData) => {
+      if (!valueToSubmit) return
+      await onChange({ ...action, data: valueToSubmit })
+    },
+    [action, onChange]
+  )
 
-  const handleSubmitOverride = async (value?: ActionEnvControlInput) => {
-    handleSubmit(value, onSubmit)
-  }
+  const handleSubmitOverride = useCallback(
+    async (value?: ActionEnvControlInput) => {
+      handleSubmit(value, onSubmit)
+    },
+    [handleSubmit, onSubmit]
+  )
 
   const createValidationSchema = (isMissionFinished: boolean, missionStartDate?: string, missionEndDate?: string) => {
     return object().shape({

@@ -59,7 +59,7 @@ const FishControlInfosMaster: FC<FishControlInfosMasterProps> = ({ vessel, onCha
                 onSubmit={handleToggle}
                 value={vessel?.isMasterOwner}
                 title={`Saisie des informations`}
-                message={`Les informations du capitaine sont-ellesidentiques à celle du propriétaire `}
+                message={`Les informations du capitaine sont-elles identiques à celle du propriétaire `}
               />
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>

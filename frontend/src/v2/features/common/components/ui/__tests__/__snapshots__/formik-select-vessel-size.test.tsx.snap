@@ -6,15 +6,15 @@ exports[`FormikSelectVesselSize > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-FBvLw cFKQtC Element-Field Field-Select sc-iXaBKZ"
+        class="sc-GakyQ kJFJtO Element-Field Field-Select sc-iWBMXF"
       >
         <label
-          class="sc-gXvOjn jgvnrY Element-Label"
+          class="sc-gWWZvT ckOxfX Element-Label"
         >
           select vessel Size
         </label>
         <div
-          class="sc-eGZRwK hMgAfX"
+          class="sc-eGRVbO hmZqzs"
         >
           <div
             class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -108,15 +108,15 @@ exports[`FormikSelectVesselSize > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-FBvLw cFKQtC Element-Field Field-Select sc-iXaBKZ"
+      class="sc-GakyQ kJFJtO Element-Field Field-Select sc-iWBMXF"
     >
       <label
-        class="sc-gXvOjn jgvnrY Element-Label"
+        class="sc-gWWZvT ckOxfX Element-Label"
       >
         select vessel Size
       </label>
       <div
-        class="sc-eGZRwK hMgAfX"
+        class="sc-eGRVbO hmZqzs"
       >
         <div
           class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"

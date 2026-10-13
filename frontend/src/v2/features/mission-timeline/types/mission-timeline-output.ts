@@ -6,7 +6,6 @@ import { ActionType } from '../../common/types/action-type'
 import { CompletenessForStats, MissionSource } from '../../common/types/mission-types'
 import { NetworkSyncStatus } from '../../common/types/network-types.ts'
 import { EnvTheme } from '@common/types/env-themes.ts'
-import { SectorType } from '../../common/types/sector-types.ts'
 import { VesselSizeEnum, VesselTypeEnum } from '../../common/types/vessel-type.ts'
 
 export type MissionTimelineAction = {
@@ -40,7 +39,6 @@ export type MissionTimelineAction = {
   networkSyncStatus?: NetworkSyncStatus
   nbrOfHours?: number
   themes?: EnvTheme[]
-  sectorType?: SectorType
 }
 
 export type TimelineAction = MissionTimelineAction

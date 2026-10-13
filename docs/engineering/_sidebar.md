@@ -1,5 +1,6 @@
 * [Retour](/)
 * [Tech homepage](engineering/index)
+* [Installation & dev local](engineering/getting-started/index)
 * [Concepts principaux](engineering/concepts/index)
 ** [Gestion des utilisateurs](engineering/concepts/auth)
 ** [Les rôles](engineering/concepts/roles)
@@ -14,5 +15,6 @@
 ** [Database](engineering/stack/database)
 ** [Infrastructure](engineering/stack/infra)
 * [Operations](engineering/operations/index)
+** [Déploiement](engineering/operations/deployment)
 ** [Monitoring](engineering/operations/monitoring)
 ** [Troubleshooting](engineering/operations/troubleshooting)

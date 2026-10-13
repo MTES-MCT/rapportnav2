@@ -65,7 +65,6 @@ interface BaseMissionNavAction {
     var fishAuction: FishAuctionEntity?
     var nbrOfControl: Int?
     var controlType: String?
-    val sectorType: SectorType?
     var nbrOfControlAmp: Int?
     var nbrOfControl300m: Int?
     var leisureType: LeisureType?

@@ -1,10 +1,13 @@
 # RapportNav Frontend
 
+> For full installation and local-dev instructions (backend + frontend), see
+> [Installation & développement local](../docs/engineering/getting-started/index.md).
+> This file only covers frontend-specific commands.
+
 ## Prerequisites & Stack
 
-You will need:
-
-- [nodejs](https://nodejs.org/en) > 24 (install with [nvm](https://github.com/nvm-sh/nvm) is recommended)
+You will need Node.js v26 (with npm v12), installed with
+[nvm](https://github.com/nvm-sh/nvm) (recommended).
 
 The main dependencies are:
 

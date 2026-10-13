@@ -37,10 +37,10 @@ class ExportMissionPatrolMultipleZipped(
         for (missionId in missionIds) {
             val mission = getComputeEnvMission.execute(missionId = missionId)
 
-            if (mission.isCompleteForStats().status === CompletenessForStatsStatusEnum.VALID) {
+            if (mission.resolvedCompleteness().status === CompletenessForStatsStatusEnum.VALID) {
                 exportMissionPatrolSingle.createFile(mission)?.let { filesToZip.add(it) }
             } else {
-                logger.info("ExportMissionPatrolMultipleZipped - ignoring mission id=${mission?.id} because incomplete for stats")
+                logger.info("ExportMissionPatrolMultipleZipped - ignoring mission id=${mission.id} because incomplete for stats")
             }
         }
 

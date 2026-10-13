@@ -4,7 +4,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
@@ -58,7 +57,6 @@ object MissionNavActionEntityMock {
         status: ActionStatusType? = null,
         reason: ActionStatusReason? = null,
         targets: List<TargetEntity>? = null,
-        sectorType: SectorType? = null,
         sectorEstablishmentType: SectorEstablishmentType? = null,
         establishment: EstablishmentEntity? = null,
         portLocode: String? = null,
@@ -105,7 +103,6 @@ object MissionNavActionEntityMock {
             reason = reason,
             status = status,
             targets = targets,
-            sectorType = sectorType,
             sectorEstablishmentType = sectorEstablishmentType,
             establishment = establishment,
             portLocode = portLocode,

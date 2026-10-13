@@ -78,7 +78,6 @@ object MissionActionModelMock {
             resourceType = "NAUTICAL",
             resourceIds = listOf(345),
             nbrOfControl = 34,
-            sectorType = SectorType.FISHING.toString(),
             nbrOfControlAmp = 4,
             nbrOfControl300m = 3,
             isControlDuringSecurityDay = false,

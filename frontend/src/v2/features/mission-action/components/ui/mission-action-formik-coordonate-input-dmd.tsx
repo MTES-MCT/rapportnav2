@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { FormikCoordinatesInputProps, FormikEffect } from '@mtes-mct/monitor-ui'
 import { FieldProps, Formik } from 'formik'
-import { isEqual } from 'lodash'
 import styled from 'styled-components'
 import { FormikCoordinateInputDMD } from '../../../common/components/ui/formik-coordonates-input-dmd'
+import { useCoordinate } from '../../../common/hooks/use-coordinate.tsx'
 
 type Coords = {
   coords: (number | undefined)[]
@@ -16,6 +16,7 @@ type MissionActionFormikCoordinateInputDMDProps = {
 
 export const MissionActionFormikCoordinateInputDMD = styled(
   ({ name, fieldFormik, ...props }: MissionActionFormikCoordinateInputDMDProps) => {
+    const { isCoordsEqual, roundCoord } = useCoordinate()
     const [initValue, setInitValue] = useState<Coords>()
 
     useEffect(() => {
@@ -23,15 +24,9 @@ export const MissionActionFormikCoordinateInputDMD = styled(
       setInitValue({ coords: fieldFormik.field.value })
     }, [fieldFormik])
 
-    const isCoordsEqual = (value: Coords) => {
-      const isLatEqual = isEqual(value.coords[0]?.toFixed(3), initValue?.coords[0]?.toFixed(3))
-      const isLngEqual = isEqual(value.coords[1]?.toFixed(3), initValue?.coords[1]?.toFixed(3))
-      return isLatEqual && isLngEqual
-    }
-
     const handleSubmit = async (value: Coords) => {
-      if (isCoordsEqual(value)) return
-      await fieldFormik.form.setFieldValue(name, value.coords)
+      if (isCoordsEqual(value.coords, initValue?.coords)) return
+      await fieldFormik.form.setFieldValue(name, value.coords.map(roundCoord))
     }
 
     return (

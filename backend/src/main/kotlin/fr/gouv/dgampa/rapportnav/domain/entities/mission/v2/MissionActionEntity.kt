@@ -79,7 +79,9 @@ abstract class MissionActionEntity(
             ActionType.CONTROL,
             ActionType.INQUIRY,
             ActionType.OTHER_CONTROL,
-            ActionType.CONTROL_SECTOR,
+            ActionType.CONTROL_SECTOR_FISHING,
+            ActionType.CONTROL_SECTOR_PLAISANCE,
+            ActionType.CONTROL_ROADSIDE,
             ActionType.CONTROL_NAUTICAL_LEISURE,
             ActionType.CONTROL_SLEEPING_FISHING_GEAR
         ).contains(actionType)
@@ -114,7 +116,7 @@ abstract class MissionActionEntity(
     }
 
     fun computeControlsToComplete() {
-        this.controlsToComplete = this.targets?.flatMap { computeControlsToComplete2(it) }
+        this.controlsToComplete = this.targets?.flatMap { computeControlsToComplete2(it) }?.distinct()
     }
 
     fun getInfractionByControlType(controlType: ControlType): List<InfractionEntity> {

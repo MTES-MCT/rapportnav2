@@ -175,7 +175,6 @@ class RequiredFieldsValidatorTest {
             city: String? = null,
             zipCode: String? = null,
             portLocode: String? = null,
-            sectorType: SectorType? = null,
             sectorEstablishmentType: SectorEstablishmentType? = null,
             fishAuction: FishAuctionEntity? = null,
             establishment: EstablishmentEntity? = null,
@@ -204,7 +203,6 @@ class RequiredFieldsValidatorTest {
             city = city,
             zipCode = zipCode,
             portLocode = portLocode,
-            sectorType = sectorType,
             sectorEstablishmentType = sectorEstablishmentType,
             fishAuction = fishAuction,
             establishment = establishment,
@@ -461,14 +459,13 @@ class RequiredFieldsValidatorTest {
         }
 
         // =====================================================================
-        // Feature 2: CONTROL_SECTOR + FISHING sector type
+        // Feature 2: CONTROL_SECTOR_FISHING / CONTROL_SECTOR_PLAISANCE / CONTROL_ROADSIDE
         // =====================================================================
 
         @Test
-        fun `should require fishAuction when CONTROL_SECTOR with FISHING and FISH_AUCTION`() {
+        fun `should require fishAuction when CONTROL_SECTOR_FISHING with FISH_AUCTION`() {
             val entity = createNavAction(
-                actionType = ActionType.CONTROL_SECTOR,
-                sectorType = SectorType.FISHING,
+                actionType = ActionType.CONTROL_SECTOR_FISHING,
                 sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION,
                 fishAuction = null
             )
@@ -478,10 +475,9 @@ class RequiredFieldsValidatorTest {
         }
 
         @Test
-        fun `should require portLocode when CONTROL_SECTOR with FISHING and LANDING_SITE`() {
+        fun `should require portLocode when CONTROL_SECTOR_FISHING with LANDING_SITE`() {
             val entity = createNavAction(
-                actionType = ActionType.CONTROL_SECTOR,
-                sectorType = SectorType.FISHING,
+                actionType = ActionType.CONTROL_SECTOR_FISHING,
                 sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
                 portLocode = null
             )
@@ -491,10 +487,9 @@ class RequiredFieldsValidatorTest {
         }
 
         @Test
-        fun `should not require fishAuction when CONTROL_SECTOR with FISHING and LANDING_SITE`() {
+        fun `should not require fishAuction when CONTROL_SECTOR_FISHING with LANDING_SITE`() {
             val entity = createNavAction(
-                actionType = ActionType.CONTROL_SECTOR,
-                sectorType = SectorType.FISHING,
+                actionType = ActionType.CONTROL_SECTOR_FISHING,
                 sectorEstablishmentType = SectorEstablishmentType.LANDING_SITE,
                 portLocode = "FRBOD"
             )
@@ -504,15 +499,85 @@ class RequiredFieldsValidatorTest {
         }
 
         @Test
-        fun `should not require fishAuction when CONTROL_SECTOR with PLEASURE sector`() {
+        fun `should require establishment when CONTROL_SECTOR_FISHING with GMS`() {
             val entity = createNavAction(
-                actionType = ActionType.CONTROL_SECTOR,
-                sectorType = SectorType.PLEASURE,
+                actionType = ActionType.CONTROL_SECTOR_FISHING,
+                sectorEstablishmentType = SectorEstablishmentType.GMS,
+                establishment = null
+            )
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+            assertTrue(result.errors.any { it.field == "establishment" })
+        }
+
+        @Test
+        fun `should not require establishment when CONTROL_SECTOR_FISHING with FISH_AUCTION or LANDING_SITE`() {
+            listOf(SectorEstablishmentType.FISH_AUCTION, SectorEstablishmentType.LANDING_SITE).forEach {
+                val entity = createNavAction(
+                    actionType = ActionType.CONTROL_SECTOR_FISHING,
+                    sectorEstablishmentType = it,
+                    establishment = null
+                )
+                val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+                assertFalse(result.errors.any { error -> error.field == "establishment" }, "establishment required for $it")
+            }
+        }
+
+        @Test
+        fun `should require establishment when CONTROL_SECTOR_PLAISANCE whatever the establishment type`() {
+            val entity = createNavAction(
+                actionType = ActionType.CONTROL_SECTOR_PLAISANCE,
+                sectorEstablishmentType = SectorEstablishmentType.PLEASURE_MARKET,
+                establishment = null
+            )
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+            assertTrue(result.errors.any { it.field == "establishment" })
+        }
+
+        @Test
+        fun `should not require fishAuction nor portLocode when CONTROL_SECTOR_PLAISANCE`() {
+            val entity = createNavAction(
+                actionType = ActionType.CONTROL_SECTOR_PLAISANCE,
                 sectorEstablishmentType = SectorEstablishmentType.FISH_AUCTION
             )
             val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
 
             assertFalse(result.errors.any { it.field == "fishAuction" })
+            assertFalse(result.errors.any { it.field == "portLocode" })
+        }
+
+        @Test
+        fun `should require sectorEstablishmentType for CONTROL_SECTOR_FISHING and CONTROL_SECTOR_PLAISANCE`() {
+            listOf(ActionType.CONTROL_SECTOR_FISHING, ActionType.CONTROL_SECTOR_PLAISANCE).forEach {
+                val entity = createNavAction(actionType = it, sectorEstablishmentType = null)
+                val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+                assertTrue(result.errors.any { error -> error.field == "sectorEstablishmentType" }, "not required for $it")
+            }
+        }
+
+        @Test
+        fun `should require endDateTimeUtc for CONTROL_SECTOR_FISHING, CONTROL_SECTOR_PLAISANCE and CONTROL_ROADSIDE`() {
+            listOf(
+                ActionType.CONTROL_SECTOR_FISHING,
+                ActionType.CONTROL_SECTOR_PLAISANCE,
+                ActionType.CONTROL_ROADSIDE
+            ).forEach {
+                val entity = createNavAction(actionType = it, endDateTimeUtc = null)
+                val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+                assertTrue(result.errors.any { error -> error.field == "endDateTimeUtc" }, "end date not required for $it")
+            }
+        }
+
+        @Test
+        fun `should only require the common fields for CONTROL_ROADSIDE`() {
+            val entity = createNavAction(actionType = ActionType.CONTROL_ROADSIDE)
+            val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
+
+            assertTrue(result.isComplete, "unexpected errors: ${result.errors}")
         }
     }
 

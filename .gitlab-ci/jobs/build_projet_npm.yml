@@ -4,7 +4,7 @@ build_projet_npm:
     - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
       when: always
   stage: build
-  image: node:24
+  image: node:26
   script:
     - cd frontend
     - cp .env.example .env
@@ -32,7 +32,7 @@ test_projet_npm:
     - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
       when: always
   stage: test
-  image: node:24
+  image: node:26
   needs:
     - job: build_projet_npm
       artifacts: true

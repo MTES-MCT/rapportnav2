@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
@@ -117,6 +118,55 @@ class GetComputeEnvMissionTest {
         assertEquals(mission, result.data)
         assertEquals(actions, result.actions)
         assertEquals(generalInfos2, result.generalInfos)
+        verify(syncMissionValidation).execute(result)
+    }
+
+    @Test
+    fun `should not re-validate or persist when the mission is already complete for stats (sticky)`() {
+        val envMission = EnvMissionMock.create(id = 4)
+
+        // Local mirror already stored as complete → the read must bypass validation and NOT downgrade it.
+        whenever(syncLocalMissionWithMonitorEnv.execute(any(), any()))
+            .thenReturn(
+                MissionModel(id = UUID.randomUUID(), startDateTimeUtc = Instant.now(), isCompleteForStats = true)
+            )
+
+        val actions = listOf(MissionNavActionEntityMock.create())
+        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 4)
+        val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
+
+        `when`(getMissionAction.execute(missionId = 4, bypassValidation = true)).thenReturn(actions)
+        `when`(getGeneralInfos2.execute(missionId = 4, controlUnits = listOf())).thenReturn(generalInfos2)
+
+        val result = getComputeEnvMission.execute(envMission = envMission)
+
+        assertNotNull(result)
+        // actions were fetched with the validation shortcut...
+        verify(getMissionAction).execute(missionId = 4, bypassValidation = true)
+        // ...and the stored completeness is left untouched (no recompute/persist on the read path).
+        verify(syncMissionValidation, never()).execute(any())
+    }
+
+    @Test
+    fun `should re-validate and persist on the force path even when already complete`() {
+        val envMission = EnvMissionMock.create(id = 5)
+
+        whenever(syncLocalMissionWithMonitorEnv.execute(any(), any()))
+            .thenReturn(
+                MissionModel(id = UUID.randomUUID(), startDateTimeUtc = Instant.now(), isCompleteForStats = true)
+            )
+
+        val actions = listOf(MissionNavActionEntityMock.create())
+        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 5)
+        val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
+
+        `when`(getMissionAction.execute(missionId = 5, bypassValidation = false)).thenReturn(actions)
+        `when`(getGeneralInfos2.execute(missionId = 5, controlUnits = listOf())).thenReturn(generalInfos2)
+
+        val result = getComputeEnvMission.execute(envMission = envMission, forceComputeValidation = true)
+
+        assertNotNull(result)
+        verify(getMissionAction).execute(missionId = 5, bypassValidation = false)
         verify(syncMissionValidation).execute(result)
     }
 

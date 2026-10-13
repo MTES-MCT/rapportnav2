@@ -18,7 +18,7 @@ export function useMissionActionNavControl(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionNavControlInput> {
-  const { getCoords } = useCoordinate()
+  const { getCoordRounded } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { getDateRangeForInput, postprocessDateFromPicker } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId)
@@ -29,7 +29,7 @@ export function useMissionActionNavControl(
     return {
       ...data,
       dates,
-      geoCoords: getCoords(data.latitude, data.longitude)
+      geoCoords: getCoordRounded(data.latitude, data.longitude)
     }
   }
 

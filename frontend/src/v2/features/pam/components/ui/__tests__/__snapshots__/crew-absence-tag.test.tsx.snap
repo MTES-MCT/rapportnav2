@@ -3,10 +3,10 @@
 exports[`CrewAbsenceTag > Full mission absence > matches snapshot for full mission absence 1`] = `
 <div>
   <span
-    class="sc-jQQpTv sc-fuYIqi bPQAow jPcnMT Element-Tag"
+    class="sc-jQrBgb sc-fvxxdC IfKdC beInv Element-Tag"
   >
     <span
-      class="sc-dkXsAU VsMPu Element-IconBox"
+      class="sc-dkPwfY gBknRd Element-IconBox"
     >
       <svg
         height="20"
@@ -42,11 +42,11 @@ exports[`CrewAbsenceTag > Full mission absence > matches snapshot for full missi
 exports[`CrewAbsenceTag > Temporary absence > matches snapshot for temporary absence 1`] = `
 <div>
   <span
-    class="sc-jQQpTv sc-fuYIqi iCGZPk jPcnMT Element-Tag"
+    class="sc-jQrBgb sc-fvxxdC iNlNtS beInv Element-Tag"
     title="Absence du 01 janv. au 05 janv."
   >
     <span
-      class="sc-dkXsAU cChGlK Element-IconBox"
+      class="sc-dkPwfY ePVKkH Element-IconBox"
     >
       <svg
         height="20"
