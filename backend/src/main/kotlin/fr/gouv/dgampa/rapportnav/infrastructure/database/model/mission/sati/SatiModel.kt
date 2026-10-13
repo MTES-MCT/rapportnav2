@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
@@ -25,6 +26,9 @@ class SatiModel(
     @Column(name = "action_id", unique = true, nullable = false, length = 255)
     var actionId: String,
 
+    @Column(name = "mission_id")
+    var missionId: Int? = null,
+
     @Column(name = "resource_id")
     var resourceId: Int? = null,
 
@@ -37,13 +41,24 @@ class SatiModel(
     @JoinColumn(name = "sati_id", referencedColumnName = "id", nullable = false)
     var inspectors: MutableList<SatiInspectorModel> = mutableListOf(),
 
+    @Column(name = "status", nullable = false, length = 50)
+    var status: String = "IN_PROGRESS",
+
+    @Version
+    @Column(name = "version", nullable = false)
+    var version: Int = 0,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,
 
     @LastModifiedDate
     @Column(name = "updated_at", nullable = true)
-    var updatedAt: Instant? = null
+    var updatedAt: Instant? = null,
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    var updatedBy: Int? = null
 ) {
     override fun hashCode(): Int {
         return Objects.hash(id, module, actionId, resourceId, vessels, inspectors)
