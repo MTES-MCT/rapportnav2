@@ -1,9 +1,14 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.inquiry
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.IInquiryRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.GetInquiriesByVesselId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByOwnerId
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.InquiryModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetModelMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
@@ -25,6 +30,12 @@ class GetInquiriesByVesselIdTest {
 
     @MockitoBean
     private lateinit var inquiryRepo: IInquiryRepository
+
+    @MockitoBean
+    private lateinit var getNavActionListByOwnerId: GetNavActionListByOwnerId
+
+    @MockitoBean
+    private lateinit var targetRepo: ITargetRepository
 
     @Autowired
     private lateinit var getInquiriesByVesselId: GetInquiriesByVesselId
@@ -52,6 +63,34 @@ class GetInquiriesByVesselIdTest {
         assertThat(result.first().vessel?.vesselId).isEqualTo(42)
         assertThat(result.first().serviceId).isEqualTo(6)
         assertThat(result.first().status).isEqualTo(InquiryStatusType.IN_PROGRESS)
+    }
+
+    @Test
+    fun `should attach the inquiry actions with their targets read from the repository`() {
+        val id = UUID.randomUUID()
+        val actionId = UUID.randomUUID()
+        `when`(inquiryRepo.findByVesselId(eq(42), any())).thenReturn(
+            listOf(InquiryModel(id = id, vesselId = 42, startDateTimeUtc = Instant.parse("2024-03-01T10:00:00Z")))
+        )
+        `when`(getNavActionListByOwnerId.execute(ownerId = id)).thenReturn(
+            listOf(
+                MissionNavActionEntityMock.create(
+                    id = actionId,
+                    ownerId = id,
+                    actionType = ActionType.INQUIRY,
+                    observations = "Débarquement contrôlé"
+                )
+            )
+        )
+        `when`(targetRepo.findByActionId(actionId.toString())).thenReturn(
+            listOf(TargetModelMock.create(actionId = actionId.toString()))
+        )
+
+        val result = getInquiriesByVesselId.execute(vesselId = 42)
+
+        val action = result.first().actions?.first()
+        assertThat(action?.targets).hasSize(1)
+        verify(targetRepo).findByActionId(actionId.toString())
     }
 
     @Test

@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.inquiry.v1
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.GetInquiriesByVesselId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServices
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.inquiry.v1.adapters.output.InquiryOutput
@@ -46,9 +47,13 @@ class InquiryPublicController(
         val inquiries = getInquiriesByVesselId.execute(vesselId = vesselId, startDateTimeUtc = startDateTimeUtc)
         if (inquiries.isEmpty()) return emptyList()
 
-        val serviceNamesById = getServices.execute()
-            .mapNotNull { service -> service.id?.let { it to service.name } }
+        val servicesById = findServicesById()
+        return inquiries.map { InquiryOutputMapper.toOutput(it, servicesById) }
+    }
+
+    private fun findServicesById(): Map<Int, ServiceEntity> {
+        return getServices.execute()
+            .mapNotNull { service -> service.id?.let { it to service } }
             .toMap()
-        return inquiries.map { InquiryOutputMapper.toOutput(it, serviceNamesById) }
     }
 }
