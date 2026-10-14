@@ -3,7 +3,7 @@ import { act, render } from '../../../../../../test-utils.tsx'
 import { MissionAction } from '../../../../common/types/mission-action'
 import MissionActionItemFishControl from '../mission-action-item-fish-control.tsx'
 
-vi.mock('../../../../fish-sati/hooks/use-sati.tsx', () => ({
+vi.mock('../../../../sati/hooks/use-sati.tsx', () => ({
   useSati: () => ({ isSatiEnabled: true })
 }))
 
