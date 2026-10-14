@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.104.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.103.0...v2.104.0) (2026-10-14)
+
+
+### Features
+
+* **backend:** add inquiry api by vessel id ([8e69d43](https://github.com/MTES-MCT/rapportnav2/commit/8e69d43dce24c92b2ce70f09fe6ff2864492db91))
+* **backend:** add inquiry api by vessel id ([186ac98](https://github.com/MTES-MCT/rapportnav2/commit/186ac98c8513c0b81b261f30a80dcf9bd5d3005b))
+* **backend:** expose mission, service control units, infractions and observations in public inquiry api ([0970a71](https://github.com/MTES-MCT/rapportnav2/commit/0970a719c321ea8609ab1e09c4fa0f61cddfe696))
+* **frontend:** remaning fish-sati folder to sati ([b0d94d6](https://github.com/MTES-MCT/rapportnav2/commit/b0d94d68534f77b6dfb690e098525b033936a255))
+* **frontend:** remaning fish-sati folder to sati ([44d046f](https://github.com/MTES-MCT/rapportnav2/commit/44d046f5981de9c500603e239e569452259f4720))
+
 ## [2.103.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.102.0...v2.103.0) (2026-10-13)
 
 
