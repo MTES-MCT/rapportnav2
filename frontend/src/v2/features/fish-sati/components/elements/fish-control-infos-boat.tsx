@@ -17,14 +17,17 @@ interface FishControlInfosProps {
 
 const FishControlInfosBoat: FC<FishControlInfosProps> = ({ name, vessel, module, isUnitBoarded }) => {
   const { getCountryFlag } = useCountry()
+  const flag = getCountryFlag(vessel?.flagState)
 
   return (
     <Stack direction="column" spacing="1rem" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%', backgroundColor: 'white', padding: 16 }}>
         <Stack direction="row" justifyContent="flex-start" alignItems="flex-end" spacing=".5rem">
-          <Stack.Item>
-            <img src={getCountryFlag('FRA')} style={{ height: 18.2, width: 26 }} alt="" />
-          </Stack.Item>
+          {flag && (
+            <Stack.Item>
+              <img src={flag} style={{ height: 18.2, width: 26 }} alt="" />
+            </Stack.Item>
+          )}
           <Stack.Item>
             <Text as="h3">{vessel?.name}</Text>
           </Stack.Item>

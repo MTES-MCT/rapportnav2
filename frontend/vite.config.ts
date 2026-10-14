@@ -97,7 +97,8 @@ export default defineConfig({
     },
     proxy: {
       '/api': 'http://localhost:80',
-      '/graphql': 'http://localhost:80'
+      '/graphql': 'http://localhost:80',
+      '/flags': 'http://localhost:80'
     }
   },
   assetsInclude: ['**/*.odt']
