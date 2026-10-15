@@ -14,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.ResolveActionOw
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ComputeActionValidityAndRecomputeMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
@@ -62,7 +63,11 @@ class UpdateNavActionTest {
     @MockitoBean
     private lateinit var resolveActionOwnerId: ResolveActionOwnerId
 
+    @MockitoBean
+    private lateinit var processSati: ProcessSati
+
     private fun useCase() = UpdateNavAction(
+        processSati = processSati,
         missionActionRepository = missionActionRepository,
         processMissionActionTarget = processMissionActionTarget,
         entityValidityValidator = entityValidityValidator,
