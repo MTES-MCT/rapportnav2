@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.RecomputeMissionValidation
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
@@ -21,6 +22,9 @@ class DeleteNavActionTest {
 
     @MockitoBean
     private lateinit var deleteTarget: DeleteTarget
+
+    @MockitoBean
+    private lateinit var satiRepository: ISatiRepository
 
     @MockitoBean
     private lateinit var missionActionRepository: INavMissionActionRepository
@@ -49,6 +53,7 @@ class DeleteNavActionTest {
 
         val deleteNavAction = DeleteNavAction(
             deleteTarget = deleteTarget,
+            satiRepository = satiRepository,
             missionActionRepository = missionActionRepository,
             recomputeMissionValidation = recomputeMissionValidation
         )

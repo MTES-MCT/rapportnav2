@@ -12,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicy
 @UseCase
 class ProcessNavAction(
     getStatusForAction: GetStatusForAction,
+    private val getComputeSati: GetComputeSati,
     private val getComputeTarget: GetComputeTarget,
     private val getMissionDates: GetMissionDates,
     private val entityValidityValidator: EntityValidityValidator
@@ -30,6 +31,7 @@ class ProcessNavAction(
         bypassValidation: Boolean = false,
         policy: ValidationPolicy? = null
     ): MissionNavActionEntity {
+        action.sati = getComputeSati.execute(action = action)
         action.targets = getComputeTarget.execute(actionId = action.getActionId(), isControl = action.isControl())
 
         if (bypassValidation) {
