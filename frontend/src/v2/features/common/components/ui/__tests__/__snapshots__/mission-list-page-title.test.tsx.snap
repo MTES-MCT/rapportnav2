@@ -7,36 +7,56 @@ exports[`MissionListPageTitle > should match the snapshot 1`] = `
     <div>
       <div
         class="rs-stack"
-        style="align-items: center; flex-direction: row; gap: 8px; width: 100%;"
+        style="align-items: flex-start; flex-direction: column;"
       >
         <div
           class="rs-stack-item"
         >
-          <h4>
-            Rapport Nav 
-          </h4>
-        </div>
-        <div
-          class="rs-stack-item"
-        >
-          <h4>
-             | 
-          </h4>
-        </div>
-        <div
-          class="rs-stack-item"
-        >
-          <h4
-            style="color: rgb(86, 151, 210);"
+          <div
+            class="rs-stack"
+            style="align-items: center; flex-direction: row; gap: 8px; width: 100%;"
           >
-             
-            Jeanne-Barret
-          </h4>
+            <div
+              class="rs-stack-item"
+            >
+              <h4>
+                Rapport Nav 
+              </h4>
+            </div>
+            <div
+              class="rs-stack-item"
+            >
+              <h4>
+                 | 
+              </h4>
+            </div>
+            <div
+              class="rs-stack-item"
+            >
+              <h4
+                style="color: rgb(86, 151, 210);"
+              >
+                 
+                Jeanne-Barret
+              </h4>
+            </div>
+            <div
+              class="rs-stack-item"
+              style="align-self: flex-end; margin-top: 10px;"
+            />
+          </div>
         </div>
         <div
           class="rs-stack-item"
-          style="align-self: flex-end; margin-top: 10px;"
-        />
+        >
+          <p
+            class="sc-iWBMXF sc-ewSVzs bGmags loDfxQ"
+            color="#CCCFD6"
+            font-size="13"
+          >
+            Version v2.103.0
+          </p>
+        </div>
       </div>
     </div>
     <div
@@ -65,36 +85,56 @@ exports[`MissionListPageTitle > should match the snapshot 1`] = `
   "container": <div>
     <div
       class="rs-stack"
-      style="align-items: center; flex-direction: row; gap: 8px; width: 100%;"
+      style="align-items: flex-start; flex-direction: column;"
     >
       <div
         class="rs-stack-item"
       >
-        <h4>
-          Rapport Nav 
-        </h4>
-      </div>
-      <div
-        class="rs-stack-item"
-      >
-        <h4>
-           | 
-        </h4>
-      </div>
-      <div
-        class="rs-stack-item"
-      >
-        <h4
-          style="color: rgb(86, 151, 210);"
+        <div
+          class="rs-stack"
+          style="align-items: center; flex-direction: row; gap: 8px; width: 100%;"
         >
-           
-          Jeanne-Barret
-        </h4>
+          <div
+            class="rs-stack-item"
+          >
+            <h4>
+              Rapport Nav 
+            </h4>
+          </div>
+          <div
+            class="rs-stack-item"
+          >
+            <h4>
+               | 
+            </h4>
+          </div>
+          <div
+            class="rs-stack-item"
+          >
+            <h4
+              style="color: rgb(86, 151, 210);"
+            >
+               
+              Jeanne-Barret
+            </h4>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="align-self: flex-end; margin-top: 10px;"
+          />
+        </div>
       </div>
       <div
         class="rs-stack-item"
-        style="align-self: flex-end; margin-top: 10px;"
-      />
+      >
+        <p
+          class="sc-iWBMXF sc-ewSVzs bGmags loDfxQ"
+          color="#CCCFD6"
+          font-size="13"
+        >
+          Version v2.103.0
+        </p>
+      </div>
     </div>
   </div>,
   "debug": [Function],
