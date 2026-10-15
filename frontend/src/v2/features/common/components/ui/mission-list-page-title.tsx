@@ -28,9 +28,7 @@ const MissionListPageTitle: React.FC<MissionListPageTitleProps> = ({ user }) => 
         </Stack>
       </Stack.Item>
       <Stack.Item>
-        <Stack.Item>
-          <Text as="h3" color={THEME.color.lightGray}>{`Version v${packageJson.version}`}</Text>
-        </Stack.Item>
+        <Text as="h3" color={THEME.color.lightGray}>{`Version v${packageJson.version}`}</Text>
       </Stack.Item>
     </Stack>
   )
