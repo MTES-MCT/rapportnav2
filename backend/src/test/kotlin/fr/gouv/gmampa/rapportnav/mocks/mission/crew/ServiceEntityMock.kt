@@ -8,13 +8,13 @@ object ServiceEntityMock {
         id: Int? = null,
         name: String = "firstService",
         serviceType: ServiceTypeEnum = ServiceTypeEnum.PAM,
-        serviceLinked: ServiceEntity? = null,
+        serviceLinkedId: Int? = null,
         controlUnits: List<Int>? = null,
     ) = ServiceEntity(
         id = id,
         name = name,
         serviceType = serviceType,
-        serviceLinked = serviceLinked,
+        serviceLinkedId = serviceLinkedId,
         controlUnits = controlUnits,
     )
 }

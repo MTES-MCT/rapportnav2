@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
+import fr.gouv.dgampa.rapportnav.infrastructure.api.security.CheckMissionAccess
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListItem
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
@@ -88,6 +89,7 @@ class MissionRestController(
             ApiResponse(responseCode = "404", description = "Did not find any mission", content = [Content()])
         ]
     )
+    @CheckMissionAccess(param = "missionId")
     fun getMissionById(
         @PathVariable(name = "missionId") missionId: String
     ): Mission {
@@ -139,6 +141,7 @@ class MissionRestController(
     @DeleteMapping("{missionId}")
     @Operation(summary = "Delete a mission created by the unit")
     @ApiResponse(responseCode = "404", description = "Could not delete mission", content = [Content()])
+    @CheckMissionAccess(param = "missionId")
     fun delete(
         @PathVariable missionId: String
     ) {

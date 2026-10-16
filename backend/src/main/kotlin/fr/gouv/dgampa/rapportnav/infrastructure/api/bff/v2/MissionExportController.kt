@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportModeEn
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionReports
+import fr.gouv.dgampa.rapportnav.infrastructure.api.security.CheckMissionAccess
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -73,6 +74,7 @@ class MissionExportController(
             )
         ]
     )
+    @CheckMissionAccess(param = "request.missionIds", collection = true)
     fun exportMissionReports(
         @Valid @RequestBody request: ExportBodyRequest
     ): MissionExportEntity {

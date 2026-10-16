@@ -52,6 +52,11 @@ class ServiceModel(
     @Column(name = "control_unit_id")
     var controlUnits: List<Int>? = mutableListOf(),
 
+    // Read-only: the service->service link (cloisonnement) is managed by migrations/DBA, never by the app's
+    // service CRUD. Mapping it insertable/updatable=false lets us read it without risking wiping it on save.
+    @Column(name = "service_linked_id", insertable = false, updatable = false)
+    var serviceLinkedId: Int? = null,
+
     @Column(name = "deleted_at", nullable = true)
     var deletedAt: Instant? = null,
 

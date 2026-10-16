@@ -4,6 +4,7 @@
 * [Concepts principaux](engineering/concepts/index)
 ** [Gestion des utilisateurs](engineering/concepts/auth)
 ** [Les rôles](engineering/concepts/roles)
+** [Cloisonnement des données](engineering/concepts/cloisonnement)
 ** [Configs et variables d'environnement](engineering/concepts/env-vars)
 ** [L'objet Mission](engineering/concepts/missions-and-actions)
 ** [Complétude des missions](engineering/concepts/mission-completion)
