@@ -13,6 +13,8 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.verifyNoInteractions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -34,6 +36,9 @@ class ProcessNavActionTest {
 
     @MockitoBean
     private lateinit var getComputeTarget: GetComputeTarget
+
+    @MockitoBean
+    private lateinit var getComputeSati: GetComputeSati
 
     @MockitoBean
     private lateinit var getMissionDates: GetMissionDates
@@ -90,5 +95,21 @@ class ProcessNavActionTest {
         assertThat(entity.controlsToComplete).isNotNull
         // the completeness validator is never consulted on the shortcut path
         verifyNoInteractions(entityValidityValidator, getMissionDates)
+    }
+
+    @Test
+    fun `test execute sets sati computed for the action`() {
+        val action = MissionNavActionEntityMock.create(
+            id = UUID.randomUUID(),
+            missionId = 761,
+            actionType = ActionType.CONTROL_ROADSIDE,
+        )
+        val sati = SatiEntity(module = SatiModuleType.M5, actionId = action.getActionId())
+        `when`(getComputeSati.execute(action)).thenReturn(sati)
+        `when`(getComputeTarget.execute(action.getActionId(), true)).thenReturn(listOf())
+
+        val entity = processNavAction.execute(action = action, bypassValidation = true)
+
+        assertThat(entity.sati).isEqualTo(sati)
     }
 }

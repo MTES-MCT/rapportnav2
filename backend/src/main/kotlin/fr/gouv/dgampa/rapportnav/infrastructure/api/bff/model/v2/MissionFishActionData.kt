@@ -87,13 +87,14 @@ class MissionFishActionData(
     override var speciesQuantitySeized: Int? = null,
     override val targets: List<Target>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
-    override val sati: Sati? = null,
     override val hasDivingDuringOperation: Boolean? = null,
-    override val incidentDuringOperation: Boolean? = null
+    override val incidentDuringOperation: Boolean? = null,
+    sati: Sati? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
-    targets = targets
+    targets = targets,
+    sati = sati
 ), BaseMissionFishActionData {
     companion object {
         fun toMissionFishActionEntity(input: MissionAction): MissionFishActionEntity {

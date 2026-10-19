@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.sati.ISatiRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnvControlUnitResourceRepository
 
@@ -16,12 +17,27 @@ class GetComputeSati(
     fun execute(action: MissionAction): SatiEntity? {
         if (!enableSati.execute()) return null
         if (action.id == null) throw IllegalArgumentException()
-        if (!action.actionType.toString().endsWith("_CONTROL")) return null
-        var sati = satiRepo.findByActionId(actionId = action.id.toString())
-        if (sati == null) sati = satiRepo.save(sati = getNewSati(action = action))
+        val module = SatiModuleType.fromMissionActionType(action.actionType) ?: return null
 
-        sati.resource = getControlResource(sati.resource?.id)
+        val sati = execute(actionId = action.id.toString(), module = module)
         return SatiEntityMapper.merge(sati = sati, action = action)
+    }
+
+    fun execute(action: MissionNavActionEntity): SatiEntity? {
+        if (!enableSati.execute()) return null
+        val module = SatiModuleType.fromActionType(action.actionType) ?: return null
+        val sati = execute(actionId = action.getActionId(), module = module)
+        return sati.copy(
+            endDatetimeUtc = action.endDateTimeUtc,
+            startDatetimeUtc = action.startDateTimeUtc
+        )
+    }
+
+    private fun execute(actionId: String, module: SatiModuleType): SatiEntity {
+        var sati = satiRepo.findByActionId(actionId = actionId)
+        if (sati == null) sati = satiRepo.save(sati = getNewSati(actionId = actionId, module = module))
+        sati.resource = getControlResource(sati.resource?.id)
+        return sati
     }
 
     private fun getControlResource(resourceId: Int?): ControlResourceEntity? {
@@ -37,11 +53,11 @@ class GetComputeSati(
             }
     }
 
-    private fun getNewSati(action: MissionAction): SatiEntity {
+    private fun getNewSati(actionId: String, module: SatiModuleType): SatiEntity {
         return SatiEntity(
             vessel = SatiVesselEntity(),
-            actionId = action.id.toString(),
-            module = SatiModuleType.fromMissionActionType(action.actionType),
+            actionId = actionId,
+            module = module,
             inspectors = listOf(SatiInspectorEntity(isPrincipal = true, party = SatiPartyEntity()))
         )
     }

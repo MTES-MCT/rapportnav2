@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
@@ -113,6 +114,7 @@ class MissionNavActionEntity(
     override var securityVisitType:SecurityVisitType? = null,
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de visites doit être positif")
     override var nbrSecurityVisit:Int? = null,
+    sati: SatiEntity? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -121,7 +123,8 @@ class MissionNavActionEntity(
     endDateTimeUtc = endDateTimeUtc,
     startDateTimeUtc = startDateTimeUtc,
     source = MissionSourceEnum.RAPPORT_NAV,
-    targets = targets
+    targets = targets,
+    sati = sati,
 ), BaseMissionNavAction {
 
     override fun getActionId(): String {

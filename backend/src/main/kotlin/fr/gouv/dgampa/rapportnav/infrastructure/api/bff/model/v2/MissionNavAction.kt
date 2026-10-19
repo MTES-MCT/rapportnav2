@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 
 class MissionNavAction(
     override val id: String? = null,
@@ -105,7 +106,8 @@ class MissionNavAction(
                     portLocode = navAction.portLocode,
                     zipCode = navAction.zipCode,
                     city = navAction.city,
-                    fishAuction = navAction.fishAuction?.let { FishAuction.fromFishAuctionEntity(it) }
+                    fishAuction = navAction.fishAuction?.let { FishAuction.fromFishAuctionEntity(it) },
+                    sati = navAction.sati?.let { SatiMapper.fromEntity(it) }
                 )
             )
         }

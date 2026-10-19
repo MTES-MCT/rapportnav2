@@ -78,7 +78,7 @@ object ValidationPolicies {
         CONTROL, CONTROL_NAUTICAL_LEISURE, CONTROL_SLEEPING_FISHING_GEAR, OTHER_CONTROL
     )
 
-    private val navActionRules: List<Rule<MissionNavActionEntity>> = listOf(
+    private val navActionRules: List<Rule<MissionNavActionEntity>> = listOf<Rule<MissionNavActionEntity>>(
         // Always required
         Rule.always("id", "L'identifiant est requis") { it.id },
         Rule.always("missionId", "L'identifiant de mission est requis") { it.missionId },
@@ -195,7 +195,13 @@ object ValidationPolicies {
             "actionType = RESCUE et isMigrationRescue = true",
             { it.actionType == RESCUE && it.isMigrationRescue == true },
             relatedActionTypes = listOf(RESCUE), extraCondition = "isMigrationRescue = true") { it.nbAssistedVesselsReturningToShore },
-    )
+    ) + SatiValidationRules.rules.forNested(
+        fieldPathPrefix = "sati",
+        condition = { it.sati != null },
+        conditionDescription = "sati présent"
+    ) { action: MissionNavActionEntity ->
+        action.sati
+    }
 
     // =========================================================================
     // MissionEnvActionEntity rules

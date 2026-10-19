@@ -8,6 +8,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationTyp
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import java.time.Instant
 import java.util.*
 
@@ -71,11 +73,13 @@ class MissionNavActionData(
     override var city: String? = null,
     override var fishAuction: FishAuction? = null,
     override val agentIds: List<Int>? = null,
+    sati: Sati? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
     observations = observations,
-    targets = targets
+    targets = targets,
+    sati = sati
 ), BaseMissionNavActionData {
 
     companion object {
@@ -144,6 +148,7 @@ class MissionNavActionData(
                 zipCode = data.zipCode,
                 city = data.city,
                 fishAuction = data.fishAuction?.toFishAuctionEntity(),
+                sati = data.sati?.let { SatiMapper.toEntity(it) }
             )
             return action
         }

@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidationPolicy
 import java.time.Instant
@@ -30,7 +31,8 @@ abstract class MissionActionEntity(
     override val isSeafarersControl: Boolean? = null,
     override var targets: List<TargetEntity>? = null,
     override var hasDivingDuringOperation: Boolean? = null,
-    override var incidentDuringOperation: Boolean? = null
+    override var incidentDuringOperation: Boolean? = null,
+    override var sati: SatiEntity? = null
 
 ) : BaseMissionActionEntity {
 
