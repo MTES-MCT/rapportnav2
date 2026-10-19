@@ -1,7 +1,16 @@
 import { FC } from 'react'
+import { ACCESSIBILITY_PATH, LEGAL_NOTICE_PATH, PERSONAL_DATA_PATH, SITEMAP_PATH } from '@router/routes.tsx'
 import logo from '../../../../../assets/images/logo.png'
 
-const LoginFooter: FC = () => (
+// Order follows the DSFR footer model.
+const BOTTOM_LINKS = [
+  { label: 'Plan du site', path: SITEMAP_PATH },
+  { label: 'Accessibilité : non conforme', path: ACCESSIBILITY_PATH },
+  { label: 'Mentions légales', path: LEGAL_NOTICE_PATH },
+  { label: 'Données personnelles', path: PERSONAL_DATA_PATH }
+]
+
+const PublicFooter: FC = () => (
   <footer className="fr-footer" role="contentinfo" id="footer" tabIndex={-1}>
     <div className="fr-container">
       <div className="fr-footer__body">
@@ -61,6 +70,15 @@ const LoginFooter: FC = () => (
         </div>
       </div>
       <div className="fr-footer__bottom">
+        <ul className="fr-footer__bottom-list">
+          {BOTTOM_LINKS.map(({ label, path }) => (
+            <li key={path} className="fr-footer__bottom-item">
+              <a className="fr-footer__bottom-link" href={path}>
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
         <div className="fr-footer__bottom-copy">
           <p>
             Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont
@@ -80,4 +98,4 @@ const LoginFooter: FC = () => (
   </footer>
 )
 
-export default LoginFooter
+export default PublicFooter

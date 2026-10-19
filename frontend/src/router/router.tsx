@@ -1,4 +1,12 @@
-import { LOGIN_PATH, ROOT_PATH, SIGNUP_PATH } from '@router/routes.tsx'
+import {
+  ACCESSIBILITY_PATH,
+  LEGAL_NOTICE_PATH,
+  LOGIN_PATH,
+  PERSONAL_DATA_PATH,
+  ROOT_PATH,
+  SIGNUP_PATH,
+  SITEMAP_PATH
+} from '@router/routes.tsx'
 import { wrapCreateBrowserRouterV6 } from '@sentry/react'
 import { Suspense, lazy } from 'react'
 import { createBrowserRouter } from 'react-router'
@@ -22,6 +30,11 @@ import SignupPage from '../v2/pages/signup-page.tsx'
 // Lazy-loaded so the DSFR design system (imported only by this page) is split
 // into its own async chunk and fetched solely when /login is visited.
 const LoginPage = lazy(() => import('../v2/pages/login-page.tsx'))
+// Public DSFR pages, same chunk splitting as LoginPage.
+const AccessibilityPage = lazy(() => import('../v2/pages/accessibility-page.tsx'))
+const LegalNoticePage = lazy(() => import('../v2/pages/legal-notice-page.tsx'))
+const PersonalDataPage = lazy(() => import('../v2/pages/personal-data-page.tsx'))
+const SitemapPage = lazy(() => import('../v2/pages/sitemap-page.tsx'))
 
 const sentryCreateBrowserRouter = wrapCreateBrowserRouterV6(createBrowserRouter)
 
@@ -44,6 +57,38 @@ export const router = sentryCreateBrowserRouter([
   {
     path: SIGNUP_PATH,
     element: <SignupPage />
+  },
+  {
+    path: ACCESSIBILITY_PATH,
+    element: (
+      <Suspense fallback={<ActionLoader />}>
+        <AccessibilityPage />
+      </Suspense>
+    )
+  },
+  {
+    path: LEGAL_NOTICE_PATH,
+    element: (
+      <Suspense fallback={<ActionLoader />}>
+        <LegalNoticePage />
+      </Suspense>
+    )
+  },
+  {
+    path: PERSONAL_DATA_PATH,
+    element: (
+      <Suspense fallback={<ActionLoader />}>
+        <PersonalDataPage />
+      </Suspense>
+    )
+  },
+  {
+    path: SITEMAP_PATH,
+    element: (
+      <Suspense fallback={<ActionLoader />}>
+        <SitemapPage />
+      </Suspense>
+    )
   },
   // ULAM Mission routes
   {

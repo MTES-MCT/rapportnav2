@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import logo from '../../../../../assets/images/logo.png'
 
-const LoginHeader: FC = () => (
+const PublicHeader: FC = () => (
   <header role="banner" className="fr-header">
     <div className="fr-header__body">
       <div className="fr-container">
@@ -23,4 +23,4 @@ const LoginHeader: FC = () => (
   </header>
 )
 
-export default LoginHeader
+export default PublicHeader
