@@ -42,7 +42,8 @@ class SecurityConfig(
     @Order(1)
     fun apiKeySecurityFilter(http: HttpSecurity): SecurityFilterChain {
         http
-            .securityMatcher("/api/analytics/**", "/api/v1/public/sati/**")
+
+            .securityMatcher("/api/analytics/**", "/api/v1/public/inquiries", "/api/v1/public/inquiries/**", "/api/v1/public/sati/**")
             .addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
             .addFilterAfter(sentryUserContextFilter, ApiKeyAuthenticationFilter::class.java)
             .authorizeHttpRequests { it.anyRequest().hasAuthority(AuthoritiesEnum.ROLE_API_USER.toString()) }
