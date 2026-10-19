@@ -1,0 +1,102 @@
+name: ✨ Feature
+description: Proposer une fonctionnalité (product ou dev)
+title: '[Feature]: '
+labels: ['enhancement']
+body:
+  - type: checkboxes
+    id: maturity
+    attributes:
+      label: 🎯 Maturité du ticket
+      description: Où en est le refinement ? Coche au fur et à mesure.
+      options:
+        - label: Refined product (contexte + besoin + critères clairs)
+        - label: Refined tech (frontend / backend / design cadrés)
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 👀 Context
+      description: Pourquoi cette feature ? Valeur, lien avec le reste. Crucial si créé par le product.
+      placeholder: '...'
+    validations:
+      required: true
+
+  - type: textarea
+    id: need
+    attributes:
+      label: 🤸‍♂️ Need
+      description: Ce qu'il faut livrer, du point de vue métier.
+      placeholder: "Ex. Masquer les champs du M1 à M3 pour les missions PolPêche"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: ✅ Critères d'acceptation
+      description: Quand considère-t-on la feature terminée ? Comportement observable, compréhensible par product ET dev.
+      value: |
+        - [ ] 
+        - [ ]
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: 🔗 Dépendances
+      description: Tickets bloquants, modules requis, ordre de réalisation.
+      placeholder: 'Ex. Bloqué par #42 · nécessite l'API MonitorEnv / MonitorFish'
+    validations:
+      required: false
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: 🚧 Hors périmètre
+      description: Ce que cette feature ne fait PAS dans cette itération. Cadre le scope.
+      placeholder: 'Ex. Pas de refonte de l'export PDF dans cette itération'
+    validations:
+      required: false
+
+  - type: textarea
+    id: frontend
+    attributes:
+      label: 🧿 Frontend needs
+      description: À compléter au refinement (1er temps si dev, 2e temps si product).
+      placeholder: 'Composants, écrans, états UI, hooks, appels API consommés...'
+    validations:
+      required: false
+
+  - type: textarea
+    id: backend
+    attributes:
+      label: 🧿 Backend needs
+      description: Endpoints, use cases, entités, migrations Flyway, appels aux API externes si pertinent.
+      placeholder: 'Ex. Nouvel endpoint GraphQL, use case, migration SQL...'
+    validations:
+      required: false
+
+  - type: textarea
+    id: design
+    attributes:
+      label: 📦 Design specs
+      placeholder: 'Liens Figma, maquettes, contraintes responsive...'
+    validations:
+      required: false
+
+  - type: dropdown
+    id: estimation
+    attributes:
+      label: 🔭 Estimation (jours)
+      description: Aide au refinement. À reporter dans le champ "Estimate" du Project pour la vélocité.
+      options:
+        - '0.5'
+        - '1'
+        - '2'
+        - '3'
+        - '5'
+        - '8'
+        - À définir
+    validations:
+      required: false
