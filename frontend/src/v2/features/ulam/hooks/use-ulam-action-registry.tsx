@@ -20,6 +20,7 @@ import MissionActionItemResourceMaintenance from '../../mission-action/component
 import MissionActionItemSecurityVisit from '../../mission-action/components/elements/mission-action-item-security-visit'
 import MissionActionItemTraining from '../../mission-action/components/elements/mission-action-item-training'
 import MissionActionItemUnitManagementPlanning from '../../mission-action/components/elements/mission-action-item-unit-management-planning'
+import MissionActionItemUnitManagementTraining from '../../mission-action/components/elements/mission-action-item-unit-management-training'
 
 type UlamActionRegistry = {
   [key in ActionType]?: ActionRegistryItem
@@ -40,6 +41,11 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     icon: Icon.GroupPerson,
     title: `Gestion de l'unité`,
     component: MissionActionItemUnitManagementPlanning
+  },
+  [ActionType.UNIT_MANAGEMENT_TRAINING]: {
+    icon: Icon.GroupPerson,
+    title: `Entraînement`,
+    component: MissionActionItemUnitManagementTraining
   },
   [ActionType.TRAINING]: {
     icon: Icon.License,
