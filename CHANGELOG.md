@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.103.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.102.0...v2.103.0) (2026-10-13)
+
+
+### Features
+
+* **frontend:** hide field from polpeche ([945ddc9](https://github.com/MTES-MCT/rapportnav2/commit/945ddc96e349be82e0ffc94d371412254604f236))
+
+
+### Bug Fixes
+
+* **backend:** Rules completion address ([1995d68](https://github.com/MTES-MCT/rapportnav2/commit/1995d68f3dede04b1e84f63d4511367b2ad3be0a))
+* gradle cache ([76e20ae](https://github.com/MTES-MCT/rapportnav2/commit/76e20aee06fc7a6b6d0aea86eab1bbcd39f7d6f5))
+
 ## [2.102.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.3...v2.102.0) (2026-10-08)
 
 
