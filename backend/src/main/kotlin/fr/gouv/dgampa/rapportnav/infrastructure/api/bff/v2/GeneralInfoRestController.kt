@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
+import fr.gouv.dgampa.rapportnav.infrastructure.api.security.CheckMissionAccess
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -36,6 +37,7 @@ class GeneralInfoRestController(
             ApiResponse(responseCode = "404", description = "Could not update general information's", content = [Content()])
         ]
     )
+    @CheckMissionAccess(param = "missionId")
     fun update(
         @PathVariable missionId: String,
         @RequestBody generalInfo: MissionGeneralInfo2

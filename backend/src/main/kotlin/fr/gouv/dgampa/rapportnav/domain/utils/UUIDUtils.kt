@@ -16,3 +16,7 @@ fun isValidUUID(uuid: Any?): Boolean {
     }
 }
 
+/** The string parsed as a [UUID], or null when it is blank/absent or not a UUID (e.g. an env external id). */
+fun String?.toUuidOrNull(): UUID? =
+    this?.takeIf { isValidUUID(it) }?.let { UUID.fromString(it) }
+

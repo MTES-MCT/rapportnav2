@@ -63,6 +63,17 @@ class JPAServiceRepository(
         }
     }
 
+    override fun findByServiceLinkedId(serviceLinkedId: Int): List<ServiceModel> {
+        return try {
+            repo.findByServiceLinkedId(serviceLinkedId)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPAServiceRepository.findByServiceLinkedId failed for serviceLinkedId=$serviceLinkedId",
+                originalException = e
+            )
+        }
+    }
+
     @Transactional
     override fun save(service: ServiceModel): ServiceModel {
         return try {

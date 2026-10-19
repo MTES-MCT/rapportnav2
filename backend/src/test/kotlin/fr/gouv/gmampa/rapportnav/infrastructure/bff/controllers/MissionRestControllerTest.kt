@@ -12,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.ControllersExceptionHandler
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListItem
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
+import fr.gouv.gmampa.rapportnav.infrastructure.api.security.MissionAccessTestConfig
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
@@ -36,7 +37,7 @@ import tools.jackson.databind.json.JsonMapper
 import java.time.Instant
 
 @AutoConfigureMockMvc(addFilters = false)
-@ContextConfiguration(classes = [RapportNavApplication::class, JacksonConfig::class, ControllersExceptionHandler::class])
+@ContextConfiguration(classes = [RapportNavApplication::class, JacksonConfig::class, ControllersExceptionHandler::class, MissionAccessTestConfig::class])
 @WebMvcTest(MissionRestController::class)
 @ImportAutoConfiguration(CacheAutoConfiguration::class)
 class MissionRestControllerTest {
@@ -70,6 +71,9 @@ class MissionRestControllerTest {
 
     @MockitoBean
     private lateinit var getMissionByExternalId: GetMissionByExternalId
+
+    @MockitoBean
+    private lateinit var assertMissionAccess: AssertMissionAccess
 
     @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
@@ -112,6 +116,22 @@ class MissionRestControllerTest {
         mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(missionId))
+    }
+
+    @Test
+    fun `should return 403 when the user may not access the mission`() {
+        // Arrange: ownership assertion rejects access to this mission
+        val missionId = 1
+        whenever(assertMissionAccess.execute(any())).thenAnswer {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.USER_NOT_ALLOWED_TO_PERFORM_EXCEPTION,
+                message = "AssertMissionAccess: env mission 1 is not in the user's control units"
+            )
+        }
+
+        // Act & Assert
+        mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))
+            .andExpect(status().isForbidden)
     }
 
     @Test
