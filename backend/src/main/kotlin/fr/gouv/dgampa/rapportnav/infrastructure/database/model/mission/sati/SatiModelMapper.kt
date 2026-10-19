@@ -10,10 +10,16 @@ object SatiModelMapper {
         return SatiEntity(
             id = model.id,
             actionId = model.actionId,
+            missionId = model.missionId,
             resource = ControlResourceEntity(id = model.resourceId),
             vessel = model.vessels.firstOrNull()?.toEntity(),
             inspectors = model.inspectors.map { it.toEntity() },
             module = SatiModuleType.valueOf(model.module),
+            status = SatiStatusType.valueOf(model.status),
+            version = model.version,
+            createdAt = model.createdAt,
+            updatedAt = model.updatedAt,
+            updatedBy = model.updatedBy,
         )
     }
 
@@ -21,10 +27,16 @@ object SatiModelMapper {
         return SatiModel(
             id = entity.id,
             actionId = entity.actionId,
+            missionId = entity.missionId,
             resourceId = entity.resource?.id,
             module = entity.module.toString(),
             vessels = entity.vessel?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
-            inspectors = entity.inspectors?.map { it.toModel() }?.toMutableList() ?: mutableListOf()
+            inspectors = entity.inspectors?.map { it.toModel() }?.toMutableList() ?: mutableListOf(),
+            status = entity.status.name,
+            version = entity.version,
+            createdAt = entity.createdAt,
+            updatedAt = entity.updatedAt,
+            updatedBy = entity.updatedBy,
         )
     }
 
