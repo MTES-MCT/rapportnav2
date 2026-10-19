@@ -19,6 +19,13 @@ interface IDBMissionRepository: JpaRepository<MissionModel, UUID> {
 
     fun findByExternalIdOrderByStartDateTimeUtcDesc(externalId: String, pageable: Pageable): Page<MissionModel>
 
+    /**
+     * Nav missions between dates (non-paginated path). Only date bounds are filtered here on purpose: the list's
+     * other filters (status, completeness, reportType) are NOT pushed down. status/reportType aren't columns (both
+     * computed at read time) and completeness is only a lossy/stale cache on MissionModel. More fundamentally, this
+     * query sees only the local `mission` table — env missions come from the MonitorEnv API — so a DB-level filter
+     * would leave env missions unfiltered. Those dimensions are applied post-merge; see [MissionListFilter].
+     */
     @Query("""
     SELECT m FROM MissionModel m
     WHERE m.startDateTimeUtc >= :startBeforeDateTime
@@ -29,6 +36,25 @@ interface IDBMissionRepository: JpaRepository<MissionModel, UUID> {
         @Param("startBeforeDateTime") startBeforeDateTime: Instant,
         @Param("endBeforeDateTime") endBeforeDateTime: Instant
     ): List<MissionModel?>
+
+    /**
+     * Nav-only missions for a given service, newest first. Env-mirror rows have a null serviceId, so scoping by
+     * serviceId naturally excludes them. Date bounds are always provided (callers substitute wide defaults when
+     * no date filter is active) to keep the JPQL free of nullable-parameter handling.
+     */
+    @Query("""
+    SELECT m FROM MissionModel m
+    WHERE m.serviceId = :serviceId
+    AND m.isDeleted = false
+    AND m.startDateTimeUtc >= :startedAfter
+    AND m.startDateTimeUtc <= :startedBefore
+    ORDER BY m.startDateTimeUtc DESC
+    """)
+    fun findNavMissionsForService(
+        @Param("serviceId") serviceId: Int,
+        @Param("startedAfter") startedAfter: Instant,
+        @Param("startedBefore") startedBefore: Instant
+    ): List<MissionModel>
 
     override fun findById(id: UUID): Optional<MissionModel>
 

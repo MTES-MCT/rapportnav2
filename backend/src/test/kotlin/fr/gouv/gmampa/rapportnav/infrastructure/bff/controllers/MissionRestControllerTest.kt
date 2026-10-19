@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.ControllersExceptionHandler
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListItem
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListPage
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
@@ -19,6 +20,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
@@ -33,7 +35,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import tools.jackson.databind.json.JsonMapper
-import java.time.Instant
 
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = [RapportNavApplication::class, JacksonConfig::class, ControllersExceptionHandler::class])
@@ -85,20 +86,24 @@ class MissionRestControllerTest {
 
 
     @Test
-    fun `should return a list of missions`() {
+    fun `should return a paginated page of missions`() {
         // Arrange
         val mockItem = MissionListItem(id = 1, status = MissionStatusEnum.ENDED, actionCount = 3)
-        `when`(getMissionList.execute(Instant.parse("2025-04-16T09:02:58.082289Z"))).thenReturn(listOf(mockItem))
+        whenever(getMissionList.execute(anyOrNull(), anyOrNull(), anyOrNull(), any(), any()))
+            .thenReturn(MissionListPage(items = listOf(mockItem), hasMore = true, nextOffset = 15))
 
-        // Act & Assert
+        // Act & Assert — no date required anymore; response is the paginated wrapper
         mockMvc.perform(
             get("/api/v2/missions")
-                .param("startDateTimeUtc", "2025-04-16T09:02:58.082289Z")
+                .param("offset", "0")
+                .param("limit", "15")
         )
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.length()").value(1))
-            .andExpect(jsonPath("$[0].id").value(1))
-            .andExpect(jsonPath("$[0].actionCount").value(3))
+            .andExpect(jsonPath("$.items.length()").value(1))
+            .andExpect(jsonPath("$.items[0].id").value(1))
+            .andExpect(jsonPath("$.items[0].actionCount").value(3))
+            .andExpect(jsonPath("$.hasMore").value(true))
+            .andExpect(jsonPath("$.nextOffset").value(15))
     }
 
     @Test

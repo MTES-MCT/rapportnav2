@@ -14,19 +14,38 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
           style="width: 100%;"
         >
           <div
-            class="rs-stack"
-            style="align-items: center; flex-direction: row; gap: 0.2rem; padding: 0px 11.5rem; margin-top: 3rem;"
+            class="rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-center"
+            style="padding: 3rem 2rem;"
           >
             <div
-              class="rs-stack-item"
+              class="rs-flex-box-grid-item rs-flex-box-grid-item-24 rs-col rs-col-xxl-20"
+              role="gridcell"
             >
-              <p
-                class="sc-iWBMXF sc-hYQmIO glJXNf fdrUbn"
-                font-size="22"
-                style="font-size: 32px;"
+              <div
+                class="rs-stack"
+                style="align-items: center; justify-content: space-between; flex-direction: row; gap: 0.2rem; width: 100%;"
               >
-                my title
-              </p>
+                <div
+                  class="rs-stack-item"
+                >
+                  <div
+                    class="rs-stack"
+                    style="align-items: center; flex-direction: row; gap: 0.2rem;"
+                  >
+                    <div
+                      class="rs-stack-item"
+                    >
+                      <p
+                        class="sc-iWBMXF sc-hYQmIO glJXNf fdrUbn"
+                        font-size="22"
+                        style="font-size: 32px;"
+                      >
+                        my title
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -49,6 +68,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
                 <div
                   class="rs-flex-box-grid-item rs-flex-box-grid-item-24 rs-col rs-col-xxl-20"
                   role="gridcell"
+                  style="margin-bottom: 4rem;"
                 >
                   Title
                 </div>
@@ -107,19 +127,38 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
         style="width: 100%;"
       >
         <div
-          class="rs-stack"
-          style="align-items: center; flex-direction: row; gap: 0.2rem; padding: 0px 11.5rem; margin-top: 3rem;"
+          class="rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-center"
+          style="padding: 3rem 2rem;"
         >
           <div
-            class="rs-stack-item"
+            class="rs-flex-box-grid-item rs-flex-box-grid-item-24 rs-col rs-col-xxl-20"
+            role="gridcell"
           >
-            <p
-              class="sc-iWBMXF sc-hYQmIO glJXNf fdrUbn"
-              font-size="22"
-              style="font-size: 32px;"
+            <div
+              class="rs-stack"
+              style="align-items: center; justify-content: space-between; flex-direction: row; gap: 0.2rem; width: 100%;"
             >
-              my title
-            </p>
+              <div
+                class="rs-stack-item"
+              >
+                <div
+                  class="rs-stack"
+                  style="align-items: center; flex-direction: row; gap: 0.2rem;"
+                >
+                  <div
+                    class="rs-stack-item"
+                  >
+                    <p
+                      class="sc-iWBMXF sc-hYQmIO glJXNf fdrUbn"
+                      font-size="22"
+                      style="font-size: 32px;"
+                    >
+                      my title
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -142,6 +181,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
               <div
                 class="rs-flex-box-grid-item rs-flex-box-grid-item-24 rs-col rs-col-xxl-20"
                 role="gridcell"
+                style="margin-bottom: 4rem;"
               >
                 Title
               </div>
