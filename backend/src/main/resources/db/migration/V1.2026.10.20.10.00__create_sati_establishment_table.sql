@@ -14,14 +14,6 @@ CREATE TABLE IF NOT EXISTS sati_establishment
   updated_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-ALTER TABLE "sati_establishment" ADD COLUMN IF NOT EXISTS type VARCHAR(50);
-ALTER TABLE "sati_establishment" ADD COLUMN IF NOT EXISTS sub_type VARCHAR(50);
-ALTER TABLE "sati_establishment" ADD COLUMN IF NOT EXISTS is_not_listed BOOLEAN NOT NULL DEFAULT false;
-ALTER TABLE "sati_establishment" ADD COLUMN IF NOT EXISTS is_not_same_address BOOLEAN NOT NULL DEFAULT false;
-ALTER TABLE "sati_establishment" ADD COLUMN IF NOT EXISTS address JSONB;
-ALTER TABLE "sati_establishment" ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
-ALTER TABLE "sati_establishment" ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
-
 ALTER TABLE "sati_party" ADD COLUMN IF NOT EXISTS establishment_id INTEGER NULL REFERENCES sati_establishment (id) ON DELETE CASCADE;
 
 CREATE INDEX IF NOT EXISTS idx_sati_establishment_sati_id ON sati_establishment (sati_id);
