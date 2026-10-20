@@ -17,6 +17,7 @@ object SatiMapper {
             endDatetimeUtc = entity?.endDatetimeUtc,
             startDatetimeUtc = entity?.startDatetimeUtc,
             module = entity?.module?: SatiModuleType.M1,
+            establishment = entity?.establishment?.toOutput(),
             principalInspector = entity?.inspectors?.firstOrNull { it.isPrincipal }?.toOutput() ?: SatiInspector(),
             otherInspectors = entity?.inspectors?.filter { !it.isPrincipal }?.map { it.toOutput() } ?: listOf()
         )
@@ -31,6 +32,7 @@ object SatiMapper {
             endDatetimeUtc = response?.endDatetimeUtc,
             startDatetimeUtc = response?.startDatetimeUtc,
             module = response?.module?: SatiModuleType.M1,
+            establishment = response?.establishment?.toEntity(),
             inspectors = listOfNotNull(
                 response?.principalInspector?.toEntity()?.copy(isPrincipal = true)
             ) + (response?.otherInspectors?.map { it.toEntity() } ?: listOf())
@@ -106,6 +108,32 @@ object SatiMapper {
             comments = comments,
             signature = signature,
             contact = contact?.toOutput(),
+        )
+    }
+
+    private fun SatiEstablishment.toEntity(): SatiEstablishmentEntity {
+        return SatiEstablishmentEntity(
+            id = id,
+            type = type,
+            subType = subType,
+            isNotListed = isNotListed,
+            isNotSameAddress = isNotSameAddress,
+            owner = owner?.toEntity(),
+            operator = operator?.toEntity(),
+            address = address?.toEntity()
+        )
+    }
+
+    private fun SatiEstablishmentEntity.toOutput(): SatiEstablishment {
+        return SatiEstablishment(
+            id = id,
+            type = type,
+            subType = subType,
+            isNotListed = isNotListed,
+            isNotSameAddress = isNotSameAddress,
+            owner = owner?.toOutput(),
+            operator = operator?.toOutput(),
+            address = address?.toOutput()
         )
     }
 

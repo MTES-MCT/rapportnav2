@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentSubType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
 
 object SatiModelMapper {
@@ -12,6 +14,7 @@ object SatiModelMapper {
             actionId = model.actionId,
             resource = ControlResourceEntity(id = model.resourceId),
             vessel = model.vessels.firstOrNull()?.toEntity(),
+            establishment = model.establishments.firstOrNull()?.toEntity(),
             inspectors = model.inspectors.map { it.toEntity() },
             module = SatiModuleType.valueOf(model.module),
         )
@@ -24,6 +27,7 @@ object SatiModelMapper {
             resourceId = entity.resource?.id,
             module = entity.module.toString(),
             vessels = entity.vessel?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
+            establishments = entity.establishment?.toModel()?.let { mutableListOf(it) } ?: mutableListOf(),
             inspectors = entity.inspectors?.map { it.toModel() }?.toMutableList() ?: mutableListOf()
         )
     }
@@ -59,6 +63,66 @@ object SatiModelMapper {
                 master?.toModel(SatiPartyType.VESSEL_MASTER)?.let { add(it) }
             }
         )
+    }
+
+    private fun SatiEstablishmentModel.toEntity(): SatiEstablishmentEntity {
+        return SatiEstablishmentEntity(
+            id = id,
+            isNotListed = isNotListed,
+            isNotSameAddress = isNotSameAddress,
+            type = type?.let { SectorEstablishmentType.valueOf(it) },
+            subType = subType?.let { SectorEstablishmentSubType.valueOf(it) },
+            address = address?.toAddressEntity(),
+            owner = parties.firstOrNull { it.partyType == SatiPartyType.ESTABLISHMENT_OWNER.name }?.toEntity(),
+            operator = parties.firstOrNull { it.partyType == SatiPartyType.ESTABLISHMENT_OPERATOR.name }?.toEntity()
+        )
+    }
+
+    private fun SatiEstablishmentEntity.toModel(): SatiEstablishmentModel {
+        return SatiEstablishmentModel(
+            id = id,
+            type = type?.name,
+            subType = subType?.name,
+            isNotListed = isNotListed,
+            isNotSameAddress = isNotSameAddress,
+            address = address?.toAddressMap(),
+            parties = mutableListOf<SatiPartyModel>().apply {
+                owner?.toModel(SatiPartyType.ESTABLISHMENT_OWNER)?.let { add(it) }
+                operator?.toModel(SatiPartyType.ESTABLISHMENT_OPERATOR)?.let { add(it) }
+            }
+        )
+    }
+
+    private const val ADDRESS_STREET = "street"
+    private const val ADDRESS_FULL_ADDRESS = "fullAddress"
+    private const val ADDRESS_ZIPCODE = "zipcode"
+    private const val ADDRESS_TOWN = "town"
+    private const val ADDRESS_COUNTRY = "country"
+    private const val ADDRESS_LNG = "lng"
+    private const val ADDRESS_LAT = "lat"
+
+    private fun Map<String, Any?>.toAddressEntity(): AddressEntity {
+        return AddressEntity(
+            street = this[ADDRESS_STREET] as? String,
+            fullAddress = this[ADDRESS_FULL_ADDRESS] as? String,
+            zipcode = this[ADDRESS_ZIPCODE] as? String,
+            town = this[ADDRESS_TOWN] as? String,
+            country = this[ADDRESS_COUNTRY] as? String,
+            lng = (this[ADDRESS_LNG] as? Number)?.toDouble(),
+            lat = (this[ADDRESS_LAT] as? Number)?.toDouble()
+        )
+    }
+
+    private fun AddressEntity.toAddressMap(): Map<String, Any?>? {
+        return mapOf(
+            ADDRESS_STREET to street,
+            ADDRESS_FULL_ADDRESS to fullAddress,
+            ADDRESS_ZIPCODE to zipcode,
+            ADDRESS_TOWN to town,
+            ADDRESS_COUNTRY to country,
+            ADDRESS_LNG to lng,
+            ADDRESS_LAT to lat
+        ).filterValues { it != null }.ifEmpty { null }
     }
 
     private fun SatiPartyModel.toEntity(): SatiPartyEntity {
