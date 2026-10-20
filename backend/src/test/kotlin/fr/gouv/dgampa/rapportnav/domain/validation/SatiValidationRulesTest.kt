@@ -2,7 +2,10 @@ package fr.gouv.dgampa.rapportnav.domain.validation
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentSubType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.AddressEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEstablishmentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.ContactEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiInspectorEntity
@@ -158,5 +161,100 @@ class SatiValidationRulesTest {
         )
         val result = validator.validateCompleteness(fishAction(sati), ValidationPolicies.v1)
         assertFalse(result.errors.any { it.field.startsWith("sati.vessel.") })
+    }
+
+    // ---------------------------------------------------------------------
+    // M4 - establishment
+    // ---------------------------------------------------------------------
+
+    private fun validEstablishment() = SatiEstablishmentEntity(
+        id = 1,
+        type = SectorEstablishmentType.RESTAURANT,
+        isNotSameAddress = false,
+        owner = SatiPartyEntity(contact = validContact())
+    )
+
+    private fun satiM4(establishment: SatiEstablishmentEntity? = validEstablishment()) = SatiEntity(
+        module = SatiModuleType.M4,
+        actionId = "action-1",
+        resource = ControlResourceEntity(id = 42),
+        inspectors = listOf(SatiInspectorEntity(agentId = 7)),
+        establishment = establishment
+    )
+
+    private fun establishmentErrors(sati: SatiEntity) =
+        validator.validateCompleteness(fishAction(sati), ValidationPolicies.v1).errors
+            .filter { it.field.startsWith("sati.establishment") }.map { it.field }
+
+    @Test
+    fun `M4 - fully populated establishment produces no establishment violations`() {
+        assertTrue(establishmentErrors(satiM4()).isEmpty())
+    }
+
+    @Test
+    fun `M4 - missing establishment fires its required fields`() {
+        val errors = establishmentErrors(satiM4(establishment = null))
+        assertTrue("sati.establishment.id" in errors)
+        assertTrue("sati.establishment.type" in errors)
+        assertTrue("sati.establishment.owner.contact.fullName" in errors)
+    }
+
+    @Test
+    fun `M4 - missing id fires`() {
+        assertTrue("sati.establishment.id" in establishmentErrors(satiM4(validEstablishment().copy(id = null))))
+    }
+
+    @Test
+    fun `M4 - missing type fires`() {
+        assertTrue("sati.establishment.type" in establishmentErrors(satiM4(validEstablishment().copy(type = null))))
+    }
+
+    @Test
+    fun `M4 - subType required only when type is GMS`() {
+        val gms = validEstablishment().copy(type = SectorEstablishmentType.GMS, subType = null)
+        assertTrue("sati.establishment.subType" in establishmentErrors(satiM4(gms)))
+
+        val gmsWithSubType = gms.copy(subType = SectorEstablishmentSubType.GMS_ONLY)
+        assertFalse("sati.establishment.subType" in establishmentErrors(satiM4(gmsWithSubType)))
+
+        assertFalse("sati.establishment.subType" in establishmentErrors(satiM4(validEstablishment())))
+    }
+
+    @Test
+    fun `M4 - address required when isNotSameAddress is true`() {
+        val missing = validEstablishment().copy(isNotSameAddress = true, address = null)
+        val errors = establishmentErrors(satiM4(missing))
+        assertTrue(errors.any { it.startsWith("sati.establishment.address.") })
+    }
+
+    @Test
+    fun `M4 - address rules apply without the address id when isNotSameAddress is true`() {
+        val noIdAddress = validAddress().copy(id = null)
+        val ok = validEstablishment().copy(isNotSameAddress = true, address = noIdAddress)
+        assertTrue(establishmentErrors(satiM4(ok)).isEmpty())
+
+        val broken = ok.copy(address = noIdAddress.copy(fullAddress = null, zipcode = null))
+        assertTrue("sati.establishment.address.zipcode" in establishmentErrors(satiM4(broken)))
+    }
+
+    @Test
+    fun `M4 - address ignored when isNotSameAddress is false`() {
+        val errors = establishmentErrors(satiM4(validEstablishment().copy(isNotSameAddress = false, address = null)))
+        assertFalse(errors.any { it.startsWith("sati.establishment.address.") })
+    }
+
+    @Test
+    fun `M4 - owner contact follows the contact rules`() {
+        val noOwner = validEstablishment().copy(owner = null)
+        assertTrue("sati.establishment.owner.contact.fullName" in establishmentErrors(satiM4(noOwner)))
+
+        val brokenContact = validEstablishment().copy(owner = SatiPartyEntity(contact = validContact().copy(email = null)))
+        assertTrue("sati.establishment.owner.contact.email" in establishmentErrors(satiM4(brokenContact)))
+    }
+
+    @Test
+    fun `M5 - establishment rules skipped when module is not M4`() {
+        val sati = satiM4(establishment = null).copy(module = SatiModuleType.M5)
+        assertTrue(establishmentErrors(sati).isEmpty())
     }
 }

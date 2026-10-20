@@ -55,9 +55,10 @@ class GetComputeSati(
 
     private fun getNewSati(actionId: String, module: SatiModuleType): SatiEntity {
         return SatiEntity(
-            vessel = SatiVesselEntity(),
-            actionId = actionId,
             module = module,
+            actionId = actionId,
+            vessel =  if (module.hasVessel()) SatiVesselEntity() else null,
+            establishment = if (module.hasEstablishment()) SatiEstablishmentEntity() else null,
             inspectors = listOf(SatiInspectorEntity(isPrincipal = true, party = SatiPartyEntity()))
         )
     }

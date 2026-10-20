@@ -15,4 +15,5 @@ data class Sati(
     var endDatetimeUtc: Instant? = null,
     var principalInspector: SatiInspector? = null,
     var otherInspectors: List<SatiInspector>? = emptyList(),
+    var establishment: SatiEstablishment? = null,
 )
