@@ -23,8 +23,24 @@ const initialValues: LoginFormValues = {
 
 const authToken = new AuthToken()
 
-const LoginForm: FC = () => {
+// Full-page navigation to Spring Security's OAuth2 authorization entry point.
+// The backend then redirects the browser to ProConnect (Authorization Code flow).
+const connectWithProConnect = () => {
+  // Drop any leftover legacy JWT before starting a ProConnect session. Otherwise the stale
+  // Bearer token is sent on every XHR and the JWT auth path shadows the ProConnect session,
+  // which caused the "sign in twice" glitch.
+  new AuthToken().remove()
+  window.location.href = '/oauth2/authorization/proconnect'
+}
+
+type LoginFormProps = {
+  // Defaults to the build-time flag; overridable in tests for deterministic rendering.
+  oidcEnabled?: boolean
+}
+
+const LoginForm: FC<LoginFormProps> = ({ oidcEnabled = import.meta.env.FRONTEND_OIDC_ENABLED === 'true' }) => {
   const [showPassword, setShowPassword] = useState(false)
+  const isOidcEnabled = oidcEnabled
 
   const handleSubmit = async (
     { email, password }: LoginFormValues,
@@ -78,122 +94,143 @@ const LoginForm: FC = () => {
   }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit} validate={validateForm} validateOnChange={false}>
-      {({ values, errors, isSubmitting, status, handleChange }) => {
-        // Match the original behaviour: errors only surface after a submit
-        // attempt. Fields are not wired to Formik's onBlur and
-        // validateOnChange is false, so `errors` is only populated on submit.
-        const emailError = errors.email
-        const passwordError = errors.password
-        return (
-          <Form id="login">
-            <fieldset
-              className="fr-fieldset"
-              id="login-fieldset"
-              aria-labelledby="login-fieldset-legend login-fieldset-messages"
+    <>
+      {isOidcEnabled && (
+        <div className="fr-mb-12v fr-mt-12v" id="proconnect">
+          <h2>Se connecter avec ProConnect</h2>
+          <button className="fr-btn fr-btn--lg" onClick={connectWithProConnect} type="button">
+            S’identifier avec ProConnect
+          </button>
+          <p className="fr-mt-2v">
+            <a
+              href="https://www.proconnect.gouv.fr/"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Qu’est-ce que ProConnect ? - nouvelle fenêtre"
             >
-              <legend className="fr-fieldset__legend" id="login-fieldset-legend">
-                <h2>Se connecter avec son compte</h2>
-              </legend>
+              Qu’est-ce que ProConnect ?
+            </a>
+          </p>
+        </div>
+      )}
 
-              <div className="fr-fieldset__element">
-                <fieldset className="fr-fieldset" id="credentials" aria-labelledby="credentials-messages">
-                  <div className="fr-fieldset__element">
-                    <span className="fr-hint-text">Sauf mention contraire, tous les champs sont obligatoires.</span>
-                  </div>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit} validate={validateForm} validateOnChange={false}>
+        {({ values, errors, isSubmitting, status, handleChange }) => {
+          // Match the original behaviour: errors only surface after a submit
+          // attempt. Fields are not wired to Formik's onBlur and
+          // validateOnChange is false, so `errors` is only populated on submit.
+          const emailError = errors.email
+          const passwordError = errors.password
+          return (
+            <Form id="login">
+              <fieldset
+                className="fr-fieldset"
+                id="login-fieldset"
+                aria-labelledby="login-fieldset-legend login-fieldset-messages"
+              >
+                <legend className="fr-fieldset__legend" id="login-fieldset-legend">
+                  <h2>Se connecter avec son compte</h2>
+                </legend>
 
-                  <div className="fr-fieldset__element">
-                    <div className={`fr-input-group${emailError ? ' fr-input-group--error' : ''}`}>
-                      <label className="fr-label" htmlFor="email">
-                        Email
-                        <span className="fr-hint-text">Format attendu : mail@gouv.fr</span>
-                      </label>
-                      <input
-                        className="fr-input"
-                        autoComplete="username"
-                        aria-required="true"
-                        aria-invalid={emailError ? true : undefined}
-                        aria-describedby="email-messages"
-                        name="email"
-                        id="email"
-                        type="text"
-                        placeholder={'mail@gouv.fr'}
-                        inputMode="email"
-                        value={values.email}
-                        onChange={handleChange}
-                      />
-                      <div className="fr-messages-group" id="email-messages" aria-live="polite">
-                        {emailError && <p className="fr-message fr-message--error">{emailError}</p>}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="fr-fieldset__element">
-                    <div className={`fr-password${passwordError ? ' fr-input-group--error' : ''}`} id="password">
-                      <label className="fr-label" htmlFor="password-input">
-                        Mot de passe
-                      </label>
-                      <div className="fr-input-wrap">
-                        <input
-                          className="fr-password__input fr-input"
-                          aria-describedby="password-input-messages"
-                          aria-required="true"
-                          aria-invalid={passwordError ? true : undefined}
-                          name="password"
-                          autoComplete="current-password"
-                          id="password-input"
-                          type={showPassword ? 'text' : 'password'}
-                          value={values.password}
-                          onChange={handleChange}
-                          placeholder="************"
-                        />
-                      </div>
-                      <div className="fr-messages-group" id="password-input-messages" aria-live="polite">
-                        {passwordError && <p className="fr-message fr-message--error">{passwordError}</p>}
-                      </div>
-                      <div className="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm">
-                        <input
-                          aria-label="Afficher le mot de passe"
-                          id="password-show"
-                          type="checkbox"
-                          checked={showPassword}
-                          onChange={() => setShowPassword(prev => !prev)}
-                        />
-                        <label className="fr-password__checkbox fr-label" htmlFor="password-show">
-                          Afficher
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="fr-messages-group" id="credentials-messages" aria-live="polite" />
-                </fieldset>
-              </div>
-
-              {status && !isSubmitting && (
                 <div className="fr-fieldset__element">
-                  <div className="fr-alert fr-alert--error fr-alert--sm" role="alert">
-                    <p>{status}</p>
-                  </div>
+                  <fieldset className="fr-fieldset" id="credentials" aria-labelledby="credentials-messages">
+                    <div className="fr-fieldset__element">
+                      <span className="fr-hint-text">Sauf mention contraire, tous les champs sont obligatoires.</span>
+                    </div>
+
+                    <div className="fr-fieldset__element">
+                      <div className={`fr-input-group${emailError ? ' fr-input-group--error' : ''}`}>
+                        <label className="fr-label" htmlFor="email">
+                          Email
+                          <span className="fr-hint-text">Format attendu : mail@gouv.fr</span>
+                        </label>
+                        <input
+                          className="fr-input"
+                          autoComplete="username"
+                          aria-required="true"
+                          aria-invalid={emailError ? true : undefined}
+                          aria-describedby="email-messages"
+                          name="email"
+                          id="email"
+                          type="text"
+                          placeholder={'mail@gouv.fr'}
+                          inputMode="email"
+                          value={values.email}
+                          onChange={handleChange}
+                        />
+                        <div className="fr-messages-group" id="email-messages" aria-live="polite">
+                          {emailError && <p className="fr-message fr-message--error">{emailError}</p>}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="fr-fieldset__element">
+                      <div className={`fr-password${passwordError ? ' fr-input-group--error' : ''}`} id="password">
+                        <label className="fr-label" htmlFor="password-input">
+                          Mot de passe
+                        </label>
+                        <div className="fr-input-wrap">
+                          <input
+                            className="fr-password__input fr-input"
+                            aria-describedby="password-input-messages"
+                            aria-required="true"
+                            aria-invalid={passwordError ? true : undefined}
+                            name="password"
+                            autoComplete="current-password"
+                            id="password-input"
+                            type={showPassword ? 'text' : 'password'}
+                            value={values.password}
+                            onChange={handleChange}
+                            placeholder="************"
+                          />
+                        </div>
+                        <div className="fr-messages-group" id="password-input-messages" aria-live="polite">
+                          {passwordError && <p className="fr-message fr-message--error">{passwordError}</p>}
+                        </div>
+                        <div className="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm">
+                          <input
+                            aria-label="Afficher le mot de passe"
+                            id="password-show"
+                            type="checkbox"
+                            checked={showPassword}
+                            onChange={() => setShowPassword(prev => !prev)}
+                          />
+                          <label className="fr-password__checkbox fr-label" htmlFor="password-show">
+                            Afficher
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="fr-messages-group" id="credentials-messages" aria-live="polite" />
+                  </fieldset>
                 </div>
-              )}
 
-              <div className="fr-fieldset__element">
-                <ul className="fr-btns-group">
-                  <li>
-                    <button className="fr-mt-2v fr-btn" type="submit" disabled={isSubmitting}>
-                      Se connecter
-                    </button>
-                  </li>
-                </ul>
-              </div>
+                {status && !isSubmitting && (
+                  <div className="fr-fieldset__element">
+                    <div className="fr-alert fr-alert--error fr-alert--sm" role="alert">
+                      <p>{status}</p>
+                    </div>
+                  </div>
+                )}
 
-              <div className="fr-messages-group" id="login-fieldset-messages" aria-live="polite" />
-            </fieldset>
-          </Form>
-        )
-      }}
-    </Formik>
+                <div className="fr-fieldset__element">
+                  <ul className="fr-btns-group">
+                    <li>
+                      <button className="fr-mt-2v fr-btn" type="submit" disabled={isSubmitting}>
+                        Se connecter
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="fr-messages-group" id="login-fieldset-messages" aria-live="polite" />
+              </fieldset>
+            </Form>
+          )
+        }}
+      </Formik>
+    </>
   )
 }
 

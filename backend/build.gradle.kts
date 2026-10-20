@@ -83,6 +83,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-log4j2")
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
+  implementation("org.springframework.boot:spring-boot-starter-security-oauth2-client")
   implementation("org.springframework.boot:spring-boot-starter-cache")
   implementation("org.springframework.boot:spring-boot-starter-flyway")
   implementation("com.github.ben-manes.caffeine:caffeine:3.2.3")

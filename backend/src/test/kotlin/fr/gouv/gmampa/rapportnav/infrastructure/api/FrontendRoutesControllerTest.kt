@@ -31,10 +31,13 @@ class FrontendRoutesControllerTest {
         response = mock()
     }
 
-    private fun createControllerWithHtml(htmlContent: String): FrontendRoutesController {
+    private fun createControllerWithHtml(
+        htmlContent: String,
+        oidcIssuerUri: String = "https://auth.agentconnect.gouv.fr/api/v2"
+    ): FrontendRoutesController {
         val indexFile = File(tempDir.toFile(), "index.html")
         indexFile.writeText(htmlContent)
-        return FrontendRoutesController(tempDir.toString(), "https://metabase.test")
+        return FrontendRoutesController(tempDir.toString(), "https://metabase.test", oidcIssuerUri)
     }
 
     @Nested
@@ -159,6 +162,34 @@ class FrontendRoutesControllerTest {
 
             verify(response).setHeader(argThat { this == "Content-Security-Policy" }, argThat {
                 this.contains("upgrade-insecure-requests")
+            })
+        }
+
+        @Test
+        fun `form-action should include the ProConnect origin so OIDC logout redirect is not blocked`() {
+            val html = "<html><head></head><body></body></html>"
+            controller = createControllerWithHtml(html, oidcIssuerUri = "https://auth.agentconnect.gouv.fr/api/v2")
+
+            whenever(request.isSecure).thenReturn(true)
+
+            controller.serveFrontend(request, response)
+
+            verify(response).setHeader(argThat { this == "Content-Security-Policy" }, argThat {
+                this.contains("form-action 'self' https://auth.agentconnect.gouv.fr;")
+            })
+        }
+
+        @Test
+        fun `form-action should fall back to self only when OIDC issuer is not configured`() {
+            val html = "<html><head></head><body></body></html>"
+            controller = createControllerWithHtml(html, oidcIssuerUri = "")
+
+            whenever(request.isSecure).thenReturn(true)
+
+            controller.serveFrontend(request, response)
+
+            verify(response).setHeader(argThat { this == "Content-Security-Policy" }, argThat {
+                this.contains("form-action 'self';") && !this.contains("agentconnect")
             })
         }
 

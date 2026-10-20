@@ -98,7 +98,12 @@ export default defineConfig({
     },
     proxy: {
       '/api': 'http://localhost:80',
-      '/graphql': 'http://localhost:80'
+      '/graphql': 'http://localhost:80',
+      // ProConnect (OIDC) endpoints handled by the backend. Note: '/login' itself is a
+      // frontend SPA route, so only the backend OAuth2 callback path is proxied.
+      '/oauth2': 'http://localhost:80',
+      '/login/oauth2': 'http://localhost:80',
+      '/logout': 'http://localhost:80'
     }
   },
   assetsInclude: ['**/*.odt']

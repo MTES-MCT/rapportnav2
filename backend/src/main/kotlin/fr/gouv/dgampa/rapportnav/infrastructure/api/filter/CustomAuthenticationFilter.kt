@@ -48,7 +48,12 @@ class CustomAuthenticationFilter(
                 SecurityContextHolder.getContext().authentication = authentication
             } catch (e: Exception) {
                 logger.error("Error while authenticating user", e)
-                SecurityContextHolder.clearContext()
+                // Do NOT clear the context here. A stale/expired Bearer token must not wipe an
+                // authentication already established upstream — in particular the ProConnect (OIDC)
+                // session restored by Spring's SecurityContextHolderFilter. Clearing it would make
+                // a leftover JWT in the client break session-based login (users/me -> 401, forcing
+                // a second ProConnect sign-in). We only ever set the context on success, so a
+                // failed parse has nothing of ours to roll back.
             }
         }
 

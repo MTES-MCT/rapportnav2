@@ -1,10 +1,13 @@
 import AuthToken from '@features/auth/utils/token'
 import { useQueryClient } from '@tanstack/react-query'
+import { useSelector } from '@tanstack/react-store'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { intersection } from 'lodash'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router'
 import { RoleType } from '../../common/types/role-type'
+import { State, store } from '../../../store'
+import { setUser } from '../../../store/slices/user-reducer'
 
 type AuthHook = {
   isAuthenticated: boolean
@@ -34,21 +37,50 @@ export const triggerGlobalLogout = () => {
   logoutHandler?.()
 }
 
+// Full-page POST to the backend logout endpoint (CSRF is disabled). Ends both the local
+// session and the ProConnect IdP session, then the backend redirects to /login.
+const submitBackendLogout = () => {
+  const form = document.createElement('form')
+  form.method = 'POST'
+  form.action = '/logout'
+  document.body.appendChild(form)
+  form.submit()
+}
+
 export const useAuth = (authTokenInstance: AuthToken = new AuthToken()): AuthHook => {
   const authTokenRef = useRef(authTokenInstance)
   const authToken = authTokenRef.current
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authToken.get())
+
+  // The current user is populated by AuthGuard from `users/me` and works for both auth
+  // methods. For legacy JWT/password users, the token (localStorage) remains the source
+  // of truth so behaviour is unchanged; ProConnect session users have no token and rely
+  // solely on the store.
+  const storeUser = useSelector(store, (state: State) => state.user)
+
+  const decodedToken = useCallback((): Token | undefined => {
+    const token = authToken?.get()
+    return token ? (jwtDecode(token) as Token) : undefined
+  }, [authToken])
+
+  const isAuthenticated = !!authToken.get() || !!storeUser?.id
 
   const logout = useCallback(async (): Promise<void> => {
+    const hadToken = !!authToken.get()
     authToken.remove()
-    setIsAuthenticated(false)
+    setUser(undefined)
 
     // clear react-query cache
     queryClient.clear()
 
-    navigate('/login', { replace: true })
+    if (!hadToken && import.meta.env.FRONTEND_OIDC_ENABLED === 'true') {
+      // ProConnect session user: end the backend + IdP session server-side.
+      submitBackendLogout()
+    } else {
+      // Legacy JWT/password user (stateless) or OIDC disabled: just go back to login.
+      navigate('/login', { replace: true })
+    }
   }, [authToken, queryClient, navigate])
 
   const navigateAndResetCache = async (to: string, keys: string[] = []) => {
@@ -57,29 +89,28 @@ export const useAuth = (authTokenInstance: AuthToken = new AuthToken()): AuthHoo
   }
 
   const isLoggedIn = useCallback((): Token | undefined => {
-    const token = authToken?.get()
-    return token ? jwtDecode(token) : undefined
-  }, [authToken])
+    const token = decodedToken()
+    if (token) return token
+    if (storeUser?.id) {
+      return { userId: storeUser.id, roles: storeUser.roles ?? [] } as Token
+    }
+    return undefined
+  }, [decodedToken, storeUser])
 
   const hasRoles = useCallback(
     (roles: RoleType[]): boolean => {
-      const token = authToken?.get()
-      if (!token) return false
-      return intersection((jwtDecode(token) as Token)?.roles, roles).length > 0
+      const currentRoles = decodedToken()?.roles ?? storeUser?.roles ?? []
+      return intersection(currentRoles, roles).length > 0
     },
-    [authToken]
+    [decodedToken, storeUser]
   )
 
   useEffect(() => {
-    if (!!authToken.get() && !isAuthenticated) {
-      setIsAuthenticated(true)
-    }
-
     // ✅ register global logout
     setGlobalLogout(() => {
       void logout()
     })
-  }, [isAuthenticated, logout])
+  }, [logout])
 
   const roleOptions = useMemo(
     () =>

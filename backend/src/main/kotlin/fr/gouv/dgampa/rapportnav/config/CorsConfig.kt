@@ -39,7 +39,10 @@ class CorsConfig(
         config.addAllowedHeader("X-Requested-With")
         config.addAllowedHeader("Accept")
 
-        config.allowCredentials = false
+        // Allow credentials so the ProConnect session cookie (JSESSIONID) is sent on
+        // cross-origin dev requests (localhost:5173 -> backend). Safe because origins are
+        // an explicit allowlist (never a wildcard). The legacy Bearer path is unaffected.
+        config.allowCredentials = true
 
         // Cache preflight response for 1 hour
         config.maxAge = 3600L

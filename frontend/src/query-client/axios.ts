@@ -4,7 +4,9 @@ import { triggerGlobalLogout } from '../v2/features/auth/hooks/use-auth.tsx'
 
 const axiosInstance = axios.create({
   baseURL: '/api/v2/', //TODO: import.meta.env.REACT_APP_BASE_URL,
-  withCredentials: false,
+  // Send the ProConnect session cookie (JSESSIONID) on every request. The legacy
+  // JWT path is unaffected (it relies on the Authorization header set below).
+  withCredentials: true,
   headers: {
     Accept: 'application/json',
     'Content-type': 'application/json'
@@ -26,7 +28,9 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   response => response,
   error => {
-    if (error.response?.status === 403) {
+    // 403 (legacy entry point) and 401 (ProConnect entry point / expired session)
+    // both mean "no longer authenticated" -> clean up and send back to login.
+    if (error.response?.status === 403 || error.response?.status === 401) {
       triggerGlobalLogout() // 🚀 clean + navigate
     }
 
