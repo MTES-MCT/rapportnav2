@@ -12,6 +12,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.mockito.kotlin.argThat
+import org.springframework.web.bind.annotation.GetMapping
 import java.io.File
 import java.nio.file.Path
 
@@ -188,6 +189,37 @@ class FrontendRoutesControllerTest {
             val cspNonce = cspNonceMatch!!.groupValues[1]
 
             assertEquals(htmlNonce, cspNonce, "Nonce in HTML should match nonce in CSP header")
+        }
+    }
+
+    @Nested
+    inner class Routes {
+        @Test
+        fun `should serve index html for public DSFR pages`() {
+            val mapping = FrontendRoutesController::class.java
+                .getMethod("serveFrontend", HttpServletRequest::class.java, HttpServletResponse::class.java)
+                .getAnnotation(GetMapping::class.java)
+
+            assertTrue(
+                mapping.value.toList().containsAll(
+                    listOf("/accessibilite", "/mentions-legales", "/donnees-personnelles", "/plan-du-site")
+                ),
+                "Public pages must be served by the SPA, otherwise a direct load returns 404"
+            )
+        }
+    }
+
+    @Nested
+    inner class RobotsHeader {
+        @Test
+        fun `should tell crawlers not to index nor follow`() {
+            controller = createControllerWithHtml("<html><head></head><body></body></html>")
+
+            whenever(request.isSecure).thenReturn(true)
+
+            controller.serveFrontend(request, response)
+
+            verify(response).setHeader("X-Robots-Tag", "noindex, nofollow")
         }
     }
 }

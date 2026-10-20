@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`LoginHeader > should match the snapshot 1`] = `
+exports[`PublicHeader > should match the snapshot 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>

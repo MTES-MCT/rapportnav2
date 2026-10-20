@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`LoginFooter > should match the snapshot 1`] = `
+exports[`PublicFooter > should match the snapshot 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
@@ -96,6 +96,50 @@ exports[`LoginFooter > should match the snapshot 1`] = `
           <div
             class="fr-footer__bottom"
           >
+            <ul
+              class="fr-footer__bottom-list"
+            >
+              <li
+                class="fr-footer__bottom-item"
+              >
+                <a
+                  class="fr-footer__bottom-link"
+                  href="/plan-du-site"
+                >
+                  Plan du site
+                </a>
+              </li>
+              <li
+                class="fr-footer__bottom-item"
+              >
+                <a
+                  class="fr-footer__bottom-link"
+                  href="/accessibilite"
+                >
+                  Accessibilité : non conforme
+                </a>
+              </li>
+              <li
+                class="fr-footer__bottom-item"
+              >
+                <a
+                  class="fr-footer__bottom-link"
+                  href="/mentions-legales"
+                >
+                  Mentions légales
+                </a>
+              </li>
+              <li
+                class="fr-footer__bottom-item"
+              >
+                <a
+                  class="fr-footer__bottom-link"
+                  href="/donnees-personnelles"
+                >
+                  Données personnelles
+                </a>
+              </li>
+            </ul>
             <div
               class="fr-footer__bottom-copy"
             >
@@ -231,6 +275,50 @@ exports[`LoginFooter > should match the snapshot 1`] = `
         <div
           class="fr-footer__bottom"
         >
+          <ul
+            class="fr-footer__bottom-list"
+          >
+            <li
+              class="fr-footer__bottom-item"
+            >
+              <a
+                class="fr-footer__bottom-link"
+                href="/plan-du-site"
+              >
+                Plan du site
+              </a>
+            </li>
+            <li
+              class="fr-footer__bottom-item"
+            >
+              <a
+                class="fr-footer__bottom-link"
+                href="/accessibilite"
+              >
+                Accessibilité : non conforme
+              </a>
+            </li>
+            <li
+              class="fr-footer__bottom-item"
+            >
+              <a
+                class="fr-footer__bottom-link"
+                href="/mentions-legales"
+              >
+                Mentions légales
+              </a>
+            </li>
+            <li
+              class="fr-footer__bottom-item"
+            >
+              <a
+                class="fr-footer__bottom-link"
+                href="/donnees-personnelles"
+              >
+                Données personnelles
+              </a>
+            </li>
+          </ul>
           <div
             class="fr-footer__bottom-copy"
           >
