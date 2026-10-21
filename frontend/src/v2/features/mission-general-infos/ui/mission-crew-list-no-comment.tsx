@@ -21,7 +21,7 @@ const MissionCrewListNoComment: React.FC<MissionCrewListNoCommentProps> = ({
     <FlexboxGrid key={`${name}-${index}`} align={'middle'}>
       <FlexboxGrid.Item colspan={18}>{<MissionCrewMemberText agent={crewMember?.agent} />}</FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={6}>
-        <Stack direction="row">
+        <Stack direction="row" justifyContent={'flex-end'}>
           <Stack.Item>
             <MissionCrewEditIconButton onClick={() => handleEdit(index)} />
           </Stack.Item>

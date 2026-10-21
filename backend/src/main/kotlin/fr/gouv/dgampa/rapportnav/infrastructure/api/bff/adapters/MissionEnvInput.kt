@@ -27,7 +27,10 @@ data class MissionEnvInput(
             observationsByUnit = observationsByUnit,
             controlUnits = controlUnits.map { controlUnit ->
                 controlUnit.takeIf { it.id != controlUnitId } ?: controlUnit.copy(
-                    resources = resources?.toMutableList() ?: controlUnit.resources
+                    // Usage values (km / engine hours) live in our DB only: never send them to MonitorEnv.
+                    resources = (resources ?: controlUnit.resources)
+                        ?.map { it.copy(nbKms = null, nbEngineHours = null) }
+                        ?.toMutableList()
                 )
             }
         )
