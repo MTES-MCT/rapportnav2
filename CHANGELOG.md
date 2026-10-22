@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.104.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.0...v2.104.1) (2026-10-22)
+
+
+### Bug Fixes
+
+* enable sati services ([81ba738](https://github.com/MTES-MCT/rapportnav2/commit/81ba738655fe1dee13ba696428d21b4be2214dff))
+
 ## [2.104.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.103.0...v2.104.0) (2026-10-22)
 
 
