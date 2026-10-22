@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.104.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.2...v2.104.3) (2026-10-22)
+
+
+### Bug Fixes
+
+* remove snapshots ([6916088](https://github.com/MTES-MCT/rapportnav2/commit/69160883b5ecf47004e024deb84740e8f3cc512a))
+
 ## [2.104.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.1...v2.104.2) (2026-10-22)
 
 
