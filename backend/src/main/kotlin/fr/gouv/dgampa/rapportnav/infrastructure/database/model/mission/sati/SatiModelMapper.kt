@@ -68,11 +68,8 @@ object SatiModelMapper {
     private fun SatiEstablishmentModel.toEntity(): SatiEstablishmentEntity {
         return SatiEstablishmentEntity(
             id = id,
-            isNotListed = isNotListed,
-            isNotSameAddress = isNotSameAddress,
             type = type?.let { SectorEstablishmentType.valueOf(it) },
             subType = subType?.let { SectorEstablishmentSubType.valueOf(it) },
-            address = address?.toAddressEntity(),
             owner = parties.firstOrNull { it.partyType == SatiPartyType.ESTABLISHMENT_OWNER.name }?.toEntity(),
             operator = parties.firstOrNull { it.partyType == SatiPartyType.ESTABLISHMENT_OPERATOR.name }?.toEntity()
         )
@@ -83,9 +80,7 @@ object SatiModelMapper {
             id = id,
             type = type?.name,
             subType = subType?.name,
-            isNotListed = isNotListed,
-            isNotSameAddress = isNotSameAddress,
-            address = address?.toAddressMap(),
+            establishmentId = data?.id,
             parties = mutableListOf<SatiPartyModel>().apply {
                 owner?.toModel(SatiPartyType.ESTABLISHMENT_OWNER)?.let { add(it) }
                 operator?.toModel(SatiPartyType.ESTABLISHMENT_OPERATOR)?.let { add(it) }

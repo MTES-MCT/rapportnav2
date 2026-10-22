@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Co
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlResource
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import org.assertj.core.api.Assertions.assertThat
@@ -440,7 +441,7 @@ class SatiMapperTest {
     inner class Establishment {
 
         @Test
-        fun `fromEntity then toEntity should preserve the establishment`() {
+        fun `fromEntity then toEntity should preserve the establishment and its company`() {
             val entity = SatiEntity(
                 module = SatiModuleType.M4,
                 actionId = "a",
@@ -448,21 +449,49 @@ class SatiMapperTest {
                     id = 9,
                     type = SectorEstablishmentType.GMS,
                     subType = SectorEstablishmentSubType.GMS_ONLY,
-                    isNotListed = true,
-                    isNotSameAddress = true,
                     owner = SatiPartyEntity(comments = "owner"),
                     operator = SatiPartyEntity(comments = "operator"),
-                    address = AddressEntity(town = "Brest")
+                    data = EstablishmentEntity(
+                        id = 13,
+                        name = "FOE",
+                        siren = "513691477",
+                        siret = "51369147700014",
+                        address = "12 Quai des Chartrons",
+                        city = "Bordeaux",
+                        zipcode = "33000",
+                        country = "FRA",
+                        isForeign = false,
+                        isNotSameAddress = true
+                    )
                 )
             )
 
             val output = SatiMapper.fromEntity(entity)
             assertThat(output.establishment?.subType).isEqualTo(SectorEstablishmentSubType.GMS_ONLY)
-            assertThat(output.establishment?.address?.town).isEqualTo("Brest")
+            assertThat(output.establishment?.data?.id).isEqualTo(13)
+            assertThat(output.establishment?.data?.name).isEqualTo("FOE")
+            assertThat(output.establishment?.data?.isNotSameAddress).isTrue()
 
             val roundTripped = SatiMapper.toEntity(output).establishment
-            assertThat(roundTripped).isEqualTo(entity.establishment?.copy(address = roundTripped?.address))
-            assertThat(roundTripped?.address?.town).isEqualTo("Brest")
+            assertThat(roundTripped?.id).isEqualTo(9)
+            assertThat(roundTripped?.type).isEqualTo(SectorEstablishmentType.GMS)
+            assertThat(roundTripped?.subType).isEqualTo(SectorEstablishmentSubType.GMS_ONLY)
+            assertThat(roundTripped?.owner?.comments).isEqualTo("owner")
+            assertThat(roundTripped?.operator?.comments).isEqualTo("operator")
+            assertThat(roundTripped?.data?.id).isEqualTo(13)
+            assertThat(roundTripped?.data?.siret).isEqualTo("51369147700014")
+            assertThat(roundTripped?.data?.address).isEqualTo("12 Quai des Chartrons")
+            assertThat(roundTripped?.data?.isNotSameAddress).isTrue()
+        }
+
+        @Test
+        fun `fromEntity should leave the company null when the establishment has none`() {
+            val entity = SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = SatiEstablishmentEntity())
+
+            val output = SatiMapper.fromEntity(entity)
+
+            assertThat(output.establishment?.data).isNull()
+            assertThat(SatiMapper.toEntity(output).establishment?.data).isNull()
         }
 
         @Test

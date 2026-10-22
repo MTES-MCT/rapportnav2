@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Co
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlResource
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Address
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Establishment
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Contact
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
 
@@ -116,11 +117,9 @@ object SatiMapper {
             id = id,
             type = type,
             subType = subType,
-            isNotListed = isNotListed,
-            isNotSameAddress = isNotSameAddress,
             owner = owner?.toEntity(),
             operator = operator?.toEntity(),
-            address = address?.toEntity()
+            data = data?.toEstablishmentEntity()
         )
     }
 
@@ -129,11 +128,9 @@ object SatiMapper {
             id = id,
             type = type,
             subType = subType,
-            isNotListed = isNotListed,
-            isNotSameAddress = isNotSameAddress,
             owner = owner?.toOutput(),
             operator = operator?.toOutput(),
-            address = address?.toOutput()
+            data = data?.let { Establishment.fromEstablishmentEntity(it) }
         )
     }
 

@@ -6,6 +6,7 @@ import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
@@ -370,30 +371,26 @@ class SatiModelMapperTest {
             id = 9,
             type = SectorEstablishmentType.GMS,
             subType = SectorEstablishmentSubType.GMS_FISHING,
-            isNotListed = true,
-            isNotSameAddress = true,
             owner = SatiPartyEntity(comments = "owner", signature = true),
             operator = SatiPartyEntity(comments = "operator"),
-            address = AddressEntity(town = "Brest", zipcode = "29200", country = "FRA")
+            data = EstablishmentEntity(id = 13, name = "FOE")
         )
 
         @Test
-        fun `toModel should map the establishment with typed parties and its address`() {
+        fun `toModel should map the establishment with typed parties and its company id`() {
             val entity = SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = buildEstablishmentEntity())
 
             val model = SatiModelMapper.toModel(entity).establishments.single()
 
             assertThat(model.type).isEqualTo("GMS")
             assertThat(model.subType).isEqualTo("GMS_FISHING")
-            assertThat(model.isNotListed).isTrue()
-            assertThat(model.isNotSameAddress).isTrue()
-            assertThat(model.address).containsEntry("town", "Brest").doesNotContainKey("id")
+            assertThat(model.establishmentId).isEqualTo(13)
             assertThat(model.parties.map { it.partyType })
                 .containsExactly(SatiPartyType.ESTABLISHMENT_OWNER.name, SatiPartyType.ESTABLISHMENT_OPERATOR.name)
         }
 
         @Test
-        fun `toEntity should map the establishment back to enums, owner, operator and address`() {
+        fun `toEntity should map the establishment back to enums, owner and operator`() {
             val model = SatiModelMapper.toModel(
                 SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = buildEstablishmentEntity())
             )
@@ -402,11 +399,18 @@ class SatiModelMapperTest {
 
             assertThat(establishment?.type).isEqualTo(SectorEstablishmentType.GMS)
             assertThat(establishment?.subType).isEqualTo(SectorEstablishmentSubType.GMS_FISHING)
-            assertThat(establishment?.isNotListed).isTrue()
             assertThat(establishment?.owner?.comments).isEqualTo("owner")
             assertThat(establishment?.owner?.signature).isTrue()
             assertThat(establishment?.operator?.comments).isEqualTo("operator")
-            assertThat(establishment?.address?.town).isEqualTo("Brest")
+        }
+
+        @Test
+        fun `toEntity should not load the company, it is computed from the action`() {
+            val model = SatiModelMapper.toModel(
+                SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = buildEstablishmentEntity())
+            )
+
+            assertThat(SatiModelMapper.toEntity(model).establishment?.data).isNull()
         }
 
         @Test
@@ -418,52 +422,21 @@ class SatiModelMapperTest {
         }
 
         @Test
-        fun `an establishment without address should keep a null json address`() {
+        fun `an establishment without company should store no company id`() {
             val entity = SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = SatiEstablishmentEntity())
 
             val model = SatiModelMapper.toModel(entity)
 
-            assertThat(model.establishments.single().address).isNull()
-            assertThat(SatiModelMapper.toEntity(model).establishment?.address).isNull()
+            assertThat(model.establishments.single().establishmentId).isNull()
         }
 
         @Test
-        fun `address coordinates should round trip through the json map as doubles`() {
-            val address = AddressEntity(lng = -4.48, lat = 48.39, town = "Brest")
-            val entity = SatiEntity(
-                module = SatiModuleType.M4, actionId = "a", establishment = SatiEstablishmentEntity(address = address)
-            )
-
-            val model = SatiModelMapper.toModel(entity)
-            model.establishments.single().address = model.establishments.single().address!!.mapValues { (k, v) ->
-                if (k == "lat") 48 else v // simulate an integer-valued number coming back from the json column
-            }
-
-            val back = SatiModelMapper.toEntity(model).establishment?.address
-            assertThat(back?.lng).isEqualTo(-4.48)
-            assertThat(back?.lat).isEqualTo(48.0)
-            assertThat(back?.town).isEqualTo("Brest")
-        }
-
-        @Test
-        fun `an establishment with an empty address should store no json address`() {
-            val entity = SatiEntity(
-                module = SatiModuleType.M4, actionId = "a",
-                establishment = SatiEstablishmentEntity(address = AddressEntity())
-            )
-
-            assertThat(SatiModelMapper.toModel(entity).establishments.single().address).isNull()
-        }
-
-        @Test
-        fun `flags default to false and models are equal when nothing changed`() {
+        fun `models are equal when nothing changed`() {
             val entity = SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = SatiEstablishmentEntity())
 
             val first = SatiModelMapper.toModel(entity)
             val second = SatiModelMapper.toModel(entity)
 
-            assertThat(first.establishments.single().isNotListed).isFalse()
-            assertThat(first.establishments.single().isNotSameAddress).isFalse()
             assertThat(first).isEqualTo(second)
         }
     }

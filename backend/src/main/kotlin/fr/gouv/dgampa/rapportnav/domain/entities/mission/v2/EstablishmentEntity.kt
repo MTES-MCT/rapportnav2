@@ -12,6 +12,7 @@ class EstablishmentEntity(
     var country: String? = null,
     var zipcode: String? = null,
     var isForeign: Boolean? = null,
+    var isNotSameAddress: Boolean? = null,
 ) {
 
     fun toEstablishmentModel(): EstablishmentModel {
@@ -24,7 +25,8 @@ class EstablishmentEntity(
             city = city,
             country = country,
             zipcode = zipcode,
-            isForeign = isForeign
+            isForeign = isForeign,
+            isNotSameAddress = isNotSameAddress ?: false
         )
     }
 
@@ -39,7 +41,8 @@ class EstablishmentEntity(
                 city = model.city,
                 country = model.country,
                 zipcode = model.zipcode,
-                isForeign = model.isForeign
+                isForeign = model.isForeign,
+                isNotSameAddress = model.isNotSameAddress
             )
         }
     }

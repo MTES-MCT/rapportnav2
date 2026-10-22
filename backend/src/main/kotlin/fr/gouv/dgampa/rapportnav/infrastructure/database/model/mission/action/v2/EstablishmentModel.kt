@@ -36,8 +36,11 @@ class EstablishmentModel(
     @Column(name = "zipcode", nullable = true)
     var zipcode: String? = null,
 
-    @Column(name = "is_foreign", nullable = true)
+    @Column(name = "is_not_listed", nullable = true)
     var isForeign: Boolean? = null,
+
+    @Column(name = "is_not_same_address", nullable = false)
+    var isNotSameAddress: Boolean = false,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
