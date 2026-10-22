@@ -54,7 +54,7 @@ exports[`MissionListPageTitle > should match the snapshot 1`] = `
             color="#CCCFD6"
             font-size="13"
           >
-            Version v2.103.0
+            Version v2.104.1
           </p>
         </div>
       </div>
@@ -132,7 +132,7 @@ exports[`MissionListPageTitle > should match the snapshot 1`] = `
           color="#CCCFD6"
           font-size="13"
         >
-          Version v2.103.0
+          Version v2.104.1
         </p>
       </div>
     </div>
