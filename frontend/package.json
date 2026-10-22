@@ -9,14 +9,14 @@
   "scripts": {
     "env-prepare": "import-meta-env-prepare -x ./.env.local.defaults",
     "dev": "npm run env-prepare && vite",
-    "build": "npm run env-prepare && vite build && import-meta-env -x .env.example -p dist/index.html",
+    "build": "vite build",
     "build:with-sourcemaps": "vite build --sourcemap",
     "tsc": "tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10000",
     "preview": "vite preview",
-    "test": "vitest run src",
-    "test:watch": "vitest src",
-    "test:coverage": "vitest run --coverage",
+    "test": "npm run env-prepare && vitest run src",
+    "test:watch": "npm run env-prepare && vitest src",
+    "test:coverage": "npm run env-prepare && vitest run --coverage",
     "snapshots": "vitest -u",
     "docs": "docsify serve docs"
   },
@@ -48,7 +48,6 @@
     "yup": "^1.7.0"
   },
   "devDependencies": {
-    "@import-meta-env/cli": "^0.7.4",
     "@import-meta-env/prepare": "^0.2.3",
     "@import-meta-env/unplugin": "^0.6.2",
     "@tanstack/react-query-devtools": "^5.104.0",

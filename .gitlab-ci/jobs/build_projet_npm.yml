@@ -7,7 +7,6 @@ build_projet_npm:
   image: node:26
   script:
     - cd frontend
-    - cp .env.example .env
     - npm ci --cache ${CI_PROJECT_DIR}/.npm
     - npm run build --verbose
   cache:
@@ -38,7 +37,6 @@ test_projet_npm:
       artifacts: true
   script:
     - cd frontend
-    - cp .env.example .env
     - npm ci --cache ${CI_PROJECT_DIR}/.npm
     - npm run test:coverage
   cache:
