@@ -3,28 +3,24 @@ import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans'
 import { IconProps, THEME } from '@mtes-mct/monitor-ui'
 import { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
-import { MissionSourceEnum } from '../../types/mission-types'
+import { MissionAction } from '../../types/mission-action'
 import { OwnerType } from '../../types/owner-type'
 import ActionHeaderAction from '../elements/action-header-action'
 
 interface ActionHeaderTitleWrapperProps {
   title?: string
-  actionId?: string
   ownerId: string
   ownerType: OwnerType
-  source: MissionSourceEnum
-  startDateTimeUtc?: string
+  action: MissionAction
   icon?: FunctionComponent<IconProps>
 }
 
 export const ActionHeaderTitleWrapper: React.FC<ActionHeaderTitleWrapperProps> = ({
   icon,
   title,
-  source,
-  actionId,
   ownerId,
   ownerType,
-  startDateTimeUtc
+  action
 }) => {
   return (
     <Stack direction="row" spacing="0.5rem" style={{ width: '100%', alignItems: 'initial' }}>
@@ -38,13 +34,15 @@ export const ActionHeaderTitleWrapper: React.FC<ActionHeaderTitleWrapperProps> =
           </Stack.Item>
           <Stack.Item>
             <Text as="h2" weight={'normal'}>
-              ({formatDateTimeForFrenchHumans(startDateTimeUtc)})
+              ({formatDateTimeForFrenchHumans(action.data.startDateTimeUtc)})
             </Text>
           </Stack.Item>
         </Stack>
       </Stack.Item>
       <Stack.Item>
-        {actionId && <ActionHeaderAction source={source} actionId={actionId} ownerId={ownerId} ownerType={ownerType} />}
+        {action.id && (
+          <ActionHeaderAction action={action} actionId={action.id} ownerId={ownerId} ownerType={ownerType} />
+        )}
       </Stack.Item>
     </Stack>
   )
