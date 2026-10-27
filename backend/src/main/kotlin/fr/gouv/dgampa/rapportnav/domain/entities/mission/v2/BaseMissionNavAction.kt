@@ -52,7 +52,7 @@ interface BaseMissionNavAction {
     var reason: ActionStatusReason?
     var nbrOfHours: Int?
     var trainingType: String?
-    var unitManagementTrainingType: String?
+    var unitManagementTrainingType: UnitManagementTrainingTypeEnum?
     var isWithinDepartment: Boolean?
     var hasDivingDuringOperation: Boolean?
     var incidentDuringOperation: Boolean?

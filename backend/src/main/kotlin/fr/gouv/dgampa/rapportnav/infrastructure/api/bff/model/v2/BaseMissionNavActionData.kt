@@ -45,7 +45,7 @@ interface BaseMissionNavActionData {
     val reason: ActionStatusReason?
     val nbrOfHours: Int?
     val trainingType: String?
-    val unitManagementTrainingType: String?
+    val unitManagementTrainingType: UnitManagementTrainingTypeEnum?
     val isWithinDepartment: Boolean?
     val hasDivingDuringOperation: Boolean?
     val incidentDuringOperation: Boolean?

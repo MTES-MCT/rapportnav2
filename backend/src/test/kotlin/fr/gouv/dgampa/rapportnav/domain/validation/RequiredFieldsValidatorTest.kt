@@ -178,7 +178,7 @@ class RequiredFieldsValidatorTest {
             sectorEstablishmentType: SectorEstablishmentType? = null,
             fishAuction: FishAuctionEntity? = null,
             establishment: EstablishmentEntity? = null,
-            unitManagementTrainingType: String? = null,
+            unitManagementTrainingType: UnitManagementTrainingTypeEnum? = null,
             agentIds: List<Int>? = null
         ) = MissionNavActionEntity(
             id = UUID.randomUUID(),
@@ -316,7 +316,7 @@ class RequiredFieldsValidatorTest {
         fun `should require agentIds for UNIT_MANAGEMENT_TRAINING when null`() {
             val entity = createNavAction(
                 actionType = ActionType.UNIT_MANAGEMENT_TRAINING,
-                unitManagementTrainingType = "SHOOTING",
+                unitManagementTrainingType = UnitManagementTrainingTypeEnum.SHOOTING,
                 agentIds = null
             )
             val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
@@ -329,7 +329,7 @@ class RequiredFieldsValidatorTest {
         fun `should require agentIds for UNIT_MANAGEMENT_TRAINING when empty`() {
             val entity = createNavAction(
                 actionType = ActionType.UNIT_MANAGEMENT_TRAINING,
-                unitManagementTrainingType = "SHOOTING",
+                unitManagementTrainingType = UnitManagementTrainingTypeEnum.SHOOTING,
                 agentIds = emptyList()
             )
             val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
@@ -341,7 +341,7 @@ class RequiredFieldsValidatorTest {
         fun `should not require agentIds for UNIT_MANAGEMENT_TRAINING when provided`() {
             val entity = createNavAction(
                 actionType = ActionType.UNIT_MANAGEMENT_TRAINING,
-                unitManagementTrainingType = "SHOOTING",
+                unitManagementTrainingType = UnitManagementTrainingTypeEnum.SHOOTING,
                 agentIds = listOf(3, 4)
             )
             val result = validator.validateCompleteness(entity, ValidationPolicies.v1)
