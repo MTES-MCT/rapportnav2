@@ -49,6 +49,24 @@ class MissionNavActionEntityTest {
     }
 
     @Test
+    fun `fromMissionActionModel maps a known unitManagementTrainingType`() {
+        val model = MissionActionModelMock.create().copy(unitManagementTrainingType = "SHOOTING")
+
+        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+
+        assertThat(entity.unitManagementTrainingType).isEqualTo(UnitManagementTrainingTypeEnum.SHOOTING)
+    }
+
+    @Test
+    fun `fromMissionActionModel reads an unknown unitManagementTrainingType as null`() {
+        val model = MissionActionModelMock.create().copy(unitManagementTrainingType = "UNKNOWN_TYPE")
+
+        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+
+        assertThat(entity.unitManagementTrainingType).isNull()
+    }
+
+    @Test
     fun `execute should retrieve entity  from model`() {
         val model = getActionModel()
         val entity = MissionNavActionEntity.fromMissionActionModel(model)
@@ -91,7 +109,7 @@ class MissionNavActionEntityTest {
         assertThat(entity.reason.toString()).isEqualTo(model.reason.toString())
         assertThat(entity.nbrOfHours).isEqualTo(model.nbrOfHours)
         assertThat(entity.trainingType).isEqualTo(model.trainingType)
-        assertThat(entity.unitManagementTrainingType).isEqualTo(model.unitManagementTrainingType)
+        assertThat(entity.unitManagementTrainingType).isEqualTo(UnitManagementTrainingTypeEnum.DIVING)
         assertThat(entity.hasDivingDuringOperation).isEqualTo(model.hasDivingDuringOperation)
         assertThat(entity.incidentDuringOperation).isEqualTo(model.incidentDuringOperation)
         assertThat(entity.isWithinDepartment).isEqualTo(model.isWithinDepartment)
@@ -165,6 +183,7 @@ class MissionNavActionEntityTest {
             fishingGearType = FishingGearType.CASHIER,
             controlType = "my control type",
             securityVisitType = SecurityVisitType.SCHOOL_BOAT,
+            unitManagementTrainingType = UnitManagementTrainingTypeEnum.FIRE,
             establishment = EstablishmentEntity(id = 3, name  = "myEstablishment")
         )
         val model = entity.toMissionActionModel()
@@ -209,7 +228,7 @@ class MissionNavActionEntityTest {
         assertThat(model.nbrOfHours).isEqualTo(entity.nbrOfHours)
 
         assertThat(model.trainingType).isEqualTo(entity.trainingType)
-        assertThat(model.unitManagementTrainingType).isEqualTo(entity.unitManagementTrainingType)
+        assertThat(model.unitManagementTrainingType).isEqualTo("FIRE")
         assertThat(model.hasDivingDuringOperation).isEqualTo(entity.hasDivingDuringOperation)
         assertThat(model.incidentDuringOperation).isEqualTo(entity.incidentDuringOperation)
         assertThat(model.isWithinDepartment).isEqualTo(true)

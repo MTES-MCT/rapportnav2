@@ -50,7 +50,7 @@ class MissionNavActionData(
     override val targets: List<Target>? = null,
     override val nbrOfHours: Int? = null,
     override val trainingType: String? = null,
-    override val unitManagementTrainingType: String? = null,
+    override val unitManagementTrainingType: UnitManagementTrainingTypeEnum? = null,
     override val isWithinDepartment: Boolean? = null,
     override val hasDivingDuringOperation: Boolean? = null,
     override val incidentDuringOperation: Boolean? = null,
