@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.105.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.3...v2.105.0) (2026-10-27)
+
+
+### Features
+
+* add resource usage metrics to ULAM general info [#1405](https://github.com/MTES-MCT/rapportnav2/issues/1405) ([707b89c](https://github.com/MTES-MCT/rapportnav2/commit/707b89cff52dd0156970e25d7a5137b541b38d2b))
+
 ## [2.104.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.2...v2.104.3) (2026-10-22)
 
 
