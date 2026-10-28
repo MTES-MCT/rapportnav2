@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.106.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.1...v2.106.0) (2026-10-28)
+
+
+### Features
+
+* **Missions:** add mission list filtering per dates, completion, status ([c06cf80](https://github.com/MTES-MCT/rapportnav2/commit/c06cf805b14fc0aeebfca6fb576977d50d9af1eb))
+
+## [2.105.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.0...v2.105.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* disable sati ([eb4c16a](https://github.com/MTES-MCT/rapportnav2/commit/eb4c16a27e92a31f70f503a20c34ac471e82d2bc))
+
+## [2.105.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.3...v2.105.0) (2026-10-27)
+
+
+### Features
+
+* add resource usage metrics to ULAM general info [#1405](https://github.com/MTES-MCT/rapportnav2/issues/1405) ([707b89c](https://github.com/MTES-MCT/rapportnav2/commit/707b89cff52dd0156970e25d7a5137b541b38d2b))
+
 ## [2.104.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.2...v2.104.3) (2026-10-22)
 
 

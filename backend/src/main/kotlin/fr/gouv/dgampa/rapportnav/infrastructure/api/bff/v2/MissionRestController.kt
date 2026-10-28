@@ -1,13 +1,15 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListItem
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionListPage
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -29,25 +31,30 @@ class MissionRestController(
 ) {
 
     /**
-     * Retrieves a list of missions from the environment and combines them with fictive missions specific to the user.
+     * Retrieves one "load more" page of the user's missions, newest first, combining MonitorEnv missions (scoped to
+     * the user's control units) with the user's local nav-only missions.
      *
-     * This endpoint accepts query parameters `startDateTimeUtc` (required) and `endDateTimeUtc` (optional) to filter missions
-     * within a specific date range. It queries the environment for missions matching the user's control units and enriches
-     * the data to ensure completeness. Additionally, it appends fictive missions tailored for the user.
+     * Dates are optional: with no date range the most recent missions overall are returned. Pagination is driven by
+     * `offset` / `limit` over the merged stream; the response carries `hasMore` / `nextOffset` for the next page.
      *
-     * @param startDateTimeUtc The start of the date range (UTC) for filtering missions.
-     * @param endDateTimeUtc The end of the date range (UTC) for filtering missions. Optional.
-     * @return A response containing a list of enriched missions, both retrieved and fictive, or an error status if the process fails.
+     * @param startDateTimeUtc Optional start of the date range (UTC) to narrow the list.
+     * @param endDateTimeUtc Optional end of the date range (UTC) to narrow the list.
+     * @param statuses Optional multi-select filter on the computed mission status.
+     * @param completenessStatuses Optional multi-select filter on the stats-completeness status.
+     * @param reportTypes Optional multi-select filter on the mission report type.
+     * @param offset Index into the merged stream for this page (default 0).
+     * @param limit Page size (default 15).
+     * @return A [MissionListPage] with the page items and `hasMore` / `nextOffset` paging metadata.
      */
     @GetMapping("")
-    @Operation(summary = "Get the list of missions for a specific user")
+    @Operation(summary = "Get a paginated list of missions for a specific user")
     @ApiResponses(
         value = [
             ApiResponse(
                 responseCode = "200", description = "Found missions", content = [
                     (Content(
                         mediaType = "application/json",
-                        array = (ArraySchema(schema = Schema(implementation = MissionListItem::class)))
+                        schema = Schema(implementation = MissionListPage::class)
                     ))
                 ]
             ),
@@ -55,12 +62,24 @@ class MissionRestController(
         ]
     )
     fun getMissions(
-        @RequestParam("startDateTimeUtc") startDateTimeUtc: Instant,
-        @RequestParam(name = "endDateTimeUtc", required = false) endDateTimeUtc: Instant? = null
-    ) : List<MissionListItem> {
+        @RequestParam(name = "startDateTimeUtc", required = false) startDateTimeUtc: Instant? = null,
+        @RequestParam(name = "endDateTimeUtc", required = false) endDateTimeUtc: Instant? = null,
+        @RequestParam(name = "statuses", required = false) statuses: List<MissionStatusEnum>? = null,
+        @RequestParam(name = "completenessStatuses", required = false) completenessStatuses: List<CompletenessForStatsStatusEnum>? = null,
+        @RequestParam(name = "reportTypes", required = false) reportTypes: List<MissionReportTypeEnum>? = null,
+        @RequestParam(name = "offset", required = false, defaultValue = "0") offset: Int = 0,
+        @RequestParam(name = "limit", required = false, defaultValue = "15") limit: Int = 15,
+    ) : MissionListPage {
         return getMissionList.execute(
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
+            filter = MissionListFilter(
+                statuses = statuses,
+                completenessStatuses = completenessStatuses,
+                reportTypes = reportTypes,
+            ),
+            offset = offset,
+            limit = limit,
         )
     }
 

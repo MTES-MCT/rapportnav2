@@ -8,13 +8,17 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IResourceUsageRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.*
+import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionModelMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.passenger.MissionPassengerEntityMock
@@ -65,6 +69,18 @@ class UpdateGeneralInfoTest {
 
     @MockitoBean
     private lateinit var entityValidityValidator: EntityValidityValidator
+
+    @MockitoBean
+    private lateinit var resourceUsageRepository: IResourceUsageRepository
+
+    @MockitoBean
+    private lateinit var getEnvMissionById: GetEnvMissionById
+
+    @MockitoBean
+    private lateinit var syncLocalMissionWithMonitorEnv: SyncLocalMissionWithMonitorEnv
+
+    @MockitoBean
+    private lateinit var recomputeMissionValidation: RecomputeMissionValidation
 
     @BeforeEach
     fun setup() {
@@ -397,6 +413,62 @@ class UpdateGeneralInfoTest {
             resources = missionGeneralInfoEntity.resources?.map { it }
         )
         verify(patchMissionEnv).execute(input)
+        verify(recomputeMissionValidation).forEnvMission(externalId)
+    }
+
+    @Test
+    fun `execute by UUID should recompute the nav mission validation when there is no MonitorEnv mirror`() {
+        val missionIdUUID = UUID.randomUUID()
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(missionIdUUID = missionIdUUID, service = null)
+        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)
+        `when`(getMissionGeneralInfoByMissionId.execute(missionIdUUID))
+            .thenReturn(createMissionGeneralInfoEntityData(missionIdUUID = missionIdUUID, serviceId = null))
+        `when`(generalInfoRepository.save(missionGeneralInfoEntity))
+            .thenReturn(missionGeneralInfoEntity.toMissionGeneralInfoModel())
+
+        updateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
+
+        verify(recomputeMissionValidation).forNavMission(missionIdUUID)
+        verify(recomputeMissionValidation, never()).forEnvMission(anyOrNull())
+    }
+
+    @Test
+    fun `execute by Int should persist usage before patching MonitorEnv, then recompute the env mission`() {
+        val missionId = 123
+        val local = MissionModelMock.create()
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(missionId = missionId)
+        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
+        `when`(getMissionGeneralInfoByMissionId.execute(missionId))
+            .thenReturn(createMissionGeneralInfoEntityData(missionId, serviceId = null))
+        `when`(generalInfoRepository.save(missionGeneralInfoEntity))
+            .thenReturn(missionGeneralInfoEntity.toMissionGeneralInfoModel())
+        `when`(getMissionByExternalId.execute(missionId.toString())).thenReturn(local)
+
+        updateGeneralInfo.execute(missionId, missionGeneralInfo)
+
+        val order = inOrder(resourceUsageRepository, patchMissionEnv, recomputeMissionValidation)
+        order.verify(resourceUsageRepository).replaceForMission(local.id, emptyList())
+        order.verify(patchMissionEnv).execute(anyOrNull())
+        order.verify(recomputeMissionValidation).forEnvMission(missionId)
+    }
+
+    @Test
+    fun `execute by Int should create the local mirror row when missing so usage is not dropped`() {
+        val missionId = 123
+        val created = MissionModelMock.create()
+        val envMission = EnvMissionMock.create(id = missionId)
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(missionId = missionId)
+        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
+        `when`(getMissionGeneralInfoByMissionId.execute(missionId))
+            .thenReturn(createMissionGeneralInfoEntityData(missionId, serviceId = null))
+        `when`(generalInfoRepository.save(missionGeneralInfoEntity))
+            .thenReturn(missionGeneralInfoEntity.toMissionGeneralInfoModel())
+        `when`(getEnvMissionById.execute(missionId)).thenReturn(envMission)
+        `when`(syncLocalMissionWithMonitorEnv.execute(missionId, envMission)).thenReturn(created)
+
+        updateGeneralInfo.execute(missionId, missionGeneralInfo)
+
+        verify(resourceUsageRepository).replaceForMission(created.id, emptyList())
     }
 
 }

@@ -91,7 +91,7 @@ class FrontendRoutesController(
         val csp = "default-src 'self'; " +
             "script-src 'self' 'nonce-$nonce'; " +
             "style-src 'self' 'unsafe-inline'; " +
-            "img-src 'self'; " +
+            "img-src 'self' data:; " +
             "font-src 'self' data:; " +
             "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
             "frame-src $metabaseSiteUrl; " +
