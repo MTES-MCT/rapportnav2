@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.106.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.1...v2.106.0) (2026-10-28)
+
+
+### Features
+
+* **Missions:** add mission list filtering per dates, completion, status ([c06cf80](https://github.com/MTES-MCT/rapportnav2/commit/c06cf805b14fc0aeebfca6fb576977d50d9af1eb))
+
 ## [2.105.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.0...v2.105.1) (2026-10-28)
 
 
