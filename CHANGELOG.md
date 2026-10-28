@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.106.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.0...v2.106.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* channel frontend env vars thru backend ([e6cb2b4](https://github.com/MTES-MCT/rapportnav2/commit/e6cb2b4dc1b043322aaac258a6ca6eb2b431e786))
+* surface training action in patrol data [#1603](https://github.com/MTES-MCT/rapportnav2/issues/1603) ([06fb0e8](https://github.com/MTES-MCT/rapportnav2/commit/06fb0e8b24ef60246ad7ef14ea4163f5516838ba))
+
 ## [2.106.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.1...v2.106.0) (2026-10-28)
 
 
