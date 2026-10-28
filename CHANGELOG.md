@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.105.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.0...v2.105.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* disable sati ([eb4c16a](https://github.com/MTES-MCT/rapportnav2/commit/eb4c16a27e92a31f70f503a20c34ac471e82d2bc))
+
 ## [2.105.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.3...v2.105.0) (2026-10-27)
 
 
