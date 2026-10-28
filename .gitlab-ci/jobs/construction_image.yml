@@ -11,12 +11,10 @@ construction_image:
     GIT_STRATEGY: fetch
     GIT_CLEAN_FLAGS: none
     DOCKER_HOST: tcp://dockerhost:2375/
-    DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   services:
     - name: docker:20.10.5-dind
       alias: dockerhost
-      command: ["--insecure-registry=nexus.dsi.damgm.i2:5000"]
   script:
     # TODO à adapter en fonction du projet
     - docker build --pull -f infra/docker/app/Dockerfile .
