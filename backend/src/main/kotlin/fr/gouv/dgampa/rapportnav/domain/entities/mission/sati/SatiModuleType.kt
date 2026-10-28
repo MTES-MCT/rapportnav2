@@ -12,6 +12,10 @@ enum class SatiModuleType {
     M6,
     M7;
 
+    fun hasVessel(): Boolean = this == M1 || this == M3
+
+    fun hasEstablishment(): Boolean = this == M4
+
     companion object {
         fun fromMissionActionType(type: MissionActionType): SatiModuleType? {
             if (!type.toString().endsWith("_CONTROL")) return null

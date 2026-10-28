@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import LoginHeader from '../features/auth/components/login/login-header.tsx'
-import LoginFooter from '../features/auth/components/login/login-footer.tsx'
+import PublicHeader from '../features/public/components/layout/public-header.tsx'
+import PublicFooter from '../features/public/components/layout/public-footer.tsx'
 import LoginForm from '../features/auth/components/login/login-form.tsx'
 import '@gouvfr/dsfr/dist/dsfr.min.css'
 // Color/background utility classes (e.g. fr-background-alt--grey) live in a
@@ -30,7 +30,7 @@ const LoginPage: FC = () => (
       </nav>
     </div>
 
-    <LoginHeader />
+    <PublicHeader />
 
     <main className="fr-pt-md-14v" role="main" id="content" tabIndex={-1} style={{ flex: '1 0 auto' }}>
       <div className="fr-container fr-container--fluid fr-mb-md-14v">
@@ -49,7 +49,7 @@ const LoginPage: FC = () => (
       </div>
     </main>
 
-    <LoginFooter />
+    <PublicFooter />
   </div>
 )
 

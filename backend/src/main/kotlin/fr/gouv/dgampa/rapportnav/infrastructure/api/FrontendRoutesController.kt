@@ -32,6 +32,10 @@ class FrontendRoutesController(
             "/",
             "/login",
             "/signup",
+            "/accessibilite",
+            "/mentions-legales",
+            "/donnees-personnelles",
+            "/plan-du-site",
             "/admin",
             "/pam/**",
             "/ulam/**",
@@ -61,6 +65,9 @@ class FrontendRoutesController(
 
         // Prevent caching of HTML (each response has a unique CSP nonce)
         response.setHeader("Cache-Control", "no-store")
+
+        // Keep the app out of search engines (mirrors the robots meta tag in index.html)
+        response.setHeader("X-Robots-Tag", "noindex, nofollow")
 
         // Set CSP header with nonce
         val isSecure = request.isSecure

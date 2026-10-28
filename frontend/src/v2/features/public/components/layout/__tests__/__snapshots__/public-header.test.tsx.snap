@@ -1,63 +1,59 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MissionListPageTitle > should match the snapshot 1`] = `
+exports[`PublicHeader > should match the snapshot 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div
-        class="rs-stack"
-        style="align-items: flex-start; flex-direction: column;"
+      <header
+        class="fr-header"
+        role="banner"
       >
         <div
-          class="rs-stack-item"
+          class="fr-header__body"
         >
           <div
-            class="rs-stack"
-            style="align-items: center; flex-direction: row; gap: 8px; width: 100%;"
+            class="fr-container"
           >
             <div
-              class="rs-stack-item"
+              class="fr-header__body-row"
             >
-              <h4>
-                Rapport Nav 
-              </h4>
-            </div>
-            <div
-              class="rs-stack-item"
-            >
-              <h4>
-                 | 
-              </h4>
-            </div>
-            <div
-              class="rs-stack-item"
-            >
-              <h4
-                style="color: rgb(86, 151, 210);"
+              <div
+                class="fr-header__brand fr-enlarge-link"
               >
-                 
-                Jeanne-Barret
-              </h4>
+                <div
+                  class="fr-header__brand-top"
+                >
+                  <div
+                    class="fr-header__operator"
+                  >
+                    <img
+                      alt="RapportNav"
+                      class="fr-responsive-img"
+                      src="/src/assets/images/logo.png"
+                      style="max-width: 12rem;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="fr-header__service"
+                >
+                  <p
+                    class="fr-header__service-title"
+                  >
+                    RapportNav
+                  </p>
+                  <p
+                    class="fr-header__service-tagline"
+                  >
+                    Rapports de mission en mer
+                  </p>
+                </div>
+              </div>
             </div>
-            <div
-              class="rs-stack-item"
-              style="align-self: flex-end; margin-top: 10px;"
-            />
           </div>
         </div>
-        <div
-          class="rs-stack-item"
-        >
-          <p
-            class="sc-iWBMXF sc-ewSVzs bGmags loDfxQ"
-            color="#CCCFD6"
-            font-size="13"
-          >
-            Version v2.103.0
-          </p>
-        </div>
-      </div>
+      </header>
     </div>
     <div
       class="rs-toast-provider"
@@ -83,59 +79,55 @@ exports[`MissionListPageTitle > should match the snapshot 1`] = `
     </div>
   </body>,
   "container": <div>
-    <div
-      class="rs-stack"
-      style="align-items: flex-start; flex-direction: column;"
+    <header
+      class="fr-header"
+      role="banner"
     >
       <div
-        class="rs-stack-item"
+        class="fr-header__body"
       >
         <div
-          class="rs-stack"
-          style="align-items: center; flex-direction: row; gap: 8px; width: 100%;"
+          class="fr-container"
         >
           <div
-            class="rs-stack-item"
+            class="fr-header__body-row"
           >
-            <h4>
-              Rapport Nav 
-            </h4>
-          </div>
-          <div
-            class="rs-stack-item"
-          >
-            <h4>
-               | 
-            </h4>
-          </div>
-          <div
-            class="rs-stack-item"
-          >
-            <h4
-              style="color: rgb(86, 151, 210);"
+            <div
+              class="fr-header__brand fr-enlarge-link"
             >
-               
-              Jeanne-Barret
-            </h4>
+              <div
+                class="fr-header__brand-top"
+              >
+                <div
+                  class="fr-header__operator"
+                >
+                  <img
+                    alt="RapportNav"
+                    class="fr-responsive-img"
+                    src="/src/assets/images/logo.png"
+                    style="max-width: 12rem;"
+                  />
+                </div>
+              </div>
+              <div
+                class="fr-header__service"
+              >
+                <p
+                  class="fr-header__service-title"
+                >
+                  RapportNav
+                </p>
+                <p
+                  class="fr-header__service-tagline"
+                >
+                  Rapports de mission en mer
+                </p>
+              </div>
+            </div>
           </div>
-          <div
-            class="rs-stack-item"
-            style="align-self: flex-end; margin-top: 10px;"
-          />
         </div>
       </div>
-      <div
-        class="rs-stack-item"
-      >
-        <p
-          class="sc-iWBMXF sc-ewSVzs bGmags loDfxQ"
-          color="#CCCFD6"
-          font-size="13"
-        >
-          Version v2.103.0
-        </p>
-      </div>
-    </div>
+    </header>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

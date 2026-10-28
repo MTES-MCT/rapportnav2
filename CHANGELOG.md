@@ -1,5 +1,68 @@
 # Changelog
 
+## [2.105.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.0...v2.105.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* disable sati ([eb4c16a](https://github.com/MTES-MCT/rapportnav2/commit/eb4c16a27e92a31f70f503a20c34ac471e82d2bc))
+
+## [2.105.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.3...v2.105.0) (2026-10-27)
+
+
+### Features
+
+* add resource usage metrics to ULAM general info [#1405](https://github.com/MTES-MCT/rapportnav2/issues/1405) ([707b89c](https://github.com/MTES-MCT/rapportnav2/commit/707b89cff52dd0156970e25d7a5137b541b38d2b))
+
+## [2.104.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.2...v2.104.3) (2026-10-22)
+
+
+### Bug Fixes
+
+* remove snapshots ([6916088](https://github.com/MTES-MCT/rapportnav2/commit/69160883b5ecf47004e024deb84740e8f3cc512a))
+
+## [2.104.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.1...v2.104.2) (2026-10-22)
+
+
+### Bug Fixes
+
+* snapshots ([7dacd6c](https://github.com/MTES-MCT/rapportnav2/commit/7dacd6c10f4282e414dfc552e5816937866b9fb6))
+
+## [2.104.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.0...v2.104.1) (2026-10-22)
+
+
+### Bug Fixes
+
+* enable sati services ([81ba738](https://github.com/MTES-MCT/rapportnav2/commit/81ba738655fe1dee13ba696428d21b4be2214dff))
+
+## [2.104.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.103.0...v2.104.0) (2026-10-22)
+
+
+### Features
+
+* add new items for PAM training action ([5a60f45](https://github.com/MTES-MCT/rapportnav2/commit/5a60f45745763951d5ea766a565075fa26f8b258))
+* add new pages to public footer ([27a679e](https://github.com/MTES-MCT/rapportnav2/commit/27a679e2bf0081d66e4b87c793371ecedb30ab45))
+* **backend:** add inquiry api by vessel id ([8e69d43](https://github.com/MTES-MCT/rapportnav2/commit/8e69d43dce24c92b2ce70f09fe6ff2864492db91))
+* **backend:** add inquiry api by vessel id ([186ac98](https://github.com/MTES-MCT/rapportnav2/commit/186ac98c8513c0b81b261f30a80dcf9bd5d3005b))
+* **backend:** entity, data with sati ([78632bb](https://github.com/MTES-MCT/rapportnav2/commit/78632bbbfc30f7308af6d9712a1a38308729ced9))
+* **backend:** expose mission, service control units, infractions and observations in public inquiry api ([0970a71](https://github.com/MTES-MCT/rapportnav2/commit/0970a719c321ea8609ab1e09c4fa0f61cddfe696))
+* **backend:** Sati establishment ([788052a](https://github.com/MTES-MCT/rapportnav2/commit/788052a70bac9285c7f4725fd0845602ca9b4af3))
+* **backend:** Sati establishment ([7a77dec](https://github.com/MTES-MCT/rapportnav2/commit/7a77dec9053779b6c55eadfe8597415c42cf3d35))
+* **frontend:** add version on title ([a21d3a7](https://github.com/MTES-MCT/rapportnav2/commit/a21d3a77c8fc8579dd8254e5a4dc341efa4ad789))
+* **frontend:** add version on title ([854f1d2](https://github.com/MTES-MCT/rapportnav2/commit/854f1d2bb63d51f5730b3e9a43ed5430e1973dc6))
+* **frontend:** fishing sector conclusion tab ([381c730](https://github.com/MTES-MCT/rapportnav2/commit/381c7308e503a850707e445b1b739954fb1b5c95))
+* **frontend:** fishing sector conclusion tab ([f1a65fc](https://github.com/MTES-MCT/rapportnav2/commit/f1a65fcfa9c56f041745a7b2f8d21a73fd2ab4fe))
+* **frontend:** remaning fish-sati folder to sati ([b0d94d6](https://github.com/MTES-MCT/rapportnav2/commit/b0d94d68534f77b6dfb690e098525b033936a255))
+* **frontend:** remaning fish-sati folder to sati ([44d046f](https://github.com/MTES-MCT/rapportnav2/commit/44d046f5981de9c500603e239e569452259f4720))
+* **github:** Add template for issue ([54da043](https://github.com/MTES-MCT/rapportnav2/commit/54da0435dbd069e630a60b60d42d7ba1bc2cad88))
+
+
+### Bug Fixes
+
+* **backend:** remove useless database script part ([80a98cc](https://github.com/MTES-MCT/rapportnav2/commit/80a98cc7186e8cb8c8696b6d79e0c392650374d3))
+* enable sati services ([b111610](https://github.com/MTES-MCT/rapportnav2/commit/b111610dbc6baaf68f13c1453c106fd97076eb24))
+* **frontend:** test ([cbd2f78](https://github.com/MTES-MCT/rapportnav2/commit/cbd2f78503f6258870825336786e998cca8c6b7b))
+
 ## [2.103.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.102.0...v2.103.0) (2026-10-13)
 
 

@@ -16,7 +16,7 @@ import FishControlPolpeche from '../../sati/components/elements/fish-control-pol
 import { useSati } from '../../sati/hooks/use-sati.tsx'
 import { ActionFishControlInput } from '../types/action-type'
 
-const SATI_ITEM: StyledTabItem = {
+const FISH_SATI_ITEM: StyledTabItem = {
   key: 'infos',
   title: 'Infos du navire',
   component: FishControlInfos
@@ -114,7 +114,7 @@ export function useMissionActionFishControl(
   )
 
   const getItems = (): StyledTabItem[] => {
-    if (isSatiEnabled) return [SATI_ITEM, ...ITEMS]
+    if (isSatiEnabled) return [FISH_SATI_ITEM, ...ITEMS]
     return ITEMS
   }
 

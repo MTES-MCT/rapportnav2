@@ -29,13 +29,14 @@ export default defineConfig({
         // so this order reproduces the previous if/else precedence.
         codeSplitting: {
           groups: [
-            // Keep the login page (and the DSFR design system it imports) in a
-            // dedicated async chunk loaded only on /login. Must come before the
+            // Keep the login and public pages (accessibilité, mentions légales,
+            // etc.) and the DSFR design system they import in a dedicated async
+            // chunk loaded only on those routes. Must come before the
             // node_modules and src/v2 groups below, otherwise the login module
             // and @gouvfr/dsfr would be folded into the eager vendor/v2 chunks.
             {
               name: 'login',
-              test: /src[\\/]v2[\\/]pages[\\/]login-page|src[\\/]v2[\\/]features[\\/]auth[\\/]components[\\/]login|@gouvfr[\\/]dsfr/
+              test: /src[\\/]v2[\\/]pages[\\/](login|accessibility|legal-notice|personal-data|sitemap)-page|src[\\/]v2[\\/]features[\\/]auth[\\/]components[\\/]login|src[\\/]v2[\\/]features[\\/]public|@gouvfr[\\/]dsfr/
             },
             // Separate third-party dependencies into common chunks
             // UI libraries

@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitResourceType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
@@ -16,6 +17,15 @@ import java.util.*
 
 @ExtendWith(SpringExtension::class)
 class MissionEnvEntityTest {
+
+    private fun baseNavEntity() = MissionNavEntity(
+        id = UUID.randomUUID(),
+        serviceId = 2,
+        endDateTimeUtc = Instant.now(),
+        startDateTimeUtc = Instant.now(),
+        isDeleted = false,
+        observationsByUnit = "myObservation",
+    )
 
     @Test
     fun `execute should get env entity from nav entity`() {
@@ -134,6 +144,61 @@ class MissionEnvEntityTest {
                 isResourcesNotUsed = false
             )
         ).isEqualTo(true)
+    }
+
+    @Test
+    fun `ULAM incomplete when an eligible CAR resource has no km value`() {
+        val entity = MissionEnvEntity.fromMissionNavEntity(baseNavEntity())
+        entity.controlUnits = listOf(
+            LegacyControlUnitEntity(
+                id = 1, isArchived = false, name = "Unit 1", resources = mutableListOf(
+                    LegacyControlUnitResourceEntity(id = 13, controlUnitId = 741, type = ControlUnitResourceType.CAR)
+                )
+            )
+        )
+        assertThat(
+            entity.isCompleteForStats(serviceTypeEnum = ServiceTypeEnum.ULAM, isResourcesNotUsed = false)
+        ).isEqualTo(false)
+    }
+
+    @Test
+    fun `ULAM complete when eligible resources carry their usage value`() {
+        val entity = MissionEnvEntity.fromMissionNavEntity(baseNavEntity())
+        entity.controlUnits = listOf(
+            LegacyControlUnitEntity(
+                id = 1, isArchived = false, name = "Unit 1", resources = mutableListOf(
+                    LegacyControlUnitResourceEntity(
+                        id = 13, controlUnitId = 741, type = ControlUnitResourceType.CAR, nbKms = 42.0
+                    ),
+                    LegacyControlUnitResourceEntity(
+                        id = 14, controlUnitId = 741, type = ControlUnitResourceType.FRIGATE, nbEngineHours = 5.0
+                    ),
+                    // Non-eligible type never blocks completeness, even without a value.
+                    LegacyControlUnitResourceEntity(id = 15, controlUnitId = 741, type = ControlUnitResourceType.PEDESTRIAN)
+                )
+            )
+        )
+        assertThat(
+            entity.isCompleteForStats(serviceTypeEnum = ServiceTypeEnum.ULAM, isResourcesNotUsed = false)
+        ).isEqualTo(true)
+    }
+
+    @Test
+    fun `ULAM incomplete when a boat resource is missing its engine-hours value`() {
+        val entity = MissionEnvEntity.fromMissionNavEntity(baseNavEntity())
+        entity.controlUnits = listOf(
+            LegacyControlUnitEntity(
+                id = 1, isArchived = false, name = "Unit 1", resources = mutableListOf(
+                    LegacyControlUnitResourceEntity(
+                        id = 13, controlUnitId = 741, type = ControlUnitResourceType.CAR, nbKms = 42.0
+                    ),
+                    LegacyControlUnitResourceEntity(id = 14, controlUnitId = 741, type = ControlUnitResourceType.FRIGATE)
+                )
+            )
+        )
+        assertThat(
+            entity.isCompleteForStats(serviceTypeEnum = ServiceTypeEnum.ULAM, isResourcesNotUsed = false)
+        ).isEqualTo(false)
     }
 
     @Test

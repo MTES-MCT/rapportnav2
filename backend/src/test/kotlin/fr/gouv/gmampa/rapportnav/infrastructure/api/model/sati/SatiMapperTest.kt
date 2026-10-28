@@ -1,5 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentSubType
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlResource
@@ -431,6 +433,44 @@ class SatiMapperTest {
             assertThat(roundTripped.vessel?.name).isEqualTo(entity.vessel?.name)
             assertThat(roundTripped.vessel?.immat).isEqualTo(entity.vessel?.immat)
             assertThat(roundTripped.vessel?.owner?.contact?.fullName).isEqualTo(entity.vessel?.owner?.contact?.fullName)
+        }
+    }
+
+    @Nested
+    inner class Establishment {
+
+        @Test
+        fun `fromEntity then toEntity should preserve the establishment`() {
+            val entity = SatiEntity(
+                module = SatiModuleType.M4,
+                actionId = "a",
+                establishment = SatiEstablishmentEntity(
+                    id = 9,
+                    type = SectorEstablishmentType.GMS,
+                    subType = SectorEstablishmentSubType.GMS_ONLY,
+                    isNotListed = true,
+                    isNotSameAddress = true,
+                    owner = SatiPartyEntity(comments = "owner"),
+                    operator = SatiPartyEntity(comments = "operator"),
+                    address = AddressEntity(town = "Brest")
+                )
+            )
+
+            val output = SatiMapper.fromEntity(entity)
+            assertThat(output.establishment?.subType).isEqualTo(SectorEstablishmentSubType.GMS_ONLY)
+            assertThat(output.establishment?.address?.town).isEqualTo("Brest")
+
+            val roundTripped = SatiMapper.toEntity(output).establishment
+            assertThat(roundTripped).isEqualTo(entity.establishment?.copy(address = roundTripped?.address))
+            assertThat(roundTripped?.address?.town).isEqualTo("Brest")
+        }
+
+        @Test
+        fun `fromEntity should leave the establishment null when the sati has none`() {
+            val output = SatiMapper.fromEntity(SatiEntity(module = SatiModuleType.M1, actionId = "a"))
+
+            assertThat(output.establishment).isNull()
+            assertThat(SatiMapper.toEntity(output).establishment).isNull()
         }
     }
 }

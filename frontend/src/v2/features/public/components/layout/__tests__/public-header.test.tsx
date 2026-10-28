@@ -1,10 +1,10 @@
 import { render } from '../../../../../../test-utils'
-import LoginFooter from '../login-footer'
+import PublicHeader from '../public-header'
 import { describe, it, expect } from 'vitest'
 
-describe('LoginFooter', () => {
+describe('PublicHeader', () => {
   it('should match the snapshot', () => {
-    const wrapper = render(<LoginFooter />)
+    const wrapper = render(<PublicHeader />)
     expect(wrapper).toMatchSnapshot()
   })
 })

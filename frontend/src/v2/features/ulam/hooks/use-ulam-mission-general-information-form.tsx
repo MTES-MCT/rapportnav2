@@ -1,5 +1,6 @@
 import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import * as Yup from 'yup'
+import { useResourceUsage } from '../../common/hooks/use-resource-usage.tsx'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form.tsx'
 import { useDate } from '../../common/hooks/use-date.tsx'
 import {
@@ -20,6 +21,7 @@ export const useUlamMissionGeneralInfoForm = (
 ) => {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
   const isMissionFinished = useMissionFinished(value.missionId)
+  const { validationSchema: resourceUsageSchema } = useResourceUsage(isMissionFinished)
   const fromFieldValueToInput = (data: MissionGeneralInfo2): MissionGeneralInfoInput => {
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -75,10 +77,10 @@ export const useUlamMissionGeneralInfoForm = (
     nbHourAtSea: Yup.number()
       .min(0, "Le nombre d'heures en mer ne peut pas être négatif")
       .when('missionTypes', {
-        is: (missionTypes?: MissionTypeEnum[]) =>
-          isMissionFinished && missionTypes?.includes(MissionTypeEnum.SEA),
+        is: (missionTypes?: MissionTypeEnum[]) => isMissionFinished && missionTypes?.includes(MissionTypeEnum.SEA),
         then: schema => schema.required("Nombre d'heures en mer obligatoire")
-      })
+      }),
+    ...resourceUsageSchema
   })
 
   const handleSubmitOverride = async (value?: MissionGeneralInfoInput) => {

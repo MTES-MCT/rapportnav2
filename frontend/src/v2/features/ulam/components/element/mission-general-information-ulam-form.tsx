@@ -28,7 +28,7 @@ const MissionGeneralInformationUlamForm: FC<{
           {({ values }) => (
             <>
               <FormikEffect onChange={async nextValue => handleSubmit(nextValue as MissionGeneralInfoInput)} />
-              <Stack direction="column" style={{ width: '100%' }} alignItems={'flex-start'}>
+              <Stack direction="column" style={{ width: '100%' }} spacing={'40px'} alignItems={'flex-start'}>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionGeneralInformationUlamFormMainForm values={values} isCreation={false} />
                 </Stack.Item>

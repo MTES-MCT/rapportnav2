@@ -117,6 +117,7 @@ class GetComputeSatiTest {
         val result = useCase.execute(action)
 
         assertThat(result?.module).isEqualTo(SatiModuleType.M4)
+        assertThat(result?.establishment).isNotNull
         assertThat(result?.actionId).isEqualTo(action.getActionId())
         assertThat(result?.startDatetimeUtc).isEqualTo(action.startDateTimeUtc)
         assertThat(result?.endDatetimeUtc).isEqualTo(action.endDateTimeUtc)
@@ -135,6 +136,25 @@ class GetComputeSatiTest {
         assertThat(result?.id).isEqualTo(existing.id)
         assertThat(result?.module).isEqualTo(SatiModuleType.M5)
         verify(satiRepo, never()).save(any())
+    }
+
+    @Test
+    fun `execute nav should create no establishment for a module without one`() {
+        whenever(enableSati.execute()).thenReturn(true)
+        val useCase = GetComputeSati(enableSati, satiRepo, controlResourceRepo)
+        val action = createNavAction(ActionType.CONTROL_ROADSIDE)
+        whenever(satiRepo.findByActionId(action.getActionId())).thenReturn(null)
+        whenever(satiRepo.save(any())).thenAnswer { it.arguments[0] as SatiEntity }
+
+        val result = useCase.execute(action)
+
+        assertThat(SatiModuleType.M5.hasEstablishment()).isFalse()
+        assertThat(result?.establishment).isNull()
+    }
+
+    @Test
+    fun `hasEstablishment should only be true for M4 for now`() {
+        assertThat(SatiModuleType.entries.filter { it.hasEstablishment() }).containsExactly(SatiModuleType.M4)
     }
 
     private fun createNavAction(actionType: ActionType) = MissionNavActionEntity(
