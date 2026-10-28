@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.106.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.1...v2.106.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **Docker:** load only writer and calc for Libreoffice ([07b1709](https://github.com/MTES-MCT/rapportnav2/commit/07b1709c41ad7aa37fc9f0be41694906809eb71e))
+
 ## [2.106.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.0...v2.106.1) (2026-10-28)
 
 
