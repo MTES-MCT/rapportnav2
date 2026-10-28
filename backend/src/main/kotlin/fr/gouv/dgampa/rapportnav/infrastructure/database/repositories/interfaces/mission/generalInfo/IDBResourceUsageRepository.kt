@@ -7,4 +7,5 @@ import java.util.UUID
 interface IDBResourceUsageRepository : JpaRepository<ResourceUsageModel, Int> {
     fun findAllByMissionIdUUID(missionIdUUID: UUID): List<ResourceUsageModel>
     fun deleteAllByMissionIdUUID(missionIdUUID: UUID)
+    fun findByMissionIdUUIDAndResourceId(missionIdUUID: UUID, resourceId: Int): ResourceUsageModel?
 }

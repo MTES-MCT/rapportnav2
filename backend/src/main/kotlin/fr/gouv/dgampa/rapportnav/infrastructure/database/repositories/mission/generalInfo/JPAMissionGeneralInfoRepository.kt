@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.generalInfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -41,6 +42,17 @@ class JPAMissionGeneralInfoRepository(
         } catch (e: Exception) {
             throw BackendInternalException(
                 message = "Failed to find paginated MissionGeneralInfo",
+                originalException = e
+            )
+        }
+    }
+
+    override fun findWithPamMetricsPaginated(page: Int, size: Int): Page<MissionGeneralInfoModel> {
+        return try {
+            dbRepo.findWithPamMetrics(ServiceTypeEnum.PAM.name, PageRequest.of(page, size))
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionGeneralInfo with PAM metrics",
                 originalException = e
             )
         }

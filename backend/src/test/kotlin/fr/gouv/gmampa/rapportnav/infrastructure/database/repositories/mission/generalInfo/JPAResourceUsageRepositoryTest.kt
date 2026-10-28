@@ -1,5 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.generalInfo
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.PamMetricsMergeResult
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.PamResourceMetrics
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.ResourceUsageEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.ResourceUsageModel
@@ -76,6 +78,39 @@ class JPAResourceUsageRepositoryTest {
     }
 
     @Test
+    fun `findByMissionId and replaceForMission carry the PAM metrics`() {
+        whenever(dbRepo.findAllByMissionIdUUID(missionId)).thenReturn(
+            listOf(
+                ResourceUsageModel(
+                    id = 3,
+                    missionIdUUID = missionId,
+                    resourceId = 582,
+                    distanceInNauticalMiles = 120.5,
+                    consumedGOInLiters = 3400.0,
+                    consumedFuelInLiters = 20.0
+                )
+            )
+        )
+
+        val found = repository.findByMissionId(missionId).single()
+        assertThat(found.distanceInNauticalMiles).isEqualTo(120.5)
+        assertThat(found.consumedGOInLiters).isEqualTo(3400.0)
+        assertThat(found.consumedFuelInLiters).isEqualTo(20.0)
+
+        repository.replaceForMission(missionId, listOf(found))
+
+        val captor = argumentCaptor<List<ResourceUsageModel>>()
+        verify(dbRepo).saveAll(captor.capture())
+        val saved = captor.firstValue.single()
+        assertThat(saved.resourceId).isEqualTo(582)
+        assertThat(saved.distanceInNauticalMiles).isEqualTo(120.5)
+        assertThat(saved.consumedGOInLiters).isEqualTo(3400.0)
+        assertThat(saved.consumedFuelInLiters).isEqualTo(20.0)
+        assertThat(saved.nbKms).isNull()
+        assertThat(saved.nbEngineHours).isNull()
+    }
+
+    @Test
     fun `replaceForMission with empty list clears rows without calling saveAll`() {
         repository.replaceForMission(missionId, emptyList())
 
@@ -90,6 +125,87 @@ class JPAResourceUsageRepositoryTest {
         whenever(dbRepo.findAllByMissionIdUUID(any())).thenThrow(RuntimeException("boom"))
 
         assertThrows<BackendInternalException> { repository.findByMissionId(missionId) }
+    }
+
+    private val pamMetrics = PamResourceMetrics(
+        distanceInNauticalMiles = 120.5,
+        consumedGOInLiters = 3400.0,
+        consumedFuelInLiters = 20.0
+    )
+
+    @Test
+    fun `mergePamMetrics creates the row when missing`() {
+        whenever(dbRepo.findByMissionIdUUIDAndResourceId(missionId, 582)).thenReturn(null)
+
+        val result = repository.mergePamMetrics(missionId, 582, pamMetrics)
+
+        assertThat(result).isEqualTo(PamMetricsMergeResult.CREATED)
+        val captor = argumentCaptor<ResourceUsageModel>()
+        verify(dbRepo).save(captor.capture())
+        val saved = captor.firstValue
+        assertThat(saved.id).isNull()
+        assertThat(saved.missionIdUUID).isEqualTo(missionId)
+        assertThat(saved.resourceId).isEqualTo(582)
+        assertThat(PamResourceMetrics.fromResourceUsageEntity(saved.toResourceUsageEntity())).isEqualTo(pamMetrics)
+    }
+
+    @Test
+    fun `mergePamMetrics does not create a row for empty metrics`() {
+        whenever(dbRepo.findByMissionIdUUIDAndResourceId(missionId, 582)).thenReturn(null)
+
+        val result = repository.mergePamMetrics(missionId, 582, PamResourceMetrics())
+
+        assertThat(result).isEqualTo(PamMetricsMergeResult.UNCHANGED)
+        verify(dbRepo, never()).save(any<ResourceUsageModel>())
+    }
+
+    @Test
+    fun `mergePamMetrics updates only the PAM columns of the existing row`() {
+        val existing = ResourceUsageModel(
+            id = 3,
+            missionIdUUID = missionId,
+            resourceId = 582,
+            nbEngineHours = 4.0,
+            distanceInNauticalMiles = 10.0,
+            createdBy = 42
+        )
+        whenever(dbRepo.findByMissionIdUUIDAndResourceId(missionId, 582)).thenReturn(existing)
+
+        val result = repository.mergePamMetrics(missionId, 582, pamMetrics)
+
+        assertThat(result).isEqualTo(PamMetricsMergeResult.UPDATED)
+        val captor = argumentCaptor<ResourceUsageModel>()
+        verify(dbRepo).save(captor.capture())
+        val saved = captor.firstValue
+        assertThat(saved.id).isEqualTo(3)
+        assertThat(saved.nbEngineHours).isEqualTo(4.0)
+        assertThat(saved.createdBy).isEqualTo(42)
+        assertThat(PamResourceMetrics.fromResourceUsageEntity(saved.toResourceUsageEntity())).isEqualTo(pamMetrics)
+    }
+
+    @Test
+    fun `mergePamMetrics leaves an identical row untouched`() {
+        val existing = ResourceUsageModel(
+            id = 3,
+            missionIdUUID = missionId,
+            resourceId = 582,
+            distanceInNauticalMiles = 120.5,
+            consumedGOInLiters = 3400.0,
+            consumedFuelInLiters = 20.0
+        )
+        whenever(dbRepo.findByMissionIdUUIDAndResourceId(missionId, 582)).thenReturn(existing)
+
+        val result = repository.mergePamMetrics(missionId, 582, pamMetrics)
+
+        assertThat(result).isEqualTo(PamMetricsMergeResult.UNCHANGED)
+        verify(dbRepo, never()).save(any<ResourceUsageModel>())
+    }
+
+    @Test
+    fun `mergePamMetrics wraps repository errors in BackendInternalException`() {
+        whenever(dbRepo.findByMissionIdUUIDAndResourceId(any(), any())).thenThrow(RuntimeException("boom"))
+
+        assertThrows<BackendInternalException> { repository.mergePamMetrics(missionId, 582, pamMetrics) }
     }
 
     @Test

@@ -55,3 +55,9 @@ fun ControlUnitResourceType.usageKind(): ResourceUsageKind = when (this) {
 
     else -> ResourceUsageKind.NONE
 }
+
+/**
+ * The resource a PAM unit's usage metrics (distance, GO, fuel) are attached to: its patrol boat.
+ * Deliberately an exact match: PAM units also have cars and possibly boat-type tenders that must not be picked.
+ */
+fun ControlUnitResourceType.isPamShip(): Boolean = this == ControlUnitResourceType.PATROL_BOAT

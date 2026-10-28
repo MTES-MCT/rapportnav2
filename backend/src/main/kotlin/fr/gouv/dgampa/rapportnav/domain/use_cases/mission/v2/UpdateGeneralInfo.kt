@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -13,11 +14,14 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IResour
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.controlUnitResource.GetPamShipResource
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import org.slf4j.LoggerFactory
 import java.util.*
 
 @UseCase
@@ -35,8 +39,12 @@ class UpdateGeneralInfo(
     private val resourceUsageRepository: IResourceUsageRepository,
     private val getEnvMissionById: GetEnvMissionById,
     private val syncLocalMissionWithMonitorEnv: SyncLocalMissionWithMonitorEnv,
-    private val recomputeMissionValidation: RecomputeMissionValidation
+    private val recomputeMissionValidation: RecomputeMissionValidation,
+    private val getServiceById: GetServiceById,
+    private val getPamShipResource: GetPamShipResource
 ) {
+    private val logger = LoggerFactory.getLogger(UpdateGeneralInfo::class.java)
+
     fun execute(
         missionId: Int,
         generalInfo: MissionGeneralInfo2,
@@ -78,7 +86,8 @@ class UpdateGeneralInfo(
                 syncLocalMissionWithMonitorEnv.execute(externalId = missionId, env = it)
             }
         local?.let {
-            resourceUsageRepository.replaceForMission(it.id, generalInfo.toResourceUsageEntities(it.id))
+            val pamShipResourceId = resolvePamShipResourceId(generalInfo = generalInfo, fromDb = fromDb)
+            resourceUsageRepository.replaceForMission(it.id, generalInfo.toResourceUsageEntities(it.id, pamShipResourceId))
         }
 
         patchMissionEnv.execute(
@@ -158,8 +167,12 @@ class UpdateGeneralInfo(
             )
         )
 
-        // Persist the per-resource usage values keyed by the mission UUID.
-        resourceUsageRepository.replaceForMission(missionIdUUID, generalInfo.toResourceUsageEntities(missionIdUUID))
+        // Persist the per-resource usage values (and the PAM metrics on the ship) keyed by the mission UUID.
+        val pamShipResourceId = resolvePamShipResourceId(generalInfo = generalInfo, fromDb = fromDb)
+        resourceUsageRepository.replaceForMission(
+            missionIdUUID,
+            generalInfo.toResourceUsageEntities(missionIdUUID, pamShipResourceId)
+        )
 
         // If this UUID actually maps to a MonitorEnv mirror (has an external id), propagate the
         // change to MonitorEnv too — otherwise overrideFromEnv would overwrite it on the next read.
@@ -186,6 +199,30 @@ class UpdateGeneralInfo(
             passengers = passengers,
             generalInfoModel = model
         )
+    }
+
+    /**
+     * PAM metrics are stored on the unit's ship resource. The service is read from our DB (not taken from the
+     * payload's controlUnits) so a request can't attach them to another unit's ship.
+     * Phase 1 (dual-write): mission_general_info stays the source of truth, so an unresolved ship only skips the
+     * PAM row — it never blocks the save.
+     */
+    private fun resolvePamShipResourceId(generalInfo: MissionGeneralInfo2, fromDb: MissionGeneralInfoEntity): Int? {
+        return try {
+            val service = getServiceById.execute(generalInfo.service?.id ?: fromDb.service?.id)
+            if (service?.serviceType != ServiceTypeEnum.PAM) return null
+            val ship = getPamShipResource.execute(service)
+            if (ship == null) {
+                logger.warn(
+                    "UpdateGeneralInfo: PAM metrics not written to mission_resource_usage for general info " +
+                        "id=${fromDb.id} (service id=${service.id}): ship resource unresolved"
+                )
+            }
+            ship?.id
+        } catch (e: Exception) {
+            logger.warn("UpdateGeneralInfo: could not resolve the PAM ship for general info id=${fromDb.id}", e)
+            null
+        }
     }
 
     private fun getGeneralInfoEntity(

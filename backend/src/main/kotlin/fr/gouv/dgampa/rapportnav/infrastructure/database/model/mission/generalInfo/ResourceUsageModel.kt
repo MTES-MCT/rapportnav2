@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.ResourceUsageEntity
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -13,6 +14,7 @@ import java.util.UUID
  * Per-resource usage value entered in the ULAM general information ("Km parcourus" / "Nb d'heures moteur").
  * Keyed by the mission UUID (mission.id) + the MonitorEnv resource id. Only one of [nbKms] / [nbEngineHours]
  * is set, driven by the resource type. Stored in our DB because MonitorEnv can't hold these values.
+ * PAM values (distance, GO, fuel) sit on the row of the unit's ship resource; the PAM costs stay in mission_general_info.
  */
 @Entity
 @EntityListeners(AuditingEntityListener::class)
@@ -35,6 +37,15 @@ class ResourceUsageModel(
     @Column(name = "nb_engine_hours", nullable = true)
     var nbEngineHours: Double? = null,
 
+    @Column(name = "distance_in_nautical_miles", nullable = true)
+    var distanceInNauticalMiles: Double? = null,
+
+    @Column(name = "consumed_go_in_liters", nullable = true)
+    var consumedGOInLiters: Double? = null,
+
+    @Column(name = "consumed_fuel_in_liters", nullable = true)
+    var consumedFuelInLiters: Double? = null,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,
@@ -50,4 +61,32 @@ class ResourceUsageModel(
     @LastModifiedBy
     @Column(name = "updated_by")
     var updatedBy: Int? = null
-)
+) {
+    fun toResourceUsageEntity(): ResourceUsageEntity {
+        return ResourceUsageEntity(
+            id = id,
+            missionIdUUID = missionIdUUID,
+            resourceId = resourceId,
+            nbKms = nbKms,
+            nbEngineHours = nbEngineHours,
+            distanceInNauticalMiles = distanceInNauticalMiles,
+            consumedGOInLiters = consumedGOInLiters,
+            consumedFuelInLiters = consumedFuelInLiters
+        )
+    }
+
+    companion object {
+        fun fromResourceUsageEntity(entity: ResourceUsageEntity): ResourceUsageModel {
+            return ResourceUsageModel(
+                id = entity.id,
+                missionIdUUID = entity.missionIdUUID,
+                resourceId = entity.resourceId,
+                nbKms = entity.nbKms,
+                nbEngineHours = entity.nbEngineHours,
+                distanceInNauticalMiles = entity.distanceInNauticalMiles,
+                consumedGOInLiters = entity.consumedGOInLiters,
+                consumedFuelInLiters = entity.consumedFuelInLiters
+            )
+        }
+    }
+}

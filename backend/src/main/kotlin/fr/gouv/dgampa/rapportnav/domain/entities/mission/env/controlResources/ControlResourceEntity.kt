@@ -7,7 +7,8 @@ data class ControlResourceEntity(
     val name: String? = null,
     val type: ControlUnitResourceType? = null,
     val registrationId: String? = null,
-    val radioFrequency: String? = null
+    val radioFrequency: String? = null,
+    val isArchived: Boolean = false
 ) {
     companion object {
         fun fromControlUnitResourceEnv(
