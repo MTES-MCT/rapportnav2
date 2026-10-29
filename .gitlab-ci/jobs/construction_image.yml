@@ -11,7 +11,6 @@ construction_image:
     GIT_STRATEGY: fetch
     GIT_CLEAN_FLAGS: none
     DOCKER_HOST: tcp://dockerhost:2375/
-    DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   services:
     - name: docker:20.10.5-dind
