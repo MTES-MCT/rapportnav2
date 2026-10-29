@@ -32,12 +32,9 @@ ENV https_proxy=${PROXY}
 # Print ENV_PROFILE and VERSION for debugging
 RUN echo "ENV_PROFILE: $ENV_PROFILE" && echo "VERSION: $VERSION"
 
-# Install LibreOffice using apk with proxy settings
-# Only Writer (docx -> odt) and Calc (xlsx -> ods) are needed for exports,
-# so skip the `libreoffice` meta package (base, draw, impress, math, postgres connector)
+# Upgrade OS packages using apk with proxy settings
 RUN apk update && \
     apk upgrade --no-cache && \
-    apk add --no-cache libreoffice-writer libreoffice-calc && \
     rm -rf /var/cache/apk/*
 
 # copy backend related things

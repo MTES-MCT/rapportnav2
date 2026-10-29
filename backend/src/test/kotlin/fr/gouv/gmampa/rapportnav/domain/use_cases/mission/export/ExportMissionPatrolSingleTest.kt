@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
+import fr.gouv.dgampa.rapportnav.domain.repositories.office.IOfficeConverter
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -41,6 +42,9 @@ class ExportMissionPatrolSingleTest {
 
     @MockitoBean
     private lateinit var formatActionsForTimeline: FormatActionsForTimeline
+
+    @MockitoBean
+    private lateinit var officeConverter: IOfficeConverter
 
     @BeforeEach
     fun setUp() {
