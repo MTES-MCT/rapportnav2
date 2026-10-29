@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.107.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.3...v2.107.0) (2026-10-29)
+
+
+### Features
+
+* **backend:** update model ([c6fcd89](https://github.com/MTES-MCT/rapportnav2/commit/c6fcd893fd7b46cd0c9d1c309396bb206b4bff39))
+
+
+### Bug Fixes
+
+* CI playbook syntax ([b1a278c](https://github.com/MTES-MCT/rapportnav2/commit/b1a278c819b5b1afa0af1d64764eb03c60dbfde9))
+* **Docker:** load only writer and calc for Libreoffice ([79a750c](https://github.com/MTES-MCT/rapportnav2/commit/79a750c7933c3c08bbf5025d5ed07b99eeaff24a))
+* **SATI:** add delay on textarea ([5ec2f87](https://github.com/MTES-MCT/rapportnav2/commit/5ec2f87cdd595ccbb924ed8e648c65f0451fff27))
+
 ## [2.106.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.2...v2.106.3) (2026-10-29)
 
 
