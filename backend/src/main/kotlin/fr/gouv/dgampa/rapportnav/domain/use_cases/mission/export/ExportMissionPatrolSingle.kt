@@ -12,7 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.OfficeConverter
+import fr.gouv.dgampa.rapportnav.domain.repositories.office.IOfficeConverter
 import org.apache.poi.xwpf.usermodel.*
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth
@@ -31,6 +31,7 @@ class ExportMissionPatrolSingle(
     private val formatDateTime: FormatDateTime,
     private val getComputeEnvMission: GetComputeEnvMission,
     private val computePatrolData: ComputePatrolData,
+    private val officeConverter: IOfficeConverter,
 
     @param:Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
     @param:Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
@@ -385,7 +386,7 @@ class ExportMissionPatrolSingle(
 
             logger.debug("Template filled successfully and saved as {}", docTmpDOCXPath)
 
-            val odtFile = OfficeConverter().convert(Path(docTmpDOCXPath).toString(), Path(docTmpODTPath).toString())
+            val odtFile = officeConverter.convert(Path(docTmpDOCXPath).toString(), Path(docTmpODTPath).toString())
             val base64Content = Base64Converter().convertToBase64(odtFile)
 
 

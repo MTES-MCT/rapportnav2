@@ -13,6 +13,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
+import fr.gouv.dgampa.rapportnav.domain.repositories.office.IOfficeConverter
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -44,6 +45,8 @@ class ExportMissionAEMSingleTest {
     private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
     @MockitoBean
     private lateinit var getComputeEnvMission: GetComputeEnvMission
+    @MockitoBean
+    private lateinit var officeConverter: IOfficeConverter
 
     @Test
     fun `createFile should throw BackendInternalException when underlying service throws`() {

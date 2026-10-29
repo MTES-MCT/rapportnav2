@@ -22,17 +22,43 @@ services:
       - MONITORENV_HOST
       - SENTRY_DSN
       - SENTRY_SECU_HEADER_ENDPOINT
+      # docx -> odt / xlsx -> ods conversions go to the `office-converter` sidecar (default url: http://office-converter:8080/lool/convert-to)
+      - OFFICE_MODE=remote
     ports:
       - 80:80
     # volumes:
     #  - "${RAPPORTNAV_LOGS_FOLDER}:/home/rapportnav/logs"
     depends_on:
-      - db
+      db:
+        condition: service_started
+      office-converter:
+        condition: service_healthy
     restart: always
     logging:
       driver: "json-file"
       options:
         max-size: "1024m"
+
+  # LibreOffice conversion server, only reachable by the app on the compose network (no published port)
+  office-converter:
+    image: "{{ nexus_proxy }}/jodconverter/jodconverter-examples:rest-4.4.11-1"
+    container_name: rapportnav_office_converter
+    mem_limit: 1g
+    labels:
+      io.portainer.accesscontrol.teams: "monitorfish"
+    # no curl/wget in the image: probe the REST port with bash's /dev/tcp
+    # (Spring Boot only opens the port once LibreOffice has started)
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "echo > /dev/tcp/127.0.0.1/8080" ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 60s
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
 
   db:
     image: "{{ nexus_proxy }}/postgres:15.19-alpine"

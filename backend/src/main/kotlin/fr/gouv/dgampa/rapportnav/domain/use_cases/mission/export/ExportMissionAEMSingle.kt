@@ -14,7 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.OfficeConverter
+import fr.gouv.dgampa.rapportnav.domain.repositories.office.IOfficeConverter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -34,6 +34,7 @@ class ExportMissionAEMSingle(
     private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getComputeEnvMission: GetComputeEnvMission,
+    private val officeConverter: IOfficeConverter,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEMSingle::class.java)
 
@@ -81,7 +82,7 @@ class ExportMissionAEMSingle(
 
             logger.info("Excel file processed and saved for export on missions list")
 
-            val odsFile = OfficeConverter().convert(tmpPath.toString(), aemTmpODSPath)
+            val odsFile = officeConverter.convert(tmpPath.toString(), aemTmpODSPath)
             val base64Content = Base64Converter().convertToBase64(odsFile)
 
             return MissionExportEntity(

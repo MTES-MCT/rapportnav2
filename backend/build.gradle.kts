@@ -72,6 +72,10 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.20.0")
     implementation("org.libreoffice:libreoffice:24.8.7")
     implementation("org.eclipse.angus:angus-activation:2.1.0-M1")
+    // jodconverter-remote relies on HttpClient 4, which the Spring Boot 4 BOM no longer manages
+    implementation("org.apache.httpcomponents:httpclient:4.5.14")
+    implementation("org.apache.httpcomponents:httpmime:4.5.14")
+    implementation("org.apache.httpcomponents:fluent-hc:4.5.14")
   }
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -104,6 +108,7 @@ dependencies {
   implementation("org.apache.poi:poi-ooxml:5.5.1")
   implementation("org.apache.commons:commons-text:1.15.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.11")
+  implementation("org.jodconverter:jodconverter-remote:4.4.11")
   implementation("com.neovisionaries:nv-i18n:1.29")
   implementation("org.wiremock:wiremock-standalone:4.0.0-beta.32")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.1")
