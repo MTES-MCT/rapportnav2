@@ -1,8 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati
 
 import jakarta.persistence.*
-import org.hibernate.annotations.JdbcTypeCode
-import org.hibernate.type.SqlTypes
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -25,19 +23,12 @@ class SatiEstablishmentModel(
     @Column(name = "sub_type", length = 50)
     var subType: String? = null,
 
-    @Column(name = "is_not_listed", nullable = false)
-    var isNotListed: Boolean = false,
-
-    @Column(name = "is_not_same_address", nullable = false)
-    var isNotSameAddress: Boolean = false,
+    @Column(name = "establishment_id")
+    var establishmentId: Int? = null,
 
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "establishment_id", referencedColumnName = "id")
     var parties: MutableList<SatiPartyModel> = mutableListOf(),
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "address", columnDefinition = "jsonb")
-    var address: Map<String, Any?>? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
@@ -48,7 +39,7 @@ class SatiEstablishmentModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, type, subType, isNotListed, isNotSameAddress, parties, address)
+        return Objects.hash(id, type, subType, establishmentId, parties)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -58,9 +49,7 @@ class SatiEstablishmentModel(
         return id == other.id
             && type == other.type
             && subType == other.subType
-            && isNotListed == other.isNotListed
-            && isNotSameAddress == other.isNotSameAddress
+            && establishmentId == other.establishmentId
             && parties == other.parties
-            && address == other.address
     }
 }

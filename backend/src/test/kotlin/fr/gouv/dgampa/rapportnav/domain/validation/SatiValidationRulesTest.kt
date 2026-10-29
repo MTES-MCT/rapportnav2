@@ -170,7 +170,6 @@ class SatiValidationRulesTest {
     private fun validEstablishment() = SatiEstablishmentEntity(
         id = 1,
         type = SectorEstablishmentType.RESTAURANT,
-        isNotSameAddress = false,
         owner = SatiPartyEntity(contact = validContact())
     )
 
@@ -218,29 +217,6 @@ class SatiValidationRulesTest {
         assertFalse("sati.establishment.subType" in establishmentErrors(satiM4(gmsWithSubType)))
 
         assertFalse("sati.establishment.subType" in establishmentErrors(satiM4(validEstablishment())))
-    }
-
-    @Test
-    fun `M4 - address required when isNotSameAddress is true`() {
-        val missing = validEstablishment().copy(isNotSameAddress = true, address = null)
-        val errors = establishmentErrors(satiM4(missing))
-        assertTrue(errors.any { it.startsWith("sati.establishment.address.") })
-    }
-
-    @Test
-    fun `M4 - address rules apply without the address id when isNotSameAddress is true`() {
-        val noIdAddress = validAddress().copy(id = null)
-        val ok = validEstablishment().copy(isNotSameAddress = true, address = noIdAddress)
-        assertTrue(establishmentErrors(satiM4(ok)).isEmpty())
-
-        val broken = ok.copy(address = noIdAddress.copy(fullAddress = null, zipcode = null))
-        assertTrue("sati.establishment.address.zipcode" in establishmentErrors(satiM4(broken)))
-    }
-
-    @Test
-    fun `M4 - address ignored when isNotSameAddress is false`() {
-        val errors = establishmentErrors(satiM4(validEstablishment().copy(isNotSameAddress = false, address = null)))
-        assertFalse(errors.any { it.startsWith("sati.establishment.address.") })
     }
 
     @Test

@@ -29,7 +29,8 @@ class GetComputeSati(
         val sati = execute(actionId = action.getActionId(), module = module)
         return sati.copy(
             endDatetimeUtc = action.endDateTimeUtc,
-            startDatetimeUtc = action.startDateTimeUtc
+            startDatetimeUtc = action.startDateTimeUtc,
+            establishment = sati.establishment?.copy(data = action.establishment)
         )
     }
 

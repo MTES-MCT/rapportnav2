@@ -8,10 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.validation.forNested
 
 object EstablishmentValidationRules {
 
-    private const val IS_NOT_SAME_ADDRESS_DESC = "isNotSameAddress = true"
-
-    private val addressRules = AddressValidationRules.rules.filterNot { it.field == "id" }
-
     val rules: List<Rule<SatiEstablishmentEntity>> = listOf<Rule<SatiEstablishmentEntity>>(
         Rule.always("id", "L'identifiant est requis") { it.id },
         Rule.always("type", "Le type d'établissement est requis") { it.type },
@@ -21,12 +17,7 @@ object EstablishmentValidationRules {
             "type = GMS",
             { it.type == SectorEstablishmentType.GMS }
         ) { it.subType }
-    ) + addressRules.forNested(
-        fieldPathPrefix = "address",
-        condition = { establishment: SatiEstablishmentEntity -> establishment.isNotSameAddress },
-        conditionDescription = IS_NOT_SAME_ADDRESS_DESC
-    ) { establishment: SatiEstablishmentEntity -> establishment.address } +
-        ContactValidationRules.rules.forNested("owner.contact") { establishment: SatiEstablishmentEntity ->
-            establishment.owner?.contact
-        }
+    ) + ContactValidationRules.rules.forNested("owner.contact") { establishment: SatiEstablishmentEntity ->
+        establishment.owner?.contact
+    }
 }
