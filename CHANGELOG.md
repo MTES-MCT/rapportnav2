@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.106.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.2...v2.106.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* CI playbook syntax ([32ecabe](https://github.com/MTES-MCT/rapportnav2/commit/32ecabe3a8ade2882f62c00bd2bd3e0f6fd260e0))
+* **SATI:** add delay on textarea ([5f9f7f6](https://github.com/MTES-MCT/rapportnav2/commit/5f9f7f674eb3214ed445ae0fd115cb7c266dff7f))
+
 ## [2.106.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.1...v2.106.2) (2026-10-28)
 
 
