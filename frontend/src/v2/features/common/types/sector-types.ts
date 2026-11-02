@@ -15,4 +15,4 @@ export enum SectorFishingType {
   OTHERS = 'OTHERS'
 }
 
-export type SectorEtablishmentType = SectorPleasureType | SectorFishingType
+export type SectorEstablishmentType = SectorPleasureType | SectorFishingType

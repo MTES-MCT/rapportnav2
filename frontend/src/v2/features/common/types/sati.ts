@@ -1,5 +1,7 @@
 import { ControlCheck } from '@common/types/fish-mission-types'
+import { Establishment } from './etablishment'
 import { PnoType } from './pno-type'
+import { SectorEstablishmentType } from './sector-types'
 
 export enum SatiPartyType {
   VESSEL_AGENT = 'VESSEL_AGENT',
@@ -7,7 +9,9 @@ export enum SatiPartyType {
   VESSEL_OWNER = 'VESSEL_OWNER',
   VESSEL_OPERATOR = 'VESSEL_OPERATOR',
   INSPECTOR = 'INSPECTOR',
-  VESSEL_BENEFICIARY = 'VESSEL_BENEFICIARY'
+  VESSEL_BENEFICIARY = 'VESSEL_BENEFICIARY',
+  ESTABLISHMENT_OWNER = 'ESTABLISHMENT_OWNER',
+  ESTABLISHMENT_OPERATOR = 'ESTABLISHMENT_OPERATOR'
 }
 
 export enum SatiModuleType {
@@ -32,6 +36,7 @@ export interface Sati {
   principalInspector: SatiInspector
   otherInspectors?: SatiInspector[]
   gangwayPresentAndCompliant?: ControlCheck
+  establishment: SatiEstablishment
 }
 
 export interface SatiJpe {
@@ -144,4 +149,19 @@ export enum ControlUnitResourceType {
   SUPPORT_SHIP = 'SUPPORT_SHIP',
   TRAINING_SHIP = 'TRAINING_SHIP',
   TUGBOAT = 'TUGBOAT'
+}
+
+export enum SectorEstablishmentSubType {
+  GMS_FISHING = 'GMS_FISHING',
+  GMS_TRANSFORMATION = 'GMS_TRANSFORMATION',
+  GMS_ONLY = 'GMS_ONLY'
+}
+
+export interface SatiEstablishment {
+  id: number
+  owner: SatiParty
+  operator: SatiParty
+  data?: Establishment
+  type: SectorEstablishmentType
+  subType: SectorEstablishmentSubType
 }

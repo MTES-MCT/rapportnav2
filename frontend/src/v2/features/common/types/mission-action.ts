@@ -26,7 +26,7 @@ import { CompletenessForStats, MissionSourceEnum } from './mission-types.ts'
 import { NetworkSyncStatus } from './network-types.ts'
 import { VesselSizeEnum, VesselTypeEnum } from './vessel-type.ts'
 
-import { SectorEtablishmentType } from './sector-types.ts'
+import { SectorEstablishmentType } from './sector-types.ts'
 
 export interface MissionAction {
   id?: string
@@ -88,7 +88,7 @@ export interface MissionNavActionData extends MissionActionData {
   fishingGearType?: FishingGearType
   isControlDuringSecurityDay?: boolean
   isSeizureSleepingFishingGear?: boolean
-  sectorEstablishmentType?: SectorEtablishmentType
+  sectorEstablishmentType?: SectorEstablishmentType
   incidentDuringOperation?: boolean
   establishment?: Establishment
   portLocode?: string
