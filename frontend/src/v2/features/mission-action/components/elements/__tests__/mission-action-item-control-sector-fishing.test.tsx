@@ -1,11 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
-import { useMissionFinished } from '../../../../common/hooks/use-mission-finished'
 import { useOnlineManager } from '../../../../common/hooks/use-online-manager'
 import { ActionType } from '../../../../common/types/action-type'
 import { MissionAction } from '../../../../common/types/mission-action'
 import { useSati } from '../../../../sati/hooks/use-sati'
-import { useMissionActionGenericControl } from '../../../hooks/use-mission-action-generic-control'
+import { useMissionActionControlSectorFishing } from '../../../hooks/use-mission-action-control-sector-fishing'
 import MissionActionItemSectorFishingControl from '../mission-action-item-control-sector-fishing'
 
 const tabsProps = vi.hoisted(() => vi.fn())
@@ -31,15 +30,13 @@ vi.mock('../../../../common/components/elements/mission-bound-formik-date-range-
     return <div data-testid="date-range-picker" />
   }
 }))
-vi.mock('../../../../common/hooks/use-mission-finished', () => ({ useMissionFinished: vi.fn() }))
 vi.mock('../../../../common/hooks/use-online-manager', () => ({ useOnlineManager: vi.fn() }))
 vi.mock('../../../../common/hooks/use-form-validation-reporter', () => ({
   useFormValidationReporter: () => ({ onFormError: vi.fn() })
 }))
 vi.mock('../../../../sati/hooks/use-sati', () => ({ useSati: vi.fn() }))
-vi.mock('../../../hooks/use-mission-action-generic-control', () => ({ useMissionActionGenericControl: vi.fn() }))
-vi.mock('../../../validation-schema/control-sector-fishing', () => ({
-  getControlSectorFishingSchema: vi.fn(() => ({ sectorEstablishmentType: 'schema' }))
+vi.mock('../../../hooks/use-mission-action-control-sector-fishing', () => ({
+  useMissionActionControlSectorFishing: vi.fn()
 }))
 vi.mock('../../ui/mission-action-control-sector-fishing-form', () => ({ default: () => null }))
 vi.mock('../../../../sati/components/layout/control-conclusion-layout', () => ({ default: () => null }))
@@ -63,21 +60,20 @@ describe('MissionActionItemSectorFishingControl', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     vi.mocked(useSati).mockReturnValue({ isSatiEnabled: true })
-    vi.mocked(useMissionFinished).mockReturnValue(false)
     vi.mocked(useOnlineManager).mockReturnValue({ isOnline: true } as ReturnType<typeof useOnlineManager>)
-    vi.mocked(useMissionActionGenericControl).mockReturnValue({
+    vi.mocked(useMissionActionControlSectorFishing).mockReturnValue({
       initValue,
       handleSubmit,
       validationSchema: undefined
-    } as unknown as ReturnType<typeof useMissionActionGenericControl>)
+    } as unknown as ReturnType<typeof useMissionActionControlSectorFishing>)
   })
 
   it('should render nothing until the form is initialized', () => {
-    vi.mocked(useMissionActionGenericControl).mockReturnValue({
+    vi.mocked(useMissionActionControlSectorFishing).mockReturnValue({
       initValue: undefined,
       handleSubmit,
       validationSchema: undefined
-    } as unknown as ReturnType<typeof useMissionActionGenericControl>)
+    } as unknown as ReturnType<typeof useMissionActionControlSectorFishing>)
     renderComponent()
 
     expect(screen.queryByTestId('action-generic-control')).not.toBeInTheDocument()
@@ -131,25 +127,11 @@ describe('MissionActionItemSectorFishingControl', () => {
     expect(params.formik.values).toEqual(initValue)
   })
 
-  it('should configure the generic control hook for the fishing sector form', () => {
+  it('should pass the action and onChange to the sector fishing hook', () => {
     const onChange = vi.fn()
     renderComponent(onChange)
 
-    expect(useMissionActionGenericControl).toHaveBeenCalledWith(
-      action,
-      onChange,
-      { sectorEstablishmentType: 'schema' },
-      false,
-      [
-        'incidentDuringOperation',
-        'isControlDuringSecurityDay',
-        'isWithinDepartment',
-        'hasDivingDuringOperation',
-        'isSeizureSleepingFishingGear',
-        'signature',
-        'isOutOfUnit'
-      ]
-    )
+    expect(useMissionActionControlSectorFishing).toHaveBeenCalledWith(action, onChange)
   })
 
   it('should submit the form values on change', async () => {

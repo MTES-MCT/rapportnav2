@@ -1,15 +1,12 @@
-import { FormikCheckbox, Label, Message, THEME } from '@mtes-mct/monitor-ui'
-import { Field, FieldArray, FieldArrayRenderProps, FieldProps, useFormikContext } from 'formik'
+import { FormikCheckbox, Label, THEME } from '@mtes-mct/monitor-ui'
+import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik'
 import { FC, JSX } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 import { Sati } from '../../../common/types/sati.ts'
-import { Target, TargetType } from '../../../common/types/target-types.ts'
 import MissionActionDivingOperation from '../../../mission-action/components/ui/mission-action-diving-operation.tsx'
 import MissionActionIncidentDonwload from '../../../mission-action/components/ui/mission-action-incident-download.tsx'
 import { ActionFishControlInput } from '../../../mission-action/types/action-type.ts'
-import TargetItemDefault from '../../../mission-target/components/elements/target-item-default.tsx'
-import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useSati } from '../../hooks/use-sati.tsx'
 import InspectorList from '../ui/inpector-list.tsx'
 import InspectorItemPrincipal from '../ui/inspector-item-principal.tsx'
@@ -19,12 +16,12 @@ interface ControlConclusionLayoutProps {
   sati?: Sati
   seizure?: JSX.Element
   infractionSummary?: JSX.Element
+  target: JSX.Element
 }
 
-const ControlConclusionLayout: FC<ControlConclusionLayoutProps> = ({ sati, seizure, infractionSummary }) => {
+const ControlConclusionLayout: FC<ControlConclusionLayoutProps> = ({ sati, seizure, infractionSummary, target }) => {
   const showCheckbox = false // TODO: remove when MonitorFish dev is done
   const { isSatiEnabled } = useSati()
-  const { defaultControlTypes } = useTarget()
   const { setFieldValue } = useFormikContext<ActionFishControlInput>()
 
   const usedAgentIds = [
@@ -70,23 +67,7 @@ const ControlConclusionLayout: FC<ControlConclusionLayoutProps> = ({ sati, seizu
         <Stack direction="column" spacing="1rem" style={{ width: '100%', backgroundColor: 'white', padding: 16 }}>
           <Stack.Item style={{ width: '100%' }}>
             {infractionSummary}
-            <Field name={`targets[0]`}>
-              {(fieldFormik: FieldProps<Target>) => (
-                <TargetItemDefault
-                  name={`targets[0]`}
-                  message={
-                    <Message level="WARNING">
-                      Veuillez vous assurez que l'infraction n'a pas déjà été saisie par le CNSP
-                    </Message>
-                  }
-                  fieldFormik={fieldFormik}
-                  targetType={TargetType.DEFAULT}
-                  availableControlTypes={defaultControlTypes}
-                  title={`Ajout d'infraction (hors pol. pêche)`}
-                  buttonLabel={`Ajouter une infraction (hors pol. pêche)`}
-                />
-              )}
-            </Field>
+            {target}
           </Stack.Item>
           {seizure && (
             <>
