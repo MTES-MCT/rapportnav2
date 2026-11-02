@@ -157,6 +157,10 @@ class SecurityTestController {
     @ResponseBody
     fun analyticsTest(): String = "analytics"
 
+    @GetMapping("/api/v1/public/inquiries")
+    @ResponseBody
+    fun publicInquiriesTest(): String = "inquiries"
+
     @GetMapping("/")
     @ResponseBody
     fun root(): String = "root"
@@ -278,6 +282,13 @@ class SecurityConfigIntegrationTest {
         @WithMockUser(authorities = ["ROLE_API_USER"])
         fun `analytics endpoints should be accessible with API user role`() {
             mockMvc.perform(get("/api/analytics/test"))
+                .andExpect(status().isOk)
+        }
+
+        @Test
+        @WithMockUser(authorities = ["ROLE_API_USER"])
+        fun `public inquiries endpoint should be accessible with API user role`() {
+            mockMvc.perform(get("/api/v1/public/inquiries").param("vesselId", "1"))
                 .andExpect(status().isOk)
         }
     }

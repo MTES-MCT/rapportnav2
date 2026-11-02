@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Co
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlResource
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Address
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Establishment
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Contact
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
 
@@ -17,6 +18,7 @@ object SatiMapper {
             endDatetimeUtc = entity?.endDatetimeUtc,
             startDatetimeUtc = entity?.startDatetimeUtc,
             module = entity?.module?: SatiModuleType.M1,
+            establishment = entity?.establishment?.toOutput(),
             principalInspector = entity?.inspectors?.firstOrNull { it.isPrincipal }?.toOutput() ?: SatiInspector(),
             otherInspectors = entity?.inspectors?.filter { !it.isPrincipal }?.map { it.toOutput() } ?: listOf()
         )
@@ -31,6 +33,7 @@ object SatiMapper {
             endDatetimeUtc = response?.endDatetimeUtc,
             startDatetimeUtc = response?.startDatetimeUtc,
             module = response?.module?: SatiModuleType.M1,
+            establishment = response?.establishment?.toEntity(),
             inspectors = listOfNotNull(
                 response?.principalInspector?.toEntity()?.copy(isPrincipal = true)
             ) + (response?.otherInspectors?.map { it.toEntity() } ?: listOf())
@@ -106,6 +109,28 @@ object SatiMapper {
             comments = comments,
             signature = signature,
             contact = contact?.toOutput(),
+        )
+    }
+
+    private fun SatiEstablishment.toEntity(): SatiEstablishmentEntity {
+        return SatiEstablishmentEntity(
+            id = id,
+            type = type,
+            subType = subType,
+            owner = owner?.toEntity(),
+            operator = operator?.toEntity(),
+            data = data?.toEstablishmentEntity()
+        )
+    }
+
+    private fun SatiEstablishmentEntity.toOutput(): SatiEstablishment {
+        return SatiEstablishment(
+            id = id,
+            type = type,
+            subType = subType,
+            owner = owner?.toOutput(),
+            operator = operator?.toOutput(),
+            data = data?.let { Establishment.fromEstablishmentEntity(it) }
         )
     }
 

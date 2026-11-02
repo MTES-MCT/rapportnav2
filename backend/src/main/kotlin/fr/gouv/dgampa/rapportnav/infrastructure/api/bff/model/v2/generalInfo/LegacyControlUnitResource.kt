@@ -7,14 +7,18 @@ data class LegacyControlUnitResource(
     val id: Int,
     val name: String,
     val controlUnitId: Int,
-    val type: ControlUnitResourceType? = null
+    val type: ControlUnitResourceType? = null,
+    val nbKms: Double? = null,
+    val nbEngineHours: Double? = null
 ) {
     fun toLegacyControlUnitResourceEntity(): LegacyControlUnitResourceEntity {
         return LegacyControlUnitResourceEntity(
             id = id,
             name = name,
             controlUnitId = controlUnitId,
-            type = type
+            type = type,
+            nbKms = nbKms,
+            nbEngineHours = nbEngineHours
         )
     }
 }

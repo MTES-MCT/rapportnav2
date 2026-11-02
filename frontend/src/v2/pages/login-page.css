@@ -1,0 +1,11 @@
+/*
+ * rsuite.min.css (loaded app-wide) sets `a:hover { text-decoration: underline }`.
+ * DSFR draws its own underline via a background-image on the base `a` rule, and
+ * only resets native text-decoration on the unspecific `a` selector, so rsuite's
+ * more specific `a:hover` wins and renders a native underline on top of DSFR's,
+ * producing a doubled line on hover. Scoped to the login page since DSFR is only
+ * loaded there.
+ */
+.login-page [href]:hover {
+  text-decoration: none;
+}

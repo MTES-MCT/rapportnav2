@@ -2,6 +2,12 @@ export const ROOT_PATH = '/'
 export const LOGIN_PATH = '/login'
 export const SIGNUP_PATH = '/signup'
 
+// static pages
+export const ACCESSIBILITY_PATH = '/accessibilite'
+export const LEGAL_NOTICE_PATH = '/mentions-legales'
+export const PERSONAL_DATA_PATH = '/donnees-personnelles'
+export const SITEMAP_PATH = '/plan-du-site'
+
 /**
  * Redirects to a specified ID regardless of whether the current path is PAM or ULAM
  * Works for both cases:

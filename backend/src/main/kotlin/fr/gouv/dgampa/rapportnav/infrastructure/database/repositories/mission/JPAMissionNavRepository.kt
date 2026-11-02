@@ -71,6 +71,21 @@ class JPAMissionNavRepository(
         }
     }
 
+    override fun findNavMissionsForService(serviceId: Int, startedAfter: Instant, startedBefore: Instant): List<MissionModel> {
+        return try {
+            dbRepository.findNavMissionsForService(
+                serviceId = serviceId,
+                startedAfter = startedAfter,
+                startedBefore = startedBefore
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find nav missions for service='$serviceId'",
+                originalException = e
+            )
+        }
+    }
+
     override fun findAllPaginated(page: Int, size: Int): Page<MissionModel> {
         return try {
             dbRepository.findAllByOrderByStartDateTimeUtcDesc(PageRequest.of(page, size))

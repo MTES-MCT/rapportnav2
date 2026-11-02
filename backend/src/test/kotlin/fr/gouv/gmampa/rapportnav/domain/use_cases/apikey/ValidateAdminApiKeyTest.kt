@@ -106,15 +106,32 @@ class ValidateAdminApiKeyTest {
 
     @Test
     fun `should handle master key without querying repository`() {
-        // simulate environment master key
-        val field = ValidateApiKey::class.java.getDeclaredField("masterKeyFromEnv")
+        // simulate a valid (long enough) environment master key
+        val masterKey = "m".repeat(48)
+        val field = ValidateApiKey::class.java.getDeclaredField("masterKey")
         field.isAccessible = true
-        field.set(validateApiKey, "MASTER123")
+        field.set(validateApiKey, masterKey)
 
-        val result = validateApiKey.execute("MASTER123", ip, path)
+        val result = validateApiKey.execute(masterKey, ip, path)
         assertNull(result)
         verify(logAudit).logSuccessfulAccess(null, ip, path)
         verifyNoInteractions(repo)
+    }
+
+    @Test
+    fun `should not match master key when a different key is provided`() {
+        val masterKey = "m".repeat(48)
+        val field = ValidateApiKey::class.java.getDeclaredField("masterKey")
+        field.isAccessible = true
+        field.set(validateApiKey, masterKey)
+
+        // A different key must NOT take the master-key path: it falls through to normal validation
+        whenever(repo.findByPublicId(any())).thenReturn(null)
+        val result = validateApiKey.execute("123456789012different", ip, path)
+
+        assertNull(result)
+        verify(repo).findByPublicId(any())
+        verify(logAudit).logFailedAccess(null, ip, path, "Key not found")
     }
 
     @Test

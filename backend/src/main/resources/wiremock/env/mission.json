@@ -5,11 +5,14 @@
   ],
   "controlUnits": [
     {
-      "id": 10404,
+      "id": 10176,
       "administration": "DIRM / DM",
       "isArchived": false,
-      "name": "PAM Iris",
-      "resources": [],
+      "name": "ULAM 35",
+      "resources": [
+        { "id": 338, "controlUnitId": 10176, "name": "Voiture", "type": "CAR" },
+        { "id": 1252, "controlUnitId": 10176, "name": "PM 445", "type": "SEMI_RIGID" }
+      ],
       "contact": null
     }
   ],

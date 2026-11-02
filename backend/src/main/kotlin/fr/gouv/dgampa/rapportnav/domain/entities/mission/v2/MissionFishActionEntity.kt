@@ -99,9 +99,9 @@ class MissionFishActionEntity(
     override var speciesQuantitySeized: Int? = null,
     override var targets: List<TargetEntity>? = null,
     override val fishInfractions: List<FishInfraction> = listOf(),
-    override var sati: SatiEntity? = null,
     override var hasDivingDuringOperation: Boolean? = null,
-    override var incidentDuringOperation: Boolean? = null
+    override var incidentDuringOperation: Boolean? = null,
+    sati: SatiEntity? = null,
 ) : MissionActionEntity(
     missionId = missionId,
     actionType = ActionType.CONTROL,
@@ -113,7 +113,8 @@ class MissionFishActionEntity(
     isAdministrativeControl = isAdministrativeControl,
     isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
     isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
-    targets = targets
+    targets = targets,
+    sati = sati
 ), BaseMissionFishAction {
     override fun getActionId(): String {
         return id.toString()

@@ -9,14 +9,14 @@ import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionFishActionData } from '../../common/types/mission-action'
-import FishControlConclusion from '../../fish-sati/components/elements/fish-control-conclusion.tsx'
-import FishControlInfos from '../../fish-sati/components/elements/fish-control-infos.tsx'
-import FishControlOthers from '../../fish-sati/components/elements/fish-control-others.tsx'
-import FishControlPolpeche from '../../fish-sati/components/elements/fish-control-polpeche.tsx'
-import { useSati } from '../../fish-sati/hooks/use-sati.tsx'
+import FishControlConclusion from '../../sati/components/elements/fish-control-conclusion.tsx'
+import FishControlInfos from '../../sati/components/elements/fish-control-infos.tsx'
+import FishControlOthers from '../../sati/components/elements/fish-control-others.tsx'
+import FishControlPolpeche from '../../sati/components/elements/fish-control-polpeche.tsx'
+import { useSati } from '../../sati/hooks/use-sati.tsx'
 import { ActionFishControlInput } from '../types/action-type'
 
-const SATI_ITEM: StyledTabItem = {
+const FISH_SATI_ITEM: StyledTabItem = {
   key: 'infos',
   title: 'Infos du navire',
   component: FishControlInfos
@@ -65,7 +65,7 @@ export function useMissionActionFishControl(
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionFishControlInput> & { items: StyledTabItem[] } {
   const { isSatiEnabled } = useSati()
-  const { getCoords } = useCoordinate()
+  const { getCoordRounded } = useCoordinate()
   const value = action?.data as MissionFishActionData
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId)
@@ -76,7 +76,7 @@ export function useMissionActionFishControl(
     return {
       ...data,
       dates,
-      geoCoords: getCoords(data.latitude, data.longitude)
+      geoCoords: getCoordRounded(data.latitude, data.longitude)
     }
   }
 
@@ -114,7 +114,7 @@ export function useMissionActionFishControl(
   )
 
   const getItems = (): StyledTabItem[] => {
-    if (isSatiEnabled) return [SATI_ITEM, ...ITEMS]
+    if (isSatiEnabled) return [FISH_SATI_ITEM, ...ITEMS]
     return ITEMS
   }
 

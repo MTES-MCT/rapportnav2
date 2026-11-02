@@ -23,16 +23,22 @@ Statut des différents journaux :
 Pour chaque ligne de la base de données, sont stockés :
 - created_at
 - created_by
-- last_modified_at
-- last_modified_at
+- updated_at
+- updated_by
 
 Ces données permettent de savoir qui/quand a été créé la donnée et qui/quand l'a modifié en dernier.
 Un log des opérations intermédiaires n'est pas disponible à l'heure actuelle.
 
-### 9.4 Traçabilité des clés API
+### 9.4 Traçabilité des clés API et des authentifications
 
-Une table d'audit est implémentée dans la base de données, elle permet de suivre :
+Deux tables d'audit sont implémentées dans la base de données :
+- `api_key_audit` : suivi des accès par clé API
+- `authentication_audit` : suivi des connexions utilisateurs (login)
+
+Elles permettent de suivre :
 - le statut de la connexion
 - la raison de l'échec
 - l'IP entrante
+
+Ces journaux d'audit sont consultables depuis l'admin panel.
 

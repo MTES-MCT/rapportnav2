@@ -20,6 +20,19 @@ vi.mock('../../../hooks/use-target', () => ({
   })
 }))
 
+vi.mock('../target-infraction-form', () => ({
+  default: ({ onSubmit, onDelete, value, ...props }: any) => (
+    <div data-testid="target-infraction-form">
+      <button data-testid="submit-button" onClick={() => onSubmit(value)}>
+        Submit
+      </button>
+      <button data-testid="delete-button" onClick={() => onDelete()}>
+        Delete
+      </button>
+    </div>
+  )
+}))
+
 const createFieldFormik = (targets: Target[]): FieldProps<Target> => ({
   field: { value: targets[0] },
   form: {
@@ -153,19 +166,6 @@ describe('TargetInfractionList', () => {
   })
 
   describe('interactions', () => {
-    vi.mock('../target-infraction-form', () => ({
-      default: ({ onSubmit, onDelete, value, ...props }: any) => (
-        <div data-testid="target-infraction-form">
-          <button data-testid="submit-button" onClick={() => onSubmit(value)}>
-            Submit
-          </button>
-          <button data-testid="delete-button" onClick={() => onDelete()}>
-            Delete
-          </button>
-        </div>
-      )
-    }))
-
     beforeEach(() => {
       vi.clearAllMocks()
       fieldFormik = createFieldFormik([sampleTarget])

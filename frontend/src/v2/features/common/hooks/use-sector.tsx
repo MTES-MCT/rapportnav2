@@ -1,11 +1,4 @@
-import { SectorEtablishmentType, SectorFishingType, SectorPleasureType, SectorType } from '../types/sector-types'
-
-type SectorTypeRegistry = { [key in SectorType]: string }
-
-const SECTOR_TYPES: SectorTypeRegistry = {
-  FISHING: 'Filière pêche',
-  PLEASURE: 'Filière Plaisance'
-}
+import { SectorFishingType, SectorPleasureType } from '../types/sector-types'
 
 const SECTOR_PLEASURE_TYPES: Record<SectorPleasureType, string> = {
   SEA_DRIVING_LESSON: 'Formation à la conduite mer et eaux internes',
@@ -18,7 +11,6 @@ const SECTOR_FISHING_TYPES: Record<SectorFishingType, string> = {
   RESTAURANT: 'Restaurant',
   MOBILE_FISHMONGER: 'Poissonnerie ambulante',
   SEDENTARY_FISHMONGER: 'Poissonnerie sédentaire',
-  ROADSIDE_INSPECTION: 'Contrôle routier',
   FISH_AUCTION: 'Criée / Halle à marée',
   FISHMONGER: 'Mareyeur',
   LANDING_SITE: 'Site de débarquement',
@@ -26,36 +18,20 @@ const SECTOR_FISHING_TYPES: Record<SectorFishingType, string> = {
 }
 
 interface SectorHook {
-  sectorTypeOptions: { label: string; value: SectorType }[]
-  getSectionEtablishmentTypeOptions: (type?: SectorType) => { value: SectorEtablishmentType; label: string }[]
+  sectorFishingTypeOptions: { value: SectorFishingType; label: string }[]
+  sectorPleasureTypeOptions: { value: SectorPleasureType; label: string }[]
 }
 
 export function useSector(): SectorHook {
-  const getSectorTypeOptions = () =>
-    Object.keys(SectorType)?.map(key => ({
-      value: SectorType[key as keyof typeof SectorType],
-      label: SECTOR_TYPES[key as keyof typeof SectorType]
-    }))
+  const sectorFishingTypeOptions = Object.keys(SectorFishingType).map(key => ({
+    value: SectorFishingType[key as keyof typeof SectorFishingType],
+    label: SECTOR_FISHING_TYPES[key as keyof typeof SectorFishingType]
+  }))
 
-  const getSectorFishingTypeOptions = () =>
-    Object.keys(SectorFishingType)?.map(key => ({
-      value: SectorFishingType[key as keyof typeof SectorFishingType],
-      label: SECTOR_FISHING_TYPES[key as keyof typeof SectorFishingType]
-    }))
+  const sectorPleasureTypeOptions = Object.keys(SectorPleasureType).map(key => ({
+    value: SectorPleasureType[key as keyof typeof SectorPleasureType],
+    label: SECTOR_PLEASURE_TYPES[key as keyof typeof SectorPleasureType]
+  }))
 
-  const getSectorPleasureTypeOptions = () =>
-    Object.keys(SectorPleasureType)?.map(key => ({
-      value: SectorPleasureType[key as keyof typeof SectorPleasureType],
-      label: SECTOR_PLEASURE_TYPES[key as keyof typeof SectorPleasureType]
-    }))
-
-  const getSectionEtablishmentTypeOptions = (type?: SectorType) => {
-    if (!type) return []
-    return type === SectorType?.FISHING ? getSectorFishingTypeOptions() : getSectorPleasureTypeOptions()
-  }
-
-  return {
-    getSectionEtablishmentTypeOptions,
-    sectorTypeOptions: getSectorTypeOptions()
-  }
+  return { sectorFishingTypeOptions, sectorPleasureTypeOptions }
 }

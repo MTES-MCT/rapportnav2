@@ -57,6 +57,27 @@ class MissionEnvInputTest {
 
 
     @Test
+    fun `toPatchMissionInput should strip per-resource usage values before sending to MonitorEnv`() {
+        val input = MissionEnvInput(
+            missionId = 761,
+            controlUnitId = 741,
+            resources = listOf(
+                LegacyControlUnitResourceEntity(id = 12, controlUnitId = 741, nbKms = 42.0),
+                LegacyControlUnitResourceEntity(id = 13, controlUnitId = 741, nbEngineHours = 3.5)
+            )
+        )
+
+        val patchInput = input.toPatchMissionInput(
+            controlUnits = listOf(LegacyControlUnitEntity(id = 741, resources = mutableListOf()))
+        )
+
+        val resources = patchInput.controlUnits?.get(0)?.resources
+        assertThat(resources?.map { it.id }).containsExactly(12, 13)
+        assertThat(resources?.map { it.nbKms }).containsOnlyNulls()
+        assertThat(resources?.map { it.nbEngineHours }).containsOnlyNulls()
+    }
+
+    @Test
     fun `execute should return a mission env input from a mission env`() {
         val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00")
         val mission = MissionEnvEntity(

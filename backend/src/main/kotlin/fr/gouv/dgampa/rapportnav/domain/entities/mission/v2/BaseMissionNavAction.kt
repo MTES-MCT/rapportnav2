@@ -52,7 +52,7 @@ interface BaseMissionNavAction {
     var reason: ActionStatusReason?
     var nbrOfHours: Int?
     var trainingType: String?
-    var unitManagementTrainingType: String?
+    var unitManagementTrainingType: UnitManagementTrainingTypeEnum?
     var isWithinDepartment: Boolean?
     var hasDivingDuringOperation: Boolean?
     var incidentDuringOperation: Boolean?
@@ -65,7 +65,6 @@ interface BaseMissionNavAction {
     var fishAuction: FishAuctionEntity?
     var nbrOfControl: Int?
     var controlType: String?
-    val sectorType: SectorType?
     var nbrOfControlAmp: Int?
     var nbrOfControl300m: Int?
     var leisureType: LeisureType?

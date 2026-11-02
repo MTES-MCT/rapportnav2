@@ -144,6 +144,36 @@ class JPAInquiryRepositoryTest {
     }
 
     @Test
+    fun `findByVesselId should return inquiries of the vessel from the start date`() {
+        val start = Instant.parse("2021-01-01T00:00:00Z")
+        `when`(
+            dbInquiryRepository.findAllByVesselIdAndStartDateTimeUtcGreaterThanEqualOrderByStartDateTimeUtcDesc(42, start)
+        ).thenReturn(listOf(inquiryModel))
+
+        val result = jpaInquiryRepository.findByVesselId(vesselId = 42, startDateTimeUtc = start)
+
+        assertThat(result).hasSize(1)
+        assertThat(result[0].id).isEqualTo(inquiryId)
+        verify(dbInquiryRepository).findAllByVesselIdAndStartDateTimeUtcGreaterThanEqualOrderByStartDateTimeUtcDesc(
+            vesselId = 42,
+            startDateTimeUtc = start
+        )
+    }
+
+    @Test
+    fun `findByVesselId should throw BackendInternalException on unexpected error`() {
+        val start = Instant.parse("2021-01-01T00:00:00Z")
+        `when`(
+            dbInquiryRepository.findAllByVesselIdAndStartDateTimeUtcGreaterThanEqualOrderByStartDateTimeUtcDesc(42, start)
+        ).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaInquiryRepository.findByVesselId(vesselId = 42, startDateTimeUtc = start)
+        }
+        assertThat(exception.message).contains("findByVesselId")
+    }
+
+    @Test
     fun `deleteById should delegate to db repository`() {
         jpaInquiryRepository.deleteById(inquiryId)
 

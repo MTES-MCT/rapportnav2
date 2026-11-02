@@ -9,4 +9,5 @@ Objectifs :
 
 ## Pages
 - [Regles de validation des champs requis](validation-rules.md)
+- [Liste des missions : recombinaison, pagination et filtres](mission-list-filtering.md)
 

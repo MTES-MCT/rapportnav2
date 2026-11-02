@@ -4,7 +4,9 @@ import { ActionType } from '../../common/types/action-type'
 import MissionActionItemCommunication from '../../mission-action/components/elements/mission-action-item-communication'
 import MissionActionItemNauticalLeisureControl from '../../mission-action/components/elements/mission-action-item-control-nautical-leisure.tsx'
 import MissionActionItemOtherControl from '../../mission-action/components/elements/mission-action-item-control-other.tsx'
-import MissionActionItemSectorControl from '../../mission-action/components/elements/mission-action-item-control-sector.tsx'
+import MissionActionItemRoadsideControl from '../../mission-action/components/elements/mission-action-item-control-roadside.tsx'
+import MissionActionItemSectorFishingControl from '../../mission-action/components/elements/mission-action-item-control-sector-fishing.tsx'
+import MissionActionItemSectorPlaisanceControl from '../../mission-action/components/elements/mission-action-item-control-sector-plaisance.tsx'
 import MissionActionItemSleepingFishingGearControl from '../../mission-action/components/elements/mission-action-item-control-sleeping-fishing-gear.tsx'
 import MissionActionItemGenericDateObservation from '../../mission-action/components/elements/mission-action-item-generic-date-observation'
 import MissionActionItemHearingConduct from '../../mission-action/components/elements/mission-action-item-hearing-conduct'
@@ -18,6 +20,7 @@ import MissionActionItemResourceMaintenance from '../../mission-action/component
 import MissionActionItemSecurityVisit from '../../mission-action/components/elements/mission-action-item-security-visit'
 import MissionActionItemTraining from '../../mission-action/components/elements/mission-action-item-training'
 import MissionActionItemUnitManagementPlanning from '../../mission-action/components/elements/mission-action-item-unit-management-planning'
+import MissionActionItemUnitManagementTraining from '../../mission-action/components/elements/mission-action-item-unit-management-training'
 
 type UlamActionRegistry = {
   [key in ActionType]?: ActionRegistryItem
@@ -38,6 +41,11 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     icon: Icon.GroupPerson,
     title: `Gestion de l'unité`,
     component: MissionActionItemUnitManagementPlanning
+  },
+  [ActionType.UNIT_MANAGEMENT_TRAINING]: {
+    icon: Icon.GroupPerson,
+    title: `Entraînement`,
+    component: MissionActionItemUnitManagementTraining
   },
   [ActionType.TRAINING]: {
     icon: Icon.License,
@@ -114,10 +122,20 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     icon: Icon.ControlUnit,
     component: MissionActionItemSleepingFishingGearControl
   },
-  [ActionType.CONTROL_SECTOR]: {
-    title: `Contrôle d'établissement filière`,
+  [ActionType.CONTROL_SECTOR_FISHING]: {
+    title: `Contrôle de filière pêche`,
     icon: Icon.ControlUnit,
-    component: MissionActionItemSectorControl
+    component: MissionActionItemSectorFishingControl
+  },
+  [ActionType.CONTROL_SECTOR_PLAISANCE]: {
+    title: `Contrôle de filière plaisance`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemSectorPlaisanceControl
+  },
+  [ActionType.CONTROL_ROADSIDE]: {
+    title: `Contrôle routier`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemRoadsideControl
   }
 }
 

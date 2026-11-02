@@ -132,6 +132,39 @@ describe('MissionListItem component', () => {
     expect(reportStatus).toBeInTheDocument()
   })
 
+  test('shows the observations placeholder when expanded with no observationsByUnit', () => {
+    render(
+      <MissionListItemUlam
+        mission={{ ...mission1, observationsByUnit: '' }}
+        index={0}
+        openIndex={0}
+        setOpenIndex={mockSetOpenIndex}
+        missionsLength={2}
+        user={mockUser}
+      />
+    )
+    expect(
+      screen.getByText('Pas de commentaires saisis dans le champ "observation générale à l\'échelle de la mission"')
+    ).toBeInTheDocument()
+  })
+
+  test('shows the observations text when expanded with observationsByUnit', () => {
+    render(
+      <MissionListItemUlam
+        mission={mission1}
+        index={0}
+        openIndex={0}
+        setOpenIndex={mockSetOpenIndex}
+        missionsLength={2}
+        user={mockUser}
+      />
+    )
+    expect(screen.getByText('Je suis une observation')).toBeInTheDocument()
+    expect(
+      screen.queryByText('Pas de commentaires saisis dans le champ "observation générale à l\'échelle de la mission"')
+    ).not.toBeInTheDocument()
+  })
+
   test('should toggles open state when clicking on the list item', async () => {
     const setOpenIndexMock = vi.fn()
 

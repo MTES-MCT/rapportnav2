@@ -254,6 +254,36 @@ class FormatActionsForTimelineTests {
 
 
     @Test
+    fun `formatNavAction for UnitManagementTraining should translate the training type`() {
+        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.UNIT_MANAGEMENT_TRAINING, observations = "RAS"))
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Entraînement - Plongée - RAS")
+    }
+
+    @Test
+    fun `formatNavAction for UnitManagementTraining should translate every training type`() {
+        val expected = mapOf(
+            UnitManagementTrainingTypeEnum.SHOOTING to "Tir",
+            UnitManagementTrainingTypeEnum.DIVING to "Plongée",
+            UnitManagementTrainingTypeEnum.MAN_OVERBOARD_RECOVERY to "Récupération d'homme à la mer",
+            UnitManagementTrainingTypeEnum.INTERVENTION_TACTICS to "Techniques d'interventions (menottage...)",
+            UnitManagementTrainingTypeEnum.FIRE to "Incendie",
+            UnitManagementTrainingTypeEnum.ABANDON_SHIP to "Abandon du navire",
+        )
+        expected.forEach { (type, label) ->
+            val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.UNIT_MANAGEMENT_TRAINING, observations = null))
+            action.unitManagementTrainingType = type
+            assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Entraînement - $label")
+        }
+    }
+
+    @Test
+    fun `formatNavAction for UnitManagementTraining without training type`() {
+        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.UNIT_MANAGEMENT_TRAINING, observations = null))
+        action.unitManagementTrainingType = null
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Entraînement")
+    }
+
+    @Test
     fun `formatNavActionCommon for format special chars in observations`() {
         val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.RESCUE, observations = "3 adultes & 2 enfants <> RAS"))
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("23:00 / 02:00 - Assistance et sauvetage - 3 adultes & 2 enfants <> RAS")

@@ -1,6 +1,6 @@
 import { ControlType } from '@common/types/control-types.ts'
 import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
-import { FieldProps, Formik } from 'formik'
+import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Panel, Stack } from 'rsuite'
 import BannerYesNo from '../../../common/components/ui/banner-yes-no'
@@ -8,6 +8,8 @@ import { Control } from '../../../common/types/target-types'
 import { ControlInput, useControl } from '../../hooks/use-control'
 import MissionActionControlFormikMultiRadio from '../ui/mission-control-fomik-multi-radio'
 import { MissionControlTitle } from '../ui/mission-control-title'
+import { FormikTextareaInputDelay } from '../../../common/components/ui/formik-text-area-delay.tsx'
+import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
 
 type MissionControlModelFormProps = {
   name: string
@@ -64,8 +66,9 @@ const MissionControlForm: FC<MissionControlModelFormProps> = ({
                     )}
 
                     <Stack.Item style={{ width: '100%', paddingTop: 4 }}>
-                      <FormikTextarea
-                        style={{ width: '100%' }}
+                      <FormikTextAreaInput
+                        isLight={false}
+                        isErrorMessageHidden={true}
                         name={`observations`}
                         label={`Observations (hors infraction) sur le contrôle`}
                       />

@@ -9,9 +9,17 @@ import fr.gouv.dgampa.rapportnav.domain.validation.forNested
 object SatiValidationRules {
 
     private const val M1_OR_M3_DESC = "module ∈ {M1, M3}"
+    private const val M4_DESC = "module = M4"
+    private val IS_M4: (SatiEntity) -> Boolean = {
+        it.module == SatiModuleType.M4
+    }
+    private val IS_M5: (SatiEntity) -> Boolean = {
+        it.module == SatiModuleType.M5
+    }
     private val IS_M1_OR_M3: (SatiEntity) -> Boolean = {
         it.module == SatiModuleType.M1 || it.module == SatiModuleType.M3
     }
+
 
     val rules: List<Rule<SatiEntity>> = listOf<Rule<SatiEntity>>(
         Rule.always("resource.id", "La resource est requise") { it.resource?.id },
@@ -22,5 +30,9 @@ object SatiValidationRules {
         fieldPathPrefix = "vessel",
         condition = IS_M1_OR_M3,
         conditionDescription = M1_OR_M3_DESC
-    ) { sati: SatiEntity -> sati.vessel }
+    ) { sati: SatiEntity -> sati.vessel } + EstablishmentValidationRules.rules.forNested(
+        fieldPathPrefix = "establishment",
+        condition = IS_M4,
+        conditionDescription = M4_DESC
+    ) { sati: SatiEntity -> sati.establishment }
 }

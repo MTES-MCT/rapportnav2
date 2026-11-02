@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useParams } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 import { startOfYear, endOfYear } from 'date-fns'
 import { UTCDate } from '@date-fns/utc'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
@@ -10,7 +10,8 @@ import useAuth from '../../features/auth/hooks/use-auth.tsx'
 
 // Mock all the dependencies
 vi.mock('react-router', () => ({
-  useParams: vi.fn()
+  useParams: vi.fn(),
+  useLocation: vi.fn()
 }))
 
 vi.mock('@router/use-global-routes.tsx', () => ({
@@ -93,6 +94,7 @@ describe('MissionPamPage', () => {
   const mockGetUrl = vi.fn()
   const mockNavigateAndResetCache = vi.fn()
   const mockUseParams = useParams as any
+  const mockUseLocation = useLocation as any
   const mockUseGlobalRoutes = useGlobalRoutes as any
   const mockUseAuth = useAuth as unknown as vi.Mock
   const mockStartOfYear = startOfYear as any
@@ -104,6 +106,7 @@ describe('MissionPamPage', () => {
 
     mockUseGlobalRoutes.mockReturnValue({ getUrl: mockGetUrl })
     mockUseAuth.mockReturnValue({ navigateAndResetCache: mockNavigateAndResetCache })
+    mockUseLocation.mockReturnValue({ state: null })
 
     // Mock date functions
     const mockNow = new Date('2025-06-15T12:00:00Z')
@@ -139,6 +142,28 @@ describe('MissionPamPage', () => {
 
       expect(mockGetUrl).toHaveBeenCalledWith(OwnerType.MISSION)
       expect(mockNavigateAndResetCache).toHaveBeenCalled()
+    })
+
+    it('appends the list search carried in nav state when exiting', () => {
+      mockUseParams.mockReturnValue({ missionId: '123', actionId: '456' })
+      mockGetUrl.mockReturnValue('/pam/missions')
+      mockUseLocation.mockReturnValue({ state: { listSearch: '?statuses=ENDED' } })
+
+      render(<MissionPamPage />)
+      screen.getByTestId('exit-button').click()
+
+      expect(mockNavigateAndResetCache).toHaveBeenCalledWith('/pam/missions?statuses=ENDED', expect.anything())
+    })
+
+    it('exits to the bare list url when there is no nav state', () => {
+      mockUseParams.mockReturnValue({ missionId: '123', actionId: '456' })
+      mockGetUrl.mockReturnValue('/pam/missions')
+      mockUseLocation.mockReturnValue({ state: null })
+
+      render(<MissionPamPage />)
+      screen.getByTestId('exit-button').click()
+
+      expect(mockNavigateAndResetCache).toHaveBeenCalledWith('/pam/missions', expect.anything())
     })
   })
 

@@ -1,5 +1,227 @@
 # Changelog
 
+## [2.106.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.2...v2.106.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* CI playbook syntax ([32ecabe](https://github.com/MTES-MCT/rapportnav2/commit/32ecabe3a8ade2882f62c00bd2bd3e0f6fd260e0))
+* **SATI:** add delay on textarea ([5f9f7f6](https://github.com/MTES-MCT/rapportnav2/commit/5f9f7f674eb3214ed445ae0fd115cb7c266dff7f))
+
+## [2.106.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.1...v2.106.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **Docker:** load only writer and calc for Libreoffice ([07b1709](https://github.com/MTES-MCT/rapportnav2/commit/07b1709c41ad7aa37fc9f0be41694906809eb71e))
+
+## [2.106.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.0...v2.106.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* channel frontend env vars thru backend ([e6cb2b4](https://github.com/MTES-MCT/rapportnav2/commit/e6cb2b4dc1b043322aaac258a6ca6eb2b431e786))
+* surface training action in patrol data [#1603](https://github.com/MTES-MCT/rapportnav2/issues/1603) ([06fb0e8](https://github.com/MTES-MCT/rapportnav2/commit/06fb0e8b24ef60246ad7ef14ea4163f5516838ba))
+
+## [2.106.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.1...v2.106.0) (2026-10-28)
+
+
+### Features
+
+* **Missions:** add mission list filtering per dates, completion, status ([c06cf80](https://github.com/MTES-MCT/rapportnav2/commit/c06cf805b14fc0aeebfca6fb576977d50d9af1eb))
+
+## [2.105.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.105.0...v2.105.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* disable sati ([eb4c16a](https://github.com/MTES-MCT/rapportnav2/commit/eb4c16a27e92a31f70f503a20c34ac471e82d2bc))
+
+## [2.105.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.3...v2.105.0) (2026-10-27)
+
+
+### Features
+
+* add resource usage metrics to ULAM general info [#1405](https://github.com/MTES-MCT/rapportnav2/issues/1405) ([707b89c](https://github.com/MTES-MCT/rapportnav2/commit/707b89cff52dd0156970e25d7a5137b541b38d2b))
+
+## [2.104.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.2...v2.104.3) (2026-10-22)
+
+
+### Bug Fixes
+
+* remove snapshots ([6916088](https://github.com/MTES-MCT/rapportnav2/commit/69160883b5ecf47004e024deb84740e8f3cc512a))
+
+## [2.104.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.1...v2.104.2) (2026-10-22)
+
+
+### Bug Fixes
+
+* snapshots ([7dacd6c](https://github.com/MTES-MCT/rapportnav2/commit/7dacd6c10f4282e414dfc552e5816937866b9fb6))
+
+## [2.104.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.104.0...v2.104.1) (2026-10-22)
+
+
+### Bug Fixes
+
+* enable sati services ([81ba738](https://github.com/MTES-MCT/rapportnav2/commit/81ba738655fe1dee13ba696428d21b4be2214dff))
+
+## [2.104.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.103.0...v2.104.0) (2026-10-22)
+
+
+### Features
+
+* add new items for PAM training action ([5a60f45](https://github.com/MTES-MCT/rapportnav2/commit/5a60f45745763951d5ea766a565075fa26f8b258))
+* add new pages to public footer ([27a679e](https://github.com/MTES-MCT/rapportnav2/commit/27a679e2bf0081d66e4b87c793371ecedb30ab45))
+* **backend:** add inquiry api by vessel id ([8e69d43](https://github.com/MTES-MCT/rapportnav2/commit/8e69d43dce24c92b2ce70f09fe6ff2864492db91))
+* **backend:** add inquiry api by vessel id ([186ac98](https://github.com/MTES-MCT/rapportnav2/commit/186ac98c8513c0b81b261f30a80dcf9bd5d3005b))
+* **backend:** entity, data with sati ([78632bb](https://github.com/MTES-MCT/rapportnav2/commit/78632bbbfc30f7308af6d9712a1a38308729ced9))
+* **backend:** expose mission, service control units, infractions and observations in public inquiry api ([0970a71](https://github.com/MTES-MCT/rapportnav2/commit/0970a719c321ea8609ab1e09c4fa0f61cddfe696))
+* **backend:** Sati establishment ([788052a](https://github.com/MTES-MCT/rapportnav2/commit/788052a70bac9285c7f4725fd0845602ca9b4af3))
+* **backend:** Sati establishment ([7a77dec](https://github.com/MTES-MCT/rapportnav2/commit/7a77dec9053779b6c55eadfe8597415c42cf3d35))
+* **frontend:** add version on title ([a21d3a7](https://github.com/MTES-MCT/rapportnav2/commit/a21d3a77c8fc8579dd8254e5a4dc341efa4ad789))
+* **frontend:** add version on title ([854f1d2](https://github.com/MTES-MCT/rapportnav2/commit/854f1d2bb63d51f5730b3e9a43ed5430e1973dc6))
+* **frontend:** fishing sector conclusion tab ([381c730](https://github.com/MTES-MCT/rapportnav2/commit/381c7308e503a850707e445b1b739954fb1b5c95))
+* **frontend:** fishing sector conclusion tab ([f1a65fc](https://github.com/MTES-MCT/rapportnav2/commit/f1a65fcfa9c56f041745a7b2f8d21a73fd2ab4fe))
+* **frontend:** remaning fish-sati folder to sati ([b0d94d6](https://github.com/MTES-MCT/rapportnav2/commit/b0d94d68534f77b6dfb690e098525b033936a255))
+* **frontend:** remaning fish-sati folder to sati ([44d046f](https://github.com/MTES-MCT/rapportnav2/commit/44d046f5981de9c500603e239e569452259f4720))
+* **github:** Add template for issue ([54da043](https://github.com/MTES-MCT/rapportnav2/commit/54da0435dbd069e630a60b60d42d7ba1bc2cad88))
+
+
+### Bug Fixes
+
+* **backend:** remove useless database script part ([80a98cc](https://github.com/MTES-MCT/rapportnav2/commit/80a98cc7186e8cb8c8696b6d79e0c392650374d3))
+* enable sati services ([b111610](https://github.com/MTES-MCT/rapportnav2/commit/b111610dbc6baaf68f13c1453c106fd97076eb24))
+* **frontend:** test ([cbd2f78](https://github.com/MTES-MCT/rapportnav2/commit/cbd2f78503f6258870825336786e998cca8c6b7b))
+
+## [2.103.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.102.0...v2.103.0) (2026-10-13)
+
+
+### Features
+
+* **frontend:** hide field from polpeche ([945ddc9](https://github.com/MTES-MCT/rapportnav2/commit/945ddc96e349be82e0ffc94d371412254604f236))
+
+
+### Bug Fixes
+
+* **backend:** Rules completion address ([1995d68](https://github.com/MTES-MCT/rapportnav2/commit/1995d68f3dede04b1e84f63d4511367b2ad3be0a))
+* gradle cache ([76e20ae](https://github.com/MTES-MCT/rapportnav2/commit/76e20aee06fc7a6b6d0aea86eab1bbcd39f7d6f5))
+
+## [2.102.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.3...v2.102.0) (2026-10-08)
+
+
+### Features
+
+* **backend:** display from db when vessel length is &lt; 12 ([ed8621d](https://github.com/MTES-MCT/rapportnav2/commit/ed8621d9304e6f7b8a708f72f71b174544251ee1))
+* **backend:** update patch resource response data ([8887c1b](https://github.com/MTES-MCT/rapportnav2/commit/8887c1b4102e1d072f34fa2261124bc8340a92b2))
+* **Security:** rate limit on login BRUT01 ([126173d](https://github.com/MTES-MCT/rapportnav2/commit/126173d25ec93fe68c3b584195e5281c3d3bb783))
+
+
+### Bug Fixes
+
+* **backend:** Rules completion address ([4e814e7](https://github.com/MTES-MCT/rapportnav2/commit/4e814e7c6dbaa4e120714e5ecf8c8057bf890ae8))
+* **frontend:** dependency eslint audit ([0f7c950](https://github.com/MTES-MCT/rapportnav2/commit/0f7c950eb06ad3232c3476d6b9537876b1559143))
+* **frontend:** dependency eslint audit ([be52cc2](https://github.com/MTES-MCT/rapportnav2/commit/be52cc2dd291543d86860ba28de3f7398f46950d))
+* **frontend:** hide empty line ([23bf321](https://github.com/MTES-MCT/rapportnav2/commit/23bf3213c6681d3f8c9f2ad698ad04613265a5b5))
+* **frontend:** hide empty line ([351bdac](https://github.com/MTES-MCT/rapportnav2/commit/351bdac16f419cedcc9fd4cd6adfb1b5d437dcad))
+* **frontend:** remove is require on Jpe type ([b5b255e](https://github.com/MTES-MCT/rapportnav2/commit/b5b255ed3afe75fdaaac21e8d76e12c604b344ea))
+* **global:** disabled feature flag SATI ([b411ff1](https://github.com/MTES-MCT/rapportnav2/commit/b411ff10bb216ab06c045b5c05af8976e6c49c6c))
+* **Security:** avoid log injection LOG04 ([79dc0fa](https://github.com/MTES-MCT/rapportnav2/commit/79dc0faecd877dbd678b51926bf54b54f7bfb69e))
+
+## [2.101.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.2...v2.101.3) (2026-10-05)
+
+
+### Bug Fixes
+
+* service duplication script fix ([688d340](https://github.com/MTES-MCT/rapportnav2/commit/688d340aa92e7eaeece2d417190ad7de32d06169))
+
+## [2.101.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.1...v2.101.2) (2026-10-02)
+
+
+### Bug Fixes
+
+* bump test containers ([4034ada](https://github.com/MTES-MCT/rapportnav2/commit/4034adab763d3d5a9d6e7704a9c7dca8a1327f54))
+
+## [2.101.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.101.0...v2.101.1) (2026-10-02)
+
+
+### Bug Fixes
+
+* fix migration ([19d0b41](https://github.com/MTES-MCT/rapportnav2/commit/19d0b4160b3b140aa2799acb8f36c1b5ab68a542))
+
+## [2.101.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.6...v2.101.0) (2026-09-30)
+
+
+### Features
+
+* **backend:** split control sector into fishing + plaisance ([d1fbe62](https://github.com/MTES-MCT/rapportnav2/commit/d1fbe6253dbf7b6bf3cdb96b14d9502b7c88195b))
+* **backend:** update mission action type ([4daed62](https://github.com/MTES-MCT/rapportnav2/commit/4daed628abdbd7e8b3d2cd938daad0d0f98b703c))
+* **frontend:** redeploy control sector ([2103c93](https://github.com/MTES-MCT/rapportnav2/commit/2103c93457e771d37c1f87733f01d930dde61061))
+* node26 + vite8 ([a9ef6bd](https://github.com/MTES-MCT/rapportnav2/commit/a9ef6bd1b8b8ecee89dfbe4d00a32239533c4da1))
+* switch reading completeness for stats from database ([27bff47](https://github.com/MTES-MCT/rapportnav2/commit/27bff4796510198514099337081d191d04d918f8))
+
+
+### Bug Fixes
+
+* **frontend:** dependencies issues ([a8cdb28](https://github.com/MTES-MCT/rapportnav2/commit/a8cdb28ca0a8890833b8234bbeeec1b9ee55b279))
+* merge duplicate service ULAM 971 ([7fd13aa](https://github.com/MTES-MCT/rapportnav2/commit/7fd13aae14b9b2b683f6b581a5c79df7ff39d3ba))
+
+## [2.100.6](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.5...v2.100.6) (2026-09-25)
+
+
+### Bug Fixes
+
+* hotfix for control f57bcadf-34de-49f5-8167-2511802bb0a4 ([2a3a6a9](https://github.com/MTES-MCT/rapportnav2/commit/2a3a6a9b367718b1b46922c1a4ec568c4820fddf))
+* **secu:** bump spring-boot and kotlin ([8c1d504](https://github.com/MTES-MCT/rapportnav2/commit/8c1d504885ea4315764c9b78f2cf3902cfbb34e7))
+
+## [2.100.5](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.4...v2.100.5) (2026-09-24)
+
+
+### Bug Fixes
+
+* SATI enable ULAM 971 ([729cb15](https://github.com/MTES-MCT/rapportnav2/commit/729cb1588511ceee2b9b4a2f3e6ad3b2e1bbf969))
+
+## [2.100.4](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.3...v2.100.4) (2026-09-22)
+
+
+### Bug Fixes
+
+* add compose label ([19566f2](https://github.com/MTES-MCT/rapportnav2/commit/19566f20b3b919e78dad098aee85870dff3a5f71))
+* env var frontend sati ([c24d4ce](https://github.com/MTES-MCT/rapportnav2/commit/c24d4ce44a626962c7f1203c887b95ad7aec485b))
+
+## [2.100.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.2...v2.100.3) (2026-09-22)
+
+
+### Bug Fixes
+
+* delay textarea in env control ([d25d774](https://github.com/MTES-MCT/rapportnav2/commit/d25d77483d3fb0a301c1e999b408966c07cbed35))
+* disable ULAM 34 from tests ([290056c](https://github.com/MTES-MCT/rapportnav2/commit/290056cc7f604a0430f6068f6712396ef96d0abc))
+
+## [2.100.2](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.1...v2.100.2) (2026-09-21)
+
+
+### Bug Fixes
+
+* update postgres:15.19 ([421556a](https://github.com/MTES-MCT/rapportnav2/commit/421556a861154cefdb506533f30479e0b65545b1))
+
+## [2.100.1](https://github.com/MTES-MCT/rapportnav2/compare/v2.100.0...v2.100.1) (2026-09-15)
+
+
+### Bug Fixes
+
+* **frontend:** hotfix  coords triggered endless put ([eecc8cb](https://github.com/MTES-MCT/rapportnav2/commit/eecc8cb67d1cdf4bd7a1bcb22c2c5ab4b4385351))
+* **frontend:** login page ([ee9efca](https://github.com/MTES-MCT/rapportnav2/commit/ee9efca291b802dee686a634dd497453813fc1c3))
+* **frontend:** login page ([c5b1625](https://github.com/MTES-MCT/rapportnav2/commit/c5b1625e8ef4ffccecf769bccf5b596bd6482e18))
+* **frontend:** review M1/M3 ([215678e](https://github.com/MTES-MCT/rapportnav2/commit/215678e3409faa4a552fc0d11ea71d59a4ab446b))
+* **frontend:** review M1/M3 ([53117f6](https://github.com/MTES-MCT/rapportnav2/commit/53117f6f2ec1b4ad8da9fee8133975e3a813c84e))
+
+## [2.100.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.99.0...v2.100.0) (2026-09-08)
+
+
+### Features
+
+* **frontend:** feedbacks M1/M3 ([3ce6ec0](https://github.com/MTES-MCT/rapportnav2/commit/3ce6ec085ab68025ba12a007f253038dcee777fc))
+* **frontend:** feedbacks M1/M3 ([27da862](https://github.com/MTES-MCT/rapportnav2/commit/27da86290e463fb82b1473b1e88dcd467e587e07))
+
 ## [2.99.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.98.0...v2.99.0) (2026-09-03)
 
 

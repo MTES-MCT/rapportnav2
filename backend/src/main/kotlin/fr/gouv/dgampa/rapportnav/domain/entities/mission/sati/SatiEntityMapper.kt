@@ -15,10 +15,10 @@ object SatiEntityMapper {
                     pnoId = action.pnoReportId,
                     portName = action.lastDeparturePortName,
                     lastPortIsNotSame = sati.vessel?.jpe?.lastPortIsNotSame,
-                    pnoType = action.pnoPurpose ?: sati.vessel?.jpe?.pnoType,
-                    tripNumber = action.tripNumber ?: sati.vessel?.jpe?.tripNumber,
                     portId = action.lastDeparturePortLocode ?: sati.vessel?.jpe?.portId,
                     lastStopDate = action.lastDepartureDateTime ?: sati.vessel?.jpe?.lastStopDate,
+                    pnoType = if(isJpeIsEnable(action)) action.pnoPurpose else sati.vessel?.jpe?.pnoType,
+                    tripNumber = if(isJpeIsEnable(action)) action.tripNumber else sati.vessel?.jpe?.tripNumber
                 ),
                 ircs = action.ircs,
                 imo = action.imo,
@@ -57,5 +57,9 @@ object SatiEntityMapper {
     fun isEquals(fromDb: SatiEntity?, input: SatiEntity): Boolean {
         if (fromDb == null) return false
         return toModel(fromDb) == toModel(input)
+    }
+
+    fun isJpeIsEnable(action: MissionAction): Boolean {
+        return action.vesselLength!= null && action.vesselLength > 12.0
     }
 }

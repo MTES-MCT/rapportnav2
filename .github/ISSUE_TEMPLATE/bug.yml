@@ -1,0 +1,62 @@
+name: 🐞 Bug Report
+description: Signaler un dysfonctionnement
+title: '[Bug]: '
+labels: ['bug', 'triage']
+body:
+  - type: markdown
+    attributes:
+      value: 'Merci de prendre le temps de remplir ce rapport de bug.'
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Décris clairement le comportement observé.
+      placeholder: Quand je fais X, il se passe Y...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Étapes de reproduction
+      description: Comment reproduire le bug ?
+      value: |
+        1. Aller à '...'
+        2. Cliquer sur '...'
+        3. Observer l'erreur
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+      placeholder: Ce qui aurait dû se passer...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Sévérité
+      options:
+        - Bloquant (production HS)
+        - Majeur (fonctionnalité cassée)
+        - Mineur (contournable)
+        - Cosmétique
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      placeholder: 'v1.2.3 ou hash du commit'
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / captures
+      description: Colle les logs pertinents (formatés automatiquement).
+      render: shell

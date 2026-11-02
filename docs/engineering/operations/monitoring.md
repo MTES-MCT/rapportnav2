@@ -23,7 +23,7 @@ Les logs du backend et de la database sont visibles dans les logs du container
 
 Sonarqube permet de mesurer la qualité du code selon plusieurs critères comme la couverture de tests, duplication de code, code smells, maintenabilité...
 
-A chaque push sur main sur le Gitlab de la DSI, une analyse est lancée et les résultats sont updatés automatiquement.
+L'analyse est exécutée dans le pipeline de déploiement vers les environnements école / intégration (déclenché manuellement via l'UI GitLab), et non à chaque push sur `main`.
 
 Il est possible de voir le projet en suivant l'url: http://sonarqube.dsi.damgm.i2/projects
 

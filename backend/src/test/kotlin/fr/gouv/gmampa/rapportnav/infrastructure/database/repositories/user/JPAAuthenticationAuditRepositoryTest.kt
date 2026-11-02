@@ -81,4 +81,26 @@ class JPAAuthenticationAuditRepositoryTest {
         assertThat(result.content).isEmpty()
         assertThat(result.totalElements).isEqualTo(0)
     }
+
+    @Test
+    fun `countFailuresByEmailSince should delegate to db repository`() {
+        val since = Instant.now().minusSeconds(900)
+        `when`(dbRepository.countByEmailAndSuccessFalseAndTimestampAfter("test@example.com", since)).thenReturn(3L)
+
+        val result = jpaRepository.countFailuresByEmailSince("test@example.com", since)
+
+        assertThat(result).isEqualTo(3L)
+        verify(dbRepository).countByEmailAndSuccessFalseAndTimestampAfter("test@example.com", since)
+    }
+
+    @Test
+    fun `countFailuresByIpAddressSince should delegate to db repository`() {
+        val since = Instant.now().minusSeconds(900)
+        `when`(dbRepository.countByIpAddressAndSuccessFalseAndTimestampAfter("127.0.0.1", since)).thenReturn(7L)
+
+        val result = jpaRepository.countFailuresByIpAddressSince("127.0.0.1", since)
+
+        assertThat(result).isEqualTo(7L)
+        verify(dbRepository).countByIpAddressAndSuccessFalseAndTimestampAfter("127.0.0.1", since)
+    }
 }

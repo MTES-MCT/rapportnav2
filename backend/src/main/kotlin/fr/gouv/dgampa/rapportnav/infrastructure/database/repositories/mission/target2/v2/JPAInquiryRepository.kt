@@ -43,6 +43,20 @@ class JPAInquiryRepository(
         return dbInquiryRepository.findByServiceId(serviceId)
     }
 
+    override fun findByVesselId(vesselId: Int, startDateTimeUtc: Instant): List<InquiryModel> {
+        return try {
+            dbInquiryRepository.findAllByVesselIdAndStartDateTimeUtcGreaterThanEqualOrderByStartDateTimeUtcDesc(
+                vesselId = vesselId,
+                startDateTimeUtc = startDateTimeUtc
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPAInquiryRepository.findByVesselId failed for vesselId=$vesselId",
+                originalException = e
+            )
+        }
+    }
+
     override fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<InquiryModel?> {
         return dbInquiryRepository.findAllBetweenDates(
             startBeforeDateTime = startBeforeDateTime,

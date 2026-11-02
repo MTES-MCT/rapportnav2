@@ -28,6 +28,8 @@ import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.never
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
@@ -136,6 +138,35 @@ class CreateNavActionTest {
 
         // the request body carried no ownerId; it must be stamped from the resolved path owner
         verify(missionActionRepository).save(argThat { this.ownerId == ownerUuid })
+    }
+
+    @Test
+    fun `test execute creates the CONTROL_SECTOR_FISHING, CONTROL_SECTOR_PLAISANCE and CONTROL_ROADSIDE action types`() {
+        `when`(missionActionRepository.save(anyOrNull())).thenReturn(MissionActionModelMock.create())
+        val createNavAction = CreateNavAction(
+            missionActionRepository = missionActionRepository,
+            entityValidityValidator = entityValidityValidator,
+            computeActionValidityAndRecomputeMission = computeActionValidityAndRecomputeMission,
+            resolveActionOwnerId = resolveActionOwnerId
+        )
+
+        listOf(
+            ActionType.CONTROL_SECTOR_FISHING,
+            ActionType.CONTROL_SECTOR_PLAISANCE,
+            ActionType.CONTROL_ROADSIDE
+        ).forEach {
+            val input = MissionNavAction(
+                id = UUID.randomUUID().toString(),
+                missionId = 761,
+                ownerId = UUID.randomUUID().toString(),
+                actionType = it,
+                source = MissionSourceEnum.RAPPORT_NAV,
+                data = getNavActionDataInput(),
+            )
+
+            assertThat(createNavAction.execute(input)).isNotNull
+        }
+        verify(missionActionRepository, times(3)).save(anyOrNull())
     }
 
     @Test

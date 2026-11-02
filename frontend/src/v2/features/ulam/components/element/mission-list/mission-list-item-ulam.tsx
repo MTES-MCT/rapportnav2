@@ -2,7 +2,7 @@ import Text from '@common/components/ui/text.tsx'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import React, { MouseEvent, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
@@ -14,6 +14,7 @@ import { User } from '../../../../common/types/user.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
+import MissionActionRecapTags from '../../ui/mission-action-recap-tags.tsx'
 
 interface MissionListItemProps {
   mission: MissionListItem
@@ -52,6 +53,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
   user
 }) => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { getUrl } = useGlobalRoutes()
   const missionCrew = useUlamCrewForMissionList(mission.crew)
   const controlUnitResourcesText = useControlUnitResourceLabel(
@@ -100,7 +102,10 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
 
   const goToMission = (mission: MissionListItem) => {
     const id = mission?.id ?? mission.idUUID
-    if (id) navigate(`${getUrl(OwnerType.MISSION)}/${mission?.id ?? mission.idUUID}`)
+    if (id)
+      navigate(`${getUrl(OwnerType.MISSION)}/${mission?.id ?? mission.idUUID}`, {
+        state: { listSearch: location.search }
+      })
   }
 
   return (
@@ -176,19 +181,19 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
                 backgroundColor: THEME.color.charcoal
               }}
             />
-            <FlexboxGrid justify="space-between" style={{ width: '100%', marginBottom: '1rem' }}>
-              <FlexboxGrid.Item style={{ maxWidth: '60%', overflowWrap: 'break-word' }}>
-                <p
-                  style={{
-                    color: THEME.color.gunMetal,
-                    fontSize: '13px',
-                    paddingBottom: '15px'
-                  }}
-                >
-                  {mission.observationsByUnit}
-                </p>
+            <FlexboxGrid justify="start" style={{ width: '100%', marginBottom: '1rem' }}>
+              <FlexboxGrid.Item colspan={9} style={{ overflowWrap: 'break-word' }}>
+                {mission.observationsByUnit?.trim() ? (
+                  <Text as={'h3'}>{mission.observationsByUnit}</Text>
+                ) : (
+                  <Text as={'h3'} color={THEME.color.slateGray} fontStyle={'italic'}>
+                    Pas de commentaires saisis dans le champ "observation générale à l'échelle de la mission"
+                  </Text>
+                )}
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item></FlexboxGrid.Item>
+              <FlexboxGrid.Item>
+                <MissionActionRecapTags actionsSummary={mission.actionsSummary} />
+              </FlexboxGrid.Item>
             </FlexboxGrid>
           </FlexboxGrid.Item>
         )}

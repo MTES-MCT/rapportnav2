@@ -7,6 +7,7 @@ import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import tools.jackson.databind.json.JsonMapper
 import java.io.File
 import java.security.SecureRandom
 import java.util.*
@@ -19,12 +20,18 @@ import java.util.*
 @Controller
 class FrontendRoutesController(
     @param:Value("\${STATIC_FILES_PATH:}") private val staticFilesPath: String,
-    @param:Value("\${metabase.site-url}") private val metabaseSiteUrl: String
+    @param:Value("\${metabase.site-url}") private val metabaseSiteUrl: String,
+    @param:Value("\${SENTRY_DSN}") private val frontendSentryDsn: String,
+    @param:Value("\${sati.enabled-services}") private val satiEnabledServices: String
 ) {
     companion object {
         private const val NONCE_PLACEHOLDER = "__CSP_NONCE__"
+        // Placeholder left in index.html by @import-meta-env/unplugin, filled at runtime with the frontend env
+        // see: https://import-meta-env.org/guide/getting-started/introduction.html
+        private const val IMPORT_META_ENV_PLACEHOLDER = "'\"import_meta_env_placeholder\"'"
         private const val NONCE_SIZE = 16 // 128 bits
         private val secureRandom = SecureRandom()
+        private val jsonMapper = JsonMapper.builder().build()
     }
 
     @GetMapping(
@@ -32,6 +39,10 @@ class FrontendRoutesController(
             "/",
             "/login",
             "/signup",
+            "/accessibilite",
+            "/mentions-legales",
+            "/donnees-personnelles",
+            "/plan-du-site",
             "/admin",
             "/pam/**",
             "/ulam/**",
@@ -52,6 +63,9 @@ class FrontendRoutesController(
         // Replace placeholder if present (source HTML)
         htmlContent = htmlContent.replace(NONCE_PLACEHOLDER, nonce)
 
+        // Inject runtime frontend env vars (import.meta.env.*)
+        htmlContent = htmlContent.replace(IMPORT_META_ENV_PLACEHOLDER, "'${frontendEnvAsJsString()}'")
+
         // Inject nonce into inline scripts that don't have one (built HTML)
         // Matches <script> tags without src attribute (inline scripts)
         htmlContent = htmlContent.replace(
@@ -62,11 +76,29 @@ class FrontendRoutesController(
         // Prevent caching of HTML (each response has a unique CSP nonce)
         response.setHeader("Cache-Control", "no-store")
 
+        // Keep the app out of search engines (mirrors the robots meta tag in index.html)
+        response.setHeader("X-Robots-Tag", "noindex, nofollow")
+
         // Set CSP header with nonce
         val isSecure = request.isSecure
         setCspHeader(response, nonce, isSecure)
 
         return htmlContent
+    }
+
+    /**
+     * Serializes the frontend env as JSON, escaped to sit inside a single-quoted JS string
+     * within an inline <script> (consumed by `JSON.parse('...')` in index.html).
+     */
+    private fun frontendEnvAsJsString(): String {
+        val env = mapOf(
+            "FRONTEND_SENTRY_DSN" to frontendSentryDsn,
+            "SATI_ENABLED_SERVICES" to satiEnabledServices
+        )
+        return jsonMapper.writeValueAsString(env)
+            .replace("<", "\\u003c")
+            .replace("\\", "\\\\")
+            .replace("'", "\\'")
     }
 
     private fun generateNonce(): String {
@@ -84,7 +116,7 @@ class FrontendRoutesController(
         val csp = "default-src 'self'; " +
             "script-src 'self' 'nonce-$nonce'; " +
             "style-src 'self' 'unsafe-inline'; " +
-            "img-src 'self'; " +
+            "img-src 'self' data:; " +
             "font-src 'self' data:; " +
             "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr https://data.geopf.fr; " +
             "frame-src $metabaseSiteUrl; " +

@@ -1,9 +1,12 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.sati
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentSubType
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookMessagePurpose
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.sati.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
@@ -358,6 +361,83 @@ class SatiModelMapperTest {
             assertThat(roundTripped.vessel?.jpe?.pnoType).isEqualTo(entity.vessel?.jpe?.pnoType)
             assertThat(roundTripped.vessel?.jpe?.tripNumber).isEqualTo(entity.vessel?.jpe?.tripNumber)
             assertThat(roundTripped.vessel?.isMasterOwner).isEqualTo(entity.vessel?.isMasterOwner)
+        }
+    }
+
+    @Nested
+    inner class Establishment {
+
+        private fun buildEstablishmentEntity() = SatiEstablishmentEntity(
+            id = 9,
+            type = SectorEstablishmentType.GMS,
+            subType = SectorEstablishmentSubType.GMS_FISHING,
+            owner = SatiPartyEntity(comments = "owner", signature = true),
+            operator = SatiPartyEntity(comments = "operator"),
+            data = EstablishmentEntity(id = 13, name = "FOE")
+        )
+
+        @Test
+        fun `toModel should map the establishment with typed parties and its company id`() {
+            val entity = SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = buildEstablishmentEntity())
+
+            val model = SatiModelMapper.toModel(entity).establishments.single()
+
+            assertThat(model.type).isEqualTo("GMS")
+            assertThat(model.subType).isEqualTo("GMS_FISHING")
+            assertThat(model.establishmentId).isEqualTo(13)
+            assertThat(model.parties.map { it.partyType })
+                .containsExactly(SatiPartyType.ESTABLISHMENT_OWNER.name, SatiPartyType.ESTABLISHMENT_OPERATOR.name)
+        }
+
+        @Test
+        fun `toEntity should map the establishment back to enums, owner and operator`() {
+            val model = SatiModelMapper.toModel(
+                SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = buildEstablishmentEntity())
+            )
+
+            val establishment = SatiModelMapper.toEntity(model).establishment
+
+            assertThat(establishment?.type).isEqualTo(SectorEstablishmentType.GMS)
+            assertThat(establishment?.subType).isEqualTo(SectorEstablishmentSubType.GMS_FISHING)
+            assertThat(establishment?.owner?.comments).isEqualTo("owner")
+            assertThat(establishment?.owner?.signature).isTrue()
+            assertThat(establishment?.operator?.comments).isEqualTo("operator")
+        }
+
+        @Test
+        fun `toEntity should not load the company, it is computed from the action`() {
+            val model = SatiModelMapper.toModel(
+                SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = buildEstablishmentEntity())
+            )
+
+            assertThat(SatiModelMapper.toEntity(model).establishment?.data).isNull()
+        }
+
+        @Test
+        fun `a sati without establishment should round trip without one`() {
+            val model = SatiModelMapper.toModel(SatiEntity(module = SatiModuleType.M1, actionId = "a"))
+
+            assertThat(model.establishments).isEmpty()
+            assertThat(SatiModelMapper.toEntity(model).establishment).isNull()
+        }
+
+        @Test
+        fun `an establishment without company should store no company id`() {
+            val entity = SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = SatiEstablishmentEntity())
+
+            val model = SatiModelMapper.toModel(entity)
+
+            assertThat(model.establishments.single().establishmentId).isNull()
+        }
+
+        @Test
+        fun `models are equal when nothing changed`() {
+            val entity = SatiEntity(module = SatiModuleType.M4, actionId = "a", establishment = SatiEstablishmentEntity())
+
+            val first = SatiModelMapper.toModel(entity)
+            val second = SatiModelMapper.toModel(entity)
+
+            assertThat(first).isEqualTo(second)
         }
     }
 }

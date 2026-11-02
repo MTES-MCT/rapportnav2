@@ -13,6 +13,11 @@ interface IDBInquiryRepository : JpaRepository<InquiryModel, UUID> {
 
     fun findByServiceId(serviceId: Int): List<InquiryModel>
 
+    fun findAllByVesselIdAndStartDateTimeUtcGreaterThanEqualOrderByStartDateTimeUtcDesc(
+        vesselId: Int,
+        startDateTimeUtc: Instant
+    ): List<InquiryModel>
+
     @Query("""
     SELECT i FROM InquiryModel i
     WHERE (i.startDateTimeUtc >= :startBeforeDateTime AND i.startDateTimeUtc <= :endBeforeDateTime)

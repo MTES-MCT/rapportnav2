@@ -16,3 +16,4 @@ data class ControlUnitResourceEnv(
     val registrationId: String? = null,
     val radioFrequency: String? = null
 )
+//TODO: make mandatory data nullable, create a fromControlUnitResourceDataOutput method.

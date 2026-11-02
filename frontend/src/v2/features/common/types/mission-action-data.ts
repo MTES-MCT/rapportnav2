@@ -1,3 +1,4 @@
+import { Sati } from './sati'
 import { Target } from './target-types'
 
 export interface MissionActionData {
@@ -7,4 +8,5 @@ export interface MissionActionData {
   longitude?: number
   latitude?: number
   targets?: Target[]
+  sati?: Sati
 }

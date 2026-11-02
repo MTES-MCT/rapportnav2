@@ -8,6 +8,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationTyp
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.Sati
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.sati.SatiMapper
 import java.time.Instant
 import java.util.*
 
@@ -48,7 +50,7 @@ class MissionNavActionData(
     override val targets: List<Target>? = null,
     override val nbrOfHours: Int? = null,
     override val trainingType: String? = null,
-    override val unitManagementTrainingType: String? = null,
+    override val unitManagementTrainingType: UnitManagementTrainingTypeEnum? = null,
     override val isWithinDepartment: Boolean? = null,
     override val hasDivingDuringOperation: Boolean? = null,
     override val incidentDuringOperation: Boolean? = null,
@@ -56,7 +58,6 @@ class MissionNavActionData(
     override val resourceIds: List<Int>? = null,
     override var nbrOfControl: Int? = null,
     override var controlType: String? = null,
-    override val sectorType: SectorType? = null,
     override var nbrOfControlAmp: Int? = null,
     override var nbrOfControl300m: Int? = null,
     override var leisureType: LeisureType? = null,
@@ -72,11 +73,13 @@ class MissionNavActionData(
     override var city: String? = null,
     override var fishAuction: FishAuction? = null,
     override val agentIds: List<Int>? = null,
+    sati: Sati? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
     observations = observations,
-    targets = targets
+    targets = targets,
+    sati = sati
 ), BaseMissionNavActionData {
 
     companion object {
@@ -130,7 +133,6 @@ class MissionNavActionData(
                 resourceType = data.resourceType,
                 resourceIds = data.resourceIds,
                 nbrOfControl = data.nbrOfControl,
-                sectorType = data.sectorType,
                 nbrOfControlAmp = data.nbrOfControlAmp,
                 nbrOfControl300m = data.nbrOfControl300m,
                 isControlDuringSecurityDay = data.isControlDuringSecurityDay,
@@ -146,6 +148,7 @@ class MissionNavActionData(
                 zipCode = data.zipCode,
                 city = data.city,
                 fishAuction = data.fishAuction?.toFishAuctionEntity(),
+                sati = data.sati?.let { SatiMapper.toEntity(it) }
             )
             return action
         }

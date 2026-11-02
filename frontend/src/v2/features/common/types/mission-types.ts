@@ -167,6 +167,16 @@ export type Mission2 = {
   idUUID?: string
 }
 
+// Per-source action recap shown in the ULAM list expanded row. Counts are 1-per-action. Which counts the UI
+// renders depends on the source: fish -> controls; env -> controls + surveillances; rapportnav -> controls +
+// surveillances + autres. Mirrors the backend `MissionActionSummaryEntity`.
+export type MissionActionSummary = {
+  source: MissionSourceEnum
+  nbControls: number
+  nbSurveillances: number
+  nbOtherActions: number
+}
+
 // Light payload returned by `GET /missions` for the list page — mirrors the backend `MissionListItem` DTO.
 // Flat (no `data` / `generalInfos` nesting) and carries `actionCount` instead of the full `actions` list.
 export type MissionListItemDTO = {
@@ -188,6 +198,16 @@ export type MissionListItemDTO = {
   jdpType?: JdpTypeEnum
   isResourcesNotUsed?: boolean
   actionCount: number
+  actionsSummary?: MissionActionSummary[]
+}
+
+// One "load more" page returned by GET /api/v2/missions. `nextOffset` is the offset to request for the
+// next page; `hasMore` tells the infinite query whether to keep paginating (reliable even when filters
+// shrink a page below the requested limit).
+export type MissionListPageDTO = {
+  items: MissionListItemDTO[]
+  hasMore: boolean
+  nextOffset: number
 }
 
 // View-model rendered by the list UI: the `MissionListItemDTO` fields (all optional here, since

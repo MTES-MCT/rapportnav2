@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import java.time.Instant
 
 interface BaseMissionActionEntity {
@@ -26,4 +27,5 @@ interface BaseMissionActionEntity {
     val targets: List<TargetEntity>?
     var hasDivingDuringOperation: Boolean?
     var incidentDuringOperation: Boolean?
+    var sati: SatiEntity?
 }

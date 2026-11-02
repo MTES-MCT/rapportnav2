@@ -10,3 +10,4 @@ Le MCO constitue une référence essentielle pour assurer la pérennité techniq
 | Version | Date        | Auteur      | Commentaires     |
 |----------|-------------|-------------|------------------|
 | 1.0 | 05 Oct 2025 | Louis Hache | Version initiale |
+| 1.1 | 05 Oct 2026 | Louis Hache | Mise à jour d'après l'état du code : traçabilité (colonnes d'audit, audit des authentifications), précision du déclenchement et du caractère non bloquant des analyses CI |

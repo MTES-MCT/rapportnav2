@@ -61,7 +61,7 @@ class ComputePatrolData(
             controlPolicies = controlPolicies,
             otherActionsSummary = otherActionsSummary,
             internTrainingSummary = internTrainingSummary,
-            completenessForStats = mission.isCompleteForStats(),
+            completenessForStats = mission.resolvedCompleteness(),
             isMissionFinished = mission.data?.endDateTimeUtc?.isBefore(Instant.now()) ?: false,
         )
     }

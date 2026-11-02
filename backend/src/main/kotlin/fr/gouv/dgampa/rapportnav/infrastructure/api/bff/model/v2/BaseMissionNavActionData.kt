@@ -45,7 +45,7 @@ interface BaseMissionNavActionData {
     val reason: ActionStatusReason?
     val nbrOfHours: Int?
     val trainingType: String?
-    val unitManagementTrainingType: String?
+    val unitManagementTrainingType: UnitManagementTrainingTypeEnum?
     val isWithinDepartment: Boolean?
     val hasDivingDuringOperation: Boolean?
     val incidentDuringOperation: Boolean?
@@ -53,7 +53,6 @@ interface BaseMissionNavActionData {
     val resourceIds: List<Int>?
     var nbrOfControl: Int?
     var controlType: String?
-    val sectorType: SectorType?
     var nbrOfControlAmp: Int?
     var nbrOfControl300m: Int?
     var leisureType: LeisureType?

@@ -12,6 +12,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.mockito.kotlin.argThat
+import org.springframework.web.bind.annotation.GetMapping
 import java.io.File
 import java.nio.file.Path
 
@@ -30,10 +31,19 @@ class FrontendRoutesControllerTest {
         response = mock()
     }
 
-    private fun createControllerWithHtml(htmlContent: String): FrontendRoutesController {
+    private fun createControllerWithHtml(
+        htmlContent: String,
+        sentryDsn: String = "https://sentry.test/1",
+        satiEnabledServices: String = "5,6,7"
+    ): FrontendRoutesController {
         val indexFile = File(tempDir.toFile(), "index.html")
         indexFile.writeText(htmlContent)
-        return FrontendRoutesController(tempDir.toString(), "https://metabase.test")
+        return FrontendRoutesController(
+            tempDir.toString(),
+            "https://metabase.test",
+            sentryDsn,
+            satiEnabledServices
+        )
     }
 
     @Nested
@@ -71,6 +81,53 @@ class FrontendRoutesControllerTest {
             val nonces = Regex("""nonce="([^"]+)"""").findAll(result).map { it.groupValues[1] }.toList()
             assertEquals(2, nonces.size, "Should have 2 nonces")
             assertEquals(nonces[0], nonces[1], "All nonces should be identical")
+        }
+    }
+
+    @Nested
+    inner class ImportMetaEnvInjection {
+        private val envScript =
+            """<script>globalThis.import_meta_env = JSON.parse('"import_meta_env_placeholder"');</script>"""
+
+        @Test
+        fun `should replace import_meta_env placeholder with configured values`() {
+            controller = createControllerWithHtml("<html><head>$envScript</head></html>")
+
+            whenever(request.isSecure).thenReturn(true)
+
+            val result = controller.serveFrontend(request, response)
+
+            assertFalse(result.contains("import_meta_env_placeholder"), "Placeholder should be replaced")
+            assertTrue(result.contains("\"SATI_ENABLED_SERVICES\":\"5,6,7\""), "SATI services should be injected")
+            assertTrue(result.contains("\"FRONTEND_SENTRY_DSN\":\"https://sentry.test/1\""), "Sentry DSN should be injected")
+        }
+
+        @Test
+        fun `should escape quotes and closing script tags in injected values`() {
+            controller = createControllerWithHtml(
+                "<html><head>$envScript</head></html>",
+                sentryDsn = "it's</script><script>alert(1)"
+            )
+
+            whenever(request.isSecure).thenReturn(true)
+
+            val result = controller.serveFrontend(request, response)
+
+            assertFalse(result.contains("</script><script>alert"), "Closing script tag must be escaped")
+            assertTrue(result.contains("it\\'s"), "Single quote must be escaped for the JS string")
+            assertTrue(result.contains("\\\\u003c/script>"), "< must be escaped as \\u003c")
+        }
+
+        @Test
+        fun `should leave html unchanged when there is no placeholder`() {
+            val html = """<html><head><script>globalThis.import_meta_env = JSON.parse('{"A":"b"}');</script></head></html>"""
+            controller = createControllerWithHtml(html)
+
+            whenever(request.isSecure).thenReturn(true)
+
+            val result = controller.serveFrontend(request, response)
+
+            assertTrue(result.contains("""JSON.parse('{"A":"b"}')"""))
         }
     }
 
@@ -188,6 +245,37 @@ class FrontendRoutesControllerTest {
             val cspNonce = cspNonceMatch!!.groupValues[1]
 
             assertEquals(htmlNonce, cspNonce, "Nonce in HTML should match nonce in CSP header")
+        }
+    }
+
+    @Nested
+    inner class Routes {
+        @Test
+        fun `should serve index html for public DSFR pages`() {
+            val mapping = FrontendRoutesController::class.java
+                .getMethod("serveFrontend", HttpServletRequest::class.java, HttpServletResponse::class.java)
+                .getAnnotation(GetMapping::class.java)
+
+            assertTrue(
+                mapping.value.toList().containsAll(
+                    listOf("/accessibilite", "/mentions-legales", "/donnees-personnelles", "/plan-du-site")
+                ),
+                "Public pages must be served by the SPA, otherwise a direct load returns 404"
+            )
+        }
+    }
+
+    @Nested
+    inner class RobotsHeader {
+        @Test
+        fun `should tell crawlers not to index nor follow`() {
+            controller = createControllerWithHtml("<html><head></head><body></body></html>")
+
+            whenever(request.isSecure).thenReturn(true)
+
+            controller.serveFrontend(request, response)
+
+            verify(response).setHeader("X-Robots-Tag", "noindex, nofollow")
         }
     }
 }

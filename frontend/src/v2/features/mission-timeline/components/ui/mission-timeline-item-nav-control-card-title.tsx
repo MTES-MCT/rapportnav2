@@ -2,7 +2,6 @@ import { FC } from 'react'
 import { useControlRegistry } from '../../../mission-control/hooks/use-control-registry'
 import { useVessel } from '../../../common/hooks/use-vessel'
 import { ActionType } from '../../../common/types/action-type'
-import { SectorType } from '../../../common/types/sector-types'
 import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineItemCardTitle from './mission-timeline-item-card-title'
 
@@ -16,8 +15,9 @@ const MissionTimelineItemNavControlCardTitle: FC<{ action?: MissionTimelineActio
     [ActionType.CONTROL]: (action: MissionTimelineAction) =>
       `${getControlMethod(action?.controlMethod)} - ${getVesselTypeName(action?.vesselType)}`,
     [ActionType.CONTROL_NAUTICAL_LEISURE]: () => `de loisirs nautiques`,
-    [ActionType.CONTROL_SECTOR]: (action: MissionTimelineAction) =>
-      `d'établissement - filière ${!action.sectorType ? '' : action.sectorType === SectorType.FISHING ? 'pêche' : 'plaisance'}`
+    [ActionType.CONTROL_SECTOR_FISHING]: () => `d'établissement - filière pêche`,
+    [ActionType.CONTROL_SECTOR_PLAISANCE]: () => `d'établissement - filière plaisance`,
+    [ActionType.CONTROL_ROADSIDE]: () => `routier`
   }
 
   if (!action || !action.type) return <></>

@@ -109,6 +109,13 @@ class FormatActionsForTimeline(
                 action = action,
                 title = "Assistance et sauvetage"
             )
+            ActionType.UNIT_MANAGEMENT_TRAINING -> formatNavActionCommon(
+                action = action,
+                title = listOfNotNull(
+                    "Entraînement",
+                    action.unitManagementTrainingType?.label
+                ).joinToString(" - ")
+            )
 
             else -> null
         }

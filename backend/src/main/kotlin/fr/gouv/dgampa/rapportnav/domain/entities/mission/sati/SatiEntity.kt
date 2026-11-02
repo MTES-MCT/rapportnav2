@@ -14,4 +14,5 @@ data class SatiEntity(
     var startDatetimeUtc: Instant? = null,
     var endDatetimeUtc: Instant? = null,
     var inspectors: List<SatiInspectorEntity>? = emptyList(),
+    var establishment: SatiEstablishmentEntity? = null,
 )

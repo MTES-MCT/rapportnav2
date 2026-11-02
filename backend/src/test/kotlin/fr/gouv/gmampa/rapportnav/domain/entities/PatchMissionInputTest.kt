@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
 import org.springframework.test.context.ContextConfiguration
@@ -14,6 +15,8 @@ import java.time.temporal.ChronoUnit
 @JsonTest
 @ContextConfiguration(classes = [JacksonConfig::class])
 class PatchMissionInputTest {
+
+    private val logger = LoggerFactory.getLogger(PatchMissionInputTest::class.java)
 
     @Autowired
     private lateinit var objectMapper: JsonMapper
@@ -72,7 +75,7 @@ class PatchMissionInputTest {
 
         // Serialize to JSON
         val json = objectMapper.writeValueAsString(input)
-        println("Serialized JSON: $json")
+        logger.debug("Serialized JSON: {}", json)
 
         // Deserialize from JSON
         val deserializedInput = objectMapper.readValue(json, PatchMissionInput::class.java)

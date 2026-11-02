@@ -1,5 +1,5 @@
 import Text from '@common/components/ui/text'
-import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
+import { FormikEffect, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import React from 'react'
 import { Divider, Stack } from 'rsuite'
@@ -18,6 +18,7 @@ import MissionBoundFormikDateRangePicker from '../../../common/components/elemen
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
 import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter'
+import { StyledFormikTextInputDelay } from '../../../common/components/ui/formik-text-input.tsx'
 
 export type MissionActionItemEnvControlProps = {
   action: MissionAction
@@ -149,8 +150,8 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
 
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction={'column'}>
-                    <Stack.Item style={{ width: '100%' }}>
-                      <FormikTextarea
+                    <Stack.Item style={{ width: '100%', minHeight: '56px' }}>
+                      <StyledFormikTextInputDelay
                         isLight={true}
                         name="observationsByUnit"
                         data-testid="observationsByUnit"

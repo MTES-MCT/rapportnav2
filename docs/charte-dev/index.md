@@ -21,29 +21,19 @@ Ce document définit les principes, pratiques et standards à suivre pour tout d
 
 ## 3. Stack technique
 
-### 🖥️ Frontend
-- **Framework** : React + TypeScript
-- **Build** : Vite 
-- **Gestion d’état** : React Query 
-- **Style** : monitor-ui
-- **Tests** : Vitest 
-- **CI/CD** : GitHub Actions / Docker
+**Frontend** React + TypeScript + Vite (React Query, monitor-ui, Vitest) —
+**Backend** Kotlin + Spring Boot + JPA/Hibernate (Gradle, JUnit5, Swagger) —
+**Base de données** PostgreSQL — le tout conteneurisé avec Docker.
 
-### ⚙️ Backend
-- **Langage** : Kotlin
-- **Framework** : Spring Boot
-- **Base de données** : PostgreSQL
-- **ORM** : JPA / Hibernate
-- **Tests** : JUnit5
-- **Documentation API** : Swagger 
-- **Build & Run** : Gradle
-- **CI/CD** : GitHub Actions / Docker
+Le détail de la stack et les diagrammes d'architecture sont documentés dans
+[Stack technique](../engineering/stack/index). Pour installer et lancer le projet,
+voir [Installation & développement local](../engineering/getting-started/index).
 
-### 🧩 Infrastructure
-- **Conteneurisation** : Docker & Docker Compose
-- **Base de données locale** : PostgreSQL via Docker
-- **Secrets** : `.env` + gestion sécurisée (Gitlab Secrets)
-- **Monitoring** : Portainer
+- **CI / CD** : GitHub Actions pour le build, les tests et les analyses de sécurité ;
+  GitLab CI pour le déploiement (voir §10).
+- **Secrets** : variables de CI/CD GitLab ; configuration locale via `.env` et les
+  fichiers d'`infra/configurations` (jamais de secret dans le code).
+- **Monitoring** : Portainer.
 
 ---
 
@@ -60,7 +50,19 @@ Ce document définit les principes, pratiques et standards à suivre pour tout d
 #### Backend
 - Respect du style Kotlin (Kotlin Coding Conventions)
 - Classes et packages clairement nommés
-- Séparation claire : `controller / service / repository / model / config`
+- **Architecture hexagonale** (ports & adapters) sous `fr.gouv.dgampa.rapportnav` :
+  - `domain/` → cœur métier indépendant de tout framework : `entities/` (entités
+    **pures**, sans annotation JPA ni dépendance Spring/Hibernate), `use_cases/`
+    (logique applicative), `repositories/` (ports/interfaces), `validation/`,
+    `exceptions/`
+  - `infrastructure/` → adapters : `database/` (modèles JPA, mappers et
+    implémentations des repositories), `api/` (contrôleurs, DTOs), intégrations
+    externes (`monitorenv/`, `monitorfish/`, `cache/`…)
+  - `config/` → configuration Spring
+- **Règles d'or :** le domaine ne dépend jamais de l'infrastructure (inversion de
+  dépendances via les ports) ; **le mapping et la persistance appartiennent à
+  l'infrastructure** (modèles JPA), jamais au domaine ; un cas d'usage passe par les
+  ports, pas directement par les modèles JPA.
 - Configuration externalisée (`application-properties`)
 
 ---
@@ -110,7 +112,12 @@ MAJOR.MINOR.PATCH
 - `MINOR` : nouvelle fonctionnalité compatible
 - `PATCH` : correction de bug ou ajustement mineur
 
-Les versions sont taguées dans Git : v1.3.2
+Le versioning et le `CHANGELOG` sont **générés automatiquement par
+`release-please`** à partir des Conventional Commits : un `feat` déclenche un bump
+mineur, un `fix` un bump patch, un `feat!` / `BREAKING CHANGE` un bump majeur.
+`release-please` ouvre une PR de release (`chore: release vX.Y.Z`) ; son merge crée
+le tag Git (`vX.Y.Z`). Les commits doivent donc être correctement formatés, sous
+peine de fausser la release.
 
 
 
@@ -159,14 +166,30 @@ Les versions sont taguées dans Git : v1.3.2
 
 ## 10. Déploiement
 
-- CI/CD obligatoire (Gitlab Actions)
+- **Répartition CI/CD :**
+  - **GitHub** = dépôt de référence et contrôles de PR. À chaque PR sur `main`,
+    les workflows GitHub Actions exécutent build + tests (back & front) et les
+    analyses de sécurité (CodeQL, Trivy, Dependency Review). `release-please` y
+    gère les releases.
+  - **GitLab CI** (`.gitlab-ci.yml`) = pipeline de déploiement (mirroir du dépôt) :
+    `build → test → analyze (Sonar, Trivy, dependency-check) → deploy-recette →
+    deploy-prod`, avec publication des images Docker.
 - Environnements :
   - `local` → développeurs
   - `int` → intégration / staging
   - `prod` → production
 - Déploiement via Docker 
 - Rollback possible mais privilégier le roll-forward correctif
-- Migration DB versionnée (Flyway)
+- Migration DB versionnée (**Flyway**), dans
+  `backend/src/main/resources/db/migration` :
+  - Nommage : `V1.AAAA.MM.JJ.HH.MM__description_en_snake_case.sql`
+    (ex. `V1.2026.09.28.10.00__alter_action_type_add_control_sector_split.sql`)
+  - Une migration est **immuable** une fois mergée : ne jamais modifier un fichier
+    déjà livré, en créer une nouvelle
+- **Suppressions / fusions de lignes : privilégier le soft-delete**
+  (`deleted_at = now()`) plutôt qu'un `DELETE` physique, pour préserver l'historique
+- Changements de calcul lourds **par étapes** : write + backfill d'abord,
+  observation en production, bascule des lectures ensuite
 
 ---
 

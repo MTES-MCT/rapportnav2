@@ -4,8 +4,9 @@ import MissionListHeaderPam from '../mission-list-header-pam.tsx'
 
 describe('MissionListHeaderPam', () => {
   it('renders the component correctly', () => {
-    render(<MissionListHeaderPam />)
+    render(<MissionListHeaderPam count={3} />)
 
+    expect(screen.getByText('3 rapports')).toBeInTheDocument()
     expect(screen.getByText('Date de début')).toBeInTheDocument()
     expect(screen.getByText('Date de fin')).toBeInTheDocument()
     expect(screen.getByText('Bordée')).toBeInTheDocument()

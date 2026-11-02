@@ -3,13 +3,15 @@ import MissionListHeaderUlam from '../mission-list-header-ulam.tsx'
 
 describe('MissionListHeader component', () => {
   test('should render all header items for ulam', () => {
-    render(<MissionListHeaderUlam />)
+    render(<MissionListHeaderUlam count={3} />)
+    const count = screen.getByText('3 rapports')
     const openDate = screen.getByText("Date d'ouverture")
     const ressourcesUsed = screen.getByText('Moyen(s) utilisé(s)')
     const agents = screen.getByText('Agent(s)')
     const missionStatus = screen.getByText('Statut mission')
     const reportStatus = screen.getByText('Statut du rapport')
 
+    expect(count).toBeInTheDocument()
     expect(openDate).toBeInTheDocument()
     expect(ressourcesUsed).toBeInTheDocument()
     expect(agents).toBeInTheDocument()

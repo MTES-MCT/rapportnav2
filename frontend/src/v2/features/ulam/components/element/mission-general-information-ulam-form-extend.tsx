@@ -1,7 +1,7 @@
 import { FormikCheckbox, FormikMultiRadio } from '@mtes-mct/monitor-ui'
 import { useSelector } from '@tanstack/react-store'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps } from 'formik'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { store } from '../../../../store/index.ts'
 import { FormikTextAreaInput } from '../../../common/components/ui/formik-textarea-input.tsx'
@@ -28,14 +28,20 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
   const { data: agents } = useAgentsQuery()
   const { getByControlUnit } = useResources()
   const user = useSelector(store, state => state.user)
+  // Memoize the filtered resource list so its reference is stable across renders; passing a fresh array
+  // on every render would re-run the resource form's re-seed effect and wipe in-progress numeric input.
+  const controlUnitResources = useMemo(
+    () => getByControlUnit(user?.controlUnitId),
+    [getByControlUnit, user?.controlUnitId]
+  )
   const { isEnvMission, jdpTypeOptions } = useMissionType()
   const isMissionFinished = useMissionFinished(missionId)
   const { data: administrations } = useAdministrationsQuery()
 
   return (
-    <Stack direction="column" spacing="1em" style={{ width: '100%' }} justifyContent="flex-start">
+    <Stack direction="column" spacing="1rem" style={{ width: '100%' }} justifyContent="flex-start">
       <Stack.Item style={{ width: '100%' }}>
-        <Stack direction="column" spacing="1em" justifyContent="flex-start" style={{ width: '80%' }}>
+        <Stack direction="column" spacing="40px" justifyContent="flex-start" style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
             <Stack direction="column" spacing=".2em" justifyContent="flex-start" style={{ width: '100%' }}>
               {isEnvMission(values.missionReportType) && (
@@ -47,7 +53,7 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
                         fieldFormik={field}
                         disabled={values.isResourcesNotUsed}
                         isMissionFinished={isMissionFinished}
-                        controlUnitResources={getByControlUnit(user?.controlUnitId)}
+                        controlUnitResources={controlUnitResources}
                       />
                     )}
                   </Field>
@@ -80,43 +86,45 @@ const MissionGeneralInformationUlamFormExtend: FC<MissionGeneralInformationUlamF
           </Stack.Item>
 
           {isEnvMission(values.missionReportType) && (
-            <>
-              <Stack.Item style={{ width: '100%', marginTop: 32 }}>
-                <FormikCheckbox name={'isMissionArmed'} label={'Mission armée'} />
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikCheckbox name="isUnderJdp" label="Mission sous JDP" />
-                {values.isUnderJdp && (
-                  <Stack direction="column" spacing="1em" style={{ marginTop: 12 }}>
-                    <Stack.Item style={{ width: '100%' }}>
-                      <FormikMultiRadio label="Type de JDP" name="jdpType" options={jdpTypeOptions} isInline />
-                    </Stack.Item>
-                    <Stack.Item style={{ width: '100%' }}>
-                      <Divider style={{ marginTop: 6, marginBottom: 6 }} />
-                    </Stack.Item>
-                  </Stack>
-                )}
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikCheckbox
-                  name={'isWithInterMinisterialService'}
-                  label={'Mission conjointe (avec un autre service)'}
-                />
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%', marginBottom: '1.5rem' }}>
-                {values.isWithInterMinisterialService && (
-                  <Field name="interMinisterialServices">
-                    {(field: FieldProps) => (
-                      <MissionGeneralInformationInterService
-                        fieldFormik={field}
-                        name="interMinisterialServices"
-                        administrations={administrations ?? []}
-                      />
-                    )}
-                  </Field>
-                )}
-              </Stack.Item>
-            </>
+            <Stack.Item style={{ width: '100%' }}>
+              <Stack direction={'column'} spacing={'0.5rem'}>
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikCheckbox name={'isMissionArmed'} label={'Mission armée'} />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikCheckbox name="isUnderJdp" label="Mission sous JDP" />
+                  {values.isUnderJdp && (
+                    <Stack direction="column" spacing="1em" style={{ marginTop: 12 }}>
+                      <Stack.Item style={{ width: '100%' }}>
+                        <FormikMultiRadio label="Type de JDP" name="jdpType" options={jdpTypeOptions} isInline />
+                      </Stack.Item>
+                      <Stack.Item style={{ width: '100%' }}>
+                        <Divider style={{ marginTop: 6, marginBottom: 6 }} />
+                      </Stack.Item>
+                    </Stack>
+                  )}
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikCheckbox
+                    name={'isWithInterMinisterialService'}
+                    label={'Mission conjointe (avec un autre service)'}
+                  />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%', marginBottom: '1.5rem' }}>
+                  {values.isWithInterMinisterialService && (
+                    <Field name="interMinisterialServices">
+                      {(field: FieldProps) => (
+                        <MissionGeneralInformationInterService
+                          fieldFormik={field}
+                          name="interMinisterialServices"
+                          administrations={administrations ?? []}
+                        />
+                      )}
+                    </Field>
+                  )}
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
           )}
         </Stack>
       </Stack.Item>

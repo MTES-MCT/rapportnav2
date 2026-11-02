@@ -4,6 +4,8 @@ services:
   app:
     image: "{{ docker_image_path_1 }}"
     container_name: rapportnav_backend
+    labels:
+      io.portainer.accesscontrol.teams: "monitorfish"
     env_file: ".env"
     environment:
       # profile is 'prod', 'int' or 'local'
@@ -33,7 +35,7 @@ services:
         max-size: "1024m"
 
   db:
-    image: "{{ nexus_proxy }}/postgres:15.17-alpine"
+    image: "{{ nexus_proxy }}/postgres:15.19-alpine"
     volumes:
       - db:/var/lib/postgresql/data
     restart: always

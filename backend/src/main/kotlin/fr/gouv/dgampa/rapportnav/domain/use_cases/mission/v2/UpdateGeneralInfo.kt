@@ -9,8 +9,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntit
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IResourceUsageRepository
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
@@ -29,7 +31,11 @@ class UpdateGeneralInfo(
     private val getMissionExternalId: GetMissionExternalId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getMissionCrew: GetMissionCrew,
-    private val entityValidityValidator: EntityValidityValidator
+    private val entityValidityValidator: EntityValidityValidator,
+    private val resourceUsageRepository: IResourceUsageRepository,
+    private val getEnvMissionById: GetEnvMissionById,
+    private val syncLocalMissionWithMonitorEnv: SyncLocalMissionWithMonitorEnv,
+    private val recomputeMissionValidation: RecomputeMissionValidation
 ) {
     fun execute(
         missionId: Int,
@@ -65,6 +71,16 @@ class UpdateGeneralInfo(
             }
         )
 
+        // Resolve (or create) the local mirror row up front: usage values are keyed by its UUID, and persisting
+        // them before the MonitorEnv patch means a local failure can't leave MonitorEnv updated but our DB not.
+        val local = getMissionByExternalId.execute(missionId.toString())
+            ?: getEnvMissionById.execute(missionId)?.let {
+                syncLocalMissionWithMonitorEnv.execute(externalId = missionId, env = it)
+            }
+        local?.let {
+            resourceUsageRepository.replaceForMission(it.id, generalInfo.toResourceUsageEntities(it.id))
+        }
+
         patchMissionEnv.execute(
             input = MissionEnvInput(
                 missionId = missionId,
@@ -79,9 +95,9 @@ class UpdateGeneralInfo(
         )
 
         // Keep the local mission row in sync with the env write (MonitorEnv stays the source of truth).
-        getMissionByExternalId.execute(missionId.toString())?.let { local ->
+        local?.let {
             patchNavMission.execute(
-                id = local.id,
+                id = it.id,
                 input = MissionNavInputEntity(
                     isDeleted = generalInfo.isDeleted ?: false,
                     observationsByUnit = generalInfo.observations,
@@ -90,6 +106,10 @@ class UpdateGeneralInfo(
                 )
             )
         }
+
+        // Resources and their usage values feed the mission's completeness, which is sticky on reads:
+        // force a recompute so a change (e.g. a cleared km value) can also downgrade it.
+        recomputeMissionValidation.forEnvMission(missionId)
 
         return getGeneralInfoEntity(
             crew = crew,
@@ -138,6 +158,9 @@ class UpdateGeneralInfo(
             )
         )
 
+        // Persist the per-resource usage values keyed by the mission UUID.
+        resourceUsageRepository.replaceForMission(missionIdUUID, generalInfo.toResourceUsageEntities(missionIdUUID))
+
         // If this UUID actually maps to a MonitorEnv mirror (has an external id), propagate the
         // change to MonitorEnv too — otherwise overrideFromEnv would overwrite it on the next read.
         val externalId = getMissionExternalId.execute(missionIdUUID)
@@ -153,6 +176,9 @@ class UpdateGeneralInfo(
                     resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() }
                 )
             )
+            recomputeMissionValidation.forEnvMission(externalId)
+        } else {
+            recomputeMissionValidation.forNavMission(missionIdUUID)
         }
 
         return getGeneralInfoEntity(

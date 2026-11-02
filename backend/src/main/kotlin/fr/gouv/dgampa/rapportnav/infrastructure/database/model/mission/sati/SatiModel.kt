@@ -32,6 +32,10 @@ class SatiModel(
     @JoinColumn(name = "sati_id", referencedColumnName = "id", nullable = false)
     var vessels: MutableList<SatiVesselModel> = mutableListOf(),
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "sati_id", referencedColumnName = "id", nullable = false)
+    var establishments: MutableList<SatiEstablishmentModel> = mutableListOf(),
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "sati_id", referencedColumnName = "id", nullable = false)
@@ -46,7 +50,7 @@ class SatiModel(
     var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
-        return Objects.hash(id, module, actionId, resourceId, vessels, inspectors)
+        return Objects.hash(id, module, actionId, resourceId, vessels, establishments, inspectors)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -58,6 +62,7 @@ class SatiModel(
             && actionId == other.actionId
             && resourceId == other.resourceId
             && vessels == other.vessels
+            && establishments == other.establishments
             && inspectors == other.inspectors
     }
 }

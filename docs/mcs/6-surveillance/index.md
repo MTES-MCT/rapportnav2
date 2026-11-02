@@ -4,8 +4,11 @@
 
 #### 6.1.1 Supervision de l'app
 
-Aucun outil dédié à la supervision de la sécurité n'est mis en place, si ce n'est la détection de vulnérabilités 
-avant de déployer tout nouveau code.
+Aucun outil **dédié** de supervision de la sécurité (type SIEM) n'est en place à ce jour. La surveillance repose sur plusieurs dispositifs complémentaires :
+
+- **Détection de vulnérabilités** avant tout déploiement (analyses dépendances / images / qualité, cf. [§3](../3-gestion-vulnerabilites/index)).
+- **Supervision des erreurs et performances** via **Sentry** (backend et frontend). Les données envoyées à Sentry sont **pseudonymisées par conception** : `sentry.send-default-pii=false`, seuls l'identifiant utilisateur et l'identifiant de service sont transmis — **ni e-mail ni nom** (minimisation RGPD).
+- **Journaux d'audit** exploitables pour la détection a posteriori : `authentication_audit` (connexions utilisateurs) et `api_key_audit` (accès par clé API), consultables depuis l'admin panel (cf. [MCO → Traçabilité](../../mco/9-tracabilite/index)).
 
 #### 6.1.2 Supervision des clés API
 

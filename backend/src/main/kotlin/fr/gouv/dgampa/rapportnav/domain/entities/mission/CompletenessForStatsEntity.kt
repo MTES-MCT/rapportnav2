@@ -32,6 +32,7 @@ data class CompletenessForStatsEntity(
     companion object {
         fun valid() = CompletenessForStatsEntity(
             status = CompletenessForStatsStatusEnum.VALID,
+            sources = emptyList(),
             errors = emptyList()
         )
 

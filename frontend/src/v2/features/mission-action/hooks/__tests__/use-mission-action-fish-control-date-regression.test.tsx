@@ -1,9 +1,9 @@
-import { renderHook, act } from '../../../../../test-utils.tsx'
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { act, renderHook } from '../../../../../test-utils.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionFishControl } from '../use-mission-action-fish-control'
 
-vi.mock('../../../fish-sati/hooks/use-sati.tsx', () => ({
+vi.mock('../../../sati/hooks/use-sati.tsx', () => ({
   useSati: () => ({ isSatiEnabled: true })
 }))
 

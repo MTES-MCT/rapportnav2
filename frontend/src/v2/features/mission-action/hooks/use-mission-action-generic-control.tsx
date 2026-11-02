@@ -19,7 +19,7 @@ export function useMissionActionGenericControl(
   withGeoCoords?: boolean,
   booleans?: string[]
 ): AbstractFormikSubFormHook<ActionControlInput> {
-  const { getCoords } = useCoordinate()
+  const { getCoordRounded } = useCoordinate()
   const { getDateRangeForInput, getDateRangeFromInput } = useDate()
   const isMissionFinished = useMissionFinished(action.ownerId)
   const missionDates = useMissionDates(action.ownerId)
@@ -29,7 +29,7 @@ export function useMissionActionGenericControl(
     return {
       ...data,
       dates,
-      geoCoords: getCoords(data.latitude, data.longitude)
+      geoCoords: getCoordRounded(data.latitude, data.longitude)
     }
   }
 

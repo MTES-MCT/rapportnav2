@@ -12,6 +12,9 @@ Il leur est aussi permis d'exporter divers rapports.
 
 ![homepage.png](images/homepage.png)
 
+> 💡 Côté technique, cette liste fusionne les missions env (MonitorEnv) et nav (base locale), avec
+> pagination et filtres. Voir [Liste des missions : filtres et pagination](../engineering/concepts/mission-list-filtering.md).
+
 ### Diƒférences entre PAM et ULAM
 
 Bien que similaire dans l'esprit, il existe des divergences entre la version PAM et ULAM :

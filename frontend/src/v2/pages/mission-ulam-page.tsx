@@ -1,6 +1,6 @@
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
-import React from 'react'
-import { useParams } from 'react-router'
+import React, { useRef } from 'react'
+import { useLocation, useParams } from 'react-router'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
 import PageWrapper from '../features/common/components/layout/page-wrapper.tsx'
 import MissionPageFooter from '../features/common/components/ui/mission-page-footer.tsx'
@@ -15,7 +15,12 @@ const MissionUlamPage: React.FC = () => {
   const { getUrl } = useGlobalRoutes()
   let { missionId, actionId } = useParams()
   const { navigateAndResetCache } = useAuth()
-  const exitMission = async () => navigateAndResetCache(getUrl(OwnerType.MISSION), missionsKeys.all())
+  // Preserve the mission-list filters (carried as nav state on entry) so closing returns to the filtered list.
+  // Captured once in a ref: this page stays mounted across in-mission action navigation, which drops the state.
+  const { state } = useLocation()
+  const listSearchRef = useRef<string>(state?.listSearch ?? '')
+  const exitMission = async () =>
+    navigateAndResetCache(`${getUrl(OwnerType.MISSION)}${listSearchRef.current}`, missionsKeys.all())
 
   return (
     <PageWrapper

@@ -8,6 +8,8 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.ResolveActionOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessSati
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
@@ -16,6 +18,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 
 @UseCase
 class UpdateNavAction(
+    private val processSati: ProcessSati,
     private val missionActionRepository: INavMissionActionRepository,
     private val processMissionActionTarget: ProcessMissionActionTarget,
     private val entityValidityValidator: EntityValidityValidator,
@@ -36,6 +39,10 @@ class UpdateNavAction(
         resolveActionOwnerId.execute(ownerId)?.let { action.ownerId = it }
 
         entityValidityValidator.validateAndThrow(action, ValidateThrowsBeforeSave::class.java)
+
+        if (SatiModuleType.fromActionType(action.actionType) != null) {
+            action.sati = processSati.execute(actionId = action.getActionId(), sati = input.data.sati)
+        }
 
         // Process targets first so completeness (which depends on controlsToComplete) is up to date.
         action.targets = processMissionActionTarget.execute(

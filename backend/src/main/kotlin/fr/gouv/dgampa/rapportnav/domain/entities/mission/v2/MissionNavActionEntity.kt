@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.LocationType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.validation.EndAfterStart
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.validation.ValidateThrowsBeforeSave
@@ -79,7 +80,7 @@ class MissionNavActionEntity(
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre d'heures doit être positif")
     override var nbrOfHours: Int? = null,
     override var trainingType: String? = null,
-    override var unitManagementTrainingType: String? = null,
+    override var unitManagementTrainingType: UnitManagementTrainingTypeEnum? = null,
     override var isWithinDepartment: Boolean? = null,
     override var hasDivingDuringOperation: Boolean? = null,
     override var incidentDuringOperation: Boolean? = null,
@@ -100,7 +101,6 @@ class MissionNavActionEntity(
 
     override var fishAuction: FishAuctionEntity? = null,
 
-    override val sectorType: SectorType? = null,
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de contrôles doit être positif")
     override var nbrOfControlAmp: Int? = null,
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de contrôles doit être positif")
@@ -114,6 +114,7 @@ class MissionNavActionEntity(
     override var securityVisitType:SecurityVisitType? = null,
     @field:Min(value = 0, groups = [ValidateThrowsBeforeSave::class], message = "Le nombre de visites doit être positif")
     override var nbrSecurityVisit:Int? = null,
+    sati: SatiEntity? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -122,7 +123,8 @@ class MissionNavActionEntity(
     endDateTimeUtc = endDateTimeUtc,
     startDateTimeUtc = startDateTimeUtc,
     source = MissionSourceEnum.RAPPORT_NAV,
-    targets = targets
+    targets = targets,
+    sati = sati,
 ), BaseMissionNavAction {
 
     override fun getActionId(): String {
@@ -182,13 +184,12 @@ class MissionNavActionEntity(
         ownerId = ownerId,
         nbrOfHours = nbrOfHours,
         trainingType = trainingType,
-        unitManagementTrainingType = unitManagementTrainingType,
+        unitManagementTrainingType = unitManagementTrainingType?.toString(),
         hasDivingDuringOperation = hasDivingDuringOperation,
         incidentDuringOperation = incidentDuringOperation,
         resourceType = resourceType,
         resourceIds = resourceIds ?: emptyList(),
         nbrOfControl = nbrOfControl,
-        sectorType = sectorType?.toString(),
         nbrOfControlAmp = nbrOfControlAmp,
         nbrOfControl300m = nbrOfControl300m,
         isControlDuringSecurityDay = isControlDuringSecurityDay,
@@ -254,19 +255,18 @@ class MissionNavActionEntity(
                 ownerId = model.ownerId,
                 nbrOfHours = model.nbrOfHours,
                 trainingType = model.trainingType,
-                unitManagementTrainingType = model.unitManagementTrainingType,
+                unitManagementTrainingType = UnitManagementTrainingTypeEnum.fromString(model.unitManagementTrainingType),
                 isWithinDepartment = model.isWithinDepartment,
                 hasDivingDuringOperation = model.hasDivingDuringOperation,
                 incidentDuringOperation = model.incidentDuringOperation,
                 resourceType = model.resourceType,
                 resourceIds = model.resourceIds,
                 nbrOfControl = model.nbrOfControl,
-                sectorType = model.sectorType?.let { SectorType.valueOf(it) },
                 nbrOfControlAmp = model.nbrOfControlAmp,
                 nbrOfControl300m = model.nbrOfControl300m,
                 isControlDuringSecurityDay = model.isControlDuringSecurityDay,
                 isSeizureSleepingFishingGear = model.isSeizureSleepingFishingGear,
-                sectorEstablishmentType = model.sectorEstablishmentType?.let { SectorEstablishmentType.valueOf(it) },
+                sectorEstablishmentType = SectorEstablishmentType.entries.firstOrNull { it.name == model.sectorEstablishmentType },
                 leisureType = model.leisureType?.let { LeisureType.valueOf(it) },
                 fishingGearType = model.fishingGearType?.let { FishingGearType.valueOf(it) },
                 controlType = model.controlType,
