@@ -2,11 +2,15 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnit.IEnvControlUnitRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.FullControlUnitDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.LegacyControlUnitDataOutput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Repository
 import tools.jackson.databind.json.JsonMapper
 import tools.jackson.module.kotlin.readValue
@@ -51,5 +55,31 @@ class APIEnvControlUnitRepository(
             logger.error("Failed to GET request for Env legacy control units fetching. URL: $url", e)
             null
         }
+    }
+
+    @Cacheable(value = ["controlUnit"])
+    override fun findById(controlUnitId: Int): ControlUnitEntity {
+        val url = "$host/api/v2/control_units/$controlUnitId"
+        logger.info("Sending GET request for Env control unit fetching URL: $url")
+
+        val request = HttpRequest.newBuilder().uri(URI.create(url)).build()
+        val response = try {
+            client.send(request, HttpResponse.BodyHandlers.ofString())
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "APIEnvControlUnitRepository.findById could not reach $url",
+                originalException = e
+            )
+        }
+        logger.info("APIEnvControlUnitRepository::findById Response received, Status code: ${response.statusCode()}")
+
+        if (response.statusCode() !in 200..299) {
+            throw BackendInternalException(
+                message = "APIEnvControlUnitRepository.findById failed with status ${response.statusCode()} for $url",
+                originalException = RuntimeException(response.body())
+            )
+        }
+        val output: FullControlUnitDataOutput = mapper.readValue(response.body())
+        return output.toControlUnitEntity()
     }
 }

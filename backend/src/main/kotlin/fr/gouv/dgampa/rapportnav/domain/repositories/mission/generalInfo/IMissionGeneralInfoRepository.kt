@@ -30,4 +30,7 @@ interface IMissionGeneralInfoRepository {
 
     fun deleteById(id: Int)
 
+    /** PAM (or service-less) general infos carrying at least one of the three PAM usage metrics, ordered by id. */
+    fun findWithPamMetricsPaginated(page: Int, size: Int): Page<MissionGeneralInfoModel>
+
 }

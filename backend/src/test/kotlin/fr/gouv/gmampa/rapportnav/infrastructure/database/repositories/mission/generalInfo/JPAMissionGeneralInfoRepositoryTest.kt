@@ -116,6 +116,27 @@ class JPAMissionGeneralInfoRepositoryTest {
     }
 
     @Test
+    fun `findWithPamMetricsPaginated filters on the PAM service type passed as text`() {
+        // service_type is a Postgres enum: the query compares it as text, so the type must be passed as a String.
+        val pageable = PageRequest.of(2, 500)
+        val page = PageImpl(listOf(generalInfoModel), pageable, 1001)
+        `when`(dbRepo.findWithPamMetrics("PAM", pageable)).thenReturn(page)
+
+        val result = jpaRepository.findWithPamMetricsPaginated(page = 2, size = 500)
+
+        assertThat(result).isSameAs(page)
+        verify(dbRepo).findWithPamMetrics("PAM", pageable)
+    }
+
+    @Test
+    fun `findWithPamMetricsPaginated should throw BackendInternalException on error`() {
+        `when`(dbRepo.findWithPamMetrics("PAM", PageRequest.of(0, 500))).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> { jpaRepository.findWithPamMetricsPaginated(0, 500) }
+        assertThat(exception.message).contains("Failed to find MissionGeneralInfo with PAM metrics")
+    }
+
+    @Test
     fun `findByMissionIdPaginated should return page of general info`() {
         val pageable = PageRequest.of(0, 10)
         val page = PageImpl(listOf(generalInfoModel), pageable, 1)

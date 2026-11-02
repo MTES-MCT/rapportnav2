@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Re
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.usageKind
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.PamResourceMetrics
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.ResourceUsageEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
@@ -114,8 +115,31 @@ data class MissionGeneralInfo2(
      * Splits the resource selection: id/type/name is pushed to MonitorEnv (PatchMissionEnv), while the
      * per-resource km / engine-hours value is persisted in our DB keyed by the mission UUID.
      * Only builds a row for an eligible resource type that actually carries a value.
+     *
+     * With [pamShipResourceId], the PAM metrics (still sent as flat fields) are added on that ship's row, merged
+     * into its per-resource row if there is one. The result is the mission's complete set of usage rows, as
+     * replaceForMission deletes whatever it is not given.
      */
-    fun toResourceUsageEntities(missionIdUUID: UUID): List<ResourceUsageEntity> {
+    fun toResourceUsageEntities(missionIdUUID: UUID, pamShipResourceId: Int? = null): List<ResourceUsageEntity> {
+        val perResource = toPerResourceUsageEntities(missionIdUUID)
+        val pamMetrics = PamResourceMetrics.fromFloats(
+            distanceInNauticalMiles = distanceInNauticalMiles,
+            consumedGOInLiters = consumedGOInLiters,
+            consumedFuelInLiters = consumedFuelInLiters
+        )
+        if (pamShipResourceId == null || !pamMetrics.hasAny()) return perResource
+
+        val shipRow = perResource.firstOrNull { it.resourceId == pamShipResourceId }
+            ?: ResourceUsageEntity(missionIdUUID = missionIdUUID, resourceId = pamShipResourceId)
+        val pamRow = shipRow.copy(
+            distanceInNauticalMiles = pamMetrics.distanceInNauticalMiles,
+            consumedGOInLiters = pamMetrics.consumedGOInLiters,
+            consumedFuelInLiters = pamMetrics.consumedFuelInLiters
+        )
+        return perResource.filterNot { it.resourceId == pamShipResourceId } + pamRow
+    }
+
+    private fun toPerResourceUsageEntities(missionIdUUID: UUID): List<ResourceUsageEntity> {
         return resources?.mapNotNull { resource ->
             when (resource.type?.usageKind()) {
                 ResourceUsageKind.KM ->

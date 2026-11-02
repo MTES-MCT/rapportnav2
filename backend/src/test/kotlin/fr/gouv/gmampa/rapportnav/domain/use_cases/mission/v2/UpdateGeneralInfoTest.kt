@@ -2,7 +2,10 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitResourceType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.ResourceUsageEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -12,10 +15,13 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IResour
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.controlUnitResource.GetPamShipResource
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionModelMock
@@ -81,6 +87,12 @@ class UpdateGeneralInfoTest {
 
     @MockitoBean
     private lateinit var recomputeMissionValidation: RecomputeMissionValidation
+
+    @MockitoBean
+    private lateinit var getServiceById: GetServiceById
+
+    @MockitoBean
+    private lateinit var getPamShipResource: GetPamShipResource
 
     @BeforeEach
     fun setup() {
@@ -471,4 +483,148 @@ class UpdateGeneralInfoTest {
         verify(resourceUsageRepository).replaceForMission(created.id, emptyList())
     }
 
+    // --- PAM metrics dual-write (Phase 1) ---
+
+    private val pamService = ServiceEntityMock.create(id = 5, serviceType = ServiceTypeEnum.PAM, controlUnits = listOf(10404))
+    private val irisShip = LegacyControlUnitResourceEntity(
+        id = 582, controlUnitId = 10404, name = "Iris", type = ControlUnitResourceType.PATROL_BOAT
+    )
+
+    private fun pamGeneralInfo(missionId: Int? = 0, missionIdUUID: UUID? = null): MissionGeneralInfo2 =
+        MissionGeneralInfo2Mock.create(
+            missionId = missionId,
+            missionIdUUID = missionIdUUID,
+            service = Service.fromServiceEntity(pamService)
+        ).copy(
+            distanceInNauticalMiles = 12.3f,
+            consumedGOInLiters = 3400f,
+            consumedFuelInLiters = 20f,
+            // Mission costs: saved in mission_general_info, never copied to the ship row.
+            operatingCostsInEuro = 900f,
+            fuelCostsInEuro = 4100f
+        )
+
+    private fun shipRow(missionIdUUID: UUID) = ResourceUsageEntity(
+        missionIdUUID = missionIdUUID,
+        resourceId = 582,
+        distanceInNauticalMiles = 12.3,
+        consumedGOInLiters = 3400.0,
+        consumedFuelInLiters = 20.0
+    )
+
+    private fun givenIntMission(missionId: Int, generalInfo: MissionGeneralInfo2, serviceId: Int? = pamService.id) =
+        MissionModelMock.create().also { local ->
+            val entity = generalInfo.toMissionGeneralInfoEntity(missionId)
+            `when`(getMissionGeneralInfoByMissionId.execute(missionId))
+                .thenReturn(createMissionGeneralInfoEntityData(missionId, serviceId = serviceId))
+            `when`(generalInfoRepository.save(entity)).thenReturn(entity.toMissionGeneralInfoModel())
+            `when`(getMissionByExternalId.execute(missionId.toString())).thenReturn(local)
+        }
+
+    private fun givenUuidMission(missionIdUUID: UUID, generalInfo: MissionGeneralInfo2) {
+        val entity = generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)
+        `when`(getMissionGeneralInfoByMissionId.execute(missionIdUUID))
+            .thenReturn(createMissionGeneralInfoEntityData(missionIdUUID = missionIdUUID, serviceId = pamService.id))
+        `when`(generalInfoRepository.save(entity)).thenReturn(entity.toMissionGeneralInfoModel())
+    }
+
+    @Test
+    fun `execute by Int writes the PAM metrics on the ship row alongside mission_general_info`() {
+        val missionId = 123
+        val generalInfo = pamGeneralInfo(missionId = missionId)
+        val local = givenIntMission(missionId, generalInfo)
+        `when`(getServiceById.execute(pamService.id)).thenReturn(pamService)
+        `when`(getPamShipResource.execute(pamService)).thenReturn(irisShip)
+
+        updateGeneralInfo.execute(missionId, generalInfo)
+
+        verify(generalInfoRepository).save(generalInfo.toMissionGeneralInfoEntity(missionId))
+        verify(resourceUsageRepository).replaceForMission(local.id, listOf(shipRow(local.id)))
+    }
+
+    @Test
+    fun `execute by Int still saves when the PAM ship can't be resolved`() {
+        val missionId = 123
+        val generalInfo = pamGeneralInfo(missionId = missionId)
+        val local = givenIntMission(missionId, generalInfo)
+        `when`(getServiceById.execute(pamService.id)).thenReturn(pamService)
+        `when`(getPamShipResource.execute(pamService)).thenReturn(null)
+
+        updateGeneralInfo.execute(missionId, generalInfo)
+
+        verify(generalInfoRepository).save(generalInfo.toMissionGeneralInfoEntity(missionId))
+        verify(resourceUsageRepository).replaceForMission(local.id, emptyList())
+        verify(patchMissionEnv).execute(anyOrNull())
+        verify(recomputeMissionValidation).forEnvMission(missionId)
+    }
+
+    @Test
+    fun `execute by Int still saves when the service lookup fails`() {
+        val missionId = 123
+        val generalInfo = pamGeneralInfo(missionId = missionId)
+        val local = givenIntMission(missionId, generalInfo)
+        `when`(getServiceById.execute(pamService.id)).thenThrow(RuntimeException("boom"))
+
+        updateGeneralInfo.execute(missionId, generalInfo)
+
+        verify(resourceUsageRepository).replaceForMission(local.id, emptyList())
+        verify(patchMissionEnv).execute(anyOrNull())
+    }
+
+    @Test
+    fun `execute by Int does not look for a ship for a ULAM service`() {
+        val missionId = 123
+        val ulamService = ServiceEntityMock.create(id = 20, serviceType = ServiceTypeEnum.ULAM, controlUnits = listOf(10176))
+        val generalInfo = pamGeneralInfo(missionId = missionId).copy(service = Service.fromServiceEntity(ulamService))
+        val local = givenIntMission(missionId, generalInfo, serviceId = ulamService.id)
+        `when`(getServiceById.execute(ulamService.id)).thenReturn(ulamService)
+
+        updateGeneralInfo.execute(missionId, generalInfo)
+
+        verify(getPamShipResource, never()).execute(anyOrNull())
+        verify(resourceUsageRepository).replaceForMission(local.id, emptyList())
+    }
+
+    @Test
+    fun `execute resolves the ship from the stored service, not the payload's control units`() {
+        val missionId = 123
+        val tampered = pamService.copy(controlUnits = listOf(99999))
+        val generalInfo = pamGeneralInfo(missionId = missionId).copy(service = Service.fromServiceEntity(tampered))
+        givenIntMission(missionId, generalInfo)
+        `when`(getServiceById.execute(pamService.id)).thenReturn(pamService)
+        `when`(getPamShipResource.execute(pamService)).thenReturn(irisShip)
+
+        updateGeneralInfo.execute(missionId, generalInfo)
+
+        verify(getPamShipResource).execute(pamService)
+        verify(getPamShipResource, never()).execute(tampered)
+    }
+
+    @Test
+    fun `execute by UUID writes the PAM metrics on the ship row`() {
+        val missionIdUUID = UUID.randomUUID()
+        val generalInfo = pamGeneralInfo(missionIdUUID = missionIdUUID)
+        givenUuidMission(missionIdUUID, generalInfo)
+        `when`(getServiceById.execute(pamService.id)).thenReturn(pamService)
+        `when`(getPamShipResource.execute(pamService)).thenReturn(irisShip)
+
+        updateGeneralInfo.execute(missionIdUUID, generalInfo)
+
+        verify(resourceUsageRepository).replaceForMission(missionIdUUID, listOf(shipRow(missionIdUUID)))
+    }
+
+    @Test
+    fun `execute by UUID still saves when the PAM ship can't be resolved`() {
+        val missionIdUUID = UUID.randomUUID()
+        val generalInfo = pamGeneralInfo(missionIdUUID = missionIdUUID)
+        givenUuidMission(missionIdUUID, generalInfo)
+        `when`(getServiceById.execute(pamService.id)).thenReturn(pamService)
+        `when`(getPamShipResource.execute(pamService)).thenReturn(null)
+
+        updateGeneralInfo.execute(missionIdUUID, generalInfo)
+
+        verify(generalInfoRepository).save(generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID))
+        verify(resourceUsageRepository).replaceForMission(missionIdUUID, emptyList())
+        verify(recomputeMissionValidation).forNavMission(missionIdUUID)
+    }
 }

@@ -25,6 +25,7 @@ class CaffeineConfigurationTest {
             caffeineConfiguration.ports,
             caffeineConfiguration.natinfs,
             caffeineConfiguration.resources,
+            caffeineConfiguration.controlUnit,
             caffeineConfiguration.envMissions,
             caffeineConfiguration.envMission,
             caffeineConfiguration.fishActions,
@@ -42,7 +43,7 @@ class CaffeineConfigurationTest {
         }
 
         assertThat(cacheManager.cacheNames.toSet())
-            .hasSize(11)
+            .hasSize(12)
             .isEqualTo(cacheNames.toSet())
     }
 
