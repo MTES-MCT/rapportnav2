@@ -104,6 +104,8 @@ dependencies {
   implementation("org.apache.poi:poi-ooxml:5.5.1")
   implementation("org.apache.commons:commons-text:1.15.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.11")
+  // pdfbox for per-action pdf documents (SATI)
+  implementation("org.apache.pdfbox:pdfbox:3.0.8")
   implementation("com.neovisionaries:nv-i18n:1.29")
   implementation("org.wiremock:wiremock-standalone:4.0.0-beta.32")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.1")

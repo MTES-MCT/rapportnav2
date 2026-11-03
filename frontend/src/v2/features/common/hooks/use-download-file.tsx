@@ -8,6 +8,21 @@ export enum BLOBTYPE {
   DEFAULT = 'application/octet-stream'
 }
 
+// Some browsers cancel the download when the object url is revoked synchronously after the click
+const REVOKE_OBJECT_URL_DELAY_MS = 1000
+
+// Triggers a browser download for an in-memory file
+export const downloadBlob = (blob: Blob, fileName: string): void => {
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = fileName
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  setTimeout(() => window.URL.revokeObjectURL(url), REVOKE_OBJECT_URL_DELAY_MS)
+}
+
 interface DownloadFileHook {
   handleDownload: (blobType: BLOBTYPE, fileToDownload?: MissionExport) => Promise<void>
 }
@@ -34,19 +49,7 @@ export function useDownloadFile(): DownloadFileHook {
       // Create a Blob object for the file
       const blob = new Blob([uint8Array], { type: blobType || BLOBTYPE.DEFAULT })
 
-      // Generate a temporary URL for the Blob
-      const url = window.URL.createObjectURL(blob)
-
-      // Create an anchor element and trigger the download
-      const link = document.createElement('a')
-      link.href = url
-      link.download = fileName || 'download'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-
-      // Revoke the Blob URL to release memory
-      window.URL.revokeObjectURL(url)
+      downloadBlob(blob, fileName || 'download')
     } catch (error) {
       console.error('Error during file download:', { error, fileToDownload })
       Sentry.captureException(error)

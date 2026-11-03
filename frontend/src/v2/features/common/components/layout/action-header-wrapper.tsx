@@ -39,9 +39,7 @@ const ActionHeaderWrapper: FC<ActionHeaderWrapperProps> = ({
               title={title}
               ownerId={ownerId}
               ownerType={ownerType}
-              actionId={action.id}
-              source={action.source}
-              startDateTimeUtc={action?.data.startDateTimeUtc}
+              action={action}
             />
           )}
         </Stack.Item>
