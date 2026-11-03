@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.export
 
-import fr.gouv.dgampa.rapportnav.domain.entities.export.ActionDocumentTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.export.ExportAuditEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.satiExport.ActionDocumentTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.satiExport.ExportAuditEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners

@@ -14,13 +14,13 @@ export const SATI_ENABLED_SERVICES: number[] = _satiEnvRaw
   .map(Number)
   .filter(n => !isNaN(n) && n > 0)
 
-// Mirrors backend SatiModuleType.fromMissionActionType: only sea (M1) and land (M3) fish controls have a SATI
-const FISH_ACTION_TYPES_WITH_SATI = [MissionActionType.SEA_CONTROL, MissionActionType.LAND_CONTROL]
+// Mirrors backend ExportSatiPdf: for now the pdf only exists for fish sea controls (SATI module M1)
+const FISH_ACTION_TYPES_WITH_SATI_PDF = [MissionActionType.SEA_CONTROL]
 
 export const hasSatiPdf = (action: MissionAction): boolean =>
   action.source === MissionSourceEnum.MONITORFISH &&
   action.actionType === ActionType.CONTROL &&
-  FISH_ACTION_TYPES_WITH_SATI.includes((action.data as MissionFishActionData).fishActionType)
+  FISH_ACTION_TYPES_WITH_SATI_PDF.includes((action.data as MissionFishActionData).fishActionType)
 
 interface SatiHook {
   isSatiEnabled: boolean

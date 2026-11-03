@@ -1,9 +1,9 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
-import fr.gouv.dgampa.rapportnav.domain.entities.export.ActionDocumentTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.export.ExportAuditEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.export.ExportedDocumentEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.satiExport.ActionDocumentTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.satiExport.ExportAuditEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.satiExport.ExportedDocumentEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService

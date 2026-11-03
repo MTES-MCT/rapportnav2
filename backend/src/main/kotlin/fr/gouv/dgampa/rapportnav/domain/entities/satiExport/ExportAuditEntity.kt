@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.entities.export
+package fr.gouv.dgampa.rapportnav.domain.entities.satiExport
 
 /**
  * Trace of a document exported for a single action (which document, for which action).
