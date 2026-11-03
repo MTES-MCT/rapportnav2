@@ -12,6 +12,7 @@ RapportNav n'est **pas standalone** : il co-saisit les missions avec **MonitorFi
 |-----------------------|------------------------|---------------------------------------------------|-----------------------------|--------------------------------------------------------------------|-----------------------------------|
 | **MonitorEnv**        | Backend → Env (serveur↔serveur) | HTTPS, `MONITORENV_HOST`                  | Aucune clé                  | Missions environnement, unités de contrôle, administrations, codes NATINF | Agents environnement / ULAM       |
 | **MonitorFish**       | Backend → Fish (serveur↔serveur) | HTTPS, `MONITORFISH_HOST`               | Clé API (`x-api-key`)       | Actions de contrôle pêche, référentiels navires & ports            | Agents pêche / PAM                |
+| **RNIP**              | Backend → RNIP (serveur↔serveur) | HTTPS, `RNIP_HOST`                      | Aucune clé (à confirmer)    | Envoi des lignes d'infraction (rapports SATI M1, M3, M4, M5)      | Suites judiciaires / administratives |
 | **Metabase**          | Backend → Metabase (embarqué)   | HTTPS, `METABASE_SITE_URL`               | JWT signé HMAC-SHA256       | Tableaux de bord d'analyse d'activité (PAM / ULAM)                 | Encadrement (managers) / admins   |
 | **Sentry**            | Backend & Frontend → Sentry (sortant) | HTTPS, `sentry.incubateur.net`     | DSN                         | Suivi des erreurs et performances                                  | Équipe technique                  |
 | **GeoPF / Géoplateforme** | **Frontend** → GeoPF        | HTTPS, `data.geopf.fr`                   | Aucune (API publique)       | Autocomplétion d'adresses lors de la saisie                        | Agents de terrain                 |
@@ -43,6 +44,7 @@ Les connexions ci-dessus sont configurées par variables d'environnement (**noms
 | `MONITORFISH_HOST`   | Hôte de l'API MonitorFish                         |
 | `MONITORFISH_API_KEY`| Clé API MonitorFish (`x-api-key`)                 |
 | `MONITORENV_HOST`    | Hôte de l'API MonitorEnv                          |
+| `RNIP_HOST`          | Hôte de l'API RNIP                                |
 | `JWT_SECURITY_KEY`   | Clé de signature des JWT (≥ 32 octets)            |
 | `MASTER_API_KEY`     | Clé API maître (endpoints admin / M2M)            |
 | `METABASE_SITE_URL`  | URL de l'instance Metabase                        |
