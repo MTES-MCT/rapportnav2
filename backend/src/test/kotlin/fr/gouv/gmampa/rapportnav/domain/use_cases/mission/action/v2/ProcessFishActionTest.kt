@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeSati
@@ -55,7 +56,7 @@ class ProcessFishActionTest {
         )
 
         val mockTarget = TargetEntityMock.create()
-        `when`(getComputeTarget.execute(actionId.hashCode().toString(), true)).thenReturn(listOf(mockTarget))
+        `when`(getComputeTarget.execute(actionId.hashCode().toString(), true, MissionSourceEnum.MONITORFISH)).thenReturn(listOf(mockTarget))
         `when`(getMissionDates.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(
             MissionDatesOutput(
                 startDateTimeUtc = Instant.parse("2019-09-01T00:00:00Z"),
@@ -80,7 +81,7 @@ class ProcessFishActionTest {
     @Test
     fun `bypassValidation short-circuits per-field validation and marks the fish action complete`() {
         val action = FishActionControlMock.create(id = 54566)
-        `when`(getComputeTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+        `when`(getComputeTarget.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
 
         val entity = processFishAction.execute(missionId = 761, action = action, bypassValidation = true)
 

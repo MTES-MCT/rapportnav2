@@ -33,6 +33,7 @@ Les variables d'environnement suivantes sont nécessaires pour la configuration 
 - MONITORFISH_API_KEY=fake-key
 - MONITORFISH_HOST=http://localhost:8089
 - MONITORENV_HOST=http://localhost:8089
+- RNIP_HOST=http://localhost:8089
 
 ### Configuration locale
 

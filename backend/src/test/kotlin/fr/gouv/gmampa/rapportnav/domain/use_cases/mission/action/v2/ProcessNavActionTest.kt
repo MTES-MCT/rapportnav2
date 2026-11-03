@@ -1,21 +1,22 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
-import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionDates
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.MissionDatesOutput
+import fr.gouv.dgampa.rapportnav.domain.validation.EntityValidityValidator
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
-import org.mockito.kotlin.anyOrNull
-import org.mockito.kotlin.verifyNoInteractions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.sati.SatiModuleType
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeSati
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.verifyNoInteractions
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
@@ -83,7 +84,11 @@ class ProcessNavActionTest {
     fun `bypassValidation short-circuits per-field validation and marks the action complete`() {
         val actionId = UUID.randomUUID()
         val action = MissionNavActionEntityMock.create(id = actionId, actionType = ActionType.CONTROL)
-        `when`(getComputeTarget.execute(anyOrNull(), anyOrNull())).thenReturn(listOf(TargetEntityMock.create()))
+        `when`(getComputeTarget.execute(
+            actionId = anyOrNull(),
+            isControl = anyOrNull(),
+            source = anyOrNull()
+        )).thenReturn(listOf(TargetEntityMock.create()))
 
         val entity = processNavAction.execute(action = action, bypassValidation = true)
 
