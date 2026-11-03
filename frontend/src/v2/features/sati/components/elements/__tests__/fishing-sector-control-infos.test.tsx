@@ -8,6 +8,9 @@ import { SectorFishingType } from '../../../../common/types/sector-types'
 import { ActionNavControlInput } from '../../../../mission-action/types/action-type'
 import FishingSectorControlInfos from '../fishing-sector-control-infos'
 
+const mockUseSati = vi.hoisted(() => vi.fn())
+
+vi.mock('../../../hooks/use-sati', () => ({ useSati: mockUseSati }))
 vi.mock('../../../../common/components/ui/establishment-form', () => ({
   EstablishmentForm: ({
     establishment,
@@ -75,7 +78,10 @@ const renderInfos = (initialValues: Record<string, unknown> = {}) =>
 const currentValues = () => JSON.parse(screen.getByTestId('values').textContent ?? '{}')
 
 describe('FishingSectorControlInfos', () => {
-  beforeEach(() => vi.clearAllMocks())
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockUseSati.mockReturnValue({ isSatiEnabled: true })
+  })
 
   describe('sector type', () => {
     it('should render the establishment type select', () => {
@@ -233,6 +239,16 @@ describe('FishingSectorControlInfos', () => {
       fireEvent.click(screen.getByText('delete-operator'))
 
       await waitFor(() => expect(currentValues().sati.establishment.operator).toBeNull())
+    })
+
+    it('should not render the sati sections nor the GMS type when sati is disabled', () => {
+      mockUseSati.mockReturnValue({ isSatiEnabled: false })
+
+      renderInfos({ sectorEstablishmentType: SectorFishingType.GMS, sati })
+
+      expect(screen.queryByTestId('owner')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('operator')).not.toBeInTheDocument()
+      expect(screen.queryByText('Type de GMS')).not.toBeInTheDocument()
     })
 
     it('should render the sections without any sati', () => {

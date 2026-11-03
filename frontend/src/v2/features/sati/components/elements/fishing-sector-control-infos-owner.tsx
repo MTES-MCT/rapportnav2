@@ -1,7 +1,7 @@
 import { Accent, Button, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
-import { Contact, SatiParty } from '../../../common/types/sati.ts'
+import { Contact, SatiParty, SatiPartyType } from '../../../common/types/sati.ts'
 import ContactFormItem from '../ui/contact-form-item.tsx'
 
 interface FishingSectorControlInfosOwnerProps {
@@ -13,7 +13,7 @@ const FishingSectorControlInfosOwner: FC<FishingSectorControlInfosOwnerProps> = 
   const [edit, setEdit] = useState<boolean>(true)
 
   const handleSubmit = (value: Contact) => {
-    onChange({ ...(owner ?? {}), contact: value })
+    onChange({ ...(owner ?? {}), partyType: SatiPartyType.ESTABLISHMENT_OWNER, contact: value })
     setEdit(false)
   }
 

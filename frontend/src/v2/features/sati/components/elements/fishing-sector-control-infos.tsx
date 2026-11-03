@@ -12,6 +12,7 @@ import { SatiParty } from '../../../common/types/sati.ts'
 import { SectorFishingType } from '../../../common/types/sector-types.ts'
 import { ActionControlInput, ActionNavControlInput } from '../../../mission-action/types/action-type.ts'
 import { isFishAuction, isLandingSite } from '../../../mission-action/validation-schema/control-sector-fishing.ts'
+import { useSati } from '../../hooks/use-sati.tsx'
 import FishingSectorControlInfosOperator from './fishing-sector-control-infos-operator.tsx'
 import FishingSectorControlInfosOwner from './fishing-sector-control-infos-owner.tsx'
 
@@ -29,6 +30,7 @@ interface FishingSectorControlInfosProps {
 }
 
 const FishingSectorControlInfos: FC<FishingSectorControlInfosProps> = ({ formik }) => {
+  const { isSatiEnabled } = useSati()
   const { values, setFieldValue } = useFormikContext<ActionNavControlInput>()
   const { sectorFishingTypeOptions, sectorEstablishmenSubTypeOptions } = useSector()
 
@@ -55,7 +57,7 @@ const FishingSectorControlInfos: FC<FishingSectorControlInfosProps> = ({ formik 
             options={sectorFishingTypeOptions}
           />
         </Stack.Item>
-        {formik.values?.sectorEstablishmentType === SectorFishingType.GMS && (
+        {formik.values?.sectorEstablishmentType === SectorFishingType.GMS && isSatiEnabled && (
           <Stack.Item style={{ width: '100%' }}>
             <FormikSelect
               isLight={true}
@@ -80,19 +82,23 @@ const FishingSectorControlInfos: FC<FishingSectorControlInfosProps> = ({ formik 
             />
           )}
         </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <FishingSectorControlInfosOwner
-            owner={values?.sati?.establishment?.owner}
-            onChange={(value?: SatiParty) => setFieldValue('sati.establishment.owner', value)}
-          />
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <FishingSectorControlInfosOperator
-            operator={values?.sati?.establishment?.operator}
-            onDelete={() => setFieldValue('sati.establishment.operator', null)}
-            onChange={(value: SatiParty) => setFieldValue('sati.establishment.operator', value)}
-          />
-        </Stack.Item>
+        {isSatiEnabled && (
+          <Stack.Item style={{ width: '100%' }}>
+            <FishingSectorControlInfosOwner
+              owner={values?.sati?.establishment?.owner}
+              onChange={(value?: SatiParty) => setFieldValue('sati.establishment.owner', value)}
+            />
+          </Stack.Item>
+        )}
+        {isSatiEnabled && (
+          <Stack.Item style={{ width: '100%' }}>
+            <FishingSectorControlInfosOperator
+              operator={values?.sati?.establishment?.operator}
+              onDelete={() => setFieldValue('sati.establishment.operator', null)}
+              onChange={(value: SatiParty) => setFieldValue('sati.establishment.operator', value)}
+            />
+          </Stack.Item>
+        )}
       </Stack>
     </Stack.Item>
   )
