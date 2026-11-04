@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { useSector } from '../use-sector'
+import { SectorEstablishmentSubType } from '../../types/sati'
 import { SectorFishingType, SectorPleasureType } from '../../types/sector-types'
 
 describe('useSector', () => {
@@ -44,5 +45,31 @@ describe('useSector', () => {
     const { result } = renderHook(() => useSector())
 
     expect(result.current.sectorPleasureTypeOptions).toHaveLength(3)
+  })
+
+  it('should return the GMS sub types with a label for each', () => {
+    const { result } = renderHook(() => useSector())
+    const options = result.current.sectorEstablishmenSubTypeOptions
+
+    expect(options).toContainEqual({
+      value: SectorEstablishmentSubType.GMS_FISHING,
+      label: 'GMS avec un rayon marée (poissonnerie)'
+    })
+    expect(options).toContainEqual({
+      value: SectorEstablishmentSubType.GMS_TRANSFORMATION,
+      label: 'GMS avec transformation sur place exclusivement (mise en barquette)'
+    })
+    expect(options).toContainEqual({
+      value: SectorEstablishmentSubType.GMS_ONLY,
+      label: 'Absence de rayon marée (poissonnerie) et sans transformation sur place'
+    })
+  })
+
+  it('should return exactly the 3 GMS sub types, none without a label', () => {
+    const { result } = renderHook(() => useSector())
+    const options = result.current.sectorEstablishmenSubTypeOptions
+
+    expect(options).toHaveLength(3)
+    expect(options.every(option => typeof option.value === 'string' && !!option.label)).toBe(true)
   })
 })

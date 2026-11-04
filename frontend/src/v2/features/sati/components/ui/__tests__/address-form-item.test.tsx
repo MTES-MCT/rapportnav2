@@ -1,15 +1,15 @@
 import { Formik } from 'formik'
 import { render, screen } from '../../../../../../test-utils'
-import { AddressForm } from '../address-form'
+import { AddressFormItem } from '../address-form-item'
 
 const renderForm = (address: Record<string, unknown>, readOnly?: boolean) =>
   render(
     <Formik initialValues={{ address }} onSubmit={() => {}}>
-      <AddressForm name="address" readOnly={readOnly} />
+      <AddressFormItem name="address" readOnly={readOnly} />
     </Formik>
   )
 
-describe('AddressForm', () => {
+describe('AddressFormItem', () => {
   it('should hide the zipcode/town/country row when read-only and all three are empty', () => {
     renderForm({ street: '12 Quai des Chartrons' }, true)
 

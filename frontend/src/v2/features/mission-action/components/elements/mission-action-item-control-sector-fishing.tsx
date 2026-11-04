@@ -5,7 +5,6 @@ import { Stack } from 'rsuite'
 import MissionBoundFormikDateRangePicker from '../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
 import StyledTabs, { StyledTabItem } from '../../../common/components/ui/styled-tab.tsx'
 import { useFormValidationReporter } from '../../../common/hooks/use-form-validation-reporter.tsx'
-import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import FishingSectorControlConclusion from '../../../sati/components/elements/fishing-sector-control-conclusion.tsx'
@@ -13,9 +12,8 @@ import FishingSectorControlFiles from '../../../sati/components/elements/fishing
 import FishingSectorControlInfos from '../../../sati/components/elements/fishing-sector-control-infos.tsx'
 import FishingSectorControlProduct from '../../../sati/components/elements/fishing-sector-control-product.tsx'
 import { useSati } from '../../../sati/hooks/use-sati.tsx'
-import { useMissionActionGenericControl } from '../../hooks/use-mission-action-generic-control.tsx'
+import { useMissionActionControlSectorFishing } from '../../hooks/use-mission-action-control-sector-fishing.tsx'
 import { ActionControlInput } from '../../types/action-type.ts'
-import { getControlSectorFishingSchema } from '../../validation-schema/control-sector-fishing.ts'
 
 const HIDE_ITEMS = ['propeche', 'files']
 
@@ -47,28 +45,13 @@ const MissionActionItemSectorFishingControl: FC<{
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { isSatiEnabled } = useSati()
-  const isMissionFinished = useMissionFinished(action.ownerId)
 
   const { isOnline } = useOnlineManager()
   const { onFormError } = useFormValidationReporter()
-  const { initValue, handleSubmit, validationSchema } = useMissionActionGenericControl(
-    action,
-    onChange,
-    getControlSectorFishingSchema(isMissionFinished),
-    false,
-    [
-      'incidentDuringOperation',
-      'isControlDuringSecurityDay',
-      'isWithinDepartment',
-      'hasDivingDuringOperation',
-      'isSeizureSleepingFishingGear',
-      'signature',
-      'isOutOfUnit'
-    ]
-  )
+  const { initValue, handleSubmit, validationSchema } = useMissionActionControlSectorFishing(action, onChange)
 
   return (
-    <form style={{ width: '100%' }}>
+    <div style={{ width: '100%' }}>
       {initValue && (
         <Formik
           validateOnMount={true}
@@ -116,7 +99,7 @@ const MissionActionItemSectorFishingControl: FC<{
           )}
         </Formik>
       )}
-    </form>
+    </div>
   )
 }
 export default MissionActionItemSectorFishingControl

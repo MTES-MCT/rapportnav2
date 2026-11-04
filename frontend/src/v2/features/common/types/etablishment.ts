@@ -7,6 +7,7 @@ export interface Establishment {
   city?: string
   country?: string
   zipcode?: string
-  isForeign?: boolean
+  isForeign?: boolean //TODO: rename it into isNotListed
   isHeadquarter?: boolean
+  isNotSameAddress?: boolean
 }

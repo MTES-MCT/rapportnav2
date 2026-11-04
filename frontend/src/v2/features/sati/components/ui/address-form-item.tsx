@@ -5,13 +5,13 @@ import { FormikSelectInput } from '../../../common/components/ui/formik-select-i
 import { StyledFormikTextInput } from '../../../common/components/ui/formik-text-input.tsx'
 import { useCountry } from '../../../common/hooks/use-countries.tsx'
 
-interface AddressFormProps {
+interface AddressFormItemProps {
   name: string
   disabled?: boolean
   readOnly?: boolean
 }
 
-export const AddressForm: FC<AddressFormProps> = ({ name, disabled, readOnly }) => {
+export const AddressFormItem: FC<AddressFormItemProps> = ({ name, disabled, readOnly }) => {
   const { countries } = useCountry()
   const { values } = useFormikContext()
 
