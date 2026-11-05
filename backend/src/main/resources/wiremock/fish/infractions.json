@@ -1,0 +1,620 @@
+[
+  {
+    "natinfCode": 17,
+    "regulation": "Reg pêche 3",
+    "infractionCategory": "FISHING",
+    "infraction": "Infraction 4"
+  },
+  {
+    "natinfCode": 1000,
+    "regulation": "Reg pêche 1",
+    "infractionCategory": "SECURITY",
+    "infraction": "Infraction 6"
+  },
+  {
+    "natinfCode": 1030,
+    "regulation": "Reg pêche 1",
+    "infractionCategory": "FISHING",
+    "infraction": "Infraction 5"
+  },
+  {
+    "natinfCode": 1508,
+    "regulation": "ART.L.8224-1, ART.L.8221-1 AL.1 1°, ART.L.8221-3, ART.L.8221-4, ART.L.8221-5, ART.L.8221-6 C.TRAVAIL.",
+    "infractionCategory": "FISHING",
+    "infraction": "EXECUTION D'UN TRAVAIL DISSIMULE"
+  },
+  {
+    "natinfCode": 1509,
+    "regulation": "ART.L.8224-1, ART.L.8221-1 AL.1 3°, ART.L.8221-3, ART.L.8221-4, ART.L.8221-5 C.TRAVAIL.",
+    "infractionCategory": "FISHING",
+    "infraction": "RECOURS AUX SERVICES D'UNE PERSONNE EXERCANT UN TRAVAIL DISSIMULE"
+  },
+  {
+    "natinfCode": 2000,
+    "regulation": "Reg pêche 2",
+    "infractionCategory": "SECURITY",
+    "infraction": "Infraction 7"
+  },
+  {
+    "natinfCode": 2584,
+    "regulation": "ART.L.945-1 2°, ART.L.943-1, ART.L.943-7, ART.L.943-8 AL.3 C.RURAL. ART.3 §1 H) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "OBSTACLE A UNE SAISIE EN MATIERE DE PECHE MARITIME"
+  },
+  {
+    "natinfCode": 2593,
+    "regulation": "ART.L.945-4 §I 8°, ART.R.922-6, ART.D.922-16 C.RURAL. ART.3 §1 E) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME AVEC UN ENGIN DONT L'USAGE EST INTERDIT"
+  },
+  {
+    "natinfCode": 2596,
+    "regulation": "ART.L.945-4 §I 3°, ART.L.921-1, ART.R.922-6 C.RURAL. ART.3 §1 C) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME DANS UNE ZONE INTERDITE"
+  },
+  {
+    "natinfCode": 2600,
+    "regulation": "ART.L.945-4 §I 18° C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "IMMERSION D'ORGANISMES MARINS DANS DES CONDITIONS IRREGULIERES - PECHE MARITIME"
+  },
+  {
+    "natinfCode": 2603,
+    "regulation": "ART.L.945-4 §I 19°, ART.L.923-1, ART.R.923-9, ART.R.923-10, ART.R.923-11 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "FORMATION OU IMMERSION NON AUTORISEE D'EXPLOITATION AQUACOLE OU DE STRUCTURE DE CULTURE OU DE CAPTURE MARINE - PECHE MARITIME"
+  },
+  {
+    "natinfCode": 2604,
+    "regulation": "ART.L.945-2 §I 5°, ART.L.941-4, ART.L.942-5 C.RURAL. ART.3 §1 H) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "REFUS, PAR LE CAPITAINE D'UN NAVIRE DE PECHE MARITIME D'OBTEMPERER A UNE SOMMATION DE STOPPER POUR SE SOUSTRAIRE A UN CONTROLE"
+  },
+  {
+    "natinfCode": 2605,
+    "regulation": "ART.L.945-3 3°, ART.L.941-1, ART.L.942-1 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "ENTRAVE AU CONTROLE D'EXPLOITATION AQUACOLE, DE CULTURE MARINE OU D'ETABLISSEMENT DE CAPTURE OU DE STRUCTURE ARTIFICIELLE - PECHE MARITIME"
+  },
+  {
+    "natinfCode": 2606,
+    "regulation": "ART.L.945-3 1°, ART.L.941-1, ART.L.942-1 C.RURAL. ART.3 §1 H) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "ENTRAVE AU CONTROLE OU A LA VISITE DE NAVIRE OU ENGIN FLOTTANT - PECHE MARITIME"
+  },
+  {
+    "natinfCode": 2608,
+    "regulation": "d1852",
+    "infractionCategory": "FISHING",
+    "infraction": "Peche maritime non autorisee dans les eaux maritimes ou salees francaises par un navire de pays tiers a l'union europeenne"
+  },
+  {
+    "natinfCode": 2609,
+    "regulation": "ART.L.945-2 §I 3°, ART.L.921-9 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME NON CONFORME A L'AUTORISATION, DANS LES EAUX MARITIMES OU SALEES FRANCAISES PAR UN NAVIRE DE PAYS TIERS A L'UNION EUROPEENNE"
+  },
+  {
+    "natinfCode": 2610,
+    "regulation": "ART.L.945-2 §I 4° C.RURAL. ART.17 REGLT.CE 2002-2371 DU 20/12/2002.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME NON AUTORISEE DANS LES EAUX SOUS SOUVERAINETE OU JURIDICTION FRANCAISES PAR CAPITAINE DE NAVIRE COMMUNAUTAIRE"
+  },
+  {
+    "natinfCode": 3000,
+    "regulation": "Reg pêche 2",
+    "infractionCategory": "ENVIRONMENT",
+    "infraction": "Infraction 8"
+  },
+  {
+    "natinfCode": 4000,
+    "regulation": "Reg pêche 9",
+    "infractionCategory": "ENVIRONMENT",
+    "infraction": "Infraction 9"
+  },
+  {
+    "natinfCode": 4234,
+    "regulation": "ART.413-BIS 3°, ART.71 C.DOUANES.",
+    "infractionCategory": "SECURITY",
+    "infraction": "NON PRESENTATION PAR UN CAPITAINE DE SON JOURNAL DE BORD AU VISA DES AGENTS DES DOUANES"
+  },
+  {
+    "natinfCode": 4485,
+    "regulation": "ART.L.5523-2, ART.L.5523-3 C.TRANSPORTS.",
+    "infractionCategory": "FISHING",
+    "infraction": "EXERCICE IRREGULIER D'UN COMMANDEMENT OU D'UNE AUTRE FONCTION A BORD D'UN NAVIRE"
+  },
+  {
+    "natinfCode": 4761,
+    "regulation": "ART.L.5241-12 AL.1, AL.2, ART.L.5241-3, ART.L.5241-4, ART.L.5241-1 §I C.TRANSPORTS. ART.3 §I, ART.8-1, ART.9, ART.10 DECRET 84-810 DU 30/08/1984.",
+    "infractionCategory": "FISHING",
+    "infraction": "EXPLOITATION OU COMMANDEMENT DE NAVIRE SANS TITRE DE SECURITE OU CERTIFICAT DE PREVENTION DE LA POLLUTION EN COURS DE VALIDITE"
+  },
+  {
+    "natinfCode": 7057,
+    "regulation": "ART.L.945-4 §I 9° C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "DETENTION D'UN ENGIN DE PECHE MARITIME DONT L'USAGE EST INTERDIT"
+  },
+  {
+    "natinfCode": 7059,
+    "regulation": "d1852",
+    "infractionCategory": "FISHING",
+    "infraction": "Peche maritime avec un engin dans une zone ou son emploi est interdit"
+  },
+  {
+    "natinfCode": 7060,
+    "regulation": "ART.L.945-4 §I 10°, ART.R.922-6 C.RURAL. ART.3 §1 E) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME AVEC UN ENGIN PENDANT UNE PERIODE OU SON EMPLOI EST INTERDIT"
+  },
+  {
+    "natinfCode": 7061,
+    "regulation": "ART.L.945-4 §I 3°, ART.L.921-1, ART.R.922-6 C.RURAL. ART.3 §1 C) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME D'UNE ESPECE DANS UNE ZONE OU SA PECHE EST INTERDITE"
+  },
+  {
+    "natinfCode": 7062,
+    "regulation": "ART.L.945-4 §I 3°, ART.L.921-1, ART.L.922-2, ART.R.922-6 C.RURAL. ART.3 §1 C) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME D'UNE ESPECE A UNE PERIODE OU SA PECHE EST INTERDITE"
+  },
+  {
+    "natinfCode": 7063,
+    "regulation": "ART.L.945-4 §I 15°, ART.R.922-6 C.RURAL. ART.3 §1 D) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE DONT LA PECHE EST INTERDITE"
+  },
+  {
+    "natinfCode": 7064,
+    "regulation": "ART.L.945-4 §I 15°, ART.D.932-1 C.RURAL. ART.3 §1 D) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSBORDEMENT, DEBARQUEMENT OU TRANSPORT DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE DONT LA PECHE EST INTERDITE"
+  },
+  {
+    "natinfCode": 7983,
+    "regulation": "ART.L.945-4 §I 15°, ART.D.922-1 C.RURAL. ART.3 §1 C) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE DE TAILLE, CALIBRE OU POIDS PROHIBE"
+  },
+  {
+    "natinfCode": 7984,
+    "regulation": "ART.L.945-4 §I 15°, ART.D.922-1 C.RURAL. ART.3 §1 C) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSBORDEMENT, DEBARQUEMENT OU TRANSPORT DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE DE TAILLE, CALIBRE OU POIDS PROHIBE"
+  },
+  {
+    "natinfCode": 10400,
+    "regulation": "ART.L.945-4 §I 5°, ART.L.932-1, ART.R.932-2 AL.2 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "DEBARQUEMENT DE PRODUITS DE PECHE MARITIME ET D'AQUACULTURE MARINE EN DEHORS DES LIEUX DETERMINES"
+  },
+  {
+    "natinfCode": 12891,
+    "regulation": "ART.L.945-4 §I 8° C.RURAL. ART.3 §1 E) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PRATIQUE DE LA PECHE MARITIME AVEC UN MODE DE PECHE INTERDIT"
+  },
+  {
+    "natinfCode": 12898,
+    "regulation": "ART.L.945-4 §I 10°, ART.R.922-6 C.RURAL. ART.3 §1 E) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "UTILISATION POUR LA PECHE MARITIME D'INSTRUMENT OU APPAREIL DANS UNE ZONE OU SON EMPLOI EST INTERDIT"
+  },
+  {
+    "natinfCode": 12900,
+    "regulation": "ART.L.945-4 §I 15° C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE EN QUANTITE OU EN POIDS SUPERIEURS A CEUX AUTORISES"
+  },
+  {
+    "natinfCode": 12902,
+    "regulation": "ART.L.945-4 §I 15° C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSBORDEMENT, DEBARQUEMENT OU TRANSPORT DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE EN QUANTITE OU POIDS SUPERIEURS A CEUX AUTORISES"
+  },
+  {
+    "natinfCode": 12912,
+    "regulation": "ART.L.945-4 §I 1°, ART.L.921-7, ART.R.921-9, ART.R.921-14 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME SANS PERMIS DE MISE EN EXPLOITATION DE NAVIRE DE PECHE PROFESSIONNELLE"
+  },
+  {
+    "natinfCode": 12918,
+    "regulation": "ART.L.945-4 §I 6°, ART.D.922-15 C.RURAL. ART.3 §I E) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "UTILISATION POUR LA PECHE MARITIME D'UN NOMBRE D'ENGINS OU APPAREILS EN NOMBRE SUPERIEUR A CELUI AUTORISE"
+  },
+  {
+    "natinfCode": 12922,
+    "regulation": "ART.L.945-2 §I 1° C.RURAL. ART.1, ART.6 REGLT.EX.UE DU 08/04/2011. ART.3 §1 F) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "DISSIMULATION OU FALSIFICATION PAR CAPITAINE D'ELEMENT D'IDENTIFICATION DE NAVIRE DE PECHE MARITIME"
+  },
+  {
+    "natinfCode": 22035,
+    "regulation": "ART.L.1521-9, ART.L.1521-3, ART.L.1521-4, ART.L.1521-5 C.DEFENSE.",
+    "infractionCategory": "FISHING",
+    "infraction": "REFUS D'OBTEMPERER AUX INJONCTIONS D'UN COMMANDANT LORS DU CONTROLE EN MER D'UN NAVIRE"
+  },
+  {
+    "natinfCode": 22070,
+    "regulation": "ART.L.945-4 §I 1°,ART.L.921-1, ART.R.921-15, ART.R.921-18, ART.R.921-20, ART.R.921-29, ART.R.921-30 C.RURAL. ART.3 §1 A) REGLT.CE DU 29/09/2008. ART.6, ART.7 REGLT.CE DU 20/11/2009.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME SANS AUTORISATION"
+  },
+  {
+    "natinfCode": 22182,
+    "regulation": "ART.57 §I 1°, ART.4 §II DECRET 84-810 DU 30/08/1984. ART.L.5241-1 §I C.TRANSPORTS.",
+    "infractionCategory": "SECURITY",
+    "infraction": "EXPLOITATION OU COMMANDEMENT D'UN NAVIRE SANS RESPECTER LES CONDITIONS PARTICULIERES PORTEES SUR LE PERMIS DE NAVIGATION"
+  },
+  {
+    "natinfCode": 22205,
+    "regulation": "ART.57 §I 2°, ART.53 §I 1°, ART.4 §I DECRET 84-810 DU 30/08/1984.",
+    "infractionCategory": "SECURITY",
+    "infraction": "NAVIGATION MARITIME SANS PRESENCE A BORD DU PERMIS DE NAVIGATION OU DU DOCUMENT EN TENANT LIEU"
+  },
+  {
+    "natinfCode": 22206,
+    "regulation": "Reg pêche 1",
+    "infractionCategory": "FISHING",
+    "infraction": "Infraction 1"
+  },
+  {
+    "natinfCode": 22222,
+    "regulation": "Reg pêche 2",
+    "infractionCategory": "FISHING",
+    "infraction": "Infraction 3"
+  },
+  {
+    "natinfCode": 22806,
+    "regulation": "ART.L.958-8 1°, ART.L.958-5, ART.R.958-5, ART.R.958-7, ART.R.958-8 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE, CHASSE AUX ANIMAUX MARINS SANS AUTORISATION DANS LES TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES"
+  },
+  {
+    "natinfCode": 22807,
+    "regulation": "ART.L.958-8 3°, ART.L.958-7, ART.R.958-2 C.RURAL. ART.11 ORD 2016-1687 DU 08/12/2016.",
+    "infractionCategory": "FISHING",
+    "infraction": "PENETRATION D'UN NAVIRE DE PECHE MARITIME OU DE TRANSPORT DE POISSON DANS LA ZONE ECONOMIQUE DES TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES SANS SIGNALER SON ENTREE"
+  },
+  {
+    "natinfCode": 22808,
+    "regulation": "ART.L.958-8 3°, ART.L.958-7, ART.R.958-2 C.RURAL. ART.11 ORD 2016-1687 DU 08/12/2016.",
+    "infractionCategory": "FISHING",
+    "infraction": "PENETRATION D'UN NAVIRE DE PECHE MARITIME OU DE TRANSPORT DE POISSON DANS LA ZONE ECONOMIQUE DES TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES SANS DECLARER LE TONNAGE DE POISSON DETENU A BORD"
+  },
+  {
+    "natinfCode": 23581,
+    "regulation": "Arreté du 12/01/3021",
+    "infractionCategory": "FISHING",
+    "infraction": "Taille de maille non réglementaire"
+  },
+  {
+    "natinfCode": 23584,
+    "regulation": "Arreté du 18/01/3021",
+    "infractionCategory": "SECURITY",
+    "infraction": "Défaut AIS"
+  },
+  {
+    "natinfCode": 23588,
+    "regulation": "Arreté du 15/01/3021",
+    "infractionCategory": "FISHING",
+    "infraction": "Chalutage dans la zone des 3 milles"
+  },
+  {
+    "natinfCode": 27679,
+    "regulation": "ART.L.958-8 2°, ART.L.958-5, ART.R.958-5, ART.R.958-7, ART.R.958-8 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "EXPLOITATION DE PRODUITS DE LA MER PECHES SANS AUTORISATION DANS LES TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES"
+  },
+  {
+    "natinfCode": 27685,
+    "regulation": "ART.L.945-3 2°, ART.L.941-1, ART.L.942-1 C.RURAL. ART.3 §1 H) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "DISSIMULATION, AUX AGENTS CHARGES DE LA POLICE DE LA PECHE, DE CAPTURES, ENGINS OU DOCUMENTS DETENUS A BORD D'UN NAVIRE DE PECHE MARITIME"
+  },
+  {
+    "natinfCode": 27686,
+    "regulation": "ART.L.945-4 §I 3°, ART.L.921-1 C.RURAL. ART.3 §1 C) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME A UNE PROFONDEUR INTERDITE"
+  },
+  {
+    "natinfCode": 27687,
+    "regulation": "ART.L.945-4 §I 3°, ART.L.921-1 C.RURAL. ART.3 §1 C) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME D'UNE ESPECE A UNE PROFONDEUR OU SA PECHE EST INTERDITE"
+  },
+  {
+    "natinfCode": 27688,
+    "regulation": "ART.L.945-4 §I 13°, ART.R.913-1 C.RURAL. ART.9, ART.10, ART.11 REGLT.CE DU 20/11/2009. ART.3 §1 B) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "NON RESPECT DES OBLIGATIONS D'ENREGISTREMENT ET DE COMMUNICATION DES DONNEES REQUISES DANS LE CADRE DU SYSTEME DE SURVEILLANCE DES NAVIRES DE PECHE MARITIME"
+  },
+  {
+    "natinfCode": 27689,
+    "regulation": "ART.L.945-2 §I 3°, ART.L.921-9 C.RURAL.\tPêche",
+    "infractionCategory": "FISHING",
+    "infraction": "Pêche\tNon respect des obligations d'enregistrement et de communication des donnees requises dans le cadre du systeme de declaration par voie electronique - peche maritime"
+  },
+  {
+    "natinfCode": 27693,
+    "regulation": "ART.L.945-4 §I 17° C.RURAL. ART.L.5231-1, ART.L.5231-2 C.TRANSPORTS.",
+    "infractionCategory": "FISHING",
+    "infraction": "DETENTION DE PRODUITS DE LA PECHE MARITIME A BORD D'UN NAVIRE OU EMBARCATION NON TITULAIRE D'UN PERMIS D'ARMEMENT A LA PECHE OU AUX CULTURES MARINES"
+  },
+  {
+    "natinfCode": 27695,
+    "regulation": "ART.L.958-8 4°, ART.L.958-5, ART.R.958-5, ART.R.958-11, ART.R.922-6 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME DANS UNE ZONE INTERDITE DES TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES"
+  },
+  {
+    "natinfCode": 27696,
+    "regulation": "ART.L.958-8 4°, ART.L.958-5, ART.R.958-5, ART.R.958-11, ART.R.922-6 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME A UNE EPOQUE INTERDITE DANS LES TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES"
+  },
+  {
+    "natinfCode": 27698,
+    "regulation": "ART.L.958-9 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "DETENTION NON AUTORISEE, A BORD D'UN NAVIRE DE PECHE MARITIME, D'EXPLOSIF OU DE SUBSTANCE DANGEREUSES POUR LES ESPECES ANIMALES - TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES"
+  },
+  {
+    "natinfCode": 27699,
+    "regulation": "ART.L.958-10 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "UTILISATION POUR LA PECHE MARITIME DE MATIERE EXPLOSIVE OU DE SUBSTANCE DANGEREUSE POUR LES ESPECES ANIMALES - TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES"
+  },
+  {
+    "natinfCode": 27701,
+    "regulation": "ART.L.958-11, ART.L.958-10 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "VENTE, MISE EN VENTE DE PRODUITS DE PECHE MARITIME EFFECTUEE AVEC DES MATIERES EXPLOSIVES OU DES SUBSTANCES DANGEREUSES POUR LES ESPECES ANIMALES - TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES"
+  },
+  {
+    "natinfCode": 27702,
+    "regulation": "ART.L.958-11, ART.L.958-10 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSPORT DE PRODUITS DE PECHE MARITIME EFFECTUEE AVEC DES MATIERES EXPLOSIVES OU DES SUBSTANCES DANGEREUSES POUR LES ESPECES ANIMALES - TERRES AUSTRALES ET ANTARCTIQUES FRANCAISES"
+  },
+  {
+    "natinfCode": 27712,
+    "regulation": "ART.L.945-4 §I 5°, ART.L.932-1, ART.R.932-3 C.RURAL. ART.17, ART.18 REGLT.CE DU 20/11/2009. ART.6 REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "DEBARQUEMENT DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE SANS NOTIFICATION PREALABLE"
+  },
+  {
+    "natinfCode": 27714,
+    "regulation": "ART.L.945-4 §I 5°, ART.L.932-1, ART.R.932-3 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSBORDEMENT SANS AUTORISATION DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE"
+  },
+  {
+    "natinfCode": 27715,
+    "regulation": "ART.L.945-4 §I 5°, ART.L.932-1, ART.R.932-3 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "DEBARQUEMENT SANS AUTORISATION DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE"
+  },
+  {
+    "natinfCode": 27717,
+    "regulation": "ART.L.945-4 §I 5°, ART.L.932-1, ART.R.932-2 AL.1 C.RURAL. ART.5 §1 REGLT.CE DU 29/09/2008. ART.20 §1 REGLT.CE DU 20/11/2009.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSBORDEMENT HORS D'UN PORT DESIGNE DE PRODUITS DE LA PECHE MARITIME OU DE L'AQUACULTURE MARINE D'ESPECES SOUMISES A UN PLAN PLURIANNUEL"
+  },
+  {
+    "natinfCode": 27718,
+    "regulation": "ART.L.945-4 §I 5°, ART.L.932-1, ART.R.932-2 AL.1 C.RURAL. ART.43 §1, §2 REGLT.CE DU 20/11/2009.",
+    "infractionCategory": "FISHING",
+    "infraction": "DEBARQUEMENT HORS D'UN PORT DESIGNE DE PRODUITS DE LA PECHE MARITIME OU DE L'AQUACULTURE MARINE D'ESPECES SOUMISES A UN PLAN PLURIANNUEL"
+  },
+  {
+    "natinfCode": 27719,
+    "regulation": "L.945-4 du Code rural et de la pêche maritime , L.921-1 du Code rural et de la pêche maritime ",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME AVEC UN NAVIRE OU ENGIN FLOTTANT DONT LES CARACTERISTIQUES NE SONT PAS CONFORMES A CELLES INDIQUEES SUR LA LICENCE OU L'AUTORISATION DE PECHE"
+  },
+  {
+    "natinfCode": 27721,
+    "regulation": "ART.L.945-4 §I 5°, ART.L.932-1, ART.R.932-2 AL.3 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "DEBARQUEMENT DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE HORS DES HORAIRES AUTORISES"
+  },
+  {
+    "natinfCode": 27724,
+    "regulation": "Art. 128.5.12.d",
+    "infractionCategory": "FISHING",
+    "infraction": "Utilisation d'engin de pêche maritime non conforme aux mesures techniques de conservation et de gestion des ressources"
+  },
+  {
+    "natinfCode": 27725,
+    "regulation": "ART.L.945-4 §I 10° C.RURAL. ART.3 §1 E) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "DETENTION D'ENGIN DE PECHE MARITIME NON CONFORME AUX MESURES TECHNIQUES DE CONSERVATION ET DE GESTION DES RESSOURCES"
+  },
+  {
+    "natinfCode": 27726,
+    "regulation": "ART.L.945-4 §I 15°, ART.R.932-5 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME SANS TRI DES CAPTURES AU DEBARQUEMENT"
+  },
+  {
+    "natinfCode": 27727,
+    "regulation": "ART.L.945-4 §I 15°, ART.R.932-4, ART.R.932-6 C.RURAL. ART.60 REGLT.CE DU 20/11/2009. ART.71, ART.72 REGLT.EX.UE DU 08/04/2011.",
+    "infractionCategory": "FISHING",
+    "infraction": "NON RESPECT DE L'OBLIGATION DE PESER LES PRODUITS DE LA PECHE MARITIME SUR UN SYSTEME AGREE AVANT LEUR PREMIERE MISE SUR LE MARCHE"
+  },
+  {
+    "natinfCode": 27728,
+    "regulation": "ART.L.945-4 §I 15°, ART.D.922-12 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME D'ESPECE DETERMINEE SANS REJET IMMEDIAT DES CAPTURES ACCESSOIRES"
+  },
+  {
+    "natinfCode": 27729,
+    "regulation": "ART.L.945-4 15°, ART.R.932-4, ART.R.932-7 C.RURAL. ART.58 REGLT.CE DU 20/11/2009. ART.67, ART.68 REGLT.EX.UE DU 08/04/2011.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME SANS MARQUAGE CONFORME DES CAPTURES"
+  },
+  {
+    "natinfCode": 27730,
+    "regulation": "ART.L.945-4 §I 15°, ART.R.922-25 C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "MUTILATION, PREPARATION OU TRANSFORMATION INTERDITE D'ESPECES MARITIMES"
+  },
+  {
+    "natinfCode": 27731,
+    "regulation": "ART.L.945-4 §I 6° C.RURAL. ART.3 §1 E) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "DETENTION A BORD D'UN NAVIRE D'ENGIN, DISPOSITIF, INSTRUMENT OU APPAREIL PROHIBE POUR LA PECHE MARITIME"
+  },
+  {
+    "natinfCode": 27748,
+    "regulation": "ART.L.945-4 §I 16° C.RURAL. ART.15 §1,§5 REGLT.UE DU 11/12/2013.",
+    "infractionCategory": "FISHING",
+    "infraction": "NON RESPECT DE L'OBLIGATION DE DEBARQUEMENT D'ESPECES CAPTUREES LORS D'OPERATION DE PECHE MARITIME"
+  },
+  {
+    "natinfCode": 27879,
+    "regulation": "ART.L.945-2 §II A),B) C.RURAL. ART.3 §1 L) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "EXPLOITATION, GESTION OU POSSESSION D'UN NAVIRE DE PECHE MARITIME NON IMMATRICULE"
+  },
+  {
+    "natinfCode": 27885,
+    "regulation": "ART.L.945-4 §I 12°, ART.L.932-2, ART.R.913-1 C.RURAL. ART.3 §1 B) REGLT.CE DU 29/09/2008. ART.4 §1 REGLT.CE DU 20/11/2009.",
+    "infractionCategory": "FISHING",
+    "infraction": "EXERCICE D'ACTIVITE DE PECHE MARITIME SANS RESPECT DES OBLIGATIONS DECLARATIVES NECESSAIRES AU CONTROLE DES ACTIVITES DE PECHES"
+  },
+  {
+    "natinfCode": 27898,
+    "regulation": "ART.L.945-4 §I 14°,1°,3°,8°,10°,12°,13° C.RURAL. ART.4 §1 REGLT.CE DU 20/11/2009.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSPORT DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE PROVENANT D'UNE ACTIVITE DE PECHE ILLEGALE"
+  },
+  {
+    "natinfCode": 27900,
+    "regulation": "ART.L.945-4 §I 14°,5° C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "MISE EN VENTE, VENTE, STOCKAGE OU EXPOSITION DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE DEBARQUES OU TRANSBORDES ILLEGALEMENT"
+  },
+  {
+    "natinfCode": 28346,
+    "regulation": "ART.L.945-4 15° C.RURAL",
+    "infractionCategory": "FISHING",
+    "infraction": "Détention de produits de la pêche maritime et de l'aquaculture marine de taille, calibre ou poids prohibe"
+  },
+  {
+    "natinfCode": 28347,
+    "regulation": "ART.L.945-4 §I 15° C.RURAL. ART.3 §1 D) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "DETENTION DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE DONT LA PECHE EST INTERDITE"
+  },
+  {
+    "natinfCode": 28348,
+    "regulation": "ART.L.945-4 §I 15° C.RURAL.",
+    "infractionCategory": "FISHING",
+    "infraction": "DETENTION A BORD D'UN NAVIRE DE PECHE DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE EN QUANTITE OU EN POIDS SUPERIEURS A CEUX AUTORISES"
+  },
+  {
+    "natinfCode": 30028,
+    "regulation": "ART.L.5523-5 AL.1, ART.L.5522-2 §II C.TRANSPORTS.",
+    "infractionCategory": "FISHING",
+    "infraction": "NAVIGATION AVEC UN EQUIPAGE SANS ETRE MUNI DE LA FICHE D'EFFECTIF MINIMAL"
+  },
+  {
+    "natinfCode": 30029,
+    "regulation": "ART.L.5523-5 AL.1, ART.L.5522-2 §I C.TRANSPORTS. ART.1, ART.2 DECRET 2017-187 DU 14/02/2017.",
+    "infractionCategory": "FISHING",
+    "infraction": "NAVIGATION AVEC UN EQUIPAGE INSUFFISANT EN NOMBRE ET QUALIFICATION POUR GARANTIR LA SECURITE ET LA SURETE DE LA NAVIGATION"
+  },
+  {
+    "natinfCode": 30032,
+    "regulation": "ART.L.5523-6 1°, ART.L.5521-1, ART.L.5521-1-1, ART.L.5511-3, ART.R.5521-7, ART.R.5521-8, ART.R.5521-9 C.TRANSPORTS.",
+    "infractionCategory": "FISHING",
+    "infraction": "ADMISSION A BORD D'UN NAVIRE D'UN MEMBRE D'EQUIPAGE NE DISPOSANT PAS DE CERTIFICAT D'APTITUDE MEDICALE VALIDE"
+  },
+  {
+    "natinfCode": 30034,
+    "regulation": "ART.L.5523-6 3°, ART.L.5521-2, ART.L.5511-3 C.TRANSPORTS.",
+    "infractionCategory": "FISHING",
+    "infraction": "ADMISSION A BORD D'UN NAVIRE D'UN MEMBRE D'EQUIPAGE SANS TITRE DE FORMATION CORRESPONDANT A SES FONCTIONS"
+  },
+  {
+    "natinfCode": 30792,
+    "regulation": "ART.R.945-3 1°, ART.R.921-68 C.RURAL.",
+    "infractionCategory": "SECURITY",
+    "infraction": "PRATIQUE DE LA PECHE A PIED MARITIME PROFESSIONNELLE SANS PERMIS DE PECHE VALIDE"
+  },
+  {
+    "natinfCode": 30835,
+    "regulation": "ART.L.945-4 §I 15°, ART.L.922-2 C.RURAL. ART.44 REGLT.CE DU 20/11/2009.",
+    "infractionCategory": "FISHING",
+    "infraction": "CONSERVATION, A BORD D'UN NAVIRE DE PECHE, DE CAPTURES DE STOCKS DEMERSAUX FAISANT L'OBJET D'UN PLAN PLURIANNUEL SANS PLAN D'ARRIMAGE"
+  },
+  {
+    "natinfCode": 31004,
+    "regulation": "ART.L.945-4 §I 12°, ART.L.932-2, ART.R.913-1 C.RURAL. ART.68 REGLT.CE DU 20/11/2009.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSPORT DE PRODUITS DE LA PECHE MARITIME SANS DOCUMENT DE TRANSPORT"
+  },
+  {
+    "natinfCode": 31116,
+    "regulation": "ART.7, ART.3 DECRET 2015-598 DU 02/06/2015. ART.L.5521-3 §I C.TRANSPORTS.",
+    "infractionCategory": "null",
+    "infraction": "ADMISSION A BORD D'UN NAVIRE BATTANT PAVILLON FRANCAIS D'UN CAPITAINE NE JUSTIFIANT PAS DU NIVEAU DE CONNAISSANCE DE LA LANGUE FRANCAISE ET DES MATIERES JURIDIQUES"
+  },
+  {
+    "natinfCode": 31122,
+    "regulation": "ART.9 1°, ART.8 DECRET 2015-406 DU 10/04/2015. ART.L.5522-3 C.TRANSPORTS.",
+    "infractionCategory": "SECURITY",
+    "infraction": "NON MISE A DISPOSITION DES AUTORITES DE LA LISTE D'EQUIPAGE D'UN NAVIRE BATTANT PAVILLON FRANCAIS"
+  },
+  {
+    "natinfCode": 31123,
+    "regulation": "ART.9 2°, ART.1, ART.2, ART.3, ART.5 DECRET 2015-406 DU 10/04/2015. ART.L.5522-3 C.TRANSPORTS.",
+    "infractionCategory": "SECURITY",
+    "infraction": "TENUE NON CONFORME DE LA LISTE D'EQUIPAGE D'UN NAVIRE BATTANT PAVILLON FRANCAIS"
+  },
+  {
+    "natinfCode": 32071,
+    "regulation": "ART.L.945-4 §II, §I 3°, ART.L.921-1, ART.R.922-6 C.RURAL. ART.3 §1 C) REGLT.CE DU 29/09/2008.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME D'ANGUILLE EUROPEENNE, D'ESTURGEON EUROPEEN OU DE SAUMON ATLANTIQUE DANS UNE ZONE INTERDITE - ESPECE PROTEGEE"
+  },
+  {
+    "natinfCode": 32099,
+    "regulation": "ART.L.945-4 §II, §I 1°, ART.L.921-1 C.RURAL. ART.3 §1 A) REGLT.CE 29/09/2008. ART.6, ART.7 REGLT.CE DU 20/11/2009.",
+    "infractionCategory": "FISHING",
+    "infraction": "PECHE MARITIME D'ANGUILLE EUROPEENNE, D'ESTURGEON EUROPEEN OU DE SAUMON ATLANTIQUE SANS LICENCE OU AUTORISATION - ESPECE PROTEGEE"
+  },
+  {
+    "natinfCode": 32326,
+    "regulation": "ART.R.5232-25 1°, ART.L.5232-1, ART.L.5231-1, ART.L.5231-2 1°, ART.R.5232-1-1, ART.D.5232-3 C.TRANSPORTS.",
+    "infractionCategory": "SECURITY",
+    "infraction": "NAVIGATION PROFESSIONNELLE SANS PERMIS D'ARMEMENT"
+  },
+  {
+    "natinfCode": 32327,
+    "regulation": "ART.R.5232-25 2°, ART.D.5232-3, ART.L.5232-1 C.TRANSPORTS.",
+    "infractionCategory": "SECURITY",
+    "infraction": "NON PRESENTATION DU PERMIS D'ARMEMENT D'UN NAVIRE A USAGE PROFESSIONNEL"
+  },
+  {
+    "natinfCode": 33914,
+    "regulation": "ART.L.945-4 §I 15°, ART.R.932-4, ART.R.932-7 C.RURAL. ART.58 REGLT.CE DU 20/11/2009. ART.67, ART.68 REGLT.EX.UE DU 08/04/2011.",
+    "infractionCategory": "FISHING",
+    "infraction": "TRANSBORDEMENT, DEBARQUEMENT OU TRANSPORT DE PRODUITS DE LA PECHE MARITIME ET DE L'AQUACULTURE MARINE SANS MARQUAGE CONFORME DE TRACABILITE"
+  },
+  {
+    "natinfCode": 34314,
+    "regulation": "ART.L.945-4 §I 15° C.RURAL. ART.15 §12 REGLT.UE DU 11/12/2013.",
+    "infractionCategory": "FISHING",
+    "infraction": "NON RESPECT DE L'OBLIGATION DE REJET DE PRODUITS DE LA PECHE MARITIME NON CONFORMES"
+  }
+]
