@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.export
 
-import fr.gouv.dgampa.rapportnav.domain.entities.export.ActionDocumentTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.export.ExportAuditEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.satiExport.ActionDocumentTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.satiExport.ExportAuditEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.export.ExportAuditModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.export.JPAExportAuditRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.export.IDBExportAuditRepository

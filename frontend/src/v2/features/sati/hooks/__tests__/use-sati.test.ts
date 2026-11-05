@@ -9,15 +9,18 @@ const action = (source: MissionSourceEnum, actionType: ActionType, fishActionTyp
   ({ source, actionType, data: { fishActionType } }) as unknown as MissionAction
 
 describe('hasSatiPdf', () => {
-  it.each([MissionActionType.SEA_CONTROL, MissionActionType.LAND_CONTROL])('is true for a fish %s', fishActionType => {
-    expect(hasSatiPdf(action(MissionSourceEnum.MONITORFISH, ActionType.CONTROL, fishActionType))).toBe(true)
-  })
-
-  it('is false for a fish air control, which has no SATI module', () => {
-    expect(hasSatiPdf(action(MissionSourceEnum.MONITORFISH, ActionType.CONTROL, MissionActionType.AIR_CONTROL))).toBe(
-      false
+  it('is true for a fish sea control (SATI module M1)', () => {
+    expect(hasSatiPdf(action(MissionSourceEnum.MONITORFISH, ActionType.CONTROL, MissionActionType.SEA_CONTROL))).toBe(
+      true
     )
   })
+
+  it.each([MissionActionType.LAND_CONTROL, MissionActionType.AIR_CONTROL])(
+    'is false for a fish %s, which has no SATI pdf yet',
+    fishActionType => {
+      expect(hasSatiPdf(action(MissionSourceEnum.MONITORFISH, ActionType.CONTROL, fishActionType))).toBe(false)
+    }
+  )
 
   it.each([
     [MissionSourceEnum.MONITORENV, ActionType.CONTROL],
