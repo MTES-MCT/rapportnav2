@@ -3,34 +3,27 @@ construction_image:
     - if: '$ENV_DEPLOIEMENT == "ecole" || $ENV_DEPLOIEMENT == "integration"'
       when: always
   stage: build
-  image: docker:20.10.5
+  image:
+    # The slim variant has no shell, which GitLab needs to run the script.
+    name: martizih/kaniko:v1.29.0-debug
+    entrypoint: [""]
   variables:
-    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
-    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
-    NO_PROXY: "docker,dockerhost,gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
     GIT_STRATEGY: fetch
     GIT_CLEAN_FLAGS: none
-    DOCKER_HOST: tcp://dockerhost:2375/
-    DOCKER_TLS_CERTDIR: ""
-  services:
-    - name: docker:20.10.5-dind
-      alias: dockerhost
-      command: ["--insecure-registry=nexus.dsi.damgm.i2:5000"]
+    # Dependency Proxy of dam/applications, shared by all its applications.
+    KANIKO_REGISTRY_MIRROR: "$CI_DEPENDENCY_PROXY_SERVER/dam/applications/dependency_proxy/containers"
   script:
-    # TODO à adapter en fonction du projet
-    - docker build --pull -f infra/docker/app/Dockerfile .
-      -t $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
+    - echo "$CI_REGISTRY_PASSWORD" | /kaniko/executor login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
+    - echo "$CI_DEPENDENCY_PROXY_PASSWORD" | /kaniko/executor login "$CI_DEPENDENCY_PROXY_SERVER" -u "$CI_DEPENDENCY_PROXY_USER" --password-stdin
+    - /kaniko/executor --cleanup
+      --context "$CI_PROJECT_DIR"
+      --dockerfile "$CI_PROJECT_DIR/infra/docker/app/Dockerfile"
+      --destination "$CI_REGISTRY_IMAGE/$PROJECT_NAME:$PROJECT_VERSION"
       --label org.opencontainers.image.revision=$CI_COMMIT_SHA
       --build-arg VERSION=$PROJECT_VERSION
       --build-arg ENV_PROFILE="prod"
-      --build-arg GITHUB_SHA=$CI_COMMIT_SHA 
+      --build-arg GITHUB_SHA=$CI_COMMIT_SHA
       --build-arg PROXY="http://$PROXY_HOST:$PROXY_PORT"
-    - echo "$NEXUS_PWD" | docker login -u "$NEXUS_USER" --password-stdin "$NEXUS_DOCKER_REPO"
-    - docker image push "$NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION"
-    - docker logout $NEXUS_DOCKER_REPO
-
-  tags:
-    - dsi_saint-malo
 
   needs:
     - job: build_projet_gradle
