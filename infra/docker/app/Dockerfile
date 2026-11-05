@@ -3,9 +3,6 @@ FROM bellsoft/liberica-openjdk-alpine:25 AS build-all
 
 WORKDIR /home/rapportnav
 
-ARG PROXY
-ENV PROXY=$PROXY
-
 ARG VERSION
 ENV VERSION=$VERSION
 
@@ -25,14 +22,10 @@ ENV SPRING_PROFILES_ACTIVE=$ENV_PROFILE
 
 ENV ENV_DB_URL=""
 
-# Set proxy environment variables
-ENV http_proxy=${PROXY}
-ENV https_proxy=${PROXY}
-
 # Print ENV_PROFILE and VERSION for debugging
 RUN echo "ENV_PROFILE: $ENV_PROFILE" && echo "VERSION: $VERSION"
 
-# Install LibreOffice using apk with proxy settings
+# Install LibreOffice using apk
 # Only Writer (docx -> odt) and Calc (xlsx -> ods) are needed for exports,
 # so skip the `libreoffice` meta package (base, draw, impress, math, postgres connector)
 RUN apk update && \

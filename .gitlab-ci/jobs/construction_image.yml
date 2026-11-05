@@ -23,7 +23,6 @@ construction_image:
       --build-arg VERSION=$PROJECT_VERSION
       --build-arg ENV_PROFILE="prod"
       --build-arg GITHUB_SHA=$CI_COMMIT_SHA
-      --build-arg PROXY="http://$PROXY_HOST:$PROXY_PORT"
 
   needs:
     - job: build_projet_gradle
