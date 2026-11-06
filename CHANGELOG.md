@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.107.0](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.3...v2.107.0) (2026-11-06)
+
+
+### Features
+
+* **backend:** update model ([c6fcd89](https://github.com/MTES-MCT/rapportnav2/commit/c6fcd893fd7b46cd0c9d1c309396bb206b4bff39))
+* **frontend:** common types and components ([5980324](https://github.com/MTES-MCT/rapportnav2/commit/5980324a92ca44dd9325b4b1bee327e92a2fb165))
+* **frontend:** common types and components ([251f10d](https://github.com/MTES-MCT/rapportnav2/commit/251f10d7d6790e344e971c06abbbb702ce8e5e57))
+* **frontend:** fishing sector control infos ([b957851](https://github.com/MTES-MCT/rapportnav2/commit/b95785194e3feeb963dd508abd64bf75e2f75912))
+* SATI Action PDF export setup ([a28556c](https://github.com/MTES-MCT/rapportnav2/commit/a28556cc200658ba67d1e033ff69c6cfdbb1d248))
+
+
+### Bug Fixes
+
+* CI playbook syntax ([b1a278c](https://github.com/MTES-MCT/rapportnav2/commit/b1a278c819b5b1afa0af1d64764eb03c60dbfde9))
+* **Docker:** load only writer and calc for Libreoffice ([79a750c](https://github.com/MTES-MCT/rapportnav2/commit/79a750c7933c3c08bbf5025d5ed07b99eeaff24a))
+* **frontend:** review ([9aef33b](https://github.com/MTES-MCT/rapportnav2/commit/9aef33b9f8da3e00bf2fe0fbb7a71f8f87cc5b95))
+* npm audit ([63581bd](https://github.com/MTES-MCT/rapportnav2/commit/63581bd4402bedfe6bc4f2462e27f4937535a61b))
+* **SATI:** add delay on textarea ([5ec2f87](https://github.com/MTES-MCT/rapportnav2/commit/5ec2f87cdd595ccbb924ed8e648c65f0451fff27))
+* Use Fish Natinf endpoint instead of Env ([6d94e6b](https://github.com/MTES-MCT/rapportnav2/commit/6d94e6be44f4fed2bc64376f671f3ea9c0246f32))
+* Use Fish Natinf endpoint instead of Env ([6c3589f](https://github.com/MTES-MCT/rapportnav2/commit/6c3589f8e6d9b3ff1fc759c8c073c8557e7734e7))
+
 ## [2.106.3](https://github.com/MTES-MCT/rapportnav2/compare/v2.106.2...v2.106.3) (2026-10-29)
 
 
