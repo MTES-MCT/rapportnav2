@@ -8,10 +8,10 @@ object NatinfStubs {
 
     fun configureStubs(wireMockServer: WireMockServer) {
 
-        val json = LoadJsonData.load("env/natinfs.json")
+        val json = LoadJsonData.load("fish/infractions.json")
 
         wireMockServer.stubFor(
-            WireMock.get(WireMock.urlPathEqualTo("/bff/v1/natinfs"))
+            WireMock.get(WireMock.urlPathEqualTo("/api/v1/infractions"))
                 .willReturn(
                     WireMock.aResponse()
                         .withHeader("Content-Type", "application/json")
